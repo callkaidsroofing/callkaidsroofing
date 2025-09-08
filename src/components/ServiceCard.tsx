@@ -76,7 +76,7 @@ const ServiceCard = ({
             className="w-full group"
           >
             <Link to={href}>
-              {isEmergency ? "Call Now" : "Learn More"}
+              {isEmergency ? "Call Now" : `Learn More About ${title}`}
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </Button>
