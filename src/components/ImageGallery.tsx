@@ -18,6 +18,16 @@ import gutterEdgeIssues from '/lovable-uploads/324fc2cc-cf1b-4877-801b-846379d88
 import kaidynWorking from '/lovable-uploads/3a5f460c-0be2-45c5-9c92-e81b3da4f442.png';
 // Premium materials and completed work
 import colorChart from '/lovable-uploads/99c2917f-b2e3-44ab-ba7d-79754ca91997.png';
+// Quality finished projects
+import finishedRidgeCaps from '/lovable-uploads/e90674b4-ab16-456f-9432-1dcc8363a210.png';
+import solarRoofComplete from '/lovable-uploads/c4aaa0a0-d013-40e5-9aee-d7c62349f16c.png';
+import repointingComplete from '/lovable-uploads/359deff0-4a4b-426d-acbc-993dfb3cb510.png';
+import gutterRoofComplete from '/lovable-uploads/7b53e2bb-e419-483c-b48c-ea2d1f5c139e.png';
+import redRoofPainting from '/lovable-uploads/5984413e-46ac-4f11-ac75-953d93235faa.png';
+import greyRoofComplete from '/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png';
+import blueRoofFinish from '/lovable-uploads/0d5c8d43-0a56-42eb-a3fd-4ce0708040ce.png';
+import houseComplete from '/lovable-uploads/7c4b0aaa-18ed-4b8a-80f2-904dc4868236.png';
+import commercialProject from '/lovable-uploads/50cb1bd1-1166-4391-adc1-99c419346880.png';
 
 interface GalleryImage {
   src: string;
@@ -100,6 +110,60 @@ const ImageGallery = () => {
       src: colorChart,
       title: "Premium Paint Color Selection",
       description: "Comprehensive range of Premcoat roof paint colors available for your restoration project",
+      type: "completed"
+    },
+    {
+      src: finishedRidgeCaps,
+      title: "Professional Ridge Cap Restoration",
+      description: "Completed ridge capping work with proper bedding and pointing - sealed against Melbourne weather",
+      type: "completed"
+    },
+    {
+      src: solarRoofComplete,
+      title: "Solar-Ready Roof Restoration",
+      description: "Professional roof work completed around existing solar installation - no panel damage, perfect finish",
+      type: "completed"
+    },
+    {
+      src: repointingComplete,
+      title: "Expert Repointing Results",
+      description: "Fresh repointing with premium materials - ridge caps properly sealed and weatherproofed",
+      type: "completed"
+    },
+    {
+      src: gutterRoofComplete,
+      title: "Complete Roof & Gutter System",
+      description: "Finished restoration including roof tiles, gutters, and downpipes - total weather protection",
+      type: "completed"
+    },
+    {
+      src: redRoofPainting,
+      title: "Vibrant Roof Painting Finish",
+      description: "Premium Premcoat paint application in classic Melbourne red - long-lasting color and protection",
+      type: "completed"
+    },
+    {
+      src: greyRoofComplete,
+      title: "Modern Grey Roof Transformation",
+      description: "Professional roof painting in contemporary grey - clean lines and perfect coverage",
+      type: "completed"
+    },
+    {
+      src: blueRoofFinish,
+      title: "Quality Ridge Cap Installation",
+      description: "Fresh ridge cap work with proper mortar bedding - designed to last decades in Melbourne conditions",
+      type: "completed"
+    },
+    {
+      src: houseComplete,
+      title: "Heritage Home Restoration",
+      description: "Traditional home with fully restored tile roof - maintaining character while ensuring modern weather protection",
+      type: "completed"
+    },
+    {
+      src: commercialProject,
+      title: "Large Scale Commercial Project",
+      description: "Multiple roof restoration project with solar integration - professional workmanship across entire development",
       type: "completed"
     }
   ];
