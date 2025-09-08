@@ -135,15 +135,15 @@ const Index = () => {
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-            Melbourne's Most Trusted Roof Expert
+            Melbourne's Most Experienced Roofing Team
           </h1>
           <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto">
-            Stop leaks permanently. Transform your home. Get honest advice from a local owner-operator.
+            25+ years of combined expertise. Professional roof restoration, painting & emergency repairs with 10-year warranty. Your local Clyde North team serving all Southeast Melbourne.
           </p>
           
           <div className="space-y-4 max-w-2xl mx-auto text-left bg-black/20 p-6 rounded-lg backdrop-blur-sm">
             <p className="text-lg">
-              I'm Kaidyn Brownlie, and I run the best roofing crew in Southeast Melbourne. No call centre, no sales team—when you call <strong>0435 900 709</strong>, you're talking directly to me, the owner.
+              I'm Kaidyn Brownlie, and I run the most experienced roofing team in Southeast Melbourne. No call centre, no sales team—when you call <strong>0435 900 709</strong>, you're talking directly to me, the owner.
             </p>
             <ul className="space-y-2">
               <li className="flex items-center gap-2">
