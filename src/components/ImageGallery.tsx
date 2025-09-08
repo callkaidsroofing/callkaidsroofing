@@ -4,9 +4,12 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import beforeAfterImage from '@/assets/before-after-transformation.jpg';
-import roofCleaningImage from '@/assets/roof-cleaning-professional.jpg';
-import completedRoofImage from '@/assets/completed-roof-premium.jpg';
+import beforeImage1 from '@/assets/project-before-1.jpg';
+import beforeValley from '@/assets/project-before-valley.jpg';
+import beforeImage3 from '@/assets/project-before-3.jpg';
+import afterImage1 from '@/assets/project-after-1.jpg';
+import afterImage2 from '@/assets/project-after-2.jpg';
+import sunsetComplete from '@/assets/project-sunset-complete.jpg';
 
 interface GalleryImage {
   src: string;
@@ -20,21 +23,39 @@ const ImageGallery = () => {
   
   const images: GalleryImage[] = [
     {
-      src: beforeAfterImage,
-      title: "Complete Roof Transformation",
-      description: "From weathered and leaking to like-new in 3 days",
+      src: beforeImage1,
+      title: "Before: Weathered & Faded",
+      description: "This roof was letting the house down - faded, weathered, and ready for transformation",
       type: "before-after"
     },
     {
-      src: roofCleaningImage,
-      title: "Professional Process",
-      description: "Kaidyn personally handles every job with premium equipment",
-      type: "action"
+      src: afterImage1,
+      title: "After: Like Brand New",
+      description: "Complete transformation with premium paint - looks stunning and adds real value",
+      type: "completed"
     },
     {
-      src: completedRoofImage,
-      title: "Premium Results",
-      description: "Stunning finished work that adds real value to your home",
+      src: beforeValley,
+      title: "Valley Iron Failure",
+      description: "Deteriorated valley iron causing leaks and water damage - a common Melbourne problem",
+      type: "before-after"
+    },
+    {
+      src: beforeImage3,
+      title: "Moss & Lichen Damage",
+      description: "Extensive biological growth eating away at the roof surface and causing long-term damage",
+      type: "before-after"
+    },
+    {
+      src: afterImage2,
+      title: "Professional Restoration",
+      description: "Perfect finish with premium materials - this roof will last another 15+ years",
+      type: "completed"
+    },
+    {
+      src: sunsetComplete,
+      title: "Stunning Results",
+      description: "Premium work that transforms your home and adds serious curb appeal",
       type: "completed"
     }
   ];
@@ -49,9 +70,9 @@ const ImageGallery = () => {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'before-after': return 'bg-primary text-primary-foreground';
-      case 'action': return 'bg-secondary text-secondary-foreground';
-      case 'completed': return 'bg-accent text-accent-foreground';
+      case 'before-after': return 'bg-orange-500 text-white';
+      case 'action': return 'bg-blue-500 text-white';
+      case 'completed': return 'bg-green-500 text-white';
       default: return 'bg-muted text-muted-foreground';
     }
   };
@@ -60,9 +81,9 @@ const ImageGallery = () => {
     <section className="py-16 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center space-y-4 mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold">See The Transformation</h2>
+          <h2 className="text-3xl md:text-4xl font-bold">Real Projects, Real Results</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Real projects, real results. Every roof tells a story of quality workmanship.
+            See the incredible transformations we achieve. These are actual Call Kaids projects showing what's possible for your roof.
           </p>
         </div>
 
@@ -82,7 +103,7 @@ const ImageGallery = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   <div className="absolute bottom-4 left-4 text-white">
                     <Badge className={getTypeColor(images[currentImage].type)}>
-                      {images[currentImage].type === 'before-after' && 'Before & After'}
+                      {images[currentImage].type === 'before-after' && 'Before Photo'}
                       {images[currentImage].type === 'action' && 'In Progress'}
                       {images[currentImage].type === 'completed' && 'Completed Work'}
                     </Badge>
