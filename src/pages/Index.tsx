@@ -92,10 +92,10 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-screen pt-20 flex items-center justify-center text-white overflow-hidden">
-        {/* Hero Background Image - Optimized for LCP */}
+        {/* Hero Background Image - New Dark Blue Gradient */}
         <OptimizedImage
-          src={heroImage}
-          alt="Professional roof cleaning and restoration work in Melbourne"
+          src="/lovable-uploads/3eea8208-16ab-4e73-8295-c92c3bf95f58.png"
+          alt="Professional roofing services background"
           className="absolute inset-0 w-full h-full object-cover -z-10"
           width={1600}
           height={900}
@@ -103,8 +103,8 @@ const Index = () => {
           fetchPriority="high"
           sizes="100vw"
         />
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40 -z-10"></div>
+        {/* Subtle Overlay for Text Readability */}
+        <div className="absolute inset-0 bg-black/30 -z-10"></div>
         <div className="container mx-auto px-4 text-center space-y-6">
           {/* Logo */}
           <div className="flex justify-center mb-6">

@@ -20,22 +20,22 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      {/* Top Bar with Key Info */}
-      <div className="bg-primary text-primary-foreground py-2 text-center">
+      {/* Top Bar with Hero Gradient Background */}
+      <div className="bg-gradient-to-b from-black/60 to-black/40 text-white py-2 text-center">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 text-sm">
             <div className="flex items-center gap-2">
               <Shield className="h-4 w-4" />
               <span className="font-semibold">10-Year Warranty</span>
             </div>
-            <div className="hidden sm:block text-primary-foreground/70">•</div>
+            <div className="hidden sm:block text-white/70">•</div>
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4" />
               <span>Clyde North Based - Serving SE Melbourne</span>
             </div>
-            <div className="hidden sm:block text-primary-foreground/70">•</div>
+            <div className="hidden sm:block text-white/70">•</div>
             <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="bg-accent text-accent-foreground">
+              <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
                 Book Early - 2-3 Weeks Out
               </Badge>
             </div>
