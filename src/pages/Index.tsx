@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Phone, ArrowRight, CheckCircle, AlertTriangle, Star } from 'lucide-react';
 import ServiceCard from '@/components/ServiceCard';
 import TrustIndicators from '@/components/TrustIndicators';
+import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 import TestimonialCard from '@/components/TestimonialCard';
 import ImageGallery from '@/components/ImageGallery';
 import MeetKaidyn from '@/components/MeetKaidyn';
@@ -95,23 +96,15 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] pt-8 pb-16 flex items-center justify-center text-white overflow-hidden">
-        {/* Vibrant Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-roofing-charcoal"></div>
-        {/* Geometric Pattern Overlay */}
-        <OptimizedImage
-          src={geometricPattern}
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-overlay"
-          width={1920}
-          height={1080}
-          sizes="100vw"
-        />
-        {/* Additional gradient overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-primary/20"></div>
-        {/* Floating decorative icons */}
-        <FloatingIcons />
-        <div className="container mx-auto px-4 text-center space-y-6">
+      {/* Hero Section with Background Image */}
+      <OptimizedBackgroundSection
+        backgroundImage="/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
+        className="py-20 text-white"
+        gradient="linear-gradient(rgba(0,122,204,0.8), rgba(11,59,105,0.9))"
+      >
+        <div className="container mx-auto px-4 text-center relative z-10">
+          {/* Floating decorative icons */}
+          <FloatingIcons />
           
           {/* Social Proof Banner */}
           <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 mb-4">
@@ -127,15 +120,15 @@ const Index = () => {
             </Badge>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold leading-tight px-4 text-shadow-lg">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 text-shadow-lg">
             Melbourne's Most Experienced Roofing Team
           </h1>
-          <p className="text-xl sm:text-2xl md:text-3xl text-white/90 max-w-4xl mx-auto px-4 font-medium">
+          <p className="text-xl sm:text-2xl md:text-2xl text-white/90 max-w-4xl mx-auto mb-8 font-medium">
             25+ years of combined expertise. Professional roof restoration, painting & emergency repairs with 10-year warranty. Your local Clyde North team serving all Southeast Melbourne.
           </p>
           
-          <div className="space-y-4 max-w-2xl mx-auto text-left bg-white/10 p-4 sm:p-6 rounded-xl backdrop-blur-md border border-white/20">
-            <p className="text-base sm:text-lg text-white">
+          <div className="space-y-4 max-w-2xl mx-auto text-left bg-white/10 p-6 rounded-xl backdrop-blur-md border border-white/20 mb-8">
+            <p className="text-lg text-white">
               I'm Kaidyn Brownlie, and I run the most experienced roofing team in Southeast Melbourne. No call centre, no sales team—when you call <strong className="text-yellow-300">0435 900 709</strong>, you're talking directly to me, the owner.
             </p>
             <ul className="space-y-2">
@@ -157,25 +150,25 @@ const Index = () => {
               </li>
             </ul>
           </div>
-
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
-            <Button asChild variant="premium" size="lg" className="w-full sm:w-auto text-sm sm:text-base">
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+            <Button asChild variant="secondary" size="xl">
               <Link to="/contact">Book Me Now—Slots Are Limited</Link>
             </Button>
-            <Button asChild variant="phone" size="lg" className="w-full sm:w-auto text-sm sm:text-base">
+            <Button asChild variant="outline" size="xl" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
               <a href="tel:0435900709">
-                <Phone className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                <Phone className="mr-2 h-5 w-5" />
                 Call 0435 900 709
               </a>
             </Button>
           </div>
 
-          <p className="text-xs sm:text-sm text-gray-300 px-4 text-center">
-            Serving: Clyde North • Berwick • Cranbourne • Frankston • Brighton • Toorak<br className="hidden sm:block"/>
-            <span className="block sm:inline">50km radius—if you're close, I'll come have a look</span>
+          <p className="text-sm text-white/80 text-center">
+            Serving: Clyde North • Berwick • Cranbourne • Frankston • Brighton • Toorak<br />
+            <span className="block">50km radius—if you're close, I'll come have a look</span>
           </p>
         </div>
-      </section>
+      </OptimizedBackgroundSection>
 
       {/* Trust Indicators with gradient */}
       <div className="section-gradient">
