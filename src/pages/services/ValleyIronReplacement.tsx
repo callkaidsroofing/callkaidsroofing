@@ -107,7 +107,7 @@ const ValleyIronReplacement = () => {
       <section 
         className="py-20 relative bg-cover bg-center text-white"
         style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url('/lovable-uploads/359deff0-4a4b-426d-acbc-993dfb3cb510.png')`,
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url('/lovable-uploads/b583ddb3-be15-4d62-b3fe-1d5a4ed4cd2a.png')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
