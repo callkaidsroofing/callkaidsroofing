@@ -104,23 +104,30 @@ const ValleyIronReplacement = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary/5 to-primary/10">
-        <div className="container mx-auto px-4 text-center">
+      <section 
+        className="py-20 relative bg-cover bg-center text-white"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url('/lovable-uploads/359deff0-4a4b-426d-acbc-993dfb3cb510.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
+        <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
             Valley Iron Replacement: Stop Hidden Leaks Before They Destroy Your Home
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+          <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
             Rusted valley irons are a common problem in older homes and a major cause of leaks. Specialist replacement service 
             using premium materials with 10-year warranty protection.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild variant="premium" size="xl">
+            <Button asChild variant="secondary" size="xl">
               <a href="tel:0435900709">
                 <Phone className="mr-2 h-5 w-5" />
                 Call 0435 900 709
               </a>
             </Button>
-            <Button asChild variant="outline" size="xl">
+            <Button asChild variant="outline" size="xl" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
               <Link to="/contact">Get Free Quote</Link>
             </Button>
           </div>

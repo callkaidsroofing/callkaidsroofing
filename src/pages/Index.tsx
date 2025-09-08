@@ -7,7 +7,7 @@ import TestimonialCard from '@/components/TestimonialCard';
 import ImageGallery from '@/components/ImageGallery';
 import MeetKaidyn from '@/components/MeetKaidyn';
 import { Badge } from '@/components/ui/badge';
-import heroImage from '/lovable-uploads/7c4b0aaa-18ed-4b8a-80f2-904dc4868236.png';
+import heroImage from '/lovable-uploads/884e66b0-35da-491d-b03b-d980d46b3043.png';
 import logoImage from '/lovable-uploads/8d1be6f1-c743-47df-8d3e-f1ab6230f326.png';
 
 const Index = () => {
