@@ -1,61 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xhtml="http://www.w3.org/1999/xhtml" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
     <loc>https://callkaidsroofing-com-au.lovable.app/</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/" />
     <lastmod>2024-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.00</priority>
   </url>
   <url>
     <loc>https://callkaidsroofing-com-au.lovable.app/services/roof-restoration</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/services/roof-restoration" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/services/roof-restoration" />
     <lastmod>2024-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://callkaidsroofing-com-au.lovable.app/services/roof-painting</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/services/roof-painting" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/services/roof-painting" />
     <lastmod>2024-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://callkaidsroofing-com-au.lovable.app/services/roof-repairs</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/services/roof-repairs" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/services/roof-repairs" />
     <lastmod>2024-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://callkaidsroofing-com-au.lovable.app/services/gutter-cleaning</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/services/gutter-cleaning" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/services/gutter-cleaning" />
     <lastmod>2024-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://callkaidsroofing-com-au.lovable.app/services/valley-iron-replacement</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/services/valley-iron-replacement" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/services/valley-iron-replacement" />
     <lastmod>2024-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://callkaidsroofing-com-au.lovable.app/about</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/about" />
     <lastmod>2024-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://callkaidsroofing-com-au.lovable.app/contact</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/contact" />
     <lastmod>2024-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://callkaidsroofing-com-au.lovable.app/emergency</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/emergency" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/emergency" />
     <lastmod>2024-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://callkaidsroofing-com-au.lovable.app/warranty</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/warranty" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/warranty" />
     <lastmod>2024-01-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.60</priority>

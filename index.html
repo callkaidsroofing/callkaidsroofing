@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-AU">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,9 +10,16 @@
     <meta name="author" content="Call Kaids Roofing" />
     <meta name="robots" content="index, follow" />
     <meta name="keywords" content="roof restoration Melbourne, roof painting, emergency roof repairs, Clyde North roofing, Berwick roofer, roof maintenance" />
+    <meta http-equiv="content-language" content="en-au" />
+    <meta name="geo.region" content="AU-VIC" />
+    <meta name="geo.placename" content="Clyde North, Southeast Melbourne" />
+    <meta name="geo.position" content="-38.1167;145.3333" />
+    <meta name="ICBM" content="-38.1167, 145.3333" />
     
-    <!-- Canonical URL -->
+    <!-- Canonical URL & Hreflang -->
     <link rel="canonical" href="https://callkaidsroofing-com-au.lovable.app/" />
+    <link rel="alternate" href="https://callkaidsroofing-com-au.lovable.app/" hreflang="en-AU" />
+    <link rel="alternate" href="https://callkaidsroofing-com-au.lovable.app/" hreflang="x-default" />
     
     <!-- Critical Performance Optimizations for LCP -->
     <link rel="preload" href="/src/assets/hero-roof-clean.jpg" as="image" fetchpriority="high" crossorigin>
@@ -52,9 +59,9 @@
       "@context": "https://schema.org",
       "@type": "RoofingContractor",
       "name": "Call Kaids Roofing",
-      "description": "Professional roofing services in Melbourne SE suburbs",
+      "description": "Professional roofing services across Southeast Melbourne. Roof restoration, painting, emergency repairs with 10-year workmanship warranty.",
       "url": "https://callkaidsroofing-com-au.lovable.app",
-      "telephone": "0435900709",
+      "telephone": "+61 435 900 709",
       "email": "callkaidsroofing@outlook.com",
       "address": {
         "@type": "PostalAddress",
@@ -63,11 +70,21 @@
         "addressCountry": "AU"
       },
       "areaServed": [
-        "Clyde North", "Berwick", "Officer", "Pakenham", "Cranbourne", 
+        "Clyde North", "Berwick", "Officer", "Pakenham", "Cranbourne",
         "Frankston", "Narre Warren", "Brighton", "Toorak", "Kew"
       ],
+      "serviceArea": {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": -38.1167,
+          "longitude": 145.3333
+        },
+        "geoRadius": 50000
+      },
+      "hasMap": "https://www.google.com/maps?q=-38.1167,145.3333",
       "serviceType": [
-        "Roof Restoration", "Roof Painting", "Emergency Roof Repairs", 
+        "Roof Restoration", "Roof Painting", "Emergency Roof Repairs",
         "Gutter Cleaning", "Valley Iron Replacement"
       ],
       "priceRange": "$$",
