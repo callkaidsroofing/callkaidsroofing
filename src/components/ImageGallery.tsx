@@ -4,7 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-// Real project photos from Call Kaids Roofing
+// Real project photos from Call Kaids Roofing - before/during work
+import bannerCleaning from '/lovable-uploads/884e66b0-35da-491d-b03b-d980d46b3043.png';
 import ridgeCapWork from '/lovable-uploads/783444da-c25e-4910-89e1-1908a6296118.png';
 import valleyIronIssues from '/lovable-uploads/e613c84a-7f19-4752-a2cb-836de3466396.png';
 import roofMossLichen from '/lovable-uploads/d7578754-e51e-45b9-856d-af0355b87417.png';
@@ -15,6 +16,8 @@ import ridgeCapDamage from '/lovable-uploads/59ae7b51-3197-43f9-9e4e-3ac96bc90d9
 import ridgeCapRemoval from '/lovable-uploads/55096e67-851c-49f1-8a80-3e93c487974a.png';
 import gutterEdgeIssues from '/lovable-uploads/324fc2cc-cf1b-4877-801b-846379d88b45.png';
 import kaidynWorking from '/lovable-uploads/3a5f460c-0be2-45c5-9c92-e81b3da4f442.png';
+// Premium materials and completed work
+import colorChart from '/lovable-uploads/99c2917f-b2e3-44ab-ba7d-79754ca91997.png';
 
 interface GalleryImage {
   src: string;
@@ -27,6 +30,12 @@ const ImageGallery = () => {
   const [currentImage, setCurrentImage] = useState(0);
   
   const images: GalleryImage[] = [
+    {
+      src: bannerCleaning,
+      title: "Professional Roof Cleaning in Action",
+      description: "High-pressure cleaning and restoration work being performed with safety equipment and proper technique",
+      type: "action"
+    },
     {
       src: ridgeCapWork,
       title: "Ridge Capping Restoration",
@@ -86,6 +95,12 @@ const ImageGallery = () => {
       title: "Kaidyn at Work",
       description: "Professional workmanship in action - every job gets personal attention and quality materials",
       type: "action"
+    },
+    {
+      src: colorChart,
+      title: "Premium Paint Color Selection",
+      description: "Comprehensive range of Premcoat roof paint colors available for your restoration project",
+      type: "completed"
     }
   ];
 
