@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Phone, ArrowRight, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Phone, ArrowRight, CheckCircle, AlertTriangle, Star } from 'lucide-react';
 import ServiceCard from '@/components/ServiceCard';
 import TrustIndicators from '@/components/TrustIndicators';
 import TestimonialCard from '@/components/TestimonialCard';
+import ImageGallery from '@/components/ImageGallery';
+import MeetKaidyn from '@/components/MeetKaidyn';
+import { Badge } from '@/components/ui/badge';
 import heroImage from '@/assets/hero-roof-restoration.jpg';
+import logoImage from '@/assets/call-kaids-logo-main.png';
 
 const Index = () => {
   const services = [
@@ -95,11 +99,30 @@ const Index = () => {
         }}
       >
         <div className="container mx-auto px-4 text-center space-y-6">
+          {/* Logo */}
+          <div className="flex justify-center mb-6">
+            <img src={logoImage} alt="Call Kaids Roofing" className="h-16 md:h-20 w-auto" />
+          </div>
+          
+          {/* Social Proof Banner */}
+          <div className="flex justify-center items-center gap-4 mb-4">
+            <Badge variant="secondary" className="bg-primary/20 text-white border-white/20">
+              <Star className="h-4 w-4 mr-1 fill-current" />
+              200+ Happy Customers
+            </Badge>
+            <Badge variant="secondary" className="bg-accent/20 text-white border-white/20">
+              10-Year Warranty
+            </Badge>
+            <Badge variant="secondary" className="bg-green-500/20 text-white border-white/20">
+              Emergency Response
+            </Badge>
+          </div>
+
           <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-            Stop Leaks Now—Get a Free Inspection from Your Local Roofing Pro
+            Melbourne's Most Trusted Roof Expert
           </h1>
           <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto">
-            No Leaks. No Lifting. Just Quality.
+            Stop leaks permanently. Transform your home. Get honest advice from a local owner-operator.
           </p>
           
           <div className="space-y-4 max-w-2xl mx-auto text-left bg-black/20 p-6 rounded-lg backdrop-blur-sm">
@@ -148,13 +171,22 @@ const Index = () => {
       {/* Trust Indicators */}
       <TrustIndicators />
 
+      {/* Image Gallery */}
+      <ImageGallery />
+
+      {/* Meet Kaidyn Section */}
+      <MeetKaidyn />
+
       {/* Services Section */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-12">
+            <Badge variant="outline" className="mb-4">
+              Premium Roofing Services
+            </Badge>
             <h2 className="text-3xl md:text-4xl font-bold">What I Do Best</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Three main services that stop problems before they cost you thousands
+              Three main services that fix problems permanently and add real value to your home
             </p>
           </div>
 
@@ -261,48 +293,80 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Urgency CTA */}
-      <section className="py-16 bg-primary text-primary-foreground">
+      {/* Final CTA with Social Proof */}
+      <section className="py-16 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground">
         <div className="container mx-auto px-4 text-center space-y-6">
+          <div className="flex justify-center items-center gap-4 mb-4">
+            <div className="flex items-center gap-1">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="h-5 w-5 fill-current text-yellow-400" />
+              ))}
+            </div>
+            <span className="text-lg font-semibold">Rated #1 in Southeast Melbourne</span>
+          </div>
+          
           <h2 className="text-3xl md:text-4xl font-bold">
-            Book Now—I'm Usually 2-3 Weeks Out
+            Ready to Get Your Roof Done Right?
           </h2>
           <p className="text-xl max-w-3xl mx-auto">
-            I only take on jobs I can do properly. That means limited slots and you might have to wait. 
-            But here's the thing—quality work takes time, and rushing leads to problems.
+            I'm booked 2-3 weeks out because quality spreads by word of mouth. 
+            Don't wait for a small leak to become a big expensive problem.
           </p>
           
-          <ul className="max-w-2xl mx-auto text-left space-y-2">
-            <li>• Summer storms are coming - get your roof checked before they hit</li>
-            <li>• I'm booked solid because word spreads fast</li>
-            <li>• Emergency jobs get priority, but planned work books out fast</li>
-            <li>• Free inspections available this week for new customers</li>
-          </ul>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="text-center space-y-2">
+              <div className="text-3xl font-bold">2-3 Weeks</div>
+              <div className="text-sm">Next Available Slot</div>
+            </div>
+            <div className="text-center space-y-2">
+              <div className="text-3xl font-bold">Same Day</div>
+              <div className="text-sm">Emergency Response</div>
+            </div>
+            <div className="text-center space-y-2">
+              <div className="text-3xl font-bold">This Week</div>
+              <div className="text-sm">Free Inspections</div>
+            </div>
+          </div>
 
           <div className="space-y-4">
             <p className="text-2xl font-semibold">
-              Don't wait for a small problem to become a big expensive one
+              Get your free inspection before summer storms hit
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild variant="secondary" size="xl">
                 <a href="tel:0435900709">
                   <Phone className="mr-2 h-5 w-5" />
-                  Call Now: 0435 900 709
+                  Call Kaidyn: 0435 900 709
                 </a>
               </Button>
               <Button asChild variant="outline" size="xl" className="bg-white/10 border-white text-white hover:bg-white hover:text-primary">
-                <Link to="/contact">Get Free Quote</Link>
+                <Link to="/contact">Book Free Inspection</Link>
               </Button>
             </div>
 
             <p className="text-sm">
-              I pick up, not a call centre • Text me: Same number, I'll call you back within 12 hours
+              Direct line to the owner • No call centers • Text or call, I'll respond within 12 hours
             </p>
             
-            <p className="text-lg font-semibold border-t border-white/20 pt-4 mt-6">
-              10-Year Warranty • Premium Materials • Honest Service • Local Guy
-            </p>
+            <div className="border-t border-white/20 pt-4 mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div className="text-sm">
+                <div className="font-semibold">10-Year</div>
+                <div>Warranty</div>
+              </div>
+              <div className="text-sm">
+                <div className="font-semibold">Premium</div>
+                <div>Materials</div>
+              </div>
+              <div className="text-sm">
+                <div className="font-semibold">Local</div>
+                <div>Owner</div>
+              </div>
+              <div className="text-sm">
+                <div className="font-semibold">200+</div>
+                <div>Happy Customers</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
