@@ -274,19 +274,19 @@ const ValleyIronReplacement = () => {
               <CardContent className="space-y-4">
                 <div className="flex justify-between items-center py-2 border-b">
                   <span>Single valley (15-20m)</span>
-                  <Badge variant="outline">$800-1,200</Badge>
+                  <Badge variant="outline">$600-900</Badge>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b">
                   <span>Two valleys (25-35m)</span>
-                  <Badge variant="outline">$1,200-2,000</Badge>
+                  <Badge variant="outline">$900-1,500</Badge>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b">
                   <span>Full house (40-60m)</span>
-                  <Badge variant="outline">$2,000-3,500</Badge>
+                  <Badge variant="outline">$1,500-2,500</Badge>
                 </div>
                 <div className="flex justify-between items-center py-2">
                   <span>Complex/heritage homes</span>
-                  <Badge variant="outline">$3,500-5,000+</Badge>
+                  <Badge variant="outline">$2,500-4,000+</Badge>
                 </div>
                 <p className="text-xs text-muted-foreground mt-4">
                   *Includes removal, disposal, premium materials, and 10-year warranty
@@ -305,19 +305,19 @@ const ValleyIronReplacement = () => {
                 <ul className="space-y-3">
                   <li className="flex items-start gap-2">
                     <AlertTriangle className="h-4 w-4 text-orange-600 mt-0.5" />
-                    <span className="text-sm">Structural damage: $5,000-15,000+</span>
+                    <span className="text-sm">Structural damage: $3,000-10,000+</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <AlertTriangle className="h-4 w-4 text-orange-600 mt-0.5" />
-                    <span className="text-sm">Insulation replacement: $2,000-5,000</span>
+                    <span className="text-sm">Insulation replacement: $1,500-3,000</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <AlertTriangle className="h-4 w-4 text-orange-600 mt-0.5" />
-                    <span className="text-sm">Mould remediation: $3,000-8,000</span>
+                    <span className="text-sm">Mould remediation: $2,000-6,000</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <AlertTriangle className="h-4 w-4 text-orange-600 mt-0.5" />
-                    <span className="text-sm">Interior repairs: $3,000-10,000</span>
+                    <span className="text-sm">Interior repairs: $2,000-8,000</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <AlertTriangle className="h-4 w-4 text-orange-600 mt-0.5" />

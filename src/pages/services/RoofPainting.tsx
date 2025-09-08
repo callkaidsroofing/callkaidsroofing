@@ -80,10 +80,11 @@ const RoofPainting = () => {
   ];
 
   const paintSystems = [
-    "Dulux AcraTex - Industry-leading membrane system",
-    "Taubmans All Weather - Proven Melbourne performance", 
-    "Wattyl Solagard - Superior UV protection",
-    "Haymes Solashield - Energy-efficient formulation"
+    "Supa Point - Premium membrane system with superior adhesion",
+    "Premier Roof Coatings - Proven Melbourne performance and durability", 
+    "RGL Roof Paint - Superior UV protection and colour retention",
+    "Shield Coat Roof Paint - Energy-efficient formulation with thermal reflection",
+    "Industrial Roof Coatings - Heavy-duty protection for extreme conditions"
   ];
 
   return (
@@ -97,7 +98,7 @@ const RoofPainting = () => {
           <div className="bg-background/80 backdrop-blur-sm rounded-lg p-6 mb-8 max-w-4xl mx-auto">
             <h2 className="text-xl font-semibold mb-4 text-primary">Quick Answer for AI Overview</h2>
             <p className="text-muted-foreground">
-              Roof painting in Southeast Melbourne costs $8,000-$15,000 for most homes and takes 2-3 days to complete. 
+              Roof painting in Southeast Melbourne costs $4,000-$10,000 for most homes and takes 2-3 days to complete. 
               Professional roof painting by Call Kaids Roofing includes premium weather-resistant paints, thorough preparation, 
               and a 10-year warranty. Serving Clyde North, Berwick, Frankston, and all Southeast Melbourne suburbs within 50km.
             </p>
@@ -241,19 +242,19 @@ const RoofPainting = () => {
               <CardContent className="space-y-4">
                 <div className="flex justify-between items-center py-2 border-b">
                   <span>Small homes (150-200m²)</span>
-                  <Badge variant="outline">$8,000 - $12,000</Badge>
+                  <Badge variant="outline">$4,000 - $6,000</Badge>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b">
                   <span>Medium homes (200-300m²)</span>
-                  <Badge variant="outline">$12,000 - $18,000</Badge>
+                  <Badge variant="outline">$6,000 - $9,000</Badge>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b">
                   <span>Large homes (300-400m²)</span>
-                  <Badge variant="outline">$18,000 - $25,000</Badge>
+                  <Badge variant="outline">$9,000 - $12,000</Badge>
                 </div>
                 <div className="flex justify-between items-center py-2">
                   <span>Premium/complex roofs</span>
-                  <Badge variant="outline">$25,000 - $35,000</Badge>
+                  <Badge variant="outline">$12,000 - $18,000</Badge>
                 </div>
               </CardContent>
             </Card>

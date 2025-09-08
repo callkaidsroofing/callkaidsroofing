@@ -10,31 +10,37 @@ const RoofRepairs = () => {
       issue: "Cracked or Broken Tiles",
       description: "A single cracked tile is all it takes for water to penetrate your roof cavity.",
       solution: "Replace individual tiles, ensuring perfect match with existing roof.",
-      cost: "$200-500"
+      cost: "$150-400"
     },
     {
       issue: "Deteriorated Ridge Capping", 
       description: "The mortar holding your ridge caps can crack and crumble over time.",
       solution: "Re-bed and re-point ridge caps to ensure they are secure and watertight.",
-      cost: "$500-1,500"
+      cost: "$1,500-2,000"
+    },
+    {
+      issue: "Rebedding Complete Ridge",
+      description: "Complete rebedding of all ridge caps for comprehensive protection.",
+      solution: "Full removal and rebedding using Supa Point premium mortar systems.",
+      cost: "$3,000-5,000"
     },
     {
       issue: "Leaking Valley Irons",
       description: "Rusted or damaged valley irons are a frequent cause of serious leaks.",
       solution: "Repair or replace valley irons to restore proper water flow.",
-      cost: "$800-2,000"
+      cost: "$600-1,500"
     },
     {
       issue: "Damaged Flashings",
       description: "Metal flashings around chimneys, skylights, and vents prevent leaks.",
       solution: "Repair or replace damaged flashings to ensure watertight seal.",
-      cost: "$300-800"
+      cost: "$200-600"
     },
     {
       issue: "Storm Damage",
       description: "High winds and heavy rain can cause significant roof damage.",
       solution: "Rapid response service to assess and repair, securing your home quickly.",
-      cost: "$500-3,000+"
+      cost: "$400-2,000+"
     }
   ];
 
@@ -255,19 +261,23 @@ const RoofRepairs = () => {
               <CardContent className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span>Minor leak repairs</span>
-                  <Badge variant="outline">$200-500</Badge>
+                  <Badge variant="outline">$150-400</Badge>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>Temporary waterproofing</span>
-                  <Badge variant="outline">$300-800</Badge>
+                  <Badge variant="outline">$200-600</Badge>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>Storm damage repairs</span>
-                  <Badge variant="outline">$500-2000+</Badge>
+                  <Badge variant="outline">$400-1,500+</Badge>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>Structural stabilization</span>
                   <Badge variant="outline">Quote required</Badge>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Complete reroofing</span>
+                  <Badge variant="outline">$15,000-30,000</Badge>
                 </div>
               </CardContent>
             </Card>

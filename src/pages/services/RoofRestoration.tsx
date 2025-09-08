@@ -334,19 +334,19 @@ const RoofRestoration = () => {
               <CardContent className="space-y-4">
                 <div className="flex justify-between items-center py-2 border-b">
                   <span>Small homes (150-200m²)</span>
-                  <Badge variant="outline">$8,000 - $12,000</Badge>
+                  <Badge variant="outline">$6,000 - $9,000</Badge>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b">
                   <span>Standard homes (200-300m²)</span>
-                  <Badge variant="outline">$12,000 - $18,000</Badge>
+                  <Badge variant="outline">$9,000 - $15,000</Badge>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b">
                   <span>Large homes (300m²+)</span>
-                  <Badge variant="outline">$18,000 - $25,000</Badge>
+                  <Badge variant="outline">$15,000 - $22,000</Badge>
                 </div>
                 <div className="flex justify-between items-center py-2">
                   <span>Heritage/complex roofs</span>
-                  <Badge variant="outline">$25,000 - $35,000</Badge>
+                  <Badge variant="outline">$22,000 - $30,000</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -419,10 +419,10 @@ const RoofRestoration = () => {
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2 text-left">
-                    <li>• Dulux AcraTex or equivalent premium membranes</li>
+                    <li>• Supa Point or Premier Roof Coatings premium membranes</li>
                     <li>• Climate-specific primers and sealers</li>
-                    <li>• UV-resistant colour coats that won't fade</li>
-                    <li>• Flexible coatings that move with your roof</li>
+                    <li>• UV-resistant RGL or Shield Coat colour systems</li>
+                    <li>• Industrial-grade coatings that move with your roof</li>
                   </ul>
                 </CardContent>
               </Card>
