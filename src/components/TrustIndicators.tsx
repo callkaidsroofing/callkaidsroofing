@@ -35,7 +35,7 @@ const TrustIndicators = () => {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full">
                   <Icon className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="font-semibold text-lg">{indicator.title}</h3>
+                <p className="font-semibold text-lg">{indicator.title}</p>
                 <p className="text-sm text-muted-foreground">{indicator.description}</p>
               </div>
             );
