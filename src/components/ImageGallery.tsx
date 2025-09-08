@@ -200,7 +200,8 @@ const ImageGallery = () => {
         <div className="mb-8">
           <Dialog>
             <DialogTrigger asChild>
-              <Card className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden">
+              <button className="w-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg">
+                <Card className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden">
                 <div className="relative">
                   <AspectRatio ratio={16/9}>
                     <OptimizedImage
@@ -239,6 +240,7 @@ const ImageGallery = () => {
                   </button>
                 </div>
               </Card>
+              </button>
             </DialogTrigger>
             
             <DialogContent className="max-w-4xl">
