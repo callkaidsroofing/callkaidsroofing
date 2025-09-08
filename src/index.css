@@ -243,4 +243,31 @@ All colors MUST be HSL.
   .text-shadow {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
+  
+  /* Enhanced visual effects */
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .pattern-overlay {
+    background-image: 
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+  
+  .floating-animation {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .parallax-slow {
+    transform: translateZ(0);
+    will-change: transform;
+  }
 }

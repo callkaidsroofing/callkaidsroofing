@@ -8,8 +8,12 @@ import ImageGallery from '@/components/ImageGallery';
 import MeetKaidyn from '@/components/MeetKaidyn';
 import { Badge } from '@/components/ui/badge';
 import { OptimizedImage } from '@/components/OptimizedImage';
+import { FloatingIcons, SectionDivider, AccentPattern } from '@/components/DecorativeIcons';
+import { EnhancedServiceSection } from '@/components/EnhancedServiceSection';
 import heroImage from '/src/assets/hero-roof-clean.jpg';
-import logoImage from '/lovable-uploads/8d1be6f1-c743-47df-8d3e-f1ab6230f326.png';
+import geometricPattern from '/src/assets/geometric-roofing-pattern.jpg';
+import blueprintPattern from '/src/assets/blueprint-pattern.jpg';
+import waterFlowAbstract from '/src/assets/water-flow-abstract.jpg';
 
 const Index = () => {
   const services = [
@@ -94,8 +98,19 @@ const Index = () => {
       <section className="relative min-h-[80vh] pt-8 pb-16 flex items-center justify-center text-white overflow-hidden">
         {/* Vibrant Gradient Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-roofing-charcoal"></div>
+        {/* Geometric Pattern Overlay */}
+        <OptimizedImage
+          src={geometricPattern}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-overlay"
+          width={1920}
+          height={1080}
+          sizes="100vw"
+        />
         {/* Additional gradient overlay for depth */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-primary/20"></div>
+        {/* Floating decorative icons */}
+        <FloatingIcons />
         <div className="container mx-auto px-4 text-center space-y-6">
           
           {/* Social Proof Banner */}
@@ -167,40 +182,48 @@ const Index = () => {
         <TrustIndicators />
       </div>
 
-      {/* Image Gallery with gradient background */}
-      <div className="bg-gradient-to-br from-secondary/5 to-primary/10 py-16">
-        <ImageGallery />
+      {/* Section Divider */}
+      <SectionDivider />
+
+      {/* Image Gallery with blueprint pattern */}
+      <div className="relative bg-gradient-to-br from-secondary/5 to-primary/10 py-16 overflow-hidden">
+        <OptimizedImage
+          src={blueprintPattern}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover opacity-5"
+          width={1600}
+          height={900}
+          sizes="100vw"
+        />
+        <div className="relative z-10">
+          <ImageGallery />
+        </div>
       </div>
 
-      {/* Meet Kaidyn Section with gradient */}
-      <div className="card-gradient">
-        <MeetKaidyn />
+      {/* Section Divider */}
+      <SectionDivider />
+
+      {/* Meet Kaidyn Section with pattern */}
+      <div className="relative card-gradient overflow-hidden">
+        <AccentPattern />
+        <div className="relative z-10">
+          <MeetKaidyn />
+        </div>
       </div>
 
-      {/* Services Section */}
-      <section className="py-16 bg-gradient-to-br from-primary/5 to-secondary/10">
+      {/* Section Divider */}
+      <SectionDivider />
+
+      <section className="relative py-16 bg-gradient-to-br from-primary/5 to-secondary/10 overflow-hidden">
+        <AccentPattern className="opacity-3" />
         <div className="container mx-auto px-4">
-          <div className="text-center space-y-4 mb-12">
-            <Badge variant="outline" className="mb-4">
-              Premium Roofing Services
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold">What I Do Best</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Three main services that fix problems permanently and add real value to your home
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <ServiceCard key={index} {...service} />
-            ))}
-          </div>
+          <EnhancedServiceSection services={services} />
         </div>
       </section>
 
       {/* Problem/Solution Section */}
       <section className="py-16 bg-gradient-to-l from-muted/30 to-primary/10">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Problem Side */}
             <div className="space-y-6">
@@ -293,9 +316,17 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Final CTA with Social Proof */}
-      <section className="py-16 cta-gradient text-primary-foreground">
-        <div className="container mx-auto px-4 text-center space-y-6">
+      {/* Final CTA with flowing water background */}
+      <section className="relative py-16 cta-gradient text-primary-foreground overflow-hidden">
+        <OptimizedImage
+          src={waterFlowAbstract}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-overlay"
+          width={1920}
+          height={600}
+          sizes="100vw"
+        />
+        <div className="container mx-auto px-4 text-center space-y-6 relative z-10">
           <div className="flex justify-center items-center gap-4 mb-4">
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
