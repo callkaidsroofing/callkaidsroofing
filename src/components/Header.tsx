@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Phone, Menu, X, ChevronDown } from 'lucide-react';
+import { Phone, Menu, X, ChevronDown, Shield, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import callKaidsLogo from '@/assets/call-kaids-logo.png';
+import { Badge } from '@/components/ui/badge';
+import callKaidsLogo from '@/assets/call-kaids-logo-main.png';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -18,14 +19,42 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      {/* Top Bar with Key Info */}
+      <div className="bg-primary text-primary-foreground py-2 text-center">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 text-sm">
+            <div className="flex items-center gap-2">
+              <Shield className="h-4 w-4" />
+              <span className="font-semibold">10-Year Warranty</span>
+            </div>
+            <div className="hidden sm:block text-primary-foreground/70">•</div>
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4" />
+              <span>Clyde North Based - Serving SE Melbourne</span>
+            </div>
+            <div className="hidden sm:block text-primary-foreground/70">•</div>
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary" className="bg-accent text-accent-foreground">
+                Book Early - 2-3 Weeks Out
+              </Badge>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <img src={callKaidsLogo} alt="Call Kaids Roofing" className="h-10 w-auto" />
-            <span className="text-xl font-bold metallic-gradient bg-clip-text text-transparent">
-              Call Kaids Roofing
-            </span>
+          <Link to="/" className="flex items-center space-x-3">
+            <img src={callKaidsLogo} alt="Call Kaids Roofing" className="h-12 w-auto" />
+            <div className="flex flex-col">
+              <span className="text-xl font-bold text-primary">
+                Call Kaids Roofing
+              </span>
+              <span className="text-xs text-muted-foreground">
+                Melbourne's Trusted Roof Expert
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -73,12 +102,16 @@ const Header = () => {
 
           {/* Phone Number & CTA */}
           <div className="hidden md:flex items-center space-x-4">
-            <a href="tel:0435900709" className="flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors">
-              <Phone className="h-4 w-4" />
-              <span className="font-semibold">0435 900 709</span>
-            </a>
-            <Button asChild variant="premium" size="lg">
-              <Link to="/contact">Get Quote</Link>
+            <div className="text-right">
+              <div className="text-xs text-muted-foreground">Call Kaidyn Directly</div>
+              <a href="tel:0435900709" className="flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors">
+                <Phone className="h-4 w-4" />
+                <span className="font-bold text-lg">0435 900 709</span>
+              </a>
+            </div>
+            <div className="h-8 w-px bg-border"></div>
+            <Button asChild variant="default" size="lg" className="bg-accent hover:bg-accent/80">
+              <Link to="/contact">Free Quote</Link>
             </Button>
           </div>
 
