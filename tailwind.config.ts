@@ -58,10 +58,14 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         roofing: {
-          metallic: "hsl(var(--roofing-metallic))",
-          chrome: "hsl(var(--roofing-chrome))",
-          premium: "hsl(var(--roofing-premium))",
-          emergency: "hsl(var(--roofing-emergency))",
+          charcoal: "hsl(var(--roofing-charcoal))", /* #111827 */
+          navy: "hsl(var(--roofing-navy))", /* #0B3B69 */
+          blue: "hsl(var(--roofing-blue))", /* #007ACC */
+          steel: "hsl(var(--roofing-steel))", /* #6B7280 */
+          slate: "hsl(var(--roofing-slate))", /* #334155 */
+          success: "hsl(var(--roofing-success))", /* #16A34A */
+          warning: "hsl(var(--roofing-warning))", /* #FACC15 */
+          emergency: "hsl(var(--roofing-emergency))", /* #DC2626 */
         },
       },
       borderRadius: {

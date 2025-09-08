@@ -8,48 +8,52 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Call Kaids Roofing Brand Colors */
-    --background: 0 0% 100%;
-    --foreground: 220 20% 10%;
+    /* Call Kaids Roofing Brand Colors - Official Palette */
+    --background: 220 20% 97%; /* Off-White Background #F7F8FA */
+    --foreground: 220 20% 12%; /* Charcoal Black #111827 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 20% 10%;
+    --card: 0 0% 100%; /* Pure White #FFFFFF */
+    --card-foreground: 215 25% 27%; /* Slate Grey #334155 */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 10%;
+    --popover: 0 0% 100%; /* Pure White #FFFFFF */
+    --popover-foreground: 215 25% 27%; /* Slate Grey #334155 */
 
-    /* Premium Blue Primary */
-    --primary: 215 84% 45%;
-    --primary-foreground: 0 0% 100%;
+    /* Safety Blue Primary */
+    --primary: 207 100% 40%; /* Safety Blue #007ACC */
+    --primary-foreground: 0 0% 100%; /* Pure White */
 
-    /* Metallic Silver Secondary */
-    --secondary: 220 10% 90%;
-    --secondary-foreground: 220 20% 10%;
+    /* Deep Navy Secondary */
+    --secondary: 213 85% 22%; /* Deep Navy Blue #0B3B69 */
+    --secondary-foreground: 0 0% 100%; /* Pure White */
 
-    --muted: 220 15% 95%;
-    --muted-foreground: 220 15% 45%;
+    --muted: 220 20% 97%; /* Off-White Background #F7F8FA */
+    --muted-foreground: 220 13% 46%; /* Steel Grey #6B7280 */
 
-    /* Premium Accent Colors - Improved contrast */
-    --accent: 215 60% 92%;
-    --accent-foreground: 215 84% 25%;
+    /* Accent Colors */
+    --accent: 220 20% 97%; /* Off-White Background #F7F8FA */
+    --accent-foreground: 207 100% 40%; /* Safety Blue #007ACC */
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84% 51%; /* Error Red #DC2626 */
+    --destructive-foreground: 0 0% 100%; /* Pure White */
 
-    --border: 220 15% 88%;
-    --input: 220 15% 88%;
-    --ring: 215 84% 45%;
+    --border: 220 13% 91%; /* Lighter Steel Grey */
+    --input: 220 20% 97%; /* Off-White Background #F7F8FA */
+    --ring: 207 100% 40%; /* Safety Blue #007ACC */
 
-    /* Roofing Specific Colors - WCAG compliant contrast ratios */
-    --roofing-metallic: 220 15% 75%;
-    --roofing-chrome: 220 20% 85%;
-    --roofing-premium: 215 84% 35%;
-    --roofing-emergency: 0 85% 30%;
+    /* Call Kaids Roofing Specific Colors */
+    --roofing-charcoal: 220 20% 12%; /* Charcoal Black #111827 */
+    --roofing-navy: 213 85% 22%; /* Deep Navy Blue #0B3B69 */
+    --roofing-blue: 207 100% 40%; /* Safety Blue #007ACC */
+    --roofing-steel: 220 13% 46%; /* Steel Grey #6B7280 */
+    --roofing-slate: 215 25% 27%; /* Slate Grey #334155 */
+    --roofing-success: 142 71% 37%; /* Success Green #16A34A */
+    --roofing-warning: 48 96% 53%; /* Warning Amber #FACC15 */
+    --roofing-emergency: 0 84% 51%; /* Error Red #DC2626 */
     
-    /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(220 20% 10%) 0%, hsl(215 84% 45%) 100%);
-    --gradient-metallic: linear-gradient(135deg, hsl(220 20% 85%) 0%, hsl(220 15% 75%) 100%);
-    --gradient-premium: linear-gradient(135deg, hsl(215 84% 45%) 0%, hsl(215 100% 55%) 100%);
+    /* Call Kaids Roofing Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(220 20% 12%) 0%, hsl(213 85% 22%) 100%);
+    --gradient-blue: linear-gradient(90deg, hsl(213 85% 22%) 0%, hsl(207 100% 40%) 100%); /* Blue Gradient from spec */
+    --gradient-premium: linear-gradient(135deg, hsl(207 100% 40%) 0%, hsl(213 85% 22%) 100%);
 
     --radius: 0.5rem;
 
@@ -71,39 +75,43 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 220 25% 8%;
-    --foreground: 0 0% 95%;
+    --background: 220 20% 12%; /* Charcoal Black #111827 */
+    --foreground: 220 20% 97%; /* Off-White #F7F8FA */
 
-    --card: 220 25% 8%;
-    --card-foreground: 0 0% 95%;
+    --card: 215 25% 27%; /* Slate Grey #334155 */
+    --card-foreground: 220 20% 97%; /* Off-White #F7F8FA */
 
-    --popover: 220 25% 8%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 215 25% 27%; /* Slate Grey #334155 */
+    --popover-foreground: 220 20% 97%; /* Off-White #F7F8FA */
 
-    --primary: 215 84% 55%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 207 100% 40%; /* Safety Blue #007ACC */
+    --primary-foreground: 0 0% 100%; /* Pure White */
 
-    --secondary: 220 20% 15%;
-    --secondary-foreground: 0 0% 95%;
+    --secondary: 213 85% 22%; /* Deep Navy Blue #0B3B69 */
+    --secondary-foreground: 0 0% 100%; /* Pure White */
 
-    --muted: 220 20% 15%;
-    --muted-foreground: 220 15% 65%;
+    --muted: 215 25% 27%; /* Slate Grey #334155 */
+    --muted-foreground: 220 13% 46%; /* Steel Grey #6B7280 */
 
-    --accent: 220 20% 15%;
-    --accent-foreground: 0 0% 95%;
+    --accent: 215 25% 27%; /* Slate Grey #334155 */
+    --accent-foreground: 207 100% 40%; /* Safety Blue #007ACC */
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84% 51%; /* Error Red #DC2626 */
+    --destructive-foreground: 0 0% 100%; /* Pure White */
 
-    --border: 220 20% 15%;
-    --input: 220 20% 15%;
-    --ring: 215 84% 55%;
+    --border: 215 25% 27%; /* Slate Grey #334155 */
+    --input: 215 25% 27%; /* Slate Grey #334155 */
+    --ring: 207 100% 40%; /* Safety Blue #007ACC */
     
-    /* Dark mode roofing colors - WCAG compliant contrast */
-    --roofing-metallic: 220 15% 35%;
-    --roofing-chrome: 220 20% 25%;
-    --roofing-premium: 215 84% 55%;
-    --roofing-emergency: 0 85% 55%;
+    /* Dark mode roofing colors - maintaining brand consistency */
+    --roofing-charcoal: 220 20% 12%; /* Charcoal Black #111827 */
+    --roofing-navy: 213 85% 22%; /* Deep Navy Blue #0B3B69 */
+    --roofing-blue: 207 100% 40%; /* Safety Blue #007ACC */
+    --roofing-steel: 220 13% 46%; /* Steel Grey #6B7280 */
+    --roofing-slate: 215 25% 27%; /* Slate Grey #334155 */
+    --roofing-success: 142 71% 37%; /* Success Green #16A34A */
+    --roofing-warning: 48 96% 53%; /* Warning Amber #FACC15 */
+    --roofing-emergency: 0 84% 51%; /* Error Red #DC2626 */
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -126,27 +134,46 @@ All colors MUST be HSL.
 }
 
 @layer components {
-  /* Call Kaids Roofing Premium Components */
+  /* Call Kaids Roofing Brand Components */
   .hero-gradient {
     background: var(--gradient-hero);
   }
   
-  .metallic-gradient {
-    background: var(--gradient-metallic);
+  .blue-gradient {
+    background: var(--gradient-blue);
   }
   
   .premium-gradient {
     background: var(--gradient-premium);
   }
   
+  /* Typography Classes - Brand Compliant */
+  .heading-text {
+    color: hsl(var(--roofing-charcoal));
+  }
+  
+  .body-text {
+    color: hsl(var(--roofing-slate));
+  }
+  
+  .link-text {
+    color: hsl(var(--roofing-blue));
+  }
+  
+  .muted-text {
+    color: hsl(var(--roofing-steel));
+  }
+  
+  /* Brand Shadows */
   .roofing-shadow {
-    box-shadow: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+    box-shadow: 0 10px 30px -10px hsl(var(--roofing-blue) / 0.3);
   }
   
   .premium-shadow {
-    box-shadow: 0 20px 40px -15px hsl(var(--primary) / 0.4);
+    box-shadow: 0 20px 40px -15px hsl(var(--roofing-blue) / 0.4);
   }
   
+  /* Emergency Animation */
   .emergency-pulse {
     animation: pulse-emergency 2s infinite;
   }
