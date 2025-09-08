@@ -4,12 +4,17 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import beforeImage1 from '@/assets/project-before-1.jpg';
-import beforeValley from '@/assets/project-before-valley.jpg';
-import beforeImage3 from '@/assets/project-before-3.jpg';
-import afterImage1 from '@/assets/project-after-1.jpg';
-import afterImage2 from '@/assets/project-after-2.jpg';
-import sunsetComplete from '@/assets/project-sunset-complete.jpg';
+// Real project photos from Call Kaids Roofing
+import ridgeCapWork from '/lovable-uploads/783444da-c25e-4910-89e1-1908a6296118.png';
+import valleyIronIssues from '/lovable-uploads/e613c84a-7f19-4752-a2cb-836de3466396.png';
+import roofMossLichen from '/lovable-uploads/d7578754-e51e-45b9-856d-af0355b87417.png';
+import valleyReplacement from '/lovable-uploads/f0e2051b-8a4e-4e5d-9455-bd39026e8715.png';
+import weatheredRoof from '/lovable-uploads/e1922069-2f8f-4a3e-988e-a8631602ed44.png';
+import metalRoofWork from '/lovable-uploads/58e47c2d-3b15-4aad-ae68-f09f4d0d421e.png';
+import ridgeCapDamage from '/lovable-uploads/59ae7b51-3197-43f9-9e4e-3ac96bc90d97.png';
+import ridgeCapRemoval from '/lovable-uploads/55096e67-851c-49f1-8a80-3e93c487974a.png';
+import gutterEdgeIssues from '/lovable-uploads/324fc2cc-cf1b-4877-801b-846379d88b45.png';
+import kaidynWorking from '/lovable-uploads/3a5f460c-0be2-45c5-9c92-e81b3da4f442.png';
 
 interface GalleryImage {
   src: string;
@@ -23,40 +28,64 @@ const ImageGallery = () => {
   
   const images: GalleryImage[] = [
     {
-      src: beforeImage1,
-      title: "Before: Weathered & Faded",
-      description: "This roof was letting the house down - faded, weathered, and ready for transformation",
+      src: ridgeCapWork,
+      title: "Ridge Capping Restoration",
+      description: "Professional ridge capping work in progress - fixing water entry points and securing the roof line",
+      type: "action"
+    },
+    {
+      src: valleyIronIssues,
+      title: "Valley Iron Deterioration",
+      description: "Rusted valley iron causing leaks - this is exactly why regular roof maintenance matters",
       type: "before-after"
     },
     {
-      src: afterImage1,
-      title: "After: Like Brand New",
-      description: "Complete transformation with premium paint - looks stunning and adds real value",
-      type: "completed"
-    },
-    {
-      src: beforeValley,
-      title: "Valley Iron Failure",
-      description: "Deteriorated valley iron causing leaks and water damage - a common Melbourne problem",
-      type: "before-after"
-    },
-    {
-      src: beforeImage3,
+      src: roofMossLichen,
       title: "Moss & Lichen Damage",
-      description: "Extensive biological growth eating away at the roof surface and causing long-term damage",
+      description: "Extensive biological growth and weathering - time for professional restoration",
       type: "before-after"
     },
     {
-      src: afterImage2,
-      title: "Professional Restoration",
-      description: "Perfect finish with premium materials - this roof will last another 15+ years",
-      type: "completed"
+      src: valleyReplacement,
+      title: "Valley Iron Replacement",
+      description: "New valley iron installation in progress - proper materials make all the difference",
+      type: "action"
     },
     {
-      src: sunsetComplete,
-      title: "Stunning Results",
-      description: "Premium work that transforms your home and adds serious curb appeal",
-      type: "completed"
+      src: weatheredRoof,
+      title: "Severely Weathered Roof",
+      description: "Years of Melbourne weather damage - but nothing we can't restore to like-new condition",
+      type: "before-after"
+    },
+    {
+      src: metalRoofWork,
+      title: "Metal Roof Extension",
+      description: "Quality metal roofing work - perfect weatherproofing for Melbourne conditions",
+      type: "action"
+    },
+    {
+      src: ridgeCapDamage,
+      title: "Ridge Cap Deterioration",
+      description: "Deteriorated ridge capping allowing water penetration - needs immediate attention",
+      type: "before-after"
+    },
+    {
+      src: ridgeCapRemoval,
+      title: "Ridge Cap Replacement",
+      description: "Old ridge capping removal and rebedding work in progress - meticulous attention to detail",
+      type: "action"
+    },
+    {
+      src: gutterEdgeIssues,
+      title: "Gutter Edge Problems",
+      description: "Gutter edge deterioration and debris buildup - part of comprehensive roof maintenance",
+      type: "before-after"
+    },
+    {
+      src: kaidynWorking,
+      title: "Kaidyn at Work",
+      description: "Professional workmanship in action - every job gets personal attention and quality materials",
+      type: "action"
     }
   ];
 
