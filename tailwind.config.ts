@@ -57,6 +57,12 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        roofing: {
+          metallic: "hsl(var(--roofing-metallic))",
+          chrome: "hsl(var(--roofing-chrome))",
+          premium: "hsl(var(--roofing-premium))",
+          emergency: "hsl(var(--roofing-emergency))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
