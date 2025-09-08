@@ -9,7 +9,7 @@ interface TestimonialCardProps {
 
 const TestimonialCard = ({ quote, author, location }: TestimonialCardProps) => {
   return (
-    <Card className="h-full">
+    <Card className="h-full bg-gradient-to-bl from-white to-secondary/5 border-secondary/20 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       <CardContent className="p-6 space-y-4">
         <Quote className="h-8 w-8 text-primary/20" />
         <blockquote className="text-muted-foreground leading-relaxed">

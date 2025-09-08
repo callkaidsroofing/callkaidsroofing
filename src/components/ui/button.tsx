@@ -9,15 +9,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 roofing-shadow hover:shadow-lg",
+        default: "blue-gradient text-white hover:opacity-90 roofing-shadow hover:shadow-xl transform hover:scale-105",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "metallic-gradient text-foreground hover:opacity-90 roofing-shadow",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        outline: "border border-primary/30 bg-transparent hover:bg-primary/10 hover:text-primary transition-all duration-300",
+        secondary: "bg-gradient-to-r from-secondary to-secondary/80 text-white hover:opacity-90 roofing-shadow transform hover:scale-105",
+        ghost: "hover:bg-primary/10 hover:text-primary transition-all duration-300",
         link: "text-primary underline-offset-4 hover:underline",
-        premium: "premium-gradient text-white hover:opacity-90 premium-shadow font-semibold",
-        emergency: "bg-roofing-emergency text-white hover:bg-roofing-emergency/90 emergency-pulse font-semibold",
-        phone: "bg-primary text-primary-foreground hover:bg-primary/90 roofing-shadow font-semibold tracking-wide",
+        premium: "premium-gradient text-white hover:opacity-90 premium-shadow font-semibold transform hover:scale-105",
+        emergency: "bg-gradient-to-r from-roofing-emergency to-red-600 text-white hover:opacity-90 emergency-pulse font-semibold shadow-lg",
+        phone: "cta-gradient text-white hover:opacity-90 roofing-shadow font-semibold tracking-wide transform hover:scale-105",
       },
       size: {
         default: "h-10 px-4 py-2",

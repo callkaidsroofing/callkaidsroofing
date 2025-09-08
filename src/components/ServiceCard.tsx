@@ -24,7 +24,7 @@ const ServiceCard = ({
   isEmergency = false 
 }: ServiceCardProps) => {
   return (
-    <Card className="h-full group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+    <Card className="h-full group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br from-white to-primary/5 border-primary/20 hover:border-primary/40">
       {image && (
         <div className="aspect-video w-full overflow-hidden rounded-t-lg">
           <OptimizedImage

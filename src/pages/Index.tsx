@@ -91,7 +91,7 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen pt-20 flex items-center justify-center text-white overflow-hidden">
+      <section className="relative min-h-[80vh] pt-8 pb-16 flex items-center justify-center text-white overflow-hidden">
         {/* Vibrant Gradient Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-roofing-charcoal"></div>
         {/* Additional gradient overlay for depth */}
@@ -162,17 +162,23 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Trust Indicators */}
-      <TrustIndicators />
+      {/* Trust Indicators with gradient */}
+      <div className="section-gradient">
+        <TrustIndicators />
+      </div>
 
-      {/* Image Gallery */}
-      <ImageGallery />
+      {/* Image Gallery with gradient background */}
+      <div className="bg-gradient-to-br from-secondary/5 to-primary/10 py-16">
+        <ImageGallery />
+      </div>
 
-      {/* Meet Kaidyn Section */}
-      <MeetKaidyn />
+      {/* Meet Kaidyn Section with gradient */}
+      <div className="card-gradient">
+        <MeetKaidyn />
+      </div>
 
       {/* Services Section */}
-      <section className="py-16">
+      <section className="py-16 bg-gradient-to-br from-primary/5 to-secondary/10">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-12">
             <Badge variant="outline" className="mb-4">
@@ -193,7 +199,7 @@ const Index = () => {
       </section>
 
       {/* Problem/Solution Section */}
-      <section className="py-16 bg-muted/30">
+      <section className="py-16 bg-gradient-to-l from-muted/30 to-primary/10">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Problem Side */}
@@ -246,7 +252,7 @@ const Index = () => {
       </section>
 
       {/* Service Areas */}
-      <section className="py-16">
+      <section className="py-16 bg-gradient-to-tr from-secondary/10 to-primary/5">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">I Cover All of Southeast Melbourne</h2>
@@ -273,7 +279,7 @@ const Index = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 bg-muted/30">
+      <section className="py-16 bg-gradient-to-br from-secondary/20 to-primary/15">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl md:text-4xl font-bold">What My Customers Say</h2>
@@ -288,7 +294,7 @@ const Index = () => {
       </section>
 
       {/* Final CTA with Social Proof */}
-      <section className="py-16 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground">
+      <section className="py-16 cta-gradient text-primary-foreground">
         <div className="container mx-auto px-4 text-center space-y-6">
           <div className="flex justify-center items-center gap-4 mb-4">
             <div className="flex items-center gap-1">

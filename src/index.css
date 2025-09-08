@@ -50,11 +50,16 @@ All colors MUST be HSL.
     --roofing-warning: 48 96% 53%; /* Warning Amber #FACC15 */
     --roofing-emergency: 0 84% 51%; /* Error Red #DC2626 */
     
-    /* Call Kaids Roofing Gradients - Logo Inspired */
-    --gradient-hero: linear-gradient(135deg, hsl(220 20% 8%) 0%, hsl(213 85% 22%) 100%); /* Dark to navy like logo */
-    --gradient-blue: linear-gradient(90deg, hsl(213 85% 22%) 0%, hsl(207 100% 40%) 100%); /* Navy to blue highlight */
-    --gradient-premium: linear-gradient(135deg, hsl(207 100% 40%) 0%, hsl(207 100% 50%) 100%); /* Blue gradient for CTAs */
-    --gradient-dark: linear-gradient(135deg, hsl(220 20% 8%) 0%, hsl(220 20% 12%) 100%); /* Dark gradient like logo background */
+    /* Call Kaids Roofing Gradients - Multiple Variations */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 50%, hsl(var(--roofing-charcoal)) 100%);
+    --gradient-hero-alt: linear-gradient(45deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
+    --gradient-blue: linear-gradient(90deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
+    --gradient-blue-reverse: linear-gradient(270deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
+    --gradient-premium: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(207 100% 50%) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--roofing-charcoal)) 0%, hsl(var(--roofing-navy)) 100%);
+    --gradient-section: linear-gradient(180deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--secondary) / 0.05) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--primary) / 0.15) 0%, hsl(var(--secondary) / 0.1) 100%);
+    --gradient-cta: linear-gradient(45deg, hsl(var(--primary)) 0%, hsl(var(--roofing-blue)) 50%, hsl(var(--secondary)) 100%);
 
     --radius: 0.5rem;
 
@@ -143,13 +148,21 @@ All colors MUST be HSL.
 }
 
 @layer components {
-  /* Logo-inspired gradient classes */
+  /* Enhanced gradient classes with variations */
   .hero-gradient {
     background: var(--gradient-hero);
   }
   
+  .hero-gradient-alt {
+    background: var(--gradient-hero-alt);
+  }
+  
   .blue-gradient {
     background: var(--gradient-blue);
+  }
+  
+  .blue-gradient-reverse {
+    background: var(--gradient-blue-reverse);
   }
   
   .premium-gradient {
@@ -158,6 +171,32 @@ All colors MUST be HSL.
   
   .dark-gradient {
     background: var(--gradient-dark);
+  }
+  
+  .section-gradient {
+    background: var(--gradient-section);
+  }
+  
+  .card-gradient {
+    background: var(--gradient-card);
+  }
+  
+  .cta-gradient {
+    background: var(--gradient-cta);
+  }
+  
+  /* Enhanced interactive elements */
+  .gradient-border {
+    background: linear-gradient(white, white) padding-box,
+                var(--gradient-blue) border-box;
+    border: 2px solid transparent;
+  }
+  
+  .gradient-text {
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   
   /* Typography Classes - Brand Compliant */
