@@ -10,6 +10,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Gallery from "./pages/Gallery";
 import Emergency from "./pages/Emergency";
 import Warranty from "./pages/Warranty";
 import NotFound from "./pages/NotFound";
@@ -34,11 +35,12 @@ function App() {
               <Header />
               <main className="w-full">
                 <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/emergency" element={<Emergency />} />
-                  <Route path="/warranty" element={<Warranty />} />
+            <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/emergency" element={<Emergency />} />
+            <Route path="/warranty" element={<Warranty />} />
                   <Route path="/services/roof-restoration" element={<RoofRestoration />} />
                   <Route path="/services/roof-painting" element={<RoofPainting />} />
                   <Route path="/services/roof-repairs" element={<RoofRepairs />} />

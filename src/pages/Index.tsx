@@ -5,7 +5,7 @@ import ServiceCard from '@/components/ServiceCard';
 import TrustIndicators from '@/components/TrustIndicators';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 import TestimonialCard from '@/components/TestimonialCard';
-import ImageGallery from '@/components/ImageGallery';
+import FeaturedGallery from '@/components/FeaturedGallery';
 import MeetKaidyn from '@/components/MeetKaidyn';
 import { Badge } from '@/components/ui/badge';
 import { OptimizedImage } from '@/components/OptimizedImage';
@@ -189,7 +189,7 @@ const Index = () => {
           sizes="100vw"
         />
         <div className="relative z-10">
-          <ImageGallery />
+          <FeaturedGallery />
         </div>
       </div>
 
