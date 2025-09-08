@@ -11,6 +11,8 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Emergency from "./pages/Emergency";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import RoofRestoration from "./pages/services/RoofRestoration";
 import RoofPainting from "./pages/services/RoofPainting";
 import RoofRepairs from "./pages/services/RoofRepairs";
@@ -32,15 +34,17 @@ const App = () => (
           <ScrollToTop />
           <Header />
           <main className="flex-1">
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/emergency" element={<Emergency />} />
-              <Route path="/warranty" element={<Warranty />} />
-              <Route path="/services/roof-restoration" element={<RoofRestoration />} />
-              <Route path="/services/roof-painting" element={<RoofPainting />} />
-              <Route path="/services/roof-repairs" element={<RoofRepairs />} />
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/emergency" element={<Emergency />} />
+                <Route path="/warranty" element={<Warranty />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/services/roof-restoration" element={<RoofRestoration />} />
+                <Route path="/services/roof-painting" element={<RoofPainting />} />
+                <Route path="/services/roof-repairs" element={<RoofRepairs />} />
               <Route path="/services/gutter-cleaning" element={<GutterCleaning />} />
               <Route path="/services/valley-iron-replacement" element={<ValleyIronReplacement />} />
               <Route path="*" element={<NotFound />} />
