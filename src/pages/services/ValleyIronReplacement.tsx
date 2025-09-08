@@ -280,16 +280,16 @@ const ValleyIronReplacement = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between items-center py-2 border-b">
-                  <span>Single valley (15-20m)</span>
-                  <Badge variant="outline">$600-900</Badge>
+                  <span>Single valley (3-5m)</span>
+                  <Badge variant="outline">$200-400</Badge>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b">
-                  <span>Two valleys (25-35m)</span>
-                  <Badge variant="outline">$900-1,500</Badge>
+                  <span>Two valleys (6-10m)</span>
+                  <Badge variant="outline">$400-700</Badge>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b">
-                  <span>Full house (40-60m)</span>
-                  <Badge variant="outline">$1,500-2,500</Badge>
+                  <span>Multiple valleys (15-25m)</span>
+                  <Badge variant="outline">$800-1,500</Badge>
                 </div>
                 <div className="flex justify-between items-center py-2">
                   <span>Complex/heritage homes</span>
