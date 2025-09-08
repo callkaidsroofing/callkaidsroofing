@@ -41,78 +41,57 @@ const ImageGallery = () => {
   const [currentImage, setCurrentImage] = useState(0);
   
   const images: GalleryImage[] = [
+    // Premium "After" shots featuring stunning transformations
     {
-      src: bannerCleaning,
-      title: "Professional Roof Cleaning in Action",
-      description: "High-pressure cleaning and restoration work being performed with safety equipment and proper technique",
-      type: "action"
-    },
-    {
-      src: ridgeCapWork,
-      title: "Ridge Capping Restoration",
-      description: "Professional ridge capping work in progress - fixing water entry points and securing the roof line",
-      type: "action"
-    },
-    {
-      src: valleyIronIssues,
-      title: "Valley Iron Deterioration",
-      description: "Rusted valley iron causing leaks - this is exactly why regular roof maintenance matters",
-      type: "before-after"
-    },
-    {
-      src: roofMossLichen,
-      title: "Moss & Lichen Damage",
-      description: "Extensive biological growth and weathering - time for professional restoration",
-      type: "before-after"
-    },
-    {
-      src: valleyReplacement,
-      title: "Valley Iron Replacement",
-      description: "New valley iron installation in progress - proper materials make all the difference",
-      type: "action"
-    },
-    {
-      src: weatheredRoof,
-      title: "Severely Weathered Roof",
-      description: "Years of Melbourne weather damage - but nothing we can't restore to like-new condition",
-      type: "before-after"
-    },
-    {
-      src: metalRoofWork,
-      title: "Metal Roof Extension",
-      description: "Quality metal roofing work - perfect weatherproofing for Melbourne conditions",
-      type: "action"
-    },
-    {
-      src: ridgeCapDamage,
-      title: "Ridge Cap Deterioration",
-      description: "Deteriorated ridge capping allowing water penetration - needs immediate attention",
-      type: "before-after"
-    },
-    {
-      src: ridgeCapRemoval,
-      title: "Ridge Cap Replacement",
-      description: "Old ridge capping removal and rebedding work in progress - meticulous attention to detail",
-      type: "action"
-    },
-    {
-      src: gutterEdgeIssues,
-      title: "Gutter Edge Problems",
-      description: "Gutter edge deterioration and debris buildup - part of comprehensive roof maintenance",
-      type: "before-after"
-    },
-    {
-      src: kaidynWorking,
-      title: "Kaidyn at Work",
-      description: "Professional workmanship in action - every job gets personal attention and quality materials",
-      type: "action"
-    },
-    {
-      src: colorChart,
-      title: "Premium Paint Color Selection",
-      description: "Comprehensive range of Premcoat roof paint colors available for your restoration project",
+      src: "/lovable-uploads/116450ad-e39b-42bd-891b-c7e312d4cf91.png",
+      title: "Sunset Roof Restoration - After",
+      description: "Stunning completed roof restoration with premium tiles and ridge capping, photographed at golden hour to showcase the quality finish.",
       type: "completed"
     },
+    {
+      src: "/lovable-uploads/992cf8cb-032a-4253-b9d7-45f675e69217.png",
+      title: "Premium Ridge Installation - After",
+      description: "Professional ridge capping installation with perfect alignment and weather sealing for long-term protection.",
+      type: "completed"
+    },
+    {
+      src: "/lovable-uploads/dfb36f59-24c0-44d0-8049-9677f7a3f7ba.png",
+      title: "Aerial View Restoration - After",
+      description: "Aerial perspective showing comprehensive roof restoration with consistent tile coverage and proper guttering.",
+      type: "completed"
+    },
+    {
+      src: "/lovable-uploads/f33cbcfa-005e-435c-a104-9a21d080a343.png",
+      title: "Ridge Detail Work - After",
+      description: "Close-up of precision ridge capping work showing quality materials and professional installation techniques.",
+      type: "completed"
+    },
+    // Powerful "Before" shots showing transformation potential
+    {
+      src: "/lovable-uploads/b8f5645a-9809-4dc8-be5d-e4cd78cfadf8.png",
+      title: "Weathered Roof - Before",
+      description: "Severely weathered roof tiles with moss growth and debris accumulation requiring complete restoration.",
+      type: "before-after"
+    },
+    {
+      src: "/lovable-uploads/4d68a224-4a9b-4712-83a0-0abe80156254.png",
+      title: "Damaged Ridge Capping - Before",
+      description: "Deteriorated ridge capping with moss growth and mortar failure compromising roof integrity.",
+      type: "before-after"
+    },
+    {
+      src: "/lovable-uploads/0362db50-69c4-4fd7-af15-a0112e09daeb.png",
+      title: "Valley Damage - Before",
+      description: "Damaged valley area with moss buildup and compromised water flow creating potential leak points.",
+      type: "before-after"
+    },
+    {
+      src: "/lovable-uploads/468d2fb1-beac-44d1-a3b6-9b08217e6231.png",
+      title: "Terracotta Roof Issues - Before",
+      description: "Deteriorated terracotta roof with damaged ridge capping and weather-related wear requiring restoration.",
+      type: "before-after"
+    },
+    // Keep some of the best existing completed projects
     {
       src: finishedRidgeCaps,
       title: "Professional Ridge Cap Restoration",
@@ -123,18 +102,6 @@ const ImageGallery = () => {
       src: solarRoofComplete,
       title: "Solar-Ready Roof Restoration",
       description: "Professional roof work completed around existing solar installation - no panel damage, perfect finish",
-      type: "completed"
-    },
-    {
-      src: repointingComplete,
-      title: "Expert Repointing Results",
-      description: "Fresh repointing with premium materials - ridge caps properly sealed and weatherproofed",
-      type: "completed"
-    },
-    {
-      src: gutterRoofComplete,
-      title: "Complete Roof & Gutter System",
-      description: "Finished restoration including roof tiles, gutters, and downpipes - total weather protection",
       type: "completed"
     },
     {
@@ -149,23 +116,24 @@ const ImageGallery = () => {
       description: "Professional roof painting in contemporary grey - clean lines and perfect coverage",
       type: "completed"
     },
+    // Keep key work-in-progress shots
     {
-      src: blueRoofFinish,
-      title: "Quality Ridge Cap Installation",
-      description: "Fresh ridge cap work with proper mortar bedding - designed to last decades in Melbourne conditions",
-      type: "completed"
+      src: kaidynWorking,
+      title: "Kaidyn at Work",
+      description: "Professional workmanship in action - every job gets personal attention and quality materials",
+      type: "action"
     },
     {
-      src: houseComplete,
-      title: "Heritage Home Restoration",
-      description: "Traditional home with fully restored tile roof - maintaining character while ensuring modern weather protection",
-      type: "completed"
+      src: ridgeCapWork,
+      title: "Ridge Capping Restoration",
+      description: "Professional ridge capping work in progress - fixing water entry points and securing the roof line",
+      type: "action"
     },
     {
-      src: commercialProject,
-      title: "Large Scale Commercial Project",
-      description: "Multiple roof restoration project with solar integration - professional workmanship across entire development",
-      type: "completed"
+      src: valleyReplacement,
+      title: "Valley Iron Replacement",
+      description: "New valley iron installation in progress - proper materials make all the difference",
+      type: "action"
     }
   ];
 
