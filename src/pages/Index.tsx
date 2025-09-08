@@ -7,8 +7,8 @@ import TestimonialCard from '@/components/TestimonialCard';
 import ImageGallery from '@/components/ImageGallery';
 import MeetKaidyn from '@/components/MeetKaidyn';
 import { Badge } from '@/components/ui/badge';
-import heroImage from '@/assets/hero-roof-restoration.jpg';
-import logoImage from '@/assets/call-kaids-logo-main.png';
+import heroImage from '/lovable-uploads/7c4b0aaa-18ed-4b8a-80f2-904dc4868236.png';
+import logoImage from '/lovable-uploads/8d1be6f1-c743-47df-8d3e-f1ab6230f326.png';
 
 const Index = () => {
   const services = [
