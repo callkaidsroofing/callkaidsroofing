@@ -321,7 +321,7 @@ const RoofPainting = () => {
               <CardContent>
                 <ul className="space-y-2 text-sm">
                   <li>• Based in Clyde North - know local conditions</li>
-                  <li>• 5+ years experience in Southeast Melbourne</li>
+                  <li>• 25+ years of combined roofing experience in Southeast Melbourne</li>
                   <li>• Understand local weather patterns</li>
                   <li>• Community reputation built on quality work</li>
                 </ul>

@@ -18,9 +18,9 @@ const MeetKaidyn = () => {
               <h2 className="text-3xl md:text-4xl font-bold">
                 I'm Kaidyn Brownlie—Leading Southeast Melbourne's Most Experienced Roofing Team
               </h2>
-              <p className="text-xl text-muted-foreground">
-                When you call, you're talking directly to me. But you're getting the expertise of my entire skilled team—25+ years of combined experience ensuring your roof gets the best possible service.
-              </p>
+                <p className="text-xl text-muted-foreground">
+                 When you call, you're talking directly to me. But you're getting the expertise of my entire skilled team—25+ years of combined roofing experience ensuring your roof gets the best possible service.
+               </p>
             </div>
 
             <div className="space-y-4">
@@ -32,7 +32,7 @@ const MeetKaidyn = () => {
                 </li>
                 <li className="flex items-start gap-3">
                   <Award className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                  <span><strong>25+ Years Combined Experience</strong> - Our team brings unmatched expertise to every project</span>
+                  <span><strong>25+ Years Combined Roofing Experience</strong> - Our team brings unmatched expertise to every project</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Clock className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
@@ -49,7 +49,7 @@ const MeetKaidyn = () => {
                 </div>
                 <p className="text-muted-foreground mb-4">
                   No automated systems, no waiting around. When you call <strong>0435 900 709</strong>, 
-                  you get me directly. My experienced team and I will take care of everything.
+                  you get me directly. My team with 25+ years of combined roofing experience and I will take care of everything.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button asChild>
@@ -78,7 +78,7 @@ const MeetKaidyn = () => {
               <Card className="text-center">
                 <CardContent className="p-6">
                   <div className="text-3xl font-bold text-primary">25+</div>
-                  <div className="text-sm text-muted-foreground">Years Combined Experience</div>
+                  <div className="text-sm text-muted-foreground">Years Combined Roofing Experience</div>
                 </CardContent>
               </Card>
               <Card className="text-center">
@@ -113,7 +113,7 @@ const MeetKaidyn = () => {
                   </div>
                 </div>
                 <p className="text-xs text-muted-foreground border-t pt-3">
-                  Quality work takes time. We're booked solid because word spreads fast about our honest service and experienced team.
+                  Quality work takes time. We're booked solid because word spreads fast about our honest service and team with 25+ years of combined roofing experience.
                 </p>
               </CardContent>
             </Card>

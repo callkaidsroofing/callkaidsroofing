@@ -120,16 +120,16 @@ const Index = () => {
             </Badge>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 text-shadow-lg">
-            Melbourne's Most Experienced Roofing Team
-          </h1>
-          <p className="text-xl sm:text-2xl md:text-2xl text-white/90 max-w-4xl mx-auto mb-8 font-medium">
-            25+ years of combined expertise. Professional roof restoration, painting & emergency repairs with 10-year warranty. Your local Clyde North team serving all Southeast Melbourne.
-          </p>
+           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 text-shadow-lg">
+             Melbourne's Roofing Team with 25+ Years Combined Experience
+           </h1>
+           <p className="text-xl sm:text-2xl md:text-2xl text-white/90 max-w-4xl mx-auto mb-8 font-medium">
+             25+ years of combined roofing experience. Professional roof restoration, painting & emergency repairs with 10-year warranty. Your local Clyde North team serving all Southeast Melbourne.
+           </p>
           
           <div className="space-y-4 max-w-2xl mx-auto text-left bg-white/10 p-6 rounded-xl backdrop-blur-md border border-white/20 mb-8">
             <p className="text-lg text-white">
-              I'm Kaidyn Brownlie, and I run the most experienced roofing team in Southeast Melbourne. No call centre, no sales team—when you call <strong className="text-yellow-300">0435 900 709</strong>, you're talking directly to me, the owner.
+              I'm Kaidyn Brownlie, and I run the roofing team with 25+ years of combined experience in Southeast Melbourne. No call centre, no sales team—when you call <strong className="text-yellow-300">0435 900 709</strong>, you're talking directly to me, the owner.
             </p>
             <ul className="space-y-2">
               <li className="flex items-center gap-2">

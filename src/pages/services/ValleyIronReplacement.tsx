@@ -358,7 +358,7 @@ const ValleyIronReplacement = () => {
               <CardContent>
                 <ul className="space-y-2 text-sm">
                   <li>• Valley iron replacement specialist</li>
-                  <li>• Experience with all roof types and ages</li>
+                  <li>• 25+ years of combined roofing experience with all roof types and ages</li>
                   <li>• Proper fall calculation for optimal drainage</li>
                   <li>• Heritage and council compliance knowledge</li>
                 </ul>
