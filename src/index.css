@@ -195,4 +195,13 @@ All colors MUST be HSL.
     0%, 100% { box-shadow: 0 0 0 0 hsl(var(--roofing-emergency) / 0.7); }
     50% { box-shadow: 0 0 0 10px hsl(var(--roofing-emergency) / 0); }
   }
+  
+  /* Text Shadows for Better Readability */
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
+  
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
 }

@@ -92,33 +92,11 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-screen pt-20 flex items-center justify-center text-white overflow-hidden">
-        {/* Hero Background Image - New Dark Blue Gradient */}
-        <OptimizedImage
-          src="/lovable-uploads/3eea8208-16ab-4e73-8295-c92c3bf95f58.png"
-          alt="Professional roofing services background"
-          className="absolute inset-0 w-full h-full object-cover -z-10"
-          width={1600}
-          height={900}
-          priority
-          fetchPriority="high"
-          sizes="100vw"
-        />
-        {/* Subtle Overlay for Text Readability */}
-        <div className="absolute inset-0 bg-black/30 -z-10"></div>
+        {/* Vibrant Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-roofing-charcoal"></div>
+        {/* Additional gradient overlay for depth */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-primary/20"></div>
         <div className="container mx-auto px-4 text-center space-y-6">
-          {/* Logo */}
-          <div className="flex justify-center mb-6">
-            <OptimizedImage
-              src={logoImage}
-              alt="Call Kaids Roofing"
-              className="h-16 md:h-20 w-auto"
-              width={137}
-              height={80}
-              priority
-              fetchPriority="high"
-              sizes="(max-width: 768px) 64px, 80px"
-            />
-          </div>
           
           {/* Social Proof Banner */}
           <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 mb-4">
@@ -134,33 +112,33 @@ const Index = () => {
             </Badge>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight px-4">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold leading-tight px-4 text-shadow-lg">
             Melbourne's Most Experienced Roofing Team
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto px-4">
+          <p className="text-xl sm:text-2xl md:text-3xl text-white/90 max-w-4xl mx-auto px-4 font-medium">
             25+ years of combined expertise. Professional roof restoration, painting & emergency repairs with 10-year warranty. Your local Clyde North team serving all Southeast Melbourne.
           </p>
           
-          <div className="space-y-4 max-w-2xl mx-auto text-left bg-black/20 p-4 sm:p-6 rounded-lg backdrop-blur-sm">
-            <p className="text-base sm:text-lg">
-              I'm Kaidyn Brownlie, and I run the most experienced roofing team in Southeast Melbourne. No call centre, no sales team—when you call <strong>0435 900 709</strong>, you're talking directly to me, the owner.
+          <div className="space-y-4 max-w-2xl mx-auto text-left bg-white/10 p-4 sm:p-6 rounded-xl backdrop-blur-md border border-white/20">
+            <p className="text-base sm:text-lg text-white">
+              I'm Kaidyn Brownlie, and I run the most experienced roofing team in Southeast Melbourne. No call centre, no sales team—when you call <strong className="text-yellow-300">0435 900 709</strong>, you're talking directly to me, the owner.
             </p>
             <ul className="space-y-2">
               <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-400" />
-                Free inspection with honest advice (no BS upselling)
+                <CheckCircle className="h-5 w-5 text-green-300" />
+                <span className="text-white">Free inspection with honest advice (no BS upselling)</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-400" />
-                10-year warranty on all major work
+                <CheckCircle className="h-5 w-5 text-green-300" />
+                <span className="text-white">10-year warranty on all major work</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-400" />
-                Same-day quotes for most jobs
+                <CheckCircle className="h-5 w-5 text-green-300" />
+                <span className="text-white">Same-day quotes for most jobs</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-400" />
-                Emergency response when storms hit
+                <CheckCircle className="h-5 w-5 text-green-300" />
+                <span className="text-white">Emergency response when storms hit</span>
               </li>
             </ul>
           </div>
