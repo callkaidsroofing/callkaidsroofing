@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight } from 'lucide-react';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 interface ServiceCardProps {
   title: string;
@@ -26,10 +27,13 @@ const ServiceCard = ({
     <Card className="h-full group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       {image && (
         <div className="aspect-video w-full overflow-hidden rounded-t-lg">
-          <img 
-            src={image} 
-            alt={title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          <OptimizedImage
+            src={image}
+            alt={`${title} - Professional roofing service in Melbourne`}
+            className="group-hover:scale-105 transition-transform duration-300"
+            width={400}
+            height={225}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
       )}
