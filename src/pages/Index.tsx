@@ -91,14 +91,19 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section 
-        className="relative min-h-screen pt-20 flex items-center justify-center text-white"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url(${heroImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
+      <section className="relative min-h-screen pt-20 flex items-center justify-center text-white overflow-hidden">
+        {/* Hero Background Image */}
+        <OptimizedImage
+          src={heroImage}
+          alt="Professional roof cleaning and restoration work in Melbourne"
+          className="absolute inset-0 w-full h-full object-cover -z-10"
+          width={1600}
+          height={900}
+          priority
+          sizes="100vw"
+        />
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40 -z-10"></div>
         <div className="container mx-auto px-4 text-center space-y-6">
           {/* Logo */}
           <div className="flex justify-center mb-6">

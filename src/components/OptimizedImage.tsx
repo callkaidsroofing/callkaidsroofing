@@ -8,6 +8,7 @@ interface OptimizedImageProps {
   height?: number;
   priority?: boolean;
   sizes?: string;
+  fetchPriority?: 'high' | 'low' | 'auto';
 }
 
 export const OptimizedImage = ({ 
@@ -17,7 +18,8 @@ export const OptimizedImage = ({
   width,
   height,
   priority = false,
-  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
+  fetchPriority = priority ? 'high' : 'auto'
 }: OptimizedImageProps) => {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -58,6 +60,7 @@ export const OptimizedImage = ({
         width={width}
         height={height}
         loading={priority ? 'eager' : 'lazy'}
+        fetchPriority={fetchPriority}
         decoding="async"
         onLoad={handleImageLoad}
         onError={handleImageError}
