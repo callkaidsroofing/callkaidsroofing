@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock, Shield, Star, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import callKaidsLogo from '@/assets/call-kaids-logo-main.png';
+import bannerLogo from '/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png';
 
 const Footer = () => {
   const serviceAreas = [
@@ -20,26 +20,49 @@ const Footer = () => {
 
   return (
     <footer className="bg-gradient-to-br from-muted/50 to-muted/80 border-t">
-      {/* Call to Action Section */}
-      <div className="bg-primary text-primary-foreground py-8">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">
+      {/* Hero Call to Action Section with Banner */}
+      <div 
+        className="relative bg-cover bg-center py-16 text-white"
+        style={{ 
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(${bannerLogo})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Ready to Get Your Roof Done Right?
           </h2>
-          <p className="text-lg mb-6 text-primary-foreground/90">
-            Call Kaidyn directly - no call centers, no waiting, just honest advice from a local expert
+          <p className="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
+            Call Kaidyn directly - no call centers, no waiting, just honest advice from a local expert with 10-year warranty
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <a 
               href="tel:0435900709"
-              className="flex items-center gap-3 bg-white text-primary px-6 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
+              className="flex items-center gap-3 bg-primary text-white px-8 py-4 rounded-lg font-bold text-xl hover:bg-primary/90 transition-colors shadow-lg"
             >
-              <Phone className="h-5 w-5" />
+              <Phone className="h-6 w-6" />
               Call 0435 900 709 Now
             </a>
-            <Button asChild variant="outline" size="lg" className="bg-white/10 border-white text-white hover:bg-white hover:text-primary">
+            <Button asChild variant="outline" size="lg" className="bg-white/20 border-white text-white hover:bg-white hover:text-primary backdrop-blur-sm">
               <Link to="/contact">Get Free Quote</Link>
             </Button>
+          </div>
+          
+          {/* Trust indicators overlay */}
+          <div className="flex flex-wrap justify-center gap-4 mt-8 text-sm">
+            <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
+              <Shield className="h-4 w-4" />
+              <span>Fully Insured</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
+              <Award className="h-4 w-4" />
+              <span>10 Year Warranty</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
+              <Star className="h-4 w-4" />
+              <span>Quality Work Guaranteed</span>
+            </div>
           </div>
         </div>
       </div>
@@ -49,12 +72,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <div className="flex items-center space-x-3 mb-4">
-              <img src={callKaidsLogo} alt="Call Kaids Roofing" className="h-12 w-auto" />
-              <div>
-                <h3 className="text-lg font-bold text-primary">Call Kaids Roofing</h3>
-                <p className="text-xs text-muted-foreground">Melbourne's Trusted Expert</p>
-              </div>
+            <div className="mb-4">
+              <h3 className="text-lg font-bold text-primary">Call Kaids Roofing</h3>
+              <p className="text-sm text-muted-foreground">Melbourne's Trusted Roof Expert</p>
             </div>
             <p className="text-muted-foreground text-sm">
               Owner-operated roofing business serving Southeast Melbourne. Quality workmanship, 

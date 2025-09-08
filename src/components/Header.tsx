@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Phone, Menu, X, ChevronDown, Shield, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
-import callKaidsLogo from '@/assets/call-kaids-logo-main.png';
+import wideLogo from '/lovable-uploads/8d1be6f1-c743-47df-8d3e-f1ab6230f326.png';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -45,16 +45,12 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <img src={callKaidsLogo} alt="Call Kaids Roofing" className="h-12 w-auto" />
-            <div className="flex flex-col">
-              <span className="text-xl font-bold text-primary">
-                Call Kaids Roofing
-              </span>
-              <span className="text-xs text-muted-foreground">
-                Melbourne's Trusted Roof Expert
-              </span>
-            </div>
+          <Link to="/" className="flex items-center">
+            <img 
+              src={wideLogo} 
+              alt="Call Kaids Roofing - Premium Roofing Services Melbourne" 
+              className="h-14 w-auto max-w-[280px]" 
+            />
           </Link>
 
           {/* Desktop Navigation */}
