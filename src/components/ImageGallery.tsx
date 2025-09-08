@@ -187,56 +187,59 @@ const ImageGallery = () => {
   };
 
   return (
-    <section className="py-16 bg-muted/30">
+    <section className="py-12 sm:py-16 bg-gradient-to-b from-muted/20 to-muted/40">
       <div className="container mx-auto px-4">
-        <div className="text-center space-y-4 mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold">Real Projects, Real Results</h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+        <div className="text-center space-y-4 mb-8 sm:mb-12">
+          <Badge variant="outline" className="mb-2">Project Gallery</Badge>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            Real Projects, Real Results
+          </h2>
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
             See the incredible transformations we achieve. These are actual Call Kaids projects showing what's possible for your roof.
           </p>
         </div>
 
         {/* Featured Large Image */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <Dialog>
             <DialogTrigger asChild>
-              <button className="w-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg">
-                <Card className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden">
+              <button className="w-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-xl group">
+                <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden border-2 hover:border-primary/50 bg-gradient-to-br from-background to-muted/30">
                 <div className="relative">
                   <AspectRatio ratio={16/9}>
                     <OptimizedImage
                       src={images[currentImage].src}
                       alt={images[currentImage].title}
-                      className="transition-transform hover:scale-105"
+                      className="transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
                       width={1301}
                       height={976}
                       priority
                       sizes="(max-width: 768px) 100vw, 80vw"
                     />
                   </AspectRatio>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <Badge className={getTypeColor(images[currentImage].type)}>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-300" />
+                  <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 text-white">
+                    <Badge className={`${getTypeColor(images[currentImage].type)} text-xs sm:text-sm font-semibold shadow-lg`}>
                       {images[currentImage].type === 'before-after' && 'Before Photo'}
                       {images[currentImage].type === 'action' && 'In Progress'}
                       {images[currentImage].type === 'completed' && 'Completed Work'}
                     </Badge>
-                    <h3 className="text-xl font-bold mt-2">{images[currentImage].title}</h3>
-                    <p className="text-sm text-gray-200">{images[currentImage].description}</p>
+                    <h3 className="text-lg sm:text-xl font-bold mt-2 drop-shadow-lg">{images[currentImage].title}</h3>
+                    <p className="text-xs sm:text-sm text-gray-200 leading-relaxed drop-shadow-md">{images[currentImage].description}</p>
                   </div>
                   
                   {/* Navigation arrows */}
                   <button
                     onClick={(e) => { e.stopPropagation(); prevImage(); }}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+                    className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-primary/80 text-white p-2 sm:p-3 rounded-full transition-all duration-200 hover:scale-110 shadow-lg backdrop-blur-sm"
                   >
-                    <ChevronLeft className="h-6 w-6" />
+                    <ChevronLeft className="h-4 w-4 sm:h-6 sm:w-6" />
                   </button>
                   <button
                     onClick={(e) => { e.stopPropagation(); nextImage(); }}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+                    className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-primary/80 text-white p-2 sm:p-3 rounded-full transition-all duration-200 hover:scale-110 shadow-lg backdrop-blur-sm"
                   >
-                    <ChevronRight className="h-6 w-6" />
+                    <ChevronRight className="h-4 w-4 sm:h-6 sm:w-6" />
                   </button>
                 </div>
               </Card>
@@ -263,13 +266,15 @@ const ImageGallery = () => {
           </Dialog>
         </div>
 
-        {/* Thumbnail Navigation */}
-        <div className="grid grid-cols-3 gap-4">
+        {/* Thumbnail Navigation Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
           {images.map((image, index) => (
             <Card 
               key={index}
-              className={`cursor-pointer transition-all ${
-                index === currentImage ? 'ring-2 ring-primary' : 'hover:shadow-md'
+              className={`cursor-pointer transition-all duration-300 group overflow-hidden ${
+                index === currentImage 
+                  ? 'ring-2 ring-primary shadow-lg scale-105' 
+                  : 'hover:shadow-md hover:scale-102 border-muted hover:border-primary/30'
               }`}
               onClick={() => setCurrentImage(index)}
             >
@@ -278,18 +283,44 @@ const ImageGallery = () => {
                   <OptimizedImage
                     src={image.src}
                     alt={image.title}
-                    className="rounded"
+                    className="rounded transition-all duration-300 group-hover:brightness-110"
                     width={406}
                     height={304}
-                    sizes="(max-width: 768px) 33vw, 20vw"
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
                   />
                 </AspectRatio>
                 <div className="mt-2 text-center">
-                  <p className="text-sm font-medium truncate">{image.title}</p>
+                  <Badge 
+                    variant="secondary" 
+                    className={`text-xs mb-1 ${getTypeColor(image.type)}`}
+                  >
+                    {image.type === 'before-after' && 'Before'}
+                    {image.type === 'action' && 'Progress'}
+                    {image.type === 'completed' && 'Complete'}
+                  </Badge>
+                  <p className="text-xs sm:text-sm font-medium truncate leading-relaxed">{image.title}</p>
                 </div>
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* Gallery Stats */}
+        <div className="mt-8 sm:mt-12 text-center">
+          <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
+            <div className="space-y-1">
+              <div className="text-2xl sm:text-3xl font-bold text-primary">{images.filter(img => img.type === 'completed').length}</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Completed Projects</div>
+            </div>
+            <div className="space-y-1">
+              <div className="text-2xl sm:text-3xl font-bold text-primary">{images.filter(img => img.type === 'action').length}</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Active Jobs</div>
+            </div>
+            <div className="space-y-1">
+              <div className="text-2xl sm:text-3xl font-bold text-primary">{images.length}</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Total Photos</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -121,28 +121,28 @@ const Index = () => {
           </div>
           
           {/* Social Proof Banner */}
-          <div className="flex justify-center items-center gap-4 mb-4">
-            <Badge variant="secondary" className="bg-primary/20 text-white border-white/20">
-              <Star className="h-4 w-4 mr-1 fill-current" />
+          <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 mb-4">
+            <Badge variant="secondary" className="bg-primary/20 text-white border-white/20 text-xs sm:text-sm">
+              <Star className="h-3 w-3 sm:h-4 sm:w-4 mr-1 fill-current" />
               200+ Happy Customers
             </Badge>
-            <Badge variant="secondary" className="bg-accent/20 text-white border-white/20">
+            <Badge variant="secondary" className="bg-accent/20 text-white border-white/20 text-xs sm:text-sm">
               10-Year Warranty
             </Badge>
-            <Badge variant="secondary" className="bg-green-500/20 text-white border-white/20">
+            <Badge variant="secondary" className="bg-green-500/20 text-white border-white/20 text-xs sm:text-sm">
               Emergency Response
             </Badge>
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight px-4">
             Melbourne's Most Experienced Roofing Team
           </h1>
-          <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto px-4">
             25+ years of combined expertise. Professional roof restoration, painting & emergency repairs with 10-year warranty. Your local Clyde North team serving all Southeast Melbourne.
           </p>
           
-          <div className="space-y-4 max-w-2xl mx-auto text-left bg-black/20 p-6 rounded-lg backdrop-blur-sm">
-            <p className="text-lg">
+          <div className="space-y-4 max-w-2xl mx-auto text-left bg-black/20 p-4 sm:p-6 rounded-lg backdrop-blur-sm">
+            <p className="text-base sm:text-lg">
               I'm Kaidyn Brownlie, and I run the most experienced roofing team in Southeast Melbourne. No call centre, no sales team—when you call <strong>0435 900 709</strong>, you're talking directly to me, the owner.
             </p>
             <ul className="space-y-2">
@@ -165,21 +165,21 @@ const Index = () => {
             </ul>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild variant="premium" size="xl">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+            <Button asChild variant="premium" size="lg" className="w-full sm:w-auto text-sm sm:text-base">
               <Link to="/contact">Book Me Now—Slots Are Limited</Link>
             </Button>
-            <Button asChild variant="phone" size="xl">
+            <Button asChild variant="phone" size="lg" className="w-full sm:w-auto text-sm sm:text-base">
               <a href="tel:0435900709">
-                <Phone className="mr-2 h-5 w-5" />
+                <Phone className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 Call 0435 900 709
               </a>
             </Button>
           </div>
 
-          <p className="text-sm text-gray-300">
-            Serving: Clyde North • Berwick • Cranbourne • Frankston • Brighton • Toorak<br/>
-            50km radius—if you're close, I'll come have a look
+          <p className="text-xs sm:text-sm text-gray-300 px-4 text-center">
+            Serving: Clyde North • Berwick • Cranbourne • Frankston • Brighton • Toorak<br className="hidden sm:block"/>
+            <span className="block sm:inline">50km radius—if you're close, I'll come have a look</span>
           </p>
         </div>
       </section>
@@ -270,20 +270,20 @@ const Index = () => {
       {/* Service Areas */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="text-center space-y-4 mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">I Cover All of Southeast Melbourne</h2>
-            <p className="text-xl text-muted-foreground">
+          <div className="text-center space-y-4 mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">I Cover All of Southeast Melbourne</h2>
+            <p className="text-lg sm:text-xl text-muted-foreground">
               Based in Clyde North, I service everywhere within 50km. Know the local challenges because I live here too.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {Object.entries(serviceAreas).map(([category, areas]) => (
-              <div key={category} className="space-y-4">
-                <h3 className="text-xl font-semibold">{category}</h3>
-                <ul className="space-y-2">
+              <div key={category} className="space-y-3 sm:space-y-4">
+                <h3 className="text-lg sm:text-xl font-semibold">{category}</h3>
+                <ul className="space-y-1.5 sm:space-y-2">
                   {areas.map((area, index) => (
-                    <li key={index} className="text-sm text-muted-foreground">
+                    <li key={index} className="text-sm text-muted-foreground leading-relaxed">
                       {area}
                     </li>
                   ))}
@@ -349,14 +349,14 @@ const Index = () => {
               Get your free inspection before summer storms hit
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild variant="secondary" size="xl">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+              <Button asChild variant="secondary" size="lg" className="w-full sm:w-auto text-sm sm:text-base">
                 <a href="tel:0435900709">
-                  <Phone className="mr-2 h-5 w-5" />
+                  <Phone className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                   Call Kaidyn: 0435 900 709
                 </a>
               </Button>
-              <Button asChild variant="outline" size="xl" className="bg-white/10 border-white text-white hover:bg-white hover:text-primary">
+              <Button asChild variant="outline" size="lg" className="bg-white/10 border-white text-white hover:bg-white hover:text-primary w-full sm:w-auto text-sm sm:text-base">
                 <Link to="/contact">Book Free Inspection</Link>
               </Button>
             </div>
