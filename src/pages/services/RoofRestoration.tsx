@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Phone, CheckCircle, Clock, Shield, MapPin, DollarSign, Home, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 
 const RoofRestoration = () => {
   const restorationSteps = [
@@ -98,13 +99,10 @@ const RoofRestoration = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section 
-        className="py-20 relative bg-cover bg-center text-white"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url('/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
+      <OptimizedBackgroundSection
+        backgroundImage="/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
+        className="py-20 text-white"
+        gradient="linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4))"
       >
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -125,7 +123,7 @@ const RoofRestoration = () => {
             </Button>
           </div>
         </div>
-      </section>
+      </OptimizedBackgroundSection>
 
       {/* Problem Section */}
       <section className="py-16">

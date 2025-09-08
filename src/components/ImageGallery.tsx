@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { OptimizedImage } from '@/components/OptimizedImage';
 // Real project photos from Call Kaids Roofing - before/during work
 import bannerCleaning from '/lovable-uploads/884e66b0-35da-491d-b03b-d980d46b3043.png';
 import ridgeCapWork from '/lovable-uploads/783444da-c25e-4910-89e1-1908a6296118.png';
@@ -202,10 +203,14 @@ const ImageGallery = () => {
               <Card className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden">
                 <div className="relative">
                   <AspectRatio ratio={16/9}>
-                    <img 
-                      src={images[currentImage].src} 
+                    <OptimizedImage
+                      src={images[currentImage].src}
                       alt={images[currentImage].title}
-                      className="w-full h-full object-cover transition-transform hover:scale-105"
+                      className="transition-transform hover:scale-105"
+                      width={1301}
+                      height={976}
+                      priority
+                      sizes="(max-width: 768px) 100vw, 80vw"
                     />
                   </AspectRatio>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -238,10 +243,14 @@ const ImageGallery = () => {
             
             <DialogContent className="max-w-4xl">
               <AspectRatio ratio={16/9}>
-                <img 
-                  src={images[currentImage].src} 
+                <OptimizedImage
+                  src={images[currentImage].src}
                   alt={images[currentImage].title}
-                  className="w-full h-full object-cover rounded-lg"
+                  className="rounded-lg"
+                  width={1301}
+                  height={976}
+                  priority
+                  sizes="(max-width: 768px) 100vw, 80vw"
                 />
               </AspectRatio>
               <div className="mt-4 text-center">
@@ -264,10 +273,13 @@ const ImageGallery = () => {
             >
               <CardContent className="p-2">
                 <AspectRatio ratio={16/9}>
-                  <img 
-                    src={image.src} 
+                  <OptimizedImage
+                    src={image.src}
                     alt={image.title}
-                    className="w-full h-full object-cover rounded"
+                    className="rounded"
+                    width={406}
+                    height={304}
+                    sizes="(max-width: 768px) 33vw, 20vw"
                   />
                 </AspectRatio>
                 <div className="mt-2 text-center">

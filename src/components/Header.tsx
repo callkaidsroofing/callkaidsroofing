@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Phone, Menu, X, ChevronDown, Shield, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
+import { OptimizedImage } from '@/components/OptimizedImage';
 import wideLogo from '/lovable-uploads/8d1be6f1-c743-47df-8d3e-f1ab6230f326.png';
 
 const Header = () => {
@@ -46,10 +47,14 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <img 
-              src={wideLogo} 
-              alt="Call Kaids Roofing - Premium Roofing Services Melbourne" 
-              className="h-14 w-auto max-w-[280px]" 
+            <OptimizedImage
+              src={wideLogo}
+              alt="Call Kaids Roofing - Premium Roofing Services Melbourne"
+              className="h-14 w-auto max-w-[280px]"
+              width={137}
+              height={80}
+              priority
+              sizes="280px"
             />
           </Link>
 

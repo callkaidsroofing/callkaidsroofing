@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock, Shield, Star, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { OptimizedImage } from '@/components/OptimizedImage';
 import bannerLogo from '/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png';
 
 const Footer = () => {
