@@ -4,16 +4,12 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import beforeImage1 from '@/assets/before-1.jpg';
-import beforeImage2 from '@/assets/before-2.jpg';
-import beforeImage3 from '@/assets/before-3.jpg';
-import beforeImage4 from '@/assets/before-4.jpg';
-import beforeImage5 from '@/assets/before-5.jpg';
-import afterImage1 from '@/assets/after-1.jpg';
-import afterImage2 from '@/assets/after-2.jpg';
-import afterImage3 from '@/assets/after-3.jpg';
-import afterImage4 from '@/assets/after-4.jpg';
-import afterImage5 from '@/assets/after-5.jpg';
+import beforeImage1 from '@/assets/project-before-1.jpg';
+import beforeValley from '@/assets/project-before-valley.jpg';
+import beforeImage3 from '@/assets/project-before-3.jpg';
+import afterImage1 from '@/assets/project-after-1.jpg';
+import afterImage2 from '@/assets/project-after-2.jpg';
+import sunsetComplete from '@/assets/project-sunset-complete.jpg';
 
 interface GalleryImage {
   src: string;
@@ -28,62 +24,38 @@ const ImageGallery = () => {
   const images: GalleryImage[] = [
     {
       src: beforeImage1,
-      title: "Before: Weathered & Worn",
-      description: "Tired old roof desperately needing attention - faded tiles and damaged surfaces",
+      title: "Before: Weathered & Faded",
+      description: "This roof was letting the house down - faded, weathered, and ready for transformation",
       type: "before-after"
     },
     {
       src: afterImage1,
-      title: "After: Complete Transformation",
-      description: "Stunning restoration bringing this home back to life with premium finishes",
+      title: "After: Like Brand New",
+      description: "Complete transformation with premium paint - looks stunning and adds real value",
       type: "completed"
     },
     {
-      src: beforeImage2,
-      title: "Before: Moss & Lichen Damage",
-      description: "Biological growth destroying the roof surface - classic Melbourne weather damage",
+      src: beforeValley,
+      title: "Valley Iron Failure",
+      description: "Deteriorated valley iron causing leaks and water damage - a common Melbourne problem",
+      type: "before-after"
+    },
+    {
+      src: beforeImage3,
+      title: "Moss & Lichen Damage",
+      description: "Extensive biological growth eating away at the roof surface and causing long-term damage",
       type: "before-after"
     },
     {
       src: afterImage2,
-      title: "After: Like Brand New",
-      description: "Professional restoration with protective coating - will look this good for years",
+      title: "Professional Restoration",
+      description: "Perfect finish with premium materials - this roof will last another 15+ years",
       type: "completed"
     },
     {
-      src: beforeImage3,
-      title: "Before: Faded & Deteriorating",
-      description: "Sun damage and weather taking its toll on this once-beautiful roof",
-      type: "before-after"
-    },
-    {
-      src: afterImage3,
-      title: "After: Premium Finish",
-      description: "High-end restoration work that adds serious value and curb appeal",
-      type: "completed"
-    },
-    {
-      src: beforeImage4,
-      title: "Before: Water Damage Evident",
-      description: "Multiple issues causing ongoing problems - needed complete overhaul",
-      type: "before-after"
-    },
-    {
-      src: afterImage4,
-      title: "After: Perfect Protection",
-      description: "Superior materials and workmanship ensuring long-lasting results",
-      type: "completed"
-    },
-    {
-      src: beforeImage5,
-      title: "Before: Neglected & Failing",
-      description: "Years of neglect finally catching up - time for professional intervention",
-      type: "before-after"
-    },
-    {
-      src: afterImage5,
-      title: "After: Exceptional Results",
-      description: "Outstanding transformation showcasing the quality that sets Call Kaids apart",
+      src: sunsetComplete,
+      title: "Stunning Results",
+      description: "Premium work that transforms your home and adds serious curb appeal",
       type: "completed"
     }
   ];
