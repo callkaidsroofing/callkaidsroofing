@@ -8,37 +8,37 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Call Kaids Roofing Brand Colors - Official Palette */
-    --background: 220 20% 97%; /* Off-White Background #F7F8FA */
+    /* Call Kaids Roofing Brand Colors - Matching Logo Aesthetic */
+    --background: 220 20% 97%; /* Off-White Background for light mode */
     --foreground: 220 20% 12%; /* Charcoal Black #111827 */
 
-    --card: 0 0% 100%; /* Pure White #FFFFFF */
-    --card-foreground: 215 25% 27%; /* Slate Grey #334155 */
+    --card: 0 0% 100%; /* Pure White cards on light backgrounds */
+    --card-foreground: 215 25% 27%; /* Slate Grey text on cards */
 
-    --popover: 0 0% 100%; /* Pure White #FFFFFF */
-    --popover-foreground: 215 25% 27%; /* Slate Grey #334155 */
+    --popover: 0 0% 100%; /* Pure White */
+    --popover-foreground: 215 25% 27%; /* Slate Grey */
 
-    /* Safety Blue Primary */
+    /* Safety Blue Primary - matches logo phone number highlight */
     --primary: 207 100% 40%; /* Safety Blue #007ACC */
     --primary-foreground: 0 0% 100%; /* Pure White */
 
-    /* Deep Navy Secondary */
+    /* Deep Navy Secondary - matches logo's sophisticated tone */
     --secondary: 213 85% 22%; /* Deep Navy Blue #0B3B69 */
     --secondary-foreground: 0 0% 100%; /* Pure White */
 
-    --muted: 220 20% 97%; /* Off-White Background #F7F8FA */
+    --muted: 220 20% 95%; /* Light muted background */
     --muted-foreground: 220 13% 46%; /* Steel Grey #6B7280 */
 
-    /* Accent Colors */
-    --accent: 220 20% 97%; /* Off-White Background #F7F8FA */
-    --accent-foreground: 207 100% 40%; /* Safety Blue #007ACC */
+    /* Accent matches logo's clean aesthetic */
+    --accent: 220 20% 95%; /* Light accent background */
+    --accent-foreground: 207 100% 40%; /* Safety Blue text */
 
     --destructive: 0 84% 51%; /* Error Red #DC2626 */
     --destructive-foreground: 0 0% 100%; /* Pure White */
 
-    --border: 220 13% 91%; /* Lighter Steel Grey */
-    --input: 220 20% 97%; /* Off-White Background #F7F8FA */
-    --ring: 207 100% 40%; /* Safety Blue #007ACC */
+    --border: 220 13% 91%; /* Light border */
+    --input: 220 20% 97%; /* Light input background */
+    --ring: 207 100% 40%; /* Safety Blue focus ring */
 
     /* Call Kaids Roofing Specific Colors */
     --roofing-charcoal: 220 20% 12%; /* Charcoal Black #111827 */
@@ -50,10 +50,11 @@ All colors MUST be HSL.
     --roofing-warning: 48 96% 53%; /* Warning Amber #FACC15 */
     --roofing-emergency: 0 84% 51%; /* Error Red #DC2626 */
     
-    /* Call Kaids Roofing Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(220 20% 12%) 0%, hsl(213 85% 22%) 100%);
-    --gradient-blue: linear-gradient(90deg, hsl(213 85% 22%) 0%, hsl(207 100% 40%) 100%); /* Blue Gradient from spec */
-    --gradient-premium: linear-gradient(135deg, hsl(207 100% 40%) 0%, hsl(213 85% 22%) 100%);
+    /* Call Kaids Roofing Gradients - Logo Inspired */
+    --gradient-hero: linear-gradient(135deg, hsl(220 20% 8%) 0%, hsl(213 85% 22%) 100%); /* Dark to navy like logo */
+    --gradient-blue: linear-gradient(90deg, hsl(213 85% 22%) 0%, hsl(207 100% 40%) 100%); /* Navy to blue highlight */
+    --gradient-premium: linear-gradient(135deg, hsl(207 100% 40%) 0%, hsl(207 100% 50%) 100%); /* Blue gradient for CTAs */
+    --gradient-dark: linear-gradient(135deg, hsl(220 20% 8%) 0%, hsl(220 20% 12%) 100%); /* Dark gradient like logo background */
 
     --radius: 0.5rem;
 
@@ -75,33 +76,36 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 220 20% 12%; /* Charcoal Black #111827 */
-    --foreground: 220 20% 97%; /* Off-White #F7F8FA */
+    /* Dark theme matching the logo's sophisticated aesthetic */
+    --background: 220 20% 8%; /* Deep dark background like logo */
+    --foreground: 0 0% 98%; /* Pure white text like logo */
 
-    --card: 215 25% 27%; /* Slate Grey #334155 */
-    --card-foreground: 220 20% 97%; /* Off-White #F7F8FA */
+    --card: 220 20% 12%; /* Charcoal cards on dark background */
+    --card-foreground: 0 0% 98%; /* White text on dark cards */
 
-    --popover: 215 25% 27%; /* Slate Grey #334155 */
-    --popover-foreground: 220 20% 97%; /* Off-White #F7F8FA */
+    --popover: 220 20% 12%; /* Dark popover background */
+    --popover-foreground: 0 0% 98%; /* White text */
 
-    --primary: 207 100% 40%; /* Safety Blue #007ACC */
+    /* Primary blue matches logo's phone number highlight */
+    --primary: 207 100% 50%; /* Brighter blue for dark mode visibility */
     --primary-foreground: 0 0% 100%; /* Pure White */
 
-    --secondary: 213 85% 22%; /* Deep Navy Blue #0B3B69 */
+    /* Secondary navy - sophisticated like logo */
+    --secondary: 213 85% 25%; /* Slightly lighter navy for dark mode */
     --secondary-foreground: 0 0% 100%; /* Pure White */
 
-    --muted: 215 25% 27%; /* Slate Grey #334155 */
-    --muted-foreground: 220 13% 46%; /* Steel Grey #6B7280 */
+    --muted: 215 25% 15%; /* Dark muted background */
+    --muted-foreground: 220 13% 65%; /* Lighter steel grey for readability */
 
-    --accent: 215 25% 27%; /* Slate Grey #334155 */
-    --accent-foreground: 207 100% 40%; /* Safety Blue #007ACC */
+    --accent: 215 25% 15%; /* Dark accent background */
+    --accent-foreground: 207 100% 50%; /* Bright blue accent text */
 
-    --destructive: 0 84% 51%; /* Error Red #DC2626 */
+    --destructive: 0 84% 60%; /* Slightly lighter red for dark mode */
     --destructive-foreground: 0 0% 100%; /* Pure White */
 
-    --border: 215 25% 27%; /* Slate Grey #334155 */
-    --input: 215 25% 27%; /* Slate Grey #334155 */
-    --ring: 207 100% 40%; /* Safety Blue #007ACC */
+    --border: 215 25% 20%; /* Dark border */
+    --input: 215 25% 15%; /* Dark input background */
+    --ring: 207 100% 50%; /* Bright blue focus ring */
     
     /* Dark mode roofing colors - maintaining brand consistency */
     --roofing-charcoal: 220 20% 12%; /* Charcoal Black #111827 */
@@ -134,7 +138,7 @@ All colors MUST be HSL.
 }
 
 @layer components {
-  /* Call Kaids Roofing Brand Components */
+  /* Logo-inspired gradient classes */
   .hero-gradient {
     background: var(--gradient-hero);
   }
@@ -145,6 +149,10 @@ All colors MUST be HSL.
   
   .premium-gradient {
     background: var(--gradient-premium);
+  }
+  
+  .dark-gradient {
+    background: var(--gradient-dark);
   }
   
   /* Typography Classes - Brand Compliant */
