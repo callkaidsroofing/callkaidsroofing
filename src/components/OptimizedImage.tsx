@@ -61,9 +61,10 @@ export const OptimizedImage = ({
         height={height}
         loading={priority ? 'eager' : 'lazy'}
         fetchPriority={fetchPriority}
-        decoding="async"
+        decoding={priority ? 'sync' : 'async'}
         onLoad={handleImageLoad}
         onError={handleImageError}
+        crossOrigin="anonymous"
         className={`transition-opacity duration-300 ${
           imageLoaded ? 'opacity-100' : 'opacity-0'
         } w-full h-full object-cover`}

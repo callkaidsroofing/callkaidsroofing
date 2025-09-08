@@ -92,7 +92,7 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-screen pt-20 flex items-center justify-center text-white overflow-hidden">
-        {/* Hero Background Image */}
+        {/* Hero Background Image - Optimized for LCP */}
         <OptimizedImage
           src={heroImage}
           alt="Professional roof cleaning and restoration work in Melbourne"
@@ -100,6 +100,7 @@ const Index = () => {
           width={1600}
           height={900}
           priority
+          fetchPriority="high"
           sizes="100vw"
         />
         {/* Gradient Overlay */}
@@ -114,6 +115,7 @@ const Index = () => {
               width={137}
               height={80}
               priority
+              fetchPriority="high"
               sizes="(max-width: 768px) 64px, 80px"
             />
           </div>
