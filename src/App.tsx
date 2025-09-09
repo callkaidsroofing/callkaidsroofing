@@ -13,6 +13,7 @@ import Contact from "./pages/Contact";
 import Gallery from "./pages/Gallery";
 import Emergency from "./pages/Emergency";
 import Warranty from "./pages/Warranty";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "./pages/NotFound";
 import RoofRestoration from "./pages/services/RoofRestoration";
 import RoofPainting from "./pages/services/RoofPainting";
@@ -41,6 +42,7 @@ function App() {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/emergency" element={<Emergency />} />
             <Route path="/warranty" element={<Warranty />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                   <Route path="/services/roof-restoration" element={<RoofRestoration />} />
                   <Route path="/services/roof-painting" element={<RoofPainting />} />
                   <Route path="/services/roof-repairs" element={<RoofRepairs />} />

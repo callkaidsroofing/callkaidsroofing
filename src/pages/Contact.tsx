@@ -1,14 +1,19 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import { Phone, Mail, MapPin, Clock, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { SEOHead } from '@/components/SEOHead';
+import { EnhancedContactForm } from '@/components/EnhancedContactForm';
 
 const Contact = () => {
   return (
-    <div className="min-h-screen">
+    <>
+      <SEOHead
+        title="Contact Call Kaids Roofing | Direct to Owner | Southeast Melbourne"
+        description="Talk direct to Kaidyn Brownlie, owner of Call Kaids Roofing. No call centres, no BS. Phone 0435 900 709 for immediate response. Free quotes, emergency repairs."
+        keywords="contact roofer Melbourne, Clyde North roofing, emergency roof repairs, free roof quote, direct contact roofer"
+        canonical="https://callkaidsroofing.com.au/contact"
+      />
+      <div className="min-h-screen">
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/5 to-primary/10">
         <div className="container mx-auto px-4">
@@ -118,85 +123,9 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Quote Form */}
+            {/* Enhanced Quote Form */}
             <div>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Get Your Free Quote</CardTitle>
-                  <CardDescription>
-                    Fill out this form and I'll get back to you with a detailed quote. Include photos if you can—helps me give you a more accurate estimate.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name</Label>
-                      <Input id="firstName" placeholder="Your first name" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name</Label>
-                      <Input id="lastName" placeholder="Your last name" />
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number</Label>
-                    <Input id="phone" type="tel" placeholder="0400 000 000" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="your.email@example.com" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="address">Property Address</Label>
-                    <Input id="address" placeholder="123 Main Street, Suburb, VIC" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="service">Service Needed</Label>
-                    <select className="w-full px-3 py-2 border border-input bg-background rounded-md">
-                      <option value="">Select a service</option>
-                      <option value="restoration">Roof Restoration</option>
-                      <option value="painting">Roof Painting</option>
-                      <option value="repairs">Roof Repairs</option>
-                      <option value="gutter">Gutter Cleaning</option>
-                      <option value="valley">Valley Iron Replacement</option>
-                      <option value="emergency">Emergency Repairs</option>
-                      <option value="quote">Not sure - need assessment</option>
-                    </select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="message">Describe Your Roof Issue</Label>
-                    <Textarea 
-                      id="message" 
-                      placeholder="Tell me about your roof problem, when you noticed it, and any other details that might help..."
-                      rows={4}
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="timeline">When do you need this done?</Label>
-                    <select className="w-full px-3 py-2 border border-input bg-background rounded-md">
-                      <option value="">Select timeline</option>
-                      <option value="emergency">Emergency - ASAP</option>
-                      <option value="urgent">Within 2 weeks</option>
-                      <option value="soon">Within a month</option>
-                      <option value="planning">Just planning ahead</option>
-                    </select>
-                  </div>
-
-                  <Button className="w-full" variant="premium" size="lg">
-                    Send Quote Request
-                  </Button>
-                  
-                  <p className="text-xs text-muted-foreground text-center">
-                    I'll get back to you within 24 hours, usually much faster
-                  </p>
-                </CardContent>
-              </Card>
+              <EnhancedContactForm />
             </div>
           </div>
         </div>
@@ -228,6 +157,7 @@ const Contact = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

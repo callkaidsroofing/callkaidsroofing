@@ -199,6 +199,9 @@ const Footer = () => {
               <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">
                 About Kaidyn
               </Link>
+              <Link to="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">
+                Privacy Policy
+              </Link>
               <Link to="/emergency" className="text-destructive hover:text-destructive/80 font-semibold transition-colors">
                 Emergency
               </Link>
