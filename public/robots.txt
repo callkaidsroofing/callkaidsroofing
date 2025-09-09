@@ -12,9 +12,11 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /private/
 
 # Sitemaps
-Sitemap: https://callkaidsroofing-com-au.lovable.app/sitemap.xml
+Sitemap: https://callkaidsroofing.com.au/sitemap.xml
 
 # Crawl delay for respectful crawling
 Crawl-delay: 1

@@ -20,6 +20,9 @@ import RoofPainting from "./pages/services/RoofPainting";
 import RoofRepairs from "./pages/services/RoofRepairs";
 import GutterCleaning from "./pages/services/GutterCleaning";
 import ValleyIronReplacement from "./pages/services/ValleyIronReplacement";
+import RoofRepointing from "./pages/services/RoofRepointing";
+import TileReplacement from "./pages/services/TileReplacement";
+import LeakDetection from "./pages/services/LeakDetection";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +51,11 @@ function App() {
                   <Route path="/services/roof-repairs" element={<RoofRepairs />} />
                   <Route path="/services/gutter-cleaning" element={<GutterCleaning />} />
                   <Route path="/services/valley-iron-replacement" element={<ValleyIronReplacement />} />
+                  <Route path="/roof-restoration" element={<RoofRestoration />} />
+                  <Route path="/roof-painting" element={<RoofPainting />} />
+                  <Route path="/roof-repointing" element={<RoofRepointing />} />
+                  <Route path="/tile-replacement" element={<TileReplacement />} />
+                  <Route path="/leak-detection" element={<LeakDetection />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>

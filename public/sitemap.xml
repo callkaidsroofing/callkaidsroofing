@@ -80,4 +80,52 @@
     <changefreq>yearly</changefreq>
     <priority>0.60</priority>
   </url>
+  <url>
+    <loc>https://callkaidsroofing-com-au.lovable.app/privacy-policy</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/privacy-policy" />
+    <lastmod>2024-01-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://callkaidsroofing-com-au.lovable.app/roof-restoration</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/roof-restoration" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/roof-restoration" />
+    <lastmod>2024-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://callkaidsroofing-com-au.lovable.app/roof-painting</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/roof-painting" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/roof-painting" />
+    <lastmod>2024-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://callkaidsroofing-com-au.lovable.app/roof-repointing</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/roof-repointing" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/roof-repointing" />
+    <lastmod>2024-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://callkaidsroofing-com-au.lovable.app/tile-replacement</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/tile-replacement" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/tile-replacement" />
+    <lastmod>2024-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://callkaidsroofing-com-au.lovable.app/leak-detection</loc>
+    <xhtml:link rel="alternate" hreflang="en-AU" href="https://callkaidsroofing-com-au.lovable.app/leak-detection" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://callkaidsroofing-com-au.lovable.app/leak-detection" />
+    <lastmod>2024-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+  </url>
 </urlset>

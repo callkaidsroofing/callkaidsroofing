@@ -11,11 +11,14 @@ const Header = () => {
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
 
   const services = [
-    { name: 'Roof Restoration', href: '/services/roof-restoration' },
-    { name: 'Roof Painting', href: '/services/roof-painting' },
-    { name: 'Roof Repairs', href: '/services/roof-repairs' },
+    { name: 'Roof Restoration', href: '/roof-restoration' },
+    { name: 'Roof Painting', href: '/roof-painting' },
+    { name: 'Roof Repointing', href: '/roof-repointing' },
+    { name: 'Tile Replacement', href: '/tile-replacement' },
+    { name: 'Leak Detection', href: '/leak-detection' },
     { name: 'Gutter Cleaning', href: '/services/gutter-cleaning' },
     { name: 'Valley Iron Replacement', href: '/services/valley-iron-replacement' },
+    { name: 'Roof Repairs', href: '/services/roof-repairs' },
   ];
 
   return (
