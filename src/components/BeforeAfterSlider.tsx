@@ -10,24 +10,24 @@ const BeforeAfterSlider = () => {
   const projects = [
     {
       id: 1,
-      before: "/lovable-uploads/59ae7b51-3197-43f9-9e4e-3ac96bc90d97.png",
-      after: "/lovable-uploads/99c2917f-b2e3-44ab-ba7d-79754ca91997.png",
+      before: "/lovable-uploads/e1922069-2f8f-4a3e-988e-a8631602ed44.png",
+      after: "/lovable-uploads/50cb1bd1-1166-4391-adc1-99c419346880.png",
       suburb: "Clyde North",
       service: "Complete Roof Restoration",
       description: "Full restoration including cleaning, repointing, and premium paint coating"
     },
     {
       id: 2,
-      before: "/lovable-uploads/e613c84a-7f19-4752-a2cb-836de3466396.png",
-      after: "/lovable-uploads/e90674b4-ab16-456f-9432-1dcc8363a210.png",
+      before: "/lovable-uploads/f33cbcfa-005e-435c-a104-9a21d080a343.png",
+      after: "/lovable-uploads/884e66b0-35da-491d-b03b-d980d46b3043.png",
       suburb: "Berwick",
       service: "Roof Painting & Repairs",
       description: "Tile replacement, ridge cap repointing, and professional painting"
     },
     {
       id: 3,
-      before: "/lovable-uploads/b8f5645a-9809-4dc8-be5d-e4cd78cfadf8.png",
-      after: "/lovable-uploads/dfb36f59-24c0-44d0-8049-9677f7a3f7ba.png",
+      before: "/lovable-uploads/58e47c2d-3b15-4aad-ae68-f09f4d0d421e.png",
+      after: "/lovable-uploads/4d68a224-4a9b-4712-83a0-0abe80156254.png",
       suburb: "Frankston",
       service: "Emergency Leak Repair",
       description: "Valley iron replacement and comprehensive leak sealing"
