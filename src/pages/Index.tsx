@@ -11,6 +11,10 @@ import { Badge } from '@/components/ui/badge';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { FloatingIcons, SectionDivider, AccentPattern } from '@/components/DecorativeIcons';
 import { EnhancedServiceSection } from '@/components/EnhancedServiceSection';
+import ProcessOverview from '@/components/ProcessOverview';
+import BeforeAfterSlider from '@/components/BeforeAfterSlider';
+import MaterialsBrands from '@/components/MaterialsBrands';
+import ProofStrip from '@/components/ProofStrip';
 import heroImage from '/src/assets/hero-roof-clean.jpg';
 import geometricPattern from '/src/assets/geometric-roofing-pattern.jpg';
 import blueprintPattern from '/src/assets/blueprint-pattern.jpg';
@@ -170,6 +174,9 @@ const Index = () => {
         </div>
       </OptimizedBackgroundSection>
 
+      {/* Proof Strip */}
+      <ProofStrip />
+
       {/* Trust Indicators with gradient */}
       <div className="section-gradient">
         <TrustIndicators />
@@ -206,6 +213,15 @@ const Index = () => {
 
       {/* Section Divider */}
       <SectionDivider />
+
+      {/* Process Overview */}
+      <ProcessOverview />
+
+      {/* Before/After Slider */}
+      <BeforeAfterSlider />
+
+      {/* Materials & Brands */}
+      <MaterialsBrands />
 
       <section className="relative py-16 bg-gradient-to-br from-primary/5 to-secondary/10 overflow-hidden">
         <AccentPattern className="opacity-3" />
