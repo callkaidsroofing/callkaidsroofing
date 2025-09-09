@@ -23,6 +23,7 @@ import ValleyIronReplacement from "./pages/services/ValleyIronReplacement";
 import RoofRepointing from "./pages/services/RoofRepointing";
 import TileReplacement from "./pages/services/TileReplacement";
 import LeakDetection from "./pages/services/LeakDetection";
+import LandingPage from "./pages/LandingPage";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ function App() {
                   <Route path="/roof-repointing" element={<RoofRepointing />} />
                   <Route path="/tile-replacement" element={<TileReplacement />} />
                   <Route path="/leak-detection" element={<LeakDetection />} />
+                  <Route path="/emergency-landing" element={<LandingPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>

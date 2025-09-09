@@ -12,6 +12,7 @@ import { OptimizedImage } from '@/components/OptimizedImage';
 import { FloatingIcons, SectionDivider, AccentPattern } from '@/components/DecorativeIcons';
 import { EnhancedServiceSection } from '@/components/EnhancedServiceSection';
 import ProcessOverview from '@/components/ProcessOverview';
+import QuickCaptureForm from '@/components/QuickCaptureForm';
 import BeforeAfterSlider from '@/components/BeforeAfterSlider';
 import MaterialsBrands from '@/components/MaterialsBrands';
 import ProofStrip from '@/components/ProofStrip';
@@ -213,6 +214,9 @@ const Index = () => {
 
       {/* Section Divider */}
       <SectionDivider />
+
+      {/* Quick Capture Form */}
+      <QuickCaptureForm />
 
       {/* Process Overview */}
       <ProcessOverview />
