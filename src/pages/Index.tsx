@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Phone, ArrowRight, CheckCircle, AlertTriangle, Star } from 'lucide-react';
+import { SEOHead } from '@/components/SEOHead';
 import ServiceCard from '@/components/ServiceCard';
 import TrustIndicators from '@/components/TrustIndicators';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
@@ -99,7 +100,15 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <>
+      <SEOHead 
+        title="Melbourne's Best Roofing Team | Call Kaids Roofing | 25+ Years Experience"
+        description="Professional roof restoration, painting & emergency repairs across Melbourne. 10-year warranty, premium materials, honest service. Call Kaidyn: 0435 900 709"
+        keywords="roof restoration Melbourne, roof painting Melbourne, emergency roof repairs, Clyde North roofer, Berwick roofing, Southeast Melbourne roofing, professional roofer"
+        canonical="https://callkaidsroofing-com-au.lovable.app/"
+        ogImage="https://callkaidsroofing-com-au.lovable.app/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
+      />
+      <div className="min-h-screen">
       {/* Hero Section */}
       {/* Hero Section with Background Image */}
       <OptimizedBackgroundSection
@@ -125,9 +134,9 @@ const Index = () => {
             </Badge>
           </div>
 
-           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 text-shadow-lg">
-             Melbourne's Roofing Team with 25+ Years Combined Experience
-           </h1>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 text-shadow-lg">
+              Melbourne's Best Roofing Team - 25+ Years Combined Experience
+            </h1>
            <p className="text-xl sm:text-2xl md:text-2xl text-white/90 max-w-4xl mx-auto mb-8 font-medium">
              25+ years of combined roofing experience. Professional roof restoration, painting & emergency repairs with 10-year warranty. Your local Clyde North team serving all Southeast Melbourne.
            </p>
@@ -414,7 +423,8 @@ const Index = () => {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 
