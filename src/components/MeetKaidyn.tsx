@@ -8,9 +8,23 @@ const MeetKaidyn = () => {
   return (
     <section className="py-16">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
+          {/* Professional Photo */}
+          <div className="lg:col-span-1 flex justify-center">
+            <div className="relative">
+              <img
+                src="/lovable-uploads/fca54c4d-7c0b-497d-8ed8-670d978cfb7c.png"
+                alt="Kaidyn Brownlie - Owner and Lead Roofer at Call Kaids Roofing"
+                className="w-80 h-80 object-cover rounded-2xl shadow-2xl border-4 border-primary/20"
+              />
+              <div className="absolute -bottom-4 -right-4 bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-lg">
+                25+ Years Experience
+              </div>
+            </div>
+          </div>
+
           {/* Text Content */}
-          <div className="space-y-6">
+          <div className="lg:col-span-2 space-y-6">
             <div className="space-y-4">
               <Badge variant="outline" className="w-fit">
                 Meet Your Team Leader
@@ -66,54 +80,51 @@ const MeetKaidyn = () => {
             </Card>
           </div>
 
-          {/* Stats & Achievements */}
-          <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-6">
-              <Card className="text-center">
-                <CardContent className="p-6">
-                  <div className="text-3xl font-bold text-primary">200+</div>
-                  <div className="text-sm text-muted-foreground">Roofs Restored</div>
+          {/* Stats & Achievements - Moved to bottom row */}
+          <div className="lg:col-span-3 mt-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              <Card className="text-center bg-primary/5 border-primary/20">
+                <CardContent className="p-4">
+                  <div className="text-2xl font-bold text-primary">200+</div>
+                  <div className="text-xs text-muted-foreground">Roofs Restored</div>
                 </CardContent>
               </Card>
-              <Card className="text-center">
-                <CardContent className="p-6">
-                  <div className="text-3xl font-bold text-primary">25+</div>
-                  <div className="text-sm text-muted-foreground">Years Combined Roofing Experience</div>
+              <Card className="text-center bg-accent/5 border-accent/20">
+                <CardContent className="p-4">
+                  <div className="text-2xl font-bold text-accent">25+</div>
+                  <div className="text-xs text-muted-foreground">Years Experience</div>
                 </CardContent>
               </Card>
-              <Card className="text-center">
-                <CardContent className="p-6">
-                  <div className="text-3xl font-bold text-primary">100%</div>
-                  <div className="text-sm text-muted-foreground">Leak-Free Rate</div>
+              <Card className="text-center bg-green-50 border-green-200">
+                <CardContent className="p-4">
+                  <div className="text-2xl font-bold text-green-600">100%</div>
+                  <div className="text-xs text-muted-foreground">Leak-Free Rate</div>
                 </CardContent>
               </Card>
-              <Card className="text-center">
-                <CardContent className="p-6">
-                  <div className="text-3xl font-bold text-primary">24/7</div>
-                  <div className="text-sm text-muted-foreground">Emergency Response</div>
+              <Card className="text-center bg-orange-50 border-orange-200">
+                <CardContent className="p-4">
+                  <div className="text-2xl font-bold text-orange-600">24/7</div>
+                  <div className="text-xs text-muted-foreground">Emergency</div>
                 </CardContent>
               </Card>
             </div>
 
             <Card className="bg-accent/5 border-accent/20">
-              <CardContent className="p-6 space-y-4">
-                <h3 className="text-lg font-semibold">High Demand Service</h3>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span>Next Available Slot:</span>
-                    <span className="font-semibold">2-3 weeks out</span>
+              <CardContent className="p-4 text-center space-y-2">
+                <h3 className="text-lg font-semibold">Current Availability</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                  <div>
+                    <span className="font-semibold">Next Slot:</span> 2-3 weeks
                   </div>
-                  <div className="flex justify-between">
-                    <span>Emergency Response:</span>
-                    <span className="font-semibold text-accent">Same day</span>
+                  <div>
+                    <span className="font-semibold text-accent">Emergency:</span> Same day
                   </div>
-                  <div className="flex justify-between">
-                    <span>Free Inspections:</span>
-                    <span className="font-semibold text-primary">This week</span>
+                  <div>
+                    <span className="font-semibold text-primary">Inspections:</span> This week
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground border-t pt-3">
-                  Quality work takes time. We're booked solid because word spreads fast about our honest service and team with 25+ years of combined roofing experience.
+                <p className="text-xs text-muted-foreground pt-2 border-t">
+                  Booked solid due to honest service and proven results. Quality takes time.
                 </p>
               </CardContent>
             </Card>

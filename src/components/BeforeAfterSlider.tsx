@@ -10,27 +10,35 @@ const BeforeAfterSlider = () => {
   const projects = [
     {
       id: 1,
-      before: "/lovable-uploads/e1922069-2f8f-4a3e-988e-a8631602ed44.png",
-      after: "/lovable-uploads/50cb1bd1-1166-4391-adc1-99c419346880.png",
-      suburb: "Clyde North",
-      service: "Complete Roof Restoration",
-      description: "Full restoration including cleaning, repointing, and premium paint coating"
+      before: "/lovable-uploads/b583ddb3-be15-4d62-b3fe-1d5a4ed4cd2a.png",
+      after: "/lovable-uploads/dfb36f59-24c0-44d0-8049-9677f7a3f7ba.png",
+      suburb: "Bunyip",
+      service: "Ridge Restoration & Cleaning",
+      description: "Complete ridge capping restoration removing lichen buildup and professional repointing"
     },
     {
       id: 2,
-      before: "/lovable-uploads/f33cbcfa-005e-435c-a104-9a21d080a343.png",
-      after: "/lovable-uploads/884e66b0-35da-491d-b03b-d980d46b3043.png",
-      suburb: "Berwick",
-      service: "Roof Painting & Repairs",
-      description: "Tile replacement, ridge cap repointing, and professional painting"
+      before: "/lovable-uploads/c4aaa0a0-d013-40e5-9aee-d7c62349f16c.png",
+      after: "/lovable-uploads/e613c84a-7f19-4752-a2cb-836de3466396.png",
+      suburb: "Clyde North",
+      service: "Professional Repointing & Maintenance",
+      description: "Weathered pointing restored with premium flexible compound for long-lasting protection"
     },
     {
       id: 3,
-      before: "/lovable-uploads/58e47c2d-3b15-4aad-ae68-f09f4d0d421e.png",
-      after: "/lovable-uploads/4d68a224-4a9b-4712-83a0-0abe80156254.png",
-      suburb: "Frankston",
-      service: "Emergency Leak Repair",
-      description: "Valley iron replacement and comprehensive leak sealing"
+      before: "/lovable-uploads/783444da-c25e-4910-89e1-1908a6296118.png",
+      after: "/lovable-uploads/7c4b0aaa-18ed-4b8a-80f2-904dc4868236.png",
+      suburb: "Berwick",
+      service: "Complete Roof Restoration with Guttering",
+      description: "Full transformation including gutter replacement, cleaning, and comprehensive restoration"
+    },
+    {
+      id: 4,
+      before: "/lovable-uploads/992cf8cb-032a-4253-b9d7-45f675e69217.png",
+      after: "/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png",
+      suburb: "Officer",
+      service: "Emergency Valley Iron Replacement",
+      description: "Critical valley damage repaired with new iron and comprehensive sealing system"
     }
   ];
 

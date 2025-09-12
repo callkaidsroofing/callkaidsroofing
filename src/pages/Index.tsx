@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Phone, ArrowRight, CheckCircle, AlertTriangle, Star } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
+import CompactServiceAreas from '@/components/CompactServiceAreas';
+import CompactTestimonials from '@/components/CompactTestimonials';
 import ServiceCard from '@/components/ServiceCard';
 import TrustIndicators from '@/components/TrustIndicators';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
@@ -60,44 +62,8 @@ const Index = () => {
     }
   ];
 
-  const testimonials = [
-    {
-      quote: "Kaidyn's a straight shooter. Told me exactly what needed doing, did it properly, cleaned up after himself. Roof looks brand new and hasn't leaked since. Worth every dollar.",
-      author: "Dave M.",
-      location: "Clyde North"
-    },
-    {
-      quote: "Had three quotes—Kaidyn wasn't the cheapest but he was the most honest. Explained everything, showed up when he said he would, and the work's still perfect two years later.",
-      author: "Sarah K.", 
-      location: "Berwick"
-    },
-    {
-      quote: "Emergency call on a Sunday night after a storm. Kaidyn picked up, came out first thing Monday, had it fixed by lunch. That's service.",
-      author: "Mike T.",
-      location: "Frankston"
-    }
-  ];
-
-  const serviceAreas = {
-    "My Patch (Close to Home)": [
-      "Clyde North - My home base, know every street",
-      "Berwick - 10 minutes away, do heaps of work here", 
-      "Officer - Growing fast, lots of new builds needing maintenance",
-      "Pakenham - Young families, quality-focused homeowners"
-    ],
-    "Bayside & Premium Suburbs": [
-      "Brighton - Heritage homes, premium materials only",
-      "Toorak - High-end restoration, heritage compliance",
-      "Kew - Character homes needing specialist care",
-      "Canterbury - Established properties, quality expectations"
-    ],
-    "Renovation Hotspots": [
-      "Cranbourne - Australia's #4 renovation suburb",
-      "Frankston - Established homes getting makeovers", 
-      "Point Cook - #2 renovation hotspot nationally",
-      "Narre Warren - Family homes, practical solutions"
-    ]
-  };
+  // Testimonials moved to compact component
+  // Service areas moved to compact component
 
   return (
     <>
@@ -296,47 +262,11 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Service Areas */}
-      <section className="py-16 bg-gradient-to-tr from-secondary/10 to-primary/5">
-        <div className="container mx-auto px-4">
-          <div className="text-center space-y-4 mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">I Cover All of Southeast Melbourne</h2>
-            <p className="text-lg sm:text-xl text-muted-foreground">
-              Based in Clyde North, I service everywhere within 50km. Know the local challenges because I live here too.
-            </p>
-          </div>
+      {/* Compact Service Areas */}
+      <CompactServiceAreas />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-            {Object.entries(serviceAreas).map(([category, areas]) => (
-              <div key={category} className="space-y-3 sm:space-y-4">
-                <h3 className="text-lg sm:text-xl font-semibold">{category}</h3>
-                <ul className="space-y-1.5 sm:space-y-2">
-                  {areas.map((area, index) => (
-                    <li key={index} className="text-sm text-muted-foreground leading-relaxed">
-                      {area}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-16 bg-gradient-to-br from-secondary/20 to-primary/15">
-        <div className="container mx-auto px-4">
-          <div className="text-center space-y-4 mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">What My Customers Say</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <TestimonialCard key={index} {...testimonial} />
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Compact Testimonials */}
+      <CompactTestimonials />
 
       {/* Final CTA with flowing water background */}
       <section className="relative py-16 cta-gradient text-primary-foreground overflow-hidden">
