@@ -14,7 +14,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { OptimizedImage } from '@/components/OptimizedImage';
-import callKaidsLogo from '@/assets/call-kaids-logo-main.png';
+import callKaidsSquareLogo from '@/assets/call-kaids-square-logo.jpg';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -73,11 +73,11 @@ export const ElegantSidebar = ({ isOpen, onToggle }: SidebarProps) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <OptimizedImage
-                  src={callKaidsLogo}
+                  src={callKaidsSquareLogo}
                   alt="Call Kaids Roofing"
-                  width={40}
-                  height={40}
-                  className="rounded-lg"
+                  width={45}
+                  height={45}
+                  className="rounded-lg border border-white/20"
                 />
                 <div className={`${isOpen ? 'block' : 'hidden lg:block'}`}>
                   <h1 className="text-lg font-bold">Call Kaids</h1>
