@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Phone, CheckCircle, Clock, Shield, MapPin, AlertTriangle, Wrench, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import ServiceSpecificForm from '@/components/ServiceSpecificForm';
 
 const RoofRepairs = () => {
   const commonRepairs = [
@@ -80,11 +81,10 @@ const RoofRepairs = () => {
       >
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Prompt & Reliable Roof Repairs: Protecting Your Home from the Elements
+            Emergency Roof Repairs Melbourne
           </h1>
           <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
-            In Melbourne, where the weather can turn in an instant, a small roof leak can quickly escalate into a major problem. 
-            Swift and reliable roof repair service designed to quickly identify and implement lasting solutions.
+            Same-day response. Fix leaks fast. Stop further damage.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild variant="destructive" size="xl">
@@ -100,69 +100,13 @@ const RoofRepairs = () => {
         </div>
       </section>
 
-      {/* Emergency Response Process */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center">My Emergency Response Process</h2>
-          <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            <Card className="text-center">
-              <CardHeader>
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Phone className="h-6 w-6 text-white" />
-                </div>
-                <CardTitle className="text-lg">1. Immediate Phone Assessment</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Quick assessment of damage severity, safety concerns, and timeline for response.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center">
-              <CardHeader>
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Clock className="h-6 w-6 text-white" />
-                </div>
-                <CardTitle className="text-lg">2. Rapid On-Site Response</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Aim to be on-site within 4 hours for genuine emergencies with fully equipped vehicle.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center">
-              <CardHeader>
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Shield className="h-6 w-6 text-white" />
-                </div>
-                <CardTitle className="text-lg">3. Immediate Protection</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  First priority is stopping further damage with temporary waterproofing and safety measures.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center">
-              <CardHeader>
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Wrench className="h-6 w-6 text-white" />
-                </div>
-                <CardTitle className="text-lg">4. Permanent Solution</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Full damage assessment, permanent repair quote, and scheduling for complete repairs.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
+      {/* Service Form */}
+      <ServiceSpecificForm 
+        serviceName="Emergency Roof Repairs"
+        serviceDescription="Same-day emergency response for active leaks, storm damage, and urgent roof repairs"
+        ctaText="Get Emergency Quote"
+        emergencyService={true}
+      />
 
       {/* Common Repair Issues */}
       <section className="py-16 bg-muted/20">

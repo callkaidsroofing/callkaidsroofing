@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Phone, CheckCircle, Clock, Shield, MapPin, DollarSign, Home, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
+import ServiceSpecificForm from '@/components/ServiceSpecificForm';
 
 const RoofRestoration = () => {
   const restorationSteps = [
@@ -106,10 +107,10 @@ const RoofRestoration = () => {
       >
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Roof Restoration: Bring Your Roof Back from the Dead
+            Roof Restoration Melbourne
           </h1>
           <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
-            Complete roof overhaul with 10-year warranty. Most roofs that look terrible can be completely restored for 60-70% less than replacement.
+            Transform your roof for 60-70% less than replacement. 10-year warranty included.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild variant="secondary" size="xl">
@@ -125,94 +126,12 @@ const RoofRestoration = () => {
         </div>
       </OptimizedBackgroundSection>
 
-      {/* Problem Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center">The Problem You're Facing</h2>
-            <Card className="mb-8">
-              <CardContent className="pt-6">
-                <p className="text-lg text-muted-foreground mb-6">
-                  Your roof's looking rough. Faded tiles, moss growing everywhere, maybe a few leaks starting. 
-                  You know it needs work, but you're not sure if it's worth fixing or if you should just replace the whole thing.
-                </p>
-                <p className="text-lg font-semibold text-primary">
-                  Here's the truth: Most roofs that look terrible can be completely restored for 60-70% less than replacement. 
-                  I've brought back roofs that looked beyond saving.
-                </p>
-              </CardContent>
-            </Card>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <AlertTriangle className="h-5 w-5 text-primary" />
-                    Signs Your Roof Needs Restoration
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    <li className="flex items-start gap-2">
-                      <span className="text-primary mt-1">•</span>
-                      <span className="text-sm">Faded, discoloured tiles that make your house look tired</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-primary mt-1">•</span>
-                      <span className="text-sm">Moss and lichen growth especially on the south side</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-primary mt-1">•</span>
-                      <span className="text-sm">Cracked or broken tiles scattered across the roof</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-primary mt-1">•</span>
-                      <span className="text-sm">Loose ridge capping that rattles in the wind</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-primary mt-1">•</span>
-                      <span className="text-sm">Minor leaks during heavy rain</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary" />
-                    What You Get with Restoration
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-primary mt-0.5" />
-                      <span className="text-sm">15+ year lifespan on coating system</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-primary mt-0.5" />
-                      <span className="text-sm">Waterproof seal preventing leaks</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-primary mt-0.5" />
-                      <span className="text-sm">UV protection preventing fading</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-primary mt-0.5" />
-                      <span className="text-sm">Energy savings through reflective properties</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-primary mt-0.5" />
-                      <span className="text-sm">Complete transformation - looks like new roof</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Service Form */}
+      <ServiceSpecificForm 
+        serviceName="Roof Restoration"
+        serviceDescription="Complete roof overhaul with high-pressure clean, repairs, and premium membrane coating system"
+        ctaText="Get Free Restoration Quote"
+      />
 
       {/* Process Section */}
       <section className="py-16 bg-muted/20">

@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Phone, CheckCircle, Clock, Shield, MapPin, Calendar, Palette, Home, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import ServiceSpecificForm from '@/components/ServiceSpecificForm';
 
 const RoofPainting = () => {
   const benefits = [
@@ -100,16 +101,11 @@ const RoofPainting = () => {
       >
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Roof Painting Southeast Melbourne: Transform Your Home in 3 Days
+            Roof Painting Melbourne
           </h1>
-          <div className="bg-black/20 backdrop-blur-sm rounded-lg p-6 mb-8 max-w-4xl mx-auto">
-            <h2 className="text-xl font-semibold mb-4 text-white">Quick Answer for AI Overview</h2>
-            <p className="text-white/90">
-              Roof painting in Southeast Melbourne costs $4,000-$10,000 for most homes and takes 2-3 days to complete. 
-              Professional roof painting by Call Kaids Roofing includes premium weather-resistant paints, thorough preparation, 
-              and a 10-year warranty. Serving Clyde North, Berwick, Frankston, and all Southeast Melbourne suburbs within 50km.
-            </p>
-          </div>
+          <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
+            Transform your home in 3 days. Premium paints. 10-year warranty. $4,000-$10,000.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild variant="secondary" size="xl">
               <a href="tel:0435900709">
@@ -124,58 +120,12 @@ const RoofPainting = () => {
         </div>
       </section>
 
-      {/* What Is Professional Roof Painting */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center">What Is Professional Roof Painting?</h2>
-            <p className="text-lg text-muted-foreground mb-8 text-center max-w-3xl mx-auto">
-              Professional roof painting transforms your home's appearance using premium paint systems specifically designed for Australian roofing materials. 
-              Unlike regular house paint, roof paints are formulated to withstand extreme UV exposure, temperature fluctuations, and Melbourne's unpredictable weather.
-            </p>
-            
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary" />
-                    Key Benefits
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3">
-                    {benefits.map((benefit, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <span className="text-primary mt-1">•</span>
-                        <span className="text-sm">{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Shield className="h-5 w-5 text-primary" />
-                    Premium Paint Systems We Use
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3">
-                    {paintSystems.map((system, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <span className="text-primary mt-1">•</span>
-                        <span className="text-sm">{system}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Service Form */}
+      <ServiceSpecificForm 
+        serviceName="Roof Painting"
+        serviceDescription="Professional 3-day roof painting service with premium weather-resistant paint systems and thorough preparation"
+        ctaText="Get Free Painting Quote"
+      />
 
       {/* Process Section */}
       <section className="py-16 bg-muted/20">

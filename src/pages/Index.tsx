@@ -2,25 +2,14 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Phone, ArrowRight, CheckCircle, AlertTriangle, Star } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
-import CompactServiceAreas from '@/components/CompactServiceAreas';
-import CompactTestimonials from '@/components/CompactTestimonials';
-import ServiceCard from '@/components/ServiceCard';
 import TrustIndicators from '@/components/TrustIndicators';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
-import TestimonialCard from '@/components/TestimonialCard';
 import FeaturedGallery from '@/components/FeaturedGallery';
-import MeetKaidyn from '@/components/MeetKaidyn';
 import { Badge } from '@/components/ui/badge';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { FloatingIcons, SectionDivider, AccentPattern } from '@/components/DecorativeIcons';
 import { EnhancedServiceSection } from '@/components/EnhancedServiceSection';
-import ProcessOverview from '@/components/ProcessOverview';
 import QuickCaptureForm from '@/components/QuickCaptureForm';
-import BeforeAfterSlider from '@/components/BeforeAfterSlider';
-import MaterialsBrands from '@/components/MaterialsBrands';
-import ProofStrip from '@/components/ProofStrip';
-import heroImage from '/src/assets/hero-roof-clean.jpg';
-import geometricPattern from '/src/assets/geometric-roofing-pattern.jpg';
 import blueprintPattern from '/src/assets/blueprint-pattern.jpg';
 import waterFlowAbstract from '/src/assets/water-flow-abstract.jpg';
 
@@ -101,34 +90,29 @@ const Index = () => {
           </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 text-shadow-lg">
-              Melbourne's Best Roofing Team - 25+ Years Combined Experience
+              Melbourne's Best Roofing
             </h1>
            <p className="text-xl sm:text-2xl md:text-2xl text-white/90 max-w-4xl mx-auto mb-8 font-medium">
-             25+ years of combined roofing experience. Professional roof restoration, painting & emergency repairs with 10-year warranty. Your local Clyde North team serving all Southeast Melbourne.
-           </p>
-          
-          <div className="space-y-4 max-w-2xl mx-auto text-left bg-white/10 p-6 rounded-xl backdrop-blur-md border border-white/20 mb-8">
-            <p className="text-lg text-white">
-              I'm Kaidyn Brownlie, and I run the roofing team with 25+ years of combined experience in Southeast Melbourne. No call centre, no sales team—when you call <strong className="text-yellow-300">0435 900 709</strong>, you're talking directly to me, the owner.
+              Stop leaks. Transform your roof. Emergency repairs. 10-year warranty.
             </p>
-            <ul className="space-y-2">
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-300" />
-                <span className="text-white">Free inspection with honest advice (no BS upselling)</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-300" />
-                <span className="text-white">10-year warranty on all major work</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-300" />
-                <span className="text-white">Same-day quotes for most jobs</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-300" />
-                <span className="text-white">Emergency response when storms hit</span>
-              </li>
-            </ul>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto mb-8">
+            <div className="flex items-center gap-2 bg-white/10 p-3 rounded-lg backdrop-blur-md border border-white/20">
+              <CheckCircle className="h-5 w-5 text-green-300" />
+              <span className="text-white text-sm">Free inspection</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/10 p-3 rounded-lg backdrop-blur-md border border-white/20">
+              <CheckCircle className="h-5 w-5 text-green-300" />
+              <span className="text-white text-sm">10-year warranty</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/10 p-3 rounded-lg backdrop-blur-md border border-white/20">
+              <CheckCircle className="h-5 w-5 text-green-300" />
+              <span className="text-white text-sm">Same-day quotes</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/10 p-3 rounded-lg backdrop-blur-md border border-white/20">
+              <CheckCircle className="h-5 w-5 text-green-300" />
+              <span className="text-white text-sm">Emergency response</span>
+            </div>
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
@@ -150,18 +134,10 @@ const Index = () => {
         </div>
       </OptimizedBackgroundSection>
 
-      {/* Proof Strip */}
-      <ProofStrip />
+      {/* Trust Indicators */}
+      <TrustIndicators />
 
-      {/* Trust Indicators with gradient */}
-      <div className="section-gradient">
-        <TrustIndicators />
-      </div>
-
-      {/* Section Divider */}
-      <SectionDivider />
-
-      {/* Image Gallery with blueprint pattern */}
+      {/* Image Gallery */}
       <div className="relative bg-gradient-to-br from-secondary/5 to-primary/10 py-16 overflow-hidden">
         <OptimizedImage
           src={blueprintPattern}
@@ -176,31 +152,8 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Section Divider */}
-      <SectionDivider />
-
-      {/* Meet Kaidyn Section with pattern */}
-      <div className="relative card-gradient overflow-hidden">
-        <AccentPattern />
-        <div className="relative z-10">
-          <MeetKaidyn />
-        </div>
-      </div>
-
-      {/* Section Divider */}
-      <SectionDivider />
-
       {/* Quick Capture Form */}
       <QuickCaptureForm />
-
-      {/* Process Overview */}
-      <ProcessOverview />
-
-      {/* Before/After Slider */}
-      <BeforeAfterSlider />
-
-      {/* Materials & Brands */}
-      <MaterialsBrands />
 
       <section className="relative py-16 bg-gradient-to-br from-primary/5 to-secondary/10 overflow-hidden">
         <AccentPattern className="opacity-3" />
@@ -208,65 +161,6 @@ const Index = () => {
           <EnhancedServiceSection services={services} />
         </div>
       </section>
-
-      {/* Problem/Solution Section */}
-      <section className="py-16 bg-gradient-to-l from-muted/30 to-primary/10">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Problem Side */}
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-destructive">
-                Your Roof Problems Are Costing You Money Right Now
-              </h2>
-              <ul className="space-y-3">
-                {[
-                  "That small leak is rotting your roof timbers and growing mould",
-                  "Faded, mossy tiles are killing your property value", 
-                  "Dodgy repairs from cheap operators fail within 2 years",
-                  "Blocked gutters are backing up and damaging your eaves"
-                ].map((problem, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <AlertTriangle className="h-5 w-5 text-destructive mt-1 flex-shrink-0" />
-                    <span>{problem}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Solution Side */}
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-primary">
-                Here's How I Fix It Properly
-              </h2>
-              <ul className="space-y-3">
-                {[
-                  "Find the real problem and fix it once (not just patch symptoms)",
-                  "Use premium materials designed for Melbourne conditions",
-                  "Give you straight answers about what needs doing and what doesn't", 
-                  "Back everything with a 10-year warranty you can trust"
-                ].map((solution, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                    <span>{solution}</span>
-                  </li>
-                ))}
-              </ul>
-              <Button asChild variant="premium" size="lg">
-                <Link to="/contact">
-                  Get a free inspection—I'll tell you exactly what's wrong
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Compact Service Areas */}
-      <CompactServiceAreas />
-
-      {/* Compact Testimonials */}
-      <CompactTestimonials />
 
       {/* Final CTA with flowing water background */}
       <section className="relative py-16 cta-gradient text-primary-foreground overflow-hidden">
