@@ -9,6 +9,10 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Rate limiting configuration
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX_REQUESTS = 5; // 5 requests per minute per IP
+
 interface LeadNotificationRequest {
   name: string;
   phone: string;
@@ -75,6 +79,55 @@ const handler = async (req: Request): Promise<Response> => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
     );
 
+    // Rate limiting check
+    const clientIP = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    console.log('Client IP for rate limiting:', clientIP);
+    
+    const now = new Date();
+    const windowStart = new Date(now.getTime() - RATE_LIMIT_WINDOW);
+    
+    // Clean up old entries and check current rate
+    await supabase.rpc('cleanup_rate_limits');
+    
+    const { data: existingRequests, error: rateLimitError } = await supabase
+      .from('rate_limits')
+      .select('request_count')
+      .eq('identifier', clientIP)
+      .gte('window_start', windowStart.toISOString())
+      .single();
+    
+    if (rateLimitError && rateLimitError.code !== 'PGRST116') {
+      console.error('Rate limit check error:', rateLimitError);
+    }
+    
+    if (existingRequests && existingRequests.request_count >= RATE_LIMIT_MAX_REQUESTS) {
+      console.log('Rate limit exceeded for IP:', clientIP);
+      return new Response(
+        JSON.stringify({ error: 'Rate limit exceeded. Please try again later.' }),
+        {
+          status: 429,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+    
+    // Update or insert rate limit entry
+    if (existingRequests) {
+      await supabase
+        .from('rate_limits')
+        .update({ request_count: existingRequests.request_count + 1 })
+        .eq('identifier', clientIP)
+        .gte('window_start', windowStart.toISOString());
+    } else {
+      await supabase
+        .from('rate_limits')
+        .insert({
+          identifier: clientIP,
+          request_count: 1,
+          window_start: now.toISOString()
+        });
+    }
+
     const leadData: LeadNotificationRequest = await req.json();
     console.log("Received lead data:", leadData);
 
@@ -87,6 +140,35 @@ const handler = async (req: Request): Promise<Response> => {
         {
           status: 400,
           headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Additional security checks for suspicious patterns
+    const suspiciousPatterns = [
+      /<script/i,
+      /javascript:/i,
+      /data:text\/html/i,
+      /vbscript:/i,
+      /<iframe/i,
+      /<object/i,
+      /<embed/i,
+      /onload=/i,
+      /onclick=/i,
+      /onerror=/i
+    ];
+
+    const textToCheck = `${leadData.name} ${leadData.message || ''} ${leadData.email || ''}`;
+    if (suspiciousPatterns.some(pattern => pattern.test(textToCheck))) {
+      console.warn('Suspicious content detected:', { 
+        ip: clientIP, 
+        data: { ...leadData, message: '[REDACTED]' } 
+      });
+      return new Response(
+        JSON.stringify({ error: 'Invalid content detected' }),
+        { 
+          status: 400, 
+          headers: { "Content-Type": "application/json", ...corsHeaders }
         }
       );
     }
