@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
+import { AuthProvider } from "@/components/AuthProvider";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
@@ -41,41 +43,47 @@ function App() {
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <ScrollToTop />
-            <div className="min-h-screen w-full overflow-x-hidden">
-              <Header />
-              <main className="w-full">
-                <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/book" element={<BookingPage />} />
-            <Route path="/booking" element={<BookingPage />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/emergency" element={<Emergency />} />
-            <Route path="/warranty" element={<Warranty />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/thank-you" element={<ThankYou />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                  <Route path="/services/roof-restoration" element={<RoofRestoration />} />
-                  <Route path="/services/roof-painting" element={<RoofPainting />} />
-                  <Route path="/services/roof-repairs" element={<RoofRepairs />} />
-                  <Route path="/services/gutter-cleaning" element={<GutterCleaning />} />
-                  <Route path="/services/valley-iron-replacement" element={<ValleyIronReplacement />} />
-                  <Route path="/roof-restoration" element={<RoofRestoration />} />
-                  <Route path="/roof-painting" element={<RoofPainting />} />
-                  <Route path="/roof-repointing" element={<RoofRepointing />} />
-                  <Route path="/tile-replacement" element={<TileReplacement />} />
-                  <Route path="/leak-detection" element={<LeakDetection />} />
-                  <Route path="/emergency-landing" element={<LandingPage />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </main>
-              <Footer />
-            </div>
+            <AuthProvider>
+              <ScrollToTop />
+              <div className="min-h-screen w-full overflow-x-hidden">
+                <Header />
+                <main className="w-full">
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/book" element={<BookingPage />} />
+                    <Route path="/booking" element={<BookingPage />} />
+                    <Route path="/blog" element={<Blog />} />
+                    <Route path="/blog/:slug" element={<BlogPost />} />
+                    <Route path="/gallery" element={<Gallery />} />
+                    <Route path="/emergency" element={<Emergency />} />
+                    <Route path="/warranty" element={<Warranty />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="/thank-you" element={<ThankYou />} />
+                    <Route path="/admin/login" element={<AdminLogin />} />
+                    <Route path="/admin/dashboard" element={
+                      <ProtectedRoute>
+                        <AdminDashboard />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/services/roof-restoration" element={<RoofRestoration />} />
+                    <Route path="/services/roof-painting" element={<RoofPainting />} />
+                    <Route path="/services/roof-repairs" element={<RoofRepairs />} />
+                    <Route path="/services/gutter-cleaning" element={<GutterCleaning />} />
+                    <Route path="/services/valley-iron-replacement" element={<ValleyIronReplacement />} />
+                    <Route path="/roof-restoration" element={<RoofRestoration />} />
+                    <Route path="/roof-painting" element={<RoofPainting />} />
+                    <Route path="/roof-repointing" element={<RoofRepointing />} />
+                    <Route path="/tile-replacement" element={<TileReplacement />} />
+                    <Route path="/leak-detection" element={<LeakDetection />} />
+                    <Route path="/emergency-landing" element={<LandingPage />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </main>
+                <Footer />
+              </div>
+            </AuthProvider>
           </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>

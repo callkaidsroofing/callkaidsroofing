@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/components/AuthProvider';
 import { supabase } from '@/integrations/supabase/client';
-import { User, Session } from '@supabase/supabase-js';
 import { FacebookSDK } from '@/components/FacebookSDK';
 import { SocialMediaManager } from '@/components/SocialMediaManager';
 import { 
@@ -18,8 +17,7 @@ import {
   MessageSquare,
   AlertTriangle,
   BarChart3,
-  Filter,
-  Share2
+  Filter
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -40,15 +38,13 @@ interface Lead {
 }
 
 const AdminDashboard = () => {
-  const navigate = useNavigate();
   const { toast } = useToast();
+  const { signOut, user } = useAuth();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [filterService, setFilterService] = useState<string>('all');
   const [facebookAppId, setFacebookAppId] = useState<string>('');
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
 
   // Fetch Facebook App ID from secrets
   useEffect(() => {
@@ -66,37 +62,10 @@ const AdminDashboard = () => {
   }, []);
 
   useEffect(() => {
-    // Check authentication with Supabase
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        // Not authenticated, redirect to login
-        navigate('/admin/login');
-        return;
-      }
-
-      setSession(session);
-      setUser(session.user);
+    if (user) {
       fetchLeads();
-    };
-
-    checkAuth();
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        if (event === 'SIGNED_OUT' || !session) {
-          navigate('/admin/login');
-        } else {
-          setSession(session);
-          setUser(session.user);
-        }
-      }
-    );
-
-    return () => subscription.unsubscribe();
-  }, [navigate]);
+    }
+  }, [user]);
 
   const fetchLeads = async () => {
     try {
@@ -120,22 +89,11 @@ const AdminDashboard = () => {
   };
 
   const handleLogout = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-      
-      toast({
-        title: "Signed Out",
-        description: "You have been successfully signed out"
-      });
-      navigate('/admin/login');
-    } catch (error: any) {
-      toast({
-        title: "Sign Out Error",
-        description: error.message,
-        variant: "destructive"
-      });
-    }
+    await signOut();
+    toast({
+      title: "Logged Out",
+      description: "You have been logged out successfully"
+    });
   };
 
   const updateLeadStatus = async (leadId: string, newStatus: string) => {
