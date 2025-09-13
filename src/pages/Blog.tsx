@@ -8,6 +8,7 @@ import { blogPosts, blogCategories, type BlogPost, type BlogCategory } from "@/d
 import { OptimizedImage } from "@/components/OptimizedImage";
 import { Clock, User, ArrowRight, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { SeoAnalysisWidget } from "@/components/SeoAnalysisWidget";
 
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -143,62 +144,7 @@ export default function Blog() {
 
         {/* SEO Widget Section - Free Business Tool */}
         {selectedCategory === "all" && (
-          <section className="py-16 px-4 bg-gradient-to-br from-secondary/5 to-primary/5 border-y border-primary/10">
-            <div className="container mx-auto max-w-4xl">
-              <div className="text-center mb-8">
-                <Badge className="mb-4 bg-gradient-to-r from-primary to-secondary text-white text-sm px-4 py-2">
-                  🎯 FREE Business Tool
-                </Badge>
-                <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Free SEO Analysis Tool
-                </h2>
-                <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
-                  As Melbourne business owners ourselves, we believe in supporting the local community. 
-                  Use this free SEO analysis tool to discover how your website ranks and get actionable insights to grow your business online.
-                </p>
-                <div className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground mb-6">
-                  <span className="flex items-center gap-2">✓ Completely Free</span>
-                  <span className="flex items-center gap-2">✓ Instant Results</span>
-                  <span className="flex items-center gap-2">✓ No Sign-up Required</span>
-                  <span className="flex items-center gap-2">✓ Professional Grade Analysis</span>
-                </div>
-              </div>
-              
-              <Card className="bg-gradient-to-br from-background to-background/50 border-primary/20 shadow-lg">
-                <CardContent className="p-8">
-                  <div className="text-center mb-6">
-                    <h3 className="text-xl font-semibold mb-2">Analyze Your Website's SEO Performance</h3>
-                    <p className="text-muted-foreground">
-                      Enter your website URL below to get a comprehensive SEO report and discover opportunities to improve your online presence.
-                    </p>
-                  </div>
-                  
-                  {/* SEO Widget Script Container */}
-                  <div className="flex justify-center">
-                    <div id="seo-widget-14442591191020099ff47da23fb09078659dd8a6"></div>
-                    <script 
-                      async 
-                      data-widget-id="14442591191020099ff47da23fb09078659dd8a6" 
-                      src="https://www.local-marketing-reports.com/m/assets-v2/lead-gen/js/external/widget-builder.js"
-                    ></script>
-                  </div>
-                  
-                  <div className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/10">
-                    <p className="text-sm text-muted-foreground text-center">
-                      💡 <strong>Pro Tip:</strong> This tool analyzes over 100+ SEO factors including mobile-friendliness, 
-                      page speed, keyword optimization, and technical SEO issues. Perfect for business owners who want to understand their online presence better.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <div className="text-center mt-8">
-                <p className="text-sm text-muted-foreground">
-                  Brought to you by Call Kaids Roofing - Supporting Melbourne's business community 🤝
-                </p>
-              </div>
-            </div>
-          </section>
+          <SeoAnalysisWidget />
         )}
 
         {/* All Posts Grid */}
