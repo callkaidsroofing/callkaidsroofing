@@ -46,16 +46,34 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) {
-      return { error: error.message };
+      if (error) {
+        return { error: error.message };
+      }
+
+      // After successful login, check if user needs admin profile creation
+      if (data.user) {
+        const { data: adminCheck } = await supabase
+          .from('admin_profiles')
+          .select('id')
+          .eq('user_id', data.user.id)
+          .single();
+
+        // If no admin profile exists, try to create one
+        if (!adminCheck) {
+          await supabase.rpc('create_admin_for_authenticated_user');
+        }
+      }
+
+      return {};
+    } catch (error) {
+      return { error: 'An unexpected error occurred during sign in.' };
     }
-
-    return {};
   };
 
 

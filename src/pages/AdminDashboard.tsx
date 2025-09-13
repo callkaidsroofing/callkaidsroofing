@@ -167,28 +167,31 @@ const AdminDashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-muted/30 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-primary/20 via-secondary/10 to-muted/30 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p>Loading dashboard...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-lg text-muted-foreground">Loading Call Kaids Admin Dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-muted/30">
+    <div className="min-h-screen bg-gradient-to-br from-primary/20 via-secondary/10 to-muted/30">
       {/* Header */}
-      <div className="bg-white border-b shadow-sm">
-        <div className="container mx-auto px-4 py-4">
+      <div className="bg-card/95 backdrop-blur-sm border-b shadow-lg">
+        <div className="container mx-auto px-4 py-6">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold text-primary">Call Kaids Roofing</h1>
-              <p className="text-muted-foreground">
-                Admin Dashboard - Welcome, {user?.email}
+              <h1 className="text-3xl font-bold gradient-text">Call Kaids Roofing</h1>
+              <p className="text-muted-foreground text-lg">
+                Professional Roofing Management Dashboard
+              </p>
+              <p className="text-sm text-primary font-medium mt-1">
+                ABN: 39475055075 | Kaidyn Brownlie | Welcome, {user?.email}
               </p>
             </div>
-            <Button onClick={handleLogout} variant="outline" size="sm">
+            <Button onClick={handleLogout} variant="outline" size="lg" className="hover-lift">
               <LogOut className="h-4 w-4 mr-2" />
               Sign Out
             </Button>
@@ -198,50 +201,58 @@ const AdminDashboard = () => {
 
       <div className="container mx-auto px-4 py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Card>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 stagger-animation">
+          <Card className="hover-lift roofing-shadow">
             <CardContent className="p-6">
               <div className="flex items-center">
-                <Users className="h-8 w-8 text-primary" />
+                <div className="bg-primary/10 p-3 rounded-full">
+                  <Users className="h-8 w-8 text-primary" />
+                </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-muted-foreground">Total Leads</p>
-                  <p className="text-2xl font-bold">{stats.total}</p>
+                  <p className="text-3xl font-bold text-roofing-charcoal">{stats.total}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="hover-lift roofing-shadow">
             <CardContent className="p-6">
               <div className="flex items-center">
-                <AlertTriangle className="h-8 w-8 text-destructive" />
+                <div className="bg-roofing-success/10 p-3 rounded-full">
+                  <AlertTriangle className="h-8 w-8 text-roofing-success" />
+                </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-muted-foreground">New Leads</p>
-                  <p className="text-2xl font-bold">{stats.new}</p>
+                  <p className="text-3xl font-bold text-roofing-success">{stats.new}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="hover-lift roofing-shadow">
             <CardContent className="p-6">
               <div className="flex items-center">
-                <Phone className="h-8 w-8 text-secondary" />
+                <div className="bg-roofing-warning/10 p-3 rounded-full">
+                  <Phone className="h-8 w-8 text-roofing-warning" />
+                </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-muted-foreground">Contacted</p>
-                  <p className="text-2xl font-bold">{stats.contacted}</p>
+                  <p className="text-3xl font-bold text-roofing-warning">{stats.contacted}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="hover-lift roofing-shadow">
             <CardContent className="p-6">
               <div className="flex items-center">
-                <BarChart3 className="h-8 w-8 text-primary" />
+                <div className="bg-secondary/10 p-3 rounded-full">
+                  <BarChart3 className="h-8 w-8 text-secondary" />
+                </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-muted-foreground">This Week</p>
-                  <p className="text-2xl font-bold">{stats.thisWeek}</p>
+                  <p className="text-3xl font-bold text-secondary">{stats.thisWeek}</p>
                 </div>
               </div>
             </CardContent>
@@ -249,20 +260,19 @@ const AdminDashboard = () => {
         </div>
 
         <Tabs defaultValue="leads" className="space-y-6">
-          <TabsList>
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="leads">Leads Management</TabsTrigger>
             <TabsTrigger value="social">Social Media</TabsTrigger>
-            <TabsTrigger value="invites">Admin Invites</TabsTrigger>
           </TabsList>
 
           <TabsContent value="leads" className="space-y-6">
             {/* Filters */}
-            <Card>
-              <CardContent className="p-4">
+            <Card className="roofing-shadow">
+              <CardContent className="p-6">
                 <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex items-center gap-2">
-                    <Filter className="h-4 w-4" />
-                    <span className="text-sm font-medium">Filters:</span>
+                    <Filter className="h-5 w-5 text-primary" />
+                    <span className="text-sm font-semibold">Filter Leads:</span>
                   </div>
                   <Select value={filterStatus} onValueChange={setFilterStatus}>
                     <SelectTrigger className="w-[150px]">
@@ -297,9 +307,11 @@ const AdminDashboard = () => {
             </Card>
 
             {/* Leads Table */}
-            <Card>
+            <Card className="roofing-shadow">
               <CardHeader>
-                <CardTitle>Recent Leads ({filteredLeads.length})</CardTitle>
+                <CardTitle className="text-xl font-bold text-roofing-charcoal">
+                  Recent Leads ({filteredLeads.length})
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
