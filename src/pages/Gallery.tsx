@@ -380,7 +380,7 @@ const Gallery = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild>
-                <Link to="/contact">Get Your Free Inspection</Link>
+                <Link to="/book">Get Your Free Inspection</Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
                 <a href="tel:0435900709">Call 0435 900 709</a>

@@ -115,7 +115,7 @@ const Header = () => {
             </div>
             <div className="h-8 w-px bg-border"></div>
             <Button asChild variant="default" size="lg" className="bg-accent hover:bg-accent/80">
-              <Link to="/contact">Free Quote</Link>
+              <Link to="/book">Free Quote</Link>
             </Button>
           </div>
 
@@ -186,7 +186,7 @@ const Header = () => {
                   <span>0435 900 709</span>
                 </a>
                 <Button asChild variant="premium" size="lg" className="w-full">
-                  <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>Get Quote</Link>
+                  <Link to="/book" onClick={() => setMobileMenuOpen(false)}>Get Quote</Link>
                 </Button>
               </div>
             </div>

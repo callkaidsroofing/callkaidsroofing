@@ -174,7 +174,7 @@ const About = () => {
                 </a>
               </Button>
               <Button asChild variant="outline" size="lg" className="bg-white/10 border-white text-white hover:bg-white hover:text-primary">
-                <Link to="/contact">Get Free Quote</Link>
+                <Link to="/book">Get Free Quote</Link>
               </Button>
             </div>
             

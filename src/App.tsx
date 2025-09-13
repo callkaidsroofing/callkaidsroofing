@@ -24,6 +24,7 @@ import RoofRepointing from "./pages/services/RoofRepointing";
 import TileReplacement from "./pages/services/TileReplacement";
 import LeakDetection from "./pages/services/LeakDetection";
 import LandingPage from "./pages/LandingPage";
+import BookingPage from "./pages/BookingPage";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,8 @@ function App() {
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/book" element={<BookingPage />} />
+            <Route path="/booking" element={<BookingPage />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/emergency" element={<Emergency />} />
             <Route path="/warranty" element={<Warranty />} />

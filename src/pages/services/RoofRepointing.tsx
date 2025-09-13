@@ -67,7 +67,7 @@ const RoofRepointing = () => {
                     </a>
                   </Button>
                   <Button asChild variant="outline" size="lg">
-                    <Link to="/contact">Get Free Assessment</Link>
+                    <Link to="/book">Get Free Assessment</Link>
                   </Button>
                 </div>
 

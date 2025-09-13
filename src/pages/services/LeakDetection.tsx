@@ -67,7 +67,7 @@ const LeakDetection = () => {
                     </a>
                   </Button>
                   <Button asChild variant="outline" size="lg">
-                    <Link to="/contact">Book Leak Inspection</Link>
+                    <Link to="/book">Book Leak Inspection</Link>
                   </Button>
                 </div>
 

@@ -67,7 +67,7 @@ const TileReplacement = () => {
                     </a>
                   </Button>
                   <Button asChild variant="outline" size="lg">
-                    <Link to="/contact">Get Free Quote</Link>
+                    <Link to="/book">Get Free Quote</Link>
                   </Button>
                 </div>
 

@@ -46,7 +46,7 @@ const Footer = () => {
               Call 0435 900 709 Now
             </a>
             <Button asChild variant="outline" size="lg" className="bg-white/20 border-white text-white hover:bg-white hover:text-primary backdrop-blur-sm">
-              <Link to="/contact">Get Free Quote</Link>
+              <Link to="/book">Get Free Quote</Link>
             </Button>
           </div>
           
@@ -170,7 +170,7 @@ const Footer = () => {
                 <Link to="/emergency">Emergency: Same Day</Link>
               </Button>
               <Button asChild variant="outline" size="sm" className="w-full">
-                <Link to="/contact">Book Free Inspection</Link>
+                <Link to="/book">Book Free Inspection</Link>
               </Button>
             </div>
             

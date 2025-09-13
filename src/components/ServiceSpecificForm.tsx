@@ -170,7 +170,7 @@ const ServiceSpecificForm: React.FC<ServiceSpecificFormProps> = ({
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-br from-primary/5 to-secondary/10">
+    <section className="py-16 card-gradient">
       <div className="container mx-auto px-4">
         <Card className="max-w-2xl mx-auto shadow-lg">
           <CardHeader className="text-center">

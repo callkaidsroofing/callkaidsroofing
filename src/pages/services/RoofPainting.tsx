@@ -128,7 +128,7 @@ const RoofPainting = () => {
               </a>
             </Button>
             <Button asChild variant="outline" size="xl" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-              <Link to="/contact">Get Free Quote</Link>
+              <Link to="/book">Get Free Quote</Link>
             </Button>
           </div>
         </div>
@@ -345,7 +345,7 @@ const RoofPainting = () => {
               </a>
             </Button>
             <Button asChild variant="outline" size="xl" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-              <Link to="/contact">Get Free Quote</Link>
+              <Link to="/book">Get Free Quote</Link>
             </Button>
           </div>
           <div className="mt-8 space-y-2 text-sm opacity-75">

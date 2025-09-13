@@ -66,12 +66,11 @@ const Index = () => {
       />
       <StructuredData type="homepage" />
       <div className="min-h-screen">
-      {/* Hero Section */}
-      {/* Hero Section with Background Image */}
+      {/* Hero Section with Enhanced Blue Gradients */}
       <OptimizedBackgroundSection
         backgroundImage="/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
-        className="py-20 text-white"
-        gradient="linear-gradient(rgba(0,122,204,0.8), rgba(11,59,105,0.9))"
+        className="py-20 text-white relative overflow-hidden"
+        gradient="linear-gradient(135deg, rgba(0,122,204,0.9), rgba(11,59,105,0.95))"
       >
         <div className="container mx-auto px-4 text-center relative z-10">
           {/* Floating decorative icons */}
@@ -119,7 +118,7 @@ const Index = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             <Button asChild variant="secondary" size="xl">
-              <Link to="/contact">Book Me Now—Slots Are Limited</Link>
+              <Link to="/book">Book Free Quote—Slots Are Limited</Link>
             </Button>
             <Button asChild variant="outline" size="xl" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
               <a href="tel:0435900709">
@@ -136,11 +135,13 @@ const Index = () => {
         </div>
       </OptimizedBackgroundSection>
 
-      {/* Trust Indicators */}
-      <TrustIndicators />
+      {/* Trust Indicators with Enhanced Blue Gradient */}
+      <div className="section-gradient py-16">
+        <TrustIndicators />
+      </div>
 
-      {/* Image Gallery */}
-      <div className="relative bg-gradient-to-br from-secondary/5 to-primary/10 py-16 overflow-hidden">
+      {/* Image Gallery with Blue Gradient Background */}
+      <div className="relative py-16 overflow-hidden card-gradient">
         <OptimizedImage
           src={blueprintPattern}
           alt=""
@@ -154,18 +155,21 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Quick Capture Form */}
-      <QuickCaptureForm />
+      {/* Quick Capture Form with Blue Gradient */}
+      <div className="section-gradient">
+        <QuickCaptureForm />
+      </div>
 
-      <section className="relative py-16 bg-gradient-to-br from-primary/5 to-secondary/10 overflow-hidden">
+      {/* Enhanced Services Section */}
+      <section className="relative py-16 overflow-hidden card-gradient">
         <AccentPattern className="opacity-3" />
         <div className="container mx-auto px-4">
           <EnhancedServiceSection services={services} />
         </div>
       </section>
 
-      {/* Final CTA with flowing water background */}
-      <section className="relative py-16 cta-gradient text-primary-foreground overflow-hidden">
+      {/* Final CTA with Enhanced Blue Gradient */}
+      <section className="relative py-16 overflow-hidden cta-gradient text-primary-foreground">
         <OptimizedImage
           src={waterFlowAbstract}
           alt=""
@@ -220,7 +224,7 @@ const Index = () => {
                 </a>
               </Button>
               <Button asChild variant="outline" size="lg" className="bg-white/10 border-white text-white hover:bg-white hover:text-primary w-full sm:w-auto text-sm sm:text-base">
-                <Link to="/contact">Book Free Inspection</Link>
+                <Link to="/book">Book Free Inspection</Link>
               </Button>
             </div>
 

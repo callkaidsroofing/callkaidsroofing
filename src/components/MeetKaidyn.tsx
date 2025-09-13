@@ -73,7 +73,7 @@ const MeetKaidyn = () => {
                     </a>
                   </Button>
                   <Button asChild variant="outline">
-                    <Link to="/contact">Get Free Quote</Link>
+                    <Link to="/book">Get Free Quote</Link>
                   </Button>
                 </div>
               </CardContent>
