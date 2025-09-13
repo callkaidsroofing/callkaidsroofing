@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const AdminLogin = () => {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
-  const [signupData, setSignupData] = useState({ email: '', password: '', fullName: '', confirmPassword: '' });
+  const [signupData, setSignupData] = useState({ email: '', password: '', fullName: '', confirmPassword: '', inviteCode: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -72,7 +72,7 @@ const AdminLogin = () => {
 
     setIsLoading(true);
 
-    const { error } = await signUp(signupData.email, signupData.password, signupData.fullName);
+    const { error } = await signUp(signupData.email, signupData.password, signupData.fullName, signupData.inviteCode);
 
     if (error) {
       toast({
@@ -167,6 +167,18 @@ const AdminLogin = () => {
             <TabsContent value="signup">
               <form onSubmit={handleSignup} className="space-y-4">
                 <div className="space-y-2">
+                  <Label htmlFor="inviteCode">Invite Code</Label>
+                  <Input
+                    id="inviteCode"
+                    type="text"
+                    value={signupData.inviteCode}
+                    onChange={(e) => setSignupData(prev => ({ ...prev, inviteCode: e.target.value }))}
+                    placeholder="Enter your invitation code"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
                   <Label htmlFor="fullName">Full Name</Label>
                   <Input
                     id="fullName"
@@ -249,7 +261,7 @@ const AdminLogin = () => {
           </Tabs>
           
           <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p>Authorized personnel only</p>
+            <p>Authorized personnel only - Invite required</p>
           </div>
         </CardContent>
       </Card>

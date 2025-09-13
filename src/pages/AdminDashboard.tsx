@@ -7,6 +7,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { supabase } from '@/integrations/supabase/client';
 import { FacebookSDK } from '@/components/FacebookSDK';
 import { SocialMediaManager } from '@/components/SocialMediaManager';
+import { InviteManager } from '@/components/InviteManager';
 import { 
   LogOut, 
   Users, 
@@ -251,6 +252,7 @@ const AdminDashboard = () => {
           <TabsList>
             <TabsTrigger value="leads">Leads Management</TabsTrigger>
             <TabsTrigger value="social">Social Media</TabsTrigger>
+            <TabsTrigger value="invites">Admin Invites</TabsTrigger>
           </TabsList>
 
           <TabsContent value="leads" className="space-y-6">
@@ -403,6 +405,10 @@ const AdminDashboard = () => {
           <TabsContent value="social">
             {facebookAppId && <FacebookSDK appId={facebookAppId} />}
             <SocialMediaManager />
+          </TabsContent>
+
+          <TabsContent value="invites">
+            <InviteManager />
           </TabsContent>
         </Tabs>
       </div>

@@ -7,7 +7,7 @@ interface AuthContextType {
   session: Session | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error?: string }>;
-  signUp: (email: string, password: string, fullName: string) => Promise<{ error?: string }>;
+  signUp: (email: string, password: string, fullName: string, inviteToken?: string) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
 }
 
@@ -59,10 +59,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return {};
   };
 
-  const signUp = async (email: string, password: string, fullName: string) => {
+  const signUp = async (email: string, password: string, fullName: string, inviteToken?: string) => {
+    if (!inviteToken) {
+      return { error: 'Invite code is required for admin registration' };
+    }
+
     const redirectUrl = `${window.location.origin}/admin/dashboard`;
     
-    const { error } = await supabase.auth.signUp({
+    // First create the auth user
+    const { data, error: authError } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -73,8 +78,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     });
 
-    if (error) {
-      return { error: error.message };
+    if (authError) {
+      return { error: authError.message };
+    }
+
+    if (data.user) {
+      // Then validate the invite and create admin profile
+      const { data: isValid, error: validateError } = await supabase.rpc(
+        'validate_invite_and_create_admin',
+        {
+          p_email: email,
+          p_invite_token: inviteToken,
+          p_full_name: fullName,
+          p_user_id: data.user.id
+        }
+      );
+
+      if (validateError || !isValid) {
+        // If invite validation fails, we should delete the auth user
+        // But Supabase doesn't allow this from client side
+        return { error: 'Invalid or expired invite code' };
+      }
     }
 
     return {};

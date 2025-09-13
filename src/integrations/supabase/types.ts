@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_invites: {
+        Row: {
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invite_token: string
+          invited_by: string | null
+          updated_at: string
+          used_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          expires_at?: string
+          id?: string
+          invite_token?: string
+          invited_by?: string | null
+          updated_at?: string
+          used_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          invite_token?: string
+          invited_by?: string | null
+          updated_at?: string
+          used_at?: string | null
+        }
+        Relationships: []
+      }
       admin_profiles: {
         Row: {
           created_at: string
@@ -214,8 +247,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_admin_invite: {
+        Args: { p_email: string }
+        Returns: string
+      }
       is_admin_user: {
         Args: { user_id?: string }
+        Returns: boolean
+      }
+      validate_invite_and_create_admin: {
+        Args: {
+          p_email: string
+          p_full_name: string
+          p_invite_token: string
+          p_user_id: string
+        }
         Returns: boolean
       }
     }
