@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Phone, ArrowRight, CheckCircle, AlertTriangle, Star } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
+import { StructuredData } from '@/components/StructuredData';
 import TrustIndicators from '@/components/TrustIndicators';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 import FeaturedGallery from '@/components/FeaturedGallery';
@@ -57,12 +58,13 @@ const Index = () => {
   return (
     <>
       <SEOHead 
-        title="Melbourne's Best Roofing Team | Call Kaids Roofing | 25+ Years Experience"
-        description="Professional roof restoration, painting & emergency repairs across Melbourne. 10-year warranty, premium materials, honest service. Call Kaidyn: 0435 900 709"
-        keywords="roof restoration Melbourne, roof painting Melbourne, emergency roof repairs, Clyde North roofer, Berwick roofing, Southeast Melbourne roofing, professional roofer"
-        canonical="https://callkaidsroofing-com-au.lovable.app/"
-        ogImage="https://callkaidsroofing-com-au.lovable.app/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
+        title="Professional Roofing Services Melbourne | Call Kaids Roofing | 10 Year Warranty"
+        description="Expert roof restoration, painting & emergency repairs in Southeast Melbourne. 10-year warranty, premium materials, same-day quotes. Call Kaidyn: 0435 900 709"
+        keywords="roof restoration Melbourne, roof painting Melbourne, emergency roof repairs, Clyde North roofer, Berwick roofing, Southeast Melbourne roofing"
+        canonical="https://callkaidsroofing.com.au/"
+        ogImage="https://callkaidsroofing.com.au/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
       />
+      <StructuredData type="homepage" />
       <div className="min-h-screen">
       {/* Hero Section */}
       {/* Hero Section with Background Image */}
@@ -90,11 +92,11 @@ const Index = () => {
           </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 text-shadow-lg">
-              Melbourne's Best Roofing
+              Melbourne's Best Roofing Services - 10 Year Warranty
             </h1>
-           <p className="text-xl sm:text-2xl md:text-2xl text-white/90 max-w-4xl mx-auto mb-8 font-medium">
-              Stop leaks. Transform your roof. Emergency repairs. 10-year warranty.
-            </p>
+           <h2 className="text-xl sm:text-2xl md:text-2xl text-white/90 max-w-4xl mx-auto mb-8 font-medium">
+              Professional Roof Restoration, Painting & Emergency Repairs in Southeast Melbourne
+            </h2>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto mb-8">
             <div className="flex items-center gap-2 bg-white/10 p-3 rounded-lg backdrop-blur-md border border-white/20">

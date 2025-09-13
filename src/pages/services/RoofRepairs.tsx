@@ -4,6 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Phone, CheckCircle, Clock, Shield, MapPin, AlertTriangle, Wrench, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ServiceSpecificForm from '@/components/ServiceSpecificForm';
+import { SEOHead } from '@/components/SEOHead';
+import { StructuredData } from '@/components/StructuredData';
 
 const RoofRepairs = () => {
   const commonRepairs = [
@@ -70,6 +72,18 @@ const RoofRepairs = () => {
 
   return (
     <div className="min-h-screen">
+      <SEOHead 
+        title="Emergency Roof Repairs Melbourne | Same Day Response | 24/7 Service"
+        description="Emergency roof repair Melbourne. Same-day response for leaks & storm damage. Available 24/7 across Southeast Melbourne. Call 0435 900 709"
+        keywords="emergency roof repairs Melbourne, roof leak repairs, storm damage repairs, 24/7 roof repairs Melbourne, urgent roof repairs"
+        canonical="https://callkaidsroofing.com.au/services/roof-repairs"
+      />
+      <StructuredData 
+        type="service" 
+        serviceName="Emergency Roof Repairs"
+        serviceDescription="Same-day emergency response for active leaks, storm damage, and urgent roof repairs"
+        pageUrl="https://callkaidsroofing.com.au/services/roof-repairs"
+      />
       {/* Hero Section */}
       <section 
         className="py-20 relative bg-cover bg-center text-white"

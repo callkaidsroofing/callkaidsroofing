@@ -5,6 +5,8 @@ import { Phone, CheckCircle, Clock, Shield, MapPin, DollarSign, Home, AlertTrian
 import { Link } from 'react-router-dom';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 import ServiceSpecificForm from '@/components/ServiceSpecificForm';
+import { SEOHead } from '@/components/SEOHead';
+import { StructuredData } from '@/components/StructuredData';
 
 const RoofRestoration = () => {
   const restorationSteps = [
@@ -99,6 +101,18 @@ const RoofRestoration = () => {
 
   return (
     <div className="min-h-screen">
+      <SEOHead 
+        title="Roof Restoration Melbourne | Complete Roof Overhaul | 10 Year Warranty"
+        description="Professional roof restoration in Melbourne. Complete cleaning, repairs & premium coating. Transform your roof for 60% less than replacement. Call 0435 900 709"
+        keywords="roof restoration Melbourne, roof restoration Clyde North, roof restoration Berwick, complete roof overhaul Melbourne, roof membrane coating"
+        canonical="https://callkaidsroofing.com.au/services/roof-restoration"
+      />
+      <StructuredData 
+        type="service" 
+        serviceName="Roof Restoration"
+        serviceDescription="Complete roof overhaul with high-pressure clean, repairs, and premium membrane coating system"
+        pageUrl="https://callkaidsroofing.com.au/services/roof-restoration"
+      />
       {/* Hero Section */}
       <OptimizedBackgroundSection
         backgroundImage="/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"

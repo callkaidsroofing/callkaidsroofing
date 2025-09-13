@@ -10,9 +10,9 @@ interface SEOHeadProps {
 }
 
 export const SEOHead = ({
-  title = "Call Kaids Roofing | Professional Roof Services Southeast Melbourne",
-  description = "Roof restoration, painting, and emergency repairs across Southeast Melbourne. 10-year workmanship warranty. Based in Clyde North.",
-  keywords = "roof restoration Melbourne, roof painting, emergency roof repairs, Clyde North roofing, Berwick roofer, Southeast Melbourne roofing",
+  title = "Professional Roofing Services Melbourne | Call Kaids Roofing | 10 Year Warranty",
+  description = "Expert roof restoration, painting & emergency repairs in Southeast Melbourne. 10-year warranty, premium materials, same-day quotes. Call Kaidyn: 0435 900 709",
+  keywords = "roof restoration Melbourne, roof painting Melbourne, emergency roof repairs, Clyde North roofer, Berwick roofing, Southeast Melbourne roofing, roof maintenance Melbourne",
   canonical,
   ogImage = "https://callkaidsroofing.com.au/og-image.jpg",
   structuredData
@@ -169,6 +169,24 @@ export const SEOHead = ({
       <script type="application/ld+json">
         {JSON.stringify(structuredData || defaultStructured)}
       </script>
+      
+      {/* Additional Performance and SEO Meta Tags */}
+      <meta name="theme-color" content="#007ACC" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+      <meta name="format-detection" content="telephone=yes" />
+      <meta name="mobile-web-app-capable" content="yes" />
+      <meta name="msapplication-TileColor" content="#007ACC" />
+      <meta name="msapplication-config" content="/browserconfig.xml" />
+      
+      {/* Preconnect to improve performance */}
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link rel="preconnect" href="https://www.googletagmanager.com" />
+      
+      {/* DNS prefetch for external resources */}
+      <link rel="dns-prefetch" href="//www.google-analytics.com" />
+      <link rel="dns-prefetch" href="//www.googletagmanager.com" />
     </Helmet>
   );
 };
