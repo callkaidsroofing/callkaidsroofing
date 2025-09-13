@@ -144,6 +144,35 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    // Additional security checks for suspicious patterns
+    const suspiciousPatterns = [
+      /<script/i,
+      /javascript:/i,
+      /data:text\/html/i,
+      /vbscript:/i,
+      /<iframe/i,
+      /<object/i,
+      /<embed/i,
+      /onload=/i,
+      /onclick=/i,
+      /onerror=/i
+    ];
+
+    const textToCheck = `${leadData.name} ${leadData.message || ''} ${leadData.email || ''}`;
+    if (suspiciousPatterns.some(pattern => pattern.test(textToCheck))) {
+      console.warn('Suspicious content detected:', { 
+        ip: clientIP, 
+        data: { ...leadData, message: '[REDACTED]' } 
+      });
+      return new Response(
+        JSON.stringify({ error: 'Invalid content detected' }),
+        { 
+          status: 400, 
+          headers: { "Content-Type": "application/json", ...corsHeaders }
+        }
+      );
+    }
+
     // Sanitize data for email content
     const sanitizedData = {
       name: escapeHtml(leadData.name.trim()),
