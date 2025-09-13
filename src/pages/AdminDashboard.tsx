@@ -7,7 +7,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { supabase } from '@/integrations/supabase/client';
 import { FacebookSDK } from '@/components/FacebookSDK';
 import { SocialMediaManager } from '@/components/SocialMediaManager';
-import { InviteManager } from '@/components/InviteManager';
+
 import { 
   LogOut, 
   Users, 
@@ -407,9 +407,6 @@ const AdminDashboard = () => {
             <SocialMediaManager />
           </TabsContent>
 
-          <TabsContent value="invites">
-            <InviteManager />
-          </TabsContent>
         </Tabs>
       </div>
     </div>
