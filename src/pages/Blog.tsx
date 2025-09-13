@@ -175,12 +175,12 @@ export default function Blog() {
                   
                   {/* SEO Widget Script Container */}
                   <div className="flex justify-center">
-                    <div 
-                      id="seo-widget-container"
-                      dangerouslySetInnerHTML={{
-                        __html: `<script data-widget-id="14442591191020099ff47da23fb09078659dd8a6" src="https://www.local-marketing-reports.com/m/assets-v2/lead-gen/js/external/widget-builder.js"></script>`
-                      }}
-                    />
+                    <div id="seo-widget-14442591191020099ff47da23fb09078659dd8a6"></div>
+                    <script 
+                      async 
+                      data-widget-id="14442591191020099ff47da23fb09078659dd8a6" 
+                      src="https://www.local-marketing-reports.com/m/assets-v2/lead-gen/js/external/widget-builder.js"
+                    ></script>
                   </div>
                   
                   <div className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/10">
