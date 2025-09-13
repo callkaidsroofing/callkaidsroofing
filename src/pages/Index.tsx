@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Phone, ArrowRight, CheckCircle, AlertTriangle, Star } from 'lucide-react';
+import { Phone, ArrowRight, CheckCircle, AlertTriangle, Star, Calendar } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
 import { StructuredData } from '@/components/StructuredData';
 import TrustIndicators from '@/components/TrustIndicators';
@@ -65,73 +65,98 @@ const Index = () => {
         ogImage="https://callkaidsroofing.com.au/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
       />
       <StructuredData type="homepage" />
-      <div className="min-h-screen">
-      {/* Hero Section with Enhanced Blue Gradients */}
+      {/* Full-Screen Hero Section with Sophisticated Design */}
       <OptimizedBackgroundSection
         backgroundImage="/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
-        className="py-20 text-white relative overflow-hidden"
-        gradient="linear-gradient(135deg, rgba(0,122,204,0.9), rgba(11,59,105,0.95))"
+        className="min-h-screen flex items-center justify-center text-white relative overflow-hidden"
+        gradient="linear-gradient(135deg, rgba(0,122,204,0.95), rgba(11,59,105,0.97))"
       >
-        <div className="container mx-auto px-4 text-center relative z-10">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30"></div>
+        <div className="container mx-auto px-6 lg:px-12 text-center relative z-10 max-w-6xl">
           {/* Floating decorative icons */}
           <FloatingIcons />
           
-          {/* Social Proof Banner */}
-          <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 mb-4">
-            <Badge variant="secondary" className="bg-primary/20 text-white border-white/20 text-xs sm:text-sm">
-              <Star className="h-3 w-3 sm:h-4 sm:w-4 mr-1 fill-current" />
+          {/* Elegant Badge Row */}
+          <div className="flex flex-wrap justify-center items-center gap-3 mb-8">
+            <Badge variant="secondary" className="bg-white/15 text-white border-white/30 text-sm backdrop-blur-md px-4 py-2">
+              <Star className="h-4 w-4 mr-2 fill-current text-yellow-300" />
               200+ Happy Customers
             </Badge>
-            <Badge variant="secondary" className="bg-accent/20 text-white border-white/20 text-xs sm:text-sm">
+            <Badge variant="secondary" className="bg-white/15 text-white border-white/30 text-sm backdrop-blur-md px-4 py-2">
               10-Year Warranty
             </Badge>
-            <Badge variant="secondary" className="bg-green-500/20 text-white border-white/20 text-xs sm:text-sm">
-              Emergency Response
+            <Badge variant="secondary" className="bg-white/15 text-white border-white/30 text-sm backdrop-blur-md px-4 py-2">
+              Emergency Response 24/7
             </Badge>
           </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 text-shadow-lg">
-              Melbourne's Best Roofing Services - 10 Year Warranty
+          {/* Hero Typography */}
+          <div className="space-y-6 mb-12">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight text-shadow-lg">
+              Melbourne's
+              <span className="block bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+                Premium Roofing
+              </span>
+              <span className="block text-4xl sm:text-5xl lg:text-6xl">
+                Specialists
+              </span>
             </h1>
-           <h2 className="text-xl sm:text-2xl md:text-2xl text-white/90 max-w-4xl mx-auto mb-8 font-medium">
-              Professional Roof Restoration, Painting & Emergency Repairs in Southeast Melbourne
-            </h2>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto mb-8">
-            <div className="flex items-center gap-2 bg-white/10 p-3 rounded-lg backdrop-blur-md border border-white/20">
-              <CheckCircle className="h-5 w-5 text-green-300" />
-              <span className="text-white text-sm">Free inspection</span>
-            </div>
-            <div className="flex items-center gap-2 bg-white/10 p-3 rounded-lg backdrop-blur-md border border-white/20">
-              <CheckCircle className="h-5 w-5 text-green-300" />
-              <span className="text-white text-sm">10-year warranty</span>
-            </div>
-            <div className="flex items-center gap-2 bg-white/10 p-3 rounded-lg backdrop-blur-md border border-white/20">
-              <CheckCircle className="h-5 w-5 text-green-300" />
-              <span className="text-white text-sm">Same-day quotes</span>
-            </div>
-            <div className="flex items-center gap-2 bg-white/10 p-3 rounded-lg backdrop-blur-md border border-white/20">
-              <CheckCircle className="h-5 w-5 text-green-300" />
-              <span className="text-white text-sm">Emergency response</span>
-            </div>
+            
+            <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+            
+            <p className="text-xl sm:text-2xl lg:text-3xl text-white/90 max-w-4xl mx-auto font-light leading-relaxed">
+              Professional Roof Restoration, Painting & Emergency Repairs
+              <span className="block text-lg sm:text-xl lg:text-2xl mt-2 text-white/80">
+                Serving Southeast Melbourne with 10-Year Warranty
+              </span>
+            </p>
+          </div>
+
+          {/* Feature Grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mb-12">
+            {[
+              { icon: CheckCircle, text: "Free Inspection" },
+              { icon: CheckCircle, text: "10-Year Warranty" },
+              { icon: CheckCircle, text: "Same-Day Quotes" },
+              { icon: CheckCircle, text: "24/7 Emergency" }
+            ].map((feature, index) => (
+              <div key={index} className="group">
+                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                  <feature.icon className="h-6 w-6 text-green-300 mx-auto mb-2" />
+                  <span className="text-white text-sm font-medium">{feature.text}</span>
+                </div>
+              </div>
+            ))}
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-            <Button asChild variant="secondary" size="xl">
-              <Link to="/book">Book Free Quote—Slots Are Limited</Link>
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
+            <Button asChild size="xl" className="bg-primary hover:bg-primary/90 text-white border-none shadow-2xl hover:shadow-primary/25 transition-all duration-300 transform hover:scale-105">
+              <Link to="/book">
+                <Calendar className="mr-3 h-5 w-5" />
+                Book Free Quote
+              </Link>
             </Button>
-            <Button asChild variant="outline" size="xl" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+            <Button asChild variant="outline" size="xl" className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-md transition-all duration-300">
               <a href="tel:0435900709">
-                <Phone className="mr-2 h-5 w-5" />
+                <Phone className="mr-3 h-5 w-5" />
                 Call 0435 900 709
               </a>
             </Button>
           </div>
 
-          <p className="text-sm text-white/80 text-center">
-            Serving: Clyde North • Berwick • Cranbourne • Frankston • Brighton • Toorak<br />
-            <span className="block">50km radius—if you're close, I'll come have a look</span>
-          </p>
+          {/* Service Areas */}
+          <div className="border-t border-white/20 pt-8">
+            <p className="text-lg text-white/90 font-medium mb-3">
+              Serving Southeast Melbourne
+            </p>
+            <p className="text-white/70">
+              Clyde North • Berwick • Cranbourne • Frankston • Brighton • Toorak • Pakenham
+              <span className="block mt-1 text-sm">
+                50km radius—if you're close, we'll come have a look
+              </span>
+            </p>
+          </div>
         </div>
       </OptimizedBackgroundSection>
 
@@ -253,7 +278,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-      </div>
     </>
   );
 };
