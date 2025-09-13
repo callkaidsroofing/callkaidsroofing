@@ -8,7 +8,6 @@ import { blogPosts, blogCategories, type BlogPost, type BlogCategory } from "@/d
 import { OptimizedImage } from "@/components/OptimizedImage";
 import { Clock, User, ArrowRight, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { SeoAnalysisWidget } from "@/components/SeoAnalysisWidget";
 
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -140,11 +139,6 @@ export default function Blog() {
               </div>
             </div>
           </section>
-        )}
-
-        {/* SEO Widget Section - Free Business Tool */}
-        {selectedCategory === "all" && (
-          <SeoAnalysisWidget />
         )}
 
         {/* All Posts Grid */}

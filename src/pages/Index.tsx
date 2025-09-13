@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Phone, ArrowRight, CheckCircle, AlertTriangle, Star, Calendar } from 'lucide-react';
+import { Phone, ArrowRight, CheckCircle, AlertTriangle, Star } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
 import { StructuredData } from '@/components/StructuredData';
 import TrustIndicators from '@/components/TrustIndicators';
@@ -65,91 +65,73 @@ const Index = () => {
         ogImage="https://callkaidsroofing.com.au/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
       />
       <StructuredData type="homepage" />
-      <div className="page-transition">
-      {/* Perfect Hero Section - Matching Reference Design */}
+      <div className="min-h-screen">
+      {/* Hero Section with Enhanced Blue Gradients */}
       <OptimizedBackgroundSection
         backgroundImage="/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
-        className="h-screen flex items-center justify-center text-white relative overflow-hidden"
-        gradient="linear-gradient(135deg, rgba(0,122,204,0.95), rgba(11,59,105,0.97))"
+        className="py-20 text-white relative overflow-hidden"
+        gradient="linear-gradient(135deg, rgba(0,122,204,0.9), rgba(11,59,105,0.95))"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30"></div>
-        
-        {/* Main Content Container - Centered Layout */}
-        <div className="container mx-auto px-6 z-10 text-center max-w-5xl">
+        <div className="container mx-auto px-4 text-center relative z-10">
+          {/* Floating decorative icons */}
+          <FloatingIcons />
           
-          {/* Same-Day Response Guarantee Badge */}
-          <div className="inline-flex items-center justify-center mb-8">
-            <div className="glass-card px-6 py-3 rounded-full border border-white/30 bg-white/10 backdrop-blur-md">
-              <span className="text-lg font-bold flex items-center gap-3">
-                <AlertTriangle className="h-5 w-5 text-primary" />
-                Same-Day Response Guarantee
-              </span>
-            </div>
+          {/* Social Proof Banner */}
+          <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 mb-4">
+            <Badge variant="secondary" className="bg-primary/20 text-white border-white/20 text-xs sm:text-sm">
+              <Star className="h-3 w-3 sm:h-4 sm:w-4 mr-1 fill-current" />
+              200+ Happy Customers
+            </Badge>
+            <Badge variant="secondary" className="bg-accent/20 text-white border-white/20 text-xs sm:text-sm">
+              10-Year Warranty
+            </Badge>
+            <Badge variant="secondary" className="bg-green-500/20 text-white border-white/20 text-xs sm:text-sm">
+              Emergency Response
+            </Badge>
           </div>
 
-          {/* Main Headline - Clean Typography */}
-          <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight tracking-wide">
-            Melbourne's Premier
-            <span className="block text-gradient-primary mt-2">Roofing Specialists</span>
-          </h1>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 text-shadow-lg">
+              Melbourne's Best Roofing Services - 10 Year Warranty
+            </h1>
+           <h2 className="text-xl sm:text-2xl md:text-2xl text-white/90 max-w-4xl mx-auto mb-8 font-medium">
+              Professional Roof Restoration, Painting & Emergency Repairs in Southeast Melbourne
+            </h2>
           
-          {/* Clean Subtext */}
-          <p className="text-lg lg:text-xl mb-10 text-white/90 max-w-2xl mx-auto leading-relaxed">
-            Expert roof restoration, painting, and repairs with 10-year workmanship warranty.
-            <span className="block mt-3 font-semibold text-primary">No Leaks. No Lifting. Just Quality.</span>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto mb-8">
+            <div className="flex items-center gap-2 bg-white/10 p-3 rounded-lg backdrop-blur-md border border-white/20">
+              <CheckCircle className="h-5 w-5 text-green-300" />
+              <span className="text-white text-sm">Free inspection</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/10 p-3 rounded-lg backdrop-blur-md border border-white/20">
+              <CheckCircle className="h-5 w-5 text-green-300" />
+              <span className="text-white text-sm">10-year warranty</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/10 p-3 rounded-lg backdrop-blur-md border border-white/20">
+              <CheckCircle className="h-5 w-5 text-green-300" />
+              <span className="text-white text-sm">Same-day quotes</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/10 p-3 rounded-lg backdrop-blur-md border border-white/20">
+              <CheckCircle className="h-5 w-5 text-green-300" />
+              <span className="text-white text-sm">Emergency response</span>
+            </div>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+            <Button asChild variant="secondary" size="xl">
+              <Link to="/book">Book Free Quote—Slots Are Limited</Link>
+            </Button>
+            <Button asChild variant="outline" size="xl" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+              <a href="tel:0435900709">
+                <Phone className="mr-2 h-5 w-5" />
+                Call 0435 900 709
+              </a>
+            </Button>
+          </div>
+
+          <p className="text-sm text-white/80 text-center">
+            Serving: Clyde North • Berwick • Cranbourne • Frankston • Brighton • Toorak<br />
+            <span className="block">50km radius—if you're close, I'll come have a look</span>
           </p>
-
-          {/* Trust Indicators Row */}
-          <div className="flex flex-wrap justify-center gap-6 mb-10">
-            <div className="flex items-center gap-2 text-white/90">
-              <CheckCircle className="h-5 w-5 text-primary" />
-              <span className="font-semibold">10-Year Warranty</span>
-            </div>
-            <div className="flex items-center gap-2 text-white/90">
-              <CheckCircle className="h-5 w-5 text-primary" />
-              <span className="font-semibold">500+ Happy Customers</span>
-            </div>
-            <div className="flex items-center gap-2 text-white/90">
-              <CheckCircle className="h-5 w-5 text-primary" />
-              <span className="font-semibold">Fully Insured</span>
-            </div>
-          </div>
-
-          {/* Star Rating */}
-          <div className="flex justify-center items-center gap-2 mb-10">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-              ))}
-            </div>
-            <span className="text-white/90 font-semibold">4.9/5 from 200+ reviews</span>
-          </div>
-
-          {/* Primary CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <Button 
-              size="lg" 
-              className="premium-gradient text-white px-8 py-4 text-lg font-bold hover:scale-105 transition-all duration-300 shadow-2xl"
-              onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Get Your FREE Quote Today
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-bold transition-all duration-300"
-              onClick={() => window.location.href = 'tel:0435900709'}
-            >
-              <Phone className="mr-2 h-5 w-5" />
-              Call: 0435 900 709
-            </Button>
-          </div>
-
-          {/* Service Areas - Clean */}
-          <div className="text-center">
-            <p className="text-white/80 text-sm">Serving South East Melbourne • 50km Radius</p>
-          </div>
         </div>
       </OptimizedBackgroundSection>
 

@@ -50,18 +50,16 @@ All colors MUST be HSL.
     --roofing-warning: 48 96% 53%; /* Warning Amber #FACC15 */
     --roofing-emergency: 0 84% 51%; /* Error Red #DC2626 */
     
-    /* Call Kaids Roofing Gradients - Sky Blue Inspired */
-    --gradient-hero: linear-gradient(135deg, hsl(210 70% 35%) 0%, hsl(200 85% 45%) 40%, hsl(195 90% 55%) 100%);
-    --gradient-primary: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #3b82f6 100%);
-    --gradient-sky: linear-gradient(135deg, hsl(210 70% 35%) 0%, hsl(200 85% 45%) 100%);
-    --gradient-section: linear-gradient(180deg, hsl(var(--primary) / 0.08) 0%, hsl(var(--secondary) / 0.04) 100%);
-    --gradient-card: linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-    --gradient-cta: linear-gradient(135deg, hsl(210 70% 35%) 0%, hsl(200 85% 45%) 100%);
-    
-    /* Trust indicator colors */
-    --trust-green: 142 71% 45%; /* Vibrant green for checkmarks */
-    --highlight-yellow: 48 96% 53%; /* Yellow for phone numbers */
-    --emergency-red: 0 84% 60%; /* Red for 24/7 badges */
+    /* Call Kaids Roofing Gradients - Multiple Variations */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 50%, hsl(var(--roofing-charcoal)) 100%);
+    --gradient-hero-alt: linear-gradient(45deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
+    --gradient-blue: linear-gradient(90deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
+    --gradient-blue-reverse: linear-gradient(270deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
+    --gradient-premium: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(207 100% 50%) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--roofing-charcoal)) 0%, hsl(var(--roofing-navy)) 100%);
+    --gradient-section: linear-gradient(180deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--secondary) / 0.05) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--primary) / 0.15) 0%, hsl(var(--secondary) / 0.1) 100%);
+    --gradient-cta: linear-gradient(45deg, hsl(var(--primary)) 0%, hsl(var(--roofing-blue)) 50%, hsl(var(--secondary)) 100%);
 
     --radius: 0.5rem;
 
@@ -150,17 +148,29 @@ All colors MUST be HSL.
 }
 
 @layer components {
-  /* Sky-inspired gradient classes */
+  /* Enhanced gradient classes with variations */
   .hero-gradient {
     background: var(--gradient-hero);
   }
   
-  .sky-gradient {
-    background: var(--gradient-sky);
+  .hero-gradient-alt {
+    background: var(--gradient-hero-alt);
   }
   
-  .primary-gradient {
-    background: var(--gradient-primary);
+  .blue-gradient {
+    background: var(--gradient-blue);
+  }
+  
+  .blue-gradient-reverse {
+    background: var(--gradient-blue-reverse);
+  }
+  
+  .premium-gradient {
+    background: var(--gradient-premium);
+  }
+  
+  .dark-gradient {
+    background: var(--gradient-dark);
   }
   
   .section-gradient {
@@ -173,35 +183,6 @@ All colors MUST be HSL.
   
   .cta-gradient {
     background: var(--gradient-cta);
-  }
-  
-  /* Glass morphism effects inspired by reference */
-  .glass-overlay {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-  }
-  
-  .trust-badge {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 12px;
-  }
-  
-  /* Trust indicator styling */
-  .trust-green { color: hsl(var(--trust-green)); }
-  .highlight-yellow { color: hsl(var(--highlight-yellow)); }
-  .emergency-red { color: hsl(var(--emergency-red)); }
-  
-  /* Metallic text effect for logo */
-  .metallic-text {
-    background: linear-gradient(135deg, #D4AF37 0%, #FFD700 25%, #B8860B 50%, #DAA520 75%, #D4AF37 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
   }
   
   /* Enhanced interactive elements */
@@ -289,215 +270,4 @@ All colors MUST be HSL.
     transform: translateZ(0);
     will-change: transform;
   }
-
-  /* Enterprise-grade smooth scrolling */
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 100px;
-  }
-
-  /* Advanced glassmorphism effects */
-  .glass-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  }
-
-  .glass-navbar {
-    background: rgba(11, 59, 105, 0.85);
-    backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  /* Premium gradient animations */
-  .gradient-move {
-    background-size: 400% 400%;
-    animation: gradientMove 8s ease infinite;
-  }
-
-  @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  /* Smooth hover transformations */
-  .hover-lift {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .hover-lift:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px -15px rgba(0, 122, 204, 0.4);
-  }
-
-  /* Advanced text animations */
-  .text-glow {
-    text-shadow: 
-      0 0 10px rgba(0, 122, 204, 0.5),
-      0 0 20px rgba(0, 122, 204, 0.3),
-      0 0 30px rgba(0, 122, 204, 0.2);
-  }
-
-  /* Sophisticated scroll indicators */
-  .scroll-indicator {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, 
-      hsl(var(--primary)), 
-      hsl(var(--secondary)), 
-      hsl(var(--primary))
-    );
-    transform-origin: left;
-    z-index: 100;
-  }
-
-  /* Premium button effects */
-  .btn-premium {
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .btn-premium::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-      transparent, 
-      rgba(255, 255, 255, 0.2), 
-      transparent
-    );
-    transition: left 0.5s;
-  }
-
-  .btn-premium:hover::before {
-    left: 100%;
-  }
-
-  /* Advanced particle effects */
-  .particles-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
-  }
-
-  .particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    animation: floatParticle 20s infinite linear;
-  }
-
-  @keyframes floatParticle {
-    0% {
-      transform: translateY(100vh) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(-100px) rotate(360deg);
-      opacity: 0;
-    }
-  }
-
-  /* Smooth page transitions */
-  .page-transition {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.8s ease-out forwards;
-  }
-
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Enterprise-grade loading states */
-  .skeleton {
-    background: linear-gradient(90deg, 
-      hsl(var(--muted)) 25%, 
-      hsl(var(--muted-foreground) / 0.1) 50%, 
-      hsl(var(--muted)) 75%
-    );
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
-  }
-
-  @keyframes loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-
-  /* Advanced grid animations */
-  .stagger-animation > * {
-    opacity: 0;
-    transform: translateY(30px);
-    animation: staggerIn 0.6s ease-out forwards;
-  }
-
-  .stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
-  .stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
-  .stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
-  .stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }
-
-  @keyframes staggerIn {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Scroll Progress Indicator */
-  .scroll-indicator {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    transform-origin: left;
-    z-index: 100;
-    box-shadow: 0 0 10px hsl(var(--primary) / 0.5);
-  }
-
-  /* Custom scrollbar for sidebar */
-  .scrollbar-thin {
-    scrollbar-width: thin;
-  }
-  
-  .scrollbar-thumb-white\/20::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-  }
-  
-  .scrollbar-track-transparent::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 6px;
-  }
-  }
+}
