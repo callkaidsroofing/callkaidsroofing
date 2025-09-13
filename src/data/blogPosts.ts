@@ -80,118 +80,97 @@ export const blogPosts: BlogPost[] = [
     title: "Complete Guide to Roof Restoration in Melbourne's Climate",
     slug: "complete-guide-roof-restoration-melbourne-climate",
     excerpt: "Everything Melbourne homeowners need to know about roof restoration, from identifying damage to choosing the right materials for our unique weather conditions.",
-    content: `# Complete Guide to Roof Restoration in Melbourne's Climate
-
-Melbourne's unpredictable weather presents unique challenges for homeowners. From scorching summer heat to winter storms and everything in between, your roof bears the brunt of nature's extremes.
+    content: `Melbourne's unpredictable weather creates unique challenges for homeowners. Your roof faces everything from scorching summer heat to winter storms - often in the same day.
 
 ## Why Melbourne Roofs Need Special Attention
 
-Melbourne's climate is notorious for its "four seasons in one day" phenomenon. This constant temperature fluctuation causes roofing materials to expand and contract repeatedly, leading to:
+Melbourne's *"four seasons in one day"* climate causes constant expansion and contraction of roofing materials:
 
-- **Tile movement and cracking**
-- **Ridge cap displacement** 
-- **Mortar deterioration**
-- **Gutter system stress**
+- Tile movement and cracking
+- Ridge cap displacement  
+- Mortar deterioration
+- Gutter system stress
 
-## The Call Kaids Restoration Process
+## Our Professional Restoration Process
 
-### 1. Comprehensive Roof Health Assessment
-Our team conducts a thorough 25-point inspection covering:
+### Step 1: 25-Point Health Assessment
+We inspect every critical component:
 - Ridge capping condition
 - Tile integrity and alignment
 - Valley iron assessment
 - Gutter and downpipe evaluation
-- Flashing examination
 
-### 2. Pressure Washing and Surface Preparation
-Using professional-grade equipment, we remove:
+### Step 2: Professional Cleaning
+Using specialized equipment to remove:
 - Moss and lichen buildup
 - Dirt and debris accumulation
 - Paint flakes and oxidation
-- Organic growth
 
-### 3. Repairs and Replacements
-Common Melbourne roof issues we address:
-- **Broken tiles**: Replaced with matching materials
-- **Ridge cap rebedding**: Using premium SupaPoint mortar
-- **Valley iron replacement**: Colorbond steel installation
-- **Leak detection and sealing**: Professional-grade sealants
+### Step 3: Targeted Repairs
+Common Melbourne issues we fix:
+- **Broken tiles** - Replaced with matching materials
+- **Ridge cap rebedding** - Premium SupaPoint mortar
+- **Valley iron replacement** - Colorbond steel installation
+- **Leak sealing** - Professional-grade compounds
 
-### 4. Premium Coating Application
-We use **Premcoat** systems specifically designed for Australian conditions:
+### Step 4: Premium Coating
+**Premcoat** systems designed for Australian conditions:
 - UV-resistant formulation
 - Thermal reflection properties
-- 10-year workmanship warranty
-- Weather-resistant finish
+- 10-year warranty coverage
 
-## Materials That Perform in Melbourne
+## Smart Investment Choice
 
-### Ridge Cap Solutions
-- **Flexible pointing compounds** that accommodate movement
-- **Premium bedding mortars** for long-term adhesion
-- **Weather-resistant sealants** for extreme conditions
-
-### Coating Systems
-- **Acrylic membrane coatings** for tile roofs
-- **Elastomeric sealers** for concrete tiles
-- **Metal roof restoration paints** for steel roofing
-
-## Cost Considerations for Melbourne Properties
-
-Roof restoration typically costs 60-70% less than full replacement:
-- **Average restoration**: $8,000-$15,000
+Restoration vs replacement costs:
+- **Restoration**: $8,000-$15,000
 - **Full replacement**: $20,000-$40,000+
-- **ROI period**: 3-5 years through energy savings
+- **Payback period**: 3-5 years via energy savings
 
-## Seasonal Timing for Optimal Results
+## Optimal Timing
 
-### Best Times for Restoration:
-- **Autumn (March-May)**: Ideal weather conditions
-- **Spring (September-November)**: Preparing for summer heat
-- **Winter preparation**: Essential for storm season
+**Best seasons for restoration:**
+- **Autumn (Mar-May)** - Ideal conditions
+- **Spring (Sep-Nov)** - Pre-summer prep
 
-### Weather Considerations:
-- Minimum 3 consecutive dry days required
-- Temperature between 10-30°C optimal
-- Low humidity for proper curing
+**Weather requirements:**
+- 3+ consecutive dry days
+- 10-30°C temperature range
+- Low humidity for curing
 
-## Red Flags That Indicate Immediate Action
+## Warning Signs to Watch
 
-🚨 **Emergency Signs:**
+🚨 **Immediate action required:**
 - Water stains on ceilings
-- Visible daylight through roof cavity
-- Loose or missing tiles after storms
-- Sagging gutters or downpipes
+- Visible daylight through roof
+- Missing tiles after storms
+- Sagging gutters
 
-⚠️ **Warning Signs:**
-- Faded or chalky tile surfaces
-- Moss or lichen growth
-- Cracked or lifting ridge caps
-- Rust stains on gutters
+⚠️ **Schedule assessment soon:**
+- Faded tile surfaces
+- Moss growth
+- Cracked ridge caps
+- Gutter rust stains
 
-## The Call Kaids Advantage
+## Call Kaids Quality Promise
 
 ✅ **10-year workmanship warranty**
-✅ **Fully insured operations**
-✅ **Premium Australian-made materials**
-✅ **Photo-documented process**
-✅ **Weather-dependent scheduling**
+✅ **Fully insured operations** 
+✅ **Premium Australian materials**
+✅ **Photo documentation**
 
-## Maintenance Schedule Post-Restoration
+## Post-Restoration Care
 
-### Annual Inspections:
-- Gutter cleaning (minimum twice yearly)
-- Visual tile assessment
-- Ridge cap inspection
-- Valley iron examination
+**Annual maintenance:**
+- Bi-annual gutter cleaning
+- Visual tile inspection
+- Ridge cap assessment
 
-### 5-Year Professional Review:
-- Comprehensive assessment
-- Touch-up coating application
+**5-year review:**
+- Professional assessment
+- Touch-up applications
 - Preventive repairs
-- Warranty documentation
 
-Don't wait for small issues to become major problems. Book your free roof health check today and protect your Melbourne home with professional roof restoration.`,
+Ready to protect your investment? Book your free assessment today.`,
     category: "roof-restoration",
     tags: ["Melbourne", "restoration", "climate", "maintenance"],
     author: "Kaidyn Brownlie",
@@ -206,138 +185,121 @@ Don't wait for small issues to become major problems. Book your free roof health
     title: "5 Warning Signs Your Melbourne Roof Needs Immediate Attention",
     slug: "5-warning-signs-melbourne-roof-needs-attention",
     excerpt: "Don't wait for a leak! Learn to identify the early warning signs that indicate your Melbourne roof requires professional assessment and potential repairs.",
-    content: `# 5 Warning Signs Your Melbourne Roof Needs Immediate Attention
+    content: `Melbourne homeowners face unique roofing challenges from our unpredictable weather. Spotting these warning signs early can save thousands in emergency repairs.
 
-As a Melbourne homeowner, your roof faces constant challenges from our city's unpredictable weather patterns. Recognizing early warning signs can save you thousands in emergency repairs and prevent interior damage to your home.
+## 1. Interior Water Stains
 
-## 1. Interior Water Stains and Discoloration
+**Look for these signs:**
+- Brown or yellow ceiling patches
+- Wall water marks  
+- Peeling paint from moisture
+- Musty odors
 
-### What to Look For:
-- **Ceiling stains**: Brown or yellow patches on ceilings
-- **Wall discoloration**: Water marks on interior walls
-- **Peeling paint**: Moisture causing paint to bubble or peel
-- **Musty odors**: Indicating hidden moisture problems
+Melbourne's frequent rain and temperature swings create perfect conditions for water penetration through small roof defects.
 
-### Why It Happens in Melbourne:
-Our frequent rain events, combined with temperature fluctuations, create perfect conditions for water penetration through even small roof defects.
+**Action needed:** Contact us immediately - water damage spreads fast.
 
-### Immediate Action Required:
-Contact Call Kaids Roofing immediately. Water damage spreads quickly and can compromise structural integrity.
+## 2. Ridge Cap Problems
 
-## 2. Loose, Cracked, or Missing Ridge Caps
+**Visual indicators:**
+- Gaps between caps and tiles
+- Cracked pointing along ridges
+- Displaced caps after storms
+- Exposed fixing screws
 
-### Visual Indicators:
-- **Visible gaps** between ridge caps and tiles
-- **Cracked pointing** along ridge lines
-- **Displaced caps** after storms
-- **Exposed screws** or fixing points
+Melbourne's strong winds and temperature changes cause significant expansion/contraction, leading to ridge cap movement.
 
-### Melbourne-Specific Concerns:
-Strong northerly winds and sudden temperature changes cause significant expansion and contraction, leading to ridge cap movement.
+**Solution:** Professional rebedding with **SupaPoint** flexible mortar system.
 
-### Professional Solution:
-Ridge cap rebedding using **SupaPoint** flexible mortar system, designed specifically for Australian climate conditions.
+## 3. Damaged Tiles
 
-## 3. Broken, Cracked, or Sliding Tiles
+**Common problems:**
+- Hair-line thermal cracks
+- Broken tiles from hail
+- Sliding tiles from failed fixings
+- Lifted tiles exposing underlay
 
-### Common Tile Problems:
-- **Hair-line cracks** from thermal stress
-- **Completely broken tiles** from hail or debris
-- **Sliding tiles** due to fixing failure
-- **Lifted tiles** exposing underlayment
+**Melbourne impact:**
+- Summer heat expansion
+- Rapid cooling stress
+- Hail damage
+- Wind-driven rain penetration
 
-### Melbourne Weather Impact:
-- Summer heat causes rapid expansion
-- Sudden cooling creates contraction stress
-- Hailstorms cause immediate impact damage
-- Wind-driven rain penetrates through gaps
+**Fix:** Individual replacement with matching materials and secure fixing.
 
-### Repair Approach:
-Individual tile replacement using matching materials, ensuring proper overlap and secure fixing methods.
+## 4. Gutter Issues
 
-## 4. Gutter Problems and Water Overflow
+**Warning signs:**
+- Overflow during rain
+- Sagging from roofline
+- Rust stains on walls
+- Standing water
+- Plant growth
 
-### Gutter Warning Signs:
-- **Overflowing during rain** events
-- **Sagging or pulling away** from roofline
-- **Rust stains** on exterior walls
-- **Standing water** after rain stops
-- **Plant growth** in gutters
+**Melbourne challenges:**
+- Heavy autumn leaf fall
+- Sudden downpours
+- Freeze-thaw cycles
 
-### Melbourne Challenges:
-- Heavy autumn leaf fall from abundant trees
-- Sudden downpours overwhelming capacity
-- Freeze-thaw cycles affecting gutter integrity
+**Maintenance:** Regular cleaning, realignment, Colorbond replacements.
 
-### Professional Maintenance:
-Regular gutter cleaning, realignment, and replacement of damaged sections using Colorbond materials.
+## 5. Valley Iron & Flashing Failure
 
-## 5. Deteriorating Valley Iron and Flashing
+**Monitor these areas:**
+- Valley intersections
+- Chimney surrounds
+- Skylight seals
+- Vent penetrations
 
-### Critical Areas to Monitor:
-- **Valley intersections** where roof planes meet
-- **Chimney flashing** around penetrations
-- **Skylight seals** and surrounds
-- **Vent penetrations** through roof surface
+**Failure signs:**
+- Rust or corrosion
+- Lifted flashing edges
+- Cracked sealants
+- Water pooling
 
-### Signs of Failure:
-- **Rust or corrosion** on metal components
-- **Lifted or curled edges** on flashing
-- **Cracked sealants** around penetrations
-- **Water pooling** in valley areas
+Melbourne's salt air and pollution accelerate deterioration.
 
-### Melbourne Considerations:
-Coastal salt air and industrial pollution accelerate metal deterioration, requiring premium materials and regular inspection.
+## When to Call Professionals
 
-## When to Call the Professionals
+🚨 **Emergency (call now):**
+- Active leaks during rain
+- Major tile displacement  
+- Structural damage
+- Electrical hazards
 
-### Emergency Situations (Call Immediately):
-🚨 Active leaks during rain
-🚨 Significant tile displacement after storms
-🚨 Visible structural damage
-🚨 Electrical hazards from water ingress
+⚠️ **Schedule assessment:**
+- Gradual staining
+- Minor tile movement
+- Gutter issues
+- Maintenance due
 
-### Scheduled Assessment Recommended:
-⚠️ Gradual staining or discoloration
-⚠️ Minor tile movement or cracking
-⚠️ Gutter performance issues
-⚠️ Preventive maintenance timing
+## Cost of Delay
 
-## The Cost of Delay
+**Immediate repairs:**
+- Tile replacement: $50-$150
+- Ridge repointing: $15-25/meter
+- Leak repair: $200-$500
 
-### Immediate Repair Investment:
-- **Single tile replacement**: $50-$150
-- **Ridge cap repointing**: $15-25 per meter
-- **Minor leak repair**: $200-$500
+**Delayed consequences:**
+- Ceiling replacement: $2,000-$5,000
+- Structural repair: $5,000-$15,000
+- Full replacement: $20,000-$40,000+
 
-### Delayed Repair Consequences:
-- **Ceiling replacement**: $2,000-$5,000
-- **Structural timber repair**: $5,000-$15,000
-- **Full roof replacement**: $20,000-$40,000+
+## Free Assessment Includes
 
-## Call Kaids Roofing Assessment Process
+✅ **25-point inspection**
+✅ **Photo documentation**
+✅ **Written report**
+✅ **Priority ranking**
+✅ **Detailed quote**
 
-### Free Roof Health Check Includes:
-✅ 25-point comprehensive inspection
-✅ Photo documentation of all issues
-✅ Written assessment report
-✅ Priority ranking of repair needs
-✅ Detailed quotation for required work
+**Service areas:** Clyde North, Berwick, Cranbourne, Dandenong, Pakenham, Officer, Rowville + 50km radius.
 
-### Our Service Areas:
-Proudly serving **Clyde North**, **Berwick**, **Cranbourne**, **Dandenong**, **Pakenham**, **Officer**, **Rowville** and surrounding Melbourne suburbs within 50km radius.
+**Guarantee:** 10-year warranty, fully insured, premium materials, photo-backed service.
 
-### Quality Guarantee:
-- **10-year workmanship warranty**
-- **Fully insured operations** 
-- **Premium Australian materials**
-- **Photo-backed service documentation**
+Don't let small problems become major expenses.
 
-Don't let small problems become major expenses. Contact Call Kaids Roofing today for your free roof assessment and protect your Melbourne home investment.
-
-**Phone**: 0435 900 709  
-**Email**: callkaidsroofing@outlook.com  
-**ABN**: 39475055075`,
+**Contact:** 0435 900 709 | callkaidsroofing@outlook.com | ABN 39475055075`,
     category: "maintenance",
     tags: ["warning signs", "maintenance", "Melbourne", "prevention"],
     author: "Kaidyn Brownlie", 

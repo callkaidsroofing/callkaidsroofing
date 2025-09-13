@@ -135,28 +135,28 @@ export default function BlogPost() {
 
         {/* Article Content */}
         <section className="py-8 px-4">
-          <div className="container mx-auto max-w-4xl">
-            <div className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-a:text-primary prose-li:text-muted-foreground">
+          <div className="container mx-auto max-w-3xl">
+            <div className="prose prose-sm md:prose-base max-w-none">
               {/* Parse markdown-style content */}
               <div 
-                className="space-y-6 text-muted-foreground leading-relaxed"
+                className="space-y-4 text-muted-foreground leading-relaxed text-sm md:text-base"
                 dangerouslySetInnerHTML={{ 
                   __html: post.content
-                    .replace(/#{4,6}\s/g, '<h4 class="text-lg font-semibold text-foreground mt-8 mb-4">')
-                    .replace(/#{3}\s/g, '<h3 class="text-xl font-semibold text-foreground mt-8 mb-4">')
-                    .replace(/#{2}\s/g, '<h2 class="text-2xl font-bold text-foreground mt-8 mb-6">')
-                    .replace(/#{1}\s/g, '<h1 class="text-3xl font-bold text-foreground mt-8 mb-6">')
-                    .replace(/\*\*(.*?)\*\*/g, '<strong class="text-foreground">$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                    .replace(/\n\n/g, '</p><p class="mb-4">')
-                    .replace(/^/, '<p class="mb-4">')
+                    .replace(/#{4,6}\s/g, '<h4 class="text-base md:text-lg font-semibold text-foreground mt-6 mb-3 flex items-center gap-2"><span class="w-1 h-4 bg-primary rounded"></span>')
+                    .replace(/#{3}\s/g, '<h3 class="text-lg md:text-xl font-semibold text-foreground mt-6 mb-3 flex items-center gap-2"><span class="w-1 h-5 bg-primary rounded"></span>')
+                    .replace(/#{2}\s/g, '<h2 class="text-xl md:text-2xl font-bold text-foreground mt-8 mb-4 pb-2 border-b border-primary/20">')
+                    .replace(/#{1}\s/g, '<h1 class="text-2xl md:text-3xl font-bold text-foreground mt-6 mb-4">')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong class="text-foreground font-semibold">$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em class="text-primary">$1</em>')
+                    .replace(/\n\n/g, '</p><p class="mb-3 text-sm md:text-base">')
+                    .replace(/^/, '<p class="mb-3 text-sm md:text-base">')
                     .replace(/$/, '</p>')
-                    .replace(/- \*\*(.*?)\*\*:/g, '<li><strong class="text-foreground">$1</strong>:')
-                    .replace(/- (.*?)$/gm, '<li>$1</li>')
-                    .replace(/(<li>.*<\/li>)/s, '<ul class="list-disc pl-6 space-y-2 my-4">$1</ul>')
-                    .replace(/✅ \*\*(.*?)\*\*/g, '<li class="flex items-center gap-2"><span class="text-green-500">✅</span><strong class="text-foreground">$1</strong></li>')
-                    .replace(/⚠️ \*\*(.*?)\*\*/g, '<li class="flex items-center gap-2"><span class="text-yellow-500">⚠️</span><strong class="text-foreground">$1</strong></li>')
-                    .replace(/🚨 \*\*(.*?)\*\*/g, '<li class="flex items-center gap-2"><span class="text-red-500">🚨</span><strong class="text-foreground">$1</strong></li>')
+                    .replace(/- \*\*(.*?)\*\*:/g, '<li class="mb-2"><strong class="text-foreground">$1</strong>:')
+                    .replace(/- (.*?)$/gm, '<li class="mb-1 text-sm md:text-base">$1</li>')
+                    .replace(/(<li>.*<\/li>)/s, '<ul class="list-disc pl-5 space-y-1 my-3 text-sm md:text-base">$1</ul>')
+                    .replace(/✅ \*\*(.*?)\*\*/g, '<div class="flex items-start gap-3 p-3 bg-green-50 border-l-4 border-green-500 rounded-r mb-3"><span class="text-green-600 text-lg">✅</span><span class="text-sm"><strong class="text-green-800">$1</strong></span></div>')
+                    .replace(/⚠️ \*\*(.*?)\*\*/g, '<div class="flex items-start gap-3 p-3 bg-yellow-50 border-l-4 border-yellow-500 rounded-r mb-3"><span class="text-yellow-600 text-lg">⚠️</span><span class="text-sm"><strong class="text-yellow-800">$1</strong></span></div>')
+                    .replace(/🚨 \*\*(.*?)\*\*/g, '<div class="flex items-start gap-3 p-3 bg-red-50 border-l-4 border-red-500 rounded-r mb-3"><span class="text-red-600 text-lg">🚨</span><span class="text-sm"><strong class="text-red-800">$1</strong></span></div>')
                 }}
               />
             </div>
