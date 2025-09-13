@@ -6,7 +6,7 @@ export const StickyMobileBar = () => {
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border shadow-lg">
       <div className="grid grid-cols-2 gap-0">
         <Button 
-          className="rounded-none h-14 primary-gradient text-white font-semibold text-base"
+          className="rounded-none h-14 sky-gradient text-white font-semibold text-base"
           onClick={() => window.location.href = 'tel:0435900709'}
         >
           <Phone className="mr-2 h-5 w-5" />

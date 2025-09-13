@@ -7,6 +7,7 @@ import BeforeAfterLightbox from '@/components/BeforeAfterLightbox';
 import ReviewsCarousel from '@/components/ReviewsCarousel';
 import FAQAccordion from '@/components/FAQAccordion';
 import CTABand from '@/components/CTABand';
+import StickyMobileBar from '@/components/StickyMobileBar';
 import StructuredFooter from '@/components/StructuredFooter';
 import QuickCaptureForm from '@/components/QuickCaptureForm';
 
@@ -72,6 +73,7 @@ const NewIndex = () => {
           <CTABand />
         </TechITLayout>
         <StructuredFooter />
+        <StickyMobileBar />
       </div>
     </>
   );
