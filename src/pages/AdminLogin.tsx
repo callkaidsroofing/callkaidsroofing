@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,45 +6,113 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Lock, Eye, EyeOff } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { User, Session } from '@supabase/supabase-js';
 
 const AdminLogin = () => {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Simple credentials - in production, use proper authentication
-  const ADMIN_CREDENTIALS = {
-    username: 'kaidyn',
-    password: 'callkaids2024!'
-  };
+  // Check for existing session on component mount
+  useEffect(() => {
+    // Set up auth state listener FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        if (session?.user) {
+          // User is authenticated, redirect to dashboard
+          navigate('/admin/dashboard');
+        }
+      }
+    );
+
+    // THEN check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      
+      if (session?.user) {
+        // User is already authenticated, redirect to dashboard
+        navigate('/admin/dashboard');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      if (isSignUp) {
+        // Sign up new admin user
+        const redirectUrl = `${window.location.origin}/admin/login`;
+        
+        const { data, error } = await supabase.auth.signUp({
+          email: credentials.email,
+          password: credentials.password,
+          options: {
+            emailRedirectTo: redirectUrl
+          }
+        });
 
-    if (credentials.username === ADMIN_CREDENTIALS.username && 
-        credentials.password === ADMIN_CREDENTIALS.password) {
-      // Store auth in session
-      sessionStorage.setItem('adminAuth', 'true');
+        if (error) throw error;
+
+        if (data.user) {
+          // Create admin profile
+          const { error: profileError } = await supabase
+            .from('admin_profiles')
+            .insert({
+              user_id: data.user.id,
+              email: credentials.email,
+              full_name: credentials.email.split('@')[0], // Use email prefix as default name
+              role: 'admin'
+            });
+
+          if (profileError) {
+            console.error('Profile creation error:', profileError);
+          }
+
+          toast({
+            title: "Account Created",
+            description: "Please check your email to verify your account"
+          });
+        }
+      } else {
+        // Sign in existing admin user
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: credentials.email,
+          password: credentials.password
+        });
+
+        if (error) throw error;
+
+        if (data.user) {
+          toast({
+            title: "Login Successful",
+            description: "Welcome to the admin dashboard"
+          });
+          // Navigation will be handled by useEffect
+        }
+      }
+    } catch (error: any) {
       toast({
-        title: "Login Successful",
-        description: "Welcome to the admin dashboard"
-      });
-      navigate('/admin/dashboard');
-    } else {
-      toast({
-        title: "Login Failed",
-        description: "Invalid username or password",
+        title: isSignUp ? "Sign Up Failed" : "Login Failed",
+        description: error.message || "An error occurred during authentication",
         variant: "destructive"
       });
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   return (
@@ -56,19 +124,23 @@ const AdminLogin = () => {
               <Lock className="h-8 w-8 text-primary" />
             </div>
           </div>
-          <CardTitle className="text-2xl">Admin Access</CardTitle>
-          <p className="text-muted-foreground">Call Kaids Roofing Dashboard</p>
+          <CardTitle className="text-2xl">
+            {isSignUp ? "Create Admin Account" : "Admin Access"}
+          </CardTitle>
+          <p className="text-muted-foreground">
+            {isSignUp ? "Set up your admin account" : "Call Kaids Roofing Dashboard"}
+          </p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="username"
-                type="text"
-                value={credentials.username}
-                onChange={(e) => setCredentials(prev => ({ ...prev, username: e.target.value }))}
-                placeholder="Enter username"
+                id="email"
+                type="email"
+                value={credentials.email}
+                onChange={(e) => setCredentials(prev => ({ ...prev, email: e.target.value }))}
+                placeholder="Enter admin email"
                 required
               />
             </div>
@@ -81,7 +153,7 @@ const AdminLogin = () => {
                   type={showPassword ? "text" : "password"}
                   value={credentials.password}
                   onChange={(e) => setCredentials(prev => ({ ...prev, password: e.target.value }))}
-                  placeholder="Enter password"
+                  placeholder={isSignUp ? "Create a secure password" : "Enter password"}
                   required
                 />
                 <Button
@@ -101,12 +173,26 @@ const AdminLogin = () => {
               className="w-full" 
               disabled={isLoading}
             >
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isLoading 
+                ? (isSignUp ? "Creating Account..." : "Signing in...") 
+                : (isSignUp ? "Create Account" : "Sign In")
+              }
             </Button>
           </form>
           
-          <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p>Authorized personnel only</p>
+          <div className="mt-6 text-center text-sm">
+            <Button
+              type="button"
+              variant="link"
+              onClick={() => setIsSignUp(!isSignUp)}
+              className="text-muted-foreground hover:text-primary"
+            >
+              {isSignUp 
+                ? "Already have an account? Sign in" 
+                : "Need to create an admin account? Sign up"
+              }
+            </Button>
+            <p className="text-muted-foreground mt-2">Authorized personnel only</p>
           </div>
         </CardContent>
       </Card>

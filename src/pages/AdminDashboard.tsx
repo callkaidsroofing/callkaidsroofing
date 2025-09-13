@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { User, Session } from '@supabase/supabase-js';
 import { FacebookSDK } from '@/components/FacebookSDK';
 import { SocialMediaManager } from '@/components/SocialMediaManager';
 import { 
@@ -46,6 +47,8 @@ const AdminDashboard = () => {
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [filterService, setFilterService] = useState<string>('all');
   const [facebookAppId, setFacebookAppId] = useState<string>('');
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
 
   // Fetch Facebook App ID from secrets
   useEffect(() => {
@@ -63,14 +66,36 @@ const AdminDashboard = () => {
   }, []);
 
   useEffect(() => {
-    // Check authentication
-    const isAuth = sessionStorage.getItem('adminAuth');
-    if (!isAuth) {
-      navigate('/admin/login');
-      return;
-    }
+    // Check authentication with Supabase
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        // Not authenticated, redirect to login
+        navigate('/admin/login');
+        return;
+      }
 
-    fetchLeads();
+      setSession(session);
+      setUser(session.user);
+      fetchLeads();
+    };
+
+    checkAuth();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (event === 'SIGNED_OUT' || !session) {
+          navigate('/admin/login');
+        } else {
+          setSession(session);
+          setUser(session.user);
+        }
+      }
+    );
+
+    return () => subscription.unsubscribe();
   }, [navigate]);
 
   const fetchLeads = async () => {
@@ -94,13 +119,23 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('adminAuth');
-    navigate('/admin/login');
-    toast({
-      title: "Logged out",
-      description: "You have been logged out successfully"
-    });
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      
+      toast({
+        title: "Signed Out",
+        description: "You have been successfully signed out"
+      });
+      navigate('/admin/login');
+    } catch (error: any) {
+      toast({
+        title: "Sign Out Error",
+        description: error.message,
+        variant: "destructive"
+      });
+    }
   };
 
   const updateLeadStatus = async (leadId: string, newStatus: string) => {
@@ -190,11 +225,13 @@ const AdminDashboard = () => {
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-2xl font-bold text-primary">Call Kaids Roofing</h1>
-              <p className="text-muted-foreground">Admin Dashboard</p>
+              <p className="text-muted-foreground">
+                Admin Dashboard - Welcome, {user?.email}
+              </p>
             </div>
             <Button onClick={handleLogout} variant="outline" size="sm">
               <LogOut className="h-4 w-4 mr-2" />
-              Logout
+              Sign Out
             </Button>
           </div>
         </div>
