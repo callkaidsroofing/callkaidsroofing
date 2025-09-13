@@ -93,6 +93,9 @@ const Header = () => {
               )}
             </div>
 
+            <Link to="/blog" className="text-foreground hover:text-primary transition-colors">
+              Blog
+            </Link>
             <Link to="/about" className="text-foreground hover:text-primary transition-colors">
               About
             </Link>
@@ -157,6 +160,13 @@ const Header = () => {
                 </div>
               </div>
 
+              <Link
+                to="/blog"
+                className="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Blog
+              </Link>
               <Link
                 to="/about"
                 className="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"

@@ -25,6 +25,8 @@ import TileReplacement from "./pages/services/TileReplacement";
 import LeakDetection from "./pages/services/LeakDetection";
 import LandingPage from "./pages/LandingPage";
 import BookingPage from "./pages/BookingPage";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +48,8 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/book" element={<BookingPage />} />
             <Route path="/booking" element={<BookingPage />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/emergency" element={<Emergency />} />
             <Route path="/warranty" element={<Warranty />} />
