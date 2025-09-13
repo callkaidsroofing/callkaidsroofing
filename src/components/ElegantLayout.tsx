@@ -75,12 +75,12 @@ export const ElegantLayout = () => {
       {/* Sidebar */}
       <ElegantSidebar isOpen={sidebarOpen} onToggle={toggleSidebar} />
 
-      <div className={`flex-1 transition-all duration-300 pt-20 lg:pt-24 ${
+      <div className={`flex-1 transition-all duration-300 ${
         sidebarOpen ? 'lg:ml-80' : 'lg:ml-80'
       }`}>
 
-        {/* Page Content */}
-        <main className="min-h-screen">
+        {/* Page Content with proper top spacing */}
+        <main className="pt-24 lg:pt-28 min-h-screen">
           <Outlet />
         </main>
 

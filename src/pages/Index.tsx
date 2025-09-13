@@ -66,10 +66,10 @@ const Index = () => {
       />
       <StructuredData type="homepage" />
       <div className="page-transition">
-      {/* Ultra-Premium Hero Section */}
+      {/* Ultra-Premium Hero Section - Full viewport height minus header */}
       <OptimizedBackgroundSection
         backgroundImage="/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
-        className="min-h-screen flex items-center justify-center text-white relative overflow-hidden"
+        className="h-screen flex items-center justify-center text-white relative overflow-hidden"
         gradient="linear-gradient(135deg, rgba(0,122,204,0.95), rgba(11,59,105,0.97))"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30"></div>
