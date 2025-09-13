@@ -80,51 +80,6 @@ const AdminLogin = () => {
       return;
     }
 
-    setIsLoading(true);
-
-    try {
-      // Sign up the user
-      const { data, error } = await supabase.auth.signUp({
-        email: signupData.email,
-        password: signupData.password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/admin/dashboard`
-        }
-      });
-
-      if (error) {
-        if (error.message.includes('User already registered')) {
-          toast({
-            title: "Account Exists",
-            description: "An account with this email already exists. Please log in instead.",
-            variant: "destructive",
-          });
-        } else {
-          toast({
-            title: "Signup Failed",
-            description: error.message,
-            variant: "destructive",
-          });
-        }
-      } else if (data.user) {
-        toast({
-          title: "Account Created Successfully",
-          description: "Your admin account has been created. Please check your email for verification, then log in.",
-        });
-        setIsSignup(false);
-        // Clear signup form
-        setSignupData({ email: '', password: '', confirmPassword: '' });
-      }
-    } catch (error) {
-      toast({
-        title: "Signup Error",
-        description: "An unexpected error occurred. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   if (loading) {
     return (
