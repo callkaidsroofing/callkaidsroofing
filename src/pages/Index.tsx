@@ -66,101 +66,89 @@ const Index = () => {
       />
       <StructuredData type="homepage" />
       <div className="page-transition">
-      {/* Ultra-Premium Hero Section - Full viewport height minus header */}
+      {/* Perfect Hero Section - Matching Reference Design */}
       <OptimizedBackgroundSection
         backgroundImage="/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
         className="h-screen flex items-center justify-center text-white relative overflow-hidden"
         gradient="linear-gradient(135deg, rgba(0,122,204,0.95), rgba(11,59,105,0.97))"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30"></div>
-        <div className="container mx-auto px-6 lg:px-12 text-center relative z-10 max-w-6xl">
-          {/* Floating decorative icons */}
-          <FloatingIcons />
+        
+        {/* Main Content Container - Centered Layout */}
+        <div className="container mx-auto px-6 z-10 text-center max-w-5xl">
           
-          {/* Premium Badge Row */}
-          <div className="flex flex-wrap justify-center items-center gap-4 mb-12">
-            {[
-              { icon: Star, text: "200+ Happy Customers", color: "text-yellow-300" },
-              { text: "10-Year Warranty", color: "text-blue-300" },
-              { text: "Emergency Response 24/7", color: "text-green-300" }
-            ].map((badge, index) => (
-              <div key={index} className="glass-card backdrop-blur-md px-6 py-3 rounded-full hover-lift">
-                <div className="flex items-center space-x-2">
-                  {badge.icon && <badge.icon className={`h-5 w-5 ${badge.color} fill-current`} />}
-                  <span className="text-white font-medium">{badge.text}</span>
-                </div>
-              </div>
-            ))}
+          {/* Same-Day Response Guarantee Badge */}
+          <div className="inline-flex items-center justify-center mb-8">
+            <div className="glass-card px-6 py-3 rounded-full border border-white/30 bg-white/10 backdrop-blur-md">
+              <span className="text-lg font-bold flex items-center gap-3">
+                <AlertTriangle className="h-5 w-5 text-primary" />
+                Same-Day Response Guarantee
+              </span>
+            </div>
           </div>
 
-          {/* Revolutionary Typography */}
-          <div className="space-y-8 mb-16">
-            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-tight text-shadow-lg text-glow">
-              <span className="block">Melbourne's</span>
-              <span className="block bg-gradient-to-r from-white via-blue-200 to-white bg-clip-text text-transparent gradient-move">
-                Premium Roofing
-              </span>
-              <span className="block text-5xl sm:text-6xl lg:text-7xl">
-                Specialists
-              </span>
-            </h1>
-            
-            <div className="w-32 h-2 bg-gradient-to-r from-primary via-secondary to-primary mx-auto rounded-full gradient-move"></div>
-            
-            <p className="text-2xl sm:text-3xl lg:text-4xl text-white/95 max-w-5xl mx-auto font-light leading-relaxed">
-              <span className="block">Professional Roof Restoration, Painting & Emergency Repairs</span>
-              <span className="block text-xl sm:text-2xl lg:text-3xl mt-4 text-white/80">
-                Serving Southeast Melbourne with 10-Year Warranty
-              </span>
-            </p>
+          {/* Main Headline - Clean Typography */}
+          <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight tracking-wide">
+            Melbourne's Premier
+            <span className="block text-gradient-primary mt-2">Roofing Specialists</span>
+          </h1>
+          
+          {/* Clean Subtext */}
+          <p className="text-lg lg:text-xl mb-10 text-white/90 max-w-2xl mx-auto leading-relaxed">
+            Expert roof restoration, painting, and repairs with 10-year workmanship warranty.
+            <span className="block mt-3 font-semibold text-primary">No Leaks. No Lifting. Just Quality.</span>
+          </p>
+
+          {/* Trust Indicators Row */}
+          <div className="flex flex-wrap justify-center gap-6 mb-10">
+            <div className="flex items-center gap-2 text-white/90">
+              <CheckCircle className="h-5 w-5 text-primary" />
+              <span className="font-semibold">10-Year Warranty</span>
+            </div>
+            <div className="flex items-center gap-2 text-white/90">
+              <CheckCircle className="h-5 w-5 text-primary" />
+              <span className="font-semibold">500+ Happy Customers</span>
+            </div>
+            <div className="flex items-center gap-2 text-white/90">
+              <CheckCircle className="h-5 w-5 text-primary" />
+              <span className="font-semibold">Fully Insured</span>
+            </div>
           </div>
 
-          {/* Enterprise Feature Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mb-16">
-            {[
-              { icon: CheckCircle, text: "Free Inspection", gradient: "from-green-400 to-emerald-500" },
-              { icon: CheckCircle, text: "10-Year Warranty", gradient: "from-blue-400 to-cyan-500" },
-              { icon: CheckCircle, text: "Same-Day Quotes", gradient: "from-purple-400 to-pink-500" },
-              { icon: CheckCircle, text: "24/7 Emergency", gradient: "from-red-400 to-orange-500" }
-            ].map((feature, index) => (
-              <div key={index} className="group hover-lift">
-                <div className="glass-card backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:bg-white/10 transition-all duration-500">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${feature.gradient} flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <feature.icon className="h-6 w-6 text-white" />
-                  </div>
-                  <span className="text-white text-lg font-semibold block">{feature.text}</span>
-                </div>
-              </div>
-            ))}
+          {/* Star Rating */}
+          <div className="flex justify-center items-center gap-2 mb-10">
+            <div className="flex">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+              ))}
+            </div>
+            <span className="text-white/90 font-semibold">4.9/5 from 200+ reviews</span>
           </div>
-          
-          {/* Premium CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-8 justify-center mb-16">
-            <Button asChild size="xl" className="btn-premium bg-primary hover:bg-primary/90 text-white border-none shadow-2xl hover:shadow-primary/25 transition-all duration-500 transform hover:scale-110 text-lg px-12 py-6">
-              <Link to="/book">
-                <Calendar className="mr-4 h-6 w-6" />
-                Book Free Quote
-              </Link>
+
+          {/* Primary CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+            <Button 
+              size="lg" 
+              className="premium-gradient text-white px-8 py-4 text-lg font-bold hover:scale-105 transition-all duration-300 shadow-2xl"
+              onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              Get Your FREE Quote Today
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button asChild variant="outline" size="xl" className="btn-premium glass-card border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-md transition-all duration-500 transform hover:scale-110 text-lg px-12 py-6">
-              <a href="tel:0435900709">
-                <Phone className="mr-4 h-6 w-6" />
-                Call 0435 900 709
-              </a>
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-bold transition-all duration-300"
+              onClick={() => window.location.href = 'tel:0435900709'}
+            >
+              <Phone className="mr-2 h-5 w-5" />
+              Call: 0435 900 709
             </Button>
           </div>
 
-          {/* Premium Service Areas */}
-          <div className="glass-card backdrop-blur-xl rounded-2xl p-8 border border-white/20">
-            <p className="text-2xl text-white/95 font-semibold mb-4">
-              Serving Southeast Melbourne
-            </p>
-            <p className="text-white/80 text-lg leading-relaxed">
-              <span className="block">Clyde North • Berwick • Cranbourne • Frankston • Brighton • Toorak • Pakenham</span>
-              <span className="block mt-2 text-base text-white/70">
-                50km radius—if you're close, we'll come have a look
-              </span>
-            </p>
+          {/* Service Areas - Clean */}
+          <div className="text-center">
+            <p className="text-white/80 text-sm">Serving South East Melbourne • 50km Radius</p>
           </div>
         </div>
       </OptimizedBackgroundSection>

@@ -75,7 +75,7 @@ export const ElegantLayout = () => {
       {/* Sidebar */}
       <ElegantSidebar isOpen={sidebarOpen} onToggle={toggleSidebar} />
 
-      <div className={`flex-1 transition-all duration-300 ${
+      <div className={`flex-1 transition-all duration-300 w-full ${
         sidebarOpen ? 'lg:ml-80' : 'lg:ml-80'
       }`}>
 

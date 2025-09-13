@@ -203,7 +203,7 @@ const Gallery = () => {
           </div>
         </div>
 
-        <div className="container mx-auto px-4 py-12">
+        <div className="w-full max-w-none px-4 sm:px-6 lg:px-8 py-12">
           {/* Filter Buttons */}
           <div className="flex justify-center mb-8">
             <div className="flex gap-2 p-1 bg-muted rounded-lg">

@@ -80,8 +80,8 @@ export const ElegantSidebar = ({ isOpen, onToggle }: SidebarProps) => {
                   className="rounded-lg border border-white/20"
                 />
                 <div className={`${isOpen ? 'block' : 'hidden lg:block'}`}>
-                  <h1 className="text-lg font-bold">Call Kaids</h1>
-                  <p className="text-xs text-white/70">Professional Roofing</p>
+                  <h1 className="text-xl font-bold tracking-wide">Call Kaids</h1>
+                  <p className="text-sm text-white/90 font-medium leading-relaxed">Professional Roofing</p>
                 </div>
               </div>
               <Button
@@ -111,8 +111,8 @@ export const ElegantSidebar = ({ isOpen, onToggle }: SidebarProps) => {
             </div>
           </div>
 
-          {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-2">
+          {/* Navigation - Scrollable */}
+          <nav className="flex-1 overflow-y-auto p-4 space-y-2 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
             {mainNavItems.map((item) => (
               <div key={item.title}>
                 <NavLink
