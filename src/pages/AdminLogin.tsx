@@ -52,6 +52,15 @@ const AdminLogin = () => {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!signupData.inviteCode.trim()) {
+      toast({
+        title: "Signup Failed",
+        description: "Invite code is required",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     if (signupData.password !== signupData.confirmPassword) {
       toast({
         title: "Signup Failed",
@@ -173,7 +182,7 @@ const AdminLogin = () => {
                     type="text"
                     value={signupData.inviteCode}
                     onChange={(e) => setSignupData(prev => ({ ...prev, inviteCode: e.target.value }))}
-                    placeholder="Enter your invitation code"
+                    placeholder="Enter your invite code"
                     required
                   />
                 </div>
@@ -261,7 +270,7 @@ const AdminLogin = () => {
           </Tabs>
           
           <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p>Authorized personnel only - Invite required</p>
+            <p>Authorized personnel only • Invite code required for sign up</p>
           </div>
         </CardContent>
       </Card>
