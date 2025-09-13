@@ -27,6 +27,9 @@ import LandingPage from "./pages/LandingPage";
 import BookingPage from "./pages/BookingPage";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import ThankYou from "./pages/ThankYou";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +57,9 @@ function App() {
             <Route path="/emergency" element={<Emergency />} />
             <Route path="/warranty" element={<Warranty />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/thank-you" element={<ThankYou />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
                   <Route path="/services/roof-restoration" element={<RoofRestoration />} />
                   <Route path="/services/roof-painting" element={<RoofPainting />} />
                   <Route path="/services/roof-repairs" element={<RoofRepairs />} />

@@ -63,7 +63,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send notification email to business owner
     const ownerEmailResponse = await resend.emails.send({
       from: "Call Kaids Roofing <noreply@callkaidsroofing.com.au>",
-      to: ["callkaidsroofing@outlook.com"],
+      to: ["info@callkaidsroofing.com.au"],
       subject: `🏠 New Lead: ${leadData.service} - ${leadData.name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

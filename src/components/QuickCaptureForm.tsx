@@ -43,6 +43,11 @@ const QuickCaptureForm = () => {
       });
       
       setFormData({ name: '', phone: '', suburb: '' });
+      
+      // Redirect to thank you page after successful submission
+      setTimeout(() => {
+        window.location.href = '/thank-you';
+      }, 2000);
     } catch (error: any) {
       console.error("Form submission error:", error);
       toast({

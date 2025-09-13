@@ -125,7 +125,7 @@ export function EnhancedContactForm() {
         duration: 6000
       });
       
-      // Clear form
+      // Clear form and redirect to thank you page
       setFormData({
         name: "",
         phone: "",
@@ -135,6 +135,11 @@ export function EnhancedContactForm() {
         message: "",
         honeypot: ""
       });
+      
+      // Redirect to thank you page after successful submission
+      setTimeout(() => {
+        window.location.href = '/thank-you';
+      }, 2000);
     } catch (error) {
       // Fallback message for any errors
       toast({
