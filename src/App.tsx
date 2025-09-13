@@ -7,7 +7,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from "@/components/AuthProvider";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import ElegantLayout from "@/components/ElegantLayout";
-import Index from "./pages/Index";
+import NewIndex from "./pages/NewIndex";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Gallery from "./pages/Gallery";
@@ -54,7 +54,7 @@ function App() {
                 
                 {/* Main site routes - with elegant layout */}
                 <Route path="/*" element={<ElegantLayout />}>
-                  <Route index element={<Index />} />
+                  <Route index element={<NewIndex />} />
                   <Route path="about" element={<About />} />
                   <Route path="contact" element={<Contact />} />
                   <Route path="book" element={<BookingPage />} />
@@ -66,7 +66,7 @@ function App() {
                   <Route path="warranty" element={<Warranty />} />
                   <Route path="privacy-policy" element={<PrivacyPolicy />} />
                   <Route path="thank-you" element={<ThankYou />} />
-                  <Route path="services" element={<Index />} />
+                  <Route path="services" element={<NewIndex />} />
                   <Route path="services/roof-restoration" element={<RoofRestoration />} />
                   <Route path="services/roof-painting" element={<RoofPainting />} />
                   <Route path="services/roof-repairs" element={<RoofRepairs />} />

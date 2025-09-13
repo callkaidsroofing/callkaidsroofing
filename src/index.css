@@ -50,16 +50,13 @@ All colors MUST be HSL.
     --roofing-warning: 48 96% 53%; /* Warning Amber #FACC15 */
     --roofing-emergency: 0 84% 51%; /* Error Red #DC2626 */
     
-    /* Call Kaids Roofing Gradients - Multiple Variations */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 50%, hsl(var(--roofing-charcoal)) 100%);
-    --gradient-hero-alt: linear-gradient(45deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
+    /* Call Kaids Roofing Gradients - Spec Compliant */
+    --gradient-hero: linear-gradient(160deg, hsl(213 85% 22%) 0%, hsl(213 81% 26%) 55%, hsl(213 85% 22%) 100%);
+    --gradient-primary: linear-gradient(160deg, #0B3B69 0%, #0E4F86 55%, #0B3B69 100%);
     --gradient-blue: linear-gradient(90deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
-    --gradient-blue-reverse: linear-gradient(270deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
-    --gradient-premium: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(207 100% 50%) 100%);
-    --gradient-dark: linear-gradient(135deg, hsl(var(--roofing-charcoal)) 0%, hsl(var(--roofing-navy)) 100%);
-    --gradient-section: linear-gradient(180deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--secondary) / 0.05) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(var(--primary) / 0.15) 0%, hsl(var(--secondary) / 0.1) 100%);
-    --gradient-cta: linear-gradient(45deg, hsl(var(--primary)) 0%, hsl(var(--roofing-blue)) 50%, hsl(var(--secondary)) 100%);
+    --gradient-section: linear-gradient(180deg, hsl(var(--primary) / 0.05) 0%, hsl(var(--secondary) / 0.03) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--primary) / 0.08) 0%, hsl(var(--secondary) / 0.05) 100%);
+    --gradient-cta: linear-gradient(160deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 55%, hsl(var(--secondary)) 100%);
 
     --radius: 0.5rem;
 
@@ -148,29 +145,17 @@ All colors MUST be HSL.
 }
 
 @layer components {
-  /* Enhanced gradient classes with variations */
+  /* Spec-compliant gradient classes */
   .hero-gradient {
     background: var(--gradient-hero);
   }
   
-  .hero-gradient-alt {
-    background: var(--gradient-hero-alt);
+  .primary-gradient {
+    background: var(--gradient-primary);
   }
   
   .blue-gradient {
     background: var(--gradient-blue);
-  }
-  
-  .blue-gradient-reverse {
-    background: var(--gradient-blue-reverse);
-  }
-  
-  .premium-gradient {
-    background: var(--gradient-premium);
-  }
-  
-  .dark-gradient {
-    background: var(--gradient-dark);
   }
   
   .section-gradient {
@@ -184,6 +169,25 @@ All colors MUST be HSL.
   .cta-gradient {
     background: var(--gradient-cta);
   }
+  
+  /* 8pt spacing scale */
+  .space-8pt { margin: 8px; }
+  .space-16pt { margin: 16px; }
+  .space-24pt { margin: 24px; }
+  .space-32pt { margin: 32px; }
+  .space-40pt { margin: 40px; }
+  .space-48pt { margin: 48px; }
+  .space-56pt { margin: 56px; }
+  .space-64pt { margin: 64px; }
+
+  /* Section spacing constraints */
+  .section-padding { @apply py-12 md:py-16; } /* 48-64px */
+  .content-gap { @apply space-y-6; } /* Max 24px gaps */
+  
+  /* Max width constraints */
+  .container-max { max-width: 1200px; }
+  .text-column { max-width: 64ch; }
+  .card-max { max-width: 720px; }
   
   /* Enhanced interactive elements */
   .gradient-border {
