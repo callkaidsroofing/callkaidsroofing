@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Phone, Mail, CheckCircle, AlertCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface FormData {
   name: string;
@@ -102,35 +103,38 @@ export function EnhancedContactForm() {
     setIsSubmitting(true);
 
     try {
-      // Progressive enhancement: Use fetch with fallback
-      const response = await fetch('/contact-form', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
+      const { data, error } = await supabase.functions.invoke('send-lead-notification', {
+        body: {
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email || null,
+          suburb: formData.suburb,
+          service: formData.service,
+          message: formData.message || null,
+          source: 'contact_form'
+        }
       });
 
-      if (response.ok) {
-        toast({
-          title: "Message Sent Successfully!",
-          description: "Thanks! We'll call you within 24 hours to discuss your roofing needs.",
-          duration: 6000
-        });
-        
-        // Clear form
-        setFormData({
-          name: "",
-          phone: "",
-          email: "",
-          suburb: "",
-          service: "",
-          message: "",
-          honeypot: ""
-        });
-      } else {
-        throw new Error('Server error');
+      if (error) {
+        throw error;
       }
+
+      toast({
+        title: "Message Sent Successfully!",
+        description: "Thanks! We've received your enquiry and will call you within 24 hours to discuss your roofing needs.",
+        duration: 6000
+      });
+      
+      // Clear form
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        suburb: "",
+        service: "",
+        message: "",
+        honeypot: ""
+      });
     } catch (error) {
       // Fallback message for any errors
       toast({

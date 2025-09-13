@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Phone, Gift, Clock, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const QuickCaptureForm = () => {
   const [formData, setFormData] = useState({
@@ -20,8 +21,21 @@ const QuickCaptureForm = () => {
     setIsSubmitting(true);
 
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { data, error } = await supabase.functions.invoke('send-lead-notification', {
+        body: {
+          name: formData.name,
+          phone: formData.phone,
+          email: null,
+          suburb: formData.suburb,
+          service: 'Free Roof Health Check',
+          message: 'Requested free roof health check booking',
+          source: 'quick_capture_form'
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
       
       toast({
         title: "Free Assessment Booked!",
@@ -29,7 +43,8 @@ const QuickCaptureForm = () => {
       });
       
       setFormData({ name: '', phone: '', suburb: '' });
-    } catch (error) {
+    } catch (error: any) {
+      console.error("Form submission error:", error);
       toast({
         title: "Something went wrong",
         description: "Please call 0435 900 709 or try again later.",
