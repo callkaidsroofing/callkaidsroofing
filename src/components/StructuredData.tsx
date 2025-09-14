@@ -286,7 +286,7 @@ export const StructuredData = ({
     ]
   } : null;
 
-  const schemas: any[] = [organizationSchema, breadcrumbSchema];
+  const schemas: Record<string, unknown>[] = [organizationSchema, breadcrumbSchema];
   if (serviceSchema) schemas.push(serviceSchema);
   if (faqSchema) schemas.push(faqSchema);
 

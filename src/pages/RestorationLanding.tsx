@@ -85,7 +85,7 @@ export default function RestorationLanding() {
         urgency: "Within 2 weeks", 
         message: ""
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Quote Request Failed",
         description: "Please call 0435 900 709 to speak with Kaidyn directly.",

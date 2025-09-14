@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -25,7 +25,12 @@ export const SocialMediaManager = () => {
   const [posts, setPosts] = useState<SocialPost[]>([]);
   const [newPost, setNewPost] = useState('');
   const [isConnectedToFacebook, setIsConnectedToFacebook] = useState(false);
-  const [facebookPages, setFacebookPages] = useState<any[]>([]);
+  interface FacebookPage {
+    id: string;
+    name: string;
+    access_token: string;
+  }
+  const [facebookPages, setFacebookPages] = useState<FacebookPage[]>([]);
   const [selectedPage, setSelectedPage] = useState<string>('');
   const [userAccessToken, setUserAccessToken] = useState<string>('');
   const [loading, setLoading] = useState(false);
@@ -33,12 +38,21 @@ export const SocialMediaManager = () => {
   const { toast } = useToast();
   const { login, logout, getLoginStatus, postToPage } = useFacebookLogin();
 
-  useEffect(() => {
-    fetchPosts();
-    checkFacebookStatus();
-  }, []);
+  interface FBStatusResponse {
+    status: string;
+    authResponse: { accessToken: string };
+  }
 
-  const fetchPosts = async () => {
+  interface FBPagesResponse {
+    data?: FacebookPage[];
+  }
+
+  interface FBPostResponse {
+    error?: { message: string };
+    id?: string;
+  }
+
+  const fetchPosts = useCallback(async () => {
     const { data, error } = await supabase
       .from('social_posts')
       .select('*')
@@ -53,60 +67,68 @@ export const SocialMediaManager = () => {
     } else {
       setPosts(data);
     }
-  };
+  }, [toast]);
 
-  const checkFacebookStatus = () => {
-    getLoginStatus((response: any) => {
-      if (response.status === 'connected') {
-        setIsConnectedToFacebook(true);
-        setUserAccessToken(response.authResponse.accessToken);
-        fetchFacebookPages(response.authResponse.accessToken);
-      }
-    });
-  };
-
-  const fetchFacebookPages = async (accessToken: string) => {
+  const fetchFacebookPages = useCallback((accessToken: string) => {
     if (window.FB) {
-      window.FB.api('/me/accounts', 'GET', { access_token: accessToken }, (response: any) => {
-        if (response.data) {
-          setFacebookPages(response.data);
+      window.FB.api('/me/accounts', 'GET', { access_token: accessToken }, (response) => {
+        const fbResponse = response as FBPagesResponse;
+        if (fbResponse.data) {
+          setFacebookPages(fbResponse.data);
         }
       });
     }
-  };
+  }, []);
 
-  const handleFacebookLogin = () => {
-    login((response: any) => {
-      if (response.status === 'connected') {
+  const checkFacebookStatus = useCallback(() => {
+    getLoginStatus((response) => {
+      const fbResponse = response as FBStatusResponse;
+      if (fbResponse.status === 'connected') {
         setIsConnectedToFacebook(true);
-        setUserAccessToken(response.authResponse.accessToken);
-        fetchFacebookPages(response.authResponse.accessToken);
-        toast({
-          title: "Success",
-          description: "Connected to Facebook successfully!"
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to connect to Facebook",
-          variant: "destructive"
-        });
+        setUserAccessToken(fbResponse.authResponse.accessToken);
+        fetchFacebookPages(fbResponse.authResponse.accessToken);
       }
     });
-  };
+  }, [getLoginStatus, fetchFacebookPages]);
 
-  const handleFacebookLogout = () => {
-    logout((response: any) => {
-      setIsConnectedToFacebook(false);
-      setFacebookPages([]);
-      setSelectedPage('');
-      setUserAccessToken('');
-      toast({
-        title: "Success",
-        description: "Disconnected from Facebook"
+  useEffect(() => {
+    fetchPosts();
+    checkFacebookStatus();
+  }, [fetchPosts, checkFacebookStatus]);
+
+    const handleFacebookLogin = () => {
+      login((response) => {
+        const fbResponse = response as FBStatusResponse;
+        if (fbResponse.status === 'connected') {
+          setIsConnectedToFacebook(true);
+          setUserAccessToken(fbResponse.authResponse.accessToken);
+          fetchFacebookPages(fbResponse.authResponse.accessToken);
+          toast({
+            title: "Success",
+            description: "Connected to Facebook successfully!"
+          });
+        } else {
+          toast({
+            title: "Error",
+            description: "Failed to connect to Facebook",
+            variant: "destructive"
+          });
+        }
       });
-    });
-  };
+    };
+
+    const handleFacebookLogout = () => {
+      logout(() => {
+        setIsConnectedToFacebook(false);
+        setFacebookPages([]);
+        setSelectedPage('');
+        setUserAccessToken('');
+        toast({
+          title: "Success",
+          description: "Disconnected from Facebook"
+        });
+      });
+    };
 
   const createPost = async (platform: string) => {
     if (!newPost.trim()) {
@@ -177,19 +199,20 @@ export const SocialMediaManager = () => {
         const pageData = facebookPages.find(page => page.id === selectedPage);
         if (!pageData) throw new Error('Page not found');
 
-        postToPage(selectedPage, post.content, pageData.access_token, async (response: any) => {
-          if (response.error) {
+        postToPage(selectedPage, post.content, pageData.access_token, async (response) => {
+          const fbResponse = response as FBPostResponse;
+          if (fbResponse.error) {
             await supabase
               .from('social_posts')
               .update({
                 status: 'failed',
-                error_message: response.error.message
+                error_message: fbResponse.error.message
               })
               .eq('id', post.id);
             
             toast({
               title: "Error",
-              description: response.error.message,
+              description: fbResponse.error.message,
               variant: "destructive"
             });
           } else {
@@ -198,7 +221,7 @@ export const SocialMediaManager = () => {
               .update({
                 status: 'published',
                 published_at: new Date().toISOString(),
-                post_id: response.id
+                post_id: fbResponse.id
               })
               .eq('id', post.id);
             

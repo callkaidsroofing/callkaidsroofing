@@ -48,7 +48,7 @@ const QuickCaptureForm = () => {
       setTimeout(() => {
         window.location.href = '/thank-you';
       }, 2000);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Form submission error:", error);
       toast({
         title: "Something went wrong",

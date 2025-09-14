@@ -6,17 +6,18 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { SEOHead } from "@/components/SEOHead";
-import { 
-  Phone, 
-  CheckCircle, 
-  Clock, 
-  Shield, 
-  Star, 
+import {
+  Phone,
+  CheckCircle,
+  Clock,
+  Shield,
+  Star,
   AlertTriangle,
   Camera,
   Award,
   Users
 } from "lucide-react";
+import FomoBanner from "@/components/FomoBanner";
 
 interface FormData {
   name: string;
@@ -40,14 +41,23 @@ export default function LandingPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [timeLeft, setTimeLeft] = useState(24 * 60 * 60); // 24 hours in seconds
+  const [spotsLeft, setSpotsLeft] = useState(3);
   const { toast } = useToast();
 
   // Countdown timer
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft(prev => prev > 0 ? prev - 1 : 0);
+      setTimeLeft(prev => (prev > 0 ? prev - 1 : 0));
     }, 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  // Reduce available spots over time to create urgency
+  useEffect(() => {
+    const spotTimer = setInterval(() => {
+      setSpotsLeft(prev => (prev > 1 ? prev - 1 : prev));
+    }, 300000); // every 5 minutes
+    return () => clearInterval(spotTimer);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -84,7 +94,7 @@ export default function LandingPage() {
         urgency: "Within 24 hours", 
         message: ""
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Booking Failed",
         description: "Please call 0435 900 709 immediately for urgent help.",
@@ -114,16 +124,9 @@ export default function LandingPage() {
     }
   };
 
-  const formatTime = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
-
   return (
     <>
-      <SEOHead 
+      <SEOHead
         title="Emergency Roof Repairs Melbourne | Stop Leaks Fast | Call Kaids Roofing"
         description="24/7 emergency roof repair service across Melbourne. Professional leak detection & repairs. Free assessment, 10-year warranty. Call now: 0435 900 709"
         keywords="emergency roof repairs Melbourne, roof leak repair, urgent roofing service, 24/7 roof repairs, Melbourne roof emergency"
@@ -131,21 +134,19 @@ export default function LandingPage() {
         structuredData={structuredData}
       />
 
-      {/* Urgency Banner */}
-      <div className="bg-destructive text-destructive-foreground py-2 text-center text-sm font-medium">
-        <div className="container mx-auto px-4">
-          ⚡ LIMITED TIME: Free Emergency Assessment Expires in {formatTime(timeLeft)} ⚡
-        </div>
-      </div>
+      <FomoBanner timeLeft={timeLeft} spotsLeft={spotsLeft} />
 
       <div className="min-h-screen bg-gradient-to-b from-background to-secondary/10">
         {/* Hero Section */}
         <section className="pt-8 pb-12">
-          <div className="container mx-auto px-4 text-center">
-            <div className="max-w-4xl mx-auto">
-              <Badge variant="destructive" className="mb-4 text-sm font-semibold">
-                🚨 EMERGENCY ROOF REPAIRS
-              </Badge>
+            <div className="container mx-auto px-4 text-center">
+              <div className="max-w-4xl mx-auto">
+                <div className="flex flex-col items-center gap-2 mb-4">
+                  <Badge variant="destructive" className="text-sm font-semibold animate-pulse">
+                    🚨 Only {spotsLeft} emergency slots left today
+                  </Badge>
+                  <Badge className="text-sm font-semibold">EMERGENCY ROOF REPAIRS</Badge>
+                </div>
               
               <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
                 Stop Your Roof Leak
@@ -279,14 +280,17 @@ export default function LandingPage() {
         <section id="emergency-form" className="py-12 bg-secondary/20">
           <div className="container mx-auto px-4">
             <div className="max-w-2xl mx-auto">
-              <Card className="shadow-2xl border-0">
-                <CardContent className="p-8">
-                  <div className="text-center mb-8">
-                    <h3 className="text-3xl font-bold mb-4">Get Your FREE Emergency Assessment</h3>
-                    <p className="text-muted-foreground">
-                      Kaidyn will personally assess your roof and provide immediate emergency protection - usually within 2 hours.
-                    </p>
-                  </div>
+                <Card className="shadow-2xl border-0">
+                  <CardContent className="p-8">
+                    <div className="text-center mb-8">
+                      <h3 className="text-3xl font-bold mb-4">Get Your FREE Emergency Assessment</h3>
+                      <p className="text-muted-foreground">
+                        Kaidyn will personally assess your roof and provide immediate emergency protection - usually within 2 hours.
+                      </p>
+                      <p className="mt-2 text-destructive font-semibold animate-pulse">
+                        Only {spotsLeft} free assessments left today!
+                      </p>
+                    </div>
 
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -425,14 +429,17 @@ export default function LandingPage() {
         </section>
 
         {/* Final CTA */}
-        <section className="py-12 bg-primary text-primary-foreground">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Don't Let Your Roof Emergency Get Worse
-            </h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto">
-              Every minute counts when you have a roof leak. Get professional help now and protect your biggest investment.
-            </p>
+          <section className="py-12 bg-primary text-primary-foreground">
+            <div className="container mx-auto px-4 text-center">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                Don't Let Your Roof Emergency Get Worse
+              </h2>
+              <p className="text-xl mb-8 max-w-2xl mx-auto">
+                Every minute counts when you have a roof leak. Get professional help now and protect your biggest investment.
+              </p>
+              <p className="text-lg mb-8 text-yellow-200 font-semibold animate-pulse">
+                Only {spotsLeft} emergency appointments left today.
+              </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="secondary" className="text-lg px-8 py-6" asChild>
