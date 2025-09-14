@@ -131,7 +131,7 @@ const Index = () => {
               size="lg" 
               className="premium-gradient text-white px-8 py-4 text-lg font-bold hover:scale-105 transition-all duration-300 shadow-2xl"
             >
-              <Link to="/contact">
+              <Link to="/book">
                 Get Your FREE Quote Today
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
@@ -243,7 +243,7 @@ const Index = () => {
                 </a>
               </Button>
               <Button asChild variant="outline" size="lg" className="bg-white/10 border-white text-white hover:bg-white hover:text-primary w-full sm:w-auto text-sm sm:text-base">
-                <Link to="/contact">Book Free Inspection</Link>
+                <Link to="/book">Book Free Inspection</Link>
               </Button>
             </div>
 
