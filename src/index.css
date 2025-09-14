@@ -50,18 +50,16 @@ All colors MUST be HSL.
     --roofing-warning: 48 96% 53%; /* Warning Amber #FACC15 */
     --roofing-emergency: 0 84% 51%; /* Error Red #DC2626 */
     
-    /* Call Kaids Roofing Gradients - Sky Blue Inspired */
-    --gradient-hero: linear-gradient(135deg, hsl(210 70% 35%) 0%, hsl(200 85% 45%) 40%, hsl(195 90% 55%) 100%);
-    --gradient-primary: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #3b82f6 100%);
-    --gradient-sky: linear-gradient(135deg, hsl(210 70% 35%) 0%, hsl(200 85% 45%) 100%);
-    --gradient-section: linear-gradient(180deg, hsl(var(--primary) / 0.08) 0%, hsl(var(--secondary) / 0.04) 100%);
-    --gradient-card: linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-    --gradient-cta: linear-gradient(135deg, hsl(210 70% 35%) 0%, hsl(200 85% 45%) 100%);
-    
-    /* Trust indicator colors */
-    --trust-green: 142 71% 45%; /* Vibrant green for checkmarks */
-    --highlight-yellow: 48 96% 53%; /* Yellow for phone numbers */
-    --emergency-red: 0 84% 60%; /* Red for 24/7 badges */
+    /* Call Kaids Roofing Gradients - Multiple Variations */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 50%, hsl(var(--roofing-charcoal)) 100%);
+    --gradient-hero-alt: linear-gradient(45deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
+    --gradient-blue: linear-gradient(90deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
+    --gradient-blue-reverse: linear-gradient(270deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
+    --gradient-premium: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(207 100% 50%) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--roofing-charcoal)) 0%, hsl(var(--roofing-navy)) 100%);
+    --gradient-section: linear-gradient(180deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--secondary) / 0.05) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--primary) / 0.15) 0%, hsl(var(--secondary) / 0.1) 100%);
+    --gradient-cta: linear-gradient(45deg, hsl(var(--primary)) 0%, hsl(var(--roofing-blue)) 50%, hsl(var(--secondary)) 100%);
 
     --radius: 0.5rem;
 
@@ -150,17 +148,29 @@ All colors MUST be HSL.
 }
 
 @layer components {
-  /* Sky-inspired gradient classes */
+  /* Enhanced gradient classes with variations */
   .hero-gradient {
     background: var(--gradient-hero);
   }
   
-  .sky-gradient {
-    background: var(--gradient-sky);
+  .hero-gradient-alt {
+    background: var(--gradient-hero-alt);
   }
   
-  .primary-gradient {
-    background: var(--gradient-primary);
+  .blue-gradient {
+    background: var(--gradient-blue);
+  }
+  
+  .blue-gradient-reverse {
+    background: var(--gradient-blue-reverse);
+  }
+  
+  .premium-gradient {
+    background: var(--gradient-premium);
+  }
+  
+  .dark-gradient {
+    background: var(--gradient-dark);
   }
   
   .section-gradient {
@@ -173,35 +183,6 @@ All colors MUST be HSL.
   
   .cta-gradient {
     background: var(--gradient-cta);
-  }
-  
-  /* Glass morphism effects inspired by reference */
-  .glass-overlay {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-  }
-  
-  .trust-badge {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 12px;
-  }
-  
-  /* Trust indicator styling */
-  .trust-green { color: hsl(var(--trust-green)); }
-  .highlight-yellow { color: hsl(var(--highlight-yellow)); }
-  .emergency-red { color: hsl(var(--emergency-red)); }
-  
-  /* Metallic text effect for logo */
-  .metallic-text {
-    background: linear-gradient(135deg, #D4AF37 0%, #FFD700 25%, #B8860B 50%, #DAA520 75%, #D4AF37 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
   }
   
   /* Enhanced interactive elements */
