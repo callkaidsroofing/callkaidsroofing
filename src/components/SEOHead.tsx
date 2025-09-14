@@ -184,6 +184,11 @@ export const SEOHead = ({
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link rel="preconnect" href="https://www.googletagmanager.com" />
       
+      {/* Additional SEO optimizations */}
+      <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+      <meta name="google-site-verification" content="pending" />
+      <meta name="msvalidate.01" content="pending" />
+      
       {/* DNS prefetch for external resources */}
       <link rel="dns-prefetch" href="//www.google-analytics.com" />
       <link rel="dns-prefetch" href="//www.googletagmanager.com" />
