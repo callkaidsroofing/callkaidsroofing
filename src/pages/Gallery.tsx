@@ -207,13 +207,13 @@ const Gallery = () => {
           {/* Filter Buttons */}
           <div className="flex justify-center mb-8">
             <div className="flex gap-2 p-1 bg-muted rounded-lg">
-              {['all', 'before', 'after', 'progress'].map((filter) => (
+              {(['all', 'before', 'after', 'progress'] as const).map((filter) => (
                 <Button
                   key={filter}
                   variant={filterCategory === filter ? "default" : "ghost"}
                   size="sm"
                   onClick={() => {
-                    setFilterCategory(filter as any);
+                    setFilterCategory(filter);
                     setCurrentImage(0);
                   }}
                   className="capitalize"

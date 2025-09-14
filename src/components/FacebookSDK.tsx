@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useEffect } from 'react';
 
 declare global {
@@ -12,10 +13,15 @@ declare global {
       AppEvents: {
         logPageView: () => void;
       };
-      login: (callback: (response: any) => void, options?: { scope: string }) => void;
-      logout: (callback: (response: any) => void) => void;
-      getLoginStatus: (callback: (response: any) => void) => void;
-      api: (path: string, method: string, params: any, callback: (response: any) => void) => void;
+      login: (callback: (response: unknown) => void, options?: { scope: string }) => void;
+      logout: (callback: (response: unknown) => void) => void;
+      getLoginStatus: (callback: (response: unknown) => void) => void;
+      api: (
+        path: string,
+        method: string,
+        params: Record<string, unknown>,
+        callback: (response: unknown) => void
+      ) => void;
     };
     fbAsyncInit: () => void;
   }
@@ -66,7 +72,7 @@ export const FacebookSDK = ({ appId, onReady }: FacebookSDKProps) => {
 };
 
 export const useFacebookLogin = () => {
-  const login = (callback: (response: any) => void) => {
+  const login = (callback: (response: unknown) => void) => {
     if (window.FB) {
       window.FB.login(callback, {
         scope: 'pages_manage_posts,pages_read_engagement,pages_show_list,publish_to_groups'
@@ -74,19 +80,24 @@ export const useFacebookLogin = () => {
     }
   };
 
-  const logout = (callback: (response: any) => void) => {
+  const logout = (callback: (response: unknown) => void) => {
     if (window.FB) {
       window.FB.logout(callback);
     }
   };
 
-  const getLoginStatus = (callback: (response: any) => void) => {
+  const getLoginStatus = (callback: (response: unknown) => void) => {
     if (window.FB) {
       window.FB.getLoginStatus(callback);
     }
   };
 
-  const postToPage = (pageId: string, message: string, accessToken: string, callback: (response: any) => void) => {
+  const postToPage = (
+    pageId: string,
+    message: string,
+    accessToken: string,
+    callback: (response: unknown) => void
+  ) => {
     if (window.FB) {
       window.FB.api(
         `/${pageId}/feed`,

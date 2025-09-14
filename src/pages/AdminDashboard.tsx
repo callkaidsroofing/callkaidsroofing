@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -62,13 +62,7 @@ const AdminDashboard = () => {
     fetchFacebookAppId();
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      fetchLeads();
-    }
-  }, [user]);
-
-  const fetchLeads = async () => {
+  const fetchLeads = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from('leads')
@@ -87,7 +81,13 @@ const AdminDashboard = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    if (user) {
+      fetchLeads();
+    }
+  }, [user, fetchLeads]);
 
   const handleLogout = async () => {
     await signOut();

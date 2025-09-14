@@ -15,7 +15,7 @@ export function SeoAnalysisWidget() {
     // Create and append the external widget script inside the container
     const script = document.createElement("script");
     script.async = true;
-    (script as any).dataset.widgetId = "14442591191020099ff47da23fb09078659dd8a6";
+    script.dataset.widgetId = "14442591191020099ff47da23fb09078659dd8a6";
     script.src = "https://www.local-marketing-reports.com/m/assets-v2/lead-gen/js/external/widget-builder.js";
 
     // Optional: basic error handling UI
