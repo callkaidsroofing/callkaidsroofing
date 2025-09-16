@@ -186,8 +186,8 @@ export const SEOHead = ({
       
       {/* Additional SEO optimizations */}
       <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-      <meta name="google-site-verification" content="pending" />
-      <meta name="msvalidate.01" content="pending" />
+      <meta name="google-site-verification" content="YOUR_GSC_VERIFICATION_CODE_HERE" />
+      <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE_HERE" />
       
       {/* DNS prefetch for external resources */}
       <link rel="dns-prefetch" href="//www.google-analytics.com" />
