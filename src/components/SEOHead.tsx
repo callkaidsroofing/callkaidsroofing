@@ -27,7 +27,7 @@ export const SEOHead = ({
     url: "https://callkaidsroofing.com.au",
     logo: "https://callkaidsroofing.com.au/logo.png",
     image: ogImage,
-    telephone: "+61 435 900 709",
+    telephone: "+61435900709",
     email: "callkaidsroofing@outlook.com",
     foundingDate: "2020",
     founder: {
@@ -67,6 +67,36 @@ export const SEOHead = ({
         "@type": "City",
         name: "Cranbourne",
         containedInPlace: { "@type": "State", name: "Victoria" }
+      },
+      {
+        "@type": "City",
+        name: "Cranbourne North",
+        containedInPlace: { "@type": "State", name: "Victoria" }
+      },
+      {
+        "@type": "City",
+        name: "Cranbourne East",
+        containedInPlace: { "@type": "State", name: "Victoria" }
+      },
+      {
+        "@type": "City",
+        name: "Narre Warren",
+        containedInPlace: { "@type": "State", name: "Victoria" }
+      },
+      {
+        "@type": "City",
+        name: "Doveton",
+        containedInPlace: { "@type": "State", name: "Victoria" }
+      },
+      {
+        "@type": "City",
+        name: "Dandenong",
+        containedInPlace: { "@type": "State", name: "Victoria" }
+      },
+      {
+        "@type": "City",
+        name: "Rowville",
+        containedInPlace: { "@type": "State", name: "Victoria" }
       }
     ],
     serviceArea: {
@@ -87,7 +117,7 @@ export const SEOHead = ({
           itemOffered: {
             "@type": "Service",
             name: "Roof Restoration",
-            description: "Complete roof restoration including cleaning, repairs, and painting"
+            description: "Complete roof restoration including cleaning, repairs, and painting with 10-year warranty"
           }
         },
         {
@@ -95,7 +125,7 @@ export const SEOHead = ({
           itemOffered: {
             "@type": "Service",
             name: "Roof Painting",
-            description: "Professional roof painting services with premium materials"
+            description: "Professional roof painting services with premium Dulux AcraTex and Colorbond materials"
           }
         },
         {
@@ -103,7 +133,47 @@ export const SEOHead = ({
           itemOffered: {
             "@type": "Service", 
             name: "Emergency Roof Repairs",
-            description: "24/7 emergency roof repair services across Southeast Melbourne"
+            description: "24/7 emergency roof repair services across Southeast Melbourne with same-day response"
+          }
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service", 
+            name: "Gutter Cleaning",
+            description: "Professional gutter cleaning and maintenance services"
+          }
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service", 
+            name: "Leak Detection",
+            description: "Expert leak detection and repair services with thermal imaging"
+          }
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service", 
+            name: "Ridge Capping",
+            description: "Ridge cap rebedding and repointing with flexible pointing compound"
+          }
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service", 
+            name: "Tile Replacement",
+            description: "Broken and damaged roof tile replacement services"
+          }
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service", 
+            name: "Valley Iron Replacement",
+            description: "Valley iron and flashing replacement with Colorbond steel"
           }
         }
       ]
@@ -121,13 +191,37 @@ export const SEOHead = ({
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
-      reviewCount: "47"
+      reviewCount: "47",
+      bestRating: "5",
+      worstRating: "1"
     },
     identifier: {
       "@type": "PropertyValue",
       name: "ABN",
       value: "39475055075"
-    }
+    },
+    sameAs: [
+      "https://www.facebook.com/callkaidsroofing",
+      "https://www.instagram.com/callkaidsroofing",
+      "https://tradiesnearyou.com.au/trades/roofers/victoria/clyde-north/call-kaids-roofing",
+      "https://www.serviceseeking.com.au/profile/308109-call-kaids-roofing"
+    ],
+    hasCredential: [
+      {
+        "@type": "EducationalOccupationalCredential",
+        credentialCategory: "license",
+        name: "Fully Insured Roofing Contractor"
+      }
+    ],
+    makesOffer: [
+      {
+        "@type": "Offer",
+        name: "Free Roof Health Check",
+        description: "Complimentary roof inspection and assessment",
+        price: "0",
+        priceCurrency: "AUD"
+      }
+    ]
   };
 
   return (
