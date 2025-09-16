@@ -96,8 +96,15 @@ const Header = () => {
             <Link to="/blog" className="text-foreground hover:text-primary transition-colors">
               Blog
             </Link>
+            <Link to="/gallery" className="text-foreground hover:text-primary transition-colors">
+              Gallery
+            </Link>
             <Link to="/about" className="text-foreground hover:text-primary transition-colors">
               About
+            </Link>
+            <Link to="/warranty" className="text-foreground hover:text-primary transition-colors flex items-center gap-1">
+              <Shield className="h-4 w-4" />
+              Warranty
             </Link>
             <Link to="/contact" className="text-foreground hover:text-primary transition-colors">
               Contact
@@ -168,11 +175,26 @@ const Header = () => {
                 Blog
               </Link>
               <Link
+                to="/gallery"
+                className="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Gallery
+              </Link>
+              <Link
                 to="/about"
                 className="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 About
+              </Link>
+              <Link
+                to="/warranty"
+                className="flex items-center gap-2 px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Shield className="h-4 w-4" />
+                Warranty
               </Link>
               <Link
                 to="/contact"
