@@ -6,7 +6,6 @@ export default function PrivacyPolicy() {
       <SEOHead
         title="Privacy Policy | Call Kaids Roofing"
         description="Privacy policy for Call Kaids Roofing. Learn how we collect, use and protect your personal information."
-        canonical="https://callkaidsroofing.com.au/privacy-policy"
       />
       
       <div className="min-h-screen bg-background">
@@ -23,7 +22,7 @@ export default function PrivacyPolicy() {
                 <h2 className="text-2xl font-semibold text-foreground mb-4">Who We Are</h2>
                 <p>
                   Call Kaids Roofing (ABN: 39475055075) is a roofing contractor based in Clyde North, Victoria. 
-                  Our website address is: https://callkaidsroofing.com.au
+                  Our website address is: https://www.callkaidsroofing.com.au
                 </p>
               </section>
 

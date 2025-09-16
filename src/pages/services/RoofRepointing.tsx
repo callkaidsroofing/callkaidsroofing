@@ -29,7 +29,7 @@ const RoofRepointing = () => {
     },
     "areaServed": ["Clyde North", "Berwick", "Officer", "Pakenham", "Cranbourne", "Southeast Melbourne"],
     "serviceType": "Roof Repointing",
-    "url": "https://callkaidsroofing.com.au/roof-repointing"
+    "url": "https://www.callkaidsroofing.com.au/roof-repointing"
   };
 
   return (
@@ -38,7 +38,6 @@ const RoofRepointing = () => {
         title="Roof Repointing Melbourne | Ridge Cap & Mortar Repair | Call Kaids Roofing"
         description="Professional roof repointing in Southeast Melbourne. Fix cracked mortar, stop leaks, and extend your roof's life. 10-year warranty. Call 0435 900 709."
         keywords="roof repointing Melbourne, ridge cap repair, mortar repair, roof pointing, Clyde North repointing, Southeast Melbourne roofing"
-        canonical="https://callkaidsroofing.com.au/roof-repointing"
         structuredData={structuredData}
       />
 

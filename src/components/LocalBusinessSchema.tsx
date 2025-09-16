@@ -6,28 +6,28 @@ interface LocalBusinessSchemaProps {
   suburb?: string;
 }
 
-export const LocalBusinessSchema = ({ 
-  pageName = "Home", 
+export const LocalBusinessSchema = ({
+  pageName = "Home",
   serviceType,
-  suburb 
+  suburb
 }: LocalBusinessSchemaProps) => {
-  const baseSchema = {
+  const baseSchema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "RoofingContractor",
-    "@id": "https://callkaidsroofing.com.au/#organization",
+    "@id": "https://www.callkaidsroofing.com.au/#organization",
     name: "Call Kaids Roofing",
     alternateName: "Kaids Roofing",
     description: `Professional roofing services in ${suburb || 'Southeast Melbourne'} specializing in ${serviceType || 'roof restoration, painting and emergency repairs'}`,
-    url: "https://callkaidsroofing.com.au",
+    url: "https://www.callkaidsroofing.com.au",
     logo: {
       "@type": "ImageObject",
-      url: "https://callkaidsroofing.com.au/logo.png",
+      url: "https://www.callkaidsroofing.com.au/logo.png",
       width: 300,
       height: 200
     },
     image: {
       "@type": "ImageObject",
-      url: "https://callkaidsroofing.com.au/og-image.jpg",
+      url: "https://www.callkaidsroofing.com.au/og-image.jpg",
       width: 1200,
       height: 630
     },
@@ -101,7 +101,7 @@ export const LocalBusinessSchema = ({
   };
 
   // Add service-specific schema if provided
-  const serviceSchema = serviceType ? {
+  const serviceSchema: Record<string, unknown> | null = serviceType ? {
     "@context": "https://schema.org",
     "@type": "Service",
     name: serviceType,
@@ -131,7 +131,7 @@ export const LocalBusinessSchema = ({
   } : null;
 
   // Create breadcrumb schema for better navigation understanding
-  const breadcrumbSchema = {
+  const breadcrumbSchema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
@@ -139,29 +139,29 @@ export const LocalBusinessSchema = ({
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://callkaidsroofing.com.au/"
+        item: "https://www.callkaidsroofing.com.au/"
       },
       ...(serviceType ? [{
         "@type": "ListItem",
         position: 2,
         name: "Services",
-        item: "https://callkaidsroofing.com.au/services"
+        item: "https://www.callkaidsroofing.com.au/services"
       }, {
         "@type": "ListItem",
         position: 3,
         name: serviceType,
-        item: `https://callkaidsroofing.com.au/services/${serviceType.toLowerCase().replace(/\s+/g, '-')}`
+        item: `https://www.callkaidsroofing.com.au/services/${serviceType.toLowerCase().replace(/\s+/g, '-')}`
       }] : pageName !== "Home" ? [{
         "@type": "ListItem",
         position: 2,
         name: pageName,
-        item: `https://callkaidsroofing.com.au/${pageName.toLowerCase()}`
+        item: `https://www.callkaidsroofing.com.au/${pageName.toLowerCase()}`
       }] : [])
     ]
   };
 
-  const schemas = [baseSchema, breadcrumbSchema];
-  if (serviceSchema) schemas.push(serviceSchema as any);
+  const schemas: Record<string, unknown>[] = [baseSchema, breadcrumbSchema];
+  if (serviceSchema) schemas.push(serviceSchema);
 
   return (
     <Helmet>

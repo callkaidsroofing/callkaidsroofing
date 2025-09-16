@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,7 @@ import { OptimizedImage } from "@/components/OptimizedImage";
 import { Clock, User, ArrowRight, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { SeoAnalysisWidget } from "@/components/SeoAnalysisWidget";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -27,12 +27,11 @@ export default function Blog() {
 
   return (
     <>
-      <Helmet>
-        <title>Roofing Blog - Expert Tips & Guides | Call Kaids Roofing Melbourne</title>
-        <meta name="description" content="Expert roofing advice, maintenance tips, and industry insights for Melbourne homeowners. Professional guides on roof restoration, repairs, and protection." />
-        <meta name="keywords" content="roofing blog, Melbourne roofing tips, roof maintenance guides, roofing advice, Call Kaids Roofing" />
-        <link rel="canonical" href="https://callkaidsroofing.com.au/blog" />
-      </Helmet>
+      <SEOHead
+        title="Roofing Blog - Expert Tips & Guides | Call Kaids Roofing"
+        description="Expert roofing advice, maintenance tips, and industry insights for Melbourne homeowners. Professional guides on roof restoration, repairs, and protection."
+        keywords="roofing blog, Melbourne roofing tips, roof maintenance guides, roofing advice, Call Kaids Roofing"
+      />
 
       <div className="min-h-screen bg-gradient-to-br from-background via-background/50 to-primary/5">
         {/* Hero Section */}

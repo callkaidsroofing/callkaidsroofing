@@ -31,6 +31,14 @@ import ThankYou from "./pages/ThankYou";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import RestorationLanding from "./pages/RestorationLanding";
+import RoofRestorationClydeNorth from "./pages/services/suburbs/RoofRestorationClydeNorth";
+import RoofRestorationCranbourne from "./pages/services/suburbs/RoofRestorationCranbourne";
+import RoofRestorationPakenham from "./pages/services/suburbs/RoofRestorationPakenham";
+import RoofRestorationBerwick from "./pages/services/suburbs/RoofRestorationBerwick";
+import RoofRestorationMountEliza from "./pages/services/suburbs/RoofRestorationMountEliza";
+import RoofPaintingPakenham from "./pages/services/suburbs/RoofPaintingPakenham";
+import RoofPaintingCranbourne from "./pages/services/suburbs/RoofPaintingCranbourne";
+import RoofPaintingClydeNorth from "./pages/services/suburbs/RoofPaintingClydeNorth";
 
 const queryClient = new QueryClient();
 
@@ -69,6 +77,14 @@ function App() {
                   <Route path="services" element={<Index />} />
                   <Route path="services/roof-restoration" element={<RoofRestoration />} />
                   <Route path="services/roof-painting" element={<RoofPainting />} />
+                  <Route path="services/roof-restoration-clyde-north" element={<RoofRestorationClydeNorth />} />
+                  <Route path="services/roof-restoration-cranbourne" element={<RoofRestorationCranbourne />} />
+                  <Route path="services/roof-restoration-pakenham" element={<RoofRestorationPakenham />} />
+                  <Route path="services/roof-restoration-berwick" element={<RoofRestorationBerwick />} />
+                  <Route path="services/roof-restoration-mount-eliza" element={<RoofRestorationMountEliza />} />
+                  <Route path="services/roof-painting-pakenham" element={<RoofPaintingPakenham />} />
+                  <Route path="services/roof-painting-cranbourne" element={<RoofPaintingCranbourne />} />
+                  <Route path="services/roof-painting-clyde-north" element={<RoofPaintingClydeNorth />} />
                   <Route path="services/roof-repairs" element={<RoofRepairs />} />
                   <Route path="services/gutter-cleaning" element={<GutterCleaning />} />
                   <Route path="services/valley-iron-replacement" element={<ValleyIronReplacement />} />

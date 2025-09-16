@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { SEOHead } from '@/components/SEOHead';
 import { Shield, CheckCircle, Phone, Clock, Award, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -70,6 +71,11 @@ const Warranty = () => {
 
   return (
     <div className="min-h-screen">
+      <SEOHead
+        title="Roofing Warranty | 10-Year Workmanship Guarantee | Call Kaids Roofing"
+        description="Understand the 10-year workmanship and material warranty from Call Kaids Roofing. Covering Clyde North, Cranbourne, Berwick & SE Melbourne projects."
+        keywords="roofing warranty Melbourne, roof restoration warranty, Call Kaids Roofing guarantee"
+      />
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/5 to-primary/10">
         <div className="container mx-auto px-4">

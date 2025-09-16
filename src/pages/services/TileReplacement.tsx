@@ -29,7 +29,7 @@ const TileReplacement = () => {
     },
     "areaServed": ["Clyde North", "Berwick", "Officer", "Pakenham", "Cranbourne", "Southeast Melbourne"],
     "serviceType": "Roof Tile Replacement",
-    "url": "https://callkaidsroofing.com.au/tile-replacement"
+    "url": "https://www.callkaidsroofing.com.au/tile-replacement"
   };
 
   return (
@@ -38,7 +38,6 @@ const TileReplacement = () => {
         title="Broken Roof Tile Replacement Melbourne | Call Kaids Roofing"
         description="Professional broken roof tile replacement in Southeast Melbourne. Match existing tiles, prevent leaks. 10-year warranty. Call 0435 900 709."
         keywords="roof tile replacement Melbourne, broken tile repair, tile matching, roof leak repair, Clyde North tile replacement"
-        canonical="https://callkaidsroofing.com.au/tile-replacement"
         structuredData={structuredData}
       />
 

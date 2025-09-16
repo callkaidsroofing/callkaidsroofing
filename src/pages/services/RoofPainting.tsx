@@ -92,17 +92,16 @@ const RoofPainting = () => {
 
   return (
     <div className="min-h-screen">
-      <SEOHead 
-        title="Roof Painting Melbourne | 3 Day Transformation | Premium Paints | 10 Year Warranty"
-        description="Professional roof painting Melbourne. Transform your home in 3 days with premium weather-resistant paints. $4,000-$10,000. Call 0435 900 709"
-        keywords="roof painting Melbourne, roof painting Clyde North, roof painting Berwick, professional roof painting, Melbourne roof painters"
-        canonical="https://callkaidsroofing.com.au/services/roof-painting"
+      <SEOHead
+        title="Roof Painting Melbourne | Tile & Metal Roof Coatings"
+        description="Transform your home’s look with expert roof painting. Protective coatings, colour matched finishes, 10-year warranty. Serving SE Melbourne."
+        keywords="roof painting Melbourne, tile roof painting Melbourne, metal roof coatings, Call Kaids Roofing"
       />
       <StructuredData 
         type="service" 
         serviceName="Roof Painting"
         serviceDescription="Professional 3-day roof painting service with premium weather-resistant paint systems"
-        pageUrl="https://callkaidsroofing.com.au/services/roof-painting"
+        pageUrl="https://www.callkaidsroofing.com.au/services/roof-painting"
       />
       {/* Hero Section */}
       <section 

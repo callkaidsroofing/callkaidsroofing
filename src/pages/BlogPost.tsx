@@ -1,5 +1,4 @@
 import { useParams, Link, Navigate } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import { blogPosts, blogCategories } from "@/data/blogPosts";
 import { OptimizedImage } from "@/components/OptimizedImage";
 import { Badge } from "@/components/ui/badge";
@@ -7,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Clock, User, ArrowLeft, ArrowRight, Share2, Calendar } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { Helmet } from "react-helmet-async";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
@@ -36,13 +37,13 @@ export default function BlogPost() {
 
   return (
     <>
+      <SEOHead
+        title={`${post.title} | Call Kaids Roofing Blog`}
+        description={post.excerpt}
+        keywords={post.tags.join(", ")}
+      />
+
       <Helmet>
-        <title>{post.title} | Call Kaids Roofing Blog</title>
-        <meta name="description" content={post.excerpt} />
-        <meta name="keywords" content={post.tags.join(", ")} />
-        <link rel="canonical" href={`https://callkaidsroofing.com.au/blog/${post.slug}`} />
-        
-        {/* Open Graph */}
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt} />
         <meta property="og:image" content={post.imageUrl} />
