@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { SEOHead } from '@/components/SEOHead';
 import { Phone, Clock, MapPin, AlertTriangle, CheckCircle, Shield } from 'lucide-react';
 
 const Emergency = () => {
@@ -29,6 +30,11 @@ const Emergency = () => {
 
   return (
     <div className="min-h-screen">
+      <SEOHead
+        title="Emergency Roof Repairs Clyde North & SE Melbourne | Call Kaids Roofing"
+        description="Same-day emergency roof repairs for Clyde North, Cranbourne, Berwick and surrounding suburbs. Call 0435 900 709 for rapid leak control and storm damage support."
+        keywords="emergency roof repairs Clyde North, storm damage roofing Melbourne, urgent roof repair"
+      />
       {/* Hero Section */}
       <section className="py-20 bg-destructive text-destructive-foreground">
         <div className="container mx-auto px-4">

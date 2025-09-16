@@ -57,12 +57,11 @@ const Index = () => {
 
   return (
     <>
-      <SEOHead 
-        title="Professional Roofing Services Melbourne | Call Kaids Roofing | 10 Year Warranty"
-        description="Expert roof restoration, painting & emergency repairs in Southeast Melbourne. 10-year warranty, premium materials, same-day quotes. Call Kaidyn: 0435 900 709"
-        keywords="roof restoration Melbourne, roof painting Melbourne, emergency roof repairs, Clyde North roofer, Berwick roofing, Southeast Melbourne roofing"
-        canonical="https://callkaidsroofing.com.au/"
-        ogImage="https://callkaidsroofing.com.au/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
+      <SEOHead
+        title="Call Kaids Roofing | Roof Restorations Clyde North & SE Melbourne"
+        description="Local roofing experts in Clyde North. Roof restorations, painting, repairs & gutter cleaning with 10-year warranty. Call 0435 900 709 today."
+        keywords="roof restorations Clyde North, roof painting southeast Melbourne, gutter cleaning Clyde North, roof repairs Berwick"
+        ogImage="https://www.callkaidsroofing.com.au/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
       />
       <StructuredData type="homepage" />
       <div className="page-transition">

@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
+type GtagFunction = (...args: unknown[]) => void;
+
 declare global {
   interface Window {
-    gtag: any;
-    dataLayer: any[];
+    gtag?: GtagFunction;
+    dataLayer: unknown[];
   }
 }
 
@@ -19,8 +21,8 @@ export const GoogleAnalytics = ({ measurementId }: GoogleAnalyticsProps) => {
     // Initialize Google Analytics
     if (typeof window !== 'undefined') {
       window.dataLayer = window.dataLayer || [];
-      window.gtag = function() {
-        window.dataLayer.push(arguments);
+      window.gtag = (...args: unknown[]) => {
+        window.dataLayer.push(args);
       };
       
       // Load GA script

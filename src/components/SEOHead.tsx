@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
 
 interface SEOHeadProps {
   title?: string;
@@ -10,217 +11,44 @@ interface SEOHeadProps {
 }
 
 export const SEOHead = ({
-  title = "Professional Roofing Services Melbourne | Call Kaids Roofing | 10 Year Warranty",
-  description = "Expert roof restoration, painting & emergency repairs in Southeast Melbourne. 10-year warranty, premium materials, same-day quotes. Call Kaidyn: 0435 900 709",
-  keywords = "roof restoration Melbourne, roof painting Melbourne, emergency roof repairs, Clyde North roofer, Berwick roofing, Southeast Melbourne roofing, roof maintenance Melbourne",
+  title = "Call Kaids Roofing | Roof Restorations Clyde North & SE Melbourne",
+  description = "Local roofing experts in Clyde North. Roof restorations, painting, repairs & gutter cleaning with 10-year warranty. Call 0435 900 709 today.",
+  keywords = "roof restoration Clyde North, roof painting Clyde North, roof repairs Southeast Melbourne, local roofing contractor, Call Kaids Roofing",
   canonical,
-  ogImage = "https://callkaidsroofing.com.au/og-image.jpg",
+  ogImage = "https://www.callkaidsroofing.com.au/og-image.jpg",
   structuredData
 }: SEOHeadProps) => {
+  const location = useLocation();
+
+  const canonicalUrl = canonical || `https://www.callkaidsroofing.com.au${location.pathname}${location.search}`;
+
   const defaultStructured = {
     "@context": "https://schema.org",
     "@type": "RoofingContractor",
-    "@id": "https://callkaidsroofing.com.au/#organization",
     name: "Call Kaids Roofing",
-    legalName: "Call Kaids Roofing",
-    description,
-    url: "https://callkaidsroofing.com.au",
-    logo: "https://callkaidsroofing.com.au/logo.png",
-    image: ogImage,
-    telephone: "+61435900709",
+    url: "https://www.callkaidsroofing.com.au",
+    telephone: "+61-435-900-709",
     email: "callkaidsroofing@outlook.com",
-    foundingDate: "2020",
-    founder: {
-      "@type": "Person",
-      name: "Kaidyn Brownlie"
-    },
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Grices Rd",
       addressLocality: "Clyde North",
       addressRegion: "VIC",
       postalCode: "3978",
       addressCountry: "AU"
     },
-    areaServed: [
-      {
-        "@type": "City",
-        name: "Clyde North",
-        containedInPlace: { "@type": "State", name: "Victoria" }
-      },
-      {
-        "@type": "City", 
-        name: "Berwick",
-        containedInPlace: { "@type": "State", name: "Victoria" }
-      },
-      {
-        "@type": "City",
-        name: "Officer", 
-        containedInPlace: { "@type": "State", name: "Victoria" }
-      },
-      {
-        "@type": "City",
-        name: "Pakenham",
-        containedInPlace: { "@type": "State", name: "Victoria" }
-      },
-      {
-        "@type": "City",
-        name: "Cranbourne",
-        containedInPlace: { "@type": "State", name: "Victoria" }
-      },
-      {
-        "@type": "City",
-        name: "Cranbourne North",
-        containedInPlace: { "@type": "State", name: "Victoria" }
-      },
-      {
-        "@type": "City",
-        name: "Cranbourne East",
-        containedInPlace: { "@type": "State", name: "Victoria" }
-      },
-      {
-        "@type": "City",
-        name: "Narre Warren",
-        containedInPlace: { "@type": "State", name: "Victoria" }
-      },
-      {
-        "@type": "City",
-        name: "Doveton",
-        containedInPlace: { "@type": "State", name: "Victoria" }
-      },
-      {
-        "@type": "City",
-        name: "Dandenong",
-        containedInPlace: { "@type": "State", name: "Victoria" }
-      },
-      {
-        "@type": "City",
-        name: "Rowville",
-        containedInPlace: { "@type": "State", name: "Victoria" }
-      }
-    ],
-    serviceArea: {
+    identifier: "ABN 39475055075",
+    areaServed: {
       "@type": "GeoCircle",
-      geoMidpoint: { 
-        "@type": "GeoCoordinates", 
-        latitude: -38.1167, 
-        longitude: 145.3333 
+      geoMidpoint: {
+        "@type": "GeoCoordinates",
+        latitude: -38.09,
+        longitude: 145.33
       },
       geoRadius: "50000"
     },
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      name: "Roofing Services",
-      itemListElement: [
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "Roof Restoration",
-            description: "Complete roof restoration including cleaning, repairs, and painting with 10-year warranty"
-          }
-        },
-        {
-          "@type": "Offer", 
-          itemOffered: {
-            "@type": "Service",
-            name: "Roof Painting",
-            description: "Professional roof painting services with premium Dulux AcraTex and Colorbond materials"
-          }
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service", 
-            name: "Emergency Roof Repairs",
-            description: "24/7 emergency roof repair services across Southeast Melbourne with same-day response"
-          }
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service", 
-            name: "Gutter Cleaning",
-            description: "Professional gutter cleaning and maintenance services"
-          }
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service", 
-            name: "Leak Detection",
-            description: "Expert leak detection and repair services with thermal imaging"
-          }
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service", 
-            name: "Ridge Capping",
-            description: "Ridge cap rebedding and repointing with flexible pointing compound"
-          }
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service", 
-            name: "Tile Replacement",
-            description: "Broken and damaged roof tile replacement services"
-          }
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service", 
-            name: "Valley Iron Replacement",
-            description: "Valley iron and flashing replacement with Colorbond steel"
-          }
-        }
-      ]
-    },
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        opens: "07:00",
-        closes: "18:00"
-      }
-    ],
-    currenciesAccepted: "AUD",
-    priceRange: "$$",
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "47",
-      bestRating: "5",
-      worstRating: "1"
-    },
-    identifier: {
-      "@type": "PropertyValue",
-      name: "ABN",
-      value: "39475055075"
-    },
     sameAs: [
       "https://www.facebook.com/callkaidsroofing",
-      "https://www.instagram.com/callkaidsroofing",
-      "https://tradiesnearyou.com.au/trades/roofers/victoria/clyde-north/call-kaids-roofing",
-      "https://www.serviceseeking.com.au/profile/308109-call-kaids-roofing"
-    ],
-    hasCredential: [
-      {
-        "@type": "EducationalOccupationalCredential",
-        credentialCategory: "license",
-        name: "Fully Insured Roofing Contractor"
-      }
-    ],
-    makesOffer: [
-      {
-        "@type": "Offer",
-        name: "Free Roof Health Check",
-        description: "Complimentary roof inspection and assessment",
-        price: "0",
-        priceCurrency: "AUD"
-      }
+      "https://www.instagram.com/callkaidsroofing"
     ]
   };
 
@@ -229,8 +57,8 @@ export const SEOHead = ({
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
-      {canonical && <link rel="canonical" href={canonical} />}
-      <link rel="alternate" href={canonical || 'https://callkaidsroofing.com.au/'} hrefLang="en-AU" />
+      <link rel="canonical" href={canonicalUrl} />
+      <link rel="alternate" href={canonicalUrl} hrefLang="en-AU" />
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       <meta name="author" content="Call Kaids Roofing" />
       <meta name="copyright" content="Call Kaids Roofing" />
@@ -248,7 +76,7 @@ export const SEOHead = ({
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content="Call Kaids Roofing - Professional Roof Services" />
-      {canonical && <meta property="og:url" content={canonical} />}
+      <meta property="og:url" content={canonicalUrl} />
       <meta property="og:locale" content="en_AU" />
       <meta property="og:site_name" content="Call Kaids Roofing" />
       

@@ -124,11 +124,10 @@ export default function RestorationLanding() {
 
   return (
     <>
-      <SEOHead 
+      <SEOHead
         title="Roof Restoration Melbourne | Transform Your Roof | Call Kaids Roofing"
         description="Professional roof restoration services across Melbourne. Complete roof makeover with painting, repointing & repairs. 10-year warranty. Free health check."
         keywords="roof restoration Melbourne, roof painting Melbourne, roof repointing, complete roof makeover, Melbourne roof restoration"
-        canonical="https://callkaidsroofing.com.au/restoration-landing"
         structuredData={structuredData}
       />
 

@@ -1,10 +1,16 @@
 import { Button } from '@/components/ui/button';
+import { SEOHead } from '@/components/SEOHead';
 import { Phone, MapPin, Award, Users, Clock, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const About = () => {
   return (
     <div className="min-h-screen">
+      <SEOHead
+        title="About Call Kaids Roofing | Clyde North Roofing Specialist"
+        description="Meet Kaidyn Brownlie – the Clyde North local behind Call Kaids Roofing. Discover the story, service area and workmanship that sets our SE Melbourne roofing crew apart."
+        keywords="Call Kaids Roofing about, Clyde North roofer story, local roofing specialist"
+      />
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/5 to-primary/10">
         <div className="container mx-auto px-4">

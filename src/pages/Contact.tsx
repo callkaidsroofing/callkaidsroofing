@@ -11,7 +11,6 @@ const Contact = () => {
         title="Contact Call Kaids Roofing | Direct to Owner | Southeast Melbourne"
         description="Talk direct to Kaidyn Brownlie, owner of Call Kaids Roofing. No call centres, no BS. Phone 0435 900 709 for immediate response. Free quotes, emergency repairs."
         keywords="contact roofer Melbourne, Clyde North roofing, emergency roof repairs, free roof quote, direct contact roofer"
-        canonical="https://callkaidsroofing.com.au/contact"
       />
       <div className="min-h-screen">
       {/* Hero Section */}

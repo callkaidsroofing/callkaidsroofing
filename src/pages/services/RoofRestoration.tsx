@@ -101,17 +101,16 @@ const RoofRestoration = () => {
 
   return (
     <div className="min-h-screen">
-      <SEOHead 
-        title="Roof Restoration Melbourne | Complete Roof Overhaul | 10 Year Warranty"
-        description="Professional roof restoration in Melbourne. Complete cleaning, repairs & premium coating. Transform your roof for 60% less than replacement. Call 0435 900 709"
-        keywords="roof restoration Melbourne, roof restoration Clyde North, roof restoration Berwick, complete roof overhaul Melbourne, roof membrane coating"
-        canonical="https://callkaidsroofing.com.au/services/roof-restoration"
+      <SEOHead
+        title="Roof Restorations Clyde North | Call Kaids Roofing SE Melbourne"
+        description="Bring your roof back to life with professional restorations. Serving Clyde North, Cranbourne, Berwick & surrounds. Honest quotes, lasting results."
+        keywords="roof restoration Clyde North, roof restoration Cranbourne, roof restoration Berwick, Call Kaids Roofing"
       />
       <StructuredData 
         type="service" 
         serviceName="Roof Restoration"
         serviceDescription="Complete roof overhaul with high-pressure clean, repairs, and premium membrane coating system"
-        pageUrl="https://callkaidsroofing.com.au/services/roof-restoration"
+        pageUrl="https://www.callkaidsroofing.com.au/services/roof-restoration"
       />
       {/* Hero Section */}
       <OptimizedBackgroundSection

@@ -88,6 +88,14 @@ export const ElegantLayout = () => {
         <Footer />
       </div>
 
+      <a
+        href="tel:0435900709"
+        className="md:hidden fixed bottom-6 left-4 right-4 z-50 inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground py-3 font-semibold shadow-2xl shadow-primary/40 hover:bg-primary/90 transition-all"
+      >
+        <Phone className="h-5 w-5" />
+        Call Now • 0435 900 709
+      </a>
+
       <ScrollToTop />
     </div>
   );
