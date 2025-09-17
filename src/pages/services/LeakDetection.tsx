@@ -29,7 +29,7 @@ const LeakDetection = () => {
     },
     "areaServed": ["Clyde North", "Berwick", "Officer", "Pakenham", "Cranbourne", "Southeast Melbourne"],
     "serviceType": "Roof Leak Detection",
-    "url": "https://www.callkaidsroofing.com.au/leak-detection"
+    "url": "https://callkaidsroofing.com.au/leak-detection"
   };
 
   return (

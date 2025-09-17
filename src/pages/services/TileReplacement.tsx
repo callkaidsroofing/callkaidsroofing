@@ -29,7 +29,7 @@ const TileReplacement = () => {
     },
     "areaServed": ["Clyde North", "Berwick", "Officer", "Pakenham", "Cranbourne", "Southeast Melbourne"],
     "serviceType": "Roof Tile Replacement",
-    "url": "https://www.callkaidsroofing.com.au/tile-replacement"
+    "url": "https://callkaidsroofing.com.au/tile-replacement"
   };
 
   return (

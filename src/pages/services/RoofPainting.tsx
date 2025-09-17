@@ -101,7 +101,7 @@ const RoofPainting = () => {
         type="service" 
         serviceName="Roof Painting"
         serviceDescription="Professional 3-day roof painting service with premium weather-resistant paint systems"
-        pageUrl="https://www.callkaidsroofing.com.au/services/roof-painting"
+        pageUrl="https://callkaidsroofing.com.au/services/roof-painting"
       />
       {/* Hero Section */}
       <section 

@@ -29,7 +29,7 @@ const RoofRepointing = () => {
     },
     "areaServed": ["Clyde North", "Berwick", "Officer", "Pakenham", "Cranbourne", "Southeast Melbourne"],
     "serviceType": "Roof Repointing",
-    "url": "https://www.callkaidsroofing.com.au/roof-repointing"
+    "url": "https://callkaidsroofing.com.au/roof-repointing"
   };
 
   return (
