@@ -8,6 +8,8 @@ import ScrollToTop from '@/components/ScrollToTop';
 import ScrollProgress from '@/components/ScrollProgress';
 import ParticleSystem from '@/components/ParticleSystem';
 import { OptimizedImage } from '@/components/OptimizedImage';
+import { MetaPixelTracker } from '@/components/MetaPixelTracker';
+import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 import callKaidsFullLogo from '@/assets/call-kaids-full-logo.png';
 
 export const ElegantLayout = () => {
@@ -28,6 +30,10 @@ export const ElegantLayout = () => {
 
   return (
     <div className="min-h-screen flex bg-gradient-to-br from-background via-muted/20 to-background relative">
+      {/* Analytics and Tracking */}
+      <MetaPixelTracker />
+      <GoogleAnalytics measurementId="GA-CALLKAIDS-MEASUREMENT-ID" />
+      
       {/* Scroll Progress Indicator */}
       <ScrollProgress />
       
