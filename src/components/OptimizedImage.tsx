@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface OptimizedImageProps {
   src: string;
@@ -23,6 +23,7 @@ export const OptimizedImage = ({
 }: OptimizedImageProps) => {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
 
   // Generate responsive image URLs for different sizes
   const generateSrcSet = (originalSrc: string) => {
@@ -39,6 +40,20 @@ export const OptimizedImage = ({
     setImageError(true);
   };
 
+  useEffect(() => {
+    const imgElement = imgRef.current;
+
+    if (!imgElement) {
+      return;
+    }
+
+    if (fetchPriority && fetchPriority !== 'auto') {
+      imgElement.setAttribute('fetchpriority', fetchPriority);
+    } else {
+      imgElement.removeAttribute('fetchpriority');
+    }
+  }, [fetchPriority]);
+
   if (imageError) {
     return (
       <div className={`bg-muted flex items-center justify-center ${className}`}>
@@ -53,6 +68,7 @@ export const OptimizedImage = ({
         <div className="absolute inset-0 bg-muted animate-pulse" />
       )}
       <img
+        ref={imgRef}
         src={src}
         srcSet={generateSrcSet(src)}
         sizes={sizes}
@@ -60,7 +76,6 @@ export const OptimizedImage = ({
         width={width}
         height={height}
         loading={priority ? 'eager' : 'lazy'}
-        fetchPriority={fetchPriority}
         decoding={priority ? 'sync' : 'async'}
         onLoad={handleImageLoad}
         onError={handleImageError}

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { KeyboardEvent } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
@@ -18,6 +19,13 @@ interface FeaturedImage {
 
 const FeaturedGallery = () => {
   const [currentImage, setCurrentImage] = useState(0);
+
+  const handleTriggerKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      event.currentTarget.click();
+    }
+  };
   
   // Only the most impressive before/after transformations for homepage
   const featuredImages: FeaturedImage[] = [
@@ -75,7 +83,12 @@ const FeaturedGallery = () => {
         <div className="mb-8">
           <Dialog>
             <DialogTrigger asChild>
-              <button className="w-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-xl group">
+              <div
+                className="w-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-xl group"
+                role="button"
+                tabIndex={0}
+                onKeyDown={handleTriggerKeyDown}
+              >
                 <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden border-2 hover:border-primary/50">
                   <div className="relative">
                     <AspectRatio ratio={16/9}>
@@ -100,12 +113,14 @@ const FeaturedGallery = () => {
                     
                     {/* Navigation arrows */}
                     <button
+                      type="button"
                       onClick={(e) => { e.stopPropagation(); prevImage(); }}
                       className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-primary/80 text-white p-3 rounded-full transition-all duration-200 hover:scale-110 shadow-lg"
                     >
                       <ChevronLeft className="h-5 w-5" />
                     </button>
                     <button
+                      type="button"
                       onClick={(e) => { e.stopPropagation(); nextImage(); }}
                       className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-primary/80 text-white p-3 rounded-full transition-all duration-200 hover:scale-110 shadow-lg"
                     >
@@ -113,7 +128,7 @@ const FeaturedGallery = () => {
                     </button>
                   </div>
                 </Card>
-              </button>
+              </div>
             </DialogTrigger>
             
             <DialogContent className="max-w-6xl">
