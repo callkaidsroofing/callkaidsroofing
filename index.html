@@ -17,12 +17,15 @@
     <script>
       (function enforceCanonicalDomain() {
         var canonicalHost = "www.callkaidsroofing.com.au";
+        var bareHost = "callkaidsroofing.com.au";
         if (typeof window === "undefined") return;
         var hostname = window.location.hostname;
-        if (hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1") {
+        var protocol = window.location.protocol;
+        // Only enforce when visiting our actual domain(s). Allow previews and other hosts.
+        if (hostname !== canonicalHost && hostname !== bareHost) {
           return;
         }
-        if (hostname !== canonicalHost || window.location.protocol !== "https:") {
+        if (hostname !== canonicalHost || protocol !== "https:") {
           var newUrl = "https://" + canonicalHost + window.location.pathname + window.location.search + window.location.hash;
           window.location.replace(newUrl);
         }
