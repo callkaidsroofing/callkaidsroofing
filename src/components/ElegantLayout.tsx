@@ -40,38 +40,38 @@ export const ElegantLayout = () => {
       {/* Particle System */}
       <ParticleSystem />
       
-      {/* Top Header Bar with Glass Effect */}
+      {/* Mobile-First Header Bar */}
       <header className="fixed top-0 left-0 right-0 z-40 glass-navbar">
-        <div className="flex items-center justify-between px-6 py-4">
+        <div className="flex items-center justify-between px-4 py-3 lg:px-6 lg:py-4">
           {/* Mobile Menu Button */}
           <Button
             variant="ghost"
             size="sm"
             onClick={toggleSidebar}
-            className="lg:hidden text-white hover:bg-white/10 mr-4"
+            className="lg:hidden text-white hover:bg-white/10 p-2"
           >
             <Menu className="h-5 w-5" />
           </Button>
 
-          {/* Full Logo - Enhanced */}
+          {/* Logo - Responsive sizing */}
           <div className="flex-1 flex justify-center lg:justify-start lg:ml-80">
             <OptimizedImage
               src={callKaidsFullLogo}
               alt="Call Kaids Roofing - Professional Roofing Services Melbourne"
-              className="h-14 lg:h-18 w-auto max-w-full object-contain hover:scale-105 transition-transform duration-300"
+              className="h-10 sm:h-12 lg:h-16 xl:h-18 w-auto max-w-full object-contain hover:scale-105 transition-transform duration-300"
               width={800}
               height={200}
             />
           </div>
 
-          {/* Enhanced Contact Info */}
-          <div className="hidden md:flex items-center space-x-6">
+          {/* Contact Info - Hidden on small mobile */}
+          <div className="hidden sm:flex items-center space-x-4 lg:space-x-6">
             <a 
               href="tel:0435900709" 
-              className="flex items-center space-x-3 text-white hover:text-primary transition-all duration-300 hover:scale-105 glass-card px-4 py-2 rounded-lg"
+              className="flex items-center space-x-2 lg:space-x-3 text-white hover:text-primary transition-all duration-300 hover:scale-105 glass-card px-3 py-2 lg:px-4 rounded-lg"
             >
-              <Phone className="h-5 w-5" />
-              <span className="text-sm font-semibold">0435 900 709</span>
+              <Phone className="h-4 w-4 lg:h-5 lg:w-5" />
+              <span className="text-xs sm:text-sm font-semibold">0435 900 709</span>
             </a>
           </div>
         </div>
@@ -85,8 +85,8 @@ export const ElegantLayout = () => {
         sidebarOpen ? 'lg:ml-80' : 'lg:ml-80'
       }`}>
 
-        {/* Page Content with proper top spacing */}
-        <main className="pt-24 lg:pt-28 min-h-screen">
+        {/* Page Content with responsive top spacing */}
+        <main className="pt-16 sm:pt-20 lg:pt-28 min-h-screen">
           <Outlet />
         </main>
 
@@ -94,11 +94,12 @@ export const ElegantLayout = () => {
         <Footer />
       </div>
 
+      {/* Mobile Call Button - Improved positioning */}
       <a
         href="tel:0435900709"
-        className="md:hidden fixed bottom-6 left-4 right-4 z-50 inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground py-3 font-semibold shadow-2xl shadow-primary/40 hover:bg-primary/90 transition-all"
+        className="md:hidden fixed bottom-4 left-4 right-4 z-50 inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground py-3 px-4 font-semibold shadow-2xl shadow-primary/40 hover:bg-primary/90 transition-all text-sm"
       >
-        <Phone className="h-5 w-5" />
+        <Phone className="h-4 w-4" />
         Call Now • 0435 900 709
       </a>
 

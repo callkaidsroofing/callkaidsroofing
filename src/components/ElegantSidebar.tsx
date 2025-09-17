@@ -63,9 +63,9 @@ export const ElegantSidebar = ({ isOpen, onToggle }: SidebarProps) => {
       {/* Sidebar */}
       <aside className={`
         fixed top-0 left-0 h-screen bg-gradient-to-b from-roofing-navy via-roofing-charcoal to-roofing-navy 
-        text-white transition-transform duration-300 ease-in-out z-50
+        text-white transition-transform duration-300 ease-in-out z-50 overflow-hidden
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-        ${isOpen ? 'w-80' : 'w-16 lg:w-80'}
+        w-80
       `}>
         <div className="flex flex-col h-full">
           {/* Logo Section */}
@@ -79,7 +79,7 @@ export const ElegantSidebar = ({ isOpen, onToggle }: SidebarProps) => {
                   height={45}
                   className="rounded-lg border border-white/20"
                 />
-                <div className={`${isOpen ? 'block' : 'hidden lg:block'}`}>
+                <div>
                   <h1 className="text-xl font-bold tracking-wide">Call Kaids</h1>
                   <p className="text-sm text-white/90 font-medium leading-relaxed">Professional Roofing</p>
                 </div>
@@ -96,7 +96,7 @@ export const ElegantSidebar = ({ isOpen, onToggle }: SidebarProps) => {
           </div>
 
           {/* Emergency Contact */}
-          <div className={`p-4 border-b border-white/10 ${isOpen ? 'block' : 'hidden lg:block'}`}>
+          <div className="p-4 border-b border-white/10">
             <div className="bg-roofing-emergency/20 border border-roofing-emergency/30 rounded-lg p-3">
               <div className="flex items-center space-x-2 mb-2">
                 <AlertTriangle className="h-4 w-4 text-red-400" />
@@ -111,8 +111,8 @@ export const ElegantSidebar = ({ isOpen, onToggle }: SidebarProps) => {
             </div>
           </div>
 
-          {/* Navigation - Scrollable */}
-          <nav className="flex-1 overflow-y-auto p-4 space-y-2 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+          {/* Navigation - Scrollable with custom scrollbar */}
+          <nav className="flex-1 overflow-y-auto p-4 space-y-2 custom-scrollbar">
             {mainNavItems.map((item) => (
               <div key={item.title}>
                 <NavLink
@@ -131,7 +131,7 @@ export const ElegantSidebar = ({ isOpen, onToggle }: SidebarProps) => {
                     <item.icon className={`h-5 w-5 ${
                       item.isEmergency ? 'text-red-400' : ''
                     }`} />
-                    <span className={`${isOpen ? 'block' : 'hidden lg:block'} font-medium`}>
+                    <span className="font-medium">
                       {item.title}
                     </span>
                     {item.isEmergency && (
@@ -143,13 +143,13 @@ export const ElegantSidebar = ({ isOpen, onToggle }: SidebarProps) => {
                   {item.hasSubmenu && (
                     <ChevronRight className={`h-4 w-4 transition-transform ${
                       isServicesOpen ? 'rotate-90' : ''
-                    } ${isOpen ? 'block' : 'hidden lg:block'}`} />
+                    }`} />
                   )}
                 </NavLink>
 
                 {/* Services Submenu */}
                 {item.hasSubmenu && isServicesOpen && (
-                  <div className={`mt-2 space-y-1 ${isOpen ? 'block' : 'hidden lg:block'}`}>
+                  <div className="mt-2 space-y-1">
                     {serviceItems.map((service) => (
                       <NavLink
                         key={service.title}
@@ -173,7 +173,7 @@ export const ElegantSidebar = ({ isOpen, onToggle }: SidebarProps) => {
           </nav>
 
           {/* Bottom Contact Info */}
-          <div className={`p-4 border-t border-white/10 ${isOpen ? 'block' : 'hidden lg:block'}`}>
+          <div className="p-4 border-t border-white/10">
             <div className="space-y-3">
               <div>
                 <p className="text-xs text-white/50 mb-1">SERVING SOUTHEAST MELBOURNE</p>
