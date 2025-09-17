@@ -110,7 +110,7 @@ const RoofRestoration = () => {
         type="service" 
         serviceName="Roof Restoration"
         serviceDescription="Complete roof overhaul with high-pressure clean, repairs, and premium membrane coating system"
-        pageUrl="https://www.callkaidsroofing.com.au/services/roof-restoration"
+        pageUrl="https://callkaidsroofing.com.au/services/roof-restoration"
       />
       {/* Hero Section */}
       <OptimizedBackgroundSection

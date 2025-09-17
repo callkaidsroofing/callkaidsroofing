@@ -81,7 +81,7 @@ const RoofRepairs = () => {
         type="service" 
         serviceName="Emergency Roof Repairs"
         serviceDescription="Same-day emergency response for active leaks, storm damage, and urgent roof repairs"
-        pageUrl="https://www.callkaidsroofing.com.au/services/roof-repairs"
+        pageUrl="https://callkaidsroofing.com.au/services/roof-repairs"
       />
       {/* Hero Section */}
       <section 

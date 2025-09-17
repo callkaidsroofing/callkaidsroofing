@@ -22,7 +22,7 @@ export default function PrivacyPolicy() {
                 <h2 className="text-2xl font-semibold text-foreground mb-4">Who We Are</h2>
                 <p>
                   Call Kaids Roofing (ABN: 39475055075) is a roofing contractor based in Clyde North, Victoria. 
-                  Our website address is: https://www.callkaidsroofing.com.au
+                  Our website address is: https://callkaidsroofing.com.au
                 </p>
               </section>
 

@@ -61,7 +61,7 @@ const Index = () => {
         title="Call Kaids Roofing | Roof Restorations Clyde North & SE Melbourne"
         description="Local roofing experts in Clyde North. Roof restorations, painting, repairs & gutter cleaning with 10-year warranty. Call 0435 900 709 today."
         keywords="roof restorations Clyde North, roof painting southeast Melbourne, gutter cleaning Clyde North, roof repairs Berwick"
-        ogImage="https://www.callkaidsroofing.com.au/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
+        ogImage="https://callkaidsroofing.com.au/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
       />
       <StructuredData type="homepage" />
       <div className="page-transition">

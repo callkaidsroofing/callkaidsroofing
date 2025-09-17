@@ -17,21 +17,21 @@ export const StructuredData = ({
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "RoofingContractor",
-    "@id": "https://www.callkaidsroofing.com.au/#organization",
+    "@id": "https://callkaidsroofing.com.au/#organization",
     name: "Call Kaids Roofing",
     legalName: "Call Kaids Roofing",
     alternateName: ["Kaids Roofing", "Call Kaids"],
     description: "Professional roofing services in Southeast Melbourne specializing in roof restoration, painting, and emergency repairs with 10-year warranty.",
-    url: "https://www.callkaidsroofing.com.au",
+    url: "https://callkaidsroofing.com.au",
     logo: {
       "@type": "ImageObject",
-      url: "https://www.callkaidsroofing.com.au/logo.png",
+      url: "https://callkaidsroofing.com.au/logo.png",
       width: "300",
       height: "100"
     },
     image: [
-      "https://www.callkaidsroofing.com.au/og-image.jpg",
-      "https://www.callkaidsroofing.com.au/assets/hero-roof-restoration.jpg"
+      "https://callkaidsroofing.com.au/og-image.jpg",
+      "https://callkaidsroofing.com.au/assets/hero-roof-restoration.jpg"
     ],
     telephone: "+61-435-900-709",
     email: "callkaidsroofing@outlook.com",
@@ -103,11 +103,11 @@ export const StructuredData = ({
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            "@id": "https://www.callkaidsroofing.com.au/services/roof-restoration",
+            "@id": "https://callkaidsroofing.com.au/services/roof-restoration",
             name: "Roof Restoration Melbourne",
             description: "Complete roof restoration including high-pressure cleaning, repairs, and premium membrane coating with 10-year warranty.",
-            provider: { "@id": "https://www.callkaidsroofing.com.au/#organization" },
-            areaServed: { "@id": "https://www.callkaidsroofing.com.au/#servicearea" },
+            provider: { "@id": "https://callkaidsroofing.com.au/#organization" },
+            areaServed: { "@id": "https://callkaidsroofing.com.au/#servicearea" },
             offers: {
               "@type": "Offer",
               priceRange: "$6,000 - $30,000",
@@ -119,11 +119,11 @@ export const StructuredData = ({
           "@type": "Offer", 
           itemOffered: {
             "@type": "Service",
-            "@id": "https://www.callkaidsroofing.com.au/services/roof-painting",
+            "@id": "https://callkaidsroofing.com.au/services/roof-painting",
             name: "Roof Painting Melbourne",
             description: "Professional roof painting with premium weather-resistant paints, completed in 2-3 days with 10-year warranty.",
-            provider: { "@id": "https://www.callkaidsroofing.com.au/#organization" },
-            areaServed: { "@id": "https://www.callkaidsroofing.com.au/#servicearea" },
+            provider: { "@id": "https://callkaidsroofing.com.au/#organization" },
+            areaServed: { "@id": "https://callkaidsroofing.com.au/#servicearea" },
             offers: {
               "@type": "Offer",
               priceRange: "$4,000 - $18,000",
@@ -135,11 +135,11 @@ export const StructuredData = ({
           "@type": "Offer",
           itemOffered: {
             "@type": "Service", 
-            "@id": "https://www.callkaidsroofing.com.au/services/roof-repairs",
+            "@id": "https://callkaidsroofing.com.au/services/roof-repairs",
             name: "Emergency Roof Repairs Melbourne",
             description: "24/7 emergency roof repair services for leaks, storm damage, and urgent roofing issues across Southeast Melbourne.",
-            provider: { "@id": "https://www.callkaidsroofing.com.au/#organization" },
-            areaServed: { "@id": "https://www.callkaidsroofing.com.au/#servicearea" },
+            provider: { "@id": "https://callkaidsroofing.com.au/#organization" },
+            areaServed: { "@id": "https://callkaidsroofing.com.au/#servicearea" },
             offers: {
               "@type": "Offer",
               priceRange: "$150 - $2,000",
@@ -210,18 +210,18 @@ export const StructuredData = ({
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://www.callkaidsroofing.com.au/"
+        item: "https://callkaidsroofing.com.au/"
       },
       ...(type === 'service' && serviceName ? [{
         "@type": "ListItem",
         position: 2,
         name: "Services",
-        item: "https://www.callkaidsroofing.com.au/services"
+        item: "https://callkaidsroofing.com.au/services"
       }, {
         "@type": "ListItem",
         position: 3,
         name: serviceName,
-        item: pageUrl || `https://www.callkaidsroofing.com.au/services/${serviceName.toLowerCase().replace(/\s+/g, '-')}`
+        item: pageUrl || `https://callkaidsroofing.com.au/services/${serviceName.toLowerCase().replace(/\s+/g, '-')}`
       }] : [])
     ]
   };
@@ -229,11 +229,11 @@ export const StructuredData = ({
   const serviceSchema = serviceName ? {
     "@context": "https://schema.org",
     "@type": "Service",
-    "@id": pageUrl || `https://www.callkaidsroofing.com.au/services/${serviceName.toLowerCase().replace(/\s+/g, '-')}`,
+    "@id": pageUrl || `https://callkaidsroofing.com.au/services/${serviceName.toLowerCase().replace(/\s+/g, '-')}`,
     name: serviceName,
     description: serviceDescription || `Professional ${serviceName.toLowerCase()} services in Southeast Melbourne by Call Kaids Roofing.`,
-    provider: { "@id": "https://www.callkaidsroofing.com.au/#organization" },
-    areaServed: { "@id": "https://www.callkaidsroofing.com.au/#servicearea" },
+    provider: { "@id": "https://callkaidsroofing.com.au/#organization" },
+    areaServed: { "@id": "https://callkaidsroofing.com.au/#servicearea" },
     category: "Roofing Services",
     hasOfferCatalog: {
       "@type": "OfferCatalog",
