@@ -28,6 +28,7 @@ import BookingPage from "./pages/BookingPage";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import ThankYou from "./pages/ThankYou";
+import Services from "./pages/Services";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import RestorationLanding from "./pages/RestorationLanding";
@@ -74,7 +75,7 @@ function App() {
                   <Route path="warranty" element={<Warranty />} />
                   <Route path="privacy-policy" element={<PrivacyPolicy />} />
                   <Route path="thank-you" element={<ThankYou />} />
-                  <Route path="services" element={<Index />} />
+                  <Route path="services" element={<Services />} />
                   <Route path="services/roof-restoration" element={<RoofRestoration />} />
                   <Route path="services/roof-painting" element={<RoofPainting />} />
                   <Route path="services/roof-restoration-clyde-north" element={<RoofRestorationClydeNorth />} />

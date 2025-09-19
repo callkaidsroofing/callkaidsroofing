@@ -7,8 +7,16 @@ import bannerLogo from '/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.pn
 
 const Footer = () => {
   const serviceAreas = [
-    'Clyde North', 'Berwick', 'Officer', 'Pakenham', 'Cranbourne',
-    'Frankston', 'Narre Warren', 'Brighton', 'Toorak', 'Kew'
+    { name: 'Clyde North', href: '/services/roof-restoration-clyde-north' },
+    { name: 'Berwick', href: '/services/roof-restoration-berwick' },
+    { name: 'Pakenham', href: '/services/roof-restoration-pakenham' },
+    { name: 'Cranbourne', href: '/services/roof-restoration-cranbourne' },
+    { name: 'Mount Eliza', href: '/services/roof-restoration-mount-eliza' },
+    { name: 'Officer', href: '#' },
+    { name: 'Frankston', href: '#' },
+    { name: 'Narre Warren', href: '#' },
+    { name: 'Brighton', href: '#' },
+    { name: 'Toorak', href: '#' }
   ];
 
   const services = [
@@ -128,8 +136,17 @@ const Footer = () => {
               <p className="mb-2">Serving Southeast Melbourne:</p>
               <div className="flex flex-wrap gap-1">
                 {serviceAreas.map((area, index) => (
-                  <span key={area}>
-                    {area}
+                  <span key={area.name}>
+                    {area.href !== '#' ? (
+                      <Link 
+                        to={area.href} 
+                        className="hover:text-primary transition-colors"
+                      >
+                        {area.name}
+                      </Link>
+                    ) : (
+                      area.name
+                    )}
                     {index < serviceAreas.length - 1 && <span className="text-muted-foreground/60"> • </span>}
                   </span>
                 ))}
