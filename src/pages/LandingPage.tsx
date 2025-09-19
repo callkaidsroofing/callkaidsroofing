@@ -173,109 +173,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Social Proof Strip */}
-        <section className="py-8 bg-primary/5">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-              <div className="flex items-center justify-center gap-2">
-                <Clock className="h-6 w-6 text-primary" />
-                <div>
-                  <div className="font-bold text-lg">2 Hour Response</div>
-                  <div className="text-sm text-muted-foreground">Emergency callouts</div>
-                </div>
-              </div>
-              
-              <div className="flex items-center justify-center gap-2">
-                <Shield className="h-6 w-6 text-primary" />
-                <div>
-                  <div className="font-bold text-lg">10 Year Warranty</div>
-                  <div className="text-sm text-muted-foreground">On all repairs</div>
-                </div>
-              </div>
-              
-              <div className="flex items-center justify-center gap-2">
-                <Star className="h-6 w-6 text-primary" />
-                <div>
-                  <div className="font-bold text-lg">5.0 Star Rating</div>
-                  <div className="text-sm text-muted-foreground">Google Reviews</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Problem Agitation */}
-        <section className="py-12">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl font-bold mb-6 text-destructive">
-                  Every Hour You Wait, The Damage Gets Worse
-                </h2>
-                
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <AlertTriangle className="h-6 w-6 text-destructive mt-1" />
-                    <div>
-                      <div className="font-semibold">Water Damage Spreads Fast</div>
-                      <div className="text-muted-foreground">What starts as a small leak can destroy ceilings, walls, and electrical systems within hours.</div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <AlertTriangle className="h-6 w-6 text-destructive mt-1" />
-                    <div>
-                      <div className="font-semibold">Mould Growth Begins in 24 Hours</div>
-                      <div className="text-muted-foreground">Dangerous mould can start growing within a day, creating health risks for your family.</div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <AlertTriangle className="h-6 w-6 text-destructive mt-1" />
-                    <div>
-                      <div className="font-semibold">Insurance Claims Get Complicated</div>
-                      <div className="text-muted-foreground">Delayed action can void your insurance coverage and leave you paying thousands out of pocket.</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h2 className="text-3xl font-bold mb-6 text-primary">
-                  Get Immediate Protection With Our Emergency Service
-                </h2>
-                
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="h-6 w-6 text-green-600 mt-1" />
-                    <div>
-                      <div className="font-semibold">Instant Leak Stoppage</div>
-                      <div className="text-muted-foreground">Emergency tarping and temporary repairs to stop water damage immediately.</div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="h-6 w-6 text-green-600 mt-1" />
-                    <div>
-                      <div className="font-semibold">Professional Assessment</div>
-                      <div className="text-muted-foreground">Complete damage evaluation with photos for insurance claims.</div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="h-6 w-6 text-green-600 mt-1" />
-                    <div>
-                      <div className="font-semibold">Permanent Solution</div>
-                      <div className="text-muted-foreground">Quality repairs that prevent future problems with our 10-year warranty.</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Conversion Form */}
+        {/* Conversion Form - Moved to Top */}
         <section id="emergency-form" className="py-12 bg-secondary/20">
           <div className="container mx-auto px-4">
             <div className="max-w-2xl mx-auto">
@@ -393,6 +291,109 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
+        {/* Social Proof Strip */}
+        <section className="py-8 bg-primary/5">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+              <div className="flex items-center justify-center gap-2">
+                <Clock className="h-6 w-6 text-primary" />
+                <div>
+                  <div className="font-bold text-lg">2 Hour Response</div>
+                  <div className="text-sm text-muted-foreground">Emergency callouts</div>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-center gap-2">
+                <Shield className="h-6 w-6 text-primary" />
+                <div>
+                  <div className="font-bold text-lg">10 Year Warranty</div>
+                  <div className="text-sm text-muted-foreground">On all repairs</div>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-center gap-2">
+                <Star className="h-6 w-6 text-primary" />
+                <div>
+                  <div className="font-bold text-lg">5.0 Star Rating</div>
+                  <div className="text-sm text-muted-foreground">Google Reviews</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Problem Agitation */}
+        <section className="py-12">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className="text-3xl font-bold mb-6 text-destructive">
+                  Every Hour You Wait, The Damage Gets Worse
+                </h2>
+                
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className="h-6 w-6 text-destructive mt-1" />
+                    <div>
+                      <div className="font-semibold">Water Damage Spreads Fast</div>
+                      <div className="text-muted-foreground">What starts as a small leak can destroy ceilings, walls, and electrical systems within hours.</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className="h-6 w-6 text-destructive mt-1" />
+                    <div>
+                      <div className="font-semibold">Mould Growth Begins in 24 Hours</div>
+                      <div className="text-muted-foreground">Dangerous mould can start growing within a day, creating health risks for your family.</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className="h-6 w-6 text-destructive mt-1" />
+                    <div>
+                      <div className="font-semibold">Insurance Claims Get Complicated</div>
+                      <div className="text-muted-foreground">Delayed action can void your insurance coverage and leave you paying thousands out of pocket.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-3xl font-bold mb-6 text-primary">
+                  Get Immediate Protection With Our Emergency Service
+                </h2>
+                
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-6 w-6 text-green-600 mt-1" />
+                    <div>
+                      <div className="font-semibold">Instant Leak Stoppage</div>
+                      <div className="text-muted-foreground">Emergency tarping and temporary repairs to stop water damage immediately.</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-6 w-6 text-green-600 mt-1" />
+                    <div>
+                      <div className="font-semibold">Professional Assessment</div>
+                      <div className="text-muted-foreground">Complete damage evaluation with photos for insurance claims.</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-6 w-6 text-green-600 mt-1" />
+                    <div>
+                      <div className="font-semibold">Permanent Solution</div>
+                      <div className="text-muted-foreground">Quality repairs that prevent future problems with our 10-year warranty.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
 
         {/* Credentials */}
         <section className="py-12">
