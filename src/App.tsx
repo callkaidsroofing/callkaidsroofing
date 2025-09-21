@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from "@/components/AuthProvider";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { SecurityMonitor } from "@/components/SecurityMonitor";
 import ElegantLayout from "@/components/ElegantLayout";
 import Index from "./pages/Index";
 import About from "./pages/About";
@@ -52,6 +53,7 @@ function App() {
           <Sonner />
           <BrowserRouter>
             <AuthProvider>
+              <SecurityMonitor />
               <Routes>
                 {/* Admin routes - standalone layout */}
                 <Route path="/admin/login" element={<AdminLogin />} />

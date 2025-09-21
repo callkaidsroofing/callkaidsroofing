@@ -67,7 +67,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         // If no admin profile exists, try to create one
         if (!adminCheck) {
-          await supabase.rpc('create_admin_for_authenticated_user');
+          const { data: createResult } = await supabase.rpc('create_admin_for_authenticated_user');
+          
+          // Log admin creation attempts for security monitoring
+          if (createResult && typeof createResult === 'object' && 'success' in createResult) {
+            if (createResult.success) {
+              console.log('Admin profile created successfully');
+            } else if ('error' in createResult && createResult.error) {
+              console.warn('Admin creation blocked:', createResult.error);
+            }
+          }
         }
       }
 
