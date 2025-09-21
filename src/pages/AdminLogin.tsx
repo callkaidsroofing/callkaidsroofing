@@ -8,6 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Lock, Eye, EyeOff, UserPlus, ArrowLeft, LogIn, Shield } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { supabase } from '@/integrations/supabase/client';
+import { Helmet } from 'react-helmet-async';
 
 const AdminLogin = () => {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
@@ -128,17 +129,26 @@ const AdminLogin = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary/20 via-secondary/10 to-muted/30 flex items-center justify-center">
-        <div className="text-lg text-muted-foreground">Loading Call Kaids Admin...</div>
-      </div>
+      <>
+        <Helmet>
+          <meta name="robots" content="noindex, nofollow" />
+        </Helmet>
+        <div className="min-h-screen bg-gradient-to-br from-primary/20 via-secondary/10 to-muted/30 flex items-center justify-center">
+          <div className="text-lg text-muted-foreground">Loading Call Kaids Admin...</div>
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/20 via-secondary/10 to-muted/30 flex items-center justify-center px-4">
+    <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+      <div className="min-h-screen bg-gradient-to-br from-primary/20 via-secondary/10 to-muted/30 flex items-center justify-center px-4">
       {/* Back to Website Link */}
-      <Link 
-        to="/" 
+      <Link
+        to="/"
         className="absolute top-4 left-4 flex items-center gap-2 text-primary hover:text-primary/80 transition-colors font-medium"
       >
         <ArrowLeft className="h-4 w-4" />
@@ -310,7 +320,8 @@ const AdminLogin = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </>
   );
 };
 

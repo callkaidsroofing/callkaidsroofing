@@ -12,6 +12,11 @@ Allow: /
 
 User-agent: *
 Allow: /
+Allow: /services/
+Allow: /about
+Allow: /contact
+Allow: /emergency
+Allow: /warranty
 Disallow: /admin/
 Disallow: /private/
 
@@ -20,14 +25,3 @@ Sitemap: https://callkaidsroofing.com.au/sitemap.xml
 
 # Crawl delay for respectful crawling
 Crawl-delay: 1
-
-# Allow access to important pages
-Allow: /services/
-Allow: /about
-Allow: /contact
-Allow: /emergency
-Allow: /warranty
-
-# Prevent indexing of admin or private areas (if any exist in future)
-Disallow: /admin/
-Disallow: /private/

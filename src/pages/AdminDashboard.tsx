@@ -7,6 +7,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { supabase } from '@/integrations/supabase/client';
 import { FacebookSDK } from '@/components/FacebookSDK';
 import { SocialMediaManager } from '@/components/SocialMediaManager';
+import { Helmet } from 'react-helmet-async';
 
 import { 
   LogOut, 
@@ -167,39 +168,48 @@ const AdminDashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary/20 via-secondary/10 to-muted/30 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-lg text-muted-foreground">Loading Call Kaids Admin Dashboard...</p>
+      <>
+        <Helmet>
+          <meta name="robots" content="noindex, nofollow" />
+        </Helmet>
+        <div className="min-h-screen bg-gradient-to-br from-primary/20 via-secondary/10 to-muted/30 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-lg text-muted-foreground">Loading Call Kaids Admin Dashboard...</p>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/20 via-secondary/10 to-muted/30">
-      {/* Header */}
-      <div className="bg-card/95 backdrop-blur-sm border-b shadow-lg">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold gradient-text">Call Kaids Roofing</h1>
-              <p className="text-muted-foreground text-lg">
-                Professional Roofing Management Dashboard
-              </p>
-              <p className="text-sm text-primary font-medium mt-1">
-                ABN: 39475055075 | Kaidyn Brownlie | Welcome, {user?.email}
-              </p>
+    <>
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+      <div className="min-h-screen bg-gradient-to-br from-primary/20 via-secondary/10 to-muted/30">
+        {/* Header */}
+        <div className="bg-card/95 backdrop-blur-sm border-b shadow-lg">
+          <div className="container mx-auto px-4 py-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-3xl font-bold gradient-text">Call Kaids Roofing</h1>
+                <p className="text-muted-foreground text-lg">
+                  Professional Roofing Management Dashboard
+                </p>
+                <p className="text-sm text-primary font-medium mt-1">
+                  ABN: 39475055075 | Kaidyn Brownlie | Welcome, {user?.email}
+                </p>
+              </div>
+              <Button onClick={handleLogout} variant="outline" size="lg" className="hover-lift">
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
             </div>
-            <Button onClick={handleLogout} variant="outline" size="lg" className="hover-lift">
-              <LogOut className="h-4 w-4 mr-2" />
-              Sign Out
-            </Button>
           </div>
         </div>
-      </div>
 
-      <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8">
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 stagger-animation">
           <Card className="hover-lift roofing-shadow">
@@ -422,6 +432,7 @@ const AdminDashboard = () => {
         </Tabs>
       </div>
     </div>
+    </>
   );
 };
 
