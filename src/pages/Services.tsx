@@ -144,6 +144,62 @@ export default function Services() {
           </div>
         </div>
 
+        {/* Suburb-Specific Services Section */}
+        <div className="bg-gradient-to-r from-primary/5 to-secondary/5 py-16">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold mb-4 text-center">Local Roofing Experts Across Southeast Melbourne</h2>
+            <p className="text-lg text-muted-foreground mb-8 text-center max-w-3xl mx-auto">
+              Kaidyn knows every suburb personally. Get specialised service tailored to your area's specific roofing needs and regulations.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle className="text-xl">Clyde North & Officer</CardTitle>
+                  <CardDescription>Home base - know every street and building style</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <Link to="/services/roof-restoration-clyde-north" className="block text-primary hover:underline">• Roof Restoration Clyde North</Link>
+                    <Link to="/services/roof-painting-clyde-north" className="block text-primary hover:underline">• Roof Painting Clyde North</Link>
+                    <p className="text-sm text-muted-foreground mt-2">New estates, modern materials, quality finishes</p>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle className="text-xl">Berwick & Pakenham</CardTitle>
+                  <CardDescription>Major service areas - family-focused communities</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <Link to="/services/roof-restoration-berwick" className="block text-primary hover:underline">• Berwick Roof Specialist</Link>
+                    <Link to="/services/roof-restoration-pakenham" className="block text-primary hover:underline">• Pakenham Roof Restoration</Link>
+                    <Link to="/services/roof-painting-pakenham" className="block text-primary hover:underline">• Pakenham Roof Painting</Link>
+                    <p className="text-sm text-muted-foreground mt-2">Established homes, renovation projects, quality upgrades</p>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle className="text-xl">Cranbourne & Beyond</CardTitle>
+                  <CardDescription>High-volume service area - growing rapidly</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <Link to="/services/roof-restoration-cranbourne" className="block text-primary hover:underline">• Cranbourne Roof Restoration</Link>
+                    <Link to="/services/roof-painting-cranbourne" className="block text-primary hover:underline">• Cranbourne Roof Painting</Link>
+                    <Link to="/services/roof-restoration-mount-eliza" className="block text-primary hover:underline">• Mount Eliza Premium Service</Link>
+                    <p className="text-sm text-muted-foreground mt-2">Mix of new and established, diverse roof types</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+
         {/* Call to Action Section */}
         <div className="bg-primary/5 py-16">
           <div className="container mx-auto px-4 text-center">

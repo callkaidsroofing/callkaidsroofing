@@ -372,19 +372,47 @@ const Gallery = () => {
             </div>
           </div>
 
+          {/* Local Service Area Links */}
+          <div className="mt-12 bg-gradient-to-r from-secondary/10 to-primary/5 rounded-2xl p-8">
+            <h3 className="text-2xl font-bold mb-6 text-center">See More Local Projects</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              <Link to="/services/roof-restoration-clyde-north" className="text-center p-4 bg-background/80 rounded-lg hover:bg-background transition-colors">
+                <h4 className="font-semibold text-primary">Clyde North</h4>
+                <p className="text-sm text-muted-foreground">Home base projects</p>
+              </Link>
+              <Link to="/services/roof-restoration-berwick" className="text-center p-4 bg-background/80 rounded-lg hover:bg-background transition-colors">
+                <h4 className="font-semibold text-primary">Berwick</h4>
+                <p className="text-sm text-muted-foreground">Family area specialist</p>
+              </Link>
+              <Link to="/services/roof-painting-cranbourne" className="text-center p-4 bg-background/80 rounded-lg hover:bg-background transition-colors">
+                <h4 className="font-semibold text-primary">Cranbourne</h4>
+                <p className="text-sm text-muted-foreground">High-volume area</p>
+              </Link>
+              <Link to="/services/roof-restoration-pakenham" className="text-center p-4 bg-background/80 rounded-lg hover:bg-background transition-colors">
+                <h4 className="font-semibold text-primary">Pakenham</h4>
+                <p className="text-sm text-muted-foreground">Growing community</p>
+              </Link>
+            </div>
+          </div>
+
           {/* CTA Section */}
-          <div className="mt-16 text-center bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl p-8">
+          <div className="mt-8 text-center bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl p-8">
             <h3 className="text-2xl font-bold mb-4">Ready for Your Transformation?</h3>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
               These results speak for themselves. Let's discuss how we can transform your roof with the same level of quality and attention to detail.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-4">
               <Button size="lg" asChild>
                 <Link to="/book">Get Your Free Inspection</Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
                 <a href="tel:0435900709">Call 0435 900 709</a>
               </Button>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center text-sm">
+              <Link to="/emergency" className="text-roofing-emergency hover:underline">🚨 Emergency Repairs Available</Link>
+              <Link to="/warranty" className="text-primary hover:underline">🛡️ 10-Year Warranty Details</Link>
+              <Link to="/blog" className="text-primary hover:underline">📚 Expert Roofing Tips</Link>
             </div>
           </div>
         </div>

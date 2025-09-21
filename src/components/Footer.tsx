@@ -107,20 +107,35 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Services */}
+          {/* Popular Services & Areas */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Our Services</h3>
+            <h3 className="text-lg font-semibold">Popular Areas</h3>
             <ul className="space-y-2">
-              {services.map((service) => (
-                <li key={service.name}>
-                  <Link 
-                    to={service.href}
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {service.name}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link to="/services/roof-restoration-clyde-north" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Clyde North Roofing
+                </Link>
+              </li>
+              <li>
+                <Link to="/services/roof-restoration-berwick" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Berwick Roof Restoration
+                </Link>
+              </li>
+              <li>
+                <Link to="/services/roof-painting-cranbourne" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Cranbourne Roof Painting
+                </Link>
+              </li>
+              <li>
+                <Link to="/services/roof-restoration-pakenham" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Pakenham Roofing Expert
+                </Link>
+              </li>
+              <li>
+                <Link to="/gallery" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Before & After Gallery
+                </Link>
+              </li>
             </ul>
             <div className="pt-2">
               <span className="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded">
@@ -129,30 +144,41 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Service Areas */}
+          {/* Emergency & Specialist Services */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Service Areas</h3>
-            <div className="text-sm text-muted-foreground">
-              <p className="mb-2">Serving Southeast Melbourne:</p>
-              <div className="flex flex-wrap gap-1">
-                {serviceAreas.map((area, index) => (
-                  <span key={area.name}>
-                    {area.href !== '#' ? (
-                      <Link 
-                        to={area.href} 
-                        className="hover:text-primary transition-colors"
-                      >
-                        {area.name}
-                      </Link>
-                    ) : (
-                      area.name
-                    )}
-                    {index < serviceAreas.length - 1 && <span className="text-muted-foreground/60"> • </span>}
-                  </span>
-                ))}
-              </div>
-              <p className="mt-2 text-xs">Within 50km of Clyde North</p>
-            </div>
+            <h3 className="text-lg font-semibold">Emergency & Specialist</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/emergency" className="text-sm text-roofing-emergency hover:text-roofing-emergency/80 font-semibold transition-colors">
+                  🚨 Emergency Repairs
+                </Link>
+              </li>
+              <li>
+                <Link to="/services/leak-detection" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Leak Detection & Repair
+                </Link>
+              </li>
+              <li>
+                <Link to="/services/valley-iron-replacement" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Valley Iron Replacement
+                </Link>
+              </li>
+              <li>
+                <Link to="/services/tile-replacement" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Tile Replacement
+                </Link>
+              </li>
+              <li>
+                <Link to="/warranty" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  10-Year Warranty Info
+                </Link>
+              </li>
+              <li>
+                <Link to="/book" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Book Free Quote
+                </Link>
+              </li>
+            </ul>
           </div>
 
           {/* Contact */}

@@ -183,6 +183,87 @@ const Index = () => {
         <AccentPattern className="opacity-3" />
         <div className="container mx-auto px-4">
           <EnhancedServiceSection services={services} />
+          
+          {/* Strategic Links to Hidden Pages - Local SEO Optimized */}
+          <div className="mt-16 text-center">
+            <h3 className="text-2xl font-bold mb-8 text-primary">Complete Roofing Solutions for Southeast Melbourne</h3>
+            
+            {/* Suburb-Specific Service Links */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              <div className="bg-background/60 backdrop-blur-sm rounded-lg p-6 border border-primary/20">
+                <h4 className="text-lg font-semibold mb-4 text-primary">Popular Service Areas</h4>
+                <div className="space-y-2 text-left">
+                  <Link to="/services/roof-restoration-clyde-north" className="block text-sm hover:text-primary transition-colors">
+                    🏠 Roof Restoration Clyde North
+                  </Link>
+                  <Link to="/services/roof-restoration-berwick" className="block text-sm hover:text-primary transition-colors">
+                    🏠 Professional Roofing Berwick
+                  </Link>
+                  <Link to="/services/roof-painting-cranbourne" className="block text-sm hover:text-primary transition-colors">
+                    🎨 Roof Painting Cranbourne
+                  </Link>
+                  <Link to="/services/roof-restoration-pakenham" className="block text-sm hover:text-primary transition-colors">
+                    ⭐ Trusted Roofer Pakenham
+                  </Link>
+                  <Link to="/services/roof-painting-pakenham" className="block text-sm hover:text-primary transition-colors">
+                    🎨 Quality Roof Painting Pakenham
+                  </Link>
+                </div>
+              </div>
+              
+              <div className="bg-background/60 backdrop-blur-sm rounded-lg p-6 border border-primary/20">
+                <h4 className="text-lg font-semibold mb-4 text-primary">Specialist Services</h4>
+                <div className="space-y-2 text-left">
+                  <Link to="/services/leak-detection" className="block text-sm hover:text-primary transition-colors">
+                    🔍 Emergency Leak Detection
+                  </Link>
+                  <Link to="/services/valley-iron-replacement" className="block text-sm hover:text-primary transition-colors">
+                    🔧 Valley Iron Replacement
+                  </Link>
+                  <Link to="/services/tile-replacement" className="block text-sm hover:text-primary transition-colors">
+                    🧱 Broken Tile Replacement
+                  </Link>
+                  <Link to="/services/roof-repointing" className="block text-sm hover:text-primary transition-colors">
+                    🛠️ Ridge Cap Repointing
+                  </Link>
+                  <Link to="/services/gutter-cleaning" className="block text-sm hover:text-primary transition-colors">
+                    💧 Professional Gutter Cleaning
+                  </Link>
+                </div>
+              </div>
+              
+              <div className="bg-background/60 backdrop-blur-sm rounded-lg p-6 border border-primary/20">
+                <h4 className="text-lg font-semibold mb-4 text-primary">Customer Resources</h4>
+                <div className="space-y-2 text-left">
+                  <Link to="/warranty" className="block text-sm hover:text-primary transition-colors">
+                    🛡️ 10-Year Workmanship Warranty
+                  </Link>
+                  <Link to="/gallery" className="block text-sm hover:text-primary transition-colors">
+                    📸 Before & After Gallery
+                  </Link>
+                  <Link to="/blog" className="block text-sm hover:text-primary transition-colors">
+                    📚 Expert Roofing Guides
+                  </Link>
+                  <Link to="/emergency" className="block text-sm hover:text-primary transition-colors">
+                    🚨 Same-Day Emergency Repairs
+                  </Link>
+                  <Link to="/about" className="block text-sm hover:text-primary transition-colors">
+                    👨‍💼 Meet Kaidyn - Local Owner
+                  </Link>
+                </div>
+              </div>
+            </div>
+            
+            {/* Quick Action CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+                <Link to="/book">Book Free Roof Health Check</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <Link to="/gallery">View Our Work Gallery</Link>
+              </Button>
+            </div>
+          </div>
         </div>
       </section>
 

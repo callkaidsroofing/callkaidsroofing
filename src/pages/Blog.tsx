@@ -202,6 +202,33 @@ export default function Blog() {
           </div>
         </section>
 
+        {/* Service Area and Specialist Links */}
+        <section className="py-12 px-4 bg-gradient-to-r from-secondary/10 to-primary/5">
+          <div className="container mx-auto">
+            <h2 className="text-2xl font-bold text-center mb-8">Local Roofing Expertise Across Southeast Melbourne</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
+              <Link to="/services/roof-restoration-clyde-north" className="text-center p-3 bg-background/80 rounded-lg hover:bg-background transition-colors">
+                <p className="font-medium text-primary text-sm">Clyde North Roofing</p>
+              </Link>
+              <Link to="/services/roof-restoration-berwick" className="text-center p-3 bg-background/80 rounded-lg hover:bg-background transition-colors">
+                <p className="font-medium text-primary text-sm">Berwick Specialist</p>
+              </Link>
+              <Link to="/services/roof-painting-cranbourne" className="text-center p-3 bg-background/80 rounded-lg hover:bg-background transition-colors">
+                <p className="font-medium text-primary text-sm">Cranbourne Painting</p>
+              </Link>
+              <Link to="/services/leak-detection" className="text-center p-3 bg-background/80 rounded-lg hover:bg-background transition-colors">
+                <p className="font-medium text-primary text-sm">Leak Detection</p>
+              </Link>
+              <Link to="/emergency" className="text-center p-3 bg-background/80 rounded-lg hover:bg-background transition-colors">
+                <p className="font-medium text-roofing-emergency text-sm">Emergency Repairs</p>
+              </Link>
+              <Link to="/warranty" className="text-center p-3 bg-background/80 rounded-lg hover:bg-background transition-colors">
+                <p className="font-medium text-primary text-sm">10-Year Warranty</p>
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className="py-16 px-4 bg-gradient-to-r from-primary to-secondary relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-secondary/90" />
@@ -212,11 +239,14 @@ export default function Blog() {
             <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
               Don't let roofing problems become major expenses. Get expert advice and quality service from Melbourne's trusted roofing professionals.
             </p>
-            <Button asChild size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
-              <Link to="/book">
-                Get Your Free Roof Assessment
-              </Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
+                <Link to="/book">Get Your Free Roof Assessment</Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+                <a href="tel:0435900709">Call 0435 900 709</a>
+              </Button>
+            </div>
           </div>
         </section>
       </div>
