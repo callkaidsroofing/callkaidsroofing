@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Phone, CheckCircle, Clock, Shield, MapPin, Droplets, Home, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 
 const GutterCleaning = () => {
   const services = [
@@ -71,20 +72,19 @@ const GutterCleaning = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section 
-        className="py-20 relative bg-cover bg-center text-white"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url('/lovable-uploads/7b53e2bb-e419-483c-b48c-ea2d1f5c139e.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
+      <OptimizedBackgroundSection
+        backgroundImage="/lovable-uploads/7b53e2bb-e419-483c-b48c-ea2d1f5c139e.png"
+        gradient="linear-gradient(130deg, rgba(12,74,110,0.9), rgba(37,99,235,0.82))"
+        className="py-20 text-white"
+        imageAlt="Professional gutter cleaning in Melbourne"
+        sizes="(max-width: 1024px) 100vw, 1440px"
       >
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
             Professional Gutter Cleaning & Maintenance
           </h1>
           <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
-            Clogged gutters are a leading cause of water damage to homes. Professional cleaning protects your home's foundation, 
+            Clogged gutters are a leading cause of water damage to homes. Professional cleaning protects your home's foundation,
             landscaping, and structural integrity. Essential maintenance for all Melbourne homeowners.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -99,7 +99,7 @@ const GutterCleaning = () => {
             </Button>
           </div>
         </div>
-      </section>
+      </OptimizedBackgroundSection>
 
       {/* Why Gutter Cleaning Matters */}
       <section className="py-16">

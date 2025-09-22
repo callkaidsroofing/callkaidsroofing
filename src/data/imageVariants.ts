@@ -24,17 +24,17 @@ interface VariantDefinition {
 const VARIANT_DEFINITIONS: VariantDefinition[] = [
   {
     src: '/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png',
-    widths: [800, 1200, 1600],
+    widths: [640, 1024, 1600],
     fallbackWidth: 1200,
     fallbackHeight: 900,
     sizes: '(max-width: 1024px) 100vw, 1600px',
   },
   {
     src: '/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png',
-    widths: [200, 400, 600],
-    fallbackWidth: 400,
-    fallbackHeight: 300,
-    sizes: '(max-width: 768px) 60vw, 280px',
+    widths: [480, 960, 1440],
+    fallbackWidth: 960,
+    fallbackHeight: 720,
+    sizes: '(max-width: 1024px) 100vw, 1440px',
   },
   {
     src: '/lovable-uploads/dfb36f59-24c0-44d0-8049-9677f7a3f7ba.png',
@@ -70,6 +70,34 @@ const VARIANT_DEFINITIONS: VariantDefinition[] = [
     fallbackWidth: 360,
     fallbackHeight: 210,
     sizes: '(max-width: 640px) 70vw, 280px',
+  },
+  {
+    src: '/lovable-uploads/5984413e-46ac-4f11-ac75-953d93235faa.png',
+    widths: [360, 540, 720],
+    fallbackWidth: 720,
+    fallbackHeight: 1600,
+    sizes: '(max-width: 768px) 80vw, 540px',
+  },
+  {
+    src: '/lovable-uploads/7b53e2bb-e419-483c-b48c-ea2d1f5c139e.png',
+    widths: [640, 960, 1440],
+    fallbackWidth: 1200,
+    fallbackHeight: 540,
+    sizes: '(max-width: 1024px) 100vw, 1440px',
+  },
+  {
+    src: '/lovable-uploads/b583ddb3-be15-4d62-b3fe-1d5a4ed4cd2a.png',
+    widths: [360, 540, 720],
+    fallbackWidth: 720,
+    fallbackHeight: 960,
+    sizes: '(max-width: 768px) 80vw, 540px',
+  },
+  {
+    src: '/lovable-uploads/e1922069-2f8f-4a3e-988e-a8631602ed44.png',
+    widths: [640, 960, 1440],
+    fallbackWidth: 1200,
+    fallbackHeight: 900,
+    sizes: '(max-width: 1024px) 100vw, 1440px',
   },
 ];
 

@@ -11,7 +11,6 @@ import { OptimizedImage } from '@/components/OptimizedImage';
 import { FloatingIcons, SectionDivider, AccentPattern } from '@/components/DecorativeIcons';
 import { EnhancedServiceSection } from '@/components/EnhancedServiceSection';
 import QuickCaptureForm from '@/components/QuickCaptureForm';
-import blueprintPattern from '/src/assets/blueprint-pattern.jpg';
 import waterFlowAbstract from '/src/assets/water-flow-abstract.jpg';
 
 const Index = () => {
@@ -67,14 +66,14 @@ const Index = () => {
       <div className="page-transition">
       {/* Perfect Hero Section - Matching Reference Design */}
       <OptimizedBackgroundSection
-        backgroundImage="/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
+        backgroundImage="/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png"
         className="h-screen flex items-center justify-center text-white relative overflow-hidden"
-        gradient="linear-gradient(135deg, rgba(0,122,204,0.95), rgba(11,59,105,0.97))"
-        imageAlt="Freshly restored roof in Melbourne"
+        gradient="linear-gradient(130deg, rgba(12,74,110,0.94), rgba(37,99,235,0.88))"
+        imageAlt="White roof tiles with blue gradient overlay"
         priority
-        sizes="(max-width: 1024px) 100vw, 1600px"
+        sizes="(max-width: 1024px) 100vw, 1440px"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-primary/20 to-secondary/30 mix-blend-overlay"></div>
         
         {/* Main Content Container - Centered Layout */}
         <div className="container mx-auto px-6 z-10 text-center max-w-5xl">
@@ -163,13 +162,23 @@ const Index = () => {
 
       {/* Image Gallery with Blue Gradient Background */}
       <div className="relative py-16 overflow-hidden card-gradient">
-        <OptimizedImage
-          src={blueprintPattern}
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover opacity-5"
-          width={1600}
-          height={900}
-          sizes="100vw"
+        <div
+          className="absolute inset-0 opacity-30 mix-blend-overlay pointer-events-none"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 20% 20%, rgba(59,130,246,0.35), transparent 55%),' +
+              'radial-gradient(circle at 80% 5%, rgba(14,116,144,0.3), transparent 50%),' +
+              'radial-gradient(circle at 50% 85%, rgba(37,99,235,0.25), transparent 55%)',
+          }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.12] pointer-events-none"
+          style={{
+            backgroundImage:
+              'linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px),' +
+              'linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)',
+            backgroundSize: '120px 120px',
+          }}
         />
         <div className="relative z-10">
           <FeaturedGallery />
