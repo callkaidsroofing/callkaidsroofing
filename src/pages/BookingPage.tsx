@@ -205,7 +205,7 @@ const BookingPage = () => {
           <OptimizedImage
             src={geometricPattern}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-overlay"
+            className="absolute inset-0 w-full h-full object-center opacity-10 mix-blend-overlay"
             width={1600}
             height={900}
             sizes="100vw"

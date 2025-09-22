@@ -238,7 +238,7 @@ const Gallery = () => {
                         <OptimizedImage
                           src={filteredImages[currentImage]?.src}
                           alt={filteredImages[currentImage]?.title}
-                          className="transition-all duration-500 group-hover:scale-105"
+                          className="transition-all duration-500 group-hover:scale-105 object-center"
                           width={1200}
                           height={675}
                           priority
@@ -247,16 +247,6 @@ const Gallery = () => {
                       </AspectRatio>
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-300" />
                       <div className="absolute bottom-4 left-4 right-4 text-white">
-                        <div className="flex items-center gap-2 mb-3">
-                          <Badge className={`${getCategoryColor(filteredImages[currentImage]?.category)} font-semibold shadow-lg`}>
-                            {getCategoryLabel(filteredImages[currentImage]?.category)}
-                          </Badge>
-                          {filteredImages[currentImage]?.pairId && (
-                            <Badge variant="outline" className="bg-background/20 text-white border-white/30">
-                              Paired Photo Available
-                            </Badge>
-                          )}
-                        </div>
                         <h3 className="text-2xl font-bold mb-2 drop-shadow-lg">{filteredImages[currentImage]?.title}</h3>
                         <p className="text-sm text-gray-200 leading-relaxed drop-shadow-md max-w-3xl">{filteredImages[currentImage]?.description}</p>
                       </div>
@@ -292,9 +282,6 @@ const Gallery = () => {
                   />
                 </AspectRatio>
                 <div className="mt-6 text-center">
-                  <Badge className={`${getCategoryColor(filteredImages[currentImage]?.category)} mb-3`}>
-                    {getCategoryLabel(filteredImages[currentImage]?.category)}
-                  </Badge>
                   <h3 className="text-3xl font-bold mb-3">{filteredImages[currentImage]?.title}</h3>
                   <p className="text-muted-foreground text-lg leading-relaxed">{filteredImages[currentImage]?.description}</p>
                 </div>
@@ -322,26 +309,13 @@ const Gallery = () => {
                       <OptimizedImage
                         src={image.src}
                         alt={image.title}
-                        className="rounded transition-all duration-300 group-hover:brightness-110"
+                        className="rounded transition-all duration-300 group-hover:brightness-110 object-center"
                         width={400}
                         height={225}
                         sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
                       />
                     </AspectRatio>
                     <div className="mt-3 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <Badge 
-                          variant="secondary" 
-                          className={`text-xs ${getCategoryColor(image.category)}`}
-                        >
-                          {getCategoryLabel(image.category)}
-                        </Badge>
-                        {pairedImage && (
-                          <Badge variant="outline" className="text-xs">
-                            Paired
-                          </Badge>
-                        )}
-                      </div>
                       <p className="text-sm font-medium leading-tight line-clamp-2">{image.title}</p>
                     </div>
                   </CardContent>
