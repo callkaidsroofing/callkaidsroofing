@@ -42,7 +42,7 @@ const ServiceCard = ({
         <CardTitle className="text-xl flex items-center gap-2">
           {title}
           {isEmergency && (
-            <span className="text-xs bg-roofing-emergency text-white px-2 py-1 rounded font-normal">
+            <span className="text-xs bg-red-600 text-white px-2 py-1 rounded font-semibold tracking-wide shadow-sm">
               24/7
             </span>
           )}

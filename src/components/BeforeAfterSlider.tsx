@@ -125,6 +125,7 @@ const BeforeAfterSlider = () => {
                   className={`w-3 h-3 rounded-full transition-colors ${
                     index === currentSlide ? 'bg-primary' : 'bg-muted'
                   }`}
+                  aria-label={`Show project ${index + 1}`}
                 />
               ))}
             </div>

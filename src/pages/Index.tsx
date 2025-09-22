@@ -61,7 +61,7 @@ const Index = () => {
         title="Call Kaids Roofing | Roof Restorations Clyde North & SE Melbourne"
         description="Local roofing experts in Clyde North. Roof restorations, painting, repairs & gutter cleaning with 10-year warranty. Call 0435 900 709 today."
         keywords="roof restorations Clyde North, roof painting southeast Melbourne, gutter cleaning Clyde North, roof repairs Berwick"
-        ogImage="https://callkaidsroofing.com.au/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
+        ogImage="https://callkaidsroofing.com.au/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d-1200.jpg"
       />
       <StructuredData type="homepage" />
       <div className="page-transition">
@@ -70,6 +70,9 @@ const Index = () => {
         backgroundImage="/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
         className="h-screen flex items-center justify-center text-white relative overflow-hidden"
         gradient="linear-gradient(135deg, rgba(0,122,204,0.95), rgba(11,59,105,0.97))"
+        imageAlt="Freshly restored roof in Melbourne"
+        priority
+        sizes="(max-width: 1024px) 100vw, 1600px"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30"></div>
         
