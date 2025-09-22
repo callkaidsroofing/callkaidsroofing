@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import ServiceSpecificForm from '@/components/ServiceSpecificForm';
 import { SEOHead } from '@/components/SEOHead';
 import { StructuredData } from '@/components/StructuredData';
+import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 
 const RoofPainting = () => {
   const benefits = [
@@ -104,13 +105,12 @@ const RoofPainting = () => {
         pageUrl="https://callkaidsroofing.com.au/services/roof-painting"
       />
       {/* Hero Section */}
-      <section 
-        className="py-20 relative bg-cover bg-center text-white"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('/lovable-uploads/5984413e-46ac-4f11-ac75-953d93235faa.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
+      <OptimizedBackgroundSection
+        backgroundImage="/lovable-uploads/5984413e-46ac-4f11-ac75-953d93235faa.png"
+        gradient="linear-gradient(130deg, rgba(12,74,110,0.9), rgba(37,99,235,0.82))"
+        className="py-20 text-white"
+        imageAlt="Roof painting preparation background"
+        sizes="(max-width: 1024px) 100vw, 960px"
       >
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -131,7 +131,7 @@ const RoofPainting = () => {
             </Button>
           </div>
         </div>
-      </section>
+      </OptimizedBackgroundSection>
 
       {/* Service Form */}
       <ServiceSpecificForm 

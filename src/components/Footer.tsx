@@ -3,7 +3,7 @@ import { Phone, Mail, MapPin, Clock, Shield, Star, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { OptimizedImage } from '@/components/OptimizedImage';
-import bannerLogo from '/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png';
+import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 
 const Footer = () => {
   const serviceAreas = [
@@ -30,13 +30,12 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-br from-muted/50 to-muted/80 border-t">
       {/* Hero Call to Action Section with Banner */}
-      <div 
-        className="relative bg-cover bg-center py-16 text-white"
-        style={{ 
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(${bannerLogo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
+      <OptimizedBackgroundSection
+        backgroundImage="/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png"
+        gradient="linear-gradient(130deg, rgba(12,74,110,0.92), rgba(2,132,199,0.88))"
+        className="py-16 text-white"
+        imageAlt="White roof tiles background"
+        sizes="(max-width: 1024px) 100vw, 1440px"
       >
         <div className="container mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -46,7 +45,7 @@ const Footer = () => {
             Call Kaidyn directly - no call centers, no waiting, just honest advice from a local expert with 10-year warranty
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <a 
+            <a
               href="tel:0435900709"
               className="flex items-center gap-3 bg-primary text-white px-8 py-4 rounded-lg font-bold text-xl hover:bg-primary/90 transition-colors shadow-lg"
             >
@@ -57,7 +56,7 @@ const Footer = () => {
               <Link to="/book">Get Free Quote</Link>
             </Button>
           </div>
-          
+
           {/* Trust indicators overlay */}
           <div className="flex flex-wrap justify-center gap-4 mt-8 text-sm">
             <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
@@ -74,7 +73,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </div>
+      </OptimizedBackgroundSection>
 
       <div className="container mx-auto px-4 py-12">
         {/* Main Footer Content */}

@@ -8,13 +8,13 @@ const uploadsDir = path.join(projectRoot, 'public', 'lovable-uploads');
 const priorityImages = [
   {
     file: '80e5f731-db09-4c90-8350-01fcb1fe353d.png',
-    widths: [800, 1200, 1600],
+    widths: [640, 1024, 1600],
     fallbackWidth: 1200,
   },
   {
     file: '5eea137e-7ec4-407d-8452-faeea24c872f.png',
-    widths: [200, 400, 600],
-    fallbackWidth: 400,
+    widths: [480, 960, 1440],
+    fallbackWidth: 960,
   },
   {
     file: 'dfb36f59-24c0-44d0-8049-9677f7a3f7ba.png',
@@ -40,6 +40,26 @@ const priorityImages = [
     file: '8d1be6f1-c743-47df-8d3e-f1ab6230f326.png',
     widths: [240, 360, 540],
     fallbackWidth: 360,
+  },
+  {
+    file: '5984413e-46ac-4f11-ac75-953d93235faa.png',
+    widths: [360, 540, 720],
+    fallbackWidth: 720,
+  },
+  {
+    file: '7b53e2bb-e419-483c-b48c-ea2d1f5c139e.png',
+    widths: [640, 960, 1440],
+    fallbackWidth: 1200,
+  },
+  {
+    file: 'b583ddb3-be15-4d62-b3fe-1d5a4ed4cd2a.png',
+    widths: [360, 540, 720],
+    fallbackWidth: 720,
+  },
+  {
+    file: 'e1922069-2f8f-4a3e-988e-a8631602ed44.png',
+    widths: [640, 960, 1440],
+    fallbackWidth: 1200,
   },
 ];
 

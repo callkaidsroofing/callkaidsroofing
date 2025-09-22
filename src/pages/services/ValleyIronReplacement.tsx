@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Phone, CheckCircle, Clock, Shield, MapPin, AlertTriangle, Wrench, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 
 const ValleyIronReplacement = () => {
   const problemSigns = [
@@ -104,20 +105,19 @@ const ValleyIronReplacement = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section 
-        className="py-20 relative bg-cover bg-center text-white"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url('/lovable-uploads/b583ddb3-be15-4d62-b3fe-1d5a4ed4cd2a.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
+      <OptimizedBackgroundSection
+        backgroundImage="/lovable-uploads/b583ddb3-be15-4d62-b3fe-1d5a4ed4cd2a.png"
+        gradient="linear-gradient(130deg, rgba(12,74,110,0.9), rgba(37,99,235,0.82))"
+        className="py-20 text-white"
+        imageAlt="Replacing rusted valley iron in Melbourne"
+        sizes="(max-width: 1024px) 100vw, 1200px"
       >
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
             Valley Iron Replacement: Stop Hidden Leaks Before They Destroy Your Home
           </h1>
           <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
-            Rusted valley irons are a common problem in older homes and a major cause of leaks. Specialist replacement service 
+            Rusted valley irons are a common problem in older homes and a major cause of leaks. Specialist replacement service
             using premium materials with 10-year warranty protection.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -132,7 +132,7 @@ const ValleyIronReplacement = () => {
             </Button>
           </div>
         </div>
-      </section>
+      </OptimizedBackgroundSection>
 
       {/* Why Valley Irons Fail */}
       <section className="py-16">
