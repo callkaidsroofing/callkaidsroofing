@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
+import { useSecurityMonitoring } from '@/hooks/useSecurityMonitoring';
 
 interface AuthContextType {
   user: User | null;
@@ -25,6 +26,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  
+  // Initialize security monitoring
+  useSecurityMonitoring();
 
   useEffect(() => {
     // Set up auth state listener
@@ -69,12 +73,50 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (!adminCheck) {
           const { data: createResult } = await supabase.rpc('create_admin_for_authenticated_user');
           
-          // Log admin creation attempts for security monitoring
+          // Enhanced security monitoring with notification system
           if (createResult && typeof createResult === 'object' && 'success' in createResult) {
             if (createResult.success) {
               console.log('Admin profile created successfully');
+              
+              // Send security notification for admin creation
+              try {
+                await supabase.functions.invoke('admin-security-notification', {
+                  body: {
+                    event_type: 'ADMIN_CREATED',
+                    user_id: data.user.id,
+                    user_email: data.user.email,
+                    event_details: {
+                      login_method: 'password',
+                      user_agent: navigator.userAgent,
+                      timestamp: new Date().toISOString()
+                    },
+                    timestamp: new Date().toISOString()
+                  }
+                });
+              } catch (notificationError) {
+                console.warn('Failed to send admin creation notification:', notificationError);
+              }
             } else if ('error' in createResult && createResult.error) {
               console.warn('Admin creation blocked:', createResult.error);
+              
+              // Send security notification for blocked admin creation
+              try {
+                await supabase.functions.invoke('admin-security-notification', {
+                  body: {
+                    event_type: 'ADMIN_CREATION_BLOCKED',
+                    user_id: data.user.id,
+                    user_email: data.user.email,
+                    event_details: {
+                      reason: createResult.error,
+                      user_agent: navigator.userAgent,
+                      timestamp: new Date().toISOString()
+                    },
+                    timestamp: new Date().toISOString()
+                  }
+                });
+              } catch (notificationError) {
+                console.warn('Failed to send security notification:', notificationError);
+              }
             }
           }
         }
