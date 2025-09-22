@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Generated image variants
+public/lovable-uploads/*-[0-9]*.avif
+public/lovable-uploads/*-[0-9]*.webp
+public/lovable-uploads/*-[0-9]*.jpg
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

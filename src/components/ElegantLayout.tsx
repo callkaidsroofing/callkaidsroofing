@@ -10,7 +10,7 @@ import ParticleSystem from '@/components/ParticleSystem';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { MetaPixelTracker } from '@/components/MetaPixelTracker';
 import { GoogleAnalytics } from '@/components/GoogleAnalytics';
-import callKaidsFullLogo from '@/assets/call-kaids-full-logo.png';
+import callKaidsFullLogo from '/lovable-uploads/8d1be6f1-c743-47df-8d3e-f1ab6230f326.png';
 
 export const ElegantLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -49,6 +49,8 @@ export const ElegantLayout = () => {
             size="sm"
             onClick={toggleSidebar}
             className="lg:hidden text-white hover:bg-white/10 p-2"
+            aria-label={sidebarOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={sidebarOpen}
           >
             <Menu className="h-5 w-5" />
           </Button>

@@ -209,7 +209,7 @@ const Footer = () => {
             </div>
             
             <div className="space-y-2">
-              <Button asChild variant="destructive" size="sm" className="w-full">
+              <Button asChild variant="emergency" size="sm" className="w-full">
                 <Link to="/emergency">Emergency: Same Day</Link>
               </Button>
               <Button asChild variant="outline" size="sm" className="w-full">
