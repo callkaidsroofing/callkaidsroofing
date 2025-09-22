@@ -95,7 +95,7 @@ const FeaturedGallery = () => {
                       <OptimizedImage
                         src={featuredImages[currentImage].src}
                         alt={featuredImages[currentImage].title}
-                        className="transition-all duration-500 group-hover:scale-105 object-center"
+                        className="transition-all duration-500 group-hover:scale-105"
                         width={1200}
                         height={675}
                         priority
@@ -104,6 +104,9 @@ const FeaturedGallery = () => {
                     </AspectRatio>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-300" />
                     <div className="absolute bottom-4 left-4 right-4 text-white">
+                      <Badge className="bg-primary text-primary-foreground font-semibold shadow-lg mb-3">
+                        Completed Project
+                      </Badge>
                       <h3 className="text-xl md:text-2xl font-bold mb-2 drop-shadow-lg">{featuredImages[currentImage].title}</h3>
                       <p className="text-sm text-gray-200 leading-relaxed drop-shadow-md">{featuredImages[currentImage].description}</p>
                     </div>
@@ -141,6 +144,9 @@ const FeaturedGallery = () => {
                 />
               </AspectRatio>
               <div className="mt-6 text-center">
+                <Badge className="bg-primary text-primary-foreground mb-3">
+                  Completed Project
+                </Badge>
                 <h3 className="text-2xl font-bold mb-3">{featuredImages[currentImage].title}</h3>
                 <p className="text-muted-foreground text-lg">{featuredImages[currentImage].description}</p>
               </div>

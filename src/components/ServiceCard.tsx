@@ -30,7 +30,7 @@ const ServiceCard = ({
           <OptimizedImage
             src={image}
             alt={`${title} - Professional roofing service in Melbourne`}
-            className="group-hover:scale-105 transition-transform duration-300 object-center"
+            className="group-hover:scale-105 transition-transform duration-300"
             width={400}
             height={225}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
