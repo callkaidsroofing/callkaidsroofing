@@ -18,6 +18,11 @@ const resolveObjectFitClass = (className: string) => {
   if (className.includes('object-fill')) return 'object-fill';
   if (className.includes('object-none')) return 'object-none';
   if (className.includes('object-scale-down')) return 'object-scale-down';
+  if (className.includes('object-center')) return 'object-center';
+  if (className.includes('object-top')) return 'object-top';
+  if (className.includes('object-bottom')) return 'object-bottom';
+  if (className.includes('object-left')) return 'object-left';
+  if (className.includes('object-right')) return 'object-right';
   return 'object-cover';
 };
 

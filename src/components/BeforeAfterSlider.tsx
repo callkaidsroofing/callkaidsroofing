@@ -66,13 +66,10 @@ const BeforeAfterSlider = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2">
                 {/* Before Image */}
                 <div className="relative">
-                  <div className="absolute top-4 left-4 z-10 bg-destructive text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    BEFORE
-                  </div>
                   <OptimizedImage
                     src={projects[currentSlide].before}
                     alt={`Before roof restoration in ${projects[currentSlide].suburb}`}
-                    className="w-full h-64 lg:h-96 object-cover"
+                    className="w-full h-64 lg:h-96 object-contain bg-muted/20"
                     width={600}
                     height={400}
                   />
@@ -80,13 +77,10 @@ const BeforeAfterSlider = () => {
 
                 {/* After Image */}
                 <div className="relative">
-                  <div className="absolute top-4 left-4 z-10 bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    AFTER
-                  </div>
                   <OptimizedImage
                     src={projects[currentSlide].after}
                     alt={`After roof restoration in ${projects[currentSlide].suburb}`}
-                    className="w-full h-64 lg:h-96 object-cover"
+                    className="w-full h-64 lg:h-96 object-contain bg-muted/20"
                     width={600}
                     height={400}
                   />

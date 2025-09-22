@@ -178,7 +178,7 @@ const ImageGallery = () => {
                     <OptimizedImage
                       src={images[currentImage].src}
                       alt={images[currentImage].title}
-                      className="transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
+                      className="transition-all duration-500 group-hover:scale-110 group-hover:brightness-110 object-center"
                       width={1301}
                       height={976}
                       priority
@@ -187,11 +187,6 @@ const ImageGallery = () => {
                   </AspectRatio>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-300" />
                   <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 text-white">
-                    <Badge className={`${getTypeColor(images[currentImage].type)} text-xs sm:text-sm font-semibold shadow-lg`}>
-                      {images[currentImage].type === 'before-after' && 'Before Photo'}
-                      {images[currentImage].type === 'action' && 'In Progress'}
-                      {images[currentImage].type === 'completed' && 'Completed Work'}
-                    </Badge>
                     <h3 className="text-lg sm:text-xl font-bold mt-2 drop-shadow-lg">{images[currentImage].title}</h3>
                     <p className="text-xs sm:text-sm text-gray-200 leading-relaxed drop-shadow-md">{images[currentImage].description}</p>
                   </div>
@@ -258,14 +253,6 @@ const ImageGallery = () => {
                   />
                 </AspectRatio>
                 <div className="mt-2 text-center">
-                  <Badge 
-                    variant="secondary" 
-                    className={`text-xs mb-1 ${getTypeColor(image.type)}`}
-                  >
-                    {image.type === 'before-after' && 'Before'}
-                    {image.type === 'action' && 'Progress'}
-                    {image.type === 'completed' && 'Complete'}
-                  </Badge>
                   <p className="text-xs sm:text-sm font-medium truncate leading-relaxed">{image.title}</p>
                 </div>
               </CardContent>
