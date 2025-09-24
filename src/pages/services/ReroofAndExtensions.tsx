@@ -8,19 +8,26 @@ const ctas: ServiceCta[] = [
   { label: `Call Now – ${COMPANY_PHONE_DISPLAY}`, href: COMPANY_PHONE_TEL, variant: 'secondary' }
 ];
 
-const whatsIncluded = [
-  'Full debris removal from gutters and valleys',
-  'Downpipe flush where accessible',
-  'Minor seal checks and repairs',
-  'Before/after photo proof',
-  'Debris disposal off-site'
+const scopes = [
+  'Full re-roof (tile or metal)',
+  'Extension tie-ins with saddles and aprons',
+  'New valleys, ridges, and flashings',
+  'Compliance certification provided'
 ];
 
 const benefits = [
-  'Prevents leaks, staining, and rot',
-  'Protects fascia and foundations',
-  'Improves roof lifespan',
-  'Eliminates pest and mosquito breeding grounds'
+  'Profile and colour matched to existing roof',
+  'Leak-free finishes with correct flashings',
+  'Full compliance with building codes',
+  'Boosts home value and longevity'
+];
+
+const process = [
+  'Strip and inspect existing structure',
+  'Install sarking and battens',
+  'Fit new roof materials with valleys and flashings',
+  'Quality assurance and hose-test',
+  'Provide compliance certification'
 ];
 
 const serviceAreas = [
@@ -36,37 +43,37 @@ const serviceAreas = [
 ];
 
 const relatedLinks = [
-  { label: 'Learn about Roof Pressure Cleaning', href: '/services/roof-pressure-cleaning' },
-  { label: 'View Ridge Rebedding & Repointing', href: '/services/roof-repointing' },
+  { label: 'Learn about Resarking & Battening', href: '/services/resarking-battening' },
+  { label: 'View Roof Restoration', href: '/services/roof-restoration' },
   { label: 'Book a Free Roof Health Check', href: '/services/health-check' }
 ];
 
-const GutterCleaning = () => {
+const ReroofAndExtensions = () => {
   return (
     <ServicePageLayout
       seo={{
-        title: 'Gutter Cleaning Clyde North – Prevent Overflows | Call Kaids Roofing',
+        title: 'Re-roof & Extensions Clyde North – Tie-in Specialists | Call Kaids Roofing',
         description:
-          'Keep gutters and downpipes clear with professional cleaning and photo proof. Prevent water damage and foundation issues. Serving Clyde North & SE Melbourne.'
+          'Full or partial re-roofs and seamless tie-ins for extensions with matched profiles and flashings. Serving Clyde North & SE Melbourne with compliance certification and a 10-year workmanship warranty.'
       }}
       hero={{
-        title: 'Gutter Cleaning',
-        subtitle: 'Stay off the ladder — we keep your gutters clear, safe, and flowing.'
+        title: 'Re-roof & Extensions',
+        subtitle: 'Seamless tie-ins and compliant re-roofs that match your home perfectly.'
       }}
       ctas={ctas}
-      trustSignals={['Licensed & insured', 'Safety harnesses always used']}
+      trustSignals={['Compliance certificates included', 'Fully licensed & insured']}
       relatedLinks={relatedLinks}
       structuredData={{
-        serviceName: 'Gutter Cleaning',
+        serviceName: 'Re-roof & Extensions',
         serviceDescription:
-          'Professional gutter and downpipe cleaning with debris removal, minor repairs, and photo proof across Clyde North and Southeast Melbourne.',
-        pageUrl: 'https://callkaidsroofing.com.au/services/gutter-cleaning'
+          'Full and partial re-roofing, extension tie-ins, and compliance-certified finishing across Clyde North and Southeast Melbourne.',
+        pageUrl: 'https://callkaidsroofing.com.au/services/re-roof-extensions'
       }}
     >
       <section>
-        <h2 className="mb-4 text-2xl font-semibold tracking-tight">What’s Included</h2>
+        <h2 className="mb-4 text-2xl font-semibold tracking-tight">Scopes</h2>
         <ul className="space-y-3 text-muted-foreground">
-          {whatsIncluded.map((item) => (
+          {scopes.map((item) => (
             <li key={item} className="flex items-start gap-3">
               <CheckCircle2 className="mt-1 h-5 w-5 text-primary" aria-hidden />
               <span>{item}</span>
@@ -85,6 +92,20 @@ const GutterCleaning = () => {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section>
+        <h2 className="mb-4 text-2xl font-semibold tracking-tight">Process</h2>
+        <ol className="space-y-4 text-muted-foreground">
+          {process.map((step, index) => (
+            <li key={step} className="flex gap-4">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-base font-semibold text-primary">
+                {index + 1}
+              </span>
+              <span className="pt-2 text-base">{step}</span>
+            </li>
+          ))}
+        </ol>
       </section>
 
       <section>
@@ -109,4 +130,4 @@ const GutterCleaning = () => {
   );
 };
 
-export default GutterCleaning;
+export default ReroofAndExtensions;

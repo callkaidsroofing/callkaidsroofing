@@ -4,6 +4,7 @@ import { Phone, Menu, X, ChevronDown, Shield, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { OptimizedImage } from '@/components/OptimizedImage';
+import { COMPANY_PHONE_DISPLAY, COMPANY_PHONE_TEL } from '@/constants/company';
 import wideLogo from '/lovable-uploads/8d1be6f1-c743-47df-8d3e-f1ab6230f326.png';
 
 const Header = () => {
@@ -11,14 +12,16 @@ const Header = () => {
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
 
   const services = [
-    { name: 'Roof Restoration', href: '/services/roof-restoration' },
-    { name: 'Roof Painting', href: '/services/roof-painting' },
-    { name: 'Roof Repointing', href: '/services/roof-repointing' },
-    { name: 'Tile Replacement', href: '/services/tile-replacement' },
-    { name: 'Leak Detection', href: '/services/leak-detection' },
+    { name: 'Roof Restoration', href: '/roof-restoration' },
+    { name: 'Ridge Rebedding & Repointing', href: '/ridge-repointing' },
+    { name: 'Leak Repairs', href: '/leak-repairs' },
+    { name: 'Roof Pressure Cleaning', href: '/services/roof-pressure-cleaning' },
     { name: 'Gutter Cleaning', href: '/services/gutter-cleaning' },
     { name: 'Valley Iron Replacement', href: '/services/valley-iron-replacement' },
-    { name: 'Roof Repairs', href: '/services/roof-repairs' },
+    { name: 'Resarking & Battening', href: '/services/resarking-battening' },
+    { name: 'Re-roof & Extensions', href: '/services/re-roof-extensions' },
+    { name: 'Free Roof Health Check', href: '/services/health-check' },
+    { name: 'Bundle Deals', href: '/bundles' }
   ];
 
   return (
@@ -118,9 +121,9 @@ const Header = () => {
           <div className="hidden md:flex items-center space-x-4">
             <div className="text-right">
               <div className="text-xs text-muted-foreground">Call Kaidyn Directly</div>
-              <a href="tel:0435900709" className="flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors">
+              <a href={COMPANY_PHONE_TEL} className="flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors">
                 <Phone className="h-4 w-4" />
-                <span className="font-bold text-lg">0435 900 709</span>
+                <span className="font-bold text-lg">{COMPANY_PHONE_DISPLAY}</span>
               </a>
             </div>
             <div className="h-8 w-px bg-border"></div>
@@ -215,9 +218,9 @@ const Header = () => {
               
               {/* Mobile Phone & CTA */}
               <div className="px-3 py-4 space-y-3 border-t">
-                <a href="tel:0435900709" className="flex items-center justify-center space-x-2 text-primary font-semibold">
+                <a href={COMPANY_PHONE_TEL} className="flex items-center justify-center space-x-2 text-primary font-semibold">
                   <Phone className="h-5 w-5" />
-                  <span>0435 900 709</span>
+                  <span>{COMPANY_PHONE_DISPLAY}</span>
                 </a>
                 <Button asChild variant="premium" size="lg" className="w-full">
                   <Link to="/book" onClick={() => setMobileMenuOpen(false)}>Get Quote</Link>

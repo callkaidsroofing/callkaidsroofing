@@ -9,18 +9,25 @@ const ctas: ServiceCta[] = [
 ];
 
 const whatsIncluded = [
-  'Full debris removal from gutters and valleys',
-  'Downpipe flush where accessible',
-  'Minor seal checks and repairs',
-  'Before/after photo proof',
-  'Debris disposal off-site'
+  'High-pressure wash of tiles, ridges, and valleys',
+  'Removal of moss, lichen, and dirt',
+  'Gutter and downpipe flush where accessible',
+  'Debris disposal off-site',
+  'Photo evidence on completion'
 ];
 
 const benefits = [
-  'Prevents leaks, staining, and rot',
-  'Protects fascia and foundations',
-  'Improves roof lifespan',
-  'Eliminates pest and mosquito breeding grounds'
+  'Removes organic growth and staining',
+  'Improves roof appearance and colour',
+  'Prepares roof for restoration or coating',
+  'Prevents blocked valleys and gutters'
+];
+
+const process = [
+  'Free roof health check and fixed quote',
+  'High-pressure clean of tiles, ridges, valleys, and gutters',
+  'Downpipe flush and debris removal',
+  'Quality assurance and photos delivered'
 ];
 
 const serviceAreas = [
@@ -36,31 +43,32 @@ const serviceAreas = [
 ];
 
 const relatedLinks = [
-  { label: 'Learn about Roof Pressure Cleaning', href: '/services/roof-pressure-cleaning' },
-  { label: 'View Ridge Rebedding & Repointing', href: '/services/roof-repointing' },
+  { label: 'Learn about Roof Restoration', href: '/services/roof-restoration' },
+  { label: 'View Gutter Cleaning', href: '/services/gutter-cleaning' },
   { label: 'Book a Free Roof Health Check', href: '/services/health-check' }
 ];
 
-const GutterCleaning = () => {
+const RoofCleaning = () => {
   return (
     <ServicePageLayout
       seo={{
-        title: 'Gutter Cleaning Clyde North – Prevent Overflows | Call Kaids Roofing',
+        title: 'Roof Pressure Cleaning Clyde North – Remove Moss & Dirt | Call Kaids Roofing',
         description:
-          'Keep gutters and downpipes clear with professional cleaning and photo proof. Prevent water damage and foundation issues. Serving Clyde North & SE Melbourne.'
+          'Power wash your roof tiles to remove moss, lichen, and dirt. Restore colour and prepare for coating. Serving Clyde North & SE Melbourne with photo proof on completion.'
       }}
       hero={{
-        title: 'Gutter Cleaning',
-        subtitle: 'Stay off the ladder — we keep your gutters clear, safe, and flowing.'
+        title: 'Roof Pressure Cleaning',
+        subtitle:
+          'Remove dirt, moss, and lichen with our safe and thorough high-pressure cleaning. Serving Clyde North & SE Melbourne with photo proof and a free roof health check.'
       }}
       ctas={ctas}
-      trustSignals={['Licensed & insured', 'Safety harnesses always used']}
+      trustSignals={['500+ happy customers', '4.9/5 stars on local reviews', 'Fully licensed & insured']}
       relatedLinks={relatedLinks}
       structuredData={{
-        serviceName: 'Gutter Cleaning',
+        serviceName: 'Roof Pressure Cleaning',
         serviceDescription:
-          'Professional gutter and downpipe cleaning with debris removal, minor repairs, and photo proof across Clyde North and Southeast Melbourne.',
-        pageUrl: 'https://callkaidsroofing.com.au/services/gutter-cleaning'
+          'High-pressure roof cleaning for tiles, ridges, and gutters with debris removal and photo documentation across Clyde North and Southeast Melbourne.',
+        pageUrl: 'https://callkaidsroofing.com.au/services/roof-pressure-cleaning'
       }}
     >
       <section>
@@ -88,6 +96,20 @@ const GutterCleaning = () => {
       </section>
 
       <section>
+        <h2 className="mb-4 text-2xl font-semibold tracking-tight">Process</h2>
+        <ol className="space-y-4 text-muted-foreground">
+          {process.map((step, index) => (
+            <li key={step} className="flex gap-4">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-base font-semibold text-primary">
+                {index + 1}
+              </span>
+              <span className="pt-2 text-base">{step}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section>
         <h2 className="mb-4 text-2xl font-semibold tracking-tight">Service Areas</h2>
         <p className="mb-4 text-muted-foreground">
           Serving Clyde North, Pakenham, Narre Warren, Cranbourne, Berwick, Frankston, Dandenong, Brighton, and suburbs within 50 km.
@@ -109,4 +131,4 @@ const GutterCleaning = () => {
   );
 };
 
-export default GutterCleaning;
+export default RoofCleaning;
