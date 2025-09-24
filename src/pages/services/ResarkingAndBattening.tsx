@@ -8,27 +8,20 @@ const ctas: ServiceCta[] = [
   { label: `Call Now – ${COMPANY_PHONE_DISPLAY}`, href: COMPANY_PHONE_TEL, variant: 'secondary' }
 ];
 
-const whatsIncluded = [
-  'Replacement of cracked or broken tiles',
-  'Valley iron repair or replacement',
-  'Minor reseals and flashing adjustments',
-  'Leak make-safe and emergency patches',
-  'Photo evidence on completion'
-];
-
 const benefits = [
-  'Stops active leaks and prevents water damage',
-  'Protects interiors and prevents mould growth',
-  'Extends the life of your roof',
-  'Free roof health check and fixed-price quote'
+  'Stops wind-driven rain and leaks',
+  'Improves insulation performance',
+  'Restores roof structure and alignment',
+  'Prepares roof for restoration or coating',
+  'Compliant with Australian Standards'
 ];
 
 const process = [
-  'Free roof health check and leak assessment',
-  'Identify sources of leaks and weak points',
-  'Replace broken tiles and repair valley irons',
-  'Apply minor reseals and adjust flashings',
-  'Quality assurance and photo proof provided'
+  'Lift and store tiles in work area',
+  'Replace sarking with breathable membrane',
+  'Renew and level battens',
+  'Relay tiles and seal penetrations',
+  'Quality assurance and photos delivered'
 ];
 
 const serviceAreas = [
@@ -44,46 +37,34 @@ const serviceAreas = [
 ];
 
 const relatedLinks = [
-  { label: 'Learn about Ridge Rebedding & Repointing', href: '/services/roof-repointing' },
-  { label: 'View Roof Pressure Cleaning', href: '/services/roof-pressure-cleaning' },
+  { label: 'Learn about Roof Restoration', href: '/services/roof-restoration' },
+  { label: 'View Re-roof & Extensions', href: '/services/re-roof-extensions' },
   { label: 'Book a Free Roof Health Check', href: '/services/health-check' }
 ];
 
-const RoofRepairs = () => {
+const ResarkingAndBattening = () => {
   return (
     <ServicePageLayout
       seo={{
-        title: 'Leak Repairs Clyde North – Fast & Reliable | Call Kaids Roofing',
+        title: 'Resarking & Battening Clyde North – Improve Waterproofing | Call Kaids Roofing',
         description:
-          'Stop roof leaks fast with professional repairs in Clyde North & SE Melbourne. Tile replacement, valley repair, and minor resealing with photo proof. Free roof health check included.'
+          'Renew sarking and battens for better waterproofing, insulation, and roof support. Serving Clyde North & SE Melbourne with a 10-year workmanship warranty and licensed trades.'
       }}
       hero={{
-        title: 'Leak Repairs',
+        title: 'Resarking & Battening',
         subtitle:
-          'Fix leaks quickly before they cause major damage. Our licensed team repairs leaks in Clyde North & SE Melbourne with photo proof and a fixed quote.'
+          'Keep your home dry, cooler in summer, and warmer in winter with new sarking and battens.'
       }}
       ctas={ctas}
-      trustSignals={['500+ happy customers', '4.9/5 stars on local reviews', 'Fully licensed & insured']}
+      trustSignals={['10-year workmanship warranty', 'Fully licensed & insured']}
       relatedLinks={relatedLinks}
       structuredData={{
-        serviceName: 'Leak Repairs',
+        serviceName: 'Resarking & Battening',
         serviceDescription:
-          'Tile replacement, valley iron repairs, and emergency leak make-safe services with free roof health checks across Clyde North and Southeast Melbourne.',
-        pageUrl: 'https://callkaidsroofing.com.au/services/leak-repairs'
+          'Tile lift, breathable sarking replacement, and batten renewal with compliance to Australian Standards across Clyde North and Southeast Melbourne.',
+        pageUrl: 'https://callkaidsroofing.com.au/services/resarking-battening'
       }}
     >
-      <section>
-        <h2 className="mb-4 text-2xl font-semibold tracking-tight">What’s Included</h2>
-        <ul className="space-y-3 text-muted-foreground">
-          {whatsIncluded.map((item) => (
-            <li key={item} className="flex items-start gap-3">
-              <CheckCircle2 className="mt-1 h-5 w-5 text-primary" aria-hidden />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
       <section>
         <h2 className="mb-4 text-2xl font-semibold tracking-tight">Benefits</h2>
         <ul className="space-y-3 text-muted-foreground">
@@ -132,4 +113,4 @@ const RoofRepairs = () => {
   );
 };
 
-export default RoofRepairs;
+export default ResarkingAndBattening;

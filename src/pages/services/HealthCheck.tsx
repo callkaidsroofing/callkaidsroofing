@@ -4,23 +4,20 @@ import { ServiceCtas, type ServiceCta } from '@/components/services/service-ctas
 import { COMPANY_PHONE_DISPLAY, COMPANY_PHONE_TEL } from '@/constants/company';
 
 const ctas: ServiceCta[] = [
-  { label: 'Book Now', href: '/book', variant: 'primary' },
+  { label: 'Book Free Check', href: '/book', variant: 'primary' },
   { label: `Call Now – ${COMPANY_PHONE_DISPLAY}`, href: COMPANY_PHONE_TEL, variant: 'secondary' }
 ];
 
-const whatsIncluded = [
-  'Full debris removal from gutters and valleys',
-  'Downpipe flush where accessible',
-  'Minor seal checks and repairs',
-  'Before/after photo proof',
-  'Debris disposal off-site'
+const whatYouGet = [
+  'Visual inspection of roof, ridges, valleys, flashings, and gutters',
+  'Photos and written condition report',
+  'Priority scheduling if repairs are needed'
 ];
 
 const benefits = [
-  'Prevents leaks, staining, and rot',
-  'Protects fascia and foundations',
-  'Improves roof lifespan',
-  'Eliminates pest and mosquito breeding grounds'
+  'Catch issues early and avoid emergencies',
+  'No-obligation check, completely free',
+  'Trusted by 500+ homeowners in Clyde North & SE Melbourne'
 ];
 
 const serviceAreas = [
@@ -36,37 +33,37 @@ const serviceAreas = [
 ];
 
 const relatedLinks = [
-  { label: 'Learn about Roof Pressure Cleaning', href: '/services/roof-pressure-cleaning' },
-  { label: 'View Ridge Rebedding & Repointing', href: '/services/roof-repointing' },
-  { label: 'Book a Free Roof Health Check', href: '/services/health-check' }
+  { label: 'Learn about Roof Restoration', href: '/services/roof-restoration' },
+  { label: 'View Leak Repairs', href: '/services/leak-repairs' },
+  { label: 'View Bundle Deals', href: '/bundles' }
 ];
 
-const GutterCleaning = () => {
+const HealthCheck = () => {
   return (
     <ServicePageLayout
       seo={{
-        title: 'Gutter Cleaning Clyde North – Prevent Overflows | Call Kaids Roofing',
+        title: 'Free Roof Health Check Clyde North | Call Kaids Roofing',
         description:
-          'Keep gutters and downpipes clear with professional cleaning and photo proof. Prevent water damage and foundation issues. Serving Clyde North & SE Melbourne.'
+          'Catch problems before they leak. Get a free photo-based roof health check with a written report and fixed-price quote if issues are found. Trusted by 500+ homeowners in Clyde North & SE Melbourne.'
       }}
       hero={{
-        title: 'Gutter Cleaning',
-        subtitle: 'Stay off the ladder — we keep your gutters clear, safe, and flowing.'
+        title: 'Free Roof Health Check',
+        subtitle: 'Know your roof’s condition before it costs you thousands.'
       }}
       ctas={ctas}
-      trustSignals={['Licensed & insured', 'Safety harnesses always used']}
+      trustSignals={['4.9/5 star rating', 'No hidden extras']}
       relatedLinks={relatedLinks}
       structuredData={{
-        serviceName: 'Gutter Cleaning',
+        serviceName: 'Free Roof Health Check',
         serviceDescription:
-          'Professional gutter and downpipe cleaning with debris removal, minor repairs, and photo proof across Clyde North and Southeast Melbourne.',
-        pageUrl: 'https://callkaidsroofing.com.au/services/gutter-cleaning'
+          'Complimentary roof inspection with photos, written report, and fixed-price quotes for homes across Clyde North and Southeast Melbourne.',
+        pageUrl: 'https://callkaidsroofing.com.au/services/health-check'
       }}
     >
       <section>
-        <h2 className="mb-4 text-2xl font-semibold tracking-tight">What’s Included</h2>
+        <h2 className="mb-4 text-2xl font-semibold tracking-tight">What You Get</h2>
         <ul className="space-y-3 text-muted-foreground">
-          {whatsIncluded.map((item) => (
+          {whatYouGet.map((item) => (
             <li key={item} className="flex items-start gap-3">
               <CheckCircle2 className="mt-1 h-5 w-5 text-primary" aria-hidden />
               <span>{item}</span>
@@ -109,4 +106,4 @@ const GutterCleaning = () => {
   );
 };
 
-export default GutterCleaning;
+export default HealthCheck;
