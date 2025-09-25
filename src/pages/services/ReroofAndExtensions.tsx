@@ -54,7 +54,8 @@ const ReroofAndExtensions = () => {
       seo={{
         title: 'Re-roof & Extensions Clyde North – Tie-in Specialists | Call Kaids Roofing',
         description:
-          'Full or partial re-roofs and seamless tie-ins for extensions with matched profiles and flashings. Serving Clyde North & SE Melbourne with compliance certification and a 10-year workmanship warranty.'
+          'Full or partial re-roofs and seamless tie-ins for extensions with matched profiles and flashings. Serving Clyde North & SE Melbourne with compliance certification and a 10-year workmanship warranty.',
+        canonical: 'https://callkaidsroofing.com.au/services/re-roof-extensions'
       }}
       hero={{
         title: 'Re-roof & Extensions',

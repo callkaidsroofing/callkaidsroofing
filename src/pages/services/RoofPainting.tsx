@@ -97,6 +97,7 @@ const RoofPainting = () => {
         title="Roof Painting Melbourne | Tile & Metal Roof Coatings"
         description="Transform your home’s look with expert roof painting. Protective coatings, colour matched finishes, 10-year warranty. Serving SE Melbourne."
         keywords="roof painting Melbourne, tile roof painting Melbourne, metal roof coatings, Call Kaids Roofing"
+        canonical="https://callkaidsroofing.com.au/services/roof-painting"
       />
       <StructuredData 
         type="service" 

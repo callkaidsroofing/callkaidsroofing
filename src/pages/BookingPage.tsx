@@ -191,6 +191,8 @@ const BookingPage = () => {
         title="Book Your Free Roof Quote | Call Kaids Roofing | Same Day Response"
         description="Book your free roof quote today. Same-day response, 10-year warranty, premium materials. Serving all Southeast Melbourne suburbs. Call 0435 900 709"
         keywords="book roof quote Melbourne, free roof inspection, roof quote Clyde North, emergency roof repairs booking"
+        canonical="https://callkaidsroofing.com.au/"
+        robots="noindex,follow"
       />
       <StructuredData type="contact" />
       

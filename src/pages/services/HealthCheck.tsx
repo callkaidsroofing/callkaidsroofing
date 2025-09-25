@@ -44,7 +44,8 @@ const HealthCheck = () => {
       seo={{
         title: 'Free Roof Health Check Clyde North | Call Kaids Roofing',
         description:
-          'Catch problems before they leak. Get a free photo-based roof health check with a written report and fixed-price quote if issues are found. Trusted by 500+ homeowners in Clyde North & SE Melbourne.'
+          'Catch problems before they leak. Get a free photo-based roof health check with a written report and fixed-price quote if issues are found. Trusted by 500+ homeowners in Clyde North & SE Melbourne.',
+        canonical: 'https://callkaidsroofing.com.au/services/health-check'
       }}
       hero={{
         title: 'Free Roof Health Check',

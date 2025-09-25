@@ -34,6 +34,7 @@ const Emergency = () => {
         title="Emergency Roof Repairs Clyde North & SE Melbourne | Call Kaids Roofing"
         description="Same-day emergency roof repairs for Clyde North, Cranbourne, Berwick and surrounding suburbs. Call 0435 900 709 for rapid leak control and storm damage support."
         keywords="emergency roof repairs Clyde North, storm damage roofing Melbourne, urgent roof repair"
+        canonical="https://callkaidsroofing.com.au/emergency"
       />
       {/* Hero Section */}
       <section className="py-20 bg-destructive text-destructive-foreground">

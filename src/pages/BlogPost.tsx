@@ -18,6 +18,8 @@ export default function BlogPost() {
     return <Navigate to="/blog" replace />;
   }
 
+  const canonicalUrl = `https://callkaidsroofing.com.au/blog/${post.slug}`;
+
   const category = blogCategories.find(c => c.id === post.category);
   const relatedPosts = post.relatedPosts 
     ? blogPosts.filter(p => post.relatedPosts?.includes(p.id)).slice(0, 3)
@@ -41,6 +43,7 @@ export default function BlogPost() {
         title={`${post.title} | Call Kaids Roofing Blog`}
         description={post.excerpt}
         keywords={post.tags.join(", ")}
+        canonical={canonicalUrl}
       />
 
       <Helmet>
@@ -51,6 +54,7 @@ export default function BlogPost() {
         <meta property="article:author" content={post.author} />
         <meta property="article:published_time" content={post.publishDate} />
         <meta property="article:section" content={category?.name} />
+        <meta property="og:url" content={canonicalUrl} />
         {post.tags.map(tag => (
           <meta key={tag} property="article:tag" content={tag} />
         ))}

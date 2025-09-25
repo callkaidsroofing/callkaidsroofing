@@ -55,7 +55,8 @@ const RoofRepairs = () => {
       seo={{
         title: 'Leak Repairs Clyde North – Fast & Reliable | Call Kaids Roofing',
         description:
-          'Stop roof leaks fast with professional repairs in Clyde North & SE Melbourne. Tile replacement, valley repair, and minor resealing with photo proof. Free roof health check included.'
+          'Stop roof leaks fast with professional repairs in Clyde North & SE Melbourne. Tile replacement, valley repair, and minor resealing with photo proof. Free roof health check included.',
+        canonical: 'https://callkaidsroofing.com.au/services/roof-repairs'
       }}
       hero={{
         title: 'Leak Repairs',
@@ -69,7 +70,7 @@ const RoofRepairs = () => {
         serviceName: 'Leak Repairs',
         serviceDescription:
           'Tile replacement, valley iron repairs, and emergency leak make-safe services with free roof health checks across Clyde North and Southeast Melbourne.',
-        pageUrl: 'https://callkaidsroofing.com.au/services/leak-repairs'
+        pageUrl: 'https://callkaidsroofing.com.au/services/roof-repairs'
       }}
     >
       <section>

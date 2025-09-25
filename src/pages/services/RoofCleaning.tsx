@@ -54,7 +54,8 @@ const RoofCleaning = () => {
       seo={{
         title: 'Roof Pressure Cleaning Clyde North – Remove Moss & Dirt | Call Kaids Roofing',
         description:
-          'Power wash your roof tiles to remove moss, lichen, and dirt. Restore colour and prepare for coating. Serving Clyde North & SE Melbourne with photo proof on completion.'
+          'Power wash your roof tiles to remove moss, lichen, and dirt. Restore colour and prepare for coating. Serving Clyde North & SE Melbourne with photo proof on completion.',
+        canonical: 'https://callkaidsroofing.com.au/services/roof-pressure-cleaning'
       }}
       hero={{
         title: 'Roof Pressure Cleaning',
