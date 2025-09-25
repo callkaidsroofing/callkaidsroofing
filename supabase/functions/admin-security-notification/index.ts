@@ -13,7 +13,7 @@ interface AdminSecurityEvent {
   event_type: string;
   user_id: string;
   user_email: string;
-  event_details: Record<string, unknown> | null;
+  event_details: any;
   timestamp: string;
 }
 

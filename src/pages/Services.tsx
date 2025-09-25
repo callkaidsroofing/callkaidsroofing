@@ -1,243 +1,230 @@
 import { Link } from 'react-router-dom';
-import { CheckCircle2, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Shield, Award, Star, Phone, ArrowRight } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
-import { ServiceCtas, type ServiceCta } from '@/components/services/service-ctas';
-import { COMPANY_PHONE_DISPLAY, COMPANY_PHONE_TEL } from '@/constants/company';
 
-const pageCtas: ServiceCta[] = [
-  { label: 'Book Your Free Roof Health Check', href: '/book', variant: 'primary' },
-  { label: `Call Now – ${COMPANY_PHONE_DISPLAY}`, href: COMPANY_PHONE_TEL, variant: 'secondary' }
-];
+export default function Services() {
+  const services = [
+    {
+      title: 'Roof Restoration',
+      summary: 'Stop leaks and renew your roof for 60-70% less than replacement.',
+      description: 'Complete restoration including cleaning, repairs, rebedding and repointing with premium materials.',
+      href: '/services/roof-restoration',
+      badge: 'Most Popular'
+    },
+    {
+      title: 'Roof Painting',
+      summary: 'Refresh your roof colour in 2-3 days using premium paints designed for Melbourne weather.',
+      description: 'Professional roof painting with high-quality paints and 10-year warranty.',
+      href: '/services/roof-painting',
+      badge: 'Quick Turnaround'
+    },
+    {
+      title: 'Roof Repairs',
+      summary: 'Fix leaks, replace broken tiles and restore your roof integrity.',
+      description: 'Expert repairs using quality materials with same-day emergency service available.',
+      href: '/services/roof-repairs',
+      badge: 'Emergency Available'
+    },
+    {
+      title: 'Gutter Cleaning',
+      summary: 'Professional gutter cleaning and maintenance to protect your property.',
+      description: 'Thorough cleaning and inspection with photo evidence of work completed.',
+      href: '/services/gutter-cleaning'
+    },
+    {
+      title: 'Roof Repointing',
+      summary: 'Secure ridge caps and seal your roof against Melbourne weather.',
+      description: 'Professional rebedding and repointing using premium SupaPoint mortar.',
+      href: '/services/roof-repointing'
+    },
+    {
+      title: 'Tile Replacement',
+      summary: 'Replace broken or damaged tiles with exact matches.',
+      description: 'Professional tile replacement with matching colours and quality materials.',
+      href: '/services/tile-replacement'
+    },
+    {
+      title: 'Valley Iron Replacement',
+      summary: 'Replace rusted valley irons to prevent leaks and water damage.',
+      description: 'Complete valley iron replacement with proper sealing and weatherproofing.',
+      href: '/services/valley-iron-replacement'
+    },
+    {
+      title: 'Leak Detection',
+      summary: 'Expert leak detection and repair to protect your home.',
+      description: 'Professional assessment and repair of roof leaks with guaranteed results.',
+      href: '/services/leak-detection'
+    }
+  ];
 
-const featuredServices = [
-  {
-    title: 'Roof Restoration',
-    value: 'Clean, repair, and protect your roof with a full restoration using Dulux membranes and a 10-year warranty.',
-    benefits: [
-      'Stops leaks and prevents water damage',
-      'Adds years to your roof with premium Dulux membranes',
-      'Includes ridge rebedding, repointing, and photo proof'
-    ],
-    slug: '/roof-restoration'
-  },
-  {
-    title: 'Ridge Rebedding & Repointing',
-    value: 'Secure ridges and restore stability to your roof with expert rebedding and repointing, backed by our 10-year warranty.',
-    benefits: [
-      'Reseals and stabilises ridge caps for leak-free performance',
-      'Extends roof life with durable compounds designed for Melbourne weather',
-      'Photo proof and clean-up included'
-    ],
-    slug: '/ridge-repointing'
-  },
-  {
-    title: 'Leak Repairs',
-    value: 'Fix leaks fast with professional repairs and make-safe solutions, preventing costly damage to your home.',
-    benefits: [
-      'Stops active leaks and prevents new ones',
-      'Includes tile replacement, valley repair, and minor resealing',
-      'Fast response with photo-backed proof on completion'
-    ],
-    slug: '/leak-repairs'
-  }
-];
-
-const additionalServices = [
-  {
-    name: 'Roof Pressure Cleaning',
-    description: 'Thoroughly cleans tiles and valleys to remove dirt, moss, and lichen.',
-    href: '/services/roof-pressure-cleaning'
-  },
-  {
-    name: 'Valley Iron Replacement',
-    description: 'Replaces rusted or damaged valley irons to ensure proper water runoff.',
-    href: '/services/valley-iron-replacement'
-  },
-  {
-    name: 'Gutter Cleaning',
-    description: 'Clears gutters and downpipes to prevent blockages and protect fascia and foundations.',
-    href: '/services/gutter-cleaning'
-  },
-  {
-    name: 'Resarking & Battening',
-    description: 'Replaces sarking and battens for improved waterproofing and insulation.',
-    href: '/services/resarking-battening'
-  },
-  {
-    name: 'Re-roof & Extensions',
-    description: 'Provides seamless re-roofing and tie-ins for extensions with matched materials and flashings.',
-    href: '/services/re-roof-extensions'
-  },
-  {
-    name: 'Free Roof Health Check',
-    description: 'Offers a no-obligation inspection and report so you know the condition of your roof.',
-    href: '/services/health-check'
-  }
-];
-
-const bundles = [
-  'Bundle A: Ridge Rebedding & Repointing + Pressure Wash',
-  'Bundle B: Gutter Cleaning + Minor Ridge Repointing',
-  'Bundle C: Valley Iron Replacement + Leak Make-Safe',
-  'Bundle D: Health Check + Maintenance Pack'
-];
-
-const trustSignals = [
-  '500+ happy customers',
-  '4.9/5 stars',
-  'Fully licensed & insured',
-  'Dulux membranes',
-  '10-year workmanship warranty'
-];
-
-const serviceAreas = [
-  'Clyde North',
-  'Pakenham',
-  'Narre Warren',
-  'Cranbourne',
-  'Berwick',
-  'Frankston',
-  'Dandenong',
-  'Brighton',
-  'Suburbs within 50 km of Clyde North'
-];
-
-const Services = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/10">
-      <SEOHead
-        title="Roofing Services Clyde North & SE Melbourne – 10-Year Warranty | Call Kaids Roofing"
-        description="Explore our range of featured and additional roofing services in Clyde North and SE Melbourne. Benefit from Dulux products, a 10-year workmanship warranty, and a free roof health check."
+    <>
+      <SEOHead 
+        title="Roofing Services Melbourne | Call Kaids Roofing"
+        description="Professional roofing services in Melbourne. Roof restoration, painting, repairs & more. 10-year warranty. Owner-operated business serving SE Melbourne."
+        keywords="roofing services Melbourne, roof restoration, roof painting, roof repairs, gutter cleaning, Melbourne roofer"
       />
+      
+      <div className="min-h-screen bg-gradient-to-br from-background to-muted/20">
+        {/* Hero Section */}
+        <div className="bg-gradient-to-r from-primary to-primary/80 text-white py-20">
+          <div className="container mx-auto px-4 text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              Our Roofing Services
+            </h1>
+            <p className="text-xl mb-8 max-w-3xl mx-auto text-white/90">
+              Professional roofing solutions for Southeast Melbourne. Quality workmanship, premium materials, and 10-year warranties on all major work.
+            </p>
+            
+            {/* Trust indicators */}
+            <div className="flex flex-wrap justify-center gap-4 mb-8">
+              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                <Shield className="h-5 w-5" />
+                <span>Fully Insured</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                <Award className="h-5 w-5" />
+                <span>10 Year Warranty</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                <Star className="h-5 w-5" />
+                <span>200+ Happy Customers</span>
+              </div>
+            </div>
 
-      <section className="bg-gradient-to-br from-primary via-primary/90 to-[#0B3B69] py-20 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">Roofing Services in Clyde North & SE Melbourne</h1>
-          <p className="mx-auto max-w-3xl text-lg text-white/90 md:text-xl">
-            Discover all our roofing services from restoration and repairs to inspections and bundles. Our top services are featured first, making it easy to find exactly what your roof needs.
-          </p>
-          <div className="mt-8 flex justify-center">
-            <ServiceCtas ctas={pageCtas} align="center" />
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a 
+                href="tel:0435900709"
+                className="flex items-center gap-3 bg-white text-primary px-8 py-4 rounded-lg font-bold text-lg hover:bg-white/90 transition-colors shadow-lg"
+              >
+                <Phone className="h-5 w-5" />
+                Call 0435 900 709
+              </a>
+              <Button asChild variant="outline" size="lg" className="bg-white/20 border-white text-white hover:bg-white hover:text-primary">
+                <Link to="/book">Get Free Quote</Link>
+              </Button>
+            </div>
           </div>
         </div>
-      </section>
 
-      <main className="container mx-auto px-4 py-16">
-        <section className="mb-16">
-          <h2 className="text-3xl font-semibold tracking-tight">Featured Services</h2>
-          <p className="mt-2 max-w-3xl text-muted-foreground">
-            These are the services homeowners book most often for long-lasting, compliant results backed by our 10-year workmanship warranty.
-          </p>
-          <div className="mt-10 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-            {featuredServices.map((service) => (
-              <div key={service.title} className="flex h-full flex-col rounded-2xl border border-primary/10 bg-background p-6 shadow-sm">
-                <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-foreground">{service.title}</h3>
-                  <p className="mt-3 text-muted-foreground">{service.value}</p>
-                  <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                    {service.benefits.map((benefit) => (
-                      <li key={benefit} className="flex items-start gap-2">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 text-primary" aria-hidden />
-                        <span>{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="mt-6 flex flex-col gap-3">
-                  <ServiceCtas ctas={pageCtas} align="stretch" />
-                  <Link to={service.slug} className="flex items-center justify-center gap-2 text-sm font-semibold text-primary hover:underline">
-                    Learn more
-                    <ArrowRight className="h-4 w-4" aria-hidden />
+        {/* Services Grid */}
+        <div className="container mx-auto px-4 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service) => (
+              <Card key={service.title} className="h-full hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <CardTitle className="text-xl font-bold">{service.title}</CardTitle>
+                    {service.badge && (
+                      <Badge variant="secondary" className="text-xs">
+                        {service.badge}
+                      </Badge>
+                    )}
+                  </div>
+                  <CardDescription className="text-base font-medium text-primary">
+                    {service.summary}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1 flex flex-col">
+                  <p className="text-muted-foreground mb-6 flex-1">
+                    {service.description}
+                  </p>
+                  <Link to={service.href}>
+                    <Button className="w-full group">
+                      Learn More 
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
                   </Link>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
-        </section>
+        </div>
 
-        <section className="mb-16">
-          <h2 className="text-3xl font-semibold tracking-tight">Additional Services</h2>
-          <p className="mt-2 max-w-3xl text-muted-foreground">
-            Our additional services complement the featured work and can be booked separately or as part of a bundle.
-          </p>
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
-            {additionalServices.map((service) => (
-              <Link
-                key={service.name}
-                to={service.href}
-                className="group flex flex-col justify-between rounded-2xl border border-primary/10 bg-background p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+        {/* Suburb-Specific Services Section */}
+        <div className="bg-gradient-to-r from-primary/5 to-secondary/5 py-16">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold mb-4 text-center">Local Roofing Experts Across Southeast Melbourne</h2>
+            <p className="text-lg text-muted-foreground mb-8 text-center max-w-3xl mx-auto">
+              Kaidyn knows every suburb personally. Get specialised service tailored to your area's specific roofing needs and regulations.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle className="text-xl">Clyde North & Officer</CardTitle>
+                  <CardDescription>Home base - know every street and building style</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <Link to="/services/roof-restoration-clyde-north" className="block text-primary hover:underline">• Roof Restoration Clyde North</Link>
+                    <Link to="/services/roof-painting-clyde-north" className="block text-primary hover:underline">• Roof Painting Clyde North</Link>
+                    <p className="text-sm text-muted-foreground mt-2">New estates, modern materials, quality finishes</p>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle className="text-xl">Berwick & Pakenham</CardTitle>
+                  <CardDescription>Major service areas - family-focused communities</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <Link to="/services/roof-restoration-berwick" className="block text-primary hover:underline">• Berwick Roof Specialist</Link>
+                    <Link to="/services/roof-restoration-pakenham" className="block text-primary hover:underline">• Pakenham Roof Restoration</Link>
+                    <Link to="/services/roof-painting-pakenham" className="block text-primary hover:underline">• Pakenham Roof Painting</Link>
+                    <p className="text-sm text-muted-foreground mt-2">Established homes, renovation projects, quality upgrades</p>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle className="text-xl">Cranbourne & Beyond</CardTitle>
+                  <CardDescription>High-volume service area - growing rapidly</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <Link to="/services/roof-restoration-cranbourne" className="block text-primary hover:underline">• Cranbourne Roof Restoration</Link>
+                    <Link to="/services/roof-painting-cranbourne" className="block text-primary hover:underline">• Cranbourne Roof Painting</Link>
+                    <Link to="/services/roof-restoration-mount-eliza" className="block text-primary hover:underline">• Mount Eliza Premium Service</Link>
+                    <p className="text-sm text-muted-foreground mt-2">Mix of new and established, diverse roof types</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+
+        {/* Call to Action Section */}
+        <div className="bg-primary/5 py-16">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Get your free roof health check from Kaidyn. No pressure, just honest advice about your roof's condition and what it needs.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a 
+                href="tel:0435900709"
+                className="flex items-center gap-3 bg-primary text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-primary/90 transition-colors shadow-lg"
               >
-                <div>
-                  <h3 className="text-lg font-semibold text-foreground group-hover:text-primary">{service.name}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{service.description}</p>
-                </div>
-                <span className="mt-4 inline-flex items-center text-sm font-semibold text-primary">
-                  Explore service
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden />
-                </span>
-              </Link>
-            ))}
+                <Phone className="h-5 w-5" />
+                Call Now: 0435 900 709
+              </a>
+              <Button asChild variant="outline" size="lg">
+                <Link to="/book">Book Free Assessment</Link>
+              </Button>
+            </div>
+            <p className="text-sm text-muted-foreground mt-4">
+              Usually 2-3 weeks out • Emergency repairs: Same day
+            </p>
           </div>
-        </section>
-
-        <section className="mb-16">
-          <h2 className="text-3xl font-semibold tracking-tight">Bundles</h2>
-          <p className="mt-2 max-w-3xl text-muted-foreground">
-            Save 10–20% by combining services in one visit with our bundle deals. Choose from four options designed to extend your roof’s life for less.
-          </p>
-          <ul className="mt-6 space-y-3 text-muted-foreground">
-            {bundles.map((bundle) => (
-              <li key={bundle} className="flex items-start gap-3">
-                <CheckCircle2 className="mt-1 h-5 w-5 text-primary" aria-hidden />
-                <span>{bundle}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-6">
-            <Link to="/bundles" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
-              View bundle deals
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
-          </div>
-        </section>
-
-        <section className="mb-16">
-          <h2 className="text-3xl font-semibold tracking-tight">Trust Block</h2>
-          <div className="mt-4 flex flex-wrap gap-3">
-            {trustSignals.map((signal) => (
-              <span key={signal} className="rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
-                {signal}
-              </span>
-            ))}
-          </div>
-        </section>
-
-        <section className="mb-16">
-          <h2 className="text-3xl font-semibold tracking-tight">Service Areas</h2>
-          <p className="mt-2 max-w-3xl text-muted-foreground">
-            We serve Clyde North, Pakenham, Narre Warren, Cranbourne, Berwick, Frankston, Dandenong, Brighton, and suburbs within 50 km of Clyde North.
-          </p>
-          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {serviceAreas.map((area) => (
-              <div key={area} className="rounded-2xl border border-primary/10 bg-background p-4 text-sm font-medium text-foreground shadow-sm">
-                {area}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="rounded-3xl border border-primary/10 bg-primary/5 p-10 text-center shadow-sm">
-          <h2 className="text-3xl font-semibold tracking-tight">Ready to book Kaidyn?</h2>
-          <p className="mt-2 text-lg text-muted-foreground">
-            Secure your spot for a free roof health check or call for fast advice. We keep scheduling simple and transparent.
-          </p>
-          <div className="mt-6 flex justify-center">
-            <ServiceCtas ctas={pageCtas} align="center" />
-          </div>
-        </section>
-      </main>
-    </div>
+        </div>
+      </div>
+    </>
   );
-};
-
-export default Services;
+}

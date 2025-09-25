@@ -284,7 +284,7 @@ const Index = () => {
         <OptimizedImage
           src={waterFlowAbstract}
           alt=""
-          className="absolute inset-0 w-full h-full object-center opacity-20 mix-blend-overlay"
+          className="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-overlay"
           width={1920}
           height={600}
           sizes="100vw"

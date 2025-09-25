@@ -96,7 +96,7 @@ export default function Blog() {
                       <OptimizedImage
                         src={post.imageUrl}
                         alt={post.title}
-                        className="w-full h-48 object-center group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">
                         Featured
@@ -168,7 +168,7 @@ export default function Blog() {
                       <OptimizedImage
                         src={post.imageUrl}
                         alt={post.title}
-                        className="w-full h-40 object-center group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       <Badge 
                         className={`absolute top-3 left-3 text-xs ${

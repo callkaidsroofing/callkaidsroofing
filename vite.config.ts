@@ -49,7 +49,4 @@ export default defineConfig(({ mode }) => ({
   css: {
     devSourcemap: true,
   },
-  test: {
-    environment: 'jsdom',
-  },
 }));

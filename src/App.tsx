@@ -22,21 +22,16 @@ const RoofRestoration = lazy(() => import("./pages/services/RoofRestoration"));
 const RoofPainting = lazy(() => import("./pages/services/RoofPainting"));
 const RoofRepairs = lazy(() => import("./pages/services/RoofRepairs"));
 const GutterCleaning = lazy(() => import("./pages/services/GutterCleaning"));
-const RoofCleaning = lazy(() => import("./pages/services/RoofCleaning"));
 const ValleyIronReplacement = lazy(() => import("./pages/services/ValleyIronReplacement"));
 const RoofRepointing = lazy(() => import("./pages/services/RoofRepointing"));
 const TileReplacement = lazy(() => import("./pages/services/TileReplacement"));
 const LeakDetection = lazy(() => import("./pages/services/LeakDetection"));
-const ResarkingAndBattening = lazy(() => import("./pages/services/ResarkingAndBattening"));
-const ReroofAndExtensions = lazy(() => import("./pages/services/ReroofAndExtensions"));
-const HealthCheck = lazy(() => import("./pages/services/HealthCheck"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
 const BookingPage = lazy(() => import("./pages/BookingPage"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const ThankYou = lazy(() => import("./pages/ThankYou"));
 const Services = lazy(() => import("./pages/Services"));
-const Bundles = lazy(() => import("./pages/Bundles"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const RestorationLanding = lazy(() => import("./pages/RestorationLanding"));
@@ -108,27 +103,15 @@ function App() {
                     <Route path="services/roof-painting-clyde-north" element={<RoofPaintingClydeNorth />} />
                     <Route path="services/roof-repairs" element={<RoofRepairs />} />
                     <Route path="services/gutter-cleaning" element={<GutterCleaning />} />
-                    <Route path="services/roof-pressure-cleaning" element={<RoofCleaning />} />
                     <Route path="services/valley-iron-replacement" element={<ValleyIronReplacement />} />
                     <Route path="services/roof-repointing" element={<RoofRepointing />} />
-                    <Route path="services/leak-repairs" element={<RoofRepairs />} />
-                    <Route path="services/resarking-battening" element={<ResarkingAndBattening />} />
-                    <Route path="services/re-roof-extensions" element={<ReroofAndExtensions />} />
-                    <Route path="services/health-check" element={<HealthCheck />} />
                     <Route path="services/tile-replacement" element={<TileReplacement />} />
                     <Route path="services/leak-detection" element={<LeakDetection />} />
                     <Route path="roof-restoration" element={<RoofRestoration />} />
                     <Route path="roof-painting" element={<RoofPainting />} />
                     <Route path="roof-repointing" element={<RoofRepointing />} />
-                    <Route path="ridge-repointing" element={<RoofRepointing />} />
                     <Route path="tile-replacement" element={<TileReplacement />} />
                     <Route path="leak-detection" element={<LeakDetection />} />
-                    <Route path="leak-repairs" element={<RoofRepairs />} />
-                    <Route path="roof-pressure-cleaning" element={<RoofCleaning />} />
-                    <Route path="resarking-battening" element={<ResarkingAndBattening />} />
-                    <Route path="re-roof-extensions" element={<ReroofAndExtensions />} />
-                    <Route path="health-check" element={<HealthCheck />} />
-                    <Route path="bundles" element={<Bundles />} />
                     <Route path="emergency-landing" element={<LandingPage />} />
                     <Route path="landing/:source" element={<LandingPage />} />
                     <Route path="restoration-landing" element={<RestorationLanding />} />
