@@ -8,6 +8,9 @@ import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { SEOHead } from '@/components/SEOHead';
 import { Link } from 'react-router-dom';
+import EnhancedImageFlow from '@/components/EnhancedImageFlow';
+import SmartPageHierarchy from '@/components/SmartPageHierarchy';
+import StrategicCTAManager from '@/components/StrategicCTAManager';
 
 interface GalleryImage {
   src: string;

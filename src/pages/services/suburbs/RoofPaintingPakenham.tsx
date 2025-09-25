@@ -3,6 +3,9 @@ import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { CheckCircle, Palette, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import NavigationFlowOptimizer from '@/components/NavigationFlowOptimizer';
+import StrategicCTAManager from '@/components/StrategicCTAManager';
+import EnhancedImageFlow from '@/components/EnhancedImageFlow';
 
 const RoofPaintingPakenham = () => {
   return (
@@ -49,29 +52,37 @@ const RoofPaintingPakenham = () => {
       <section className="py-16 bg-muted/40">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-semibold mb-6">Recent Pakenham Roof Painting Results</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <OptimizedImage
-              src="/lovable-uploads/0d5c8d43-0a56-42eb-a3fd-4ce0708040ce.png"
-              alt="Pakenham roof before painting"
-              className="rounded-lg"
-              width={600}
-              height={400}
-            />
-            <OptimizedImage
-              src="/lovable-uploads/50cb1bd1-1166-4391-adc1-99c419346880.png"
-              alt="Base coat applied on Pakenham roof"
-              className="rounded-lg"
-              width={600}
-              height={400}
-            />
-            <OptimizedImage
-              src="/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png"
-              alt="Pakenham roof after fresh paint"
-              className="rounded-lg"
-              width={600}
-              height={400}
-            />
-          </div>
+          <EnhancedImageFlow
+            images={[
+              {
+                src: "/lovable-uploads/0d5c8d43-0a56-42eb-a3fd-4ce0708040ce.png",
+                alt: "Pakenham roof before painting",
+                title: "Before: Faded Roof",
+                description: "Typical Pakenham roof showing sun damage and color fade",
+                category: "Before",
+                focusPoint: { x: 50, y: 30 }
+              },
+              {
+                src: "/lovable-uploads/50cb1bd1-1166-4391-adc1-99c419346880.png",
+                alt: "Base coat applied on Pakenham roof",
+                title: "Process: Base Coating",
+                description: "Professional primer application for maximum adhesion",
+                category: "Process",
+                focusPoint: { x: 50, y: 40 }
+              },
+              {
+                src: "/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png",
+                alt: "Pakenham roof after fresh paint",
+                title: "After: Complete Transformation",
+                description: "Fresh membrane coating with 10-year warranty",
+                category: "After",
+                focusPoint: { x: 50, y: 25 }
+              }
+            ]}
+            layout="grid"
+            priority={3}
+            className="mb-8"
+          />
         </div>
       </section>
 
@@ -117,6 +128,45 @@ const RoofPaintingPakenham = () => {
           </div>
         </div>
       </section>
+
+      {/* Enhanced Navigation & CTA Flow */}
+      <div className="container mx-auto px-4 py-8">
+        <NavigationFlowOptimizer
+          breadcrumbs={[
+            { label: 'Home', path: '/' },
+            { label: 'Services', path: '/services' },
+            { label: 'Roof Painting', path: '/services/roof-painting' },
+            { label: 'Pakenham', path: '/services/roof-painting-pakenham', active: true }
+          ]}
+          relatedPages={[
+            {
+              title: 'Roof Restoration Pakenham',
+              path: '/services/roof-restoration-pakenham',
+              description: 'Complete overhaul with membrane and warranty',
+              isPriority: true,
+              isLocal: true
+            },
+            {
+              title: 'Emergency Repairs',
+              path: '/emergency',
+              description: 'Same-day response for urgent roof issues',
+              isPriority: true
+            },
+            {
+              title: 'View Our Gallery',
+              path: '/gallery',
+              description: 'See more transformation results'
+            }
+          ]}
+          nextAction={{
+            title: 'Get Your Pakenham Painting Quote',
+            path: '/book',
+            variant: 'default'
+          }}
+        />
+        
+        <StrategicCTAManager />
+      </div>
     </div>
   );
 };

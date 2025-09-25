@@ -11,6 +11,8 @@ import { OptimizedImage } from '@/components/OptimizedImage';
 import { FloatingIcons, SectionDivider, AccentPattern } from '@/components/DecorativeIcons';
 import { EnhancedServiceSection } from '@/components/EnhancedServiceSection';
 import QuickCaptureForm from '@/components/QuickCaptureForm';
+import NavigationFlowOptimizer from '@/components/NavigationFlowOptimizer';
+import StrategicCTAManager from '@/components/StrategicCTAManager';
 import waterFlowAbstract from '/src/assets/water-flow-abstract.jpg';
 
 const Index = () => {
@@ -160,6 +162,11 @@ const Index = () => {
         <TrustIndicators />
       </div>
 
+      {/* Strategic Navigation Flow */}
+      <div className="container mx-auto px-4 py-8">
+        <NavigationFlowOptimizer showLocalNavigation={true} />
+      </div>
+
       {/* Image Gallery with Blue Gradient Background */}
       <div className="relative py-16 overflow-hidden card-gradient">
         <div
@@ -278,6 +285,11 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Strategic CTA Management */}
+      <div className="container mx-auto px-4">
+        <StrategicCTAManager />
+      </div>
 
       {/* Final CTA with Enhanced Blue Gradient */}
       <section className="relative py-16 overflow-hidden cta-gradient text-primary-foreground">
