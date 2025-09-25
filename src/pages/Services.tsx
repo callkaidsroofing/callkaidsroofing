@@ -108,6 +108,7 @@ const Services = () => {
       <SEOHead
         title="Roofing Services Clyde North & SE Melbourne – 10-Year Warranty | Call Kaids Roofing"
         description="Explore our range of featured and additional roofing services in Clyde North and SE Melbourne. Benefit from Dulux products, a 10-year workmanship warranty, and a free roof health check."
+        canonical="https://callkaidsroofing.com.au/services"
       />
 
       <section className="bg-gradient-to-br from-primary via-primary/90 to-[#0B3B69] py-20 text-white">

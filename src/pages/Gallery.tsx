@@ -171,10 +171,11 @@ const Gallery = () => {
 
   return (
     <>
-      <SEOHead 
+      <SEOHead
         title="Project Gallery - Call Kaids Roofing | Before & After Transformations"
         description="View stunning before and after transformations from Call Kaids Roofing. Real projects across Melbourne's SE suburbs showcasing quality roof restorations, painting, and repairs."
         keywords="roof restoration before after, Melbourne roof transformations, roof painting gallery, ridge capping repairs, Call Kaids projects"
+        canonical="https://callkaidsroofing.com.au/gallery"
       />
       
       <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">

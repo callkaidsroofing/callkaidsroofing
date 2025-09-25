@@ -29,7 +29,7 @@ const LeakDetection = () => {
     },
     "areaServed": ["Clyde North", "Berwick", "Officer", "Pakenham", "Cranbourne", "Southeast Melbourne"],
     "serviceType": "Roof Leak Detection",
-    "url": "https://callkaidsroofing.com.au/leak-detection"
+    "url": "https://callkaidsroofing.com.au/services/leak-detection"
   };
 
   return (
@@ -38,6 +38,7 @@ const LeakDetection = () => {
         title="Roof Leak Detection Melbourne | Emergency Leak Repair | Call Kaids Roofing"
         description="Professional roof leak detection in Southeast Melbourne. Find hidden leaks fast with advanced techniques. Emergency service available. Call 0435 900 709."
         keywords="roof leak detection Melbourne, roof leak repair, emergency roof repair, hidden roof leaks, Clyde North leak detection"
+        canonical="https://callkaidsroofing.com.au/services/leak-detection"
         structuredData={structuredData}
       />
 

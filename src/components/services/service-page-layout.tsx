@@ -9,6 +9,7 @@ interface ServicePageLayoutProps {
   seo: {
     title: string;
     description: string;
+    canonical: string;
   };
   hero: {
     title: string;
@@ -43,7 +44,7 @@ const ServicePageLayout = ({
 }: ServicePageLayoutProps) => {
   return (
     <div className={cn('min-h-screen bg-gradient-to-b from-background to-muted/10', className)}>
-      <SEOHead title={seo.title} description={seo.description} />
+      <SEOHead title={seo.title} description={seo.description} canonical={seo.canonical} />
       {structuredData ? (
         <StructuredData
           type="service"

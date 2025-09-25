@@ -45,7 +45,8 @@ const Bundles = () => {
       seo={{
         title: 'Roof Bundle Deals Clyde North – Save More | Call Kaids Roofing',
         description:
-          'Save 10–20% by combining services in one visit. Choose from ridge, cleaning, leak, and maintenance bundles. Serving Clyde North & SE Melbourne with transparent fixed pricing and licensed trades.'
+          'Save 10–20% by combining services in one visit. Choose from ridge, cleaning, leak, and maintenance bundles. Serving Clyde North & SE Melbourne with transparent fixed pricing and licensed trades.',
+        canonical: 'https://callkaidsroofing.com.au/bundles'
       }}
       hero={{
         title: 'Bundle Deals',

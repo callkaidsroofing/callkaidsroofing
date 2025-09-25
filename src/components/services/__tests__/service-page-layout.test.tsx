@@ -22,7 +22,7 @@ describe('ServicePageLayout', () => {
     render(
       <MemoryRouter>
         <ServicePageLayout
-          seo={{ title: 'Example Service', description: 'Example description' }}
+          seo={{ title: 'Example Service', description: 'Example description', canonical: 'https://example.com/service' }}
           hero={{ title: 'Hero Title', subtitle: 'Hero Subtitle' }}
           ctas={ctas}
           trustSignals={['Licensed & insured']}

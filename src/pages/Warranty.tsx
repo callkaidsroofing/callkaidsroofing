@@ -75,6 +75,7 @@ const Warranty = () => {
         title="Roofing Warranty | 10-Year Workmanship Guarantee | Call Kaids Roofing"
         description="Understand the 10-year workmanship and material warranty from Call Kaids Roofing. Covering Clyde North, Cranbourne, Berwick & SE Melbourne projects."
         keywords="roofing warranty Melbourne, roof restoration warranty, Call Kaids Roofing guarantee"
+        canonical="https://callkaidsroofing.com.au/warranty"
       />
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/5 to-primary/10">
