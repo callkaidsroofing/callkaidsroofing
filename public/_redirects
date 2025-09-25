@@ -1,0 +1,12 @@
+# Force HTTPS + non-www
+http://callkaidsroofing.com.au/*    https://callkaidsroofing.com.au/:splat 301!
+http://www.callkaidsroofing.com.au/* https://callkaidsroofing.com.au/:splat 301!
+https://www.callkaidsroofing.com.au/* https://callkaidsroofing.com.au/:splat 301!
+
+# Old aliases to canonical routes
+/roof-restoration      /services/roof-restoration 301
+/roof-painting         /services/roof-painting 301
+/roof-repairs          /services/roof-repairs 301
+/gutter-cleaning       /services/gutter-cleaning 301
+/valley-iron-replacement /services/valley-iron-replacement 301
+/*/  /:splat 301!

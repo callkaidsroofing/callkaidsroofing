@@ -1,18 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { CheckCircle, Phone, Mail, Clock, Shield } from "lucide-react";
-import { SEOHead } from "@/components/SEOHead";
+import { Helmet } from "react-helmet-async";
+import { SEO } from "@/components/SEO";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 export default function ThankYou() {
   return (
     <>
-      <SEOHead 
+      <SEO
         title="Thank You - Call Kaids Roofing"
         description="Thank you for your roofing enquiry. We'll contact you within 24 hours to discuss your project and arrange a free inspection."
-        canonical="/thank-you"
+        canonical="https://callkaidsroofing.com.au/thank-you"
       />
+      <Helmet>
+        <meta name="robots" content="noindex,follow" />
+      </Helmet>
       
       <div className="min-h-screen bg-gradient-to-b from-background to-accent/5">
         <div className="container mx-auto px-4 py-16">

@@ -1,4 +1,4 @@
-import { SEOHead } from '@/components/SEOHead';
+import { SEO } from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { CheckCircle, Phone } from 'lucide-react';
@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom';
 const RoofRestorationPakenham = () => {
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead
+      <SEO
         title="Roof Restorations Pakenham | Call Kaids Roofing SE Melbourne"
         description="Restore weathered Pakenham roofs with cleaning, repairs and membrane coatings designed for the hills and winter frost. Local crew, honest pricing."
         keywords="roof restoration Pakenham, roof repair Pakenham, membrane coating Pakenham"
+        canonical="https://callkaidsroofing.com.au/services/roof-restoration-pakenham"
       />
 
       <section className="py-16 bg-accent/20">

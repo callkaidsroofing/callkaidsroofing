@@ -8,7 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Phone, Mail, MapPin, Clock, CheckCircle, Star, Shield, Award, Zap } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { SEOHead } from '@/components/SEOHead';
+import { Helmet } from 'react-helmet-async';
+import { SEO } from '@/components/SEO';
 import { StructuredData } from '@/components/StructuredData';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 import { OptimizedImage } from '@/components/OptimizedImage';
@@ -187,11 +188,15 @@ const BookingPage = () => {
 
   return (
     <>
-      <SEOHead
+      <SEO
         title="Book Your Free Roof Quote | Call Kaids Roofing | Same Day Response"
         description="Book your free roof quote today. Same-day response, 10-year warranty, premium materials. Serving all Southeast Melbourne suburbs. Call 0435 900 709"
         keywords="book roof quote Melbourne, free roof inspection, roof quote Clyde North, emergency roof repairs booking"
+        canonical="https://callkaidsroofing.com.au/"
       />
+      <Helmet>
+        <meta name="robots" content="noindex,follow" />
+      </Helmet>
       <StructuredData type="contact" />
       
       <div className="min-h-screen bg-gradient-to-br from-primary/5 via-secondary/10 to-primary/15">

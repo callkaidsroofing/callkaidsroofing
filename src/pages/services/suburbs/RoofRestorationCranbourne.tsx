@@ -1,4 +1,4 @@
-import { SEOHead } from '@/components/SEOHead';
+import { SEO } from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { CheckCircle, Phone } from 'lucide-react';
@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom';
 const RoofRestorationCranbourne = () => {
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead
+      <SEO
         title="Roof Restorations Cranbourne | Call Kaids Roofing SE Melbourne"
         description="Cranbourne roof restoration specialists handling weathered tiles, moss build-up and storm wear. Local crew with 10-year workmanship warranty."
         keywords="roof restoration Cranbourne, moss removal Cranbourne, roof repairs Cranbourne"
+        canonical="https://callkaidsroofing.com.au/services/roof-restoration-cranbourne"
       />
 
       <section className="py-16 bg-secondary/5">

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
-import { SEOHead } from '@/components/SEOHead';
+import { SEO } from '@/components/SEO';
 import { ServiceCtas, type ServiceCta } from '@/components/services/service-ctas';
 import { COMPANY_PHONE_DISPLAY, COMPANY_PHONE_TEL } from '@/constants/company';
 
@@ -105,9 +105,10 @@ const serviceAreas = [
 const Services = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/10">
-      <SEOHead
+      <SEO
         title="Roofing Services Clyde North & SE Melbourne – 10-Year Warranty | Call Kaids Roofing"
         description="Explore our range of featured and additional roofing services in Clyde North and SE Melbourne. Benefit from Dulux products, a 10-year workmanship warranty, and a free roof health check."
+        canonical="https://callkaidsroofing.com.au/services"
       />
 
       <section className="bg-gradient-to-br from-primary via-primary/90 to-[#0B3B69] py-20 text-white">

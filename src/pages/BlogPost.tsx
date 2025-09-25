@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Clock, User, ArrowLeft, ArrowRight, Share2, Calendar } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Helmet } from "react-helmet-async";
-import { SEOHead } from "@/components/SEOHead";
+import { SEO } from "@/components/SEO";
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
@@ -35,12 +35,15 @@ export default function BlogPost() {
     }
   };
 
+  const canonicalUrl = `https://callkaidsroofing.com.au/blog/${post.slug}`;
+
   return (
     <>
-      <SEOHead
+      <SEO
         title={`${post.title} | Call Kaids Roofing Blog`}
         description={post.excerpt}
         keywords={post.tags.join(", ")}
+        canonical={canonicalUrl}
       />
 
       <Helmet>

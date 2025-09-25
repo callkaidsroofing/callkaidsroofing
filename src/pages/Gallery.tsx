@@ -6,7 +6,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/OptimizedImage';
-import { SEOHead } from '@/components/SEOHead';
+import { SEO } from '@/components/SEO';
 import { Link } from 'react-router-dom';
 
 interface GalleryImage {
@@ -171,10 +171,11 @@ const Gallery = () => {
 
   return (
     <>
-      <SEOHead 
+      <SEO
         title="Project Gallery - Call Kaids Roofing | Before & After Transformations"
         description="View stunning before and after transformations from Call Kaids Roofing. Real projects across Melbourne's SE suburbs showcasing quality roof restorations, painting, and repairs."
         keywords="roof restoration before after, Melbourne roof transformations, roof painting gallery, ridge capping repairs, Call Kaids projects"
+        canonical="https://callkaidsroofing.com.au/gallery"
       />
       
       <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">

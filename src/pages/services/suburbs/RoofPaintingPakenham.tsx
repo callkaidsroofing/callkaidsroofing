@@ -1,4 +1,4 @@
-import { SEOHead } from '@/components/SEOHead';
+import { SEO } from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { CheckCircle, Palette, Phone } from 'lucide-react';
@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom';
 const RoofPaintingPakenham = () => {
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead
+      <SEO
         title="Roof Painting Pakenham | Tile & Metal Roof Coatings"
         description="Transform your home’s look with expert roof painting. Protective coatings, colour matched finishes, 10-year warranty. Serving SE Melbourne."
         keywords="roof painting Pakenham, roof coating Pakenham, tile roof painting Pakenham"
+        canonical="https://callkaidsroofing.com.au/services/roof-painting-pakenham"
       />
 
       <section className="py-16 bg-primary/5">

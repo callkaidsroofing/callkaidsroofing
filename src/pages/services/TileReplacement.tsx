@@ -1,4 +1,4 @@
-import { SEOHead } from '@/components/SEOHead';
+import { SEO } from '@/components/SEO';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -29,15 +29,16 @@ const TileReplacement = () => {
     },
     "areaServed": ["Clyde North", "Berwick", "Officer", "Pakenham", "Cranbourne", "Southeast Melbourne"],
     "serviceType": "Roof Tile Replacement",
-    "url": "https://callkaidsroofing.com.au/tile-replacement"
+    "url": "https://callkaidsroofing.com.au/services/tile-replacement"
   };
 
   return (
     <>
-      <SEOHead
+      <SEO
         title="Broken Roof Tile Replacement Melbourne | Call Kaids Roofing"
         description="Professional broken roof tile replacement in Southeast Melbourne. Match existing tiles, prevent leaks. 10-year warranty. Call 0435 900 709."
         keywords="roof tile replacement Melbourne, broken tile repair, tile matching, roof leak repair, Clyde North tile replacement"
+        canonical="https://callkaidsroofing.com.au/services/tile-replacement"
         structuredData={structuredData}
       />
 

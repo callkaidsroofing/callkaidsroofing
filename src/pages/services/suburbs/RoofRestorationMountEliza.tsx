@@ -1,4 +1,4 @@
-import { SEOHead } from '@/components/SEOHead';
+import { SEO } from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { CheckCircle, Phone } from 'lucide-react';
@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom';
 const RoofRestorationMountEliza = () => {
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead
+      <SEO
         title="Roof Restorations Mount Eliza | Call Kaids Roofing SE Melbourne"
         description="Coastal roof restoration for Mount Eliza homes facing salt spray and bay winds. Premium coatings, meticulous repairs and 10-year warranties."
         keywords="roof restoration Mount Eliza, coastal roof repair Mount Eliza, roof coating Mount Eliza"
+        canonical="https://callkaidsroofing.com.au/services/roof-restoration-mount-eliza"
       />
 
       <section className="py-16 bg-blue-50">

@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { SEOHead } from "@/components/SEOHead";
+import { SEO } from "@/components/SEO";
 import { 
   Phone, 
   CheckCircle, 
@@ -124,10 +124,11 @@ export default function RestorationLanding() {
 
   return (
     <>
-      <SEOHead
+      <SEO
         title="Roof Restoration Melbourne | Transform Your Roof | Call Kaids Roofing"
         description="Professional roof restoration services across Melbourne. Complete roof makeover with painting, repointing & repairs. 10-year warranty. Free health check."
         keywords="roof restoration Melbourne, roof painting Melbourne, roof repointing, complete roof makeover, Melbourne roof restoration"
+        canonical="https://callkaidsroofing.com.au/restoration-landing"
         structuredData={structuredData}
       />
 

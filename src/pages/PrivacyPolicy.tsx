@@ -1,11 +1,12 @@
-import { SEOHead } from "@/components/SEOHead";
+import { SEO } from "@/components/SEO";
 
 export default function PrivacyPolicy() {
   return (
     <>
-      <SEOHead
+      <SEO
         title="Privacy Policy | Call Kaids Roofing"
         description="Privacy policy for Call Kaids Roofing. Learn how we collect, use and protect your personal information."
+        canonical="https://callkaidsroofing.com.au/privacy-policy"
       />
       
       <div className="min-h-screen bg-background">

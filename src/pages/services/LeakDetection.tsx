@@ -1,4 +1,4 @@
-import { SEOHead } from '@/components/SEOHead';
+import { SEO } from '@/components/SEO';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -34,10 +34,11 @@ const LeakDetection = () => {
 
   return (
     <>
-      <SEOHead
+      <SEO
         title="Roof Leak Detection Melbourne | Emergency Leak Repair | Call Kaids Roofing"
         description="Professional roof leak detection in Southeast Melbourne. Find hidden leaks fast with advanced techniques. Emergency service available. Call 0435 900 709."
         keywords="roof leak detection Melbourne, roof leak repair, emergency roof repair, hidden roof leaks, Clyde North leak detection"
+        canonical="https://callkaidsroofing.com.au/services/leak-detection"
         structuredData={structuredData}
       />
 

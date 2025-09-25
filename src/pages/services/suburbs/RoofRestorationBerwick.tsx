@@ -1,4 +1,4 @@
-import { SEOHead } from '@/components/SEOHead';
+import { SEO } from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { CheckCircle, Phone } from 'lucide-react';
@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom';
 const RoofRestorationBerwick = () => {
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead
+      <SEO
         title="Roof Restorations Berwick | Call Kaids Roofing SE Melbourne"
         description="High-end roof restoration for Berwick’s heritage homes and modern estates. Precision repairs, colour matched coatings and respectful site management."
         keywords="roof restoration Berwick, heritage roof repair Berwick, roof coating Berwick"
+        canonical="https://callkaidsroofing.com.au/services/roof-restoration-berwick"
       />
 
       <section className="py-16 bg-secondary/5">

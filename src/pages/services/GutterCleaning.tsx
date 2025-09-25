@@ -47,7 +47,8 @@ const GutterCleaning = () => {
       seo={{
         title: 'Gutter Cleaning Clyde North – Prevent Overflows | Call Kaids Roofing',
         description:
-          'Keep gutters and downpipes clear with professional cleaning and photo proof. Prevent water damage and foundation issues. Serving Clyde North & SE Melbourne.'
+          'Keep gutters and downpipes clear with professional cleaning and photo proof. Prevent water damage and foundation issues. Serving Clyde North & SE Melbourne.',
+        canonical: 'https://callkaidsroofing.com.au/services/gutter-cleaning'
       }}
       hero={{
         title: 'Gutter Cleaning',

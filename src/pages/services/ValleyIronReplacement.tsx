@@ -55,7 +55,8 @@ const ValleyIronReplacement = () => {
       seo={{
         title: 'Valley Iron Replacement Clyde North – Prevent Leaks | Call Kaids Roofing',
         description:
-          'Replace rusted or damaged valley irons to ensure proper water runoff. Serving Clyde North & SE Melbourne with new sarking, secure edges, and a 10-year workmanship warranty.'
+          'Replace rusted or damaged valley irons to ensure proper water runoff. Serving Clyde North & SE Melbourne with new sarking, secure edges, and a 10-year workmanship warranty.',
+        canonical: 'https://callkaidsroofing.com.au/services/valley-iron-replacement'
       }}
       hero={{
         title: 'Valley Iron Replacement',
