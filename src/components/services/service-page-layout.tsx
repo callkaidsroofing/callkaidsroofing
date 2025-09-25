@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { SEOHead } from '@/components/SEOHead';
+import { SEO } from '@/components/SEO';
 import { StructuredData } from '@/components/StructuredData';
 import { ServiceCtas, type ServiceCta } from '@/components/services/service-ctas';
 import { cn } from '@/lib/utils';
@@ -9,6 +9,8 @@ interface ServicePageLayoutProps {
   seo: {
     title: string;
     description: string;
+    canonical: string;
+    keywords?: string;
   };
   hero: {
     title: string;
@@ -43,7 +45,12 @@ const ServicePageLayout = ({
 }: ServicePageLayoutProps) => {
   return (
     <div className={cn('min-h-screen bg-gradient-to-b from-background to-muted/10', className)}>
-      <SEOHead title={seo.title} description={seo.description} />
+      <SEO
+        title={seo.title}
+        description={seo.description}
+        canonical={seo.canonical}
+        keywords={seo.keywords}
+      />
       {structuredData ? (
         <StructuredData
           type="service"

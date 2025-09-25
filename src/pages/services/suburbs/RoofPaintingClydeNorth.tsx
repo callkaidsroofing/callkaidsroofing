@@ -1,4 +1,4 @@
-import { SEOHead } from '@/components/SEOHead';
+import { SEO } from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { CheckCircle, Brush, Phone } from 'lucide-react';
@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom';
 const RoofPaintingClydeNorth = () => {
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead
+      <SEO
         title="Roof Painting Clyde North | Tile & Metal Roof Coatings"
         description="Clyde North roof painting with premium membranes, fast turnaround and 10-year warranty. Freshen new estates or revive original builds."
         keywords="roof painting Clyde North, roof coating Clyde North, tile roof painting Clyde North"
+        canonical="https://callkaidsroofing.com.au/services/roof-painting-clyde-north"
       />
 
       <section className="py-16 bg-primary/5">

@@ -49,7 +49,8 @@ const RoofRestoration = () => {
       seo={{
         title: 'Full Roof Restoration Clyde North & SE Melbourne – 10-Year Warranty | Call Kaids Roofing',
         description:
-          'Restore your roof with cleaning, rebedding, repointing, and Dulux membrane coating. Serving Clyde North and SE Melbourne with a 10-year workmanship warranty and photo proof.'
+          'Restore your roof with cleaning, rebedding, repointing, and Dulux membrane coating. Serving Clyde North and SE Melbourne with a 10-year workmanship warranty and photo proof.',
+        canonical: 'https://callkaidsroofing.com.au/services/roof-restoration'
       }}
       hero={{
         title: 'Full Roof Restorations',

@@ -48,7 +48,8 @@ const RoofRepointing = () => {
       seo={{
         title: 'Ridge Rebedding & Repointing Clyde North – 10-Year Warranty | Call Kaids Roofing',
         description:
-          'Secure your ridge caps with rebedding and repointing using flexible compounds. Serving Clyde North and SE Melbourne with a 10-year workmanship warranty and Dulux products.'
+          'Secure your ridge caps with rebedding and repointing using flexible compounds. Serving Clyde North and SE Melbourne with a 10-year workmanship warranty and Dulux products.',
+        canonical: 'https://callkaidsroofing.com.au/services/roof-repointing'
       }}
       hero={{
         title: 'Ridge Rebedding & Repointing',

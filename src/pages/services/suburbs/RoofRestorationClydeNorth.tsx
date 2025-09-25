@@ -1,4 +1,4 @@
-import { SEOHead } from '@/components/SEOHead';
+import { SEO } from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { CheckCircle, Phone } from 'lucide-react';
@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom';
 const RoofRestorationClydeNorth = () => {
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead
+      <SEO
         title="Roof Restorations Clyde North | Call Kaids Roofing SE Melbourne"
         description="Bring your roof back to life with professional restorations. Serving Clyde North, Cranbourne, Berwick & surrounds. Honest quotes, lasting results."
         keywords="roof restoration Clyde North, roof repair Clyde North, ridge cap repointing Clyde North"
+        canonical="https://callkaidsroofing.com.au/services/roof-restoration-clyde-north"
       />
 
       <section className="py-16 bg-primary/5">

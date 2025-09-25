@@ -4,8 +4,12 @@ import { MemoryRouter } from 'react-router-dom';
 import { ServicePageLayout } from '@/components/services/service-page-layout';
 import type { ServiceCta } from '@/components/services/service-ctas';
 
-vi.mock('@/components/SEOHead', () => ({
-  SEOHead: ({ title }: { title: string }) => <div data-testid="seo-head">{title}</div>
+vi.mock('@/components/SEO', () => ({
+  SEO: ({ title, canonical }: { title: string; canonical: string }) => (
+    <div data-testid="seo-head" data-canonical={canonical}>
+      {title}
+    </div>
+  )
 }));
 
 vi.mock('@/components/StructuredData', () => ({
@@ -22,7 +26,11 @@ describe('ServicePageLayout', () => {
     render(
       <MemoryRouter>
         <ServicePageLayout
-          seo={{ title: 'Example Service', description: 'Example description' }}
+          seo={{
+            title: 'Example Service',
+            description: 'Example description',
+            canonical: 'https://example.com/services/example'
+          }}
           hero={{ title: 'Hero Title', subtitle: 'Hero Subtitle' }}
           ctas={ctas}
           trustSignals={['Licensed & insured']}

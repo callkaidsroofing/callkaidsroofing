@@ -48,7 +48,8 @@ const ResarkingAndBattening = () => {
       seo={{
         title: 'Resarking & Battening Clyde North – Improve Waterproofing | Call Kaids Roofing',
         description:
-          'Renew sarking and battens for better waterproofing, insulation, and roof support. Serving Clyde North & SE Melbourne with a 10-year workmanship warranty and licensed trades.'
+          'Renew sarking and battens for better waterproofing, insulation, and roof support. Serving Clyde North & SE Melbourne with a 10-year workmanship warranty and licensed trades.',
+        canonical: 'https://callkaidsroofing.com.au/services/resarking-battening'
       }}
       hero={{
         title: 'Resarking & Battening',

@@ -1,4 +1,4 @@
-import { SEOHead } from '@/components/SEOHead';
+import { SEO } from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { CheckCircle, PaintRoller, Phone } from 'lucide-react';
@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom';
 const RoofPaintingCranbourne = () => {
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead
+      <SEO
         title="Roof Painting Cranbourne | Tile & Metal Roof Coatings"
         description="Cranbourne roof painting specialists delivering sharp finishes, protective membranes and 10-year warranties. Colour matched to your suburb."
         keywords="roof painting Cranbourne, roof coating Cranbourne, tile roof painting Cranbourne"
+        canonical="https://callkaidsroofing.com.au/services/roof-painting-cranbourne"
       />
 
       <section className="py-16 bg-secondary/5">

@@ -1,11 +1,12 @@
 import { Helmet } from 'react-helmet-async';
-import { useLocation } from 'react-router-dom';
+
+const SITE_URL = 'https://callkaidsroofing.com.au';
 
 interface SEOHeadProps {
   title?: string;
   description?: string;
   keywords?: string;
-  canonical?: string;
+  canonical: string;
   ogImage?: string;
   structuredData?: object;
 }
@@ -18,9 +19,9 @@ export const SEOHead = ({
   ogImage = "https://callkaidsroofing.com.au/og-image.jpg",
   structuredData
 }: SEOHeadProps) => {
-  const location = useLocation();
-
-  const canonicalUrl = canonical || `https://callkaidsroofing.com.au${location.pathname}${location.search}`;
+  const canonicalUrl = canonical.startsWith('http')
+    ? canonical
+    : `${SITE_URL}${canonical.startsWith('/') ? canonical : `/${canonical}`}`;
 
   const defaultStructured = {
     "@context": "https://schema.org",

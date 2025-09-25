@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Phone, CheckCircle, Clock, Shield, MapPin, Calendar, Palette, Home, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ServiceSpecificForm from '@/components/ServiceSpecificForm';
-import { SEOHead } from '@/components/SEOHead';
+import { SEO } from '@/components/SEO';
 import { StructuredData } from '@/components/StructuredData';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 
@@ -93,10 +93,11 @@ const RoofPainting = () => {
 
   return (
     <div className="min-h-screen">
-      <SEOHead
+      <SEO
         title="Roof Painting Melbourne | Tile & Metal Roof Coatings"
         description="Transform your home’s look with expert roof painting. Protective coatings, colour matched finishes, 10-year warranty. Serving SE Melbourne."
         keywords="roof painting Melbourne, tile roof painting Melbourne, metal roof coatings, Call Kaids Roofing"
+        canonical="https://callkaidsroofing.com.au/services/roof-painting"
       />
       <StructuredData 
         type="service" 

@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { SEOHead } from "@/components/SEOHead";
+import { SEO } from "@/components/SEO";
 import {
   Phone,
   CheckCircle,
@@ -126,10 +126,11 @@ export default function LandingPage() {
 
   return (
     <>
-      <SEOHead
+      <SEO
         title="Emergency Roof Repairs Melbourne | Stop Leaks Fast | Call Kaids Roofing"
         description="24/7 emergency roof repair service across Melbourne. Professional leak detection & repairs. Free assessment, 10-year warranty. Call now: 0435 900 709"
         keywords="emergency roof repairs Melbourne, roof leak repair, urgent roofing service, 24/7 roof repairs, Melbourne roof emergency"
+        canonical="https://callkaidsroofing.com.au/emergency-landing"
         structuredData={structuredData}
       />
 

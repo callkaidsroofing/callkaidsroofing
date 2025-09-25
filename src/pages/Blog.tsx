@@ -8,7 +8,7 @@ import { OptimizedImage } from "@/components/OptimizedImage";
 import { Clock, User, ArrowRight, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { SeoAnalysisWidget } from "@/components/SeoAnalysisWidget";
-import { SEOHead } from "@/components/SEOHead";
+import { SEO } from "@/components/SEO";
 
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -27,10 +27,11 @@ export default function Blog() {
 
   return (
     <>
-      <SEOHead
+      <SEO
         title="Roofing Blog - Expert Tips & Guides | Call Kaids Roofing"
         description="Expert roofing advice, maintenance tips, and industry insights for Melbourne homeowners. Professional guides on roof restoration, repairs, and protection."
         keywords="roofing blog, Melbourne roofing tips, roof maintenance guides, roofing advice, Call Kaids Roofing"
+        canonical="https://callkaidsroofing.com.au/blog"
       />
 
       <div className="min-h-screen bg-gradient-to-br from-background via-background/50 to-primary/5">
