@@ -6,7 +6,7 @@ export const SecurityHeaders = () => {
       {/* Content Security Policy */}
       <meta httpEquiv="Content-Security-Policy" content={`
         default-src 'self' data: blob:;
-        script-src 'self' 'unsafe-inline' 'unsafe-eval' 
+        script-src 'self' 'nonce-${crypto.randomUUID()}' 
           https://www.googletagmanager.com 
           https://www.google-analytics.com 
           https://connect.facebook.net 
@@ -37,6 +37,7 @@ export const SecurityHeaders = () => {
         form-action 'self';
         frame-ancestors 'none';
         upgrade-insecure-requests;
+        require-trusted-types-for 'script';
       `.replace(/\s+/g, ' ').trim()} />
       
       {/* Additional Security Headers */}

@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Lock, Eye, EyeOff, UserPlus, ArrowLeft, LogIn, Shield } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
+import { validatePassword, getPasswordStrengthColor } from '@/utils/passwordValidation';
 import { supabase } from '@/integrations/supabase/client';
 import { Helmet } from 'react-helmet-async';
 
@@ -71,11 +72,12 @@ const AdminLogin = () => {
       return;
     }
 
-    // Validate password strength
-    if (signupData.password.length < 6) {
+    // Enhanced password validation
+    const passwordValidation = validatePassword(signupData.password);
+    if (!passwordValidation.isValid) {
       toast({
-        title: "Password Too Short",
-        description: "Password must be at least 6 characters long.",
+        title: "Password Requirements Not Met",
+        description: passwordValidation.errors.join('. '),
         variant: "destructive",
       });
       return;
