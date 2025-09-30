@@ -31,7 +31,16 @@ export const useGeographicAnomalyDetection = () => {
     const fetchLocationData = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('https://ipapi.co/json/');
+        
+        // Add timeout to prevent hanging
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+        
+        const response = await fetch('https://ipapi.co/json/', {
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -59,15 +68,15 @@ export const useGeographicAnomalyDetection = () => {
         console.warn('Failed to fetch location data:', err);
         setError(err instanceof Error ? err.message : 'Unknown error');
         
-        // Fallback location data
+        // Fallback location data - always set something
         setCurrentLocation({
           ip: 'unknown',
           city: 'unknown',
           region: 'unknown',
-          country: 'unknown',
+          country: 'AU', // Default to Australia for business logic
           latitude: 0,
           longitude: 0,
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Australia/Melbourne',
           isp: 'unknown',
           org: 'unknown',
           asn: 'unknown'

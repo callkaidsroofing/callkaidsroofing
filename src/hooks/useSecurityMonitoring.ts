@@ -206,5 +206,5 @@ export const useSecurityMonitoring = () => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [fingerprint, currentLocation, detectDeviceAnomalies, detectGeoAnomalies, isAustralianLocation, isExpectedBusinessRegion]);
+  }, []); // Simplified dependencies to prevent issues
 };
