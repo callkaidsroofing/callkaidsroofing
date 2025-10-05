@@ -3,7 +3,6 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { useSecurityMonitoring } from '@/hooks/useSecurityMonitoring';
-import { validatePassword } from '@/utils/passwordValidation';
 
 interface AuthContextType {
   user: User | null;
@@ -52,19 +51,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    // Check for login blocks/delays
-    const loginBlocked = localStorage.getItem('loginBlocked');
-    const loginDelay = localStorage.getItem('loginDelay');
-    
-    if (loginBlocked && Date.now() < parseInt(loginBlocked)) {
-      return { error: 'Too many failed attempts. Please try again later.' };
-    }
-    
-    if (loginDelay && Date.now() < parseInt(loginDelay)) {
-      const waitTime = Math.ceil((parseInt(loginDelay) - Date.now()) / 1000);
-      return { error: `Please wait ${waitTime} seconds before trying again.` };
-    }
-
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
