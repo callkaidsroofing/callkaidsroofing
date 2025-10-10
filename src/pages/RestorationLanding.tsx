@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import { SEOHead } from "@/components/SEOHead";
 import { 
   Phone, 
@@ -15,17 +19,94 @@ import {
   Camera,
   TrendingUp
 } from "lucide-react";
-import FilloutForm from "@/components/FilloutForm";
+
+interface FormData {
+  name: string;
+  phone: string;
+  email: string;
+  suburb: string;
+  service: string;
+  urgency: string;
+  message: string;
+}
 
 export default function RestorationLanding() {
-  const [timeLeft, setTimeLeft] = useState(48 * 60 * 60);
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    phone: "", 
+    email: "",
+    suburb: "",
+    service: "Complete Roof Restoration",
+    urgency: "Within 2 weeks",
+    message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(48 * 60 * 60); // 48 hours in seconds
+  const { toast } = useToast();
 
+  // Countdown timer
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(prev => prev > 0 ? prev - 1 : 0);
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('send-lead-notification', {
+        body: {
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email || null,
+          suburb: formData.suburb,
+          service: formData.service,
+          message: `Timeline: ${formData.urgency}. ${formData.message}`,
+          urgency: formData.urgency,
+          source: 'restoration_landing'
+        }
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Restoration Quote Requested!",
+        description: "Kaidyn will call you within 24 hours to schedule your free roof health check and provide your restoration quote.",
+      });
+
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        suburb: "",
+        service: "Complete Roof Restoration",
+        urgency: "Within 2 weeks", 
+        message: ""
+      });
+
+      // Redirect to thank you page
+      navigate("/thank-you");
+    } catch (error: unknown) {
+      toast({
+        title: "Quote Request Failed",
+        description: "Please call 0435 900 709 to speak with Kaidyn directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -97,17 +178,133 @@ export default function RestorationLanding() {
           </div>
         </section>
 
-        {/* Conversion Form */}
+        {/* Conversion Form - Moved to Top */}
         <section id="restoration-form" className="py-12">
           <div className="container mx-auto px-4">
             <div className="max-w-2xl mx-auto">
-              <div className="text-center mb-8">
-                <h3 className="text-3xl font-bold mb-4">Get Your FREE Roof Health Check</h3>
-                <p className="text-muted-foreground">
-                  Kaidyn will personally inspect your roof and provide a detailed restoration quote with no obligations.
-                </p>
-              </div>
-              <FilloutForm />
+              <Card className="shadow-2xl border-0">
+                <CardContent className="p-8">
+                  <div className="text-center mb-8">
+                    <h3 className="text-3xl font-bold mb-4">Get Your FREE Roof Health Check</h3>
+                    <p className="text-muted-foreground">
+                      Kaidyn will personally inspect your roof and provide a detailed restoration quote with no obligations.
+                    </p>
+                  </div>
+
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Input
+                          type="text"
+                          name="name"
+                          placeholder="Your Name *"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                          className="h-12"
+                        />
+                      </div>
+                      <div>
+                        <Input
+                          type="tel"
+                          name="phone"
+                          placeholder="Phone Number *"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          required
+                          className="h-12"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Input
+                          type="email"
+                          name="email"
+                          placeholder="Email Address"
+                          value={formData.email}
+                          onChange={handleChange}
+                          className="h-12"
+                        />
+                      </div>
+                      <div>
+                        <Input
+                          type="text"
+                          name="suburb"
+                          placeholder="Your Suburb *"
+                          value={formData.suburb}
+                          onChange={handleChange}
+                          required
+                          className="h-12"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <select
+                        name="service"
+                        value={formData.service}
+                        onChange={handleChange}
+                        className="w-full h-12 px-3 border rounded-md bg-background"
+                        required
+                      >
+                        <option value="Complete Roof Restoration">🏠 Complete Roof Restoration</option>
+                        <option value="Roof Painting Only">🎨 Roof Painting Only</option>
+                        <option value="Repointing & Rebedding">🔧 Repointing & Rebedding</option>
+                        <option value="Custom Package">⚙️ Custom Package</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <select
+                        name="urgency"
+                        value={formData.urgency}
+                        onChange={handleChange}
+                        className="w-full h-12 px-3 border rounded-md bg-background"
+                        required
+                      >
+                        <option value="Within 2 weeks">📅 Within 2 weeks</option>
+                        <option value="Within 1 month">🗓️ Within 1 month</option>
+                        <option value="Within 3 months">⏰ Within 3 months</option>
+                        <option value="Just browsing">👀 Just browsing</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <textarea
+                        name="message"
+                        placeholder="Tell us about your roof restoration needs (optional)"
+                        value={formData.message}
+                        onChange={handleChange}
+                        rows={3}
+                        className="w-full px-3 py-2 border rounded-md bg-background"
+                      />
+                    </div>
+
+                    <Button
+                      type="submit"
+                      size="lg"
+                      className="w-full h-14 text-lg font-semibold"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? 'Requesting Health Check...' : '🏠 Get Free Roof Health Check'}
+                    </Button>
+
+                    <div className="text-center">
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Or call Kaidyn directly:
+                      </p>
+                      <Button asChild variant="outline" size="lg">
+                        <a href="tel:0435900709" className="flex items-center gap-2">
+                          <Phone className="h-5 w-5" />
+                          0435 900 709
+                        </a>
+                      </Button>
+                    </div>
+                  </form>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>

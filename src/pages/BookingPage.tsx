@@ -1,15 +1,194 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Phone, Mail, MapPin, Clock, CheckCircle, Star, Shield, Award, Zap } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 import { SEOHead } from '@/components/SEOHead';
 import { StructuredData } from '@/components/StructuredData';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 import { OptimizedImage } from '@/components/OptimizedImage';
-import FilloutForm from '@/components/FilloutForm';
 import geometricPattern from '/src/assets/geometric-roofing-pattern.jpg';
 
+interface FormData {
+  name: string;
+  phone: string;
+  email: string;
+  suburb: string;
+  service: string;
+  urgency: string;
+  propertyType: string;
+  message: string;
+  honeypot: string;
+}
+
 const BookingPage = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    phone: '',
+    email: '',
+    suburb: '',
+    service: '',
+    urgency: '',
+    propertyType: '',
+    message: '',
+    honeypot: ''
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const validateForm = (): boolean => {
+    if (!formData.name.trim()) {
+      toast({
+        title: "Name Required",
+        description: "Please enter your name",
+        variant: "destructive"
+      });
+      return false;
+    }
+    
+    if (!formData.phone.trim()) {
+      toast({
+        title: "Phone Required", 
+        description: "Please enter your phone number",
+        variant: "destructive"
+      });
+      return false;
+    }
+    
+    if (!formData.suburb.trim()) {
+      toast({
+        title: "Suburb Required",
+        description: "Please enter your suburb",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+    if (!formData.service) {
+      toast({
+        title: "Service Required",
+        description: "Please select the service you need",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Anti-spam check
+    if (formData.honeypot) {
+      return;
+    }
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const leadData = {
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email || undefined,
+        suburb: formData.suburb,
+        service: formData.service,
+        message: `Service: ${formData.service}\nProperty Type: ${formData.propertyType}\nUrgency: ${formData.urgency}\n\nAdditional details: ${formData.message || 'None provided'}`
+      };
+
+      const { error } = await supabase.functions.invoke('send-lead-notification', {
+        body: leadData
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Booking Request Sent!",
+        description: "Kaidyn will call you within 4 hours to schedule your free quote.",
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        phone: '',
+        email: '',
+        suburb: '',
+        service: '',
+        urgency: '',
+        propertyType: '',
+        message: '',
+        honeypot: ''
+      });
+
+      // Redirect to thank you page
+      navigate("/thank-you");
+
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send request. Please call 0435 900 709 directly.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const services = [
+    { value: "roof-restoration", label: "Roof Restoration" },
+    { value: "roof-painting", label: "Roof Painting" },
+    { value: "emergency-repairs", label: "Emergency Repairs" },
+    { value: "gutter-cleaning", label: "Gutter Cleaning" },
+    { value: "leak-detection", label: "Leak Detection" },
+    { value: "tile-replacement", label: "Tile Replacement" },
+    { value: "ridge-capping", label: "Ridge Capping" },
+    { value: "valley-iron", label: "Valley Iron Replacement" },
+    { value: "not-sure", label: "Not Sure - Need Assessment" }
+  ];
+
+  const urgencyOptions = [
+    { value: "emergency", label: "Emergency - Active leak/damage" },
+    { value: "urgent", label: "Urgent - Need quote this week" },
+    { value: "standard", label: "Standard - Can wait 2-3 weeks" },
+    { value: "planning", label: "Planning ahead - Next few months" }
+  ];
+
+  const propertyTypes = [
+    { value: "house", label: "House" },
+    { value: "townhouse", label: "Townhouse" },
+    { value: "unit", label: "Unit/Apartment" },
+    { value: "commercial", label: "Commercial Property" },
+    { value: "other", label: "Other" }
+  ];
 
   return (
     <>
@@ -83,17 +262,168 @@ const BookingPage = () => {
             <div className="grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
               
               {/* Form */}
-              <div>
-                <div className="text-center mb-8">
-                  <h2 className="text-2xl font-bold text-primary">
+              <Card className="shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+                <CardHeader className="text-center pb-8">
+                  <CardTitle className="text-2xl font-bold text-primary">
                     Book Your Free Quote
-                  </h2>
+                  </CardTitle>
                   <p className="text-muted-foreground">
                     Fill out this form and Kaidyn will call you within 4 hours
                   </p>
-                </div>
-                <FilloutForm />
-              </div>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Honeypot field */}
+                    <input
+                      type="text"
+                      name="honeypot"
+                      value={formData.honeypot}
+                      onChange={handleInputChange}
+                      style={{ display: 'none' }}
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="name">Your Name *</Label>
+                        <Input
+                          id="name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          placeholder="John Smith"
+                          required
+                          className="mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="phone">Phone Number *</Label>
+                        <Input
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          placeholder="0435 900 709"
+                          required
+                          className="mt-1"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="email">Email (Optional)</Label>
+                        <Input
+                          id="email"
+                          name="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          placeholder="john@example.com"
+                          className="mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="suburb">Suburb *</Label>
+                        <Input
+                          id="suburb"
+                          name="suburb"
+                          value={formData.suburb}
+                          onChange={handleInputChange}
+                          placeholder="Clyde North"
+                          required
+                          className="mt-1"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="service">What service do you need? *</Label>
+                      <Select onValueChange={(value) => handleSelectChange('service', value)} required>
+                        <SelectTrigger className="mt-1">
+                          <SelectValue placeholder="Select a service" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {services.map((service) => (
+                            <SelectItem key={service.value} value={service.value}>
+                              {service.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="propertyType">Property Type</Label>
+                        <Select onValueChange={(value) => handleSelectChange('propertyType', value)}>
+                          <SelectTrigger className="mt-1">
+                            <SelectValue placeholder="Select property type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {propertyTypes.map((type) => (
+                              <SelectItem key={type.value} value={type.value}>
+                                {type.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label htmlFor="urgency">How urgent is this?</Label>
+                        <Select onValueChange={(value) => handleSelectChange('urgency', value)}>
+                          <SelectTrigger className="mt-1">
+                            <SelectValue placeholder="Select urgency" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {urgencyOptions.map((option) => (
+                              <SelectItem key={option.value} value={option.value}>
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="message">Additional Details (Optional)</Label>
+                      <Textarea
+                        id="message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        placeholder="Describe your roof issue, when you'd like the work done, or any specific requirements..."
+                        rows={4}
+                        className="mt-1"
+                      />
+                    </div>
+
+                    <Button 
+                      type="submit" 
+                      className="w-full" 
+                      size="lg"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Sending..." : "Book My Free Quote"}
+                    </Button>
+
+                    <div className="text-center pt-4 border-t">
+                      <p className="text-sm text-muted-foreground mb-3">
+                        Prefer to call directly?
+                      </p>
+                      <Button asChild variant="outline" size="lg" className="w-full">
+                        <a href="tel:0435900709">
+                          <Phone className="mr-2 h-5 w-5" />
+                          Call 0435 900 709
+                        </a>
+                      </Button>
+                    </div>
+                  </form>
+                </CardContent>
+              </Card>
 
               {/* Benefits & Trust Indicators */}
               <div className="space-y-8">

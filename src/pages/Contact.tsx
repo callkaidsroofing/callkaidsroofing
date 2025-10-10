@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Phone, Mail, MapPin, Clock, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SEOHead } from '@/components/SEOHead';
-import FilloutForm from '@/components/FilloutForm';
+import { EnhancedContactForm } from '@/components/EnhancedContactForm';
 
 const Contact = () => {
   return (
@@ -122,9 +122,9 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Fillout Form */}
+            {/* Enhanced Quote Form */}
             <div>
-              <FilloutForm />
+              <EnhancedContactForm />
             </div>
           </div>
         </div>
