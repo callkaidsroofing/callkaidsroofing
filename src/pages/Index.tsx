@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { FloatingIcons, SectionDivider, AccentPattern } from '@/components/DecorativeIcons';
 import { EnhancedServiceSection } from '@/components/EnhancedServiceSection';
-import QuickCaptureForm from '@/components/QuickCaptureForm';
+import FilloutForm from '@/components/FilloutForm';
 import NavigationFlowOptimizer from '@/components/NavigationFlowOptimizer';
 import StrategicCTAManager from '@/components/StrategicCTAManager';
 import waterFlowAbstract from '/src/assets/water-flow-abstract.jpg';
@@ -193,8 +193,16 @@ const Index = () => {
       </div>
 
       {/* Quick Capture Form with Blue Gradient */}
-      <div className="section-gradient">
-        <QuickCaptureForm />
+      <div className="section-gradient py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Get Your Free Roof Health Check</h2>
+              <p className="text-lg text-muted-foreground">Book your obligation-free assessment today</p>
+            </div>
+            <FilloutForm />
+          </div>
+        </div>
       </div>
 
       {/* Enhanced Services Section */}

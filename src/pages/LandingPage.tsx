@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { Card, CardContent } from "@/components/ui/card";
 import { SEOHead } from "@/components/SEOHead";
 import {
   Phone,
@@ -19,34 +15,12 @@ import {
   Users
 } from "lucide-react";
 import FomoBanner from "@/components/FomoBanner";
-
-interface FormData {
-  name: string;
-  phone: string;
-  email: string;
-  suburb: string;
-  service: string;
-  urgency: string;
-  message: string;
-}
+import FilloutForm from "@/components/FilloutForm";
 
 export default function LandingPage() {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    phone: "", 
-    email: "",
-    suburb: "",
-    service: "Emergency Roof Assessment",
-    urgency: "Within 24 hours",
-    message: ""
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(24 * 60 * 60); // 24 hours in seconds
+  const [timeLeft, setTimeLeft] = useState(24 * 60 * 60);
   const [spotsLeft, setSpotsLeft] = useState(3);
-  const { toast } = useToast();
 
-  // Countdown timer
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(prev => (prev > 0 ? prev - 1 : 0));
@@ -54,68 +28,12 @@ export default function LandingPage() {
     return () => clearInterval(timer);
   }, []);
 
-  // Reduce available spots over time to create urgency
   useEffect(() => {
     const spotTimer = setInterval(() => {
       setSpotsLeft(prev => (prev > 1 ? prev - 1 : prev));
-    }, 300000); // every 5 minutes
+    }, 300000);
     return () => clearInterval(spotTimer);
   }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const { data, error } = await supabase.functions.invoke('send-lead-notification', {
-        body: {
-          name: formData.name,
-          phone: formData.phone,
-          email: formData.email || null,
-          suburb: formData.suburb,
-          service: formData.service,
-          message: `Urgency: ${formData.urgency}. ${formData.message}`,
-          urgency: formData.urgency,
-          source: 'landing_page'
-        }
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: "Emergency Assessment Booked!",
-        description: "Kaidyn will call you within 2 hours to schedule your urgent roof inspection.",
-      });
-
-      setFormData({
-        name: "",
-        phone: "",
-        email: "",
-        suburb: "",
-        service: "Emergency Roof Assessment",
-        urgency: "Within 24 hours", 
-        message: ""
-      });
-
-      // Redirect to thank you page
-      navigate("/thank-you");
-    } catch (error: unknown) {
-      toast({
-        title: "Booking Failed",
-        description: "Please call 0435 900 709 immediately for urgent help.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -178,121 +96,20 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Conversion Form - Moved to Top */}
+        {/* Conversion Form */}
         <section id="emergency-form" className="py-12 bg-secondary/20">
           <div className="container mx-auto px-4">
             <div className="max-w-2xl mx-auto">
-                <Card className="shadow-2xl border-0">
-                  <CardContent className="p-8">
-                    <div className="text-center mb-8">
-                      <h3 className="text-3xl font-bold mb-4">Get Your FREE Emergency Assessment</h3>
-                      <p className="text-muted-foreground">
-                        Kaidyn will personally assess your roof and provide immediate emergency protection - usually within 2 hours.
-                      </p>
-                      <p className="mt-2 text-destructive font-semibold animate-pulse">
-                        Only {spotsLeft} free assessments left today!
-                      </p>
-                    </div>
-
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Input
-                          type="text"
-                          name="name"
-                          placeholder="Your Name *"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
-                          className="h-12"
-                        />
-                      </div>
-                      <div>
-                        <Input
-                          type="tel"
-                          name="phone"
-                          placeholder="Phone Number *"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          required
-                          className="h-12"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Input
-                          type="email"
-                          name="email"
-                          placeholder="Email Address"
-                          value={formData.email}
-                          onChange={handleChange}
-                          className="h-12"
-                        />
-                      </div>
-                      <div>
-                        <Input
-                          type="text"
-                          name="suburb"
-                          placeholder="Your Suburb *"
-                          value={formData.suburb}
-                          onChange={handleChange}
-                          required
-                          className="h-12"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <select
-                        name="urgency"
-                        value={formData.urgency}
-                        onChange={handleChange}
-                        className="w-full h-12 px-3 border rounded-md bg-background"
-                        required
-                      >
-                        <option value="Immediate - Active leak">🚨 Immediate - Active leak</option>
-                        <option value="Within 24 hours">⚡ Within 24 hours</option>
-                        <option value="Within 48 hours">🔧 Within 48 hours</option>
-                        <option value="This week">📅 This week</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <textarea
-                        name="message"
-                        placeholder="Describe your roof problem (optional)"
-                        value={formData.message}
-                        onChange={handleChange}
-                        rows={3}
-                        className="w-full px-3 py-2 border rounded-md bg-background"
-                      />
-                    </div>
-
-                    <Button
-                      type="submit"
-                      size="lg"
-                      className="w-full h-14 text-lg font-semibold"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? 'Booking Emergency Assessment...' : '🚨 Book Emergency Assessment Now'}
-                    </Button>
-
-                    <div className="text-center">
-                      <p className="text-sm text-muted-foreground mb-2">
-                        Or call directly for immediate help:
-                      </p>
-                      <Button asChild variant="outline" size="lg">
-                        <a href="tel:0435900709" className="flex items-center gap-2">
-                          <Phone className="h-5 w-5" />
-                          0435 900 709
-                        </a>
-                      </Button>
-                    </div>
-                  </form>
-                </CardContent>
-              </Card>
+              <div className="text-center mb-8">
+                <h3 className="text-3xl font-bold mb-4">Get Your FREE Emergency Assessment</h3>
+                <p className="text-muted-foreground">
+                  Kaidyn will personally assess your roof and provide immediate emergency protection - usually within 2 hours.
+                </p>
+                <p className="mt-2 text-destructive font-semibold animate-pulse">
+                  Only {spotsLeft} free assessments left today!
+                </p>
+              </div>
+              <FilloutForm />
             </div>
           </div>
         </section>
