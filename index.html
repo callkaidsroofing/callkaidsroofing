@@ -65,58 +65,14 @@
     <!-- Robots -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
-    <!-- Google tag (Google Ads + GA4) - Deferred until interaction -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LRGSL4C9YL"></script>
     <script>
-      (function setupDeferredAnalytics() {
-        if (typeof window === 'undefined') {
-          return;
-        }
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-        const measurementIds = [
-          'G-LRGSL4C9YL',
-          'AW-17540375809',
-          'GA-CALLKAIDS-MEASUREMENT-ID'
-        ];
-
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){window.dataLayer.push(arguments);}
-        window.gtag = gtag;
-
-        let hasLoaded = false;
-
-        const loadAnalytics = () => {
-          if (hasLoaded) {
-            return;
-          }
-          hasLoaded = true;
-
-          const script = document.createElement('script');
-          script.async = true;
-          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-LRGSL4C9YL';
-          script.onload = () => {
-            gtag('js', new Date());
-            measurementIds.forEach((id) => {
-              const options = id === 'G-LRGSL4C9YL' ? { send_page_view: true } : {};
-              gtag('config', id, options);
-            });
-            window.dispatchEvent(new Event('analytics:loaded'));
-          };
-
-          document.head.appendChild(script);
-        };
-
-        ['pointerdown', 'keydown', 'scroll'].forEach((eventName) => {
-          window.addEventListener(eventName, loadAnalytics, { once: true, passive: true });
-        });
-
-        window.addEventListener(
-          'load',
-          () => {
-            window.setTimeout(loadAnalytics, 5000);
-          },
-          { once: true }
-        );
-      })();
+      gtag('config', 'G-LRGSL4C9YL');
     </script>
 
     <!-- Open Graph Meta Tags -->

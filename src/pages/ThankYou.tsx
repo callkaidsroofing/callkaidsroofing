@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { CheckCircle, Phone, Mail, Clock, Shield } from "lucide-react";
 import { SEOHead } from "@/components/SEOHead";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,6 +14,12 @@ export default function ThankYou() {
         description="Thank you for your roofing enquiry. We'll contact you within 24 hours to discuss your project and arrange a free inspection."
         canonical="/thank-you"
       />
+      
+      <Helmet>
+        <script>
+          {`gtag('event', 'conversion', {'send_to': 'AW-17540375809/x6HSCIrwsqobEIHK86tB'});`}
+        </script>
+      </Helmet>
       
       <div className="min-h-screen bg-gradient-to-b from-background to-accent/5">
         <div className="container mx-auto px-4 py-16">
