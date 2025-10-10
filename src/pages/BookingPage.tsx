@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -27,6 +28,7 @@ interface FormData {
 }
 
 const BookingPage = () => {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<FormData>({
@@ -145,6 +147,9 @@ const BookingPage = () => {
         message: '',
         honeypot: ''
       });
+
+      // Redirect to thank you page
+      navigate("/thank-you");
 
     } catch (error) {
       console.error('Error submitting form:', error);

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -30,6 +31,7 @@ interface FormData {
 }
 
 export default function RestorationLanding() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     name: "",
     phone: "", 
@@ -85,6 +87,9 @@ export default function RestorationLanding() {
         urgency: "Within 2 weeks", 
         message: ""
       });
+
+      // Redirect to thank you page
+      navigate("/thank-you");
     } catch (error: unknown) {
       toast({
         title: "Quote Request Failed",
