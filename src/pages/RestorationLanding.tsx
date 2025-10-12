@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -20,15 +21,36 @@ import {
   TrendingUp
 } from "lucide-react";
 
-interface FormData {
-  name: string;
-  phone: string;
-  email: string;
-  suburb: string;
-  service: string;
-  urgency: string;
-  message: string;
-}
+// Australian phone number regex: accepts 04XX XXX XXX, 0X XXXX XXXX, or +61 formats
+const australianPhoneRegex = /^(\+61|0)[2-9][0-9]{8}$|^04[0-9]{8}$/;
+
+const restorationFormSchema = z.object({
+  name: z.string()
+    .trim()
+    .min(2, { message: "Name must be at least 2 characters" })
+    .max(100, { message: "Name must be less than 100 characters" }),
+  phone: z.string()
+    .trim()
+    .regex(australianPhoneRegex, { message: "Please enter a valid Australian phone number (e.g., 0435 900 709)" }),
+  email: z.string()
+    .trim()
+    .email({ message: "Please enter a valid email address" })
+    .max(255, { message: "Email must be less than 255 characters" })
+    .optional()
+    .or(z.literal('')),
+  suburb: z.string()
+    .trim()
+    .min(2, { message: "Suburb must be at least 2 characters" })
+    .max(100, { message: "Suburb must be less than 100 characters" }),
+  service: z.string().min(1, { message: "Please select a service" }),
+  urgency: z.string().min(1, { message: "Please select timeline" }),
+  message: z.string()
+    .max(1000, { message: "Message must be less than 1000 characters" })
+    .optional()
+    .or(z.literal(''))
+});
+
+type FormData = z.infer<typeof restorationFormSchema>;
 
 export default function RestorationLanding() {
   const navigate = useNavigate();
@@ -55,6 +77,26 @@ export default function RestorationLanding() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form with zod
+    try {
+      const normalizedData = {
+        ...formData,
+        phone: formData.phone.replace(/\s/g, '') // Remove spaces from phone
+      };
+      restorationFormSchema.parse(normalizedData);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const firstError = error.errors[0];
+        toast({
+          title: "Validation Error",
+          description: firstError.message,
+          variant: "destructive"
+        });
+      }
+      return;
+    }
+    
     setIsSubmitting(true);
 
     try {

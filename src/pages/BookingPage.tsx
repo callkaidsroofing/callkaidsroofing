@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -15,17 +16,39 @@ import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSect
 import { OptimizedImage } from '@/components/OptimizedImage';
 import geometricPattern from '/src/assets/geometric-roofing-pattern.jpg';
 
-interface FormData {
-  name: string;
-  phone: string;
-  email: string;
-  suburb: string;
-  service: string;
-  urgency: string;
-  propertyType: string;
-  message: string;
-  honeypot: string;
-}
+// Australian phone number regex: accepts 04XX XXX XXX, 0X XXXX XXXX, or +61 formats
+const australianPhoneRegex = /^(\+61|0)[2-9][0-9]{8}$|^04[0-9]{8}$/;
+
+const bookingFormSchema = z.object({
+  name: z.string()
+    .trim()
+    .min(2, { message: "Name must be at least 2 characters" })
+    .max(100, { message: "Name must be less than 100 characters" }),
+  phone: z.string()
+    .trim()
+    .regex(australianPhoneRegex, { message: "Please enter a valid Australian phone number (e.g., 0435 900 709)" }),
+  email: z.string()
+    .trim()
+    .email({ message: "Please enter a valid email address" })
+    .max(255, { message: "Email must be less than 255 characters" })
+    .optional()
+    .or(z.literal('')),
+  suburb: z.string()
+    .trim()
+    .min(2, { message: "Suburb must be at least 2 characters" })
+    .max(100, { message: "Suburb must be less than 100 characters" }),
+  service: z.string()
+    .min(1, { message: "Please select a service" }),
+  urgency: z.string().optional(),
+  propertyType: z.string().optional(),
+  message: z.string()
+    .max(1000, { message: "Message must be less than 1000 characters" })
+    .optional()
+    .or(z.literal('')),
+  honeypot: z.string().optional()
+});
+
+type FormData = z.infer<typeof bookingFormSchema>;
 
 const BookingPage = () => {
   const navigate = useNavigate();
@@ -59,43 +82,26 @@ const BookingPage = () => {
   };
 
   const validateForm = (): boolean => {
-    if (!formData.name.trim()) {
-      toast({
-        title: "Name Required",
-        description: "Please enter your name",
-        variant: "destructive"
-      });
+    try {
+      // Normalize phone number by removing spaces
+      const normalizedData = {
+        ...formData,
+        phone: formData.phone.replace(/\s/g, '')
+      };
+      
+      bookingFormSchema.parse(normalizedData);
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const firstError = error.errors[0];
+        toast({
+          title: "Validation Error",
+          description: firstError.message,
+          variant: "destructive"
+        });
+      }
       return false;
     }
-    
-    if (!formData.phone.trim()) {
-      toast({
-        title: "Phone Required", 
-        description: "Please enter your phone number",
-        variant: "destructive"
-      });
-      return false;
-    }
-    
-    if (!formData.suburb.trim()) {
-      toast({
-        title: "Suburb Required",
-        description: "Please enter your suburb",
-        variant: "destructive"
-      });
-      return false;
-    }
-
-    if (!formData.service) {
-      toast({
-        title: "Service Required",
-        description: "Please select the service you need",
-        variant: "destructive"
-      });
-      return false;
-    }
-
-    return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
