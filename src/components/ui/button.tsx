@@ -10,15 +10,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "blue-gradient text-white hover:opacity-90 roofing-shadow hover:shadow-xl transform hover:scale-105",
+        default: "blue-gradient text-primary-foreground hover:opacity-90 roofing-shadow hover:shadow-xl transform hover:scale-105",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-primary/30 bg-transparent hover:bg-primary/10 hover:text-primary transition-all duration-300",
-        secondary: "bg-gradient-to-r from-secondary to-secondary/80 text-white hover:opacity-90 roofing-shadow transform hover:scale-105",
+        outline: "border-2 border-primary/30 bg-background/50 backdrop-blur-sm hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300",
+        secondary: "bg-gradient-to-r from-secondary to-secondary/80 text-secondary-foreground hover:opacity-90 roofing-shadow transform hover:scale-105",
         ghost: "hover:bg-primary/10 hover:text-primary transition-all duration-300",
-        link: "text-primary underline-offset-4 hover:underline",
-        premium: "premium-gradient text-white hover:opacity-90 premium-shadow font-semibold transform hover:scale-105",
-        emergency: "bg-gradient-to-r from-roofing-emergency to-red-600 text-white hover:opacity-90 emergency-pulse font-semibold shadow-lg",
-        phone: "cta-gradient text-white hover:opacity-90 roofing-shadow font-semibold tracking-wide transform hover:scale-105",
+        link: "text-primary underline-offset-4 hover:underline hover:text-primary/80",
+        premium: "premium-gradient text-primary-foreground hover:opacity-90 premium-shadow font-semibold transform hover:scale-105",
+        emergency: "bg-gradient-to-r from-roofing-emergency to-red-600 text-primary-foreground hover:opacity-90 emergency-pulse font-semibold shadow-lg",
+        phone: "cta-gradient text-primary-foreground hover:opacity-90 roofing-shadow font-semibold tracking-wide transform hover:scale-105",
       },
       size: {
         default: "h-10 px-4 py-2",

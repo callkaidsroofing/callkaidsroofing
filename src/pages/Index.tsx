@@ -83,52 +83,52 @@ const Index = () => {
         {/* Content */}
         <div className="relative z-20 w-full px-4 py-28 sm:py-32">
           <div className="mx-auto max-w-screen-md md:max-w-3xl lg:max-w-4xl text-center">
-            {/* Top Badge */}
+            {/* Top Badge - KF_11 Trust Signal */}
             <div className="flex justify-center mb-6">
-              <Badge className="bg-roofing-blue/20 border border-roofing-blue/40 text-white backdrop-blur-sm px-6 py-2 text-sm font-semibold">
-                ⚡ Same-Day Emergency Response Available
+              <Badge className="bg-primary/20 border border-primary/40 text-primary-foreground backdrop-blur-sm px-6 py-2 text-sm font-semibold animate-pulse">
+                ⚡ Same-Day Emergency Response • 15-Year Warranty
               </Badge>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white text-center mb-6 leading-tight">
+            {/* Main Headline - KF_11 3-Second Rule Optimized */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground text-center mb-6 leading-tight">
               The Best Roof<br />
-              <span className="text-roofing-blue">Under the Sun</span>
+              <span className="text-primary">Under the Sun</span>
             </h1>
 
             {/* Core Slogan - CKR Mandate */}
-            <p className="text-2xl md:text-3xl italic text-white/95 text-center mb-4 font-serif">
+            <p className="text-2xl md:text-3xl italic text-primary-foreground/95 text-center mb-4 font-serif">
               *Proof In Every Roof*
             </p>
 
-            {/* Subheadline */}
-            <p className="text-lg md:text-xl text-white/90 text-center max-w-2xl mx-auto mb-8 font-medium">
-              Professional roofing for Southeast Melbourne. No leaks. No lifting. Just quality backed by a <strong className="text-white">15-year warranty</strong>.
+            {/* Subheadline - KF_11 David Persona Focus */}
+            <p className="text-lg md:text-xl text-primary-foreground/90 text-center max-w-2xl mx-auto mb-8 font-medium">
+              Professional roofing for Southeast Melbourne. No leaks. No lifting. Just quality backed by a <strong className="text-primary-foreground">15-year warranty</strong>.
             </p>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - KF_11 Section 4.2: CTA Perfection */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Button 
-                size="lg" 
-                className="bg-roofing-blue hover:bg-roofing-blue/90 text-white text-lg px-8 py-6 shadow-2xl shadow-roofing-blue/40"
+                size="xl" 
+                variant="phone"
                 onClick={() => window.location.href = 'tel:0435900709'}
+                aria-label="Call Kaidyn directly for immediate assistance"
               >
                 <Phone className="mr-2 h-5 w-5" />
-                Call Now: 0435 900 709
+                Call Kaidyn: 0435 900 709
               </Button>
               <Button 
                 asChild
-                size="lg" 
+                size="xl" 
                 variant="outline"
-                className="bg-white/10 border-2 border-white/30 text-white hover:bg-white hover:text-roofing-navy backdrop-blur-sm text-lg px-8 py-6"
               >
-                <Link to="/book">Get Free Roof Check</Link>
+                <Link to="/book">Get Free Roof Health Check</Link>
               </Button>
             </div>
 
-            {/* Trust Stats - Clean Grid */}
+            {/* Trust Stats - KF_11 Section 5.2: Social Proof Integration */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4 text-center">
+              <div className="bg-background/10 backdrop-blur-sm border border-primary/20 rounded-lg p-4 text-center hover:bg-background/20 transition-all">
                 <div className="flex justify-center mb-2">
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
@@ -136,32 +136,32 @@ const Index = () => {
                     ))}
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-white">4.9/5</div>
-                <div className="text-xs text-white/80">200+ Reviews</div>
+                <div className="text-2xl font-bold text-primary-foreground">4.9/5</div>
+                <div className="text-xs text-primary-foreground/80">200+ Reviews</div>
               </div>
 
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4 text-center">
-                <CheckCircle className="h-8 w-8 text-roofing-blue mx-auto mb-2" />
-                <div className="text-2xl font-bold text-white">15 Years</div>
-                <div className="text-xs text-white/80">Warranty</div>
+              <div className="bg-background/10 backdrop-blur-sm border border-primary/20 rounded-lg p-4 text-center hover:bg-background/20 transition-all">
+                <CheckCircle className="h-8 w-8 text-primary mx-auto mb-2" />
+                <div className="text-2xl font-bold text-primary-foreground">15 Years</div>
+                <div className="text-xs text-primary-foreground/80">Warranty</div>
               </div>
 
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4 text-center">
-                <CheckCircle className="h-8 w-8 text-roofing-blue mx-auto mb-2" />
-                <div className="text-2xl font-bold text-white">500+</div>
-                <div className="text-xs text-white/80">Happy Homes</div>
+              <div className="bg-background/10 backdrop-blur-sm border border-primary/20 rounded-lg p-4 text-center hover:bg-background/20 transition-all">
+                <CheckCircle className="h-8 w-8 text-primary mx-auto mb-2" />
+                <div className="text-2xl font-bold text-primary-foreground">500+</div>
+                <div className="text-xs text-primary-foreground/80">Happy Homes</div>
               </div>
 
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4 text-center">
-                <CheckCircle className="h-8 w-8 text-roofing-blue mx-auto mb-2" />
-                <div className="text-2xl font-bold text-white">100%</div>
-                <div className="text-xs text-white/80">Insured</div>
+              <div className="bg-background/10 backdrop-blur-sm border border-primary/20 rounded-lg p-4 text-center hover:bg-background/20 transition-all">
+                <CheckCircle className="h-8 w-8 text-primary mx-auto mb-2" />
+                <div className="text-2xl font-bold text-primary-foreground">100%</div>
+                <div className="text-xs text-primary-foreground/80">Insured</div>
               </div>
             </div>
 
-            {/* Service Area Tag */}
+            {/* Service Area Tag - KF_11 Transparency */}
             <div className="text-center mt-8">
-              <p className="text-white/70 text-sm">
+              <p className="text-primary-foreground/70 text-sm">
                 📍 Proudly serving Clyde North, Berwick, Cranbourne, Pakenham & SE Melbourne • 50km radius
               </p>
             </div>
@@ -317,72 +317,72 @@ const Index = () => {
           <div className="flex justify-center items-center gap-4 mb-4">
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-5 w-5 fill-current text-yellow-400" />
+                <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
               ))}
             </div>
-            <span className="text-lg font-semibold">Rated #1 in Southeast Melbourne</span>
+            <span className="text-lg font-semibold text-primary-foreground">Rated #1 in Southeast Melbourne</span>
           </div>
           
-          <h2 className="text-3xl md:text-4xl font-bold">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground">
             Ready to Get Your Roof Done Right?
           </h2>
-          <p className="text-xl max-w-3xl mx-auto">
+          <p className="text-xl max-w-3xl mx-auto text-primary-foreground/90">
             I'm booked 2-3 weeks out because quality spreads by word of mouth. 
             Don't wait for a small leak to become a big expensive problem.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="text-center space-y-2">
-              <div className="text-3xl font-bold">2-3 Weeks</div>
-              <div className="text-sm">Next Available Slot</div>
+              <div className="text-3xl font-bold text-primary-foreground">2-3 Weeks</div>
+              <div className="text-sm text-primary-foreground/80">Next Available Slot</div>
             </div>
             <div className="text-center space-y-2">
-              <div className="text-3xl font-bold">Same Day</div>
-              <div className="text-sm">Emergency Response</div>
+              <div className="text-3xl font-bold text-primary-foreground">Same Day</div>
+              <div className="text-sm text-primary-foreground/80">Emergency Response</div>
             </div>
             <div className="text-center space-y-2">
-              <div className="text-3xl font-bold">This Week</div>
-              <div className="text-sm">Free Inspections</div>
+              <div className="text-3xl font-bold text-primary-foreground">This Week</div>
+              <div className="text-sm text-primary-foreground/80">Free Inspections</div>
             </div>
           </div>
 
           <div className="space-y-4">
-            <p className="text-2xl font-semibold">
+            <p className="text-2xl font-semibold text-primary-foreground">
               Get your free inspection before summer storms hit
             </p>
             
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
-              <Button asChild variant="secondary" size="lg" className="w-full sm:w-auto text-sm sm:text-base">
-                <a href="tel:0435900709">
-                  <Phone className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <Button asChild variant="phone" size="xl" className="w-full sm:w-auto">
+                <a href="tel:0435900709" aria-label="Call Kaidyn directly">
+                  <Phone className="mr-2 h-5 w-5" />
                   Call Kaidyn: 0435 900 709
                 </a>
               </Button>
-              <Button asChild variant="outline" size="lg" className="bg-white/10 border-white text-white hover:bg-white hover:text-primary w-full sm:w-auto text-sm sm:text-base">
+              <Button asChild variant="outline" size="xl" className="w-full sm:w-auto">
                 <Link to="/book">Book Free Inspection</Link>
               </Button>
             </div>
 
-            <p className="text-sm">
+            <p className="text-sm text-primary-foreground/80">
               Direct line to the owner • No call centers • Text or call, I'll respond within 12 hours
             </p>
             
-            <div className="border-t border-white/20 pt-4 mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-              <div className="text-sm">
-                <div className="font-semibold">10-Year</div>
-                <div>Warranty</div>
+            <div className="border-t border-primary-foreground/20 pt-4 mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div className="text-sm text-primary-foreground">
+                <div className="font-semibold">15-Year</div>
+                <div className="text-primary-foreground/80">Warranty</div>
               </div>
-              <div className="text-sm">
+              <div className="text-sm text-primary-foreground">
                 <div className="font-semibold">Premium</div>
-                <div>Materials</div>
+                <div className="text-primary-foreground/80">Materials</div>
               </div>
-              <div className="text-sm">
+              <div className="text-sm text-primary-foreground">
                 <div className="font-semibold">Local</div>
-                <div>Owner</div>
+                <div className="text-primary-foreground/80">Owner</div>
               </div>
-              <div className="text-sm">
+              <div className="text-sm text-primary-foreground">
                 <div className="font-semibold">200+</div>
-                <div>Happy Customers</div>
+                <div className="text-primary-foreground/80">Happy Customers</div>
               </div>
             </div>
           </div>

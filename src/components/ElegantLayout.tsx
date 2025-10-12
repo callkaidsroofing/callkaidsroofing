@@ -48,13 +48,14 @@ export const ElegantLayout = () => {
         <Footer />
       </div>
 
-      {/* Mobile Call Button - Improved positioning */}
+      {/* Mobile Call Button - KF_11 CTA Optimization */}
       <a
         href="tel:0435900709"
-        className="md:hidden fixed bottom-4 left-4 right-4 z-50 inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground py-3 px-4 font-semibold shadow-2xl shadow-primary/40 hover:bg-primary/90 transition-all text-sm"
+        className="md:hidden fixed bottom-4 left-4 right-4 z-50 inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground py-3 px-4 font-semibold shadow-2xl shadow-primary/40 hover:bg-primary/90 transition-all text-sm animate-pulse"
+        aria-label="Call Kaidyn now for immediate assistance"
       >
         <Phone className="h-4 w-4" />
-        Call Now • 0435 900 709
+        Call Kaidyn: 0435 900 709
       </a>
 
       <ScrollToTop />
