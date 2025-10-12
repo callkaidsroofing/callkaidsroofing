@@ -67,7 +67,7 @@ const Index = () => {
       <StructuredData type="homepage" />
       <div className="page-transition">
       {/* Hero Section - Professional & Proof-Driven */}
-      <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-roofing-navy">
+      <section className="relative w-full min-h-screen flex items-center overflow-hidden bg-roofing-navy">
         {/* Background Image */}
         <OptimizedBackgroundSection
           backgroundImage="/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png"
@@ -76,13 +76,13 @@ const Index = () => {
           priority
           sizes="100vw"
         >
-          {/* Gradient Overlay - Navy to Blue */}
-          <div className="absolute inset-0 bg-gradient-to-br from-roofing-navy/95 via-roofing-navy/90 to-roofing-blue/80" />
+          {/* Gradient Overlay - vertical to avoid visual offset */}
+          <div className="absolute inset-0 bg-gradient-to-b from-roofing-navy/95 via-roofing-navy/90 to-roofing-navy/85" />
         </OptimizedBackgroundSection>
 
         {/* Content */}
-        <div className="relative z-20 container mx-auto px-4 py-32 md:py-40">
-          <div className="max-w-4xl mx-auto">
+        <div className="relative z-20 w-full px-4 py-28 sm:py-32">
+          <div className="mx-auto max-w-screen-md md:max-w-3xl lg:max-w-4xl text-center">
             {/* Top Badge */}
             <div className="flex justify-center mb-6">
               <Badge className="bg-roofing-blue/20 border border-roofing-blue/40 text-white backdrop-blur-sm px-6 py-2 text-sm font-semibold">
