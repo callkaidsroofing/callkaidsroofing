@@ -247,9 +247,6 @@ const Footer = () => {
               <Link to="/emergency" className="text-destructive hover:text-destructive/80 font-semibold transition-colors">
                 Emergency
               </Link>
-              <Link to="/admin/login" className="text-muted-foreground hover:text-primary transition-colors text-xs">
-                Admin
-              </Link>
             </div>
           </div>
           

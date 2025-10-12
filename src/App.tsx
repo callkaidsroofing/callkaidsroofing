@@ -5,9 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
-import { AuthProvider } from "@/components/AuthProvider";
-import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { SecurityMonitor } from "@/components/SecurityMonitor";
 import ElegantLayout from "@/components/ElegantLayout";
 
 const Index = lazy(() => import("./pages/Index"));
@@ -32,8 +29,6 @@ const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const ThankYou = lazy(() => import("./pages/ThankYou"));
 const Services = lazy(() => import("./pages/Services"));
-const AdminLogin = lazy(() => import("./pages/AdminLogin"));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const RestorationLanding = lazy(() => import("./pages/RestorationLanding"));
 const RoofRestorationClydeNorth = lazy(() => import("./pages/services/suburbs/RoofRestorationClydeNorth"));
 const RoofRestorationCranbourne = lazy(() => import("./pages/services/suburbs/RoofRestorationCranbourne"));
@@ -61,22 +56,9 @@ function App() {
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <AuthProvider>
-              <SecurityMonitor />
-              <Suspense fallback={<LoadingScreen />}>
-                <Routes>
-                  {/* Admin routes - standalone layout */}
-                  <Route path="/admin/login" element={<AdminLogin />} />
-                  <Route
-                    path="/admin/dashboard"
-                    element={
-                      <ProtectedRoute>
-                        <AdminDashboard />
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  {/* Main site routes - with elegant layout */}
+            <Suspense fallback={<LoadingScreen />}>
+              <Routes>
+                {/* Main site routes - with elegant layout */}
                   <Route path="/*" element={<ElegantLayout />}>
                     <Route index element={<Index />} />
                     <Route path="about" element={<About />} />
@@ -117,9 +99,8 @@ function App() {
                     <Route path="restoration-landing" element={<RestorationLanding />} />
                     <Route path="*" element={<NotFound />} />
                   </Route>
-                </Routes>
-              </Suspense>
-            </AuthProvider>
+              </Routes>
+            </Suspense>
           </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>
