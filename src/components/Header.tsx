@@ -1,234 +1,241 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Phone, Menu, X, ChevronDown, Shield, MapPin } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { Badge } from '@/components/ui/badge';
-import { OptimizedImage } from '@/components/OptimizedImage';
-import wideLogo from '/lovable-uploads/8d1be6f1-c743-47df-8d3e-f1ab6230f326.png';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { Menu, Phone, ChevronDown } from "lucide-react";
+import { OptimizedImage } from "@/components/OptimizedImage";
+import { cn } from "@/lib/utils";
+import callKaidsFullLogo from "@/assets/call-kaids-logo-slogan.png";
 
-const Header = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+const topLevelLinks = [
+  { href: "/", label: "Home" },
+  { href: "/gallery", label: "Our Work" },
+  { href: "/blog", label: "Blog" },
+  { href: "/about", label: "About Us" },
+];
 
-  const services = [
-    { name: 'Roof Restoration', href: '/services/roof-restoration' },
-    { name: 'Roof Painting', href: '/services/roof-painting' },
-    { name: 'Roof Repointing', href: '/services/roof-repointing' },
-    { name: 'Tile Replacement', href: '/services/tile-replacement' },
-    { name: 'Leak Detection', href: '/services/leak-detection' },
-    { name: 'Gutter Cleaning', href: '/services/gutter-cleaning' },
-    { name: 'Valley Iron Replacement', href: '/services/valley-iron-replacement' },
-    { name: 'Roof Repairs', href: '/services/roof-repairs' },
-  ];
+const serviceComponents: { title: string; href: string; description: string }[] = [
+  {
+    title: "Roof Restoration",
+    href: "/services/roof-restoration",
+    description: "Complete transformation for tile roofs, restoring look and structural integrity.",
+  },
+  {
+    title: "Roof Painting",
+    href: "/services/roof-painting",
+    description: "Premium coating to restore and protect your roof with lasting durability.",
+  },
+  {
+    title: "Rebedding & Repointing",
+    href: "/services/roof-repointing",
+    description: "Critical repair to prevent leaks and secure ridge caps and tiles.",
+  },
+  {
+    title: "Gutter Cleaning",
+    href: "/services/gutter-cleaning",
+    description: "Professional cleaning to prevent water damage and maintain drainage.",
+  },
+  {
+    title: "Roof Leak Repairs",
+    href: "/services/leak-detection",
+    description: "Expert diagnosis and permanent repairs for any type of roof leak.",
+  },
+  {
+    title: "Tile Replacement",
+    href: "/services/tile-replacement",
+    description: "Replace broken or damaged tiles to maintain roof integrity.",
+  },
+  {
+    title: "Valley Iron Replacement",
+    href: "/services/valley-iron-replacement",
+    description: "Replace corroded valley irons to prevent water damage.",
+  },
+  {
+    title: "General Roof Repairs",
+    href: "/services/roof-repairs",
+    description: "Expert repairs for all roofing issues, big or small.",
+  },
+];
 
+export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      {/* Top Bar with Hero Gradient Background */}
-      <div className="bg-gradient-to-b from-black/60 to-black/40 text-white py-2 text-center">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 text-sm">
-            <div className="flex items-center gap-2">
-              <Shield className="h-4 w-4" />
-              <span className="font-semibold">10-Year Warranty</span>
-            </div>
-            <div className="hidden sm:block text-white/70">•</div>
-            <div className="flex items-center gap-2">
-              <MapPin className="h-4 w-4" />
-              <span>Clyde North Based - Serving SE Melbourne</span>
-            </div>
-            <div className="hidden sm:block text-white/70">•</div>
-            <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-                Book Early - 2-3 Weeks Out
-              </Badge>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <OptimizedImage
-              src={wideLogo}
-              alt="Call Kaids Roofing - Premium Roofing Services Melbourne"
-              className="h-14 w-auto max-w-[280px]"
-              width={137}
-              height={80}
-              priority
-              sizes="280px"
-            />
-          </Link>
+    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-roofing-navy/90 backdrop-blur-lg">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 lg:px-6">
+        {/* Logo */}
+        <NavLink to="/" className="flex items-center z-10">
+          <OptimizedImage
+            src={callKaidsFullLogo}
+            alt="Call Kaids Roofing - Professional Roofing, Melbourne Style"
+            className="h-14 sm:h-16 lg:h-20 xl:h-24 w-auto object-contain hover:scale-105 transition-transform duration-300"
+            width={800}
+            height={300}
+          />
+        </NavLink>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-foreground hover:text-primary transition-colors">
-              Home
-            </Link>
-            
-            {/* Services Dropdown */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setServicesDropdownOpen(true)}
-              onMouseLeave={() => setServicesDropdownOpen(false)}
-            >
-              <button className="flex items-center text-foreground hover:text-primary transition-colors">
-                Services <ChevronDown className="ml-1 h-4 w-4" />
-              </button>
-              {servicesDropdownOpen && (
-                <div className="absolute top-full left-0 mt-1 w-56 bg-popover border rounded-lg shadow-lg z-50">
-                  <div className="py-2">
-                    {services.map((service) => (
-                      <Link
-                        key={service.name}
-                        to={service.href}
-                        className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-x-2">
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavLink to="/">
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Home
+                  </NavigationMenuLink>
+                </NavLink>
+              </NavigationMenuItem>
+
+              {/* Services Mega Menu */}
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>
+                  <NavLink to="/services">Services</NavLink>
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                    {serviceComponents.map((component) => (
+                      <ListItem
+                        key={component.title}
+                        title={component.title}
+                        href={component.href}
                       >
-                        {service.name}
-                      </Link>
+                        {component.description}
+                      </ListItem>
                     ))}
-                  </div>
-                </div>
-              )}
-            </div>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
 
-            <Link to="/blog" className="text-foreground hover:text-primary transition-colors">
-              Blog
-            </Link>
-            <Link to="/gallery" className="text-foreground hover:text-primary transition-colors">
-              Gallery
-            </Link>
-            <Link to="/about" className="text-foreground hover:text-primary transition-colors">
-              About
-            </Link>
-            <Link to="/warranty" className="text-foreground hover:text-primary transition-colors flex items-center gap-1">
-              <Shield className="h-4 w-4" />
-              Warranty
-            </Link>
-            <Link to="/contact" className="text-foreground hover:text-primary transition-colors">
-              Contact
-            </Link>
-            <Link to="/emergency" className="text-roofing-emergency hover:text-roofing-emergency/80 font-semibold transition-colors">
-              Emergency
-            </Link>
-          </nav>
+              {topLevelLinks.slice(1).map((link) => (
+                <NavigationMenuItem key={link.href}>
+                  <NavLink to={link.href}>
+                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                      {link.label}
+                    </NavigationMenuLink>
+                  </NavLink>
+                </NavigationMenuItem>
+              ))}
+            </NavigationMenuList>
+          </NavigationMenu>
 
-          {/* Phone Number & CTA */}
-          <div className="hidden md:flex items-center space-x-4">
-            <div className="text-right">
-              <div className="text-xs text-muted-foreground">Call Kaidyn Directly</div>
-              <a href="tel:0435900709" className="flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors">
-                <Phone className="h-4 w-4" />
-                <span className="font-bold text-lg">0435 900 709</span>
-              </a>
-            </div>
-            <div className="h-8 w-px bg-border"></div>
-            <Button asChild variant="default" size="lg" className="bg-accent hover:bg-accent/80">
-              <Link to="/book">Free Quote</Link>
-            </Button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden"
-            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={mobileMenuOpen}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          <Button
+            asChild
+            className="ml-2 bg-roofing-blue hover:bg-roofing-blue/90"
           >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+            <NavLink to="/book">
+              <Phone className="mr-2 h-4 w-4" />
+              Get a Free Quote
+            </NavLink>
+          </Button>
         </div>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t bg-background">
-            <div className="px-2 py-4 space-y-1">
-              <Link
-                to="/"
-                className="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
+        {/* Mobile Navigation */}
+        <div className="lg:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="text-white bg-transparent border-white/50 hover:bg-white/10"
               >
-                Home
-              </Link>
-              
-              {/* Mobile Services */}
-              <div className="px-3 py-2">
-                <div className="text-base font-medium text-foreground mb-2">Services</div>
-                <div className="pl-4 space-y-1">
-                  {services.map((service) => (
-                    <Link
-                      key={service.name}
-                      to={service.href}
-                      className="block py-1 text-sm text-muted-foreground hover:text-primary transition-colors"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {service.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="bg-roofing-navy text-white border-l-white/20">
+              <nav className="flex flex-col gap-y-4 pt-10">
+                <NavLink to="/" className="text-lg font-medium hover:text-roofing-blue">
+                  Home
+                </NavLink>
 
-              <Link
-                to="/blog"
-                className="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Blog
-              </Link>
-              <Link
-                to="/gallery"
-                className="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Gallery
-              </Link>
-              <Link
-                to="/about"
-                className="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                About
-              </Link>
-              <Link
-                to="/warranty"
-                className="flex items-center gap-2 px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Shield className="h-4 w-4" />
-                Warranty
-              </Link>
-              <Link
-                to="/contact"
-                className="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Contact
-              </Link>
-              <Link
-                to="/emergency"
-                className="block px-3 py-2 text-base font-medium text-roofing-emergency hover:bg-accent rounded-md transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Emergency
-              </Link>
-              
-              {/* Mobile Phone & CTA */}
-              <div className="px-3 py-4 space-y-3 border-t">
-                <a href="tel:0435900709" className="flex items-center justify-center space-x-2 text-primary font-semibold">
-                  <Phone className="h-5 w-5" />
-                  <span>0435 900 709</span>
-                </a>
-                <Button asChild variant="premium" size="lg" className="w-full">
-                  <Link to="/book" onClick={() => setMobileMenuOpen(false)}>Get Quote</Link>
+                {/* Collapsible Services Menu for Mobile */}
+                <Collapsible>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full text-lg font-medium hover:text-roofing-blue">
+                    <NavLink to="/services">Services</NavLink>
+                    <ChevronDown className="h-5 w-5 ml-1" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pl-4 pt-2 flex flex-col gap-y-2">
+                    {serviceComponents.map((s) => (
+                      <NavLink
+                        key={s.href}
+                        to={s.href}
+                        className="text-gray-300 text-base hover:text-roofing-blue"
+                      >
+                        {s.title}
+                      </NavLink>
+                    ))}
+                  </CollapsibleContent>
+                </Collapsible>
+
+                {topLevelLinks.slice(1).map((link) => (
+                  <NavLink
+                    key={link.href}
+                    to={link.href}
+                    className="text-lg font-medium hover:text-roofing-blue"
+                  >
+                    {link.label}
+                  </NavLink>
+                ))}
+
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-roofing-blue hover:bg-roofing-blue/90 text-lg mt-4"
+                >
+                  <NavLink to="/book">
+                    <Phone className="mr-2 h-5 w-5" />
+                    Get a Free Quote
+                  </NavLink>
                 </Button>
-              </div>
-            </div>
-          </div>
-        )}
+                <p className="text-sm text-white/70">0435 900 709</p>
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   );
-};
+}
 
-export default Header;
+// Helper component for the mega menu styling
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a"> & { title: string; href: string }
+>(({ className, title, children, href, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <NavLink
+          to={href}
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+            {children}
+          </p>
+        </NavLink>
+      </NavigationMenuLink>
+    </li>
+  );
+});
+ListItem.displayName = "ListItem";
