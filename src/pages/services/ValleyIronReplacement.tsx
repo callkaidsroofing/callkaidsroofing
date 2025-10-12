@@ -5,6 +5,8 @@ import { Phone, CheckCircle, Clock, Shield, MapPin, AlertTriangle, Wrench, Dolla
 import { Link } from 'react-router-dom';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 
+import { SEOHead } from '@/components/SEOHead';
+
 const ValleyIronReplacement = () => {
   const problemSigns = [
     "Rust stains on valley iron or surrounding tiles",
@@ -103,7 +105,13 @@ const ValleyIronReplacement = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <>
+      <SEOHead
+        title="Valley Iron Replacement Melbourne | Fix Rusted Valley Irons SE Suburbs"
+        description="Specialist valley iron replacement service for Clyde North, Berwick, Cranbourne & Southeast Melbourne. Stop hidden leaks. Premium Colorbond materials. 10-year warranty. Call 0435 900 709."
+        keywords="valley iron replacement Melbourne, valley iron repairs Clyde North, rusted valley iron, valley replacement Berwick, valley iron Cranbourne, roof valley repairs Melbourne, Colorbond valley iron"
+      />
+      <div className="min-h-screen">
       {/* Hero Section */}
       <OptimizedBackgroundSection
         backgroundImage="/lovable-uploads/b583ddb3-be15-4d62-b3fe-1d5a4ed4cd2a.png"
@@ -428,6 +436,7 @@ const ValleyIronReplacement = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

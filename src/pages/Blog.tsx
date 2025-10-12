@@ -28,9 +28,23 @@ export default function Blog() {
   return (
     <>
       <SEOHead
-        title="Roofing Blog - Expert Tips & Guides | Call Kaids Roofing"
-        description="Expert roofing advice, maintenance tips, and industry insights for Melbourne homeowners. Professional guides on roof restoration, repairs, and protection."
-        keywords="roofing blog, Melbourne roofing tips, roof maintenance guides, roofing advice, Call Kaids Roofing"
+        title="Roofing Guides & Expert Tips | Call Kaids Roofing Blog Melbourne"
+        description="Expert roofing advice, guides, and tips for Southeast Melbourne homeowners. Learn about roof maintenance, restoration, repairs, and when to call a professional roofer in Clyde North, Berwick, Cranbourne."
+        keywords="roofing tips Melbourne, roof maintenance guide Clyde North, roofing blog Southeast Melbourne, roof restoration advice, roof repair tips, Melbourne homeowner roofing guide, Call Kaids Roofing blog, professional roofer advice"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          "name": "Call Kaids Roofing Blog",
+          "description": "Expert roofing advice and guides for Melbourne homeowners",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Call Kaids Roofing",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://callkaidsroofing.com.au/lovable-uploads/call-kaids-logo-main.png"
+            }
+          }
+        }}
       />
 
       <div className="min-h-screen bg-gradient-to-br from-background via-background/50 to-primary/5">

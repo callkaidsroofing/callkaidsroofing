@@ -175,9 +175,20 @@ const Gallery = () => {
   return (
     <>
       <SEOHead 
-        title="Project Gallery - Call Kaids Roofing | Before & After Transformations"
-        description="View stunning before and after transformations from Call Kaids Roofing. Real projects across Melbourne's SE suburbs showcasing quality roof restorations, painting, and repairs."
-        keywords="roof restoration before after, Melbourne roof transformations, roof painting gallery, ridge capping repairs, Call Kaids projects"
+        title="Before & After Gallery | Roof Transformations Southeast Melbourne"
+        description="View stunning before and after photos of roof restorations, painting and repairs in Clyde North, Berwick, Cranbourne & Southeast Melbourne. Real projects, real results from Call Kaids Roofing."
+        keywords="roof before after Melbourne, roof transformation photos, Clyde North roof gallery, Berwick roof restoration photos, Cranbourne roof painting before after, Call Kaids Roofing portfolio, ridge capping repairs gallery"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "ImageGallery",
+          "name": "Call Kaids Roofing Before & After Gallery",
+          "description": "Professional roof restoration, painting and repair transformations across Southeast Melbourne",
+          "image": "https://callkaidsroofing.com.au/lovable-uploads/116450ad-e39b-42bd-891b-c7e312d4cf91.png",
+          "author": {
+            "@type": "Organization",
+            "name": "Call Kaids Roofing"
+          }
+        }}
       />
       
       <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">

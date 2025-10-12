@@ -35,9 +35,9 @@ const RoofRepointing = () => {
   return (
     <>
       <SEOHead
-        title="Roof Repointing Melbourne | Ridge Cap & Mortar Repair | Call Kaids Roofing"
-        description="Professional roof repointing in Southeast Melbourne. Fix cracked mortar, stop leaks, and extend your roof's life. 10-year warranty. Call 0435 900 709."
-        keywords="roof repointing Melbourne, ridge cap repair, mortar repair, roof pointing, Clyde North repointing, Southeast Melbourne roofing"
+        title="Ridge Capping Rebedding & Repointing | Clyde North, Berwick, SE Melbourne"
+        description="Professional ridge capping rebedding and repointing in Clyde North, Berwick, Cranbourne & Southeast Melbourne. SupaPoint premium mortar. 10-year warranty. Stop leaks at the ridge. Call 0435 900 709."
+        keywords="ridge capping rebedding Melbourne, roof repointing Clyde North, ridge cap repairs Berwick, roof rebedding Cranbourne, SupaPoint mortar, ridge capping Melbourne, ridge repairs Southeast Melbourne, mortar repair Melbourne"
         structuredData={structuredData}
       />
 

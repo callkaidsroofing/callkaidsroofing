@@ -35,9 +35,9 @@ const LeakDetection = () => {
   return (
     <>
       <SEOHead
-        title="Roof Leak Detection Melbourne | Emergency Leak Repair | Call Kaids Roofing"
-        description="Professional roof leak detection in Southeast Melbourne. Find hidden leaks fast with advanced techniques. Emergency service available. Call 0435 900 709."
-        keywords="roof leak detection Melbourne, roof leak repair, emergency roof repair, hidden roof leaks, Clyde North leak detection"
+        title="Roof Leak Detection & Emergency Repair | Clyde North, Berwick, SE Melbourne"
+        description="Expert roof leak detection and emergency repairs in Clyde North, Berwick, Cranbourne & Southeast Melbourne. Same-day response for active leaks. Advanced detection technology. Call 0435 900 709."
+        keywords="roof leak detection Melbourne, leak detection Clyde North, roof leak repair Berwick, emergency leak detection Cranbourne, water leak detection, thermal imaging roof inspection, roof leak specialist Melbourne, hidden roof leak detection"
         structuredData={structuredData}
       />
 

@@ -35,9 +35,9 @@ const TileReplacement = () => {
   return (
     <>
       <SEOHead
-        title="Broken Roof Tile Replacement Melbourne | Call Kaids Roofing"
-        description="Professional broken roof tile replacement in Southeast Melbourne. Match existing tiles, prevent leaks. 10-year warranty. Call 0435 900 709."
-        keywords="roof tile replacement Melbourne, broken tile repair, tile matching, roof leak repair, Clyde North tile replacement"
+        title="Roof Tile Replacement Melbourne | Broken Tile Repairs SE Suburbs"
+        description="Professional roof tile replacement in Clyde North, Berwick, Cranbourne & Southeast Melbourne. Perfect colour matching. Terracotta & concrete tiles. Same-day emergency repairs. Call 0435 900 709."
+        keywords="roof tile replacement Melbourne, broken tile repairs Clyde North, tile replacement Berwick, terracotta tile replacement, concrete tile replacement, roof tile matching Melbourne, tile repairs Southeast Melbourne, single tile replacement"
         structuredData={structuredData}
       />
 

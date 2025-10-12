@@ -4,8 +4,9 @@ export default function PrivacyPolicy() {
   return (
     <>
       <SEOHead
-        title="Privacy Policy | Call Kaids Roofing"
-        description="Privacy policy for Call Kaids Roofing. Learn how we collect, use and protect your personal information."
+        title="Privacy Policy | Call Kaids Roofing Southeast Melbourne"
+        description="Privacy policy for Call Kaids Roofing. Learn how we collect, use and protect your personal information when you request roofing quotes and services in Southeast Melbourne. ABN 39475055075."
+        keywords="privacy policy, Call Kaids Roofing, data protection, information security, Australian Privacy Principles"
       />
       
       <div className="min-h-screen bg-background">

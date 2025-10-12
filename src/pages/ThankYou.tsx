@@ -10,8 +10,9 @@ export default function ThankYou() {
   return (
     <>
       <SEOHead 
-        title="Thank You - Call Kaids Roofing"
-        description="Thank you for your roofing enquiry. We'll contact you within 24 hours to discuss your project and arrange a free inspection."
+        title="Thank You For Your Enquiry | Call Kaids Roofing"
+        description="Thank you for contacting Call Kaids Roofing. We'll respond within 12 hours with your free roofing quote for Southeast Melbourne. Kaidyn Brownlie will personally review your request."
+        keywords="Call Kaids Roofing, roofing quote Melbourne, thank you, Clyde North roofer, Southeast Melbourne roofing"
         canonical="/thank-you"
       />
       

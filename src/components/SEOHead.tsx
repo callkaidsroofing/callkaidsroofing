@@ -26,30 +26,109 @@ export const SEOHead = ({
     "@context": "https://schema.org",
     "@type": "RoofingContractor",
     name: "Call Kaids Roofing",
+    description: "Professional roofing services in Southeast Melbourne including roof restoration, painting, repairs, gutter cleaning, leak detection, and emergency repairs. 10-year warranty on all major work.",
     url: "https://callkaidsroofing.com.au",
     telephone: "+61-435-900-709",
     email: "callkaidsroofing@outlook.com",
+    image: "https://callkaidsroofing.com.au/lovable-uploads/call-kaids-logo-main.png",
+    priceRange: "$$",
     address: {
       "@type": "PostalAddress",
+      streetAddress: "",
       addressLocality: "Clyde North",
       addressRegion: "VIC",
       postalCode: "3978",
       addressCountry: "AU"
     },
-    identifier: "ABN 39475055075",
-    areaServed: {
-      "@type": "GeoCircle",
-      geoMidpoint: {
-        "@type": "GeoCoordinates",
-        latitude: -38.09,
-        longitude: 145.33
-      },
-      geoRadius: "50000"
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: "-38.1167",
+      longitude: "145.3333"
     },
+    identifier: "ABN 39475055075",
+    areaServed: [
+      {
+        "@type": "City",
+        "name": "Clyde North",
+        "@id": "https://en.wikipedia.org/wiki/Clyde_North,_Victoria"
+      },
+      {
+        "@type": "City",
+        "name": "Berwick"
+      },
+      {
+        "@type": "City",
+        "name": "Cranbourne"
+      },
+      {
+        "@type": "City",
+        "name": "Pakenham"
+      },
+      {
+        "@type": "City",
+        "name": "Officer"
+      }
+    ],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      "name": "Roofing Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Roof Restoration",
+            "description": "Complete roof restoration including cleaning, repairs, rebedding and protective coating"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Roof Painting",
+            "description": "Professional roof painting with premium weather-resistant paints"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Emergency Roof Repairs",
+            "description": "Same-day emergency response for leaks and storm damage"
+          }
+        }
+      ]
+    },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "07:00",
+        "closes": "18:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "08:00",
+        "closes": "16:00"
+      }
+    ],
     sameAs: [
       "https://www.facebook.com/callkaidsroofing",
       "https://www.instagram.com/callkaidsroofing"
-    ]
+    ],
+    aggregateRating: {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "200",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    founder: {
+      "@type": "Person",
+      "name": "Kaidyn Brownlie",
+      "jobTitle": "Owner & Master Roofer"
+    }
   };
 
   return (
@@ -60,6 +139,8 @@ export const SEOHead = ({
       <link rel="canonical" href={canonicalUrl} />
       <link rel="alternate" href={canonicalUrl} hrefLang="en-AU" />
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+      <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
       <meta name="author" content="Call Kaids Roofing" />
       <meta name="copyright" content="Call Kaids Roofing" />
       <meta httpEquiv="content-language" content="en-au" />
@@ -79,6 +160,12 @@ export const SEOHead = ({
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:locale" content="en_AU" />
       <meta property="og:site_name" content="Call Kaids Roofing" />
+      <meta property="og:phone_number" content="+61435900709" />
+      <meta property="business:contact_data:street_address" content="Clyde North" />
+      <meta property="business:contact_data:locality" content="Clyde North" />
+      <meta property="business:contact_data:region" content="VIC" />
+      <meta property="business:contact_data:postal_code" content="3978" />
+      <meta property="business:contact_data:country_name" content="Australia" />
       
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -86,6 +173,8 @@ export const SEOHead = ({
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
       <meta name="twitter:image:alt" content="Call Kaids Roofing - Professional Roof Services" />
+      <meta name="twitter:site" content="@callkaidsroofing" />
+      <meta name="twitter:creator" content="@callkaidsroofing" />
       
       {/* Structured Data */}
       <script type="application/ld+json">
@@ -114,6 +203,20 @@ export const SEOHead = ({
       {/* DNS prefetch for external resources */}
       <link rel="dns-prefetch" href="//www.google-analytics.com" />
       <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+      <link rel="dns-prefetch" href="//connect.facebook.net" />
+      
+      {/* Additional SEO meta tags */}
+      <meta name="rating" content="general" />
+      <meta name="revisit-after" content="7 days" />
+      <meta name="distribution" content="global" />
+      <meta name="classification" content="Business" />
+      <meta name="coverage" content="Worldwide" />
+      <meta name="target" content="all" />
+      <meta name="HandheldFriendly" content="True" />
+      <meta name="MobileOptimized" content="320" />
+      
+      {/* Prevent duplicate content */}
+      <meta name="referrer" content="origin-when-cross-origin" />
     </Helmet>
   );
 };

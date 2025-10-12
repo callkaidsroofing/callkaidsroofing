@@ -5,6 +5,8 @@ import { Phone, CheckCircle, Clock, Shield, MapPin, Droplets, Home, DollarSign }
 import { Link } from 'react-router-dom';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 
+import { SEOHead } from '@/components/SEOHead';
+
 const GutterCleaning = () => {
   const services = [
     {
@@ -70,7 +72,13 @@ const GutterCleaning = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <>
+      <SEOHead
+        title="Gutter Cleaning Melbourne | Professional Gutter Maintenance SE Suburbs"
+        description="Professional gutter cleaning services in Clyde North, Berwick, Cranbourne & Southeast Melbourne. Protect your home from water damage. Free quotes. Call 0435 900 709."
+        keywords="gutter cleaning Melbourne, gutter cleaning Clyde North, gutter cleaning Berwick, gutter cleaning Cranbourne, downpipe cleaning, gutter maintenance Melbourne, professional gutter cleaners"
+      />
+      <div className="min-h-screen">
       {/* Hero Section */}
       <OptimizedBackgroundSection
         backgroundImage="/lovable-uploads/7b53e2bb-e419-483c-b48c-ea2d1f5c139e.png"
@@ -378,6 +386,7 @@ const GutterCleaning = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 
