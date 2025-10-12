@@ -6,6 +6,22 @@ import { Badge } from '@/components/ui/badge';
 import { Phone, Gift, Clock, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { z } from 'zod';
+
+const quickFormSchema = z.object({
+  name: z.string()
+    .min(1, "Name is required")
+    .max(100, "Name must be less than 100 characters")
+    .trim(),
+  phone: z.string()
+    .min(1, "Phone is required")
+    .regex(/^(\+61|0)[2-9][0-9]{8}$|^04[0-9]{8}$/, "Please enter a valid Australian phone number")
+    .trim(),
+  suburb: z.string()
+    .min(1, "Suburb is required")
+    .max(100, "Suburb must be less than 100 characters")
+    .trim()
+});
 
 const QuickCaptureForm = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +34,22 @@ const QuickCaptureForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form data
+    try {
+      quickFormSchema.parse(formData);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const firstError = error.errors[0];
+        toast({
+          title: "Validation Error",
+          description: firstError.message,
+          variant: "destructive"
+        });
+      }
+      return;
+    }
+    
     setIsSubmitting(true);
 
     try {

@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Phone, Mail, MapPin, Calendar, CheckCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { z } from 'zod';
 
 interface ServiceSpecificFormProps {
   serviceName: string;
@@ -16,15 +17,36 @@ interface ServiceSpecificFormProps {
   emergencyService?: boolean;
 }
 
-interface FormData {
-  name: string;
-  phone: string;
-  email: string;
-  suburb: string;
-  urgency: string;
-  message: string;
-  honeypot: string;
-}
+const serviceFormSchema = z.object({
+  name: z.string()
+    .min(1, "Name is required")
+    .max(100, "Name must be less than 100 characters")
+    .trim(),
+  phone: z.string()
+    .min(1, "Phone is required")
+    .regex(/^(\+61|0)[2-9][0-9]{8}$|^04[0-9]{8}$/, "Please enter a valid Australian phone number")
+    .trim(),
+  email: z.string()
+    .email("Please enter a valid email address")
+    .max(255, "Email must be less than 255 characters")
+    .trim()
+    .optional()
+    .or(z.literal("")),
+  suburb: z.string()
+    .min(1, "Suburb is required")
+    .max(100, "Suburb must be less than 100 characters")
+    .trim(),
+  urgency: z.string()
+    .min(1, "Please select an urgency level"),
+  message: z.string()
+    .max(1000, "Message must be less than 1000 characters")
+    .trim()
+    .optional()
+    .or(z.literal("")),
+  honeypot: z.string().max(0)
+});
+
+type FormData = z.infer<typeof serviceFormSchema>;
 
 const ServiceSpecificForm: React.FC<ServiceSpecificFormProps> = ({ 
   serviceName, 
@@ -60,43 +82,20 @@ const ServiceSpecificForm: React.FC<ServiceSpecificFormProps> = ({
   };
 
   const validateForm = (): boolean => {
-    if (!formData.name.trim()) {
-      toast({
-        title: "Name Required",
-        description: "Please enter your name",
-        variant: "destructive"
-      });
+    try {
+      serviceFormSchema.parse(formData);
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const firstError = error.errors[0];
+        toast({
+          title: "Validation Error",
+          description: firstError.message,
+          variant: "destructive"
+        });
+      }
       return false;
     }
-    
-    if (!formData.phone.trim()) {
-      toast({
-        title: "Phone Required",
-        description: "Please enter your phone number",
-        variant: "destructive"
-      });
-      return false;
-    }
-    
-    if (!formData.suburb.trim()) {
-      toast({
-        title: "Suburb Required",
-        description: "Please enter your suburb",
-        variant: "destructive"
-      });
-      return false;
-    }
-
-    if (!formData.urgency) {
-      toast({
-        title: "Urgency Level Required",
-        description: "Please select how urgent this is",
-        variant: "destructive"
-      });
-      return false;
-    }
-
-    return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

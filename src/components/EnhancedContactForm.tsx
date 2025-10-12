@@ -8,16 +8,38 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { Phone, Mail, CheckCircle, AlertCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
 
-interface FormData {
-  name: string;
-  phone: string;
-  email: string;
-  suburb: string;
-  service: string;
-  message: string;
-  honeypot: string; // Hidden field for spam protection
-}
+const formSchema = z.object({
+  name: z.string()
+    .min(1, "Name is required")
+    .max(100, "Name must be less than 100 characters")
+    .trim(),
+  phone: z.string()
+    .min(1, "Phone is required")
+    .regex(/^(\+61|0)[2-9][0-9]{8}$|^04[0-9]{8}$/, "Please enter a valid Australian phone number")
+    .trim(),
+  email: z.string()
+    .email("Please enter a valid email address")
+    .max(255, "Email must be less than 255 characters")
+    .trim()
+    .optional()
+    .or(z.literal("")),
+  suburb: z.string()
+    .min(1, "Suburb is required")
+    .max(100, "Suburb must be less than 100 characters")
+    .trim(),
+  service: z.string()
+    .min(1, "Please select a service"),
+  message: z.string()
+    .max(1000, "Message must be less than 1000 characters")
+    .trim()
+    .optional()
+    .or(z.literal("")),
+  honeypot: z.string().max(0)
+});
+
+type FormData = z.infer<typeof formSchema>;
 
 export function EnhancedContactForm() {
   const [formData, setFormData] = useState<FormData>({
@@ -38,45 +60,20 @@ export function EnhancedContactForm() {
   };
 
   const validateForm = (): boolean => {
-    const { name, phone, suburb, service } = formData;
-    
-    if (!name.trim()) {
-      toast({
-        title: "Name Required",
-        description: "Please enter your name",
-        variant: "destructive"
-      });
+    try {
+      formSchema.parse(formData);
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const firstError = error.errors[0];
+        toast({
+          title: "Validation Error",
+          description: firstError.message,
+          variant: "destructive"
+        });
+      }
       return false;
     }
-    
-    if (!phone.trim()) {
-      toast({
-        title: "Phone Required", 
-        description: "Please enter your phone number",
-        variant: "destructive"
-      });
-      return false;
-    }
-    
-    if (!suburb.trim()) {
-      toast({
-        title: "Suburb Required",
-        description: "Please enter your suburb",
-        variant: "destructive"
-      });
-      return false;
-    }
-    
-    if (!service) {
-      toast({
-        title: "Service Required",
-        description: "Please select a service",
-        variant: "destructive"
-      });
-      return false;
-    }
-
-    return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
