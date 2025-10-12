@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Phone, ArrowRight, CheckCircle, AlertTriangle, Star, Calendar } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
 import { StructuredData } from '@/components/StructuredData';
 import TrustIndicators from '@/components/TrustIndicators';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
 import FeaturedGallery from '@/components/FeaturedGallery';
-import { Badge } from '@/components/ui/badge';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { FloatingIcons, SectionDivider, AccentPattern } from '@/components/DecorativeIcons';
 import { EnhancedServiceSection } from '@/components/EnhancedServiceSection';
@@ -66,60 +66,67 @@ const Index = () => {
       />
       <StructuredData type="homepage" />
       <div className="page-transition">
-      {/* Perfect Hero Section - Matching Reference Design */}
-      <OptimizedBackgroundSection
-        backgroundImage="/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png"
-        className="min-h-screen flex items-center justify-center text-white relative overflow-hidden pt-28 sm:pt-32 lg:pt-40"
-        gradient="linear-gradient(130deg, rgba(12,74,110,0.94), rgba(37,99,235,0.88))"
-        imageAlt="White roof tiles with blue gradient overlay"
-        priority
-        sizes="(max-width: 1024px) 100vw, 1440px"
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-primary/20 to-secondary/30 mix-blend-overlay z-0"></div>
-        
-        {/* Main Content Container - Centered Layout */}
-        <div className="container mx-auto px-6 z-10 text-center max-w-5xl">
-          
-          {/* Same-Day Response Guarantee Badge */}
-          <div className="inline-flex items-center justify-center mb-8">
-            <div className="glass-card px-6 py-3 rounded-full border border-white/30 bg-white/10 backdrop-blur-md">
-              <span className="text-lg font-bold flex items-center gap-3">
-                <AlertTriangle className="h-5 w-5 text-primary" />
-                Same-Day Response Guarantee
-              </span>
-            </div>
-          </div>
+      {/* Hero Section - Proof In Every Roof Strategy */}
+      <section className="relative w-full min-h-screen flex items-center justify-center text-center text-white overflow-hidden">
+        {/* 1. "Proof" Background Image */}
+        <OptimizedBackgroundSection
+          backgroundImage="/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png"
+          className="absolute inset-0 w-full h-full"
+          imageAlt="Professional roof restoration completed project"
+          priority
+          sizes="100vw"
+        >
+          {/* 2. Dark Overlay for Readability */}
+          <div className="absolute inset-0 bg-roofing-navy/70 z-10" />
+        </OptimizedBackgroundSection>
 
-          {/* Main Headline - Clean Typography */}
-          <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight tracking-wide">
-            Melbourne's Premier
-            <span className="block text-gradient-primary mt-2">Roofing Specialists</span>
+        {/* 3. Content Container */}
+        <div className="relative z-20 flex flex-col items-center gap-y-6 px-4 py-32">
+          
+          {/* 4. Upgraded Guarantee Badge */}
+          <Badge variant="secondary" className="border-none bg-white/10 backdrop-blur-sm text-sm font-medium px-6 py-3">
+            Guaranteed Same-Day Response
+          </Badge>
+          
+          {/* 5. Refined Headline Typography */}
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight drop-shadow-lg">
+            SE Melbourne's Most Trusted <br />
+            Roof Restoration Experts
           </h1>
           
-          {/* Clean Subtext */}
-          <p className="text-lg lg:text-xl mb-10 text-white/90 max-w-2xl mx-auto leading-relaxed">
-            Expert roof restoration, painting, and repairs with 10-year workmanship warranty.
-            <span className="block mt-3 font-semibold text-primary">No Leaks. No Lifting. Just Quality.</span>
+          <p className="max-w-2xl text-lg text-gray-200 drop-shadow-md">
+            We transform and protect your home with superior craftsmanship, backed by an iron-clad <strong>15-year warranty</strong> and photo-backed proof.
           </p>
 
+          {/* 6. Upgraded Call-to-Action Button */}
+          <Button 
+            size="lg" 
+            className="bg-roofing-blue hover:bg-roofing-blue/90 text-lg px-8 py-6"
+            onClick={() => window.location.href = 'tel:0435900709'}
+          >
+            <Phone className="mr-2 h-5 w-5" />
+            Call Now for a Free Quote
+          </Button>
+          <p className="text-sm font-semibold">0435 900 709</p>
+
           {/* Trust Indicators Row */}
-          <div className="flex flex-wrap justify-center gap-6 mb-10">
+          <div className="flex flex-wrap justify-center gap-6 mt-8">
             <div className="flex items-center gap-2 text-white/90">
-              <CheckCircle className="h-5 w-5 text-primary" />
-              <span className="font-semibold">10-Year Warranty</span>
+              <CheckCircle className="h-5 w-5 text-roofing-blue" />
+              <span className="font-semibold">15-Year Warranty</span>
             </div>
             <div className="flex items-center gap-2 text-white/90">
-              <CheckCircle className="h-5 w-5 text-primary" />
+              <CheckCircle className="h-5 w-5 text-roofing-blue" />
               <span className="font-semibold">500+ Happy Customers</span>
             </div>
             <div className="flex items-center gap-2 text-white/90">
-              <CheckCircle className="h-5 w-5 text-primary" />
+              <CheckCircle className="h-5 w-5 text-roofing-blue" />
               <span className="font-semibold">Fully Insured</span>
             </div>
           </div>
 
           {/* Star Rating */}
-          <div className="flex justify-center items-center gap-2 mb-10">
+          <div className="flex justify-center items-center gap-2">
             <div className="flex">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
@@ -128,34 +135,12 @@ const Index = () => {
             <span className="text-white/90 font-semibold">4.9/5 from 200+ reviews</span>
           </div>
 
-          {/* Primary CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <Button asChild
-              size="lg" 
-              className="premium-gradient text-white px-8 py-4 text-lg font-bold hover:scale-105 transition-all duration-300 shadow-2xl"
-            >
-              <Link to="/book">
-                Get Your FREE Quote Today
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-bold transition-all duration-300"
-              onClick={() => window.location.href = 'tel:0435900709'}
-            >
-              <Phone className="mr-2 h-5 w-5" />
-              Call: 0435 900 709
-            </Button>
-          </div>
-
-          {/* Service Areas - Clean */}
-          <div className="text-center">
+          {/* Service Areas */}
+          <div className="text-center mt-4">
             <p className="text-white/80 text-sm">Serving South East Melbourne • 50km Radius</p>
           </div>
         </div>
-      </OptimizedBackgroundSection>
+      </section>
 
       {/* Trust Indicators with Enhanced Blue Gradient */}
       <div className="section-gradient py-16">
