@@ -10,7 +10,7 @@ import ParticleSystem from '@/components/ParticleSystem';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { MetaPixelTracker } from '@/components/MetaPixelTracker';
 import { GoogleAnalytics } from '@/components/GoogleAnalytics';
-import callKaidsFullLogo from '/lovable-uploads/8d1be6f1-c743-47df-8d3e-f1ab6230f326.png';
+import callKaidsFullLogo from '@/assets/call-kaids-logo-slogan.png';
 
 export const ElegantLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -44,7 +44,7 @@ export const ElegantLayout = () => {
       
       {/* Mobile-First Header Bar */}
       <header className="fixed top-0 left-0 right-0 z-50 glass-navbar">
-        <div className="flex items-center justify-between px-4 py-3 lg:px-6 lg:py-4">
+        <div className="flex items-center justify-between px-4 py-4 lg:px-6 lg:py-5">
           {/* Mobile Menu Button */}
           <Button
             variant="ghost"
@@ -57,14 +57,14 @@ export const ElegantLayout = () => {
             <Menu className="h-5 w-5" />
           </Button>
 
-          {/* Logo - Responsive sizing */}
+          {/* Logo with Slogan - Side by side on all screens */}
           <div className="flex-1 flex justify-center lg:justify-start lg:ml-80">
             <OptimizedImage
               src={callKaidsFullLogo}
-              alt="Call Kaids Roofing - Professional Roofing Services Melbourne"
-              className="h-10 sm:h-12 lg:h-16 xl:h-18 w-auto max-w-full object-contain hover:scale-105 transition-transform duration-300"
+              alt="Call Kaids Roofing - Proof In Every Roof"
+              className="h-14 sm:h-16 lg:h-20 xl:h-24 w-auto max-w-full object-contain hover:scale-105 transition-transform duration-300"
               width={800}
-              height={200}
+              height={300}
             />
           </div>
 
@@ -90,7 +90,7 @@ export const ElegantLayout = () => {
       }`}>
 
         {/* Page Content with responsive top spacing */}
-        <main className="pt-16 sm:pt-20 lg:pt-28 min-h-screen">
+        <main className="pt-20 sm:pt-24 lg:pt-32 min-h-screen">
           <Outlet />
         </main>
 

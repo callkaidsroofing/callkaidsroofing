@@ -69,7 +69,7 @@ const Index = () => {
       {/* Perfect Hero Section - Matching Reference Design */}
       <OptimizedBackgroundSection
         backgroundImage="/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png"
-        className="min-h-screen flex items-center justify-center text-white relative overflow-hidden pt-24 sm:pt-28 lg:pt-32"
+        className="min-h-screen flex items-center justify-center text-white relative overflow-hidden pt-28 sm:pt-32 lg:pt-40"
         gradient="linear-gradient(130deg, rgba(12,74,110,0.94), rgba(37,99,235,0.88))"
         imageAlt="White roof tiles with blue gradient overlay"
         priority
