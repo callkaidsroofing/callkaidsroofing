@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, NavLink } from 'react-router-dom';
 import { Menu, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import ElegantSidebar from '@/components/ElegantSidebar';
 import Footer from '@/components/Footer';
 import ScrollToTop from '@/components/ScrollToTop';
@@ -11,6 +12,14 @@ import { OptimizedImage } from '@/components/OptimizedImage';
 import { MetaPixelTracker } from '@/components/MetaPixelTracker';
 import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 import callKaidsFullLogo from '@/assets/call-kaids-logo-slogan.png';
+
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/services", label: "Services" },
+  { href: "/gallery", label: "Our Work" },
+  { href: "/about", label: "About Us" },
+  { href: "/book", label: "Book Now" },
+];
 
 export const ElegantLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -42,55 +51,87 @@ export const ElegantLayout = () => {
         <ParticleSystem />
       </div>
       
-      {/* Mobile-First Header Bar */}
-      <header className="fixed top-0 left-0 right-0 z-50 glass-navbar">
-        <div className="flex items-center justify-between px-4 py-4 lg:px-6 lg:py-5">
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={toggleSidebar}
-            className="lg:hidden text-white hover:bg-white/10 p-2"
-            aria-label={sidebarOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={sidebarOpen}
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
-
-          {/* Logo with Slogan - Side by side on all screens */}
-          <div className="flex-1 flex justify-center lg:justify-start lg:ml-80">
+      {/* Modern Professional Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 w-full border-b border-white/10 bg-roofing-navy/90 backdrop-blur-lg">
+        <div className="container mx-auto flex h-20 items-center justify-between px-4 lg:px-6">
+          
+          {/* Logo */}
+          <a href="/" className="flex items-center z-10">
             <OptimizedImage
               src={callKaidsFullLogo}
               alt="Call Kaids Roofing - Proof In Every Roof"
-              className="h-14 sm:h-16 lg:h-20 xl:h-24 w-auto max-w-full object-contain hover:scale-105 transition-transform duration-300"
+              className="h-14 sm:h-16 lg:h-18 w-auto object-contain hover:scale-105 transition-transform duration-300"
               width={800}
               height={300}
             />
-          </div>
+          </a>
 
-          {/* Contact Info - Hidden on small mobile */}
-          <div className="hidden sm:flex items-center space-x-4 lg:space-x-6">
-            <a 
-              href="tel:0435900709" 
-              className="flex items-center space-x-2 lg:space-x-3 text-white hover:text-primary transition-all duration-300 hover:scale-105 glass-card px-3 py-2 lg:px-4 rounded-lg"
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-x-6 text-white">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.href}
+                to={link.href}
+                end={link.href === "/"}
+                className={({ isActive }) =>
+                  `text-sm font-medium transition-colors ${
+                    isActive ? 'text-roofing-blue' : 'hover:text-roofing-blue'
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
+            <Button 
+              className="bg-roofing-blue hover:bg-roofing-blue/90 ml-2"
+              onClick={() => window.location.href = 'tel:0435900709'}
             >
-              <Phone className="h-4 w-4 lg:h-5 lg:w-5" />
-              <span className="text-xs sm:text-sm font-semibold">0435 900 709</span>
-            </a>
+              <Phone className="mr-2 h-4 w-4" />
+              0435 900 709
+            </Button>
+          </nav>
+
+          {/* Mobile Navigation */}
+          <div className="lg:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon" className="text-white bg-transparent border-white/50 hover:bg-white/10">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="bg-roofing-navy text-white border-l-white/20">
+                <nav className="flex flex-col gap-y-6 pt-10">
+                  {navLinks.map((link) => (
+                    <NavLink
+                      key={link.href}
+                      to={link.href}
+                      end={link.href === "/"}
+                      className={({ isActive }) =>
+                        `text-lg font-medium ${isActive ? 'text-roofing-blue' : ''}`
+                      }
+                    >
+                      {link.label}
+                    </NavLink>
+                  ))}
+                  <Button 
+                    size="lg" 
+                    className="bg-roofing-blue hover:bg-roofing-blue/90 text-lg mt-4"
+                    onClick={() => window.location.href = 'tel:0435900709'}
+                  >
+                    <Phone className="mr-2 h-5 w-5" /> Call Now
+                  </Button>
+                  <p className="text-sm text-white/70">0435 900 709</p>
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </header>
 
-      {/* Main Content Area - Adjusted for top header */}
-      {/* Sidebar */}
-      <ElegantSidebar isOpen={sidebarOpen} onToggle={toggleSidebar} />
-
-      <div className={`flex-1 transition-all duration-300 w-full ${
-        sidebarOpen ? 'lg:ml-80' : 'lg:ml-80'
-      }`}>
-
+      {/* Main Content Area */}
+      <div className="flex-1 w-full">
         {/* Page Content with responsive top spacing */}
-        <main className="pt-20 sm:pt-24 lg:pt-32 min-h-screen">
+        <main className="pt-20 min-h-screen">
           <Outlet />
         </main>
 

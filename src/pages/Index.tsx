@@ -67,8 +67,8 @@ const Index = () => {
       <StructuredData type="homepage" />
       <div className="page-transition">
       {/* Hero Section - Proof In Every Roof Strategy */}
-      <section className="relative w-full min-h-screen flex items-center justify-center text-center text-white overflow-hidden">
-        {/* 1. "Proof" Background Image */}
+      <section className="relative w-full min-h-screen flex items-center justify-center text-center text-white overflow-hidden bg-roofing-navy">
+        {/* 1. "Proof" Background Image with Fallback */}
         <OptimizedBackgroundSection
           backgroundImage="/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png"
           className="absolute inset-0 w-full h-full"
