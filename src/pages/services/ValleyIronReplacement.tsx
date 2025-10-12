@@ -147,9 +147,9 @@ const ValleyIronReplacement = () => {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-12 text-center">Why Valley Irons Fail (And Why It's So Dangerous)</h2>
           <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            <Card className="border-orange-200 bg-orange-50/50">
+            <Card className="border-roofing-warning/30 bg-roofing-warning/5">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-orange-700">
+                <CardTitle className="flex items-center gap-2 text-roofing-emergency">
                   <AlertTriangle className="h-5 w-5" />
                   The Hidden Danger
                 </CardTitle>
@@ -159,7 +159,7 @@ const ValleyIronReplacement = () => {
                   Valley irons channel massive amounts of water from multiple roof planes into a concentrated flow. 
                   When they fail, water goes directly into your roof cavity, often causing extensive damage before you even notice.
                 </p>
-                <p className="font-semibold text-orange-700">
+                <p className="font-semibold text-roofing-emergency">
                   A failed valley iron can cause thousands of dollars in structural damage, insulation replacement, 
                   and mould remediation - all hidden until it's too late.
                 </p>
@@ -177,7 +177,7 @@ const ValleyIronReplacement = () => {
                 <ul className="space-y-3">
                   {problemSigns.map((sign, index) => (
                     <li key={index} className="flex items-start gap-2">
-                      <AlertTriangle className="h-4 w-4 text-orange-600 mt-0.5 flex-shrink-0" />
+                      <AlertTriangle className="h-4 w-4 text-roofing-emergency mt-0.5 flex-shrink-0" />
                       <span className="text-sm">{sign}</span>
                     </li>
                   ))}
@@ -319,28 +319,28 @@ const ValleyIronReplacement = () => {
               <CardContent>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-2">
-                    <AlertTriangle className="h-4 w-4 text-orange-600 mt-0.5" />
+                    <AlertTriangle className="h-4 w-4 text-roofing-emergency mt-0.5" />
                     <span className="text-sm">Structural damage: $3,000-10,000+</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <AlertTriangle className="h-4 w-4 text-orange-600 mt-0.5" />
+                    <AlertTriangle className="h-4 w-4 text-roofing-emergency mt-0.5" />
                     <span className="text-sm">Insulation replacement: $1,500-3,000</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <AlertTriangle className="h-4 w-4 text-orange-600 mt-0.5" />
+                    <AlertTriangle className="h-4 w-4 text-roofing-emergency mt-0.5" />
                     <span className="text-sm">Mould remediation: $2,000-6,000</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <AlertTriangle className="h-4 w-4 text-orange-600 mt-0.5" />
+                    <AlertTriangle className="h-4 w-4 text-roofing-emergency mt-0.5" />
                     <span className="text-sm">Interior repairs: $2,000-8,000</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <AlertTriangle className="h-4 w-4 text-orange-600 mt-0.5" />
+                    <AlertTriangle className="h-4 w-4 text-roofing-emergency mt-0.5" />
                     <span className="text-sm">Temporary accommodation costs</span>
                   </li>
                 </ul>
-                <div className="bg-orange-50 p-4 rounded-lg mt-4">
-                  <p className="text-sm font-semibold text-orange-800">
+                <div className="bg-roofing-warning/10 border border-roofing-warning/30 p-4 rounded-lg mt-4">
+                  <p className="text-sm font-semibold text-roofing-charcoal">
                     Prevention is always cheaper than repair. Valley iron replacement now 
                     can save tens of thousands in water damage later.
                   </p>

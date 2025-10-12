@@ -101,9 +101,9 @@ const MeetKaidyn = () => {
                   <div className="text-xs text-muted-foreground">Leak-Free Rate</div>
                 </CardContent>
               </Card>
-              <Card className="text-center bg-orange-50 border-orange-200">
+              <Card className="text-center bg-roofing-emergency/5 border-roofing-emergency/20">
                 <CardContent className="p-4">
-                  <div className="text-2xl font-bold text-orange-600">24/7</div>
+                  <div className="text-2xl font-bold text-roofing-emergency">24/7</div>
                   <div className="text-xs text-muted-foreground">Emergency</div>
                 </CardContent>
               </Card>

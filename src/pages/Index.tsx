@@ -19,13 +19,13 @@ const Index = () => {
   const services = [
     {
       title: "Roof Restoration",
-      description: "Stop leaks before they wreck your house. Complete overhaul with 10-year warranty.",
+      description: "Stop leaks before they wreck your house. Complete overhaul with 15-year warranty.",
       benefits: [
-        "Complete overhaul with 10-year warranty",
+        "Complete overhaul with 15-year warranty",
         "Premium membrane that lasts 15+ years", 
         "Looks like a brand new roof"
       ],
-      perfectFor: "Frankston, Narre Warren, established suburbs where roofs are 15+ years old",
+      perfectFor: "Berwick, Narre Warren, Clyde North - established suburbs where roofs are 15+ years old",
       href: "/services/roof-restoration"
     },
     {
@@ -60,7 +60,7 @@ const Index = () => {
     <>
       <SEOHead
         title="Call Kaids Roofing | Roof Restorations Clyde North & SE Melbourne"
-        description="Local roofing experts in Clyde North. Roof restorations, painting, repairs & gutter cleaning with 10-year warranty. Call 0435 900 709 today."
+        description="Local roofing experts in Clyde North. Roof restorations, painting, repairs & gutter cleaning with 15-year warranty. Call 0435 900 709 today."
         keywords="roof restorations Clyde North, roof painting southeast Melbourne, gutter cleaning Clyde North, roof repairs Berwick"
         ogImage="https://callkaidsroofing.com.au/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d-1200.jpg"
       />

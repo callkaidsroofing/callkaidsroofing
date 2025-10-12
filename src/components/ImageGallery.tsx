@@ -147,9 +147,9 @@ const ImageGallery = () => {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'before-after': return 'bg-orange-500 text-white';
-      case 'action': return 'bg-blue-500 text-white';
-      case 'completed': return 'bg-green-500 text-white';
+      case 'before-after': return 'bg-roofing-warning text-roofing-charcoal';
+      case 'action': return 'bg-roofing-blue text-white';
+      case 'completed': return 'bg-roofing-success text-white';
       default: return 'bg-muted text-muted-foreground';
     }
   };

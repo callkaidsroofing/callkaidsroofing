@@ -42,7 +42,7 @@ const Footer = () => {
             Ready to Get Your Roof Done Right?
           </h2>
           <p className="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
-            Call Kaidyn directly - no call centers, no waiting, just honest advice from a local expert with 10-year warranty
+            Call Kaidyn directly - no call centers, no waiting, just honest advice from a local expert with 15-year warranty
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <a
@@ -65,7 +65,7 @@ const Footer = () => {
             </div>
             <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
               <Award className="h-4 w-4" />
-              <span>10 Year Warranty</span>
+              <span>15-Year Warranty</span>
             </div>
             <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
               <Star className="h-4 w-4" />
@@ -82,11 +82,11 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="mb-4">
               <h3 className="text-lg font-bold text-primary">Call Kaids Roofing</h3>
-              <p className="text-sm text-muted-foreground">Melbourne's Trusted Roof Expert</p>
+              <p className="text-sm text-muted-foreground">Professional Roofing, Melbourne Style</p>
             </div>
             <p className="text-muted-foreground text-sm">
               Owner-operated roofing business serving Southeast Melbourne. Quality workmanship, 
-              honest service, and 10-year warranties on all major work.
+              honest service, and 15-year warranties on all major work.
             </p>
             
             {/* Trust Badges */}
@@ -97,12 +97,17 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-2 text-sm">
                 <Shield className="h-4 w-4 text-primary" />
-                <span className="font-semibold">10-Year Warranty</span>
+                <span className="font-semibold">15-Year Warranty</span>
               </div>
               <div className="flex items-center space-x-2 text-sm">
                 <Star className="h-4 w-4 text-primary" />
-                <span className="font-semibold">200+ Happy Customers</span>
+                <span className="font-semibold">500+ Happy Customers</span>
               </div>
+            </div>
+            
+            {/* ABN - Critical compliance requirement */}
+            <div className="text-xs text-muted-foreground border-t pt-3 mt-3">
+              <div className="font-medium">ABN: 39475055075</div>
             </div>
           </div>
 
@@ -138,7 +143,7 @@ const Footer = () => {
             </ul>
             <div className="pt-2">
               <span className="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                10-Year Warranty
+                15-Year Warranty
               </span>
             </div>
           </div>
@@ -169,7 +174,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link to="/warranty" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  10-Year Warranty Info
+                  15-Year Warranty Info
                 </Link>
               </li>
               <li>
@@ -228,9 +233,9 @@ const Footer = () => {
         <div className="border-t mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-sm text-muted-foreground text-center md:text-left">
-              <div className="font-semibold">© 2024 Call Kaids Roofing - Melbourne's Premier Roofing Service</div>
+              <div className="font-semibold">© 2024 Call Kaids Roofing - SE Melbourne's No-BS Roofing Expert</div>
               <div className="text-xs mt-1">
-                Owner-operated • 10-Year Warranty • Premium Materials • Local Expert
+                ABN: 39475055075 • Owner-operated • 15-Year Warranty • Premium Materials • Clyde North Based
               </div>
             </div>
             <div className="flex flex-wrap justify-center md:justify-end gap-4 text-sm">

@@ -204,9 +204,9 @@ const RoofRestoration = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-orange-200 bg-orange-50/50">
+            <Card className="border-roofing-warning/30 bg-roofing-warning/5">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-orange-700">
+                <CardTitle className="flex items-center gap-2 text-roofing-emergency">
                   <AlertTriangle className="h-5 w-5" />
                   When I'll Tell You to Replace Instead
                 </CardTitle>
@@ -218,7 +218,7 @@ const RoofRestoration = () => {
                 <ul className="space-y-3">
                   {whenToReplace.map((reason, index) => (
                     <li key={index} className="flex items-start gap-2">
-                      <AlertTriangle className="h-4 w-4 text-orange-600 mt-0.5 flex-shrink-0" />
+                      <AlertTriangle className="h-4 w-4 text-roofing-emergency mt-0.5 flex-shrink-0" />
                       <span className="text-sm">{reason}</span>
                     </li>
                   ))}

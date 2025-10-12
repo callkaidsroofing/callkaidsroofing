@@ -19,7 +19,7 @@ export default function FomoBanner({
   spotsLeft,
 }: FomoBannerProps) {
   return (
-    <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white py-2 text-center font-bold flex items-center justify-center gap-2">
+    <div className="bg-gradient-to-r from-roofing-emergency to-destructive text-white py-2 text-center font-bold flex items-center justify-center gap-2">
       <AlertTriangle className="h-5 w-5" />
       <span>
         {spotsLeft} emergency spots left today — offer ends in {formatTime(timeLeft)}

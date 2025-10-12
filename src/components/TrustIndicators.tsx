@@ -4,7 +4,7 @@ const TrustIndicators = () => {
   const indicators = [
     {
       icon: Shield,
-      title: "10-Year Warranty",
+      title: "15-Year Warranty",
       description: "Comprehensive warranty on all major work"
     },
     {
