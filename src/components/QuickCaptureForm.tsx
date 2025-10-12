@@ -143,7 +143,7 @@ const QuickCaptureForm = () => {
                         <CheckCircle className="h-5 w-5 mt-1 text-green-300" />
                         <div>
                           <div className="font-semibold">No Obligation Quote</div>
-                          <div className="text-white/90 text-sm">Transparent pricing with 10-year warranty options</div>
+                          <div className="text-white/90 text-sm">Transparent pricing with 15-year warranty options</div>
                         </div>
                       </div>
                     </div>

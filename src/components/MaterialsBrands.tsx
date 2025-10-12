@@ -57,7 +57,7 @@ const MaterialsBrands = () => {
           <h2 className="text-3xl font-bold mb-4">Premium Materials Only</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             I only use proven materials from trusted Australian suppliers. 
-            Your roof is too important for cheap alternatives.
+            Your roof is too important for low-cost alternatives.
           </p>
         </div>
 

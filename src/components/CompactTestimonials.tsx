@@ -30,7 +30,7 @@ const CompactTestimonials = () => {
       location: "Officer"
     },
     {
-      quote: "10-year warranty gives you confidence. Two years in and the roof still looks like the day they finished. Quality work.",
+      quote: "15-year warranty gives you confidence. Two years in and the roof still looks like the day they finished. Quality work.",
       author: "Tom R.",
       location: "Cranbourne"
     }

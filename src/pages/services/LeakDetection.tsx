@@ -238,7 +238,7 @@ const LeakDetection = () => {
                 {
                   icon: <Shield className="h-12 w-12 text-primary" />,
                   title: "Temporary Protection",
-                  description: "Immediate temporary repairs using Stormseal to stop water entry until permanent fix."
+                  description: "Immediate temporary repairs using Stormseal to stop water entry until permanent repair."
                 },
                 {
                   icon: <CheckCircle className="h-12 w-12 text-primary" />,
@@ -293,7 +293,7 @@ const LeakDetection = () => {
                 <AccordionItem value="item-3">
                   <AccordionTrigger>What if you can't find the leak source?</AccordionTrigger>
                   <AccordionContent>
-                    We guarantee to find leak sources using our comprehensive detection methods. If the initial 
+                    We warrant to find leak sources using our comprehensive detection methods. If the initial 
                     inspection doesn't reveal the source, we'll continue investigating at no extra charge.
                   </AccordionContent>
                 </AccordionItem>

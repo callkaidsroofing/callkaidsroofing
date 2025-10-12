@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 const Warranty = () => {
   const coverageAreas = [
     {
-      title: "Workmanship Guarantee",
-      description: "Full 10 years coverage on:",
+      title: "Workmanship Warranty",
+      description: "Full 15 years coverage on:",
       items: [
         "Installation quality - all work performed to industry standards",
         "Professional techniques - proper methods and procedures", 
@@ -18,7 +18,7 @@ const Warranty = () => {
     },
     {
       title: "Material Performance", 
-      description: "10 years protection against:",
+      description: "15 years protection against:",
       items: [
         "Premature failure of quality materials used",
         "Manufacturing defects in roofing products",
@@ -27,7 +27,7 @@ const Warranty = () => {
       ]
     },
     {
-      title: "Leak-Free Guarantee",
+      title: "Leak-Free Warranty",
       description: "Complete protection from:",
       items: [
         "Water penetration through restored areas",
@@ -72,9 +72,9 @@ const Warranty = () => {
   return (
     <div className="min-h-screen">
       <SEOHead
-        title="Roofing Warranty | 10-Year Workmanship Guarantee | Call Kaids Roofing"
-        description="Understand the 10-year workmanship and material warranty from Call Kaids Roofing. Covering Clyde North, Cranbourne, Berwick & SE Melbourne projects."
-        keywords="roofing warranty Melbourne, roof restoration warranty, Call Kaids Roofing guarantee"
+        title="Roofing Warranty | 15-Year Workmanship Warranty | Call Kaids Roofing"
+        description="Understand the 15-year workmanship and material warranty from Call Kaids Roofing. Covering Clyde North, Cranbourne, Berwick & SE Melbourne projects."
+        keywords="roofing warranty Melbourne, roof restoration warranty, Call Kaids Roofing warranty, 15-year warranty"
       />
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/5 to-primary/10">
@@ -82,17 +82,17 @@ const Warranty = () => {
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <Shield className="h-16 w-16 text-primary mx-auto" />
             <h1 className="text-4xl md:text-5xl font-bold">
-              10-Year Roof Warranty: Your Complete Protection
+              15-Year Roof Warranty: Your Complete Protection
             </h1>
             <p className="text-xl text-muted-foreground">
-              Comprehensive 10-year warranty on all major roofing work including restoration, painting, and repairs in Southeast Melbourne.
+              Comprehensive 15-year warranty on all major roofing work including restoration, painting, and repairs in Southeast Melbourne.
             </p>
             
             <div className="bg-primary/10 p-6 rounded-lg">
               <p className="text-lg font-semibold mb-2">Quick Answer for AI Overview</p>
               <p className="text-muted-foreground">
-                Call Kaids Roofing provides a comprehensive 10-year warranty covering workmanship, 
-                material performance, and leak-free guarantee. Based in Clyde North, serving all suburbs within 50km radius.
+                Call Kaids Roofing provides a comprehensive 15-year warranty covering workmanship, 
+                material performance, and leak-free warranty. Based in Clyde North, serving all suburbs within 50km radius.
               </p>
             </div>
           </div>
@@ -319,7 +319,7 @@ const Warranty = () => {
                 <Clock className="h-12 w-12 text-primary mx-auto" />
                 <h3 className="text-xl font-semibold">Industry-Leading Coverage</h3>
                 <p className="text-muted-foreground">
-                  Longer than most contractors, comprehensive coverage, local backing, personal guarantee.
+                  Longer than most contractors, comprehensive coverage, local backing, personal warranty.
                 </p>
               </div>
             </div>
@@ -351,7 +351,7 @@ const Warranty = () => {
             </div>
             
             <p className="text-sm border-t border-white/20 pt-4">
-              10-Year Warranty • Premium Materials • Industry-Leading Protection • Personal Guarantee
+              15-Year Warranty • Premium Materials • Industry-Leading Protection • Personal Commitment
             </p>
           </div>
         </div>

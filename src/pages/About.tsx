@@ -19,7 +19,7 @@ const About = () => {
               I'm Kaidyn Brownlie—Built This Business from Scratch
             </h1>
             <p className="text-xl text-muted-foreground">
-              First-generation roofer serving Southeast Melbourne with no BS, quality workmanship, and a 10-year warranty.
+              First-generation roofer serving Southeast Melbourne with no BS, quality workmanship, and a 15-year warranty.
             </p>
           </div>
         </div>
@@ -43,13 +43,13 @@ const About = () => {
               <div className="bg-muted/30 p-6 rounded-lg space-y-4">
                 <h3 className="font-semibold">Why I Do This</h3>
                 <p className="text-sm text-muted-foreground">
-                  Simple—I like fixing things properly. There's nothing worse than a dodgy roof job that fails in two years. I've seen too many homeowners get burned by cowboys who take the money and run.
+                  Simple—I like repairing things properly. There's nothing worse than a dodgy roof job that fails in two years. I've seen too many homeowners get burned by cowboys who take the money and run.
                 </p>
                 <ul className="space-y-2 text-sm">
                   <li>• I show up when I say I will</li>
                   <li>• I do what I quote, nothing more, nothing less</li>
                   <li>• I use materials that actually last</li>
-                  <li>• I back my work with a proper 10-year warranty</li>
+                  <li>• I back my work with a proper 15-year warranty</li>
                 </ul>
               </div>
             </div>
@@ -80,7 +80,7 @@ const About = () => {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full">
                   <Shield className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="font-semibold">10-Year Warranty</h3>
+                <h3 className="font-semibold">15-Year Warranty</h3>
                 <p className="text-sm text-muted-foreground">Comprehensive coverage on all major work</p>
               </div>
             </div>
@@ -111,7 +111,7 @@ const About = () => {
                 <Award className="h-12 w-12 text-primary mx-auto" />
                 <h3 className="text-xl font-semibold">Premium Materials Only</h3>
                 <p className="text-muted-foreground">
-                  I don't use cheap materials because they don't last. Every product I use is specifically chosen for Melbourne's harsh conditions.
+                  I don't use low-cost materials because they don't last. Every product I use is specifically chosen for Melbourne's harsh conditions.
                 </p>
               </div>
               <div className="text-center space-y-4">
@@ -185,7 +185,7 @@ const About = () => {
             </div>
             
             <p className="text-sm border-t border-white/20 pt-4">
-              Personal service • Quality workmanship • 10-year warranty • Fair pricing • Reliable service
+              Personal service • Quality workmanship • 15-year warranty • Fair pricing • Reliable service
             </p>
           </div>
         </div>

@@ -10,7 +10,7 @@ const ProofStrip = () => {
     },
     {
       icon: <Award className="h-5 w-5" />,
-      text: "10-Year Warranty",
+      text: "15-Year Warranty",
       subtext: "On all workmanship"
     },
     {

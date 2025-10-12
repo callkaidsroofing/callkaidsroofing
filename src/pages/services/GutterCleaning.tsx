@@ -17,7 +17,7 @@ const GutterCleaning = () => {
     },
     {
       service: "Minor Repairs",
-      description: "Fix small issues found during cleaning",
+      description: "Repair small issues found during cleaning",
       included: ["Bracket adjustments", "Small hole patching", "Joint resealing", "Alignment corrections"],
       cost: "$50-200"
     },

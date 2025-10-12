@@ -23,7 +23,7 @@ export default function Services() {
     },
     {
       title: 'Roof Repairs',
-      summary: 'Fix leaks, replace broken tiles and restore your roof integrity.',
+      summary: 'Repair leaks, replace broken tiles and restore your roof integrity.',
       description: 'Expert repairs using quality materials with same-day emergency service available.',
       href: '/services/roof-repairs',
       badge: 'Emergency Available'

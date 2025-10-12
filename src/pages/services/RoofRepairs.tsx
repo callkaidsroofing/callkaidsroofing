@@ -97,7 +97,7 @@ const RoofRepairs = () => {
             Emergency Roof Repairs Melbourne
           </h1>
           <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
-            Same-day response. Fix leaks fast. Stop further damage.
+            Same-day response. Repair leaks efficiently. Stop further damage.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild variant="destructive" size="xl">

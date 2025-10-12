@@ -243,7 +243,7 @@ const SmartPageHierarchy = ({
             <span className="font-medium text-accent-foreground text-sm">Why Choose Us</span>
           </div>
           <p className="text-xs text-muted-foreground mb-3">
-            10-year warranty, local owner-operator
+            15-year warranty, local owner-operator
           </p>
           <div className="flex gap-2">
             <Button asChild size="sm" variant="outline" className="flex-1 border-accent/20 text-accent-foreground hover:bg-accent/10">

@@ -19,7 +19,7 @@ const RoofRestorationMountEliza = () => {
             Roof Restoration in Mount Eliza
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-4 max-w-3xl">
-            Mount Eliza roofs contend with salt spray, bay gusts and leafy surrounds. Coastal conditions chew through cheap coatings fast and corrode valley irons. Our Mount Eliza roof restorations reinforce your home against the elements while keeping that polished Mornington Peninsula presentation.
+            Mount Eliza roofs contend with salt spray, bay gusts and leafy surrounds. Coastal conditions chew through low-cost coatings and corrode valley irons. Our Mount Eliza roof restorations reinforce your home against the elements while keeping that polished Mornington Peninsula presentation.
           </p>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl">
             From Canadian Bay Road to Mount Eliza Village, we work around steep driveways and curated gardens. Expect careful cleaning, ridge repairs and marine-grade membrane systems that resist salt, UV and moisture for the long haul.

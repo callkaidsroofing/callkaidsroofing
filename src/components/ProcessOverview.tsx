@@ -26,7 +26,7 @@ const ProcessOverview = () => {
     {
       icon: <Shield className="h-8 w-8 text-primary" />,
       title: "Quality Check",
-      description: "Final inspection with photo documentation and 10-year warranty certificate"
+      description: "Final inspection with photo documentation and 15-year warranty certificate"
     }
   ];
 

@@ -200,7 +200,7 @@ const BookingPage = () => {
     <>
       <SEOHead
         title="Book Your Free Roof Quote | Call Kaids Roofing | Same Day Response"
-        description="Book your free roof quote today. Same-day response, 10-year warranty, premium materials. Serving all Southeast Melbourne suburbs. Call 0435 900 709"
+        description="Book your free roof quote today. Same-day response, 15-year warranty, premium materials. Serving all Southeast Melbourne suburbs. Call 0435 900 709"
         keywords="book roof quote Melbourne, free roof inspection, roof quote Clyde North, emergency roof repairs booking"
       />
       <StructuredData type="contact" />
@@ -225,7 +225,7 @@ const BookingPage = () => {
           <div className="container mx-auto px-4 text-center relative z-10">
             <div className="inline-flex items-center gap-2 bg-green-500/20 text-green-100 px-4 py-2 rounded-full mb-6 border border-green-400/30">
               <Zap className="h-4 w-4" />
-              <span className="text-sm font-medium">Same-Day Response Guarantee</span>
+              <span className="text-sm font-medium">Same-Day Response Warranty</span>
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
@@ -242,7 +242,7 @@ const BookingPage = () => {
               </div>
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20">
                 <Shield className="h-5 w-5 text-blue-300" />
-                <span>10-year warranty</span>
+                <span>15-year warranty</span>
               </div>
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20">
                 <Award className="h-5 w-5 text-yellow-300" />
@@ -450,7 +450,7 @@ const BookingPage = () => {
                     <div className="flex items-start gap-3">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                       <div>
-                        <h4 className="font-semibold">10-Year Warranty</h4>
+                        <h4 className="font-semibold">15-Year Warranty</h4>
                         <p className="text-sm text-muted-foreground">All major work backed by comprehensive warranty</p>
                       </div>
                     </div>
@@ -502,7 +502,7 @@ const BookingPage = () => {
                       <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">4</div>
                       <div>
                         <h4 className="font-semibold">Quality Work</h4>
-                        <p className="text-sm text-muted-foreground">Professional service with 10-year warranty</p>
+                        <p className="text-sm text-muted-foreground">Professional service with 15-year warranty</p>
                       </div>
                     </div>
                   </CardContent>

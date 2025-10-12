@@ -30,8 +30,8 @@ const RoofRestoration = () => {
     },
     {
       step: "3",
-      title: "Fix Everything That's Broken", 
-      description: "Replace cracked tiles, re-bed loose ridge caps, fix valley irons, repair flashings. No point painting over problems—fix them properly first.",
+      title: "Repair Everything That's Broken", 
+      description: "Replace cracked tiles, re-bed loose ridge caps, repair valley irons, repair flashings. No point painting over problems—repair them properly first.",
       details: [
         "Tile replacement with perfect colour matches",
         "Ridge capping re-bedding using quality mortar", 
@@ -340,7 +340,7 @@ const RoofRestoration = () => {
                 <CardContent>
                   <ul className="space-y-2 text-left">
                     <li>• Membrane performance against cracking or peeling</li>
-                    <li>• Leak-free guarantee on all repair work</li>
+                    <li>• Leak-free warranty on all repair work</li>
                     <li>• Colour stability within normal parameters</li>
                     <li>• Workmanship quality on all aspects</li>
                   </ul>

@@ -123,7 +123,7 @@ export const LocalBusinessSchema = ({
           itemOffered: {
             "@type": "Service",
             name: serviceType,
-            description: `Expert ${serviceType.toLowerCase()} with 10-year warranty`
+            description: `Expert ${serviceType.toLowerCase()} with 15-year warranty`
           }
         }
       ]

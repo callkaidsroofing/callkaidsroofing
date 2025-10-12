@@ -153,7 +153,7 @@ Restoration vs replacement costs:
 
 ## Call Kaids Quality Promise
 
-✅ **10-year workmanship warranty**
+✅ **15-year workmanship warranty**
 ✅ **Fully insured operations** 
 ✅ **Premium Australian materials**
 ✅ **Photo documentation**
@@ -225,7 +225,7 @@ Melbourne's strong winds and temperature changes cause significant expansion/con
 - Hail damage
 - Wind-driven rain penetration
 
-**Fix:** Individual replacement with matching materials and secure fixing.
+**Repair:** Individual replacement with matching materials and secure fixing.
 
 ## 4. Gutter Issues
 
@@ -295,7 +295,7 @@ Melbourne's salt air and pollution accelerate deterioration.
 
 **Service areas:** Clyde North, Berwick, Cranbourne, Dandenong, Pakenham, Officer, Rowville + 50km radius.
 
-**Guarantee:** 10-year warranty, fully insured, premium materials, photo-backed service.
+**Warranty:** 15-year warranty, fully insured, premium materials, photo-backed service.
 
 Don't let small problems become major expenses.
 

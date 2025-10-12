@@ -12,7 +12,7 @@ interface SEOHeadProps {
 
 export const SEOHead = ({
   title = "Call Kaids Roofing | Roof Restorations Clyde North & SE Melbourne",
-  description = "Local roofing experts in Clyde North. Roof restorations, painting, repairs & gutter cleaning with 10-year warranty. Call 0435 900 709 today.",
+  description = "Local roofing experts in Clyde North. Roof restorations, painting, repairs & gutter cleaning with 15-year warranty. Call 0435 900 709 today.",
   keywords = "roof restoration Clyde North, roof painting Clyde North, roof repairs Southeast Melbourne, local roofing contractor, Call Kaids Roofing",
   canonical,
   ogImage = "https://callkaidsroofing.com.au/og-image.jpg",
@@ -26,7 +26,7 @@ export const SEOHead = ({
     "@context": "https://schema.org",
     "@type": "RoofingContractor",
     name: "Call Kaids Roofing",
-    description: "Professional roofing services in Southeast Melbourne including roof restoration, painting, repairs, gutter cleaning, leak detection, and emergency repairs. 10-year warranty on all major work.",
+    description: "Professional roofing services in Southeast Melbourne including roof restoration, painting, repairs, gutter cleaning, leak detection, and emergency repairs. 15-year warranty on all major work.",
     url: "https://callkaidsroofing.com.au",
     telephone: "+61-435-900-709",
     email: "info@callkaidsroofing.com.au",

@@ -156,7 +156,7 @@ export const ElegantSidebar = ({
               </div>
               <div className="flex items-center space-x-2">
                 <Badge variant="secondary" className="text-xs">
-                  10-Year Warranty
+                  15-Year Warranty
                 </Badge>
                 <Badge variant="outline" className="text-xs border-primary/30 text-primary">
                   Fully Insured

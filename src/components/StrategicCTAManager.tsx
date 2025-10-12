@@ -251,7 +251,7 @@ const StrategicCTAManager = () => {
           </div>
           
           <p className="text-sm text-muted-foreground">
-            ✓ Free consultation ✓ Same-day quotes ✓ 10-year warranty ✓ Local owner-operator
+            ✓ Free consultation ✓ Same-day quotes ✓ 15-year warranty ✓ Local owner-operator
           </p>
         </div>
       </div>

@@ -21,7 +21,7 @@ export const StructuredData = ({
     name: "Call Kaids Roofing",
     legalName: "Call Kaids Roofing",
     alternateName: ["Kaids Roofing", "Call Kaids"],
-    description: "Professional roofing services in Southeast Melbourne specializing in roof restoration, painting, and emergency repairs with 10-year warranty.",
+    description: "Professional roofing services in Southeast Melbourne specializing in roof restoration, painting, and emergency repairs with 15-year warranty.",
     url: "https://callkaidsroofing.com.au",
     logo: {
       "@type": "ImageObject",
@@ -105,7 +105,7 @@ export const StructuredData = ({
             "@type": "Service",
             "@id": "https://callkaidsroofing.com.au/services/roof-restoration",
             name: "Roof Restoration Melbourne",
-            description: "Complete roof restoration including high-pressure cleaning, repairs, and premium membrane coating with 10-year warranty.",
+            description: "Complete roof restoration including high-pressure cleaning, repairs, and premium membrane coating with 15-year warranty.",
             provider: { "@id": "https://callkaidsroofing.com.au/#organization" },
             areaServed: { "@id": "https://callkaidsroofing.com.au/#servicearea" },
             offers: {
@@ -121,7 +121,7 @@ export const StructuredData = ({
             "@type": "Service",
             "@id": "https://callkaidsroofing.com.au/services/roof-painting",
             name: "Roof Painting Melbourne",
-            description: "Professional roof painting with premium weather-resistant paints, completed in 2-3 days with 10-year warranty.",
+            description: "Professional roof painting with premium weather-resistant paints, completed in 2-3 days with 15-year warranty.",
             provider: { "@id": "https://callkaidsroofing.com.au/#organization" },
             areaServed: { "@id": "https://callkaidsroofing.com.au/#servicearea" },
             offers: {
@@ -256,7 +256,7 @@ export const StructuredData = ({
         name: "How much does roof restoration cost in Melbourne?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Roof restoration in Melbourne typically costs between $6,000-$30,000 depending on roof size and condition. We provide free quotes and 10-year warranties on all restoration work."
+          text: "Roof restoration in Melbourne typically costs between $6,000-$30,000 depending on roof size and condition. We provide free quotes and 15-year warranties on all restoration work."
         }
       },
       {
@@ -280,7 +280,7 @@ export const StructuredData = ({
         name: "How long does roof painting take?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Professional roof painting typically takes 2-3 days to complete, depending on roof size and weather conditions. We use premium weather-resistant paints with 10-year warranty."
+          text: "Professional roof painting typically takes 2-3 days to complete, depending on roof size and weather conditions. We use premium weather-resistant paints with 15-year warranty."
         }
       }
     ]

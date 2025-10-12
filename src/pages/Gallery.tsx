@@ -425,7 +425,7 @@ const Gallery = () => {
             </div>
             <div className="flex flex-col sm:flex-row gap-3 justify-center text-sm">
               <Link to="/emergency" className="text-roofing-emergency hover:underline">🚨 Emergency Repairs Available</Link>
-              <Link to="/warranty" className="text-primary hover:underline">🛡️ 10-Year Warranty Details</Link>
+              <Link to="/warranty" className="text-primary hover:underline">🛡️ 15-Year Warranty Details</Link>
               <Link to="/blog" className="text-primary hover:underline">📚 Expert Roofing Tips</Link>
             </div>
           </div>

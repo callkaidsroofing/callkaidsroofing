@@ -267,7 +267,7 @@ const Index = () => {
                 <h4 className="text-lg font-semibold mb-4 text-primary">Customer Resources</h4>
                 <div className="space-y-2 text-left">
                   <Link to="/warranty" className="block text-sm hover:text-primary transition-colors">
-                    🛡️ 10-Year Workmanship Warranty
+                    🛡️ 15-Year Workmanship Warranty
                   </Link>
                   <Link to="/gallery" className="block text-sm hover:text-primary transition-colors">
                     📸 Before & After Gallery

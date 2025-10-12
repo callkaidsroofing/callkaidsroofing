@@ -296,7 +296,7 @@ const ServiceSpecificForm: React.FC<ServiceSpecificFormProps> = ({
               <div className="text-center space-y-2">
                 <div className="flex items-center justify-center gap-2 text-sm text-primary">
                   <CheckCircle className="h-4 w-4" />
-                  <span>10-Year Warranty</span>
+                  <span>15-Year Warranty</span>
                 </div>
                 <div className="flex items-center justify-center gap-2 text-sm text-primary">
                   <CheckCircle className="h-4 w-4" />

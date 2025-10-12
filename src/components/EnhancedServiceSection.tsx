@@ -38,14 +38,14 @@ export const EnhancedServiceSection = ({ services }: ServiceSectionProps) => {
           </h2>
           
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Three main services that fix problems permanently and add real value to your home
+            Three main services that repair problems permanently and add real value to your home
           </p>
 
           {/* Service quality indicators */}
           <div className="flex flex-wrap justify-center gap-4 mt-6">
             <div className="flex items-center gap-2 text-sm text-primary font-medium">
               <Shield className="h-4 w-4" />
-              10-Year Warranty
+              15-Year Warranty
             </div>
             <div className="flex items-center gap-2 text-sm text-primary font-medium">
               <Star className="h-4 w-4 fill-current" />

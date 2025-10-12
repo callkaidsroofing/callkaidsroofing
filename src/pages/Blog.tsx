@@ -237,7 +237,7 @@ export default function Blog() {
                 <p className="font-medium text-roofing-emergency text-sm">Emergency Repairs</p>
               </Link>
               <Link to="/warranty" className="text-center p-3 bg-background/80 rounded-lg hover:bg-background transition-colors">
-                <p className="font-medium text-primary text-sm">10-Year Warranty</p>
+                <p className="font-medium text-primary text-sm">15-Year Warranty</p>
               </Link>
             </div>
           </div>

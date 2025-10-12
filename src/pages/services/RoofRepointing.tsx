@@ -13,7 +13,7 @@ const RoofRepointing = () => {
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Roof Repointing Melbourne",
-    "description": "Professional roof repointing services in Southeast Melbourne. Fix cracked mortar, stop leaks, and extend your roof's life with our 10-year warranty.",
+    "description": "Professional roof repointing services in Southeast Melbourne. Repair cracked mortar, stop leaks, and extend your roof's life with our 15-year warranty.",
     "provider": {
       "@type": "RoofingContractor",
       "name": "Call Kaids Roofing",
@@ -54,7 +54,7 @@ const RoofRepointing = () => {
                   Roof Repointing in <span className="text-primary">Southeast Melbourne</span>
                 </h1>
                 <p className="text-xl text-muted-foreground mb-8">
-                  Fix cracked mortar, stop leaks, and extend your roof's life with our professional repointing services. 
+                  Repair cracked mortar, stop leaks, and extend your roof's life with our professional repointing services. 
                   Using premium SupaPoint materials with 10-year warranty.
                 </p>
                 
@@ -129,7 +129,7 @@ const RoofRepointing = () => {
                 {
                   icon: <CheckCircle className="h-8 w-8 text-primary" />,
                   title: "Leak Detection",
-                  description: "Thorough inspection to identify and fix all mortar-related leak points."
+                  description: "Thorough inspection to identify and repair all mortar-related leak points."
                 },
                 {
                   icon: <CheckCircle className="h-8 w-8 text-primary" />,
@@ -268,7 +268,7 @@ const RoofRepointing = () => {
         <section className="py-16 bg-primary/5">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Ready to Fix Your Roof Pointing?</h2>
+              <h2 className="text-3xl font-bold mb-4">Ready to Repair Your Roof Pointing?</h2>
               <p className="text-xl text-muted-foreground mb-8">
                 Get a free assessment and detailed quote. No obligation, honest advice only.
               </p>
