@@ -40,6 +40,7 @@ const Emergency = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <AlertTriangle className="h-16 w-16 mx-auto" />
+            <p className="text-lg italic text-white mb-2">*Proof In Every Roof*</p>
             <h1 className="text-4xl md:text-5xl font-bold">
               Roof Emergency? I'll Be There Today
             </h1>

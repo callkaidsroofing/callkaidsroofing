@@ -15,6 +15,7 @@ const About = () => {
       <section className="py-20 bg-gradient-to-br from-primary/5 to-primary/10">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center space-y-6">
+            <p className="text-lg italic text-primary">*Proof In Every Roof*</p>
             <h1 className="text-4xl md:text-5xl font-bold">
               I'm Kaidyn Brownlie—Built This Business from Scratch
             </h1>

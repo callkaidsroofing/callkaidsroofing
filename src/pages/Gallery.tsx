@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import EnhancedImageFlow from '@/components/EnhancedImageFlow';
 import SmartPageHierarchy from '@/components/SmartPageHierarchy';
 import StrategicCTAManager from '@/components/StrategicCTAManager';
+import { CaseStudyShowcase } from '@/components/CaseStudyShowcase';
 
 interface GalleryImage {
   src: string;
@@ -209,6 +210,7 @@ const Gallery = () => {
               <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                 Real Projects, Real Results
               </h1>
+              <p className="text-xl italic text-primary mb-4">*Proof In Every Roof*</p>
               <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
                 Explore our complete portfolio of roofing transformations across Melbourne's SE suburbs. 
                 From weathered roofs to stunning restorations - see what's possible for your property.
@@ -431,6 +433,9 @@ const Gallery = () => {
           </div>
         </div>
       </div>
+
+      {/* Case Study Integration - CKR Compliance */}
+      <CaseStudyShowcase limit={6} />
     </>
   );
 };
