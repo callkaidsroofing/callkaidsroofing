@@ -185,32 +185,15 @@ const handler = async (req: Request): Promise<Response> => {
       source: leadData.source || 'website'
     };
 
-    // Save lead to database (using original data, not sanitized for storage)
-    const { data: lead, error: dbError } = await supabase
-      .from("leads")
-      .insert([{
-        name: leadData.name.trim(),
-        phone: leadData.phone.trim(),
-        email: leadData.email?.trim() || null,
-        suburb: leadData.suburb.trim(),
-        service: leadData.service.trim(),
-        message: leadData.message?.trim() || null,
-        urgency: leadData.urgency?.trim() || null,
-        source: sanitizedData.source
-      }])
-      .select()
-      .single();
+    // Generate a unique lead reference for tracking
+    const leadReference = `LEAD-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+    const submittedAt = new Date().toISOString();
 
-    if (dbError) {
-      console.error("Database error:", dbError);
-      throw new Error(`Database error: ${dbError.message}`);
-    }
-
-    console.log("Lead saved to database:", lead);
+    console.log("Processing lead (not storing in database):", { leadReference, name: sanitizedData.name, service: sanitizedData.service });
 
     // Send notification email to business owner (using sanitized data)
     const ownerEmailResponse = await resend.emails.send({
-      from: "Call Kaids Roofing <notifications@callkaidsroofing.com.au>",
+      from: "Call Kaids Roofing <onboarding@resend.dev>",
       to: ["callkaidsroofing@outlook.com"],
       subject: `🏠 New Lead: ${sanitizedData.service} - ${sanitizedData.name}${sanitizedData.urgency ? ` (${sanitizedData.urgency})` : ''}`,
       html: `
@@ -236,8 +219,9 @@ const handler = async (req: Request): Promise<Response> => {
 
           <div style="background-color: #007ACC; color: white; padding: 15px; border-radius: 8px; text-align: center;">
             <p style="margin: 0; font-weight: bold;">
-              Lead ID: ${lead.id}<br>
-              Submitted: ${new Date(lead.created_at).toLocaleString('en-AU')}
+              Lead Reference: ${leadReference}<br>
+              Submitted: ${new Date(submittedAt).toLocaleString('en-AU')}<br>
+              Source: ${sanitizedData.source}
             </p>
           </div>
 
@@ -257,7 +241,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send auto-response to customer (if email provided) - using sanitized data
     if (sanitizedData.email) {
       const customerEmailResponse = await resend.emails.send({
-        from: "Call Kaids Roofing <noreply@callkaidsroofing.com.au>",
+        from: "Call Kaids Roofing <onboarding@resend.dev>",
         to: [sanitizedData.email],
         subject: "Thank you for your roofing enquiry - Call Kaids Roofing",
         html: `
@@ -306,8 +290,8 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(
       JSON.stringify({ 
         success: true, 
-        leadId: lead.id,
-        message: "Lead captured and notifications sent successfully" 
+        leadReference: leadReference,
+        message: "Lead notification sent successfully" 
       }),
       {
         status: 200,
