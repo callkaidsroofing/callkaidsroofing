@@ -32,7 +32,7 @@ export const LocalBusinessSchema = ({
       height: 630
     },
     telephone: "+61435900709",
-    email: "callkaidsroofing@outlook.com",
+    email: "info@callkaidsroofing.com.au",
     foundingDate: "2020-01-01",
     founder: {
       "@type": "Person",

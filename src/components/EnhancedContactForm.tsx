@@ -150,9 +150,9 @@ export function EnhancedContactForm() {
                 <Phone className="h-4 w-4" />
                 0435 900 709
               </a>
-              <a href="mailto:callkaidsroofing@outlook.com" className="flex items-center gap-2 text-primary hover:underline">
+              <a href="mailto:info@callkaidsroofing.com.au" className="flex items-center gap-2 text-primary hover:underline">
                 <Mail className="h-4 w-4" />
-                callkaidsroofing@outlook.com
+                info@callkaidsroofing.com.au
               </a>
             </div>
           </div>
@@ -300,7 +300,7 @@ export function EnhancedContactForm() {
                 Call Now
               </a>
               <a
-                href="mailto:callkaidsroofing@outlook.com"
+                href="mailto:info@callkaidsroofing.com.au"
                 className="flex items-center justify-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors"
               >
                 <Mail className="h-4 w-4" />

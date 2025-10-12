@@ -34,7 +34,7 @@ export const StructuredData = ({
       "https://callkaidsroofing.com.au/assets/hero-roof-restoration.jpg"
     ],
     telephone: "+61-435-900-709",
-    email: "callkaidsroofing@outlook.com",
+    email: "info@callkaidsroofing.com.au",
     foundingDate: "2020",
     founder: {
       "@type": "Person",

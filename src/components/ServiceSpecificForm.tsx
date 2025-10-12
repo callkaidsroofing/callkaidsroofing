@@ -289,7 +289,7 @@ const ServiceSpecificForm: React.FC<ServiceSpecificFormProps> = ({
                 </div>
                 <div className="flex items-center gap-1">
                   <Mail className="h-4 w-4" />
-                  <span>callkaidsroofing@outlook.com</span>
+                  <span>info@callkaidsroofing.com.au</span>
                 </div>
               </div>
 

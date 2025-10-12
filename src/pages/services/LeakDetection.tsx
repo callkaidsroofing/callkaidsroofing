@@ -347,7 +347,7 @@ const LeakDetection = () => {
                     
                     <div className="text-sm text-muted-foreground">
                       <p>📍 Based in Clyde North, VIC</p>
-                      <p>📧 callkaidsroofing@outlook.com</p>
+                      <p>📧 info@callkaidsroofing.com.au</p>
                       <p>🏢 ABN: 39475055075</p>
                     </div>
                   </div>

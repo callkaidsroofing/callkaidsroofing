@@ -299,7 +299,7 @@ Melbourne's salt air and pollution accelerate deterioration.
 
 Don't let small problems become major expenses.
 
-**Contact:** 0435 900 709 | callkaidsroofing@outlook.com | ABN 39475055075`,
+**Contact:** 0435 900 709 | info@callkaidsroofing.com.au | ABN 39475055075`,
     category: "maintenance",
     tags: ["warning signs", "maintenance", "Melbourne", "prevention"],
     author: "Kaidyn Brownlie", 

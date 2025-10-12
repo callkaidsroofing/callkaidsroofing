@@ -522,7 +522,7 @@ const BookingPage = () => {
                       <div className="flex items-center gap-3">
                         <Mail className="h-5 w-5 text-primary" />
                         <div>
-                          <p className="font-semibold">callkaidsroofing@outlook.com</p>
+                          <p className="font-semibold">info@callkaidsroofing.com.au</p>
                           <p className="text-sm text-muted-foreground">Email us anytime</p>
                         </div>
                       </div>

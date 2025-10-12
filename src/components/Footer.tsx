@@ -82,7 +82,7 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="mb-4">
               <h3 className="text-lg font-bold text-primary">Call Kaids Roofing</h3>
-              <p className="text-sm text-muted-foreground">Professional Roofing, Melbourne Style</p>
+              <p className="text-sm text-muted-foreground italic">*Proof In Every Roof*</p>
             </div>
             <p className="text-muted-foreground text-sm">
               Owner-operated roofing business serving Southeast Melbourne. Quality workmanship, 
@@ -204,11 +204,11 @@ const Footer = () => {
               </div>
               
               <a 
-                href="mailto:callkaidsroofing@outlook.com"
+                href="mailto:info@callkaidsroofing.com.au"
                 className="flex items-center space-x-2 text-sm hover:text-primary transition-colors group"
               >
                 <Mail className="h-4 w-4 group-hover:text-primary" />
-                <span>callkaidsroofing@outlook.com</span>
+                <span>info@callkaidsroofing.com.au</span>
               </a>
             </div>
             

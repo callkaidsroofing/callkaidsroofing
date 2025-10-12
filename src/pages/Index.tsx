@@ -44,10 +44,10 @@ const Index = () => {
       description: "Storm damage? I'll be there same day when Melbourne weather hits hard.",
       benefits: [
         "Same-day response for urgent issues",
-        "Temporary protection then permanent fix",
+        "Temporary protection then permanent repair",
         "Available 24/7 for genuine emergencies"
       ],
-      perfectFor: "Anyone with active leaks, storm damage, or 'oh shit' moments",
+      perfectFor: "Anyone with active leaks, storm damage, or urgent situations",
       href: "/services/roof-repairs",
       isEmergency: true
     }
@@ -95,6 +95,11 @@ const Index = () => {
               The Best Roof<br />
               <span className="text-roofing-blue">Under the Sun</span>
             </h1>
+
+            {/* Core Slogan - CKR Mandate */}
+            <p className="text-2xl md:text-3xl italic text-white/95 text-center mb-4 font-serif">
+              *Proof In Every Roof*
+            </p>
 
             {/* Subheadline */}
             <p className="text-lg md:text-xl text-white/90 text-center max-w-2xl mx-auto mb-8 font-medium">

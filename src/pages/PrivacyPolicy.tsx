@@ -100,7 +100,7 @@ export default function PrivacyPolicy() {
                 <div className="bg-secondary/50 p-4 rounded-lg">
                   <p><strong>Call Kaids Roofing</strong></p>
                   <p>Phone: <a href="tel:+61435900709" className="text-primary hover:underline">0435 900 709</a></p>
-                  <p>Email: <a href="mailto:callkaidsroofing@outlook.com" className="text-primary hover:underline">callkaidsroofing@outlook.com</a></p>
+                  <p>Email: <a href="mailto:info@callkaidsroofing.com.au" className="text-primary hover:underline">info@callkaidsroofing.com.au</a></p>
                   <p>ABN: 39475055075</p>
                 </div>
               </section>

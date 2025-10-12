@@ -32,7 +32,7 @@ const Contact = () => {
                 </a>
               </Button>
               <Button asChild variant="outline" size="xl">
-                <a href="mailto:callkaidsroofing@outlook.com">
+                <a href="mailto:info@callkaidsroofing.com.au">
                   <Mail className="mr-2 h-5 w-5" />
                   Email Me Direct
                 </a>
@@ -74,7 +74,7 @@ const Contact = () => {
                   <Mail className="h-6 w-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-semibold">Email Me</h3>
-                    <p className="text-primary">callkaidsroofing@outlook.com</p>
+                    <p className="text-primary">info@callkaidsroofing.com.au</p>
                     <p className="text-sm text-muted-foreground">I check emails daily and respond within 24 hours</p>
                   </div>
                 </div>

@@ -29,7 +29,7 @@ export const SEOHead = ({
     description: "Professional roofing services in Southeast Melbourne including roof restoration, painting, repairs, gutter cleaning, leak detection, and emergency repairs. 10-year warranty on all major work.",
     url: "https://callkaidsroofing.com.au",
     telephone: "+61-435-900-709",
-    email: "callkaidsroofing@outlook.com",
+    email: "info@callkaidsroofing.com.au",
     image: "https://callkaidsroofing.com.au/lovable-uploads/call-kaids-logo-main.png",
     priceRange: "$$",
     address: {
