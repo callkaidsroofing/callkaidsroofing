@@ -66,9 +66,9 @@ const Index = () => {
       />
       <StructuredData type="homepage" />
       <div className="page-transition">
-      {/* Hero Section - Proof In Every Roof Strategy */}
-      <section className="relative w-full min-h-[100vh] md:min-h-screen flex items-center justify-center text-center text-white overflow-hidden bg-roofing-navy">
-        {/* 1. "Proof" Background Image with Fallback */}
+      {/* Hero Section - Professional & Proof-Driven */}
+      <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-roofing-navy">
+        {/* Background Image */}
         <OptimizedBackgroundSection
           backgroundImage="/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png"
           className="absolute inset-0 w-full h-full"
@@ -76,68 +76,90 @@ const Index = () => {
           priority
           sizes="100vw"
         >
-          {/* 2. Stronger Dark Overlay for Better Mobile Readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-roofing-navy/85 via-roofing-navy/75 to-roofing-navy/85 z-10" />
+          {/* Gradient Overlay - Navy to Blue */}
+          <div className="absolute inset-0 bg-gradient-to-br from-roofing-navy/95 via-roofing-navy/90 to-roofing-blue/80" />
         </OptimizedBackgroundSection>
 
-        {/* 3. Content Container with Better Mobile Spacing */}
-        <div className="relative z-20 flex flex-col items-center gap-y-4 md:gap-y-6 px-4 py-24 md:py-32 mt-20 md:mt-0">
-          
-          {/* 4. Upgraded Guarantee Badge */}
-          <Badge variant="secondary" className="border-none bg-white/20 backdrop-blur-sm text-xs md:text-sm font-medium px-4 md:px-6 py-2 md:py-3 shadow-lg">
-            Guaranteed Same-Day Response
-          </Badge>
-          
-          {/* 5. Refined Headline Typography with Better Contrast */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
-            SE Melbourne's Most Trusted <br />
-            Roof Restoration Experts
-          </h1>
-          
-          <p className="max-w-2xl text-base md:text-lg text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] font-medium px-2">
-            We transform and protect your home with superior craftsmanship, backed by an iron-clad <strong>15-year warranty</strong> and photo-backed proof.
-          </p>
-
-          {/* 6. Upgraded Call-to-Action Button - Mobile Optimized */}
-          <Button 
-            size="lg" 
-            className="bg-roofing-blue hover:bg-roofing-blue/90 text-base md:text-lg px-6 md:px-8 py-5 md:py-6 shadow-2xl w-full sm:w-auto max-w-sm"
-            onClick={() => window.location.href = 'tel:0435900709'}
-          >
-            <Phone className="mr-2 h-4 w-4 md:h-5 md:w-5" />
-            Call Now for a Free Quote
-          </Button>
-          <p className="text-sm md:text-base font-bold drop-shadow-md">0435 900 709</p>
-
-          {/* Trust Indicators Row - Mobile Optimized */}
-          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-6 mt-6 md:mt-8 w-full max-w-lg">
-            <div className="flex items-center justify-center gap-2 text-white bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg">
-              <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-roofing-blue flex-shrink-0" />
-              <span className="font-semibold text-sm md:text-base">15-Year Warranty</span>
+        {/* Content */}
+        <div className="relative z-20 container mx-auto px-4 py-32 md:py-40">
+          <div className="max-w-4xl mx-auto">
+            {/* Top Badge */}
+            <div className="flex justify-center mb-6">
+              <Badge className="bg-roofing-blue/20 border border-roofing-blue/40 text-white backdrop-blur-sm px-6 py-2 text-sm font-semibold">
+                ⚡ Same-Day Emergency Response Available
+              </Badge>
             </div>
-            <div className="flex items-center justify-center gap-2 text-white bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg">
-              <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-roofing-blue flex-shrink-0" />
-              <span className="font-semibold text-sm md:text-base">500+ Happy Customers</span>
-            </div>
-            <div className="flex items-center justify-center gap-2 text-white bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg">
-              <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-roofing-blue flex-shrink-0" />
-              <span className="font-semibold text-sm md:text-base">Fully Insured</span>
-            </div>
-          </div>
 
-          {/* Star Rating - Mobile Optimized */}
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 shadow-lg">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-5 w-5 md:h-6 md:w-6 fill-yellow-400 text-yellow-400" />
-              ))}
-            </div>
-            <span className="text-white font-semibold text-sm md:text-base">4.9/5 from 200+ reviews</span>
-          </div>
+            {/* Main Headline */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white text-center mb-6 leading-tight">
+              The Best Roof<br />
+              <span className="text-roofing-blue">Under the Sun</span>
+            </h1>
 
-          {/* Service Areas */}
-          <div className="text-center mt-4">
-            <p className="text-white/90 text-xs md:text-sm font-medium drop-shadow-md">Serving South East Melbourne • 50km Radius</p>
+            {/* Subheadline */}
+            <p className="text-lg md:text-xl text-white/90 text-center max-w-2xl mx-auto mb-8 font-medium">
+              Professional roofing for Southeast Melbourne. No leaks. No lifting. Just quality backed by a <strong className="text-white">15-year warranty</strong>.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <Button 
+                size="lg" 
+                className="bg-roofing-blue hover:bg-roofing-blue/90 text-white text-lg px-8 py-6 shadow-2xl shadow-roofing-blue/40"
+                onClick={() => window.location.href = 'tel:0435900709'}
+              >
+                <Phone className="mr-2 h-5 w-5" />
+                Call Now: 0435 900 709
+              </Button>
+              <Button 
+                asChild
+                size="lg" 
+                variant="outline"
+                className="bg-white/10 border-2 border-white/30 text-white hover:bg-white hover:text-roofing-navy backdrop-blur-sm text-lg px-8 py-6"
+              >
+                <Link to="/book">Get Free Roof Check</Link>
+              </Button>
+            </div>
+
+            {/* Trust Stats - Clean Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4 text-center">
+                <div className="flex justify-center mb-2">
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                </div>
+                <div className="text-2xl font-bold text-white">4.9/5</div>
+                <div className="text-xs text-white/80">200+ Reviews</div>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4 text-center">
+                <CheckCircle className="h-8 w-8 text-roofing-blue mx-auto mb-2" />
+                <div className="text-2xl font-bold text-white">15 Years</div>
+                <div className="text-xs text-white/80">Warranty</div>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4 text-center">
+                <CheckCircle className="h-8 w-8 text-roofing-blue mx-auto mb-2" />
+                <div className="text-2xl font-bold text-white">500+</div>
+                <div className="text-xs text-white/80">Happy Homes</div>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4 text-center">
+                <CheckCircle className="h-8 w-8 text-roofing-blue mx-auto mb-2" />
+                <div className="text-2xl font-bold text-white">100%</div>
+                <div className="text-xs text-white/80">Insured</div>
+              </div>
+            </div>
+
+            {/* Service Area Tag */}
+            <div className="text-center mt-8">
+              <p className="text-white/70 text-sm">
+                📍 Proudly serving Clyde North, Berwick, Cranbourne, Pakenham & SE Melbourne • 50km radius
+              </p>
+            </div>
           </div>
         </div>
       </section>
