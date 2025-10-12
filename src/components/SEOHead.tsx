@@ -195,6 +195,23 @@ export const SEOHead = ({
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link rel="preconnect" href="https://www.googletagmanager.com" />
       
+      {/* Preload critical hero image for LCP optimization */}
+      <link 
+        rel="preload" 
+        as="image" 
+        href="/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f-960.avif"
+        type="image/avif"
+        fetchPriority="high"
+      />
+      <link 
+        rel="preload" 
+        as="image" 
+        href="/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f-640.avif"
+        type="image/avif"
+        media="(max-width: 640px)"
+        fetchPriority="high"
+      />
+      
       {/* Additional SEO optimizations */}
       <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
       <meta name="google-site-verification" content="YOUR_GSC_VERIFICATION_CODE_HERE" />
