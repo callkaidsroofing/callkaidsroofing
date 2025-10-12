@@ -84,7 +84,7 @@ export function Header() {
           <OptimizedImage
             src={callKaidsFullLogo}
             alt="Call Kaids Roofing - Professional Roofing, Melbourne Style"
-            className="h-14 sm:h-16 lg:h-20 xl:h-24 w-auto object-contain hover:scale-105 transition-transform duration-300"
+            className="h-12 sm:h-14 md:h-16 lg:h-18 w-auto object-contain hover:scale-105 transition-transform duration-300 max-w-[200px] sm:max-w-[250px] md:max-w-full"
             width={800}
             height={300}
           />

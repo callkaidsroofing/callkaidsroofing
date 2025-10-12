@@ -39,8 +39,8 @@ export const ElegantLayout = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 w-full">
-        {/* Page Content with responsive top spacing */}
-        <main className="pt-20 min-h-screen">
+        {/* Page Content - Reduced top spacing on mobile */}
+        <main className="pt-16 md:pt-20 min-h-screen">
           <Outlet />
         </main>
 

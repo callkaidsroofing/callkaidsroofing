@@ -67,7 +67,7 @@ const Index = () => {
       <StructuredData type="homepage" />
       <div className="page-transition">
       {/* Hero Section - Proof In Every Roof Strategy */}
-      <section className="relative w-full min-h-screen flex items-center justify-center text-center text-white overflow-hidden bg-roofing-navy">
+      <section className="relative w-full min-h-[100vh] md:min-h-screen flex items-center justify-center text-center text-white overflow-hidden bg-roofing-navy">
         {/* 1. "Proof" Background Image with Fallback */}
         <OptimizedBackgroundSection
           backgroundImage="/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png"
@@ -76,68 +76,68 @@ const Index = () => {
           priority
           sizes="100vw"
         >
-          {/* 2. Dark Overlay for Readability */}
-          <div className="absolute inset-0 bg-roofing-navy/70 z-10" />
+          {/* 2. Stronger Dark Overlay for Better Mobile Readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-roofing-navy/85 via-roofing-navy/75 to-roofing-navy/85 z-10" />
         </OptimizedBackgroundSection>
 
-        {/* 3. Content Container */}
-        <div className="relative z-20 flex flex-col items-center gap-y-6 px-4 py-32">
+        {/* 3. Content Container with Better Mobile Spacing */}
+        <div className="relative z-20 flex flex-col items-center gap-y-4 md:gap-y-6 px-4 py-24 md:py-32 mt-20 md:mt-0">
           
           {/* 4. Upgraded Guarantee Badge */}
-          <Badge variant="secondary" className="border-none bg-white/10 backdrop-blur-sm text-sm font-medium px-6 py-3">
+          <Badge variant="secondary" className="border-none bg-white/20 backdrop-blur-sm text-xs md:text-sm font-medium px-4 md:px-6 py-2 md:py-3 shadow-lg">
             Guaranteed Same-Day Response
           </Badge>
           
-          {/* 5. Refined Headline Typography */}
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight drop-shadow-lg">
+          {/* 5. Refined Headline Typography with Better Contrast */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
             SE Melbourne's Most Trusted <br />
             Roof Restoration Experts
           </h1>
           
-          <p className="max-w-2xl text-lg text-gray-200 drop-shadow-md">
+          <p className="max-w-2xl text-base md:text-lg text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] font-medium px-2">
             We transform and protect your home with superior craftsmanship, backed by an iron-clad <strong>15-year warranty</strong> and photo-backed proof.
           </p>
 
-          {/* 6. Upgraded Call-to-Action Button */}
+          {/* 6. Upgraded Call-to-Action Button - Mobile Optimized */}
           <Button 
             size="lg" 
-            className="bg-roofing-blue hover:bg-roofing-blue/90 text-lg px-8 py-6"
+            className="bg-roofing-blue hover:bg-roofing-blue/90 text-base md:text-lg px-6 md:px-8 py-5 md:py-6 shadow-2xl w-full sm:w-auto max-w-sm"
             onClick={() => window.location.href = 'tel:0435900709'}
           >
-            <Phone className="mr-2 h-5 w-5" />
+            <Phone className="mr-2 h-4 w-4 md:h-5 md:w-5" />
             Call Now for a Free Quote
           </Button>
-          <p className="text-sm font-semibold">0435 900 709</p>
+          <p className="text-sm md:text-base font-bold drop-shadow-md">0435 900 709</p>
 
-          {/* Trust Indicators Row */}
-          <div className="flex flex-wrap justify-center gap-6 mt-8">
-            <div className="flex items-center gap-2 text-white/90">
-              <CheckCircle className="h-5 w-5 text-roofing-blue" />
-              <span className="font-semibold">15-Year Warranty</span>
+          {/* Trust Indicators Row - Mobile Optimized */}
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-6 mt-6 md:mt-8 w-full max-w-lg">
+            <div className="flex items-center justify-center gap-2 text-white bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg">
+              <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-roofing-blue flex-shrink-0" />
+              <span className="font-semibold text-sm md:text-base">15-Year Warranty</span>
             </div>
-            <div className="flex items-center gap-2 text-white/90">
-              <CheckCircle className="h-5 w-5 text-roofing-blue" />
-              <span className="font-semibold">500+ Happy Customers</span>
+            <div className="flex items-center justify-center gap-2 text-white bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg">
+              <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-roofing-blue flex-shrink-0" />
+              <span className="font-semibold text-sm md:text-base">500+ Happy Customers</span>
             </div>
-            <div className="flex items-center gap-2 text-white/90">
-              <CheckCircle className="h-5 w-5 text-roofing-blue" />
-              <span className="font-semibold">Fully Insured</span>
+            <div className="flex items-center justify-center gap-2 text-white bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg">
+              <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-roofing-blue flex-shrink-0" />
+              <span className="font-semibold text-sm md:text-base">Fully Insured</span>
             </div>
           </div>
 
-          {/* Star Rating */}
-          <div className="flex justify-center items-center gap-2">
+          {/* Star Rating - Mobile Optimized */}
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 shadow-lg">
             <div className="flex">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                <Star key={i} className="h-5 w-5 md:h-6 md:w-6 fill-yellow-400 text-yellow-400" />
               ))}
             </div>
-            <span className="text-white/90 font-semibold">4.9/5 from 200+ reviews</span>
+            <span className="text-white font-semibold text-sm md:text-base">4.9/5 from 200+ reviews</span>
           </div>
 
           {/* Service Areas */}
           <div className="text-center mt-4">
-            <p className="text-white/80 text-sm">Serving South East Melbourne • 50km Radius</p>
+            <p className="text-white/90 text-xs md:text-sm font-medium drop-shadow-md">Serving South East Melbourne • 50km Radius</p>
           </div>
         </div>
       </section>
