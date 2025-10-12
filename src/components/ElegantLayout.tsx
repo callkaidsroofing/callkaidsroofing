@@ -21,7 +21,7 @@ export const ElegantLayout = () => {
   }
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-background via-muted/20 to-background relative">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-muted/20 to-background relative overflow-x-hidden w-full max-w-[100vw]">
       {/* Analytics and Tracking */}
       <MetaPixelTracker />
       <GoogleAnalytics measurementId="GA-CALLKAIDS-MEASUREMENT-ID" />
@@ -38,9 +38,9 @@ export const ElegantLayout = () => {
       <Header />
 
       {/* Main Content Area */}
-      <div className="flex-1 w-full">
+      <div className="flex-1 w-full max-w-full overflow-x-hidden">
         {/* Page Content - Reduced top spacing on mobile */}
-        <main className="pt-16 md:pt-20 min-h-screen">
+        <main className="pt-16 md:pt-20 min-h-screen w-full max-w-full">
           <Outlet />
         </main>
 

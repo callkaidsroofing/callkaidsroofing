@@ -77,8 +77,8 @@ const serviceComponents: { title: string; href: string; description: string }[] 
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-roofing-navy/90 backdrop-blur-lg">
-      <div className="container mx-auto flex h-20 items-center justify-between px-4 lg:px-6">
+    <header className="sticky top-0 z-50 w-full max-w-full border-b border-white/10 bg-roofing-navy/90 backdrop-blur-lg overflow-hidden">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 lg:px-6 max-w-full">
         {/* Logo */}
         <NavLink to="/" className="flex items-center z-10">
           <OptimizedImage

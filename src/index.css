@@ -7,6 +7,13 @@ All colors MUST be HSL.
 */
 
 @layer base {
+  /* Global overflow fix for mobile */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+    position: relative;
+  }
+  
   :root {
     /* Call Kaids Roofing Brand Colors - Matching Logo Aesthetic */
     --background: 220 20% 97%; /* Off-White Background for light mode */
