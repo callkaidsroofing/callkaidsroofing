@@ -38,10 +38,12 @@ export const ElegantLayout = () => {
       <ScrollProgress />
       
       {/* Particle System */}
-      <ParticleSystem />
+      <div className="z-0">
+        <ParticleSystem />
+      </div>
       
       {/* Mobile-First Header Bar */}
-      <header className="fixed top-0 left-0 right-0 z-40 glass-navbar">
+      <header className="fixed top-0 left-0 right-0 z-50 glass-navbar">
         <div className="flex items-center justify-between px-4 py-3 lg:px-6 lg:py-4">
           {/* Mobile Menu Button */}
           <Button
