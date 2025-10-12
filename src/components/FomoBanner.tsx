@@ -19,12 +19,13 @@ export default function FomoBanner({
   spotsLeft,
 }: FomoBannerProps) {
   return (
-    <div className="bg-gradient-to-r from-roofing-emergency to-destructive text-white py-2 text-center font-bold flex items-center justify-center gap-2">
-      <AlertTriangle className="h-5 w-5" />
-      <span>
-        {spotsLeft} emergency spots left today — offer ends in {formatTime(timeLeft)}
-      </span>
-      <Clock className="h-5 w-5" />
+    <div className="bg-gradient-to-r from-roofing-emergency to-destructive text-white py-3 text-center font-bold flex flex-col sm:flex-row items-center justify-center gap-2">
+      <div className="flex items-center gap-2">
+        <Clock className="h-4 w-4" />
+        <span className="text-sm md:text-base">Next Available: 2-3 Weeks Out</span>
+      </div>
+      <span className="hidden sm:inline">•</span>
+      <span className="text-sm md:text-base">Book now — Quality spreads by word of mouth</span>
     </div>
   );
 }

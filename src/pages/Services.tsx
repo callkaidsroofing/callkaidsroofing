@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Shield, Award, Star, Phone, ArrowRight } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
+import PremiumCTASection from '@/components/PremiumCTASection';
 
 export default function Services() {
   const services = [
@@ -109,6 +110,9 @@ export default function Services() {
             </div>
           </div>
         </div>
+
+        {/* Premium CTA Section */}
+        <PremiumCTASection variant="primary" showFullDetails={true} />
 
         {/* Services Grid */}
         <div className="container mx-auto px-4 py-16">

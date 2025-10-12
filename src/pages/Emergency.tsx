@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { SEOHead } from '@/components/SEOHead';
 import { Phone, Clock, MapPin, AlertTriangle, CheckCircle, Shield } from 'lucide-react';
+import PremiumCTASection from '@/components/PremiumCTASection';
 
 const Emergency = () => {
   const emergencyTypes = [
@@ -61,6 +62,9 @@ const Emergency = () => {
           </div>
         </div>
       </section>
+
+      {/* Premium CTA Section */}
+      <PremiumCTASection variant="primary" showFullDetails={true} />
 
       {/* What Counts as Emergency */}
       <section className="py-16">

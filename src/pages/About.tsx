@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
 import { Phone, MapPin, Award, Users, Clock, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import PremiumCTASection from '@/components/PremiumCTASection';
 
 const About = () => {
   return (
@@ -25,6 +26,9 @@ const About = () => {
           </div>
         </div>
       </section>
+
+      {/* Premium CTA Section */}
+      <PremiumCTASection variant="primary" showFullDetails={true} />
 
       {/* My Story */}
       <section className="py-16">

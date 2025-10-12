@@ -3,6 +3,7 @@ import { Phone, Mail, MapPin, Clock, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SEOHead } from '@/components/SEOHead';
 import { EnhancedContactForm } from '@/components/EnhancedContactForm';
+import PremiumCTASection from '@/components/PremiumCTASection';
 
 const Contact = () => {
   return (
@@ -42,6 +43,9 @@ const Contact = () => {
           </div>
         </div>
       </section>
+
+      {/* Premium CTA Section */}
+      <PremiumCTASection variant="primary" showFullDetails={true} />
 
       {/* Contact Methods */}
       <section className="py-16">

@@ -13,6 +13,7 @@ import { EnhancedServiceSection } from '@/components/EnhancedServiceSection';
 import QuickCaptureForm from '@/components/QuickCaptureForm';
 import NavigationFlowOptimizer from '@/components/NavigationFlowOptimizer';
 import StrategicCTAManager from '@/components/StrategicCTAManager';
+import PremiumCTASection from '@/components/PremiumCTASection';
 import waterFlowAbstract from '/src/assets/water-flow-abstract.jpg';
 
 const Index = () => {
@@ -168,6 +169,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Premium CTA Section - High Priority Placement */}
+      <PremiumCTASection variant="primary" showFullDetails={true} />
 
       {/* Trust Indicators with Enhanced Blue Gradient */}
       <div className="section-gradient py-16">
