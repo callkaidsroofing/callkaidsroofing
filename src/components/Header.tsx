@@ -90,8 +90,8 @@ export function Header() {
           />
         </NavLink>
 
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-x-2">
+        {/* Desktop Navigation - CRITICAL: hidden md:flex ensures this only shows on tablets and up */}
+        <div className="hidden md:flex items-center gap-x-2">
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
@@ -145,8 +145,8 @@ export function Header() {
           </Button>
         </div>
 
-        {/* Mobile Navigation */}
-        <div className="lg:hidden">
+        {/* Mobile Navigation - CRITICAL: md:hidden ensures this only shows on mobile */}
+        <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
               <Button
