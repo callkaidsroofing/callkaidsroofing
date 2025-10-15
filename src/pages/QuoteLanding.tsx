@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Phone, Mail, Shield, Award, Clock, MapPin } from 'lucide-react';
+import { FileText, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,102 +8,238 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { z } from 'zod';
+import { ImageUploadField } from '@/components/ImageUploadField';
 import { SEOHead } from '@/components/SEOHead';
 
-const quoteFormSchema = z.object({
-  name: z.string().trim().min(2, 'Name must be at least 2 characters').max(100),
-  email: z.string().trim().email('Invalid email address').max(255),
-  phone: z.string().trim().min(10, 'Valid phone number required').max(20),
-  address: z.string().trim().min(5, 'Full address required').max(200),
-  suburb: z.string().trim().min(2, 'Suburb required').max(100),
-  claddingType: z.string().min(1, 'Please select roof type'),
-  roofArea: z.string().optional(),
-  message: z.string().trim().max(1000).optional(),
-  honeypot: z.string().max(0),
-});
-
-type FormData = z.infer<typeof quoteFormSchema>;
+interface InspectionFormData {
+  // Section 1: Job & Client
+  clientName: string;
+  phone: string;
+  siteAddress: string;
+  suburbPostcode: string;
+  email: string;
+  inspector: string;
+  date: string;
+  time: string;
+  
+  // Section 2: Roof Identification
+  claddingType: string;
+  tileProfile: string;
+  tileColour: string;
+  ageApprox: string;
+  
+  // Section 3: Quantity Summary
+  ridgeCaps: number | null;
+  brokenTiles: number | null;
+  gableLengthTiles: number | null;
+  gableLengthLM: number | null;
+  valleyLength: number | null;
+  gutterPerimeter: number | null;
+  roofArea: number | null;
+  
+  // Section 4: Condition Checklist
+  brokenTilesCaps: string;
+  brokenTilesNotes: string;
+  pointing: string;
+  pointingNotes: string;
+  valleyIrons: string;
+  valleyIronsNotes: string;
+  boxGutters: string;
+  boxGuttersNotes: string;
+  guttersDownpipes: string;
+  guttersDownpipesNotes: string;
+  penetrations: string;
+  penetrationsNotes: string;
+  internalLeaks: string;
+  
+  // Section 5: Photo uploads
+  brokentilesphoto: string[];
+  pointingphoto: string[];
+  valleyironsphoto: string[];
+  boxguttersphoto: string[];
+  guttersphoto: string[];
+  penetrationsphoto: string[];
+  leaksphoto: string[];
+  beforedefects: string[];
+  duringafter: string[];
+  
+  // Section 6: Recommended Works
+  replacebrokentilesqty: number | null;
+  replacebrokentilesnotes: string;
+  rebedridgeqty: number | null;
+  rebedridgenotes: string;
+  flexiblerepointingqty: number | null;
+  flexiblerepointingnotes: string;
+  installvalleyclipsqty: number | null;
+  installvalleyclipsnotes: string;
+  replacevalleyironsqty: number | null;
+  replacevalleyironsnotes: string;
+  cleanguttersqty: number | null;
+  cleanguttersnotes: string;
+  pressurewashqty: number | null;
+  pressurewashnotes: string;
+  sealpenetrationsqty: number | null;
+  sealpenetrationsnotes: string;
+  coatingsystemqty: number | null;
+  coatingsystemnotes: string;
+  
+  // Section 7: Materials & Specs
+  pointingColour: string;
+  beddingCementSand: string;
+  specTileProfile: string;
+  specTileColour: string;
+  paintSystem: string;
+  paintColour: string;
+  flashings: string;
+  otherMaterials: string;
+  
+  // Section 8: Safety & Access
+  heightStoreys: string;
+  safetyRailNeeded: boolean;
+  roofPitch: string;
+  accessNotes: string;
+  
+  // Section 9: Summary
+  overallCondition: string;
+  overallConditionNotes: string;
+  priority: string;
+  status: string;
+}
 
 const QuoteLanding = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
+  const [formData, setFormData] = useState<InspectionFormData>({
+    clientName: '',
     phone: '',
-    address: '',
-    suburb: '',
+    siteAddress: '',
+    suburbPostcode: '',
+    email: '',
+    inspector: 'Kaidyn Brownlie',
+    date: new Date().toISOString().split('T')[0],
+    time: new Date().toTimeString().slice(0, 5),
     claddingType: '',
-    roofArea: '',
-    message: '',
-    honeypot: '',
+    tileProfile: '',
+    tileColour: '',
+    ageApprox: '',
+    ridgeCaps: null,
+    brokenTiles: null,
+    gableLengthTiles: null,
+    gableLengthLM: null,
+    valleyLength: null,
+    gutterPerimeter: null,
+    roofArea: null,
+    brokenTilesCaps: '',
+    brokenTilesNotes: '',
+    pointing: '',
+    pointingNotes: '',
+    valleyIrons: '',
+    valleyIronsNotes: '',
+    boxGutters: '',
+    boxGuttersNotes: '',
+    guttersDownpipes: '',
+    guttersDownpipesNotes: '',
+    penetrations: '',
+    penetrationsNotes: '',
+    internalLeaks: '',
+    brokentilesphoto: [],
+    pointingphoto: [],
+    valleyironsphoto: [],
+    boxguttersphoto: [],
+    guttersphoto: [],
+    penetrationsphoto: [],
+    leaksphoto: [],
+    beforedefects: [],
+    duringafter: [],
+    replacebrokentilesqty: null,
+    replacebrokentilesnotes: '',
+    rebedridgeqty: null,
+    rebedridgenotes: 'Strong mortar mix',
+    flexiblerepointingqty: null,
+    flexiblerepointingnotes: 'Colour to suit',
+    installvalleyclipsqty: null,
+    installvalleyclipsnotes: 'Where cut tiles slip',
+    replacevalleyironsqty: null,
+    replacevalleyironsnotes: 'Zinc/Colorbond',
+    cleanguttersqty: null,
+    cleanguttersnotes: 'All debris removed',
+    pressurewashqty: null,
+    pressurewashnotes: 'Prep for coating',
+    sealpenetrationsqty: null,
+    sealpenetrationsnotes: '',
+    coatingsystemqty: 3,
+    coatingsystemnotes: 'Primer + Membrane',
+    pointingColour: '',
+    beddingCementSand: '',
+    specTileProfile: '',
+    specTileColour: '',
+    paintSystem: '',
+    paintColour: '',
+    flashings: '',
+    otherMaterials: '',
+    heightStoreys: '',
+    safetyRailNeeded: false,
+    roofPitch: '',
+    accessNotes: '',
+    overallCondition: '',
+    overallConditionNotes: '',
+    priority: '',
+    status: 'draft',
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value, type } = e.target;
+    const processedValue = type === 'number' ? (value === '' ? null : Number(value)) : value;
+    setFormData(prev => ({ ...prev, [name]: processedValue }));
   };
 
-  const handleSelectChange = (value: string) => {
-    setFormData(prev => ({ ...prev, claddingType: value }));
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const validateForm = (): boolean => {
-    try {
-      quoteFormSchema.parse(formData);
-      return true;
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        toast({
-          variant: "destructive",
-          title: "Please check your details",
-          description: error.errors[0].message,
-        });
-      }
-      return false;
-    }
+  const handleCheckboxChange = (name: string, checked: boolean) => {
+    setFormData(prev => ({ ...prev, [name]: checked }));
+  };
+
+  const handleImageChange = (name: string, urls: string[]) => {
+    setFormData(prev => ({ ...prev, [name]: urls }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (formData.honeypot) {
-      console.log('Spam detected');
+    if (!formData.clientName || !formData.phone || !formData.siteAddress) {
+      toast({
+        variant: "destructive",
+        title: "Required fields missing",
+        description: "Please fill in client name, phone, and site address.",
+      });
       return;
     }
-
-    if (!validateForm()) return;
 
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase.functions.invoke('send-lead-notification', {
-        body: {
-          name: formData.name,
-          phone: formData.phone,
-          email: formData.email,
-          suburb: formData.suburb,
-          service: `Quote Request - ${formData.claddingType}`,
-          message: `Address: ${formData.address}\nRoof Type: ${formData.claddingType}\nApprox Area: ${formData.roofArea || 'Not specified'}\n\n${formData.message || ''}`,
-          urgency: 'This Week',
-        },
-      });
+      const { data, error } = await supabase
+        .from('inspection_reports')
+        .insert([formData])
+        .select();
 
       if (error) throw error;
 
       toast({
-        title: "Quote request received!",
-        description: "We'll prepare your detailed quote and contact you within 24 hours.",
+        title: "Inspection report saved!",
+        description: "Report has been successfully submitted.",
       });
 
-      setTimeout(() => navigate('/thank-you'), 1500);
+      setTimeout(() => navigate('/'), 1500);
     } catch (error) {
-      console.error('Quote submission error:', error);
+      console.error('Inspection submission error:', error);
       toast({
         variant: "destructive",
-        title: "Unable to submit request",
-        description: "Please call us directly at 0435 900 709",
+        title: "Unable to save report",
+        description: "Please check your connection and try again.",
       });
     } finally {
       setIsSubmitting(false);
