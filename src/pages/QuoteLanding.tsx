@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FileText, Upload } from 'lucide-react';
+import { Clock, Shield, Award, MapPin, Phone, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -307,12 +307,12 @@ const QuoteLanding = () => {
                         <h3 className="font-semibold text-lg text-foreground">Your Details</h3>
                         <div className="grid md:grid-cols-2 gap-4">
                           <div>
-                            <Label htmlFor="name">Full Name *</Label>
+                            <Label htmlFor="clientName">Full Name *</Label>
                             <Input
-                              id="name"
-                              name="name"
+                              id="clientName"
+                              name="clientName"
                               type="text"
-                              value={formData.name}
+                              value={formData.clientName}
                               onChange={handleInputChange}
                               placeholder="John Smith"
                               required
@@ -349,24 +349,24 @@ const QuoteLanding = () => {
                       <div className="space-y-4">
                         <h3 className="font-semibold text-lg text-foreground">Property Information</h3>
                         <div>
-                          <Label htmlFor="address">Site Address *</Label>
+                          <Label htmlFor="siteAddress">Site Address *</Label>
                           <Input
-                            id="address"
-                            name="address"
+                            id="siteAddress"
+                            name="siteAddress"
                             type="text"
-                            value={formData.address}
+                            value={formData.siteAddress}
                             onChange={handleInputChange}
                             placeholder="123 Main Street"
                             required
                           />
                         </div>
                         <div>
-                          <Label htmlFor="suburb">Suburb / Postcode *</Label>
+                          <Label htmlFor="suburbPostcode">Suburb / Postcode *</Label>
                           <Input
-                            id="suburb"
-                            name="suburb"
+                            id="suburbPostcode"
+                            name="suburbPostcode"
                             type="text"
-                            value={formData.suburb}
+                            value={formData.suburbPostcode}
                             onChange={handleInputChange}
                             placeholder="Clyde North 3978"
                             required
@@ -379,7 +379,7 @@ const QuoteLanding = () => {
                         <h3 className="font-semibold text-lg text-foreground">Roof Details</h3>
                         <div>
                           <Label htmlFor="claddingType">Roof Type *</Label>
-                          <Select value={formData.claddingType} onValueChange={handleSelectChange}>
+                          <Select value={formData.claddingType} onValueChange={(value) => handleSelectChange('claddingType', value)}>
                             <SelectTrigger>
                               <SelectValue placeholder="Select roof type" />
                             </SelectTrigger>
@@ -403,28 +403,17 @@ const QuoteLanding = () => {
                           />
                         </div>
                         <div>
-                          <Label htmlFor="message">Describe the Work Needed</Label>
+                          <Label htmlFor="overallConditionNotes">Describe the Work Needed</Label>
                           <Textarea
-                            id="message"
-                            name="message"
-                            value={formData.message}
+                            id="overallConditionNotes"
+                            name="overallConditionNotes"
+                            value={formData.overallConditionNotes}
                             onChange={handleInputChange}
                             placeholder="e.g., 'Full restoration needed', 'Leak in living room', 'Ridge caps loose'"
                             rows={3}
                           />
                         </div>
                       </div>
-
-                      {/* Honeypot */}
-                      <input
-                        type="text"
-                        name="honeypot"
-                        value={formData.honeypot}
-                        onChange={handleInputChange}
-                        style={{ display: 'none' }}
-                        tabIndex={-1}
-                        autoComplete="off"
-                      />
 
                       <Button
                         type="submit"

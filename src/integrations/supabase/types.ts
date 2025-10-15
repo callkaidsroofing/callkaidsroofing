@@ -44,6 +44,267 @@ export type Database = {
         }
         Relationships: []
       }
+      inspection_reports: {
+        Row: {
+          accessnotes: string | null
+          accessNotes: string | null
+          ageApprox: string | null
+          beddingCementSand: string | null
+          beforedefects: string[] | null
+          beforeDefects: Json | null
+          boxGutters: string | null
+          boxGuttersNotes: string | null
+          boxguttersphoto: string[] | null
+          brokenTiles: number | null
+          brokenTilesCaps: string | null
+          brokenTilesNotes: string | null
+          brokentilesphoto: string[] | null
+          claddingType: string
+          cleanguttersnotes: string | null
+          cleanguttersqty: number | null
+          clientName: string
+          coatingsystemnotes: string | null
+          coatingsystemqty: number | null
+          completed_at: string | null
+          created_at: string | null
+          date: string
+          duringafter: string[] | null
+          duringAfter: Json | null
+          email: string | null
+          flashings: string | null
+          flexiblerepointingnotes: string | null
+          flexiblerepointingqty: number | null
+          gableLengthLM: number | null
+          gableLengthTiles: number | null
+          gutterPerimeter: number | null
+          guttersDownpipes: string | null
+          guttersDownpipesNotes: string | null
+          guttersphoto: string[] | null
+          heightStoreys: string | null
+          id: string
+          inspector: string
+          installvalleyclipsnotes: string | null
+          installvalleyclipsqty: number | null
+          internal_leaks_observed: boolean | null
+          internalLeaks: string | null
+          leaksphoto: string[] | null
+          otherMaterials: string | null
+          overallCondition: string | null
+          overallConditionNotes: string | null
+          paintColour: string | null
+          paintSystem: string | null
+          penetrations: string | null
+          penetrationsNotes: string | null
+          penetrationsphoto: string[] | null
+          phone: string
+          pointing: string | null
+          pointingColour: string | null
+          pointingNotes: string | null
+          pointingphoto: string[] | null
+          pressurewashnotes: string | null
+          pressurewashqty: number | null
+          priority: string | null
+          rebedridgenotes: string | null
+          rebedridgeqty: number | null
+          recommendedWorks: Json | null
+          replacebrokentilesnotes: string | null
+          replacebrokentilesqty: number | null
+          replacevalleyironsnotes: string | null
+          replacevalleyironsqty: number | null
+          ridgeCaps: number | null
+          roofArea: number | null
+          roofPitch: string | null
+          safetyRailNeeded: boolean | null
+          sealpenetrationsnotes: string | null
+          sealpenetrationsqty: number | null
+          siteAddress: string
+          specTileColour: string | null
+          specTileProfile: string | null
+          status: string | null
+          suburbPostcode: string
+          tileColour: string | null
+          tileProfile: string | null
+          time: string
+          updated_at: string | null
+          valleyIrons: string | null
+          valleyIronsNotes: string | null
+          valleyironsphoto: string[] | null
+          valleyLength: number | null
+        }
+        Insert: {
+          accessnotes?: string | null
+          accessNotes?: string | null
+          ageApprox?: string | null
+          beddingCementSand?: string | null
+          beforedefects?: string[] | null
+          beforeDefects?: Json | null
+          boxGutters?: string | null
+          boxGuttersNotes?: string | null
+          boxguttersphoto?: string[] | null
+          brokenTiles?: number | null
+          brokenTilesCaps?: string | null
+          brokenTilesNotes?: string | null
+          brokentilesphoto?: string[] | null
+          claddingType: string
+          cleanguttersnotes?: string | null
+          cleanguttersqty?: number | null
+          clientName: string
+          coatingsystemnotes?: string | null
+          coatingsystemqty?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          date: string
+          duringafter?: string[] | null
+          duringAfter?: Json | null
+          email?: string | null
+          flashings?: string | null
+          flexiblerepointingnotes?: string | null
+          flexiblerepointingqty?: number | null
+          gableLengthLM?: number | null
+          gableLengthTiles?: number | null
+          gutterPerimeter?: number | null
+          guttersDownpipes?: string | null
+          guttersDownpipesNotes?: string | null
+          guttersphoto?: string[] | null
+          heightStoreys?: string | null
+          id?: string
+          inspector: string
+          installvalleyclipsnotes?: string | null
+          installvalleyclipsqty?: number | null
+          internal_leaks_observed?: boolean | null
+          internalLeaks?: string | null
+          leaksphoto?: string[] | null
+          otherMaterials?: string | null
+          overallCondition?: string | null
+          overallConditionNotes?: string | null
+          paintColour?: string | null
+          paintSystem?: string | null
+          penetrations?: string | null
+          penetrationsNotes?: string | null
+          penetrationsphoto?: string[] | null
+          phone: string
+          pointing?: string | null
+          pointingColour?: string | null
+          pointingNotes?: string | null
+          pointingphoto?: string[] | null
+          pressurewashnotes?: string | null
+          pressurewashqty?: number | null
+          priority?: string | null
+          rebedridgenotes?: string | null
+          rebedridgeqty?: number | null
+          recommendedWorks?: Json | null
+          replacebrokentilesnotes?: string | null
+          replacebrokentilesqty?: number | null
+          replacevalleyironsnotes?: string | null
+          replacevalleyironsqty?: number | null
+          ridgeCaps?: number | null
+          roofArea?: number | null
+          roofPitch?: string | null
+          safetyRailNeeded?: boolean | null
+          sealpenetrationsnotes?: string | null
+          sealpenetrationsqty?: number | null
+          siteAddress: string
+          specTileColour?: string | null
+          specTileProfile?: string | null
+          status?: string | null
+          suburbPostcode: string
+          tileColour?: string | null
+          tileProfile?: string | null
+          time: string
+          updated_at?: string | null
+          valleyIrons?: string | null
+          valleyIronsNotes?: string | null
+          valleyironsphoto?: string[] | null
+          valleyLength?: number | null
+        }
+        Update: {
+          accessnotes?: string | null
+          accessNotes?: string | null
+          ageApprox?: string | null
+          beddingCementSand?: string | null
+          beforedefects?: string[] | null
+          beforeDefects?: Json | null
+          boxGutters?: string | null
+          boxGuttersNotes?: string | null
+          boxguttersphoto?: string[] | null
+          brokenTiles?: number | null
+          brokenTilesCaps?: string | null
+          brokenTilesNotes?: string | null
+          brokentilesphoto?: string[] | null
+          claddingType?: string
+          cleanguttersnotes?: string | null
+          cleanguttersqty?: number | null
+          clientName?: string
+          coatingsystemnotes?: string | null
+          coatingsystemqty?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          date?: string
+          duringafter?: string[] | null
+          duringAfter?: Json | null
+          email?: string | null
+          flashings?: string | null
+          flexiblerepointingnotes?: string | null
+          flexiblerepointingqty?: number | null
+          gableLengthLM?: number | null
+          gableLengthTiles?: number | null
+          gutterPerimeter?: number | null
+          guttersDownpipes?: string | null
+          guttersDownpipesNotes?: string | null
+          guttersphoto?: string[] | null
+          heightStoreys?: string | null
+          id?: string
+          inspector?: string
+          installvalleyclipsnotes?: string | null
+          installvalleyclipsqty?: number | null
+          internal_leaks_observed?: boolean | null
+          internalLeaks?: string | null
+          leaksphoto?: string[] | null
+          otherMaterials?: string | null
+          overallCondition?: string | null
+          overallConditionNotes?: string | null
+          paintColour?: string | null
+          paintSystem?: string | null
+          penetrations?: string | null
+          penetrationsNotes?: string | null
+          penetrationsphoto?: string[] | null
+          phone?: string
+          pointing?: string | null
+          pointingColour?: string | null
+          pointingNotes?: string | null
+          pointingphoto?: string[] | null
+          pressurewashnotes?: string | null
+          pressurewashqty?: number | null
+          priority?: string | null
+          rebedridgenotes?: string | null
+          rebedridgeqty?: number | null
+          recommendedWorks?: Json | null
+          replacebrokentilesnotes?: string | null
+          replacebrokentilesqty?: number | null
+          replacevalleyironsnotes?: string | null
+          replacevalleyironsqty?: number | null
+          ridgeCaps?: number | null
+          roofArea?: number | null
+          roofPitch?: string | null
+          safetyRailNeeded?: boolean | null
+          sealpenetrationsnotes?: string | null
+          sealpenetrationsqty?: number | null
+          siteAddress?: string
+          specTileColour?: string | null
+          specTileProfile?: string | null
+          status?: string | null
+          suburbPostcode?: string
+          tileColour?: string | null
+          tileProfile?: string | null
+          time?: string
+          updated_at?: string | null
+          valleyIrons?: string | null
+          valleyIronsNotes?: string | null
+          valleyironsphoto?: string[] | null
+          valleyLength?: number | null
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           created_at: string
