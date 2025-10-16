@@ -131,7 +131,8 @@ const InspectionForm = () => {
 
       if (error) throw error;
       if (data) {
-        reset(data);
+        // Cast to any to avoid type mismatch
+        reset(data as any);
         toast({
           title: 'Report loaded',
           description: 'Editing existing inspection report.',
@@ -152,7 +153,7 @@ const InspectionForm = () => {
     if (draft) {
       try {
         const parsedDraft = JSON.parse(draft);
-        reset(parsedDraft);
+        reset(parsedDraft as any);
         toast({
           title: 'Draft restored',
           description: 'Your previous work has been restored.',
@@ -190,7 +191,8 @@ const InspectionForm = () => {
       } else {
         const { error } = await supabase
           .from('inspection_reports')
-          .insert([data]);
+          .insert([data as any]);
+
 
         if (error) throw error;
         localStorage.removeItem('inspection-draft');
@@ -225,6 +227,19 @@ const InspectionForm = () => {
     setValue(name as any, urls, { shouldValidate: true });
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    const processedValue = type === 'number' ? (value === '' ? null : Number(value)) : value;
+    setValue(name as keyof InspectionFormData, processedValue as any, { shouldValidate: true });
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
+    setValue(name as keyof InspectionFormData, value as any, { shouldValidate: true });
+  };
+
+  const handleCheckboxChange = (name: string, checked: boolean) => {
+    setValue(name as keyof InspectionFormData, checked as any, { shouldValidate: true });
+  };
 
   const hasErrors = Object.keys(errors).length > 0;
 
