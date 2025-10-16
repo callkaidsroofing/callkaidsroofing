@@ -1,4 +1,5 @@
 import { Suspense, lazy } from "react";
+import { AuthGuard } from "@/components/AuthGuard";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -42,6 +43,7 @@ const MeasurementTool = lazy(() => import("./pages/MeasurementTool"));
 const InspectionForm = lazy(() => import("./pages/InspectionForm"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
+const ReportViewer = lazy(() => import("./pages/ReportViewer"));
 
 const queryClient = new QueryClient();
 
@@ -107,8 +109,9 @@ function App() {
                   
                   {/* Internal routes - no layout */}
                   <Route path="/auth" element={<Auth />} />
-                  <Route path="/internal/dashboard" element={<Dashboard />} />
-                  <Route path="/internal/inspection" element={<InspectionForm />} />
+                  <Route path="/internal/dashboard" element={<AuthGuard requireInspector><Dashboard /></AuthGuard>} />
+                  <Route path="/internal/inspection" element={<AuthGuard requireInspector><InspectionForm /></AuthGuard>} />
+                  <Route path="/internal/reports/:id" element={<AuthGuard requireInspector><ReportViewer /></AuthGuard>} />
               </Routes>
             </Suspense>
           </BrowserRouter>
