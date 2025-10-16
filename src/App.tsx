@@ -39,7 +39,7 @@ const RoofPaintingPakenham = lazy(() => import("./pages/services/suburbs/RoofPai
 const RoofPaintingCranbourne = lazy(() => import("./pages/services/suburbs/RoofPaintingCranbourne"));
 const RoofPaintingClydeNorth = lazy(() => import("./pages/services/suburbs/RoofPaintingClydeNorth"));
 const MeasurementTool = lazy(() => import("./pages/MeasurementTool"));
-const QuoteLanding = lazy(() => import("./pages/QuoteLanding"));
+const InspectionForm = lazy(() => import("./pages/InspectionForm"));
 
 const queryClient = new QueryClient();
 
@@ -100,7 +100,7 @@ function App() {
                     <Route path="landing/:source" element={<LandingPage />} />
                     <Route path="restoration-landing" element={<RestorationLanding />} />
                     <Route path="measurement-tool" element={<MeasurementTool />} />
-                    <Route path="quote" element={<QuoteLanding />} />
+                    <Route path="internal/inspection" element={<InspectionForm />} />
                     <Route path="*" element={<NotFound />} />
                   </Route>
               </Routes>
