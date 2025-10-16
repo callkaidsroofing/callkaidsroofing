@@ -1,281 +1,232 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Save, Send } from 'lucide-react';
+import { useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Save, Send, AlertCircle } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { ImageUploadField } from '@/components/ImageUploadField';
 import { InspectionFormSection } from '@/components/InspectionFormSection';
-
-interface InspectionFormData {
-  // Section 1: Job & Client
-  clientName: string;
-  phone: string;
-  siteAddress: string;
-  suburbPostcode: string;
-  email: string;
-  inspector: string;
-  date: string;
-  time: string;
-  
-  // Section 2: Roof Identification
-  claddingType: string;
-  tileProfile: string;
-  tileColour: string;
-  ageApprox: string;
-  
-  // Section 3: Quantity Summary
-  ridgeCaps: number | null;
-  brokenTiles: number | null;
-  gableLengthTiles: number | null;
-  gableLengthLM: number | null;
-  valleyLength: number | null;
-  gutterPerimeter: number | null;
-  roofArea: number | null;
-  
-  // Section 4: Condition Checklist
-  brokenTilesCaps: string;
-  brokenTilesNotes: string;
-  pointing: string;
-  pointingNotes: string;
-  valleyIrons: string;
-  valleyIronsNotes: string;
-  boxGutters: string;
-  boxGuttersNotes: string;
-  guttersDownpipes: string;
-  guttersDownpipesNotes: string;
-  penetrations: string;
-  penetrationsNotes: string;
-  internalLeaks: string;
-  
-  // Section 5: Photo uploads
-  brokentilesphoto: string[];
-  pointingphoto: string[];
-  valleyironsphoto: string[];
-  boxguttersphoto: string[];
-  guttersphoto: string[];
-  penetrationsphoto: string[];
-  leaksphoto: string[];
-  beforedefects: string[];
-  duringafter: string[];
-  
-  // Section 6: Recommended Works
-  replacebrokentilesqty: number | null;
-  replacebrokentilesnotes: string;
-  rebedridgeqty: number | null;
-  rebedridgenotes: string;
-  flexiblerepointingqty: number | null;
-  flexiblerepointingnotes: string;
-  installvalleyclipsqty: number | null;
-  installvalleyclipsnotes: string;
-  replacevalleyironsqty: number | null;
-  replacevalleyironsnotes: string;
-  cleanguttersqty: number | null;
-  cleanguttersnotes: string;
-  pressurewashqty: number | null;
-  pressurewashnotes: string;
-  sealpenetrationsqty: number | null;
-  sealpenetrationsnotes: string;
-  coatingsystemqty: number | null;
-  coatingsystemnotes: string;
-  
-  // Section 7: Materials & Specs
-  pointingColour: string;
-  beddingCementSand: string;
-  specTileProfile: string;
-  specTileColour: string;
-  paintSystem: string;
-  paintColour: string;
-  flashings: string;
-  otherMaterials: string;
-  
-  // Section 8: Safety & Access
-  heightStoreys: string;
-  safetyRailNeeded: boolean;
-  roofPitch: string;
-  accessNotes: string;
-  
-  // Section 9: Summary
-  overallCondition: string;
-  overallConditionNotes: string;
-  priority: string;
-  status: string;
-}
+import { inspectionFormSchema, type InspectionFormData } from '@/lib/validation-schemas';
 
 const InspectionForm = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isDraft, setIsDraft] = useState(false);
-  const [formData, setFormData] = useState<InspectionFormData>({
-    clientName: '',
-    phone: '',
-    siteAddress: '',
-    suburbPostcode: '',
-    email: '',
-    inspector: 'Kaidyn Brownlie',
-    date: new Date().toISOString().split('T')[0],
-    time: new Date().toTimeString().slice(0, 5),
-    claddingType: '',
-    tileProfile: '',
-    tileColour: '',
-    ageApprox: '',
-    ridgeCaps: null,
-    brokenTiles: null,
-    gableLengthTiles: null,
-    gableLengthLM: null,
-    valleyLength: null,
-    gutterPerimeter: null,
-    roofArea: null,
-    brokenTilesCaps: '',
-    brokenTilesNotes: '',
-    pointing: '',
-    pointingNotes: '',
-    valleyIrons: '',
-    valleyIronsNotes: '',
-    boxGutters: '',
-    boxGuttersNotes: '',
-    guttersDownpipes: '',
-    guttersDownpipesNotes: '',
-    penetrations: '',
-    penetrationsNotes: '',
-    internalLeaks: '',
-    brokentilesphoto: [],
-    pointingphoto: [],
-    valleyironsphoto: [],
-    boxguttersphoto: [],
-    guttersphoto: [],
-    penetrationsphoto: [],
-    leaksphoto: [],
-    beforedefects: [],
-    duringafter: [],
-    replacebrokentilesqty: null,
-    replacebrokentilesnotes: '',
-    rebedridgeqty: null,
-    rebedridgenotes: 'Strong mortar mix',
-    flexiblerepointingqty: null,
-    flexiblerepointingnotes: 'Colour to suit',
-    installvalleyclipsqty: null,
-    installvalleyclipsnotes: 'Where cut tiles slip',
-    replacevalleyironsqty: null,
-    replacevalleyironsnotes: 'Zinc/Colorbond',
-    cleanguttersqty: null,
-    cleanguttersnotes: 'All debris removed',
-    pressurewashqty: null,
-    pressurewashnotes: 'Prep for coating',
-    sealpenetrationsqty: null,
-    sealpenetrationsnotes: '',
-    coatingsystemqty: 3,
-    coatingsystemnotes: 'Primer + Membrane',
-    pointingColour: '',
-    beddingCementSand: '',
-    specTileProfile: '',
-    specTileColour: '',
-    paintSystem: '',
-    paintColour: '',
-    flashings: '',
-    otherMaterials: '',
-    heightStoreys: '',
-    safetyRailNeeded: false,
-    roofPitch: '',
-    accessNotes: '',
-    overallCondition: '',
-    overallConditionNotes: '',
-    priority: '',
-    status: 'draft',
+  const editId = searchParams.get('id');
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<InspectionFormData>({
+    resolver: zodResolver(inspectionFormSchema),
+    defaultValues: {
+      clientName: '',
+      phone: '',
+      siteAddress: '',
+      suburbPostcode: '',
+      email: '',
+      inspector: 'Kaidyn Brownlie',
+      date: new Date().toISOString().split('T')[0],
+      time: new Date().toTimeString().slice(0, 5),
+      claddingType: '',
+      tileProfile: '',
+      tileColour: '',
+      ageApprox: '',
+      ridgeCaps: null,
+      brokenTiles: null,
+      gableLengthTiles: null,
+      gableLengthLM: null,
+      valleyLength: null,
+      gutterPerimeter: null,
+      roofArea: null,
+      brokenTilesCaps: '',
+      brokenTilesNotes: '',
+      pointing: '',
+      pointingNotes: '',
+      valleyIrons: '',
+      valleyIronsNotes: '',
+      boxGutters: '',
+      boxGuttersNotes: '',
+      guttersDownpipes: '',
+      guttersDownpipesNotes: '',
+      penetrations: '',
+      penetrationsNotes: '',
+      internalLeaks: '',
+      brokentilesphoto: [],
+      pointingphoto: [],
+      valleyironsphoto: [],
+      boxguttersphoto: [],
+      guttersphoto: [],
+      penetrationsphoto: [],
+      leaksphoto: [],
+      beforedefects: [],
+      duringafter: [],
+      replacebrokentilesqty: null,
+      replacebrokentilesnotes: '',
+      rebedridgeqty: null,
+      rebedridgenotes: 'Strong mortar mix',
+      flexiblerepointingqty: null,
+      flexiblerepointingnotes: 'Colour to suit',
+      installvalleyclipsqty: null,
+      installvalleyclipsnotes: 'Where cut tiles slip',
+      replacevalleyironsqty: null,
+      replacevalleyironsnotes: 'Zinc/Colorbond',
+      cleanguttersqty: null,
+      cleanguttersnotes: 'All debris removed',
+      pressurewashqty: null,
+      pressurewashnotes: 'Prep for coating',
+      sealpenetrationsqty: null,
+      sealpenetrationsnotes: '',
+      coatingsystemqty: 3,
+      coatingsystemnotes: 'Primer + Membrane',
+      pointingColour: '',
+      beddingCementSand: '',
+      specTileProfile: '',
+      specTileColour: '',
+      paintSystem: '',
+      paintColour: '',
+      flashings: '',
+      otherMaterials: '',
+      heightStoreys: '',
+      safetyRailNeeded: false,
+      roofPitch: '',
+      accessNotes: '',
+      overallCondition: '',
+      overallConditionNotes: '',
+      priority: '',
+      status: 'draft',
+    },
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value, type } = e.target;
-    const processedValue = type === 'number' ? (value === '' ? null : Number(value)) : value;
-    setFormData(prev => ({ ...prev, [name]: processedValue }));
-  };
+  const formData = watch();
 
-  const handleSelectChange = (name: string, value: string) => {
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleCheckboxChange = (name: string, checked: boolean) => {
-    setFormData(prev => ({ ...prev, [name]: checked }));
-  };
-
-  const handleImageChange = (name: string, urls: string[]) => {
-    setFormData(prev => ({ ...prev, [name]: urls }));
-  };
-
-  // Auto-save to localStorage every 30 seconds
+  // Load existing report if editing
   useEffect(() => {
-    const interval = setInterval(() => {
-      localStorage.setItem('inspection-draft', JSON.stringify(formData));
-      setIsDraft(true);
-      setTimeout(() => setIsDraft(false), 2000);
-    }, 30000);
+    if (editId) {
+      loadReport(editId);
+    } else {
+      loadDraft();
+    }
+  }, [editId]);
 
-    return () => clearInterval(interval);
-  }, [formData]);
+  const loadReport = async (id: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('inspection_reports')
+        .select('*')
+        .eq('id', id)
+        .maybeSingle();
 
-  // Load draft on mount
-  useEffect(() => {
+      if (error) throw error;
+      if (data) {
+        reset(data);
+        toast({
+          title: 'Report loaded',
+          description: 'Editing existing inspection report.',
+        });
+      }
+    } catch (error) {
+      console.error('Error loading report:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Error loading report',
+        description: 'Unable to load the inspection report.',
+      });
+    }
+  };
+
+  const loadDraft = () => {
     const draft = localStorage.getItem('inspection-draft');
     if (draft) {
       try {
-        setFormData(JSON.parse(draft));
+        const parsedDraft = JSON.parse(draft);
+        reset(parsedDraft);
         toast({
-          title: "Draft restored",
-          description: "Your previous work has been restored.",
+          title: 'Draft restored',
+          description: 'Your previous work has been restored.',
         });
       } catch (e) {
         console.error('Failed to parse draft:', e);
       }
     }
-  }, []);
+  };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Auto-save draft every 30 seconds
+  useEffect(() => {
+    if (!editId) {
+      const interval = setInterval(() => {
+        localStorage.setItem('inspection-draft', JSON.stringify(formData));
+        toast({
+          title: 'Draft saved',
+          description: 'Your work has been auto-saved.',
+        });
+      }, 30000);
 
-    if (!formData.clientName || !formData.phone || !formData.siteAddress) {
-      toast({
-        variant: "destructive",
-        title: "Required fields missing",
-        description: "Please fill in client name, phone, and site address.",
-      });
-      return;
+      return () => clearInterval(interval);
     }
+  }, [formData, editId]);
 
-    setIsSubmitting(true);
-
+  const onSubmit = async (data: InspectionFormData) => {
     try {
-      const { data, error } = await supabase
-        .from('inspection_reports')
-        .insert([formData])
-        .select();
+      if (editId) {
+        const { error } = await supabase
+          .from('inspection_reports')
+          .update(data)
+          .eq('id', editId);
 
-      if (error) throw error;
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from('inspection_reports')
+          .insert([data]);
 
-      localStorage.removeItem('inspection-draft');
-      
+        if (error) throw error;
+        localStorage.removeItem('inspection-draft');
+      }
+
       toast({
-        title: "Inspection report saved!",
-        description: "Report has been successfully submitted.",
+        title: 'Success!',
+        description: editId ? 'Report updated successfully.' : 'Report saved successfully.',
       });
 
       navigate('/internal/dashboard');
-    } catch (error) {
-      console.error('Inspection submission error:', error);
+    } catch (error: any) {
+      console.error('Submission error:', error);
+      
+      let errorMessage = 'Unable to save the report. Please try again.';
+      
+      if (error.message?.includes('row-level security')) {
+        errorMessage = 'You do not have permission to save this report.';
+      } else if (error.message?.includes('network')) {
+        errorMessage = 'Network error. Please check your connection.';
+      }
+
       toast({
-        variant: "destructive",
-        title: "Unable to save report",
-        description: "Please check your connection and try again.",
+        variant: 'destructive',
+        title: 'Save failed',
+        description: errorMessage,
       });
-    } finally {
-      setIsSubmitting(false);
     }
   };
+
+  const handleImageChange = (name: keyof InspectionFormData, urls: string[]) => {
+    setValue(name as any, urls, { shouldValidate: true });
+  };
+
+
+  const hasErrors = Object.keys(errors).length > 0;
 
   return (
     <div className="min-h-screen bg-muted/30">
@@ -284,20 +235,34 @@ const InspectionForm = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-xl font-bold">Call Kaids Roofing - Inspection Report</h1>
+              <h1 className="text-xl font-bold">
+                Call Kaids Roofing - {editId ? 'Edit' : 'New'} Inspection Report
+              </h1>
               <p className="text-sm opacity-90">ABN 39475055075 | callkaidsroofing@outlook.com | 0435 900 709</p>
             </div>
-            {isDraft && (
-              <span className="text-xs bg-primary-foreground/20 px-3 py-1 rounded-full">
-                Draft saved
-              </span>
-            )}
           </div>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-8 max-w-5xl">
-        <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Error Summary */}
+        {hasErrors && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              Please fix the following errors before submitting:
+              <ul className="list-disc list-inside mt-2">
+                {Object.entries(errors).map(([field, error]) => (
+                  <li key={field} className="text-sm">
+                    {error?.message as string}
+                  </li>
+                ))}
+              </ul>
+            </AlertDescription>
+          </Alert>
+        )}
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Section 1: Job & Client Details */}
           <InspectionFormSection title="Job & Client Details" sectionNumber={1}>
             <div className="grid md:grid-cols-2 gap-4">

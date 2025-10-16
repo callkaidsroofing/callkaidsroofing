@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Upload, X, Image as ImageIcon } from 'lucide-react';
+import { Upload, X, AlertCircle, RefreshCw } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
@@ -11,59 +12,90 @@ interface ImageUploadFieldProps {
   value: string[];
   onChange: (name: string, urls: string[]) => void;
   helpText?: string;
+  error?: string;
 }
 
-export const ImageUploadField = ({ label, name, value, onChange, helpText }: ImageUploadFieldProps) => {
+export const ImageUploadField = ({ label, name, value, onChange, helpText, error }: ImageUploadFieldProps) => {
   const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [retrying, setRetrying] = useState(false);
   const { toast } = useToast();
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, isRetry = false) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
     setUploading(true);
+    setUploadError(null);
+    if (isRetry) setRetrying(true);
+
     const uploadedUrls: string[] = [];
+    let failedCount = 0;
 
     try {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
+        
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          failedCount++;
+          continue;
+        }
+
         const fileExt = file.name.split('.').pop();
         const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
         const filePath = `${fileName}`;
 
-        const { error: uploadError, data } = await supabase.storage
-          .from('inspection-photos')
-          .upload(filePath, file);
+        try {
+          const { error: uploadError, data } = await supabase.storage
+            .from('inspection-photos')
+            .upload(filePath, file);
 
-        if (uploadError) throw uploadError;
+          if (uploadError) throw uploadError;
 
-        const { data: { publicUrl } } = supabase.storage
-          .from('inspection-photos')
-          .getPublicUrl(filePath);
+          const { data: { publicUrl } } = supabase.storage
+            .from('inspection-photos')
+            .getPublicUrl(filePath);
 
-        uploadedUrls.push(publicUrl);
+          uploadedUrls.push(publicUrl);
+        } catch (err) {
+          console.error(`Failed to upload ${file.name}:`, err);
+          failedCount++;
+        }
       }
 
-      onChange(name, [...value, ...uploadedUrls]);
-      toast({
-        title: "Images uploaded",
-        description: `${uploadedUrls.length} image(s) uploaded successfully`,
-      });
+      if (uploadedUrls.length > 0) {
+        onChange(name, [...value, ...uploadedUrls]);
+        toast({
+          title: "Images uploaded",
+          description: `${uploadedUrls.length} image(s) uploaded successfully${failedCount > 0 ? `. ${failedCount} failed.` : ''}`,
+        });
+      }
+
+      if (failedCount === files.length) {
+        setUploadError('All uploads failed. Please check your connection and try again.');
+      }
     } catch (error) {
       console.error('Upload error:', error);
+      setUploadError('Upload failed. Please try again.');
       toast({
         variant: "destructive",
         title: "Upload failed",
-        description: "Unable to upload images. Please try again.",
+        description: "Unable to upload images. Please check your connection and try again.",
       });
     } finally {
       setUploading(false);
+      setRetrying(false);
       e.target.value = '';
     }
   };
 
   const removeImage = (indexToRemove: number) => {
     onChange(name, value.filter((_, index) => index !== indexToRemove));
+  };
+
+  const retryUpload = () => {
+    document.getElementById(name)?.click();
   };
 
   return (
@@ -73,6 +105,15 @@ export const ImageUploadField = ({ label, name, value, onChange, helpText }: Ima
       </Label>
       {helpText && (
         <p className="text-xs text-muted-foreground">{helpText}</p>
+      )}
+      
+      {(error || uploadError) && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription className="text-sm">
+            {error || uploadError}
+          </AlertDescription>
+        </Alert>
       )}
       
       <div className="space-y-3">
@@ -104,7 +145,7 @@ export const ImageUploadField = ({ label, name, value, onChange, helpText }: Ima
             type="file"
             accept="image/*"
             multiple
-            onChange={handleFileChange}
+            onChange={(e) => handleFileChange(e)}
             disabled={uploading}
             className="hidden"
           />
@@ -114,7 +155,7 @@ export const ImageUploadField = ({ label, name, value, onChange, helpText }: Ima
             size="sm"
             onClick={() => document.getElementById(name)?.click()}
             disabled={uploading}
-            className="w-full"
+            className="flex-1"
           >
             {uploading ? (
               <>Uploading...</>
@@ -125,7 +166,19 @@ export const ImageUploadField = ({ label, name, value, onChange, helpText }: Ima
               </>
             )}
           </Button>
+          {uploadError && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={retryUpload}
+              disabled={retrying}
+            >
+              <RefreshCw className={`h-4 w-4 ${retrying ? 'animate-spin' : ''}`} />
+            </Button>
+          )}
         </div>
+        <p className="text-xs text-muted-foreground">Maximum file size: 5MB per image</p>
       </div>
     </div>
   );
