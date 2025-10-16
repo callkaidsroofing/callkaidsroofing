@@ -750,7 +750,7 @@ const InspectionForm = () => {
                       id={item.qty}
                       name={item.qty}
                       type="number"
-                      value={formData[item.qty as keyof InspectionFormData] ?? ''}
+                      value={(formData[item.qty as keyof InspectionFormData] as number | null) ?? ''}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -759,7 +759,7 @@ const InspectionForm = () => {
                     <Input
                       id={item.notes}
                       name={item.notes}
-                      value={formData[item.notes as keyof InspectionFormData] as string}
+                      value={(formData[item.notes as keyof InspectionFormData] as string) ?? ''}
                       onChange={handleInputChange}
                     />
                   </div>
