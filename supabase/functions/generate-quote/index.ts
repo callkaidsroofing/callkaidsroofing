@@ -91,6 +91,11 @@ TIER PHILOSOPHY:
 - Premium: Fix + protect (adds 5-7 years of life, quality materials)
 - Complete: Like-new condition (10+ year warranty, full restoration)
 
+CRITICAL PRICING RULES:
+- For ridge rebedding and repointing: ALWAYS price "per ridge" (each ridge cap), NOT per linear meter
+- Unit must be "ridge" or "ea" for ridge rebedding/repointing items
+- Calculate total number of ridge caps from inspection data
+
 YOUR TASK:
 Generate a quote for the "${tier}" tier based on the inspection report below.
 
