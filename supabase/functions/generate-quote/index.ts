@@ -122,6 +122,12 @@ CALCULATION RULES:
 - Premium tier: use mid-range rates (quality materials like Premcoat)
 - Complete tier: use rate_max (premium materials, full scope)
 
+LINE ITEM GRANULARITY:
+- CRITICAL: Create SEPARATE line items for ridge caps, tiles, and gables
+- DO NOT combine or group these items together
+- Each item type (ridge cap, tile, gable) must be its own line item with individual quantity, rate, and total
+- Example: "Ridge Cap Rebedding" (15 LM), "Broken Tile Replacement" (8 tiles), "Gable Rebedding" (12 LM) as 3 separate line items
+
 Be precise with quantities based on inspection measurements. Round to practical units.`;
 
     // Call Lovable AI
