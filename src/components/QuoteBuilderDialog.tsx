@@ -43,8 +43,156 @@ export function QuoteBuilderDialog({ open, onOpenChange, reportId }: QuoteBuilde
     }
   };
 
-  const handleExportPDF = () => {
-    toast("PDF export coming soon!");
+  const handleExportPDF = async () => {
+    if (!quote) return;
+
+    try {
+      const { data: lineItems, error: lineItemsError } = await supabase
+        .from('quote_line_items')
+        .select('*')
+        .eq('quote_id', quote.id)
+        .order('sort_order');
+
+      if (lineItemsError) throw lineItemsError;
+
+      const printWindow = window.open('', '_blank');
+      if (!printWindow) {
+        toast.error('Please allow popups to export PDF');
+        return;
+      }
+
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Quote ${quote.quote_number}</title>
+          <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { font-family: Arial, sans-serif; padding: 40px; color: #1f2937; }
+            .header { border-bottom: 3px solid #007ACC; padding-bottom: 20px; margin-bottom: 30px; }
+            .company-name { font-size: 24px; font-weight: bold; color: #007ACC; margin-bottom: 5px; }
+            .abn { color: #6b7280; font-size: 14px; }
+            .quote-title { font-size: 20px; font-weight: bold; margin: 30px 0 10px; }
+            .quote-number { color: #6b7280; font-size: 14px; }
+            .section { margin: 20px 0; }
+            .section-title { font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #0B3B69; }
+            .info-grid { display: grid; grid-template-columns: 150px 1fr; gap: 10px; }
+            .info-label { font-weight: bold; color: #6b7280; }
+            .line-items { margin: 30px 0; }
+            table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+            th { background: #f3f4f6; padding: 12px; text-align: left; font-weight: bold; border-bottom: 2px solid #d1d5db; }
+            td { padding: 12px; border-bottom: 1px solid #e5e7eb; }
+            .item-description { color: #6b7280; font-size: 13px; margin-top: 4px; }
+            .totals { margin-top: 30px; float: right; width: 300px; }
+            .totals-row { display: flex; justify-content: space-between; padding: 8px 0; }
+            .totals-row.grand-total { font-size: 18px; font-weight: bold; border-top: 2px solid #007ACC; padding-top: 12px; margin-top: 8px; }
+            .notes { margin-top: 40px; padding: 20px; background: #f9fafb; border-left: 4px solid #007ACC; }
+            .notes-title { font-weight: bold; margin-bottom: 10px; }
+            .footer { margin-top: 60px; text-align: center; color: #6b7280; font-size: 12px; border-top: 1px solid #e5e7eb; padding-top: 20px; }
+            .tier-badge { display: inline-block; padding: 4px 12px; background: #007ACC; color: white; border-radius: 4px; font-size: 12px; font-weight: bold; }
+            @media print {
+              body { padding: 20px; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div class="company-name">Call Kaids Roofing</div>
+            <div class="abn">ABN 39475055075</div>
+            <div style="margin-top: 10px; color: #6b7280;">Kaidyn Brownlie | 0435 900 709 | callkaidsroofing@outlook.com</div>
+          </div>
+
+          <div class="quote-title">Quote</div>
+          <div class="quote-number">${quote.quote_number}</div>
+
+          <div class="section">
+            <div class="section-title">Client Information</div>
+            <div class="info-grid">
+              <div class="info-label">Client Name:</div>
+              <div>${quote.client_name}</div>
+              <div class="info-label">Site Address:</div>
+              <div>${quote.site_address}, ${quote.suburb_postcode}</div>
+              ${quote.email ? `<div class="info-label">Email:</div><div>${quote.email}</div>` : ''}
+              ${quote.phone ? `<div class="info-label">Phone:</div><div>${quote.phone}</div>` : ''}
+              <div class="info-label">Quote Date:</div>
+              <div>${new Date(String(quote.created_at)).toLocaleDateString('en-AU')}</div>
+              <div class="info-label">Valid Until:</div>
+              <div>${new Date(String(quote.valid_until)).toLocaleDateString('en-AU')}</div>
+              <div class="info-label">Package:</div>
+              <div><span class="tier-badge">${quote.tier_level.toUpperCase()}</span></div>
+            </div>
+          </div>
+
+          <div class="line-items">
+            <div class="section-title">Quote Details</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Service Item</th>
+                  <th style="text-align: right;">Qty</th>
+                  <th style="text-align: right;">Unit Rate</th>
+                  <th style="text-align: right;">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${lineItems?.map((item: any) => `
+                  <tr>
+                    <td>
+                      <div style="font-weight: 500;">${item.service_item}</div>
+                      ${item.description ? `<div class="item-description">${item.description}</div>` : ''}
+                    </td>
+                    <td style="text-align: right;">${item.quantity} ${item.unit}</td>
+                    <td style="text-align: right;">$${parseFloat(String(item.unit_rate)).toFixed(2)}</td>
+                    <td style="text-align: right;">$${parseFloat(String(item.line_total)).toFixed(2)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="totals">
+            <div class="totals-row">
+              <span>Subtotal:</span>
+              <span>$${parseFloat(String(quote.subtotal)).toFixed(2)}</span>
+            </div>
+            <div class="totals-row">
+              <span>GST (10%):</span>
+              <span>$${parseFloat(String(quote.gst)).toFixed(2)}</span>
+            </div>
+            <div class="totals-row grand-total">
+              <span>Total:</span>
+              <span>$${parseFloat(String(quote.total)).toFixed(2)}</span>
+            </div>
+          </div>
+
+          <div style="clear: both;"></div>
+
+          ${quote.notes ? `
+            <div class="notes">
+              <div class="notes-title">Notes</div>
+              <div>${quote.notes}</div>
+            </div>
+          ` : ''}
+
+          <div class="footer">
+            <div style="margin-bottom: 10px; font-weight: bold; color: #007ACC;">No Leaks. No Lifting. Just Quality.</div>
+            <div>Professional Roofing, Melbourne Style</div>
+            <div style="margin-top: 10px;">7-10 Year Workmanship Warranty | Fully Insured | Weather-dependent scheduling</div>
+          </div>
+        </body>
+        </html>
+      `);
+
+      printWindow.document.close();
+      setTimeout(() => {
+        printWindow.print();
+      }, 250);
+
+      toast.success('Quote opened for printing/PDF export');
+    } catch (error: any) {
+      console.error('Error exporting PDF:', error);
+      toast.error(error.message || 'Failed to export quote');
+    }
   };
 
   return (

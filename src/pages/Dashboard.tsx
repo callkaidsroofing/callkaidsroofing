@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Plus, LogOut, FileText } from 'lucide-react';
+import { Loader2, Plus, LogOut, FileText, DollarSign } from 'lucide-react';
 import logoMain from '@/assets/call-kaids-logo-main.png';
 import { ReportCard } from '@/components/ReportCard';
 import { QuoteBuilderDialog } from '@/components/QuoteBuilderDialog';
@@ -157,6 +157,11 @@ export default function Dashboard() {
             <Button onClick={() => navigate('/internal/inspection')} className="md:w-auto w-full">
               <Plus className="h-4 w-4 mr-2" />
               New Inspection Report
+            </Button>
+
+            <Button onClick={() => navigate('/internal/quotes')} variant="outline" className="md:w-auto w-full">
+              <DollarSign className="h-4 w-4 mr-2" />
+              View All Quotes
             </Button>
             
             <div className="flex-1 flex flex-col md:flex-row gap-3">

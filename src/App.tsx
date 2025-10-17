@@ -44,6 +44,7 @@ const MeasurementTool = lazy(() => import("./pages/MeasurementTool"));
 const InspectionForm = lazy(() => import("./pages/InspectionForm"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
+const QuotesDashboard = lazy(() => import("./pages/QuotesDashboard"));
 const ReportViewer = lazy(() => import("./pages/ReportViewer"));
 
 const queryClient = new QueryClient();
@@ -112,6 +113,7 @@ function App() {
                   {/* Internal routes - no layout */}
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/internal/dashboard" element={<AuthGuard requireInspector><Dashboard /></AuthGuard>} />
+                  <Route path="/internal/quotes" element={<AuthGuard requireInspector><QuotesDashboard /></AuthGuard>} />
                   <Route path="/internal/inspection" element={<AuthGuard requireInspector><InspectionForm /></AuthGuard>} />
                   <Route path="/internal/reports/:id" element={<AuthGuard requireInspector><ReportViewer /></AuthGuard>} />
               </Routes>
