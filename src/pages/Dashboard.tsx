@@ -10,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, Plus, LogOut, FileText } from 'lucide-react';
 import logoMain from '@/assets/call-kaids-logo-main.png';
 import { ReportCard } from '@/components/ReportCard';
+import { QuoteBuilderDialog } from '@/components/QuoteBuilderDialog';
 
 interface InspectionReport {
   id: string;
@@ -28,6 +29,8 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [quoteBuilderOpen, setQuoteBuilderOpen] = useState(false);
+  const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
   const { signOut, user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -117,11 +120,9 @@ export default function Dashboard() {
     });
   };
 
-  const handleGenerateQuote = () => {
-    toast({
-      title: 'Coming Soon',
-      description: 'Quote generation will be available in the next update.',
-    });
+  const handleGenerateQuote = (reportId: string) => {
+    setSelectedReportId(reportId);
+    setQuoteBuilderOpen(true);
   };
 
   return (
@@ -206,12 +207,21 @@ export default function Dashboard() {
                   onView={() => navigate(`/internal/reports/${report.id}`)}
                   onEdit={() => navigate(`/internal/inspection?id=${report.id}`)}
                   onExportPDF={() => handleExportPDF(report.id)}
-                  onGenerateQuote={handleGenerateQuote}
+                  onGenerateQuote={() => handleGenerateQuote(report.id)}
                 />
               ))}
             </div>
           )}
         </main>
+
+        {/* Quote Builder Dialog */}
+        {selectedReportId && (
+          <QuoteBuilderDialog
+            open={quoteBuilderOpen}
+            onOpenChange={setQuoteBuilderOpen}
+            reportId={selectedReportId}
+          />
+        )}
       </div>
     </AuthGuard>
   );

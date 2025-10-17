@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import ElegantLayout from "@/components/ElegantLayout";
+import { CustomerChatWidget } from "@/components/CustomerChatWidget";
 
 const Index = lazy(() => import("./pages/Index"));
 const About = lazy(() => import("./pages/About"));
@@ -61,6 +62,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Sonner />
+          <CustomerChatWidget />
           <BrowserRouter>
             <Suspense fallback={<LoadingScreen />}>
               <Routes>

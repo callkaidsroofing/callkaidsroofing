@@ -44,6 +44,71 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_conversations: {
+        Row: {
+          context_data: Json | null
+          conversation_type: string
+          created_at: string | null
+          id: string
+          session_id: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          context_data?: Json | null
+          conversation_type: string
+          created_at?: string | null
+          id?: string
+          session_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          context_data?: Json | null
+          conversation_type?: string
+          created_at?: string | null
+          id?: string
+          session_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      chat_messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          role: string
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          role: string
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "chat_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       inspection_reports: {
         Row: {
           accessnotes: string | null
@@ -350,6 +415,48 @@ export type Database = {
         }
         Relationships: []
       }
+      material_specs: {
+        Row: {
+          brand: string
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          material_name: string
+          product_code: string | null
+          specifications: Json | null
+          supplier: string | null
+          unit_cost: number
+          updated_at: string | null
+          warranty_years: number | null
+        }
+        Insert: {
+          brand: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          material_name: string
+          product_code?: string | null
+          specifications?: Json | null
+          supplier?: string | null
+          unit_cost: number
+          updated_at?: string | null
+          warranty_years?: number | null
+        }
+        Update: {
+          brand?: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          material_name?: string
+          product_code?: string | null
+          specifications?: Json | null
+          supplier?: string | null
+          unit_cost?: number
+          updated_at?: string | null
+          warranty_years?: number | null
+        }
+        Relationships: []
+      }
       media: {
         Row: {
           alt_text: string | null
@@ -427,6 +534,179 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      pricing_rules: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          labour_hours_per_unit: number | null
+          markup_percentage: number | null
+          material_specs: Json | null
+          rate_max: number
+          rate_min: number
+          service_item: string
+          unit: string
+          updated_at: string | null
+          warranty_tier: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          labour_hours_per_unit?: number | null
+          markup_percentage?: number | null
+          material_specs?: Json | null
+          rate_max: number
+          rate_min: number
+          service_item: string
+          unit: string
+          updated_at?: string | null
+          warranty_tier?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          labour_hours_per_unit?: number | null
+          markup_percentage?: number | null
+          material_specs?: Json | null
+          rate_max?: number
+          rate_min?: number
+          service_item?: string
+          unit?: string
+          updated_at?: string | null
+          warranty_tier?: string | null
+        }
+        Relationships: []
+      }
+      quote_line_items: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          line_total: number
+          material_spec_id: string | null
+          quantity: number
+          quote_id: string
+          service_item: string
+          sort_order: number | null
+          unit: string
+          unit_rate: number
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          line_total: number
+          material_spec_id?: string | null
+          quantity: number
+          quote_id: string
+          service_item: string
+          sort_order?: number | null
+          unit: string
+          unit_rate: number
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          line_total?: number
+          material_spec_id?: string | null
+          quantity?: number
+          quote_id?: string
+          service_item?: string
+          sort_order?: number | null
+          unit?: string
+          unit_rate?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_line_items_material_spec_id_fkey"
+            columns: ["material_spec_id"]
+            isOneToOne: false
+            referencedRelation: "material_specs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quote_line_items_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quotes: {
+        Row: {
+          client_name: string
+          created_at: string | null
+          created_by: string | null
+          email: string | null
+          gst: number
+          id: string
+          inspection_report_id: string | null
+          notes: string | null
+          phone: string
+          quote_number: string
+          site_address: string
+          status: string | null
+          subtotal: number
+          suburb_postcode: string
+          tier_level: string
+          total: number
+          updated_at: string | null
+          valid_until: string | null
+        }
+        Insert: {
+          client_name: string
+          created_at?: string | null
+          created_by?: string | null
+          email?: string | null
+          gst: number
+          id?: string
+          inspection_report_id?: string | null
+          notes?: string | null
+          phone: string
+          quote_number: string
+          site_address: string
+          status?: string | null
+          subtotal: number
+          suburb_postcode: string
+          tier_level: string
+          total: number
+          updated_at?: string | null
+          valid_until?: string | null
+        }
+        Update: {
+          client_name?: string
+          created_at?: string | null
+          created_by?: string | null
+          email?: string | null
+          gst?: number
+          id?: string
+          inspection_report_id?: string | null
+          notes?: string | null
+          phone?: string
+          quote_number?: string
+          site_address?: string
+          status?: string | null
+          subtotal?: number
+          suburb_postcode?: string
+          tier_level?: string
+          total?: number
+          updated_at?: string | null
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotes_inspection_report_id_fkey"
+            columns: ["inspection_report_id"]
+            isOneToOne: false
+            referencedRelation: "inspection_reports"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       rate_limits: {
         Row: {
@@ -560,6 +840,10 @@ export type Database = {
       create_admin_for_authenticated_user: {
         Args: Record<PropertyKey, never>
         Returns: Json
+      }
+      generate_quote_number: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
       has_role: {
         Args: {

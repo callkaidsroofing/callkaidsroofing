@@ -56,3 +56,21 @@ enable_confirmations = false
 
 [edge_functions]
 enabled = true
+
+[functions.generate-quote]
+verify_jwt = true
+
+[functions.chat-quote-assistant]
+verify_jwt = true
+
+[functions.chat-customer-support]
+verify_jwt = false
+
+[functions.get-roof-data]
+verify_jwt = false
+
+[functions.send-lead-notification]
+verify_jwt = false
+
+[functions.get-facebook-app-id]
+verify_jwt = false
