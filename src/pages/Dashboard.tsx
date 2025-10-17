@@ -5,13 +5,11 @@ import { AuthGuard } from '@/components/AuthGuard';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Plus, Eye, Edit, LogOut, FileText } from 'lucide-react';
-import { format } from 'date-fns';
+import { Loader2, Plus, LogOut, FileText } from 'lucide-react';
 import logoMain from '@/assets/call-kaids-logo-main.png';
+import { ReportCard } from '@/components/ReportCard';
 
 interface InspectionReport {
   id: string;
@@ -112,6 +110,20 @@ export default function Dashboard() {
     navigate('/auth');
   };
 
+  const handleExportPDF = (reportId: string) => {
+    const reportWindow = window.open(`/internal/reports/${reportId}`, '_blank');
+    reportWindow?.addEventListener('load', () => {
+      reportWindow.print();
+    });
+  };
+
+  const handleGenerateQuote = () => {
+    toast({
+      title: 'Coming Soon',
+      description: 'Quote generation will be available in the next update.',
+    });
+  };
+
   return (
     <AuthGuard requireInspector>
       <div className="min-h-screen bg-background">
@@ -170,7 +182,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Reports Table */}
+          {/* Reports Grid */}
           {loading ? (
             <div className="flex items-center justify-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -186,63 +198,17 @@ export default function Dashboard() {
               </p>
             </div>
           ) : (
-            <div className="border border-border rounded-lg overflow-hidden bg-card">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Client</TableHead>
-                    <TableHead>Address</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Priority</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredReports.map((report) => (
-                    <TableRow key={report.id}>
-                      <TableCell>
-                        {report.date ? format(new Date(report.date), 'dd/MM/yyyy') : 'N/A'}
-                      </TableCell>
-                      <TableCell className="font-medium">{report.clientName}</TableCell>
-                      <TableCell>
-                        <div className="max-w-xs truncate">{report.siteAddress}</div>
-                        <div className="text-sm text-muted-foreground">{report.suburbPostcode}</div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={getStatusBadgeVariant(report.status)}>
-                          {report.status || 'Draft'}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        {report.priority && (
-                          <Badge variant={getPriorityBadgeVariant(report.priority)}>
-                            {report.priority}
-                          </Badge>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => navigate(`/internal/reports/${report.id}`)}
-                          >
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => navigate(`/internal/inspection?id=${report.id}`)}
-                          >
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {filteredReports.map((report) => (
+                <ReportCard
+                  key={report.id}
+                  report={report}
+                  onView={() => navigate(`/internal/reports/${report.id}`)}
+                  onEdit={() => navigate(`/internal/inspection?id=${report.id}`)}
+                  onExportPDF={() => handleExportPDF(report.id)}
+                  onGenerateQuote={handleGenerateQuote}
+                />
+              ))}
             </div>
           )}
         </main>
