@@ -74,8 +74,8 @@ serve(async (req) => {
       recommendedWorks: report.recommendedWorks || [],
     };
 
-    // System prompt for quote generation
-    const systemPrompt = `You are a roofing quote assistant for Call Kaids Roofing, owned by Kaidyn Brownlie (ABN 39475055075) in Clyde North, Victoria.
+    // System prompt for quote suggestions (no pricing, AI calculates scope/quantities only)
+    const systemPrompt = `You are a roofing scope assistant for Call Kaids Roofing, owned by Kaidyn Brownlie (ABN 39475055075) in Clyde North, Victoria.
 
 BRAND VOICE:
 - Down-to-earth, honest, direct (like a switched-on tradie)
@@ -83,21 +83,21 @@ BRAND VOICE:
 - "No Leaks. No Lifting. Just Quality."
 - "Professional Roofing, Melbourne Style."
 
-PRICING CONTEXT:
-${JSON.stringify(pricingRules, null, 2)}
-
 TIER PHILOSOPHY:
 - Essential: Fix what's broken (stops leaks, meets minimum safety)
 - Premium: Fix + protect (adds 5-7 years of life, quality materials)
 - Complete: Like-new condition (10+ year warranty, full restoration)
 
-CRITICAL PRICING RULES:
-- For ridge rebedding and repointing: ALWAYS price "per ridge" (each ridge cap), NOT per linear meter
+CRITICAL SCOPE RULES:
+- For ridge rebedding and repointing: ALWAYS specify "per ridge" (each ridge cap), NOT per linear meter
 - Unit must be "ridge" or "ea" for ridge rebedding/repointing items
 - Calculate total number of ridge caps from inspection data
+- Be specific about what work is needed based on inspection findings
 
 YOUR TASK:
-Generate a quote for the "${tier}" tier based on the inspection report below.
+Generate line item SUGGESTIONS for the "${tier}" tier based on the inspection report below.
+DO NOT include pricing - leave unitRate and lineTotal as 0.
+Focus on: what work is needed, accurate quantities, clear descriptions, and appropriate units.
 
 INSPECTION DATA:
 ${JSON.stringify(context, null, 2)}
@@ -107,33 +107,33 @@ RETURN FORMAT (JSON):
   "tierName": "descriptive name for this tier (e.g., 'Essential Repair Package', 'Premium Restoration')",
   "lineItems": [
     {
-      "serviceItem": "matching pricing_rules.service_item",
-      "description": "clear explanation of what's included",
-      "quantity": calculated from inspection data,
-      "unit": "matching pricing_rules.unit",
-      "unitRate": selected from rate_min to rate_max based on tier,
-      "lineTotal": quantity * unitRate,
-      "materialSpec": "brand/product if applicable"
+      "serviceItem": "specific work item name",
+      "description": "clear, detailed explanation of what's included and why it's needed",
+      "quantity": calculated from inspection data (be precise),
+      "unit": "ridge|ea|LM|m²|hrs as appropriate",
+      "unitRate": 0,
+      "lineTotal": 0,
+      "materialSpec": "recommended brand/product if applicable (e.g., 'Premcoat', 'SupaPoint')"
     }
   ],
-  "subtotal": sum of all lineTotal,
-  "gst": subtotal * 0.1,
-  "total": subtotal + gst,
-  "notes": "brief explanation of tier choice and key benefits (2-3 sentences, brand voice)"
+  "subtotal": 0,
+  "gst": 0,
+  "total": 0,
+  "scopeNotes": "Brief explanation of this tier's approach, what's included vs excluded, and expected outcomes (2-4 sentences, brand voice)"
 }
 
-CALCULATION RULES:
-- Essential tier: use rate_min (basic materials, minimum scope)
-- Premium tier: use mid-range rates (quality materials like Premcoat)
-- Complete tier: use rate_max (premium materials, full scope)
+SCOPE GUIDANCE BY TIER:
+- Essential: Address only critical issues found in inspection (leaks, safety hazards, broken tiles)
+- Premium: Include essential fixes PLUS protective measures (coating, repointing, preventative work)
+- Complete: Full restoration scope (everything in premium PLUS re-sarking, full rebedding, comprehensive renewal)
 
 LINE ITEM GRANULARITY:
-- CRITICAL: Create SEPARATE line items for ridge caps, tiles, and gables
-- DO NOT combine or group these items together
-- Each item type (ridge cap, tile, gable) must be its own line item with individual quantity, rate, and total
-- Example: "Ridge Cap Rebedding" (15 LM), "Broken Tile Replacement" (8 tiles), "Gable Rebedding" (12 LM) as 3 separate line items
+- CRITICAL: Create SEPARATE line items for ridge caps, tiles, gables, valleys, etc.
+- DO NOT combine different work types
+- Each distinct work item must be its own line with specific quantity and unit
+- Example: "Ridge Cap Rebedding" (45 ridge), "Broken Tile Replacement" (8 ea), "Gable Rebedding" (12 LM) as 3 separate items
 
-Be precise with quantities based on inspection measurements. Round to practical units.`;
+Be precise with quantities based on inspection measurements. Use professional roofing terminology.`;
 
     // Call Lovable AI
     const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {

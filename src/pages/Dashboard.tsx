@@ -11,6 +11,7 @@ import { Loader2, Plus, LogOut, FileText, DollarSign } from 'lucide-react';
 import logoMain from '@/assets/call-kaids-logo-main.png';
 import { ReportCard } from '@/components/ReportCard';
 import { QuoteBuilderDialog } from '@/components/QuoteBuilderDialog';
+import { ProfessionalQuoteBuilder } from '@/components/ProfessionalQuoteBuilder';
 
 interface InspectionReport {
   id: string;
@@ -30,6 +31,7 @@ export default function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [quoteBuilderOpen, setQuoteBuilderOpen] = useState(false);
+  const [professionalBuilderOpen, setProfessionalBuilderOpen] = useState(false);
   const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
   const { signOut, user } = useAuth();
   const { toast } = useToast();
@@ -122,7 +124,7 @@ export default function Dashboard() {
 
   const handleGenerateQuote = (reportId: string) => {
     setSelectedReportId(reportId);
-    setQuoteBuilderOpen(true);
+    setProfessionalBuilderOpen(true);
   };
 
   return (
@@ -219,11 +221,11 @@ export default function Dashboard() {
           )}
         </main>
 
-        {/* Quote Builder Dialog */}
+        {/* Professional Quote Builder */}
         {selectedReportId && (
-          <QuoteBuilderDialog
-            open={quoteBuilderOpen}
-            onOpenChange={setQuoteBuilderOpen}
+          <ProfessionalQuoteBuilder
+            open={professionalBuilderOpen}
+            onOpenChange={setProfessionalBuilderOpen}
             reportId={selectedReportId}
           />
         )}
