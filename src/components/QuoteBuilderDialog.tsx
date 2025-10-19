@@ -3,11 +3,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, FileText, MessageSquare, Sparkles } from "lucide-react";
+import { Loader2, FileText, MessageSquare, Sparkles, Settings } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { QuoteTierCard } from "./QuoteTierCard";
 import { QuoteChatPanel } from "./QuoteChatPanel";
+import { QuotePreferencesForm, QuotePreferences } from "./QuotePreferencesForm";
 
 interface QuoteBuilderDialogProps {
   open: boolean;
@@ -16,10 +17,19 @@ interface QuoteBuilderDialogProps {
 }
 
 export function QuoteBuilderDialog({ open, onOpenChange, reportId }: QuoteBuilderDialogProps) {
-  const [step, setStep] = useState<"tier" | "review" | "chat">("tier");
+  const [step, setStep] = useState<"preferences" | "tier" | "review" | "chat">("preferences");
   const [selectedTier, setSelectedTier] = useState<"essential" | "premium" | "complete" | null>(null);
   const [generatingQuote, setGeneratingQuote] = useState(false);
   const [quote, setQuote] = useState<any>(null);
+  const [preferences, setPreferences] = useState<QuotePreferences>({
+    gstDisplay: "inclusive",
+    clientType: "homeowner",
+    budgetLevel: "standard",
+    gutterCleaningPreference: "auto",
+    washPaintPreference: "combined",
+    ridgeMeasurement: "caps",
+    specialRequirements: "",
+  });
 
   const handleGenerateQuote = async (tier: "essential" | "premium" | "complete") => {
     setGeneratingQuote(true);
@@ -27,7 +37,11 @@ export function QuoteBuilderDialog({ open, onOpenChange, reportId }: QuoteBuilde
 
     try {
       const { data, error } = await supabase.functions.invoke("generate-quote", {
-        body: { inspectionReportId: reportId, tier },
+        body: { 
+          inspectionReportId: reportId, 
+          tier,
+          preferences 
+        },
       });
 
       if (error) throw error;
@@ -206,17 +220,33 @@ export function QuoteBuilderDialog({ open, onOpenChange, reportId }: QuoteBuilde
         </DialogHeader>
 
         <Tabs value={step} onValueChange={(v) => setStep(v as any)} className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="preferences">
+              <Settings className="h-4 w-4 mr-2" />
+              Preferences
+            </TabsTrigger>
             <TabsTrigger value="tier" disabled={generatingQuote}>
-              1. Select Tier
+              Select Tier
             </TabsTrigger>
             <TabsTrigger value="review" disabled={!quote}>
-              2. Review Quote
+              Review Quote
             </TabsTrigger>
             <TabsTrigger value="chat" disabled={!quote}>
-              3. Refine (Chat)
+              Refine (Chat)
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="preferences" className="space-y-4 mt-6">
+            <div className="text-sm text-muted-foreground mb-4">
+              Set your quote preferences before generating. These help the AI create a quote tailored to your customer.
+            </div>
+            <QuotePreferencesForm preferences={preferences} onChange={setPreferences} />
+            <div className="flex justify-end">
+              <Button onClick={() => setStep("tier")}>
+                Continue to Tier Selection
+              </Button>
+            </div>
+          </TabsContent>
 
           <TabsContent value="tier" className="space-y-4 mt-6">
             <div className="text-sm text-muted-foreground mb-4">

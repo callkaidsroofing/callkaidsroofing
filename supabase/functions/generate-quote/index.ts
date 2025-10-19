@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const { inspectionReportId, tier } = await req.json();
+    const { inspectionReportId, tier, preferences } = await req.json();
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -74,8 +74,21 @@ serve(async (req) => {
       recommendedWorks: report.recommendedWorks || [],
     };
 
-    // System prompt for quote suggestions (no pricing, AI calculates scope/quantities only)
-    const systemPrompt = `You are a roofing scope assistant for Call Kaids Roofing, owned by Kaidyn Brownlie (ABN 39475055075) in Clyde North, Victoria.
+    // Build preferences context
+    const preferencesContext = preferences ? `
+
+QUOTE PREFERENCES:
+- Client Type: ${preferences.clientType}
+- Budget Level: ${preferences.budgetLevel} (${preferences.budgetLevel === 'budget' ? 'use rate_min' : preferences.budgetLevel === 'premium' ? 'use rate_max' : 'use average of rate_min and rate_max'})
+- GST Display: ${preferences.gstDisplay}
+- Gutter Cleaning: ${preferences.gutterCleaningPreference} (${preferences.gutterCleaningPreference === 'free' ? '$0.00' : preferences.gutterCleaningPreference === 'auto' ? 'free for premium/complete, priced for essential' : 'priced as buffer'})
+- Wash + Paint: ${preferences.washPaintPreference} (${preferences.washPaintPreference === 'combined' ? 'single line item' : 'separate wash and paint line items'})
+- Ridge Measurement: ${preferences.ridgeMeasurement} (${preferences.ridgeMeasurement === 'caps' ? 'prioritize per ridge cap' : preferences.ridgeMeasurement === 'lm' ? 'use linear meters' : 'show caps primary, LM in description'})
+${preferences.specialRequirements ? `- Special Requirements: ${preferences.specialRequirements}` : ''}
+` : '';
+
+    // System prompt with pricing logic
+    const systemPrompt = `You are an AI quote generator for Call Kaids Roofing, owned by Kaidyn Brownlie (ABN 39475055075) in Clyde North, Victoria.
 
 BRAND VOICE:
 - Down-to-earth, honest, direct (like a switched-on tradie)
@@ -87,17 +100,53 @@ TIER PHILOSOPHY:
 - Essential: Fix what's broken (stops leaks, meets minimum safety)
 - Premium: Fix + protect (adds 5-7 years of life, quality materials)
 - Complete: Like-new condition (10+ year warranty, full restoration)
+${preferencesContext}
 
-CRITICAL SCOPE RULES:
-- For ridge rebedding and repointing: ALWAYS specify "per ridge" (each ridge cap), NOT per linear meter
-- Unit must be "ridge" or "ea" for ridge rebedding/repointing items
-- Calculate total number of ridge caps from inspection data
-- Be specific about what work is needed based on inspection findings
+PRICING RULES AVAILABLE:
+${JSON.stringify(pricingRules, null, 2)}
+
+CRITICAL PRICING INSTRUCTIONS:
+1. Ridge work: Prioritize "ridge" unit (per cap), but you can convert from LM if needed (assume ~3 caps per LM)
+2. Wash + Paint: If preferences say "combined", use "Pressure Wash + 3-Coat Paint" as ONE line item. If "separate", use "Pressure Wash" and "3-Coat Paint System" as TWO line items
+3. Gutter Cleaning: 
+   - If preference is "free": Include line item with $0.00 rate
+   - If preference is "auto": Free for premium/complete tiers, priced for essential tier
+   - If preference is "priced": Always include pricing based on rate_min/rate_max
+4. Budget Level:
+   - "budget": Use rate_min from pricing rules
+   - "standard": Use average of (rate_min + rate_max) / 2
+   - "premium": Use rate_max from pricing rules
+5. Calculate lineTotal = quantity × unitRate for each item
+6. Calculate subtotal = sum of all lineTotals
+7. GST = subtotal × 0.1 (always calculate, display will be controlled by preferences)
+8. Total = subtotal + GST
+
+TIER-SPECIFIC COMBINATIONS:
+Essential Tier:
+- Broken tiles, ridge/gable critical repairs, valley stormsealing (if needed)
+- Seal penetrations if leaking
+- Gutter cleaning: priced if "auto" preference, otherwise follow preference
+- NO painting unless critical
+
+Premium Tier:
+- All essential work PLUS
+- Full ridge/gable rebedding + repointing
+- Pressure wash + paint (combined or separate based on preference)
+- Valley iron replacement (not just stormseal)
+- Gutter cleaning: FREE if "auto" preference
+- Seal all penetrations properly
+
+Complete Tier:
+- All premium work PLUS
+- Re-sarking + re-battening (if inspection shows old sarking/battens)
+- Valley clips installation
+- Safety rails if required
+- Premium materials throughout
+- Gutter cleaning: FREE
 
 YOUR TASK:
-Generate line item SUGGESTIONS for the "${tier}" tier based on the inspection report below.
-DO NOT include pricing - leave unitRate and lineTotal as 0.
-Focus on: what work is needed, accurate quantities, clear descriptions, and appropriate units.
+Generate a complete quote for the "${tier}" tier based on the inspection report and preferences.
+Calculate ACTUAL PRICING using the pricing rules and budget level.
 
 INSPECTION DATA:
 ${JSON.stringify(context, null, 2)}
@@ -107,33 +156,28 @@ RETURN FORMAT (JSON):
   "tierName": "descriptive name for this tier (e.g., 'Essential Repair Package', 'Premium Restoration')",
   "lineItems": [
     {
-      "serviceItem": "specific work item name",
+      "serviceItem": "exact service name from pricing rules",
       "description": "clear, detailed explanation of what's included and why it's needed",
       "quantity": calculated from inspection data (be precise),
       "unit": "ridge|ea|LM|m²|hrs as appropriate",
-      "unitRate": 0,
-      "lineTotal": 0,
-      "materialSpec": "recommended brand/product if applicable (e.g., 'Premcoat', 'SupaPoint')"
+      "unitRate": calculated from pricing rules + budget level (actual dollar amount),
+      "lineTotal": quantity × unitRate (actual dollar amount),
+      "materialSpec": "recommended brand/product from pricing rules"
     }
   ],
-  "subtotal": 0,
-  "gst": 0,
-  "total": 0,
+  "subtotal": sum of all lineTotals,
+  "gst": subtotal × 0.1,
+  "total": subtotal + gst,
   "scopeNotes": "Brief explanation of this tier's approach, what's included vs excluded, and expected outcomes (2-4 sentences, brand voice)"
 }
 
-SCOPE GUIDANCE BY TIER:
-- Essential: Address only critical issues found in inspection (leaks, safety hazards, broken tiles)
-- Premium: Include essential fixes PLUS protective measures (coating, repointing, preventative work)
-- Complete: Full restoration scope (everything in premium PLUS re-sarking, full rebedding, comprehensive renewal)
-
 LINE ITEM GRANULARITY:
 - CRITICAL: Create SEPARATE line items for ridge caps, tiles, gables, valleys, etc.
-- DO NOT combine different work types
-- Each distinct work item must be its own line with specific quantity and unit
-- Example: "Ridge Cap Rebedding" (45 ridge), "Broken Tile Replacement" (8 ea), "Gable Rebedding" (12 LM) as 3 separate items
+- DO NOT combine different work types unless preferences specifically say "combined" for wash+paint
+- Each distinct work item must be its own line with specific quantity and calculated pricing
+- Match serviceItem names EXACTLY to pricing_rules table entries
 
-Be precise with quantities based on inspection measurements. Use professional roofing terminology.`;
+Be precise with quantities based on inspection measurements. Calculate ALL pricing based on the rules provided.`;
 
     // Call Lovable AI
     const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
@@ -146,9 +190,10 @@ Be precise with quantities based on inspection measurements. Use professional ro
         model: 'google/gemini-2.5-flash',
         messages: [
           { role: 'system', content: systemPrompt },
-          { role: 'user', content: `Generate ${tier} tier quote` }
+          { role: 'user', content: `Generate ${tier} tier quote with full pricing calculations based on the pricing rules and preferences provided.` }
         ],
-        response_format: { type: 'json_object' }
+        response_format: { type: 'json_object' },
+        temperature: 0.7
       }),
     });
 
