@@ -46,6 +46,8 @@ const Auth = lazy(() => import("./pages/Auth"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const QuotesDashboard = lazy(() => import("./pages/QuotesDashboard"));
 const ReportViewer = lazy(() => import("./pages/ReportViewer"));
+const InternalHome = lazy(() => import("./pages/InternalHome"));
+import { InternalLayout } from "@/components/InternalLayout";
 
 const queryClient = new QueryClient();
 
@@ -110,12 +112,18 @@ function App() {
                     <Route path="*" element={<NotFound />} />
                   </Route>
                   
-                  {/* Internal routes - no layout */}
+                  {/* Auth route - no layout */}
                   <Route path="/auth" element={<Auth />} />
-                  <Route path="/internal/dashboard" element={<AuthGuard requireInspector><Dashboard /></AuthGuard>} />
-                  <Route path="/internal/quotes" element={<AuthGuard requireInspector><QuotesDashboard /></AuthGuard>} />
-                  <Route path="/internal/inspection" element={<AuthGuard requireInspector><InspectionForm /></AuthGuard>} />
-                  <Route path="/internal/reports/:id" element={<AuthGuard requireInspector><ReportViewer /></AuthGuard>} />
+                  
+                  {/* Internal routes - with sidebar layout */}
+                  <Route path="/internal/*" element={<InternalLayout />}>
+                    <Route index element={<InternalHome />} />
+                    <Route path="home" element={<InternalHome />} />
+                    <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="quotes" element={<QuotesDashboard />} />
+                    <Route path="inspection" element={<InspectionForm />} />
+                    <Route path="reports/:id" element={<ReportViewer />} />
+                  </Route>
               </Routes>
             </Suspense>
           </BrowserRouter>

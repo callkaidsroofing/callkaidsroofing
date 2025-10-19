@@ -7,11 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Plus, LogOut, FileText, DollarSign } from 'lucide-react';
-import logoMain from '@/assets/call-kaids-logo-main.png';
+import { Loader2, FileText, LayoutGrid, List, Calendar } from 'lucide-react';
 import { ReportCard } from '@/components/ReportCard';
-import { QuoteBuilderDialog } from '@/components/QuoteBuilderDialog';
 import { ProfessionalQuoteBuilder } from '@/components/ProfessionalQuoteBuilder';
+import { ReportsDataTable } from '@/components/ReportsDataTable';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface InspectionReport {
   id: string;
@@ -30,10 +30,12 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [quoteBuilderOpen, setQuoteBuilderOpen] = useState(false);
+  const [priorityFilter, setPriorityFilter] = useState<string>('all');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
+  const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
   const [professionalBuilderOpen, setProfessionalBuilderOpen] = useState(false);
   const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
-  const { signOut, user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -43,7 +45,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     filterReports();
-  }, [reports, searchTerm, statusFilter]);
+  }, [reports, searchTerm, statusFilter, priorityFilter, dateFrom, dateTo]);
 
   const fetchReports = async () => {
     try {
@@ -83,37 +85,29 @@ export default function Dashboard() {
       filtered = filtered.filter(report => report.status === statusFilter);
     }
 
+    // Priority filter
+    if (priorityFilter !== 'all') {
+      filtered = filtered.filter(report => report.priority === priorityFilter);
+    }
+
+    // Date range filter
+    if (dateFrom) {
+      filtered = filtered.filter(report => {
+        const reportDate = new Date(report.date || report.created_at);
+        return reportDate >= new Date(dateFrom);
+      });
+    }
+
+    if (dateTo) {
+      filtered = filtered.filter(report => {
+        const reportDate = new Date(report.date || report.created_at);
+        return reportDate <= new Date(dateTo);
+      });
+    }
+
     setFilteredReports(filtered);
   };
 
-  const getStatusBadgeVariant = (status: string) => {
-    switch (status?.toLowerCase()) {
-      case 'completed':
-        return 'default';
-      case 'submitted':
-        return 'secondary';
-      case 'draft':
-        return 'outline';
-      default:
-        return 'outline';
-    }
-  };
-
-  const getPriorityBadgeVariant = (priority: string) => {
-    switch (priority?.toLowerCase()) {
-      case 'urgent':
-        return 'destructive';
-      case 'high':
-        return 'default';
-      default:
-        return 'secondary';
-    }
-  };
-
-  const handleSignOut = async () => {
-    await signOut();
-    navigate('/auth');
-  };
 
   const handleExportPDF = (reportId: string) => {
     const reportWindow = window.open(`/internal/reports/${reportId}`, '_blank');
@@ -129,106 +123,142 @@ export default function Dashboard() {
 
   return (
     <AuthGuard requireInspector>
-      <div className="min-h-screen bg-background">
+      <div className="p-8 space-y-6">
         {/* Header */}
-        <header className="border-b border-border bg-card">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <img src={logoMain} alt="Call Kaids Roofing" className="h-12" />
-                <div>
-                  <h1 className="text-xl font-bold">Inspection Dashboard</h1>
-                  <p className="text-sm text-muted-foreground">ABN 39475055075</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-sm text-muted-foreground">{user?.email}</span>
-                <Button onClick={handleSignOut} variant="outline" size="sm">
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
-                </Button>
-              </div>
-            </div>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">Inspection Reports</h1>
+            <p className="text-muted-foreground mt-1">
+              Manage and track all inspection reports
+            </p>
           </div>
-        </header>
+          <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as 'grid' | 'table')}>
+            <TabsList>
+              <TabsTrigger value="grid">
+                <LayoutGrid className="h-4 w-4 mr-2" />
+                Grid
+              </TabsTrigger>
+              <TabsTrigger value="table">
+                <List className="h-4 w-4 mr-2" />
+                Table
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
 
-        {/* Main Content */}
-        <main className="container mx-auto px-4 py-8">
-          {/* Actions Bar */}
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <Button onClick={() => navigate('/internal/inspection')} className="md:w-auto w-full">
-              <Plus className="h-4 w-4 mr-2" />
-              New Inspection Report
-            </Button>
-
-            <Button onClick={() => navigate('/internal/quotes')} variant="outline" className="md:w-auto w-full">
-              <DollarSign className="h-4 w-4 mr-2" />
-              View All Quotes
-            </Button>
-            
-            <div className="flex-1 flex flex-col md:flex-row gap-3">
-              <Input
-                placeholder="Search by client name, address, suburb..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="md:max-w-sm"
-              />
-              
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="md:w-48">
-                  <SelectValue placeholder="Filter by status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Statuses</SelectItem>
-                  <SelectItem value="draft">Draft</SelectItem>
-                  <SelectItem value="submitted">Submitted</SelectItem>
-                  <SelectItem value="under_review">Under Review</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
-                  <SelectItem value="archived">Archived</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Reports Grid */}
-          {loading ? (
-            <div className="flex items-center justify-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-          ) : filteredReports.length === 0 ? (
-            <div className="text-center py-12 bg-card rounded-lg border border-border">
-              <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-              <h3 className="text-lg font-semibold mb-2">No Reports Found</h3>
-              <p className="text-muted-foreground mb-4">
-                {searchTerm || statusFilter !== 'all' 
-                  ? 'Try adjusting your search or filters'
-                  : 'Create your first inspection report to get started'}
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {filteredReports.map((report) => (
-                <ReportCard
-                  key={report.id}
-                  report={report}
-                  onView={() => navigate(`/internal/reports/${report.id}`)}
-                  onEdit={() => navigate(`/internal/inspection?id=${report.id}`)}
-                  onExportPDF={() => handleExportPDF(report.id)}
-                  onGenerateQuote={() => handleGenerateQuote(report.id)}
-                />
-              ))}
-            </div>
-          )}
-        </main>
-
-        {/* Professional Quote Builder */}
-        {selectedReportId && (
-          <ProfessionalQuoteBuilder
-            open={professionalBuilderOpen}
-            onOpenChange={setProfessionalBuilderOpen}
-            reportId={selectedReportId}
+        {/* Filters */}
+        <div className="flex flex-col lg:flex-row gap-4">
+          <Input
+            placeholder="Search by client name, address, suburb..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="lg:max-w-sm"
           />
+          
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="lg:w-48">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Statuses</SelectItem>
+              <SelectItem value="draft">Draft</SelectItem>
+              <SelectItem value="submitted">Submitted</SelectItem>
+              <SelectItem value="under_review">Under Review</SelectItem>
+              <SelectItem value="completed">Completed</SelectItem>
+              <SelectItem value="archived">Archived</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={priorityFilter} onValueChange={setPriorityFilter}>
+            <SelectTrigger className="lg:w-48">
+              <SelectValue placeholder="Priority" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Priorities</SelectItem>
+              <SelectItem value="urgent">Urgent</SelectItem>
+              <SelectItem value="high">High</SelectItem>
+              <SelectItem value="normal">Normal</SelectItem>
+              <SelectItem value="low">Low</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <div className="flex gap-2">
+            <Input
+              type="date"
+              value={dateFrom}
+              onChange={(e) => setDateFrom(e.target.value)}
+              placeholder="From date"
+              className="lg:w-40"
+            />
+            <Input
+              type="date"
+              value={dateTo}
+              onChange={(e) => setDateTo(e.target.value)}
+              placeholder="To date"
+              className="lg:w-40"
+            />
+          </div>
+
+          {(searchTerm || statusFilter !== 'all' || priorityFilter !== 'all' || dateFrom || dateTo) && (
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setSearchTerm('');
+                setStatusFilter('all');
+                setPriorityFilter('all');
+                setDateFrom('');
+                setDateTo('');
+              }}
+            >
+              Clear Filters
+            </Button>
+          )}
+        </div>
+
+        {/* Reports View */}
+        {loading ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+        ) : filteredReports.length === 0 ? (
+          <div className="text-center py-12 bg-card rounded-lg border border-border">
+            <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+            <h3 className="text-lg font-semibold mb-2">No Reports Found</h3>
+            <p className="text-muted-foreground mb-4">
+              {searchTerm || statusFilter !== 'all' || priorityFilter !== 'all' || dateFrom || dateTo
+                ? 'Try adjusting your search or filters'
+                : 'Create your first inspection report to get started'}
+            </p>
+          </div>
+        ) : viewMode === 'table' ? (
+          <ReportsDataTable
+            reports={filteredReports}
+            onExportPDF={handleExportPDF}
+            onGenerateQuote={handleGenerateQuote}
+          />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredReports.map((report) => (
+              <ReportCard
+                key={report.id}
+                report={report}
+                onView={() => navigate(`/internal/reports/${report.id}`)}
+                onEdit={() => navigate(`/internal/inspection?id=${report.id}`)}
+                onExportPDF={() => handleExportPDF(report.id)}
+                onGenerateQuote={() => handleGenerateQuote(report.id)}
+              />
+            ))}
+          </div>
         )}
+
+      {/* Professional Quote Builder */}
+      {selectedReportId && (
+        <ProfessionalQuoteBuilder
+          open={professionalBuilderOpen}
+          onOpenChange={setProfessionalBuilderOpen}
+          reportId={selectedReportId}
+        />
+      )}
       </div>
     </AuthGuard>
   );
