@@ -7,10 +7,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, FileText, Download, Edit, ArrowLeft } from 'lucide-react';
+import { Loader2, FileText, Download, Edit, Send } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { QuoteEditor } from '@/components/QuoteEditor';
+import { SendQuoteDialog } from '@/components/SendQuoteDialog';
+import { ExportDialog } from '@/components/ExportDialog';
 
 interface Quote {
   id: string;
@@ -18,6 +20,8 @@ interface Quote {
   client_name: string;
   site_address: string;
   suburb_postcode: string;
+  email?: string;
+  phone?: string;
   tier_level: string;
   total: number;
   status: string;
@@ -33,7 +37,10 @@ export default function QuotesDashboard() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [tierFilter, setTierFilter] = useState<string>('all');
   const [editorOpen, setEditorOpen] = useState(false);
+  const [sendDialogOpen, setSendDialogOpen] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
   const [selectedQuoteId, setSelectedQuoteId] = useState<string | null>(null);
+  const [selectedQuote, setSelectedQuote] = useState<Quote | null>(null);
   const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -318,9 +325,9 @@ export default function QuotesDashboard() {
                 Manage and export quotes
               </p>
             </div>
-            <Button onClick={exportToCSV} variant="outline">
+            <Button onClick={() => setExportOpen(true)} variant="outline">
               <Download className="h-4 w-4 mr-2" />
-              Export CSV
+              Export
             </Button>
           </div>
         </header>
@@ -426,10 +433,21 @@ export default function QuotesDashboard() {
                       <Button
                         variant="outline"
                         size="sm"
+                        onClick={() => {
+                          setSelectedQuote(quote);
+                          setSendDialogOpen(true);
+                        }}
+                      >
+                        <Send className="h-4 w-4 mr-2" />
+                        Send
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
                         onClick={() => handleExportPDF(quote.id)}
                       >
                         <Download className="h-4 w-4 mr-2" />
-                        Export PDF
+                        PDF
                       </Button>
                     </div>
                   </div>
@@ -448,6 +466,26 @@ export default function QuotesDashboard() {
             onSaved={fetchQuotes}
           />
         )}
+
+        {/* Send Quote Dialog */}
+        {selectedQuote && (
+          <SendQuoteDialog
+            open={sendDialogOpen}
+            onOpenChange={setSendDialogOpen}
+            quoteId={selectedQuote.id}
+            clientEmail={selectedQuote.email || ''}
+            clientName={selectedQuote.client_name}
+            quoteNumber={selectedQuote.quote_number}
+          />
+        )}
+
+        {/* Export Dialog */}
+        <ExportDialog
+          open={exportOpen}
+          onOpenChange={setExportOpen}
+          dataType="quotes"
+          data={filteredQuotes}
+        />
       </div>
     </AuthGuard>
   );

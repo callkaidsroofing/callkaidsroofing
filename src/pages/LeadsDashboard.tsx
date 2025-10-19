@@ -16,8 +16,12 @@ import {
   Calendar,
   FileText,
   Download,
-  TrendingUp
+  TrendingUp,
+  MessageSquare,
+  CheckSquare
 } from 'lucide-react';
+import { ExportDialog } from '@/components/ExportDialog';
+import { LeadActivityTimeline } from '@/components/LeadActivityTimeline';
 import {
   Table,
   TableBody,
@@ -48,6 +52,9 @@ export default function LeadsDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [serviceFilter, setServiceFilter] = useState<string>('all');
+  const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
+  const [selectedLeadName, setSelectedLeadName] = useState<string>('');
+  const [exportOpen, setExportOpen] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -205,9 +212,9 @@ export default function LeadsDashboard() {
               Track and convert website leads to customers
             </p>
           </div>
-          <Button onClick={exportToCSV} variant="outline">
+          <Button onClick={() => setExportOpen(true)} variant="outline">
             <Download className="h-4 w-4 mr-2" />
-            Export CSV
+            Export
           </Button>
         </div>
 
@@ -390,20 +397,34 @@ export default function LeadsDashboard() {
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => navigate('/internal/inspection', {
-                          state: {
-                            clientName: lead.name,
-                            phone: lead.phone,
-                            email: lead.email,
-                            suburb: lead.suburb,
-                          }
-                        })}
-                      >
-                        Create Inspection
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            setSelectedLeadId(lead.id);
+                            setSelectedLeadName(lead.name);
+                          }}
+                        >
+                          <MessageSquare className="h-4 w-4 mr-2" />
+                          View
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => navigate('/internal/inspection', {
+                            state: {
+                              clientName: lead.name,
+                              phone: lead.phone,
+                              email: lead.email,
+                              suburb: lead.suburb,
+                            }
+                          })}
+                        >
+                          <CheckSquare className="h-4 w-4 mr-2" />
+                          Inspection
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -411,6 +432,27 @@ export default function LeadsDashboard() {
             </Table>
           </div>
         )}
+
+        {/* Lead Activity Timeline */}
+        {selectedLeadId && (
+          <div className="mt-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold">Lead Activity: {selectedLeadName}</h2>
+              <Button variant="outline" onClick={() => setSelectedLeadId(null)}>
+                Close
+              </Button>
+            </div>
+            <LeadActivityTimeline leadId={selectedLeadId} leadName={selectedLeadName} />
+          </div>
+        )}
+
+        {/* Export Dialog */}
+        <ExportDialog
+          open={exportOpen}
+          onOpenChange={setExportOpen}
+          dataType="leads"
+          data={filteredLeads}
+        />
       </div>
     </AuthGuard>
   );

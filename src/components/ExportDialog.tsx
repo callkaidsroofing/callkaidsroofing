@@ -19,7 +19,7 @@ interface ExportDialogProps {
   onOpenChange: (open: boolean) => void;
   dataType: 'reports' | 'quotes' | 'leads';
   data: any[];
-  onExport: (config: ExportConfig) => void;
+  onExport?: (config: ExportConfig) => void;
 }
 
 export interface ExportConfig {
