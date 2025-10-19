@@ -74,3 +74,6 @@ verify_jwt = false
 
 [functions.get-facebook-app-id]
 verify_jwt = false
+
+[functions.send-quote-email]
+verify_jwt = true
