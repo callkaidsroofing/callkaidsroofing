@@ -370,6 +370,91 @@ export type Database = {
         }
         Relationships: []
       }
+      lead_notes: {
+        Row: {
+          content: string
+          created_at: string
+          created_by: string | null
+          id: string
+          lead_id: string
+          note_type: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          lead_id: string
+          note_type?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          lead_id?: string
+          note_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_notes_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lead_tasks: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          description: string | null
+          due_date: string
+          id: string
+          lead_id: string
+          priority: string
+          status: string
+          task_type: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          due_date: string
+          id?: string
+          lead_id: string
+          priority?: string
+          status?: string
+          task_type: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          due_date?: string
+          id?: string
+          lead_id?: string
+          priority?: string
+          status?: string
+          task_type?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_tasks_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leads: {
         Row: {
           created_at: string
@@ -579,6 +664,79 @@ export type Database = {
           warranty_tier?: string | null
         }
         Relationships: []
+      }
+      quote_emails: {
+        Row: {
+          id: string
+          quote_id: string
+          recipient_email: string
+          reminder_sent_at: string | null
+          sent_at: string
+          status: string
+          viewed_at: string | null
+        }
+        Insert: {
+          id?: string
+          quote_id: string
+          recipient_email: string
+          reminder_sent_at?: string | null
+          sent_at?: string
+          status?: string
+          viewed_at?: string | null
+        }
+        Update: {
+          id?: string
+          quote_id?: string
+          recipient_email?: string
+          reminder_sent_at?: string | null
+          sent_at?: string
+          status?: string
+          viewed_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_emails_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quote_history: {
+        Row: {
+          changed_by: string | null
+          changes: Json
+          created_at: string
+          id: string
+          quote_id: string
+          version_number: number
+        }
+        Insert: {
+          changed_by?: string | null
+          changes: Json
+          created_at?: string
+          id?: string
+          quote_id: string
+          version_number: number
+        }
+        Update: {
+          changed_by?: string | null
+          changes?: Json
+          created_at?: string
+          id?: string
+          quote_id?: string
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_history_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       quote_line_items: {
         Row: {
