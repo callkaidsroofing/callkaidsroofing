@@ -50,6 +50,7 @@ const InternalHome = lazy(() => import("./pages/InternalHome"));
 const LeadsDashboard = lazy(() => import("./pages/LeadsDashboard"));
 const ChatDashboard = lazy(() => import("./pages/ChatDashboard"));
 import { InternalLayout } from "@/components/InternalLayout";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -114,8 +115,12 @@ function App() {
                     <Route path="*" element={<NotFound />} />
                   </Route>
                   
-                  {/* Auth route - no layout */}
-                  <Route path="/auth" element={<Auth />} />
+                  {/* Auth route - no layout, with redirect protection */}
+                  <Route path="/auth" element={
+                    <ProtectedRoute>
+                      <Auth />
+                    </ProtectedRoute>
+                  } />
                   
                   {/* Internal routes - with sidebar layout */}
                   <Route path="/internal/*" element={<InternalLayout />}>
