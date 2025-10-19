@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import ElegantLayout from "@/components/ElegantLayout";
-import { CustomerChatWidget } from "@/components/CustomerChatWidget";
+import { EnhancedCustomerChat } from "@/components/EnhancedCustomerChat";
 
 const Index = lazy(() => import("./pages/Index"));
 const About = lazy(() => import("./pages/About"));
@@ -48,6 +48,7 @@ const QuotesDashboard = lazy(() => import("./pages/QuotesDashboard"));
 const ReportViewer = lazy(() => import("./pages/ReportViewer"));
 const InternalHome = lazy(() => import("./pages/InternalHome"));
 const LeadsDashboard = lazy(() => import("./pages/LeadsDashboard"));
+const ChatDashboard = lazy(() => import("./pages/ChatDashboard"));
 import { InternalLayout } from "@/components/InternalLayout";
 
 const queryClient = new QueryClient();
@@ -66,7 +67,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <CustomerChatWidget />
+          <EnhancedCustomerChat />
           <BrowserRouter>
             <Suspense fallback={<LoadingScreen />}>
               <Routes>
@@ -123,6 +124,7 @@ function App() {
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="quotes" element={<QuotesDashboard />} />
                     <Route path="leads" element={<LeadsDashboard />} />
+                    <Route path="chat" element={<ChatDashboard />} />
                     <Route path="inspection" element={<InspectionForm />} />
                     <Route path="reports/:id" element={<ReportViewer />} />
                   </Route>

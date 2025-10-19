@@ -77,3 +77,12 @@ verify_jwt = false
 
 [functions.send-quote-email]
 verify_jwt = true
+
+[functions.analyze-image]
+verify_jwt = false
+
+[functions.transcribe-voice]
+verify_jwt = true
+
+[functions.internal-assistant]
+verify_jwt = true

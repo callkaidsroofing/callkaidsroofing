@@ -44,35 +44,114 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_analytics: {
+        Row: {
+          conversation_id: string | null
+          created_at: string | null
+          event_data: Json | null
+          event_type: string
+          id: string
+        }
+        Insert: {
+          conversation_id?: string | null
+          created_at?: string | null
+          event_data?: Json | null
+          event_type: string
+          id?: string
+        }
+        Update: {
+          conversation_id?: string | null
+          created_at?: string | null
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_analytics_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "chat_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_commands: {
+        Row: {
+          command: string
+          created_at: string | null
+          description: string
+          handler_type: string
+          id: string
+          is_active: boolean | null
+        }
+        Insert: {
+          command: string
+          created_at?: string | null
+          description: string
+          handler_type: string
+          id?: string
+          is_active?: boolean | null
+        }
+        Update: {
+          command?: string
+          created_at?: string | null
+          description?: string
+          handler_type?: string
+          id?: string
+          is_active?: boolean | null
+        }
+        Relationships: []
+      }
       chat_conversations: {
         Row: {
+          analysis_results: Json | null
           context_data: Json | null
           conversation_type: string
           created_at: string | null
           id: string
+          lead_captured: boolean | null
+          lead_id: string | null
           session_id: string | null
           updated_at: string | null
+          uploaded_files: Json | null
           user_id: string | null
         }
         Insert: {
+          analysis_results?: Json | null
           context_data?: Json | null
           conversation_type: string
           created_at?: string | null
           id?: string
+          lead_captured?: boolean | null
+          lead_id?: string | null
           session_id?: string | null
           updated_at?: string | null
+          uploaded_files?: Json | null
           user_id?: string | null
         }
         Update: {
+          analysis_results?: Json | null
           context_data?: Json | null
           conversation_type?: string
           created_at?: string | null
           id?: string
+          lead_captured?: boolean | null
+          lead_id?: string | null
           session_id?: string | null
           updated_at?: string | null
+          uploaded_files?: Json | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "chat_conversations_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       chat_messages: {
         Row: {
@@ -102,6 +181,71 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "chat_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "chat_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      generated_reports: {
+        Row: {
+          created_at: string | null
+          file_path: string
+          generated_by: string | null
+          id: string
+          related_id: string | null
+          report_type: string
+        }
+        Insert: {
+          created_at?: string | null
+          file_path: string
+          generated_by?: string | null
+          id?: string
+          related_id?: string | null
+          report_type: string
+        }
+        Update: {
+          created_at?: string | null
+          file_path?: string
+          generated_by?: string | null
+          id?: string
+          related_id?: string | null
+          report_type?: string
+        }
+        Relationships: []
+      }
+      image_analyses: {
+        Row: {
+          analysis_result: Json
+          analysis_type: string
+          confidence_score: number | null
+          conversation_id: string | null
+          created_at: string | null
+          id: string
+          image_url: string
+        }
+        Insert: {
+          analysis_result: Json
+          analysis_type: string
+          confidence_score?: number | null
+          conversation_id?: string | null
+          created_at?: string | null
+          id?: string
+          image_url: string
+        }
+        Update: {
+          analysis_result?: Json
+          analysis_type?: string
+          confidence_score?: number | null
+          conversation_id?: string | null
+          created_at?: string | null
+          id?: string
+          image_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "image_analyses_conversation_id_fkey"
             columns: ["conversation_id"]
             isOneToOne: false
             referencedRelation: "chat_conversations"
@@ -985,6 +1129,41 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      voice_transcriptions: {
+        Row: {
+          audio_url: string
+          conversation_id: string | null
+          created_at: string | null
+          duration_seconds: number | null
+          id: string
+          transcript: string
+        }
+        Insert: {
+          audio_url: string
+          conversation_id?: string | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          id?: string
+          transcript: string
+        }
+        Update: {
+          audio_url?: string
+          conversation_id?: string | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          id?: string
+          transcript?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voice_transcriptions_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "chat_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

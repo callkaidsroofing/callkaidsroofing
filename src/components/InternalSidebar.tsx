@@ -1,5 +1,5 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Home, FileText, DollarSign, Plus, LogOut, Menu, Phone } from 'lucide-react';
+import { Home, FileText, DollarSign, Plus, LogOut, Menu, Phone, MessageSquare } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import {
   Sidebar,
@@ -24,6 +24,7 @@ const menuItems = [
   { title: 'Inspection Reports', url: '/internal/dashboard', icon: FileText },
   { title: 'Quotes', url: '/internal/quotes', icon: DollarSign },
   { title: 'Leads', url: '/internal/leads', icon: Phone },
+  { title: 'AI Chat', url: '/internal/chat', icon: MessageSquare },
 ];
 
 export function InternalSidebar() {
