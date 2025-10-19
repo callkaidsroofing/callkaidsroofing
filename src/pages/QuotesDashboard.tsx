@@ -7,12 +7,22 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, FileText, Download, Edit, Send } from 'lucide-react';
+import { Loader2, FileText, Download, Edit, Send, Trash2, Eye } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { QuoteEditor } from '@/components/QuoteEditor';
 import { SendQuoteDialog } from '@/components/SendQuoteDialog';
 import { ExportDialog } from '@/components/ExportDialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 interface Quote {
   id: string;
@@ -39,8 +49,10 @@ export default function QuotesDashboard() {
   const [editorOpen, setEditorOpen] = useState(false);
   const [sendDialogOpen, setSendDialogOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedQuoteId, setSelectedQuoteId] = useState<string | null>(null);
   const [selectedQuote, setSelectedQuote] = useState<Quote | null>(null);
+  const [quoteToDelete, setQuoteToDelete] = useState<Quote | null>(null);
   const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -94,6 +106,35 @@ export default function QuotesDashboard() {
     }
 
     setFilteredQuotes(filtered);
+  };
+
+  const handleDeleteQuote = async (quoteId: string) => {
+    if (!confirm('Are you sure you want to delete this quote? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('quotes')
+        .delete()
+        .eq('id', quoteId);
+
+      if (error) throw error;
+
+      setQuotes(quotes.filter(q => q.id !== quoteId));
+      
+      toast({
+        title: 'Success',
+        description: 'Quote deleted successfully',
+      });
+    } catch (error) {
+      console.error('Error deleting quote:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to delete quote',
+        variant: 'destructive',
+      });
+    }
   };
 
   const handleExportPDF = async (quoteId: string) => {
@@ -422,6 +463,14 @@ export default function QuotesDashboard() {
                       <Button
                         variant="outline"
                         size="sm"
+                        onClick={() => handleExportPDF(quote.id)}
+                      >
+                        <Eye className="h-4 w-4 mr-2" />
+                        View
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
                         onClick={() => {
                           setSelectedQuoteId(quote.id);
                           setEditorOpen(true);
@@ -444,10 +493,13 @@ export default function QuotesDashboard() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => handleExportPDF(quote.id)}
+                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                        onClick={() => {
+                          setQuoteToDelete(quote);
+                          setDeleteDialogOpen(true);
+                        }}
                       >
-                        <Download className="h-4 w-4 mr-2" />
-                        PDF
+                        <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
@@ -486,6 +538,35 @@ export default function QuotesDashboard() {
           dataType="quotes"
           data={filteredQuotes}
         />
+
+        {/* Delete Confirmation Dialog */}
+        <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Delete Quote</AlertDialogTitle>
+              <AlertDialogDescription>
+                Are you sure you want to delete quote {quoteToDelete?.quote_number} for{' '}
+                {quoteToDelete?.client_name}? This action cannot be undone and will also delete all
+                associated line items.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  if (quoteToDelete) {
+                    handleDeleteQuote(quoteToDelete.id);
+                    setDeleteDialogOpen(false);
+                    setQuoteToDelete(null);
+                  }
+                }}
+                className="bg-destructive hover:bg-destructive/90"
+              >
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </AuthGuard>
   );

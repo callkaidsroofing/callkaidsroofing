@@ -223,13 +223,16 @@ export default function InternalHome() {
                   recentReports.map((report) => (
                     <div
                       key={report.id}
-                      className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 cursor-pointer transition-colors"
+                      className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 cursor-pointer transition-all hover:shadow-sm animate-fade-in"
                       onClick={() => navigate(`/internal/reports/${report.id}`)}
                     >
                       <div className="flex-1 min-w-0">
                         <p className="font-medium truncate">{report.clientName}</p>
                         <p className="text-sm text-muted-foreground truncate">
                           {report.siteAddress}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {new Date(report.created_at).toLocaleDateString('en-AU')}
                         </p>
                       </div>
                       <Badge variant={report.status === 'completed' ? 'default' : 'outline'}>
@@ -265,12 +268,16 @@ export default function InternalHome() {
                   recentQuotes.map((quote) => (
                     <div
                       key={quote.id}
-                      className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors"
+                      className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 cursor-pointer transition-all hover:shadow-sm animate-fade-in"
+                      onClick={() => navigate('/internal/quotes')}
                     >
                       <div className="flex-1 min-w-0">
                         <p className="font-medium truncate">{quote.client_name}</p>
                         <p className="text-sm text-muted-foreground">
                           {quote.quote_number}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {new Date(quote.created_at).toLocaleDateString('en-AU')}
                         </p>
                       </div>
                       <div className="text-right">

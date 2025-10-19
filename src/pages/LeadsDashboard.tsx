@@ -228,7 +228,8 @@ export default function LeadsDashboard() {
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.total}</div>
+              <div className="text-2xl font-bold animate-fade-in">{stats.total}</div>
+              <p className="text-xs text-muted-foreground mt-1">All time</p>
             </CardContent>
           </Card>
 
@@ -336,8 +337,12 @@ export default function LeadsDashboard() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredLeads.map((lead) => (
-                  <TableRow key={lead.id}>
+                {filteredLeads.map((lead, index) => (
+                  <TableRow 
+                    key={lead.id}
+                    className="animate-fade-in hover:bg-muted/30 transition-colors"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
                     <TableCell className="font-medium">
                       <div>
                         <div>{lead.name}</div>
