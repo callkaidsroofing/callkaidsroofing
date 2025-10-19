@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
+import { Home } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -112,6 +113,15 @@ export default function Auth() {
               )}
             </Button>
           </form>
+          
+          <div className="mt-4">
+            <Button asChild variant="ghost" className="w-full">
+              <Link to="/" className="flex items-center justify-center gap-2">
+                <Home className="h-4 w-4" />
+                Back to Homepage
+              </Link>
+            </Button>
+          </div>
           
           <div className="mt-6 pt-6 border-t border-border text-center text-sm text-muted-foreground">
             <p>ABN 39475055075</p>
