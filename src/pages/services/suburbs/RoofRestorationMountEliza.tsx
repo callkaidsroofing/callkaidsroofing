@@ -112,7 +112,7 @@ const RoofRestorationMountEliza = () => {
               </a>
             </Button>
             <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
-              <Link to="/contact">Book Online</Link>
+              <Link to="/book">Book Free Roof Health Check</Link>
             </Button>
           </div>
         </div>

@@ -363,7 +363,7 @@ const Index = () => {
                 </a>
               </Button>
               <Button asChild variant="outline" size="xl" className="w-full sm:w-auto">
-                <Link to="/book">Book Free Inspection</Link>
+                <Link to="/book">Book Free Roof Health Check</Link>
               </Button>
             </div>
 

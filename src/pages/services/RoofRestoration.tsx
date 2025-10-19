@@ -372,7 +372,7 @@ const RoofRestoration = () => {
                 </a>
               </Button>
               <Button asChild variant="outline" size="xl" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-                <Link to="/contact">Get Free Quote</Link>
+                <Link to="/book">Book Free Roof Health Check</Link>
               </Button>
             </div>
           </div>

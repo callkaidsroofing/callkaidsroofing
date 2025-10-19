@@ -180,13 +180,13 @@ export default function BlogPost() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button asChild size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
                     <Link to="/book">
-                      Book Free Assessment
+                      Book Free Roof Health Check
                     </Link>
                   </Button>
                   <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
-                    <Link to="/contact">
-                      Call 0435 900 709
-                    </Link>
+                    <a href="tel:0435900709">
+                      Call Kaidyn: 0435 900 709
+                    </a>
                   </Button>
                 </div>
               </CardContent>

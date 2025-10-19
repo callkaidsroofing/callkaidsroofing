@@ -90,8 +90,8 @@ export default function PremiumCTASection({
                 className={`text-lg px-8 py-6 font-semibold ${isPrimary ? 'border-primary-foreground/30 hover:bg-primary-foreground/10' : ''}`}
                 asChild
               >
-                <Link to="/contact">
-                  Book Free Inspection
+                <Link to="/book">
+                  Book Free Roof Health Check
                 </Link>
               </Button>
             </div>
@@ -150,8 +150,8 @@ export default function PremiumCTASection({
                 </a>
               </Button>
               <Button size="lg" variant="outline" className="text-lg px-8 py-6" asChild>
-                <Link to="/contact">
-                  Get Free Quote
+                <Link to="/book">
+                  Get Free Roof Health Check
                 </Link>
               </Button>
             </div>
