@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, FileText, Download, Eye, ArrowLeft } from 'lucide-react';
+import { Loader2, FileText, Download, Edit, ArrowLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import logoMain from '@/assets/call-kaids-logo-main.png';
+import { QuoteEditor } from '@/components/QuoteEditor';
 
 interface Quote {
   id: string;
@@ -32,6 +32,8 @@ export default function QuotesDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [tierFilter, setTierFilter] = useState<string>('all');
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [selectedQuoteId, setSelectedQuoteId] = useState<string | null>(null);
   const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -246,6 +248,37 @@ export default function QuotesDashboard() {
     }
   };
 
+  const exportToCSV = () => {
+    const headers = ['Quote #', 'Client', 'Address', 'Tier', 'Total', 'Status', 'Created'];
+    const rows = filteredQuotes.map(quote => [
+      quote.quote_number,
+      quote.client_name,
+      `${quote.site_address} ${quote.suburb_postcode}`,
+      quote.tier_level,
+      parseFloat(String(quote.total)).toFixed(2),
+      quote.status,
+      new Date(String(quote.created_at)).toLocaleDateString('en-AU'),
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `quotes-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+
+    toast({
+      title: 'Success',
+      description: 'Quotes exported to CSV',
+    });
+  };
+
   const getStatusBadgeVariant = (status: string) => {
     switch (status?.toLowerCase()) {
       case 'sent':
@@ -276,130 +309,145 @@ export default function QuotesDashboard() {
 
   return (
     <AuthGuard requireInspector>
-      <div className="min-h-screen bg-background">
-        <header className="border-b border-border bg-card">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <img src={logoMain} alt="Call Kaids Roofing" className="h-12" />
-                <div>
-                  <h1 className="text-xl font-bold">Quotes Dashboard</h1>
-                  <p className="text-sm text-muted-foreground">ABN 39475055075</p>
-                </div>
-              </div>
-              <Button onClick={() => navigate('/internal/dashboard')} variant="outline" size="sm">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Reports
-              </Button>
-            </div>
-          </div>
-        </header>
-
-        <main className="container mx-auto px-4 py-8">
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <div className="flex-1 flex flex-col md:flex-row gap-3">
-              <Input
-                placeholder="Search by quote #, client, address..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="md:max-w-sm"
-              />
-              
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="md:w-48">
-                  <SelectValue placeholder="Filter by status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Statuses</SelectItem>
-                  <SelectItem value="draft">Draft</SelectItem>
-                  <SelectItem value="sent">Sent</SelectItem>
-                  <SelectItem value="accepted">Accepted</SelectItem>
-                  <SelectItem value="rejected">Rejected</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Select value={tierFilter} onValueChange={setTierFilter}>
-                <SelectTrigger className="md:w-48">
-                  <SelectValue placeholder="Filter by tier" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Tiers</SelectItem>
-                  <SelectItem value="essential">Essential</SelectItem>
-                  <SelectItem value="premium">Premium</SelectItem>
-                  <SelectItem value="complete">Complete</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {loading ? (
-            <div className="flex items-center justify-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-          ) : filteredQuotes.length === 0 ? (
-            <div className="text-center py-12 bg-card rounded-lg border border-border">
-              <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-              <h3 className="text-lg font-semibold mb-2">No Quotes Found</h3>
-              <p className="text-muted-foreground mb-4">
-                {searchTerm || statusFilter !== 'all' || tierFilter !== 'all'
-                  ? 'Try adjusting your search or filters'
-                  : 'Generate quotes from inspection reports to get started'}
+      <div className="p-8 space-y-6">
+        <header>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold">Quotes Dashboard</h1>
+              <p className="text-muted-foreground mt-1">
+                Manage and export quotes
               </p>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-4">
-              {filteredQuotes.map((quote) => (
-                <Card key={quote.id}>
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <CardTitle className="text-lg mb-2">
-                          {quote.quote_number} - {quote.client_name}
-                        </CardTitle>
-                        <p className="text-sm text-muted-foreground">
-                          {quote.site_address}, {quote.suburb_postcode}
-                        </p>
+            <Button onClick={exportToCSV} variant="outline">
+              <Download className="h-4 w-4 mr-2" />
+              Export CSV
+            </Button>
+          </div>
+        </header>
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex-1 flex flex-col md:flex-row gap-3">
+            <Input
+              placeholder="Search by quote #, client, address..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="md:max-w-sm"
+            />
+            
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="md:w-48">
+                <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="sent">Sent</SelectItem>
+                <SelectItem value="accepted">Accepted</SelectItem>
+                <SelectItem value="rejected">Rejected</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select value={tierFilter} onValueChange={setTierFilter}>
+              <SelectTrigger className="md:w-48">
+                <SelectValue placeholder="Filter by tier" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Tiers</SelectItem>
+                <SelectItem value="essential">Essential</SelectItem>
+                <SelectItem value="premium">Premium</SelectItem>
+                <SelectItem value="complete">Complete</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+        ) : filteredQuotes.length === 0 ? (
+          <div className="text-center py-12 bg-card rounded-lg border border-border">
+            <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+            <h3 className="text-lg font-semibold mb-2">No Quotes Found</h3>
+            <p className="text-muted-foreground mb-4">
+              {searchTerm || statusFilter !== 'all' || tierFilter !== 'all'
+                ? 'Try adjusting your search or filters'
+                : 'Generate quotes from inspection reports to get started'}
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4">
+            {filteredQuotes.map((quote) => (
+              <Card key={quote.id}>
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <CardTitle className="text-lg mb-2">
+                        {quote.quote_number} - {quote.client_name}
+                      </CardTitle>
+                      <p className="text-sm text-muted-foreground">
+                        {quote.site_address}, {quote.suburb_postcode}
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Badge variant={getStatusBadgeVariant(quote.status)}>
+                        {quote.status}
+                      </Badge>
+                      <Badge variant={getTierBadgeVariant(quote.tier_level)}>
+                        {quote.tier_level}
+                      </Badge>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-1">
+                      <div className="text-2xl font-bold text-primary">
+                        ${parseFloat(String(quote.total)).toFixed(2)}
                       </div>
-                      <div className="flex gap-2">
-                        <Badge variant={getStatusBadgeVariant(quote.status)}>
-                          {quote.status}
-                        </Badge>
-                        <Badge variant={getTierBadgeVariant(quote.tier_level)}>
-                          {quote.tier_level}
-                        </Badge>
+                      <div className="text-xs text-muted-foreground">
+                        Created: {new Date(String(quote.created_at)).toLocaleDateString('en-AU')}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        Valid until: {new Date(String(quote.valid_until)).toLocaleDateString('en-AU')}
                       </div>
                     </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-1">
-                        <div className="text-2xl font-bold text-primary">
-                          ${parseFloat(String(quote.total)).toFixed(2)}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          Created: {new Date(String(quote.created_at)).toLocaleDateString('en-AU')}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          Valid until: {new Date(String(quote.valid_until)).toLocaleDateString('en-AU')}
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleExportPDF(quote.id)}
-                        >
-                          <Download className="h-4 w-4 mr-2" />
-                          Export PDF
-                        </Button>
-                      </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setSelectedQuoteId(quote.id);
+                          setEditorOpen(true);
+                        }}
+                      >
+                        <Edit className="h-4 w-4 mr-2" />
+                        Edit
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleExportPDF(quote.id)}
+                      >
+                        <Download className="h-4 w-4 mr-2" />
+                        Export PDF
+                      </Button>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </main>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+
+        {/* Quote Editor */}
+        {selectedQuoteId && (
+          <QuoteEditor
+            open={editorOpen}
+            onOpenChange={setEditorOpen}
+            quoteId={selectedQuoteId}
+            onSaved={fetchQuotes}
+          />
+        )}
       </div>
     </AuthGuard>
   );

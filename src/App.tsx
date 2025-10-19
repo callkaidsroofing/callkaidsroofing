@@ -47,6 +47,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const QuotesDashboard = lazy(() => import("./pages/QuotesDashboard"));
 const ReportViewer = lazy(() => import("./pages/ReportViewer"));
 const InternalHome = lazy(() => import("./pages/InternalHome"));
+const LeadsDashboard = lazy(() => import("./pages/LeadsDashboard"));
 import { InternalLayout } from "@/components/InternalLayout";
 
 const queryClient = new QueryClient();
@@ -121,6 +122,7 @@ function App() {
                     <Route path="home" element={<InternalHome />} />
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="quotes" element={<QuotesDashboard />} />
+                    <Route path="leads" element={<LeadsDashboard />} />
                     <Route path="inspection" element={<InspectionForm />} />
                     <Route path="reports/:id" element={<ReportViewer />} />
                   </Route>

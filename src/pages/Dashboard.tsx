@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, FileText, LayoutGrid, List, Calendar } from 'lucide-react';
+import { Loader2, FileText, LayoutGrid, List, Calendar, Download } from 'lucide-react';
 import { ReportCard } from '@/components/ReportCard';
 import { ProfessionalQuoteBuilder } from '@/components/ProfessionalQuoteBuilder';
 import { ReportsDataTable } from '@/components/ReportsDataTable';
@@ -121,6 +121,36 @@ export default function Dashboard() {
     setProfessionalBuilderOpen(true);
   };
 
+  const exportToCSV = () => {
+    const headers = ['Client', 'Address', 'Suburb', 'Status', 'Priority', 'Date'];
+    const rows = filteredReports.map(report => [
+      report.clientName,
+      report.siteAddress,
+      report.suburbPostcode,
+      report.status || 'Draft',
+      report.priority || '',
+      report.date ? new Date(report.date).toLocaleDateString('en-AU') : '',
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `reports-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+
+    toast({
+      title: 'Success',
+      description: 'Reports exported to CSV',
+    });
+  };
+
   return (
     <AuthGuard requireInspector>
       <div className="p-8 space-y-6">
@@ -132,18 +162,24 @@ export default function Dashboard() {
               Manage and track all inspection reports
             </p>
           </div>
-          <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as 'grid' | 'table')}>
-            <TabsList>
-              <TabsTrigger value="grid">
-                <LayoutGrid className="h-4 w-4 mr-2" />
-                Grid
-              </TabsTrigger>
-              <TabsTrigger value="table">
-                <List className="h-4 w-4 mr-2" />
-                Table
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <div className="flex gap-2">
+            <Button onClick={exportToCSV} variant="outline">
+              <Download className="h-4 w-4 mr-2" />
+              Export CSV
+            </Button>
+            <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as 'grid' | 'table')}>
+              <TabsList>
+                <TabsTrigger value="grid">
+                  <LayoutGrid className="h-4 w-4 mr-2" />
+                  Grid
+                </TabsTrigger>
+                <TabsTrigger value="table">
+                  <List className="h-4 w-4 mr-2" />
+                  Table
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
         </div>
 
         {/* Filters */}
