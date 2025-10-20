@@ -49,6 +49,7 @@ const ReportViewer = lazy(() => import("./pages/ReportViewer"));
 const InternalHome = lazy(() => import("./pages/InternalHome"));
 const LeadsDashboard = lazy(() => import("./pages/LeadsDashboard"));
 const ChatDashboard = lazy(() => import("./pages/ChatDashboard"));
+const Nexus = lazy(() => import("./pages/Nexus"));
 import { InternalLayout } from "@/components/InternalLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
@@ -130,6 +131,7 @@ function App() {
                     <Route path="quotes" element={<QuotesDashboard />} />
                     <Route path="leads" element={<LeadsDashboard />} />
                     <Route path="chat" element={<ChatDashboard />} />
+                    <Route path="nexus" element={<Nexus />} />
                     <Route path="inspection" element={<InspectionForm />} />
                     <Route path="reports/:id" element={<ReportViewer />} />
                   </Route>

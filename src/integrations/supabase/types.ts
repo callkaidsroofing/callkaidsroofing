@@ -44,6 +44,96 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_action_log: {
+        Row: {
+          action_details: Json | null
+          action_type: string
+          approved_at: string | null
+          cost_usd: number | null
+          error_message: string | null
+          executed_at: string | null
+          execution_plan: Json | null
+          execution_time_ms: number | null
+          id: string
+          intent: string | null
+          results: Json | null
+          success: boolean | null
+          tools_used: string[] | null
+          user_id: string | null
+          user_message: string | null
+        }
+        Insert: {
+          action_details?: Json | null
+          action_type: string
+          approved_at?: string | null
+          cost_usd?: number | null
+          error_message?: string | null
+          executed_at?: string | null
+          execution_plan?: Json | null
+          execution_time_ms?: number | null
+          id?: string
+          intent?: string | null
+          results?: Json | null
+          success?: boolean | null
+          tools_used?: string[] | null
+          user_id?: string | null
+          user_message?: string | null
+        }
+        Update: {
+          action_details?: Json | null
+          action_type?: string
+          approved_at?: string | null
+          cost_usd?: number | null
+          error_message?: string | null
+          executed_at?: string | null
+          execution_plan?: Json | null
+          execution_time_ms?: number | null
+          id?: string
+          intent?: string | null
+          results?: Json | null
+          success?: boolean | null
+          tools_used?: string[] | null
+          user_id?: string | null
+          user_message?: string | null
+        }
+        Relationships: []
+      }
+      ai_optimization_history: {
+        Row: {
+          after_metrics: Json | null
+          agent_name: string
+          applied_at: string | null
+          before_metrics: Json | null
+          id: string
+          optimization_type: string
+          performance_delta: number | null
+          prompt_changes: Json | null
+          version: string
+        }
+        Insert: {
+          after_metrics?: Json | null
+          agent_name: string
+          applied_at?: string | null
+          before_metrics?: Json | null
+          id?: string
+          optimization_type: string
+          performance_delta?: number | null
+          prompt_changes?: Json | null
+          version: string
+        }
+        Update: {
+          after_metrics?: Json | null
+          agent_name?: string
+          applied_at?: string | null
+          before_metrics?: Json | null
+          id?: string
+          optimization_type?: string
+          performance_delta?: number | null
+          prompt_changes?: Json | null
+          version?: string
+        }
+        Relationships: []
+      }
       chat_analytics: {
         Row: {
           conversation_id: string | null
@@ -187,6 +277,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      content_queue: {
+        Row: {
+          ai_confidence_score: number | null
+          content_type: string
+          created_at: string | null
+          generated_content: Json
+          id: string
+          published_at: string | null
+          reviewed_by: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          ai_confidence_score?: number | null
+          content_type: string
+          created_at?: string | null
+          generated_content: Json
+          id?: string
+          published_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          ai_confidence_score?: number | null
+          content_type?: string
+          created_at?: string | null
+          generated_content?: Json
+          id?: string
+          published_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       generated_reports: {
         Row: {
@@ -601,6 +727,9 @@ export type Database = {
       }
       leads: {
         Row: {
+          ai_score: number | null
+          ai_tags: Json | null
+          auto_enriched_at: string | null
           created_at: string
           email: string | null
           id: string
@@ -608,6 +737,7 @@ export type Database = {
           name: string
           phone: string
           service: string
+          service_area_match: boolean | null
           source: string | null
           status: string | null
           suburb: string
@@ -615,6 +745,9 @@ export type Database = {
           urgency: string | null
         }
         Insert: {
+          ai_score?: number | null
+          ai_tags?: Json | null
+          auto_enriched_at?: string | null
           created_at?: string
           email?: string | null
           id?: string
@@ -622,6 +755,7 @@ export type Database = {
           name: string
           phone: string
           service: string
+          service_area_match?: boolean | null
           source?: string | null
           status?: string | null
           suburb: string
@@ -629,6 +763,9 @@ export type Database = {
           urgency?: string | null
         }
         Update: {
+          ai_score?: number | null
+          ai_tags?: Json | null
+          auto_enriched_at?: string | null
           created_at?: string
           email?: string | null
           id?: string
@@ -636,6 +773,7 @@ export type Database = {
           name?: string
           phone?: string
           service?: string
+          service_area_match?: boolean | null
           source?: string | null
           status?: string | null
           suburb?: string
@@ -728,6 +866,33 @@ export type Database = {
           mime_type?: string | null
           original_filename?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      monitoring_logs: {
+        Row: {
+          created_at: string | null
+          details: Json | null
+          id: string
+          log_type: string
+          message: string
+          severity: string
+        }
+        Insert: {
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          log_type: string
+          message: string
+          severity: string
+        }
+        Update: {
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          log_type?: string
+          message?: string
+          severity?: string
         }
         Relationships: []
       }
@@ -1106,6 +1271,54 @@ export type Database = {
           scheduled_for?: string | null
           status?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      suburb_analytics: {
+        Row: {
+          calculated_at: string | null
+          id: string
+          metrics: Json | null
+          suburb: string
+        }
+        Insert: {
+          calculated_at?: string | null
+          id?: string
+          metrics?: Json | null
+          suburb: string
+        }
+        Update: {
+          calculated_at?: string | null
+          id?: string
+          metrics?: Json | null
+          suburb?: string
+        }
+        Relationships: []
+      }
+      user_preferences: {
+        Row: {
+          created_at: string | null
+          id: string
+          preference_type: string
+          settings: Json | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          preference_type: string
+          settings?: Json | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          preference_type?: string
+          settings?: Json | null
+          updated_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }

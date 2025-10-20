@@ -1,5 +1,5 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Home, FileText, DollarSign, Plus, LogOut, Menu, Phone, MessageSquare } from 'lucide-react';
+import { Home, FileText, DollarSign, Plus, LogOut, Menu, Phone, MessageSquare, Sparkles } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import {
   Sidebar,
@@ -21,6 +21,7 @@ import callKaidsSquareLogo from '@/assets/call-kaids-square-logo.jpg';
 
 const menuItems = [
   { title: 'Home', url: '/internal/home', icon: Home },
+  { title: 'Nexus AI', url: '/internal/nexus', icon: Sparkles },
   { title: 'Inspection Reports', url: '/internal/dashboard', icon: FileText },
   { title: 'Quotes', url: '/internal/quotes', icon: DollarSign },
   { title: 'Leads', url: '/internal/leads', icon: Phone },

@@ -1,5 +1,17 @@
 project_id = "vlnkzpyeppfdmresiaoh"
 
+[functions.nexus-ai-hub]
+verify_jwt = true
+
+[functions.agent-lead-intelligence]
+verify_jwt = false
+
+[functions.agent-quote-followup]
+verify_jwt = false
+
+[functions.agent-content-generator]
+verify_jwt = false
+
 [api]
 enabled = true
 port = 54321
