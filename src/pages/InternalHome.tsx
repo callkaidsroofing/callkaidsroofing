@@ -107,36 +107,38 @@ export default function InternalHome() {
 
   const quickActions = [
     {
-      title: 'New Lead',
-      description: 'AI-powered lead capture',
-      icon: Users,
-      color: 'text-green-600',
-      bgColor: 'bg-green-50',
-      action: () => navigate('/internal/leads'),
-    },
-    {
-      title: 'New Inspection',
-      description: 'Start inspection report',
+      title: '🛰️ Scan Roof',
+      description: 'Satellite measurement + AI',
       icon: Camera,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
+      color: 'text-primary',
+      bgColor: 'bg-primary/10',
+      badge: 'NEW',
       action: () => navigate('/internal/inspection'),
     },
     {
-      title: 'AI Assistant',
-      description: 'Chat with Nexus AI',
+      title: '📸 AI Image Analysis',
+      description: 'Upload & auto-analyze',
       icon: Sparkles,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50',
-      action: () => navigate('/internal/nexus'),
+      color: 'text-primary',
+      bgColor: 'bg-primary/10',
+      badge: 'NEW',
+      action: () => navigate('/internal/inspection'),
     },
     {
-      title: 'View Reports',
-      description: 'All inspection reports',
-      icon: FileText,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50',
-      action: () => navigate('/internal/dashboard'),
+      title: 'New Lead',
+      description: 'AI-powered capture',
+      icon: Users,
+      color: 'text-muted-foreground',
+      bgColor: 'bg-muted',
+      action: () => navigate('/internal/leads'),
+    },
+    {
+      title: 'Generate Quote',
+      description: 'Smart pricing engine',
+      icon: DollarSign,
+      color: 'text-muted-foreground',
+      bgColor: 'bg-muted',
+      action: () => navigate('/internal/quotes'),
     },
   ];
 
@@ -319,6 +321,32 @@ export default function InternalHome() {
           </Card>
         </div>
 
+        {/* New Features Banner */}
+        <Card className="border-primary bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5">
+          <CardContent className="p-6">
+            <div className="flex items-start gap-4">
+              <div className="h-12 w-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                <Sparkles className="h-6 w-6 text-primary-foreground" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-bold mb-2">🚀 New: Satellite Roof Scanning & AI Image Analysis</h3>
+                <p className="text-muted-foreground mb-4">
+                  Instantly measure roofs from space and analyze photos with AI. Get accurate measurements, detect roof conditions, and auto-populate quotes—all powered by Google Solar API and computer vision.
+                </p>
+                <div className="flex gap-3">
+                  <Button onClick={() => navigate('/internal/inspection')} size="sm">
+                    Try Inspection with AI
+                    <ArrowRight className="h-4 w-4 ml-2" />
+                  </Button>
+                  <Button onClick={() => navigate('/internal/quotes')} variant="outline" size="sm">
+                    View Smart Quotes
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Quick Actions */}
         <div>
           <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
@@ -326,10 +354,15 @@ export default function InternalHome() {
             {quickActions.map((action, idx) => (
               <Card
                 key={idx}
-                className="hover:shadow-lg transition-all cursor-pointer group"
+                className="hover:shadow-lg transition-all cursor-pointer group relative"
                 onClick={action.action}
               >
                 <CardContent className="p-6">
+                  {action.badge && (
+                    <Badge className="absolute top-3 right-3" variant="default">
+                      {action.badge}
+                    </Badge>
+                  )}
                   <div className={`h-12 w-12 rounded-lg ${action.bgColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                     <action.icon className={`h-6 w-6 ${action.color}`} />
                   </div>
