@@ -1,5 +1,8 @@
 project_id = "vlnkzpyeppfdmresiaoh"
 
+[functions.ckr-gem-api]
+verify_jwt = false
+
 [functions.nexus-ai-hub]
 verify_jwt = true
 
