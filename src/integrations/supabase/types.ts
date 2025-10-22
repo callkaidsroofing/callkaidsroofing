@@ -450,6 +450,7 @@ export type Database = {
           replacevalleyironsnotes: string | null
           replacevalleyironsqty: number | null
           ridgeCaps: number | null
+          roof_measurement_id: string | null
           roofArea: number | null
           roofPitch: string | null
           safetyRailNeeded: boolean | null
@@ -540,6 +541,7 @@ export type Database = {
           replacevalleyironsnotes?: string | null
           replacevalleyironsqty?: number | null
           ridgeCaps?: number | null
+          roof_measurement_id?: string | null
           roofArea?: number | null
           roofPitch?: string | null
           safetyRailNeeded?: boolean | null
@@ -630,6 +632,7 @@ export type Database = {
           replacevalleyironsnotes?: string | null
           replacevalleyironsqty?: number | null
           ridgeCaps?: number | null
+          roof_measurement_id?: string | null
           roofArea?: number | null
           roofPitch?: string | null
           safetyRailNeeded?: boolean | null
@@ -650,7 +653,15 @@ export type Database = {
           valleyironsphoto?: string[] | null
           valleyLength?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "inspection_reports_roof_measurement_id_fkey"
+            columns: ["roof_measurement_id"]
+            isOneToOne: false
+            referencedRelation: "roof_measurements"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       invoice_line_items: {
         Row: {
@@ -1432,6 +1443,97 @@ export type Database = {
           window_start?: string
         }
         Relationships: []
+      }
+      roof_measurements: {
+        Row: {
+          address: string
+          created_at: string | null
+          created_by: string | null
+          hips: Json | null
+          id: string
+          imagery_date: string | null
+          imagery_quality: string | null
+          imagery_url: string | null
+          latitude: number
+          linked_inspection_id: string | null
+          linked_lead_id: string | null
+          linked_quote_id: string | null
+          longitude: number
+          perimeter_features: Json | null
+          predominant_pitch: number | null
+          ridges: Json | null
+          roof_segments: Json | null
+          solar_panel_capacity_watts: number | null
+          total_area_m2: number
+          valleys: Json | null
+        }
+        Insert: {
+          address: string
+          created_at?: string | null
+          created_by?: string | null
+          hips?: Json | null
+          id?: string
+          imagery_date?: string | null
+          imagery_quality?: string | null
+          imagery_url?: string | null
+          latitude: number
+          linked_inspection_id?: string | null
+          linked_lead_id?: string | null
+          linked_quote_id?: string | null
+          longitude: number
+          perimeter_features?: Json | null
+          predominant_pitch?: number | null
+          ridges?: Json | null
+          roof_segments?: Json | null
+          solar_panel_capacity_watts?: number | null
+          total_area_m2: number
+          valleys?: Json | null
+        }
+        Update: {
+          address?: string
+          created_at?: string | null
+          created_by?: string | null
+          hips?: Json | null
+          id?: string
+          imagery_date?: string | null
+          imagery_quality?: string | null
+          imagery_url?: string | null
+          latitude?: number
+          linked_inspection_id?: string | null
+          linked_lead_id?: string | null
+          linked_quote_id?: string | null
+          longitude?: number
+          perimeter_features?: Json | null
+          predominant_pitch?: number | null
+          ridges?: Json | null
+          roof_segments?: Json | null
+          solar_panel_capacity_watts?: number | null
+          total_area_m2?: number
+          valleys?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "roof_measurements_linked_inspection_id_fkey"
+            columns: ["linked_inspection_id"]
+            isOneToOne: false
+            referencedRelation: "inspection_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "roof_measurements_linked_lead_id_fkey"
+            columns: ["linked_lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "roof_measurements_linked_quote_id_fkey"
+            columns: ["linked_quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       security_events: {
         Row: {

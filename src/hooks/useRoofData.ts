@@ -3,7 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 
 async function fetchRoofData(address: string) {
   const { data, error } = await supabase.functions.invoke('get-roof-data', {
-    body: { address },
+    body: { address, saveToDatabase: true },
   });
 
   if (error) {

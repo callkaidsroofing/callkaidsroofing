@@ -89,6 +89,12 @@ const TOOL_REGISTRY = {
     schema: { filters: 'object' }
   },
   
+  // Roof Measurement
+  measure_roof: {
+    desc: 'Get automated roof measurements from satellite imagery',
+    schema: { address: 'string' }
+  },
+  
   // Local Data Queries (direct Supabase)
   query_leads_local: { desc: 'Quick lead queries', schema: { filters: 'object' } },
   query_quotes_local: { desc: 'Quick quote queries', schema: { filters: 'object' } },
@@ -230,6 +236,15 @@ Respond ONLY with valid JSON in this format:
               .order('created_at', { ascending: false });
             
             result = { data: { jobCount: recentJobs?.length || 0, recentJobs } };
+            break;
+
+          case 'measure_roof':
+            const roofResponse = await supabase.functions.invoke('get-roof-data', {
+              body: { address: resolvedParams.address, saveToDatabase: true }
+            });
+            result = roofResponse.error 
+              ? { error: roofResponse.error.message, data: null }
+              : { data: roofResponse.data };
             break;
 
           default:
