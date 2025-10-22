@@ -104,23 +104,7 @@ paths:
       operationId: executeCRMAction
       summary: Execute a CRM action
       description: |
-        Unified gateway for all 25 CRM operations.
-        
-        **IMPORTANT WORKFLOW FOR DESTRUCTIVE ACTIONS:**
-        1. Call with mode='dry-run' first
-        2. Show user what WOULD happen
-        3. Ask for explicit confirmation
-        4. Call again with mode='live' to execute
-        
-        **Destructive actions requiring dry-run:**
-        - All Insert* actions (InsertLeadRecord, InsertJobRecord)
-        - All Update* actions (UpdateLeadStatus, UpdateJobStatus, BulkUpdateLeadStatus)
-        - All Send* actions (SendQuoteToClient)
-        - All Upload* actions (UploadInspectionForm)
-        - MergeLeadDuplicates, BatchImportLeads, ScheduleQuoteFollowup, NotifyTeamAboutHotLead
-        
-        **Read-only actions (safe for live mode):**
-        - Search*, Fetch*, Compare*, Export*, Generate* (except when followed by send)
+        Unified gateway for 25 CRM operations. CRITICAL: Use mode='dry-run' first for destructive actions (Insert*, Update*, Send*, Upload*, Merge*, Batch*, Schedule*, Notify*). Preview changes, confirm with user, then execute with mode='live'.
 
       requestBody:
         required: true
