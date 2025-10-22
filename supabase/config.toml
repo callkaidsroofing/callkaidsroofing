@@ -101,3 +101,6 @@ verify_jwt = true
 
 [functions.internal-assistant]
 verify_jwt = true
+
+[functions.ai-repo-analyzer]
+verify_jwt = true

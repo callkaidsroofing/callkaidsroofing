@@ -98,6 +98,45 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_analysis_cache: {
+        Row: {
+          analysis_type: string
+          branch: string | null
+          cache_key: string | null
+          created_at: string
+          id: string
+          path: string | null
+          repo_name: string
+          repo_owner: string
+          result: Json
+          updated_at: string
+        }
+        Insert: {
+          analysis_type: string
+          branch?: string | null
+          cache_key?: string | null
+          created_at?: string
+          id?: string
+          path?: string | null
+          repo_name: string
+          repo_owner: string
+          result: Json
+          updated_at?: string
+        }
+        Update: {
+          analysis_type?: string
+          branch?: string | null
+          cache_key?: string | null
+          created_at?: string
+          id?: string
+          path?: string | null
+          repo_name?: string
+          repo_owner?: string
+          result?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       ai_optimization_history: {
         Row: {
           after_metrics: Json | null
@@ -338,6 +377,48 @@ export type Database = {
           id?: string
           related_id?: string | null
           report_type?: string
+        }
+        Relationships: []
+      }
+      github_deployment_log: {
+        Row: {
+          action: string
+          branch: string | null
+          commit_sha: string | null
+          created_at: string
+          details: Json | null
+          error_message: string | null
+          id: string
+          initiated_by: string | null
+          repo_name: string
+          repo_owner: string
+          status: string
+        }
+        Insert: {
+          action: string
+          branch?: string | null
+          commit_sha?: string | null
+          created_at?: string
+          details?: Json | null
+          error_message?: string | null
+          id?: string
+          initiated_by?: string | null
+          repo_name: string
+          repo_owner: string
+          status?: string
+        }
+        Update: {
+          action?: string
+          branch?: string | null
+          commit_sha?: string | null
+          created_at?: string
+          details?: Json | null
+          error_message?: string | null
+          id?: string
+          initiated_by?: string | null
+          repo_name?: string
+          repo_owner?: string
+          status?: string
         }
         Relationships: []
       }
@@ -1595,6 +1676,45 @@ export type Database = {
           user_agent?: string | null
           user_email?: string | null
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      security_scan_results: {
+        Row: {
+          branch: string | null
+          created_at: string
+          findings: Json
+          id: string
+          initiated_by: string | null
+          passed: boolean | null
+          repo_name: string
+          repo_owner: string
+          scan_type: string
+          score: number | null
+        }
+        Insert: {
+          branch?: string | null
+          created_at?: string
+          findings: Json
+          id?: string
+          initiated_by?: string | null
+          passed?: boolean | null
+          repo_name: string
+          repo_owner: string
+          scan_type: string
+          score?: number | null
+        }
+        Update: {
+          branch?: string | null
+          created_at?: string
+          findings?: Json
+          id?: string
+          initiated_by?: string | null
+          passed?: boolean | null
+          repo_name?: string
+          repo_owner?: string
+          scan_type?: string
+          score?: number | null
         }
         Relationships: []
       }
