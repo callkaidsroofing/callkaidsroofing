@@ -27,7 +27,7 @@ const CloneQuoteSchema = z.object({
 
 const ScheduleJobSchema = z.object({
   jobId: z.string().uuid(),
-  scheduledDate: z.string().date(),
+  scheduledDate: z.string(),
   estimatedDurationHours: z.number().positive(),
   assignedCrew: z.array(z.string()).optional().default(['Kaidyn Brownlie']),
   requiresEquipment: z.array(z.string()).optional()
