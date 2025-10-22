@@ -6,17 +6,93 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Tool registry - what AI can do
+// CKR-GEM API key for calling the GPT's backend
+const GPT_PROXY_KEY = Deno.env.get('GPT_PROXY_KEY');
+
+// Enhanced tool registry - maps to CKR-GEM API actions
 const TOOL_REGISTRY = {
-  query_leads: { desc: 'Search/filter/analyze leads table', schema: { filters: 'object' } },
-  query_quotes: { desc: 'Search quotes with filters', schema: { filters: 'object' } },
-  query_jobs: { desc: 'Active jobs, completion status', schema: { filters: 'object' } },
+  // Direct CRM Actions (via CKR-GEM API)
+  insert_lead: { 
+    desc: 'Create new lead from contact info', 
+    crmAction: 'InsertLeadRecord',
+    schema: { name: 'string', phone: 'string', email: 'string?', service: 'string', suburb: 'string' }
+  },
+  update_lead_status: { 
+    desc: 'Change lead status (new, contacted, quoted, won, lost)', 
+    crmAction: 'UpdateLeadStatus',
+    schema: { leadId: 'uuid', status: 'string', notes: 'string?' }
+  },
+  search_leads: { 
+    desc: 'Search leads with advanced filters', 
+    crmAction: 'SearchLeadsAdvanced',
+    schema: { filters: 'object', sortBy: 'string?', limit: 'number?' }
+  },
+  fetch_lead_timeline: { 
+    desc: 'Get complete history for a lead', 
+    crmAction: 'FetchLeadTimeline',
+    schema: { leadId: 'uuid' }
+  },
+  create_lead_task: { 
+    desc: 'Schedule follow-up or reminder', 
+    crmAction: 'CreateLeadTask',
+    schema: { leadId: 'uuid', taskType: 'string', description: 'string', dueDate: 'string' }
+  },
+  
+  // Quote Intelligence
+  generate_quote: { 
+    desc: 'Generate full quote from inspection', 
+    crmAction: 'GenerateQuoteDraft',
+    schema: { reportId: 'uuid', tier: 'string' }
+  },
+  send_quote: { 
+    desc: 'Email quote to client', 
+    crmAction: 'SendQuoteToClient',
+    schema: { quoteId: 'uuid', recipientEmail: 'string' }
+  },
+  fetch_quotes_for_lead: { 
+    desc: 'All quotes for a specific lead', 
+    crmAction: 'FetchQuotesForLead',
+    schema: { leadId: 'uuid' }
+  },
+  schedule_followup: { 
+    desc: 'Auto-schedule quote follow-up', 
+    crmAction: 'ScheduleQuoteFollowup',
+    schema: { quoteId: 'uuid', followupInDays: 'number', method: 'string' }
+  },
+  
+  // Job Management
+  create_job: { 
+    desc: 'Start new job from accepted quote', 
+    crmAction: 'InsertJobRecord',
+    schema: { quoteId: 'uuid', scheduledDate: 'string' }
+  },
+  update_job_status: { 
+    desc: 'Mark job status (scheduled, in_progress, completed)', 
+    crmAction: 'UpdateJobStatus',
+    schema: { jobId: 'uuid', status: 'string' }
+  },
+  fetch_job_details: { 
+    desc: 'Get job info with inspection & quote', 
+    crmAction: 'FetchJobDetails',
+    schema: { jobId: 'uuid' }
+  },
+  
+  // Automation & Analytics
+  bulk_update_leads: { 
+    desc: 'Update multiple leads at once', 
+    crmAction: 'BulkUpdateLeadStatus',
+    schema: { leadIds: 'uuid[]', status: 'string', note: 'string?' }
+  },
+  export_leads: { 
+    desc: 'Export leads to CSV', 
+    crmAction: 'ExportLeadsToCSV',
+    schema: { filters: 'object' }
+  },
+  
+  // Local Data Queries (direct Supabase)
+  query_leads_local: { desc: 'Quick lead queries', schema: { filters: 'object' } },
+  query_quotes_local: { desc: 'Quick quote queries', schema: { filters: 'object' } },
   analyze_trends: { desc: 'Revenue, conversion patterns', schema: { timeframe: 'string' } },
-  generate_quote: { desc: 'Full quote from inspection or description', schema: { reportId: 'string', tier: 'string' } },
-  modify_quote: { desc: 'Adjust pricing, line items', schema: { quoteId: 'string', changes: 'object' } },
-  create_blog_post: { desc: 'Generate SEO blog from recent jobs', schema: { topic: 'string' } },
-  create_social_post: { desc: 'Facebook/Instagram with images', schema: { content: 'string' } },
-  analyze_pricing: { desc: 'Suggest pricing changes', schema: { service: 'string' } },
 };
 
 serve(async (req) => {
@@ -88,7 +164,7 @@ Respond ONLY with valid JSON in this format:
     const intentData = await intentResponse.json();
     const classification = JSON.parse(intentData.choices[0].message.content);
 
-    // Step 2: Execute plan
+    // Step 2: Execute plan (with CKR-GEM API integration)
     const executionResults: any[] = [];
     let variables: Record<string, any> = {};
 
@@ -99,39 +175,75 @@ Respond ONLY with valid JSON in this format:
       );
 
       let result;
-      
-      switch (step.tool) {
-        case 'query_leads':
-          result = await supabase.from('leads').select('*').match(resolvedParams.filters || {});
-          break;
-        
-        case 'query_quotes':
-          result = await supabase.from('quotes').select('*').match(resolvedParams.filters || {});
-          break;
+      const toolDef = TOOL_REGISTRY[step.tool as keyof typeof TOOL_REGISTRY];
 
-        case 'generate_quote':
-          // Call existing generate-quote function
-          result = await supabase.functions.invoke('generate-quote', {
-            body: resolvedParams
-          });
-          break;
-
-        case 'analyze_trends':
-          // Analyze data patterns
-          const { data: recentJobs } = await supabase
-            .from('inspection_reports')
-            .select('*')
-            .gte('created_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
-            .order('created_at', { ascending: false });
+      // Route to CKR-GEM API if action defined
+      if (toolDef?.crmAction) {
+        try {
+          console.log(`Calling CKR-GEM API: ${toolDef.crmAction}`, resolvedParams);
           
-          result = { data: { jobCount: recentJobs?.length || 0, recentJobs } };
-          break;
+          const crmResponse = await fetch(`${supabaseUrl}/functions/v1/ckr-gem-api`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': GPT_PROXY_KEY || '',
+            },
+            body: JSON.stringify({
+              action: toolDef.crmAction,
+              params: resolvedParams,
+              mode: 'live' // Use 'dry-run' for preview
+            })
+          });
 
-        default:
-          result = { data: { message: `Tool ${step.tool} not yet implemented` } };
+          if (!crmResponse.ok) {
+            const errorText = await crmResponse.text();
+            throw new Error(`CKR-GEM API error: ${errorText}`);
+          }
+
+          const crmData = await crmResponse.json();
+          result = { data: crmData.data, success: crmData.success };
+          
+        } catch (error: any) {
+          console.error(`CKR-GEM API call failed:`, error);
+          result = { 
+            error: error.message, 
+            data: { error: `Failed to execute ${toolDef.crmAction}: ${error.message}` }
+          };
+        }
+      } else {
+        // Handle local operations
+        switch (step.tool) {
+          case 'query_leads_local':
+            result = await supabase.from('leads').select('*').match(resolvedParams.filters || {});
+            break;
+          
+          case 'query_quotes_local':
+            result = await supabase.from('quotes').select('*').match(resolvedParams.filters || {});
+            break;
+
+          case 'analyze_trends':
+            // Analyze data patterns
+            const { data: recentJobs } = await supabase
+              .from('inspection_reports')
+              .select('*')
+              .gte('created_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
+              .order('created_at', { ascending: false });
+            
+            result = { data: { jobCount: recentJobs?.length || 0, recentJobs } };
+            break;
+
+          default:
+            result = { data: { message: `Tool ${step.tool} not yet implemented` } };
+        }
       }
 
-      executionResults.push({ tool: step.tool, result: result.data });
+      executionResults.push({ 
+        tool: step.tool, 
+        crmAction: toolDef?.crmAction,
+        result: result.data, 
+        success: !result.error 
+      });
+      
       if (step.outputVar) {
         variables[step.outputVar] = result.data;
       }

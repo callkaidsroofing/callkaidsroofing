@@ -4,10 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
-import { Bot, User, Loader2, Zap, TrendingUp, Package, Code, Sparkles } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { Bot, User, Loader2, Zap, TrendingUp, Package, Code, Sparkles, Plus, Search, Calendar, FileText } from "lucide-react";
 import { toast } from "sonner";
 import { AuthGuard } from "@/components/AuthGuard";
+import { useNexusAI } from "@/hooks/useNexusAI";
 
 interface Message {
   role: "user" | "assistant";
@@ -20,9 +20,16 @@ interface Message {
 const Nexus = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [conversationId, setConversationId] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const { ask, isProcessing } = useNexusAI({
+    onComplete: (response) => {
+      // Response already added by handleSend
+    },
+    onError: (error) => {
+      toast.error(error);
+    }
+  });
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -32,39 +39,25 @@ const Nexus = () => {
 
   const handleSend = async () => {
     const messageText = input.trim();
-    if (!messageText || loading) return;
+    if (!messageText || isProcessing) return;
 
     setInput("");
     setMessages(prev => [...prev, { role: "user", content: messageText }]);
-    setLoading(true);
 
-    try {
-      const { data, error } = await supabase.functions.invoke("nexus-ai-hub", {
-        body: {
-          conversationId,
-          message: messageText,
-          context: {
-            currentPage: '/internal/nexus',
-          },
-        },
-      });
+    const result = await ask(messageText, { currentPage: '/internal/nexus' });
 
-      if (error) throw error;
-
-      setConversationId(data.conversationId);
+    if (result) {
       setMessages(prev => [
         ...prev,
         {
           role: "assistant",
-          content: data.response,
-          classification: data.classification,
-          executionResults: data.executionResults,
-          executionTime: data.executionTime,
+          content: result.response,
+          classification: result.classification,
+          executionResults: result.executionResults,
+          executionTime: result.executionTime,
         },
       ]);
-    } catch (error: any) {
-      console.error("Nexus error:", error);
-      toast.error("Failed to process request");
+    } else {
       setMessages(prev => [
         ...prev,
         {
@@ -72,16 +65,14 @@ const Nexus = () => {
           content: "I encountered an error processing your request. Please try again.",
         },
       ]);
-    } finally {
-      setLoading(false);
     }
   };
 
   const quickCommands = [
-    { icon: TrendingUp, text: "Show today's leads", color: "text-green-600" },
-    { icon: Package, text: "Generate quote for latest lead", color: "text-blue-600" },
-    { icon: Zap, text: "Analyze conversion rates this month", color: "text-orange-600" },
-    { icon: Code, text: "Create a blog post about roof repairs", color: "text-purple-600" },
+    { icon: Plus, text: "Create a lead for John in Berwick - roof painting", color: "text-green-600" },
+    { icon: Search, text: "Show all new leads from this week", color: "text-blue-600" },
+    { icon: Calendar, text: "Schedule follow-ups for pending quotes", color: "text-orange-600" },
+    { icon: FileText, text: "Generate premium quote for latest inspection", color: "text-purple-600" },
   ];
 
   return (
@@ -182,7 +173,7 @@ const Nexus = () => {
                     </div>
                   ))}
 
-                  {loading && (
+                  {isProcessing && (
                     <div className="flex gap-3 justify-start">
                       <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
                         <Bot className="h-5 w-5 text-primary" />
@@ -202,21 +193,21 @@ const Nexus = () => {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
-                    placeholder="Ask anything... e.g., 'Show unviewed quotes from this week'"
-                    disabled={loading}
+                    placeholder="Try: 'Create lead for Sarah at 0412345678 - leak repair in Cranbourne'"
+                    disabled={isProcessing}
                     className="text-sm"
                   />
                   <Button
                     onClick={handleSend}
-                    disabled={loading || !input.trim()}
+                    disabled={isProcessing || !input.trim()}
                     size="icon"
                     className="shrink-0"
                   >
-                    {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+                    {isProcessing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground mt-2 text-center">
-                  Powered by Gemini 2.5 • Natural language understanding • Multi-step execution
+                  Powered by Gemini 2.5 + CKR-GEM API • Full CRM control via natural language • 20+ automated actions
                 </p>
               </div>
             </CardContent>
