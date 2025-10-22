@@ -18,10 +18,13 @@ import {
   Download,
   TrendingUp,
   MessageSquare,
-  CheckSquare
+  CheckSquare,
+  Sparkles,
+  Plus
 } from 'lucide-react';
 import { ExportDialog } from '@/components/ExportDialog';
 import { LeadActivityTimeline } from '@/components/LeadActivityTimeline';
+import { AILeadCapture } from '@/components/AILeadCapture';
 import {
   Table,
   TableBody,
@@ -55,6 +58,7 @@ export default function LeadsDashboard() {
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
   const [selectedLeadName, setSelectedLeadName] = useState<string>('');
   const [exportOpen, setExportOpen] = useState(false);
+  const [showAICapture, setShowAICapture] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -209,14 +213,30 @@ export default function LeadsDashboard() {
           <div>
             <h1 className="text-3xl font-bold">Leads Management</h1>
             <p className="text-muted-foreground mt-1">
-              Track and convert website leads to customers
+              AI-powered lead tracking and conversion
             </p>
           </div>
-          <Button onClick={() => setExportOpen(true)} variant="outline">
-            <Download className="h-4 w-4 mr-2" />
-            Export
-          </Button>
+          <div className="flex gap-2">
+            <Button onClick={() => setShowAICapture(!showAICapture)} variant="default">
+              <Sparkles className="h-4 w-4 mr-2" />
+              {showAICapture ? 'Hide' : 'AI Lead Capture'}
+            </Button>
+            <Button onClick={() => setExportOpen(true)} variant="outline">
+              <Download className="h-4 w-4 mr-2" />
+              Export
+            </Button>
+          </div>
         </div>
+
+        {/* AI Lead Capture */}
+        {showAICapture && (
+          <div className="animate-fade-in">
+            <AILeadCapture onLeadCreated={() => {
+              fetchLeads();
+              setShowAICapture(false);
+            }} />
+          </div>
+        )}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

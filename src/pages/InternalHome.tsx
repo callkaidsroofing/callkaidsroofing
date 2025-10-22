@@ -2,109 +2,187 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthGuard } from '@/components/AuthGuard';
 import { supabase } from '@/integrations/supabase/client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast';
+import { Input } from '@/components/ui/input';
 import { 
+  Sparkles, 
   FileText, 
+  Users, 
   DollarSign, 
   TrendingUp, 
-  CheckCircle2, 
+  MessageSquare,
   Plus,
-  ArrowUpRight,
-  Loader2
+  ArrowRight,
+  Loader2,
+  Zap,
+  BarChart3,
+  Camera
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { useNexusAI } from '@/hooks/useNexusAI';
+import { toast } from 'sonner';
 
-interface DashboardMetrics {
-  totalReports: number;
-  reportsThisMonth: number;
-  totalQuotes: number;
-  quotesThisMonth: number;
-  totalRevenue: number;
-  avgQuoteValue: number;
-  completedReports: number;
-  draftReports: number;
+interface QuickStats {
+  newLeads: number;
+  pendingQuotes: number;
+  activeJobs: number;
+  monthRevenue: number;
+  hotLeads: number;
 }
 
 export default function InternalHome() {
-  const [metrics, setMetrics] = useState<DashboardMetrics>({
-    totalReports: 0,
-    reportsThisMonth: 0,
-    totalQuotes: 0,
-    quotesThisMonth: 0,
-    totalRevenue: 0,
-    avgQuoteValue: 0,
-    completedReports: 0,
-    draftReports: 0,
+  const [stats, setStats] = useState<QuickStats>({
+    newLeads: 0,
+    pendingQuotes: 0,
+    activeJobs: 0,
+    monthRevenue: 0,
+    hotLeads: 0,
   });
-  const [recentReports, setRecentReports] = useState<any[]>([]);
-  const [recentQuotes, setRecentQuotes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
+  const [aiQuery, setAiQuery] = useState('');
   const navigate = useNavigate();
+  
+  const { ask, isProcessing } = useNexusAI({
+    onComplete: (response) => {
+      toast.success('AI Task Completed', {
+        description: response.substring(0, 100) + '...'
+      });
+    }
+  });
 
   useEffect(() => {
-    fetchDashboardData();
+    fetchQuickStats();
   }, []);
 
-  const fetchDashboardData = async () => {
+  const fetchQuickStats = async () => {
     try {
       setLoading(true);
-      
-      // Get current month start date
       const now = new Date();
       const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
 
-      // Fetch inspection reports
-      const { data: reports, error: reportsError } = await supabase
-        .from('inspection_reports')
-        .select('*')
-        .order('created_at', { ascending: false });
+      // Get leads
+      const { data: leads } = await supabase
+        .from('leads')
+        .select('status, ai_score, created_at');
 
-      if (reportsError) throw reportsError;
-
-      // Fetch quotes
-      const { data: quotes, error: quotesError } = await supabase
+      // Get quotes  
+      const { data: quotes } = await supabase
         .from('quotes')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .select('status, total, created_at');
 
-      if (quotesError) throw quotesError;
+      // Get jobs
+      const { data: jobs } = await supabase
+        .from('inspection_reports')
+        .select('status');
 
-      // Calculate metrics
-      const reportsThisMonth = reports?.filter(r => new Date(r.created_at) >= new Date(firstDayOfMonth)).length || 0;
-      const quotesThisMonth = quotes?.filter(q => new Date(q.created_at) >= new Date(firstDayOfMonth)).length || 0;
-      const totalRevenue = quotes?.reduce((sum, q) => sum + parseFloat(String(q.total) || '0'), 0) || 0;
-      const avgQuoteValue = quotes?.length ? totalRevenue / quotes.length : 0;
-      const completedReports = reports?.filter(r => r.status === 'completed').length || 0;
-      const draftReports = reports?.filter(r => r.status === 'draft').length || 0;
+      const newLeads = leads?.filter(l => l.status === 'new').length || 0;
+      const hotLeads = leads?.filter(l => (l.ai_score || 0) >= 7).length || 0;
+      const pendingQuotes = quotes?.filter(q => q.status === 'draft' || q.status === 'sent').length || 0;
+      const activeJobs = jobs?.filter(j => j.status === 'in_progress' || j.status === 'scheduled').length || 0;
+      
+      const monthRevenue = quotes
+        ?.filter(q => new Date(q.created_at) >= new Date(firstDayOfMonth))
+        .reduce((sum, q) => sum + parseFloat(String(q.total) || '0'), 0) || 0;
 
-      setMetrics({
-        totalReports: reports?.length || 0,
-        reportsThisMonth,
-        totalQuotes: quotes?.length || 0,
-        quotesThisMonth,
-        totalRevenue,
-        avgQuoteValue,
-        completedReports,
-        draftReports,
+      setStats({
+        newLeads,
+        pendingQuotes,
+        activeJobs,
+        monthRevenue,
+        hotLeads,
       });
-
-      setRecentReports(reports?.slice(0, 5) || []);
-      setRecentQuotes(quotes?.slice(0, 5) || []);
-
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to load dashboard metrics',
-        variant: 'destructive',
-      });
+      console.error('Error fetching stats:', error);
     } finally {
       setLoading(false);
     }
   };
+
+  const handleAIQuery = async () => {
+    if (!aiQuery.trim() || isProcessing) return;
+    await ask(aiQuery);
+    setAiQuery('');
+  };
+
+  const quickActions = [
+    {
+      title: 'New Lead',
+      description: 'AI-powered lead capture',
+      icon: Users,
+      color: 'text-green-600',
+      bgColor: 'bg-green-50',
+      action: () => navigate('/internal/leads'),
+    },
+    {
+      title: 'New Inspection',
+      description: 'Start inspection report',
+      icon: Camera,
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-50',
+      action: () => navigate('/internal/inspection'),
+    },
+    {
+      title: 'AI Assistant',
+      description: 'Chat with Nexus AI',
+      icon: Sparkles,
+      color: 'text-purple-600',
+      bgColor: 'bg-purple-50',
+      action: () => navigate('/internal/nexus'),
+    },
+    {
+      title: 'View Reports',
+      description: 'All inspection reports',
+      icon: FileText,
+      color: 'text-orange-600',
+      bgColor: 'bg-orange-50',
+      action: () => navigate('/internal/dashboard'),
+    },
+  ];
+
+  const navSections: Array<{
+    title: string;
+    description: string;
+    path: string;
+    badge: string;
+    badgeVariant: "default" | "destructive" | "outline" | "secondary";
+  }> = [
+    {
+      title: '🎯 Lead Management',
+      description: 'Track and convert website leads with AI intelligence',
+      path: '/internal/leads',
+      badge: `${stats.newLeads} new`,
+      badgeVariant: stats.newLeads > 0 ? 'default' : 'secondary',
+    },
+    {
+      title: '📋 Inspection Reports',
+      description: 'Create and manage detailed roof inspection reports',
+      path: '/internal/dashboard',
+      badge: `${stats.activeJobs} active`,
+      badgeVariant: 'secondary',
+    },
+    {
+      title: '💰 Quotes & Pricing',
+      description: 'Generate professional quotes with AI suggestions',
+      path: '/internal/quotes',
+      badge: `${stats.pendingQuotes} pending`,
+      badgeVariant: stats.pendingQuotes > 0 ? 'default' : 'secondary',
+    },
+    {
+      title: '🤖 Nexus AI Command Center',
+      description: 'Natural language CRM control - ask anything, do anything',
+      path: '/internal/nexus',
+      badge: 'Powered by GPT',
+      badgeVariant: 'outline',
+    },
+    {
+      title: '💬 AI Chat Support',
+      description: 'Internal AI assistant for business intelligence',
+      path: '/internal/chat',
+      badge: 'Live',
+      badgeVariant: 'outline',
+    },
+  ];
 
   if (loading) {
     return (
@@ -118,183 +196,203 @@ export default function InternalHome() {
 
   return (
     <AuthGuard requireInspector>
-      <div className="p-8 space-y-8">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Dashboard Overview</h1>
-            <p className="text-muted-foreground mt-1">
-              Welcome back! Here's your business at a glance.
-            </p>
+      <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background p-8 space-y-8">
+        {/* Hero Section */}
+        <div className="text-center space-y-4 py-8">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
+              <Sparkles className="h-8 w-8 text-primary" />
+            </div>
           </div>
-          <Button onClick={() => navigate('/internal/inspection')}>
-            <Plus className="h-4 w-4 mr-2" />
-            New Inspection
-          </Button>
+          <h1 className="text-4xl font-bold">Call Kaids Roofing Command Center</h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Your AI-powered business management system. Automate tasks, track leads, and grow your business.
+          </p>
         </div>
 
-        {/* Key Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Total Reports
-              </CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{metrics.totalReports}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                +{metrics.reportsThisMonth} this month
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Total Quotes
-              </CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{metrics.totalQuotes}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                +{metrics.quotesThisMonth} this month
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Avg Quote Value
-              </CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                ${metrics.avgQuoteValue.toFixed(0)}
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Average per quote
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Completed
-              </CardTitle>
-              <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{metrics.completedReports}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {metrics.draftReports} in draft
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Recent Reports */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Recent Inspection Reports</CardTitle>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate('/internal/dashboard')}
-              >
-                View All
-                <ArrowUpRight className="h-4 w-4 ml-1" />
+        {/* AI Quick Command */}
+        <Card className="border-primary/20 bg-primary/5">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Zap className="h-5 w-5 text-primary" />
+              AI Quick Command
+            </CardTitle>
+            <CardDescription>
+              Ask AI to do anything - create leads, search data, generate quotes, analyze trends
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-2">
+              <Input
+                value={aiQuery}
+                onChange={(e) => setAiQuery(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleAIQuery()}
+                placeholder="e.g., 'Show all hot leads from this week' or 'Create a lead for John in Berwick'"
+                disabled={isProcessing}
+                className="text-base"
+              />
+              <Button onClick={handleAIQuery} disabled={isProcessing || !aiQuery.trim()}>
+                {isProcessing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
               </Button>
+            </div>
+            <div className="flex gap-2 mt-3 flex-wrap">
+              <Button variant="outline" size="sm" onClick={() => setAiQuery("Show today's new leads")}>
+                Today's Leads
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => setAiQuery("What's my revenue this month?")}>
+                Monthly Revenue
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => setAiQuery("Show pending quotes")}>
+                Pending Quotes
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/internal/leads')}>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                New Leads
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                {recentReports.length === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-4">
-                    No reports yet
-                  </p>
-                ) : (
-                  recentReports.map((report) => (
-                    <div
-                      key={report.id}
-                      className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 cursor-pointer transition-all hover:shadow-sm animate-fade-in"
-                      onClick={() => navigate(`/internal/reports/${report.id}`)}
-                    >
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium truncate">{report.clientName}</p>
-                        <p className="text-sm text-muted-foreground truncate">
-                          {report.siteAddress}
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {new Date(report.created_at).toLocaleDateString('en-AU')}
-                        </p>
-                      </div>
-                      <Badge variant={report.status === 'completed' ? 'default' : 'outline'}>
-                        {report.status}
-                      </Badge>
-                    </div>
-                  ))
-                )}
-              </div>
+              <div className="text-3xl font-bold">{stats.newLeads}</div>
+              <p className="text-xs text-muted-foreground mt-1">Awaiting contact</p>
             </CardContent>
           </Card>
 
-          {/* Recent Quotes */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Recent Quotes</CardTitle>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate('/internal/quotes')}
-              >
-                View All
-                <ArrowUpRight className="h-4 w-4 ml-1" />
-              </Button>
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/internal/leads')}>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                <TrendingUp className="h-4 w-4" />
+                Hot Leads
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                {recentQuotes.length === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-4">
-                    No quotes yet
-                  </p>
-                ) : (
-                  recentQuotes.map((quote) => (
-                    <div
-                      key={quote.id}
-                      className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 cursor-pointer transition-all hover:shadow-sm animate-fade-in"
-                      onClick={() => navigate('/internal/quotes')}
-                    >
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium truncate">{quote.client_name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {quote.quote_number}
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {new Date(quote.created_at).toLocaleDateString('en-AU')}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold text-primary">
-                          ${parseFloat(quote.total).toFixed(2)}
-                        </p>
-                        <Badge variant="outline" className="mt-1">
-                          {quote.tier_level}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))
-                )}
+              <div className="text-3xl font-bold text-orange-600">{stats.hotLeads}</div>
+              <p className="text-xs text-muted-foreground mt-1">AI Score ≥ 7</p>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/internal/quotes')}>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                <DollarSign className="h-4 w-4" />
+                Pending Quotes
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold">{stats.pendingQuotes}</div>
+              <p className="text-xs text-muted-foreground mt-1">Needs follow-up</p>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/internal/dashboard')}>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                <FileText className="h-4 w-4" />
+                Active Jobs
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold">{stats.activeJobs}</div>
+              <p className="text-xs text-muted-foreground mt-1">In progress</p>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                <BarChart3 className="h-4 w-4" />
+                Month Revenue
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-green-600">
+                ${stats.monthRevenue.toFixed(0)}
               </div>
+              <p className="text-xs text-muted-foreground mt-1">This month</p>
             </CardContent>
           </Card>
         </div>
+
+        {/* Quick Actions */}
+        <div>
+          <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {quickActions.map((action, idx) => (
+              <Card
+                key={idx}
+                className="hover:shadow-lg transition-all cursor-pointer group"
+                onClick={action.action}
+              >
+                <CardContent className="p-6">
+                  <div className={`h-12 w-12 rounded-lg ${action.bgColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                    <action.icon className={`h-6 w-6 ${action.color}`} />
+                  </div>
+                  <h3 className="font-semibold mb-1">{action.title}</h3>
+                  <p className="text-sm text-muted-foreground">{action.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* System Sections */}
+        <div>
+          <h2 className="text-2xl font-bold mb-4">System Sections</h2>
+          <div className="space-y-3">
+            {navSections.map((section, idx) => (
+              <Card
+                key={idx}
+                className="hover:shadow-lg transition-all cursor-pointer group"
+                onClick={() => navigate(section.path)}
+              >
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold mb-1 group-hover:text-primary transition-colors">
+                        {section.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">{section.description}</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Badge variant={section.badgeVariant}>{section.badge}</Badge>
+                      <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Integration Info */}
+        <Card className="border-dashed">
+          <CardHeader>
+            <CardTitle className="text-sm flex items-center gap-2">
+              <MessageSquare className="h-4 w-4" />
+              💡 Pro Tip: Use AI Everywhere
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-sm space-y-2">
+            <p>🤖 <strong>Nexus AI</strong> - Full natural language control of your CRM</p>
+            <p>🔗 <strong>CKR-GEM API</strong> - Your Custom GPT can manage everything via API</p>
+            <p>📱 <strong>Website Integration</strong> - AI powers work on any page using useNexusAI hook</p>
+            <Button
+              variant="outline"
+              size="sm"
+              className="mt-3"
+              onClick={() => navigate('/internal/nexus-demo')}
+            >
+              View Integration Guide
+              <ArrowRight className="h-3 w-3 ml-2" />
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     </AuthGuard>
   );

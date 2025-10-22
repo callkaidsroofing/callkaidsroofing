@@ -1,9 +1,13 @@
 import { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
+import { AuthGuard } from '@/components/AuthGuard';
+import { SimpleInspectionForm } from '@/components/SimpleInspectionForm';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 import { Save, Send, AlertCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -19,8 +23,45 @@ import { inspectionFormSchema, type InspectionFormData } from '@/lib/validation-
 const InspectionForm = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const { toast } = useToast();
   const editId = searchParams.get('id');
+  const mode = searchParams.get('mode');
+  
+  // Get prefill data from navigation state
+  const prefillData = location.state;
+
+  // Use simple mode by default
+  if (mode !== 'advanced' && !editId) {
+    return (
+      <AuthGuard requireInspector>
+        <div className="min-h-screen bg-muted/30 p-8">
+          <div className="max-w-5xl mx-auto">
+            <div className="flex items-center gap-4 mb-6">
+              <Button
+                variant="ghost"
+                onClick={() => navigate('/internal/dashboard')}
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Dashboard
+              </Button>
+            </div>
+
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>New Inspection Report (Simple Mode)</CardTitle>
+                <CardDescription>
+                  Quick inspection form with essential fields. Need more detailed options? Switch to Advanced Mode.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <SimpleInspectionForm prefillData={prefillData} />
+          </div>
+        </div>
+      </AuthGuard>
+    );
+  }
 
   const {
     register,
