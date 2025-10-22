@@ -384,6 +384,7 @@ export type Database = {
           accessnotes: string | null
           accessNotes: string | null
           ageApprox: string | null
+          assigned_crew: string[] | null
           beddingCementSand: string | null
           beforedefects: string[] | null
           beforeDefects: Json | null
@@ -406,6 +407,7 @@ export type Database = {
           duringafter: string[] | null
           duringAfter: Json | null
           email: string | null
+          estimated_duration_hours: number | null
           flashings: string | null
           flexiblerepointingnotes: string | null
           flexiblerepointingqty: number | null
@@ -422,6 +424,7 @@ export type Database = {
           installvalleyclipsqty: number | null
           internal_leaks_observed: boolean | null
           internalLeaks: string | null
+          job_checklist: Json | null
           leaksphoto: string[] | null
           otherMaterials: string | null
           overallCondition: string | null
@@ -450,6 +453,7 @@ export type Database = {
           roofArea: number | null
           roofPitch: string | null
           safetyRailNeeded: boolean | null
+          scheduled_date: string | null
           sealpenetrationsnotes: string | null
           sealpenetrationsqty: number | null
           siteAddress: string
@@ -470,6 +474,7 @@ export type Database = {
           accessnotes?: string | null
           accessNotes?: string | null
           ageApprox?: string | null
+          assigned_crew?: string[] | null
           beddingCementSand?: string | null
           beforedefects?: string[] | null
           beforeDefects?: Json | null
@@ -492,6 +497,7 @@ export type Database = {
           duringafter?: string[] | null
           duringAfter?: Json | null
           email?: string | null
+          estimated_duration_hours?: number | null
           flashings?: string | null
           flexiblerepointingnotes?: string | null
           flexiblerepointingqty?: number | null
@@ -508,6 +514,7 @@ export type Database = {
           installvalleyclipsqty?: number | null
           internal_leaks_observed?: boolean | null
           internalLeaks?: string | null
+          job_checklist?: Json | null
           leaksphoto?: string[] | null
           otherMaterials?: string | null
           overallCondition?: string | null
@@ -536,6 +543,7 @@ export type Database = {
           roofArea?: number | null
           roofPitch?: string | null
           safetyRailNeeded?: boolean | null
+          scheduled_date?: string | null
           sealpenetrationsnotes?: string | null
           sealpenetrationsqty?: number | null
           siteAddress: string
@@ -556,6 +564,7 @@ export type Database = {
           accessnotes?: string | null
           accessNotes?: string | null
           ageApprox?: string | null
+          assigned_crew?: string[] | null
           beddingCementSand?: string | null
           beforedefects?: string[] | null
           beforeDefects?: Json | null
@@ -578,6 +587,7 @@ export type Database = {
           duringafter?: string[] | null
           duringAfter?: Json | null
           email?: string | null
+          estimated_duration_hours?: number | null
           flashings?: string | null
           flexiblerepointingnotes?: string | null
           flexiblerepointingqty?: number | null
@@ -594,6 +604,7 @@ export type Database = {
           installvalleyclipsqty?: number | null
           internal_leaks_observed?: boolean | null
           internalLeaks?: string | null
+          job_checklist?: Json | null
           leaksphoto?: string[] | null
           otherMaterials?: string | null
           overallCondition?: string | null
@@ -622,6 +633,7 @@ export type Database = {
           roofArea?: number | null
           roofPitch?: string | null
           safetyRailNeeded?: boolean | null
+          scheduled_date?: string | null
           sealpenetrationsnotes?: string | null
           sealpenetrationsqty?: number | null
           siteAddress?: string
@@ -852,6 +864,9 @@ export type Database = {
           created_at: string
           email: string | null
           id: string
+          merge_history: Json | null
+          merge_status: string | null
+          merged_into_lead_id: string | null
           message: string | null
           name: string
           phone: string
@@ -870,6 +885,9 @@ export type Database = {
           created_at?: string
           email?: string | null
           id?: string
+          merge_history?: Json | null
+          merge_status?: string | null
+          merged_into_lead_id?: string | null
           message?: string | null
           name: string
           phone: string
@@ -888,6 +906,9 @@ export type Database = {
           created_at?: string
           email?: string | null
           id?: string
+          merge_history?: Json | null
+          merge_status?: string | null
+          merged_into_lead_id?: string | null
           message?: string | null
           name?: string
           phone?: string
@@ -899,7 +920,15 @@ export type Database = {
           updated_at?: string
           urgency?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "leads_merged_into_lead_id_fkey"
+            columns: ["merged_into_lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       material_specs: {
         Row: {
@@ -1172,6 +1201,9 @@ export type Database = {
       }
       quote_emails: {
         Row: {
+          click_count: number | null
+          clicks_data: Json | null
+          engagement_score: number | null
           id: string
           quote_id: string
           recipient_email: string
@@ -1181,6 +1213,9 @@ export type Database = {
           viewed_at: string | null
         }
         Insert: {
+          click_count?: number | null
+          clicks_data?: Json | null
+          engagement_score?: number | null
           id?: string
           quote_id: string
           recipient_email: string
@@ -1190,6 +1225,9 @@ export type Database = {
           viewed_at?: string | null
         }
         Update: {
+          click_count?: number | null
+          clicks_data?: Json | null
+          engagement_score?: number | null
           id?: string
           quote_id?: string
           recipient_email?: string
@@ -1654,22 +1692,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      cleanup_rate_limits: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      create_admin_for_authenticated_user: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
-      generate_invoice_number: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      generate_quote_number: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
+      cleanup_rate_limits: { Args: never; Returns: undefined }
+      create_admin_for_authenticated_user: { Args: never; Returns: Json }
+      generate_invoice_number: { Args: never; Returns: string }
+      generate_quote_number: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1677,14 +1703,8 @@ export type Database = {
         }
         Returns: boolean
       }
-      is_admin_user: {
-        Args: { user_id?: string }
-        Returns: boolean
-      }
-      is_inspector: {
-        Args: { _user_id?: string }
-        Returns: boolean
-      }
+      is_admin_user: { Args: { user_id?: string }; Returns: boolean }
+      is_inspector: { Args: { _user_id?: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "inspector" | "viewer"

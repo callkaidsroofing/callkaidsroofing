@@ -4,6 +4,9 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.57.2';
 
 // Import handlers
 import * as crmHandlers from './handlers/crm.ts';
+import * as crmAdvancedHandlers from './handlers/crm-advanced.ts';
+import * as crmQuotesHandlers from './handlers/crm-quotes.ts';
+import * as crmAutomationHandlers from './handlers/crm-automation.ts';
 
 // Import utilities
 import { authenticate } from './utils/security.ts';
@@ -36,6 +39,27 @@ const ACTION_HANDLERS: Record<string, Function> = {
   'SendQuoteToClient': crmHandlers.sendQuote,
   'RecordClientResponse': crmHandlers.recordResponse,
   'ArchiveCompletedJob': crmHandlers.archiveJob,
+  
+  // Advanced Lead Management (11-15)
+  'BatchImportLeads': crmAdvancedHandlers.batchImportLeads,
+  'SearchLeadsAdvanced': crmAdvancedHandlers.searchLeadsAdvanced,
+  'MergeLeadDuplicates': crmAdvancedHandlers.mergeLeadDuplicates,
+  'CreateLeadTask': crmAdvancedHandlers.createLeadTask,
+  'FetchLeadTimeline': crmAdvancedHandlers.fetchLeadTimeline,
+  
+  // Quote Intelligence (16-20)
+  'CompareQuoteVersions': crmQuotesHandlers.compareQuoteVersions,
+  'FetchQuotesForLead': crmQuotesHandlers.fetchQuotesForLead,
+  'CloneQuote': crmQuotesHandlers.cloneQuote,
+  'ScheduleJobWithConflictCheck': crmQuotesHandlers.scheduleJobWithConflictCheck,
+  'GenerateJobChecklistFromInspection': crmQuotesHandlers.generateJobChecklistFromInspection,
+  
+  // Automation (21-25)
+  'BulkUpdateLeadStatus': crmAutomationHandlers.bulkUpdateLeadStatus,
+  'ScheduleQuoteFollowup': crmAutomationHandlers.scheduleQuoteFollowup,
+  'TrackQuoteEmailEngagement': crmAutomationHandlers.trackQuoteEmailEngagement,
+  'ExportLeadsToCSV': crmAutomationHandlers.exportLeadsToCSVAction,
+  'NotifyTeamAboutHotLead': crmAutomationHandlers.notifyTeamAboutHotLead,
 };
 
 serve(async (req: Request) => {
