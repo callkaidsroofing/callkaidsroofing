@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -9,19 +9,32 @@ import { useRoofData } from '@/hooks/useRoofData';
 interface InspectionRoofMeasurementProps {
   address: string;
   onMeasurementComplete?: (measurementId: string) => void;
+  onDataReceived?: (data: any) => void;
 }
 
-export function InspectionRoofMeasurement({ address, onMeasurementComplete }: InspectionRoofMeasurementProps) {
+export function InspectionRoofMeasurement({ address, onMeasurementComplete, onDataReceived }: InspectionRoofMeasurementProps) {
   const { mutate: getRoofData, data: measurement, isPending, error } = useRoofData();
   const [hasScanned, setHasScanned] = useState(false);
 
   const handleScan = () => {
     getRoofData(address);
     setHasScanned(true);
+  };
+
+  // Trigger callbacks when measurement data is available
+  useEffect(() => {
     if (measurement?.savedId && onMeasurementComplete) {
       onMeasurementComplete(measurement.savedId);
     }
-  };
+    if (measurement && onDataReceived) {
+      onDataReceived({
+        totalAreaM2: measurement.totalPitchedArea,
+        predominantPitch: measurement.predominantPitch,
+        features: measurement.features,
+        roofSegments: measurement.roofSegments,
+      });
+    }
+  }, [measurement]);
 
   const getQualityColor = (quality: string) => {
     switch (quality?.toUpperCase()) {

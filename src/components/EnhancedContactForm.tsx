@@ -6,9 +6,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Phone, Mail, CheckCircle, AlertCircle } from "lucide-react";
+import { Phone, Mail, CheckCircle, AlertCircle, ImageIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import { ImageUploadField } from "./ImageUploadField";
 
 const formSchema = z.object({
   name: z.string()
@@ -51,6 +52,7 @@ export function EnhancedContactForm() {
     message: "",
     honeypot: ""
   });
+  const [roofImages, setRoofImages] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitTime] = useState(Date.now());
   const { toast } = useToast();
@@ -108,7 +110,8 @@ export function EnhancedContactForm() {
           suburb: formData.suburb,
           service: formData.service,
           message: formData.message || null,
-          source: 'contact_form'
+          source: 'contact_form',
+          roofImages: roofImages.length > 0 ? roofImages : null
         }
       });
 
@@ -268,6 +271,16 @@ export function EnhancedContactForm() {
               onChange={(e) => handleInputChange('message', e.target.value)}
               placeholder="Tell us about your roof concerns, preferred contact times, or any specific requirements..."
               rows={4}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <ImageUploadField
+              label="Roof Photos (Optional)"
+              name="roofImages"
+              value={roofImages}
+              onChange={(_, urls) => setRoofImages(urls)}
+              helpText="Upload photos of your roof for faster, more accurate quotes"
             />
           </div>
 

@@ -8,8 +8,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Camera, Save, Sparkles, Loader2 } from 'lucide-react';
+import { Camera, Save, Sparkles, Loader2, Satellite } from 'lucide-react';
 import { ImageUploadField } from './ImageUploadField';
+import { InspectionRoofMeasurement } from './InspectionRoofMeasurement';
 
 interface SimpleInspectionFormProps {
   prefillData?: {
@@ -27,6 +28,8 @@ interface SimpleInspectionFormProps {
 export function SimpleInspectionForm({ prefillData }: SimpleInspectionFormProps) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [showRoofMeasurement, setShowRoofMeasurement] = useState(false);
+  const [roofMeasurementData, setRoofMeasurementData] = useState<any>(null);
   
   const [formData, setFormData] = useState({
     clientName: prefillData?.clientName || '',
@@ -171,10 +174,35 @@ export function SimpleInspectionForm({ prefillData }: SimpleInspectionFormProps)
       {/* Roof Assessment */}
       <Card>
         <CardHeader>
-          <CardTitle>Quick Roof Assessment</CardTitle>
-          <CardDescription>Essential roof details</CardDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>Quick Roof Assessment</CardTitle>
+              <CardDescription>Essential roof details</CardDescription>
+            </div>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setShowRoofMeasurement(!showRoofMeasurement)}
+            >
+              <Satellite className="h-4 w-4 mr-2" />
+              {showRoofMeasurement ? 'Hide' : 'Scan Roof'}
+            </Button>
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
+          {showRoofMeasurement && (
+            <InspectionRoofMeasurement
+              address={`${formData.siteAddress}, ${formData.suburbPostcode}`}
+              onDataReceived={(data) => {
+                setRoofMeasurementData(data);
+                if (data.totalAreaM2) {
+                  handleChange('roofArea', Math.round(data.totalAreaM2));
+                }
+              }}
+            />
+          )}
+          
           <div className="grid md:grid-cols-3 gap-4">
             <div>
               <Label>Roof Type *</Label>

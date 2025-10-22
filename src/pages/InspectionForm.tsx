@@ -4,7 +4,9 @@ import { AuthGuard } from '@/components/AuthGuard';
 import { SimpleInspectionForm } from '@/components/SimpleInspectionForm';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Satellite } from 'lucide-react';
+import { InspectionRoofMeasurement } from '@/components/InspectionRoofMeasurement';
+import { useState } from 'react';
 import { Save, Send, AlertCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -152,6 +154,8 @@ const InspectionForm = () => {
   });
 
   const formData = watch();
+  const [showRoofMeasurement, setShowRoofMeasurement] = useState(false);
+  const [roofMeasurementData, setRoofMeasurementData] = useState<any>(null);
 
   // Load existing report if editing
   useEffect(() => {
@@ -453,7 +457,40 @@ const InspectionForm = () => {
           </InspectionFormSection>
 
           {/* Section 3: Quantity Summary */}
-          <InspectionFormSection title="Quantity Summary" sectionNumber={3}>
+          <InspectionFormSection title="Roof Measurements & Quantities" sectionNumber={3}>
+            <div className="mb-4 flex justify-end">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setShowRoofMeasurement(!showRoofMeasurement)}
+              >
+                <Satellite className="h-4 w-4 mr-2" />
+                {showRoofMeasurement ? 'Hide Satellite Scan' : 'Scan from Satellite'}
+              </Button>
+            </div>
+
+            {showRoofMeasurement && (
+              <div className="mb-6">
+                <InspectionRoofMeasurement
+                  address={`${formData.siteAddress}, ${formData.suburbPostcode}`}
+                  onDataReceived={(data) => {
+                    setRoofMeasurementData(data);
+                    if (data.totalAreaM2) {
+                      setValue('roofArea', Math.round(data.totalAreaM2), { shouldValidate: true });
+                    }
+                    if (data.predominantPitch) {
+                      setValue('roofPitch', 
+                        data.predominantPitch < 15 ? 'Low' : 
+                        data.predominantPitch < 30 ? 'Medium' : 'Steep',
+                        { shouldValidate: true }
+                      );
+                    }
+                  }}
+                />
+              </div>
+            )}
+
             <div className="grid md:grid-cols-3 gap-4">
               <div>
                 <Label htmlFor="ridgeCaps">Ridge Caps (qty)</Label>

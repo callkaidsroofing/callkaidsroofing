@@ -3,10 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Phone, Gift, Clock, CheckCircle } from 'lucide-react';
+import { Phone, Gift, Clock, CheckCircle, ImageIcon } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { z } from 'zod';
+import { ImageUploadField } from './ImageUploadField';
 
 const quickFormSchema = z.object({
   name: z.string()
@@ -29,6 +30,7 @@ const QuickCaptureForm = () => {
     phone: '',
     suburb: ''
   });
+  const [roofImages, setRoofImages] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -61,7 +63,8 @@ const QuickCaptureForm = () => {
           suburb: formData.suburb,
           service: 'Free Roof Health Check',
           message: 'Requested free roof health check booking',
-          source: 'quick_capture_form'
+          source: 'quick_capture_form',
+          roofImages: roofImages.length > 0 ? roofImages : null
         }
       });
 
@@ -195,7 +198,7 @@ const QuickCaptureForm = () => {
                         />
                       </div>
                       
-                      <div>
+                       <div>
                         <Input
                           type="text"
                           name="suburb"
@@ -204,6 +207,16 @@ const QuickCaptureForm = () => {
                           onChange={handleChange}
                           required
                           className="h-12"
+                        />
+                      </div>
+
+                      <div>
+                        <ImageUploadField
+                          label="Roof Photos (Optional)"
+                          name="roofImages"
+                          value={roofImages}
+                          onChange={(_, urls) => setRoofImages(urls)}
+                          helpText="Upload photos for faster assessment"
                         />
                       </div>
 
