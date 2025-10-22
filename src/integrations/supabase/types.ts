@@ -640,6 +640,125 @@ export type Database = {
         }
         Relationships: []
       }
+      invoice_line_items: {
+        Row: {
+          description: string
+          id: string
+          invoice_id: string
+          line_total: number
+          quantity: number
+          sort_order: number | null
+          unit_price: number
+        }
+        Insert: {
+          description: string
+          id?: string
+          invoice_id: string
+          line_total: number
+          quantity: number
+          sort_order?: number | null
+          unit_price: number
+        }
+        Update: {
+          description?: string
+          id?: string
+          invoice_id?: string
+          line_total?: number
+          quantity?: number
+          sort_order?: number | null
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_line_items_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          amount_paid: number | null
+          balance_due: number
+          client_email: string | null
+          client_name: string
+          client_phone: string | null
+          created_at: string | null
+          due_date: string
+          gst: number
+          id: string
+          invoice_number: string
+          issue_date: string
+          job_id: string | null
+          notes: string | null
+          payment_terms: string | null
+          quote_id: string | null
+          status: string | null
+          subtotal: number
+          total: number
+          updated_at: string | null
+        }
+        Insert: {
+          amount_paid?: number | null
+          balance_due: number
+          client_email?: string | null
+          client_name: string
+          client_phone?: string | null
+          created_at?: string | null
+          due_date: string
+          gst: number
+          id?: string
+          invoice_number: string
+          issue_date?: string
+          job_id?: string | null
+          notes?: string | null
+          payment_terms?: string | null
+          quote_id?: string | null
+          status?: string | null
+          subtotal: number
+          total: number
+          updated_at?: string | null
+        }
+        Update: {
+          amount_paid?: number | null
+          balance_due?: number
+          client_email?: string | null
+          client_name?: string
+          client_phone?: string | null
+          created_at?: string | null
+          due_date?: string
+          gst?: number
+          id?: string
+          invoice_number?: string
+          issue_date?: string
+          job_id?: string | null
+          notes?: string | null
+          payment_terms?: string | null
+          quote_id?: string | null
+          status?: string | null
+          subtotal?: number
+          total?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "inspection_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lead_notes: {
         Row: {
           content: string
@@ -869,6 +988,39 @@ export type Database = {
         }
         Relationships: []
       }
+      metrics_learning_log: {
+        Row: {
+          approved_for_training: boolean | null
+          category: string | null
+          id: string
+          qa_score: number | null
+          self_correction_note: string | null
+          task_description: string | null
+          timestamp: string | null
+          user_feedback: string | null
+        }
+        Insert: {
+          approved_for_training?: boolean | null
+          category?: string | null
+          id?: string
+          qa_score?: number | null
+          self_correction_note?: string | null
+          task_description?: string | null
+          timestamp?: string | null
+          user_feedback?: string | null
+        }
+        Update: {
+          approved_for_training?: boolean | null
+          category?: string | null
+          id?: string
+          qa_score?: number | null
+          self_correction_note?: string | null
+          task_description?: string | null
+          timestamp?: string | null
+          user_feedback?: string | null
+        }
+        Relationships: []
+      }
       monitoring_logs: {
         Row: {
           created_at: string | null
@@ -928,6 +1080,50 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string | null
+          id: string
+          invoice_id: string
+          notes: string | null
+          payment_date: string
+          payment_method: string
+          recorded_by: string | null
+          reference: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          id?: string
+          invoice_id: string
+          notes?: string | null
+          payment_date: string
+          payment_method: string
+          recorded_by?: string | null
+          reference?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          id?: string
+          invoice_id?: string
+          notes?: string | null
+          payment_date?: string
+          payment_method?: string
+          recorded_by?: string | null
+          reference?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       pricing_rules: {
         Row: {
@@ -1199,6 +1395,36 @@ export type Database = {
         }
         Relationships: []
       }
+      security_events: {
+        Row: {
+          details: Json | null
+          event_type: string
+          id: string
+          ip_address: string | null
+          severity: string | null
+          timestamp: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          details?: Json | null
+          event_type: string
+          id?: string
+          ip_address?: string | null
+          severity?: string | null
+          timestamp?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          details?: Json | null
+          event_type?: string
+          id?: string
+          ip_address?: string | null
+          severity?: string | null
+          timestamp?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       security_logs: {
         Row: {
           created_at: string
@@ -1292,6 +1518,51 @@ export type Database = {
           id?: string
           metrics?: Json | null
           suburb?: string
+        }
+        Relationships: []
+      }
+      system_audit: {
+        Row: {
+          action: string
+          error_message: string | null
+          execution_time_ms: number | null
+          id: string
+          initiator: string | null
+          ip_address: string | null
+          mode: string | null
+          params: Json | null
+          result: Json | null
+          status: string | null
+          timestamp: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          error_message?: string | null
+          execution_time_ms?: number | null
+          id?: string
+          initiator?: string | null
+          ip_address?: string | null
+          mode?: string | null
+          params?: Json | null
+          result?: Json | null
+          status?: string | null
+          timestamp?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          error_message?: string | null
+          execution_time_ms?: number | null
+          id?: string
+          initiator?: string | null
+          ip_address?: string | null
+          mode?: string | null
+          params?: Json | null
+          result?: Json | null
+          status?: string | null
+          timestamp?: string | null
+          user_agent?: string | null
         }
         Relationships: []
       }
@@ -1390,6 +1661,10 @@ export type Database = {
       create_admin_for_authenticated_user: {
         Args: Record<PropertyKey, never>
         Returns: Json
+      }
+      generate_invoice_number: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
       generate_quote_number: {
         Args: Record<PropertyKey, never>
