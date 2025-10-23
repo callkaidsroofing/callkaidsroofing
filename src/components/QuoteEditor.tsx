@@ -144,6 +144,7 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
   };
 
   const handleSave = async () => {
+    if (saving) return; // Prevent double-submit
     try {
       setSaving(true);
       const { subtotal, gst, total } = calculateTotals();
@@ -161,7 +162,7 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
 
       if (quoteError) throw quoteError;
 
-      // Delete existing line items  
+      // Delete existing line items first to remove removed rows
       const { error: deleteError } = await supabase
         .from('quote_line_items')
         .delete()
@@ -169,7 +170,7 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
 
       if (deleteError) throw deleteError;
 
-      // Insert updated line items (only if there are items to insert)
+      // Upsert updated line items (only if there are items to insert)
       if (lineItems.length > 0) {
         const itemsToInsert = lineItems
           .filter(item => item.service_item.trim()) // Only insert items with service names
@@ -185,11 +186,11 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
           }));
 
         if (itemsToInsert.length > 0) {
-          const { error: insertError } = await supabase
+          const { error: upsertError } = await supabase
             .from('quote_line_items')
-            .insert(itemsToInsert);
+            .upsert(itemsToInsert, { onConflict: 'quote_id,sort_order' });
 
-          if (insertError) throw insertError;
+          if (upsertError) throw upsertError;
         }
       }
 

@@ -196,6 +196,7 @@ export function ProfessionalQuoteBuilder({ open, onOpenChange, reportId }: Profe
   };
 
   const handleSaveQuote = async () => {
+    if (savingQuote) return;
     if (!report) {
       toast.error("Report data not loaded");
       return;
@@ -266,7 +267,7 @@ export function ProfessionalQuoteBuilder({ open, onOpenChange, reportId }: Profe
 
       const { error: lineItemsError } = await supabase
         .from('quote_line_items')
-        .insert(lineItemsToInsert);
+        .upsert(lineItemsToInsert, { onConflict: 'quote_id,sort_order' });
 
       if (lineItemsError) throw lineItemsError;
 
