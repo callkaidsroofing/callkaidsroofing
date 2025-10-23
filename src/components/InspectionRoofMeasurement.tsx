@@ -131,8 +131,17 @@ export function InspectionRoofMeasurement({ address: initialAddress, onMeasureme
         )}
 
         {error && (
-          <div className="p-4 bg-destructive/10 border border-destructive rounded-lg text-sm text-destructive">
-            <strong>Error:</strong> {error.message}
+          <div className="p-4 bg-destructive/10 border border-destructive rounded-lg text-sm space-y-2">
+            <div>
+              <strong className="text-destructive">Error:</strong>{' '}
+              <span className="text-destructive/90">{error.message}</span>
+            </div>
+            {error.message?.includes('Google Solar API') && (
+              <div className="text-xs text-muted-foreground pt-2 border-t border-destructive/20">
+                The Google Solar API needs to be enabled in your Google Cloud Console. 
+                Contact your administrator or check the Supabase function logs for the activation link.
+              </div>
+            )}
           </div>
         )}
 
