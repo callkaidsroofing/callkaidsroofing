@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Home, FileText, DollarSign, Phone, MessageSquare, Sparkles, ClipboardList } from 'lucide-react';
+import { Home, FileText, DollarSign, Phone, MessageSquare, Sparkles, ClipboardList, Image } from 'lucide-react';
 
 const navItems = [
   { title: 'Home', path: '/internal/home', icon: Home },
@@ -9,6 +9,7 @@ const navItems = [
   { title: 'Reports', path: '/internal/dashboard', icon: FileText },
   { title: 'Chat', path: '/internal/chat', icon: MessageSquare },
   { title: 'New Inspection', path: '/internal/inspection', icon: ClipboardList },
+  { title: 'Image Generator', path: '/internal/image-generator', icon: Image },
 ];
 
 export function InternalHeader() {

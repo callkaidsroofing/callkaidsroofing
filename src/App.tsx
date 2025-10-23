@@ -51,6 +51,7 @@ const LeadsDashboard = lazy(() => import("./pages/LeadsDashboard"));
 const ChatDashboard = lazy(() => import("./pages/ChatDashboard"));
 const Nexus = lazy(() => import("./pages/Nexus"));
 const NexusDemo = lazy(() => import("./pages/NexusDemo"));
+const ImageGenerator = lazy(() => import("./pages/ImageGenerator"));
 import { InternalLayout } from "@/components/InternalLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
@@ -135,6 +136,7 @@ function App() {
                     <Route path="nexus" element={<Nexus />} />
                     <Route path="nexus-demo" element={<NexusDemo />} />
                     <Route path="inspection" element={<InspectionForm />} />
+                    <Route path="image-generator" element={<ImageGenerator />} />
                     <Route path="reports/:id" element={<ReportViewer />} />
                   </Route>
               </Routes>
