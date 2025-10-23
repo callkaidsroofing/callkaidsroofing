@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Edit, Printer, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Edit, Printer, ChevronDown, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -96,6 +96,8 @@ const ReportViewer = () => {
   const { toast } = useToast();
   const [report, setReport] = useState<ReportData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [generatingPDF, setGeneratingPDF] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (id) {
@@ -125,8 +127,49 @@ const ReportViewer = () => {
     }
   };
 
-  const handlePrint = () => {
-    window.print();
+  const handlePrint = async () => {
+    if (!contentRef.current) return;
+    
+    const { printBrandedDocument } = await import('@/lib/pdfGenerator');
+    try {
+      printBrandedDocument(contentRef.current);
+    } catch (error) {
+      console.error('Print error:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Print Failed',
+        description: 'Unable to print document',
+      });
+    }
+  };
+
+  const handleDownloadPDF = async () => {
+    if (!contentRef.current || !report) return;
+    
+    setGeneratingPDF(true);
+    const { generateBrandedPDF } = await import('@/lib/pdfGenerator');
+    
+    try {
+      await generateBrandedPDF(contentRef.current, {
+        title: `Inspection Report - ${report.clientName}`,
+        filename: `CKR-Inspection-${report.id.slice(0, 8)}-${report.clientName.replace(/\s+/g, '-')}.pdf`,
+        orientation: 'portrait',
+      });
+      
+      toast({
+        title: 'PDF Downloaded',
+        description: 'Inspection report saved successfully',
+      });
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      toast({
+        variant: 'destructive',
+        title: 'PDF Generation Failed',
+        description: 'Unable to generate PDF',
+      });
+    } finally {
+      setGeneratingPDF(false);
+    }
   };
 
   if (loading) {
@@ -183,6 +226,25 @@ const ReportViewer = () => {
               <Button
                 variant="ghost"
                 size="sm"
+                onClick={handleDownloadPDF}
+                disabled={generatingPDF}
+                className="text-primary-foreground hover:bg-primary-foreground/20"
+              >
+                {generatingPDF ? (
+                  <>
+                    <div className="h-4 w-4 mr-2 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Download className="h-4 w-4 mr-2" />
+                    Download PDF
+                  </>
+                )}
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={handlePrint}
                 className="text-primary-foreground hover:bg-primary-foreground/20"
               >
@@ -200,8 +262,8 @@ const ReportViewer = () => {
         <p className="text-sm text-muted-foreground">ABN 39475055075 | callkaidsroofing@outlook.com | 0435 900 709</p>
       </div>
 
-      <div className="container mx-auto px-4 py-8 max-w-5xl print:max-w-full">
-        <Accordion 
+      <div className="container mx-auto px-4 py-8 max-w-5xl print:max-w-full" ref={contentRef}>
+        <Accordion
           type="multiple" 
           defaultValue={["client-details", "roof-id", "condition", "summary"]}
           className="space-y-4"

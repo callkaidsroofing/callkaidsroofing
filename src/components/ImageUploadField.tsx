@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Upload, X, AlertCircle, RefreshCw, Sparkles } from 'lucide-react';
+import { Upload, X, AlertCircle, RefreshCw, Sparkles, Camera } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -208,7 +208,7 @@ export const ImageUploadField = ({ label, name, value, onChange, helpText, error
           </div>
         )}
 
-        <div className="flex items-center gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <input
             id={name}
             name={name}
@@ -219,18 +219,28 @@ export const ImageUploadField = ({ label, name, value, onChange, helpText, error
             disabled={uploading}
             className="hidden"
           />
+          <input
+            id={`${name}-camera`}
+            name={`${name}-camera`}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onChange={(e) => handleFileChange(e)}
+            disabled={uploading}
+            className="hidden"
+          />
           <Button
             type="button"
             variant="outline"
             size="sm"
             onClick={() => document.getElementById(name)?.click()}
             disabled={uploading || analyzing}
-            className="flex-1 group hover:bg-primary hover:text-primary-foreground transition-all"
+            className="group hover:bg-primary hover:text-primary-foreground transition-all"
           >
             {analyzing ? (
               <>
                 <Sparkles className="h-4 w-4 mr-2 animate-pulse" />
-                Analyzing with AI...
+                Analyzing...
               </>
             ) : uploading ? (
               <>
@@ -240,9 +250,20 @@ export const ImageUploadField = ({ label, name, value, onChange, helpText, error
             ) : (
               <>
                 <Upload className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
-                {value.length > 0 ? 'Add More Images' : 'Upload & Analyze Images'}
+                Upload Photos
               </>
             )}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => document.getElementById(`${name}-camera`)?.click()}
+            disabled={uploading || analyzing}
+            className="group hover:bg-primary hover:text-primary-foreground transition-all"
+          >
+            <Camera className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
+            Take Photo
           </Button>
           {uploadError && (
             <Button

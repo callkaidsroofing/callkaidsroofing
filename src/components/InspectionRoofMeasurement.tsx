@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Satellite, Loader2, Ruler, TrendingUp, Calendar } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Satellite, Loader2, Ruler, TrendingUp, Calendar, MapPin } from 'lucide-react';
 import { useRoofData } from '@/hooks/useRoofData';
+import { Autocomplete, useLoadScript } from '@react-google-maps/api';
 
 interface InspectionRoofMeasurementProps {
   address: string;
@@ -12,13 +15,32 @@ interface InspectionRoofMeasurementProps {
   onDataReceived?: (data: any) => void;
 }
 
-export function InspectionRoofMeasurement({ address, onMeasurementComplete, onDataReceived }: InspectionRoofMeasurementProps) {
+const libraries: ("places")[] = ["places"];
+
+export function InspectionRoofMeasurement({ address: initialAddress, onMeasurementComplete, onDataReceived }: InspectionRoofMeasurementProps) {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '',
+    libraries,
+  });
+
   const { mutate: getRoofData, data: measurement, isPending, error } = useRoofData();
   const [hasScanned, setHasScanned] = useState(false);
+  const [address, setAddress] = useState(initialAddress);
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
   const handleScan = () => {
+    if (!address.trim()) return;
     getRoofData(address);
     setHasScanned(true);
+  };
+
+  const handlePlaceSelect = () => {
+    if (autocompleteRef.current) {
+      const place = autocompleteRef.current.getPlace();
+      if (place.formatted_address) {
+        setAddress(place.formatted_address);
+      }
+    }
   };
 
   // Trigger callbacks when measurement data is available
@@ -58,19 +80,54 @@ export function InspectionRoofMeasurement({ address, onMeasurementComplete, onDa
       </CardHeader>
       <CardContent className="space-y-4">
         {!hasScanned && (
-          <Button onClick={handleScan} disabled={isPending || !address} className="w-full">
-            {isPending ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Scanning Roof...
-              </>
-            ) : (
-              <>
-                <Satellite className="mr-2 h-4 w-4" />
-                Scan Roof from Satellite
-              </>
-            )}
-          </Button>
+          <div className="space-y-3">
+            <div>
+              <Label htmlFor="roof-address">Property Address</Label>
+              {isLoaded ? (
+                <Autocomplete
+                  onLoad={(autocomplete) => {
+                    autocompleteRef.current = autocomplete;
+                  }}
+                  onPlaceChanged={handlePlaceSelect}
+                  options={{
+                    types: ['address'],
+                    componentRestrictions: { country: 'au' },
+                  }}
+                >
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="roof-address"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      placeholder="Enter property address..."
+                      className="pl-10"
+                    />
+                  </div>
+                </Autocomplete>
+              ) : (
+                <Input
+                  id="roof-address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="Enter property address..."
+                />
+              )}
+            </div>
+            <Button onClick={handleScan} disabled={isPending || !address.trim()} className="w-full">
+              {isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Scanning Roof...
+                </>
+              ) : (
+                <>
+                  <Satellite className="mr-2 h-4 w-4" />
+                  Scan Roof from Satellite
+                </>
+              )}
+            </Button>
+          </div>
         )}
 
         {error && (

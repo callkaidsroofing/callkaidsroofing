@@ -6,12 +6,14 @@ import { InternalHeader } from '@/components/InternalHeader';
 export const InternalLayout = () => {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gradient-to-br from-background via-muted/20 to-background">
+      <div className="min-h-screen flex w-full bg-muted/30">
         <InternalSidebar />
         <div className="flex-1 flex flex-col overflow-hidden">
           <InternalHeader />
-          <main className="flex-1 overflow-auto">
-            <Outlet />
+          <main className="flex-1 overflow-auto bg-background/95">
+            <div className="container mx-auto px-6 py-6">
+              <Outlet />
+            </div>
           </main>
         </div>
       </div>

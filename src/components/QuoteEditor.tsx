@@ -161,7 +161,7 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
 
       if (quoteError) throw quoteError;
 
-      // Delete existing line items
+      // Delete existing line items  
       const { error: deleteError } = await supabase
         .from('quote_line_items')
         .delete()
@@ -169,23 +169,29 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
 
       if (deleteError) throw deleteError;
 
-      // Insert updated line items
-      const itemsToInsert = lineItems.map((item, index) => ({
-        quote_id: quoteId,
-        service_item: item.service_item,
-        description: item.description,
-        quantity: item.quantity,
-        unit: item.unit,
-        unit_rate: item.unit_rate,
-        line_total: item.line_total,
-        sort_order: index,
-      }));
+      // Insert updated line items (only if there are items to insert)
+      if (lineItems.length > 0) {
+        const itemsToInsert = lineItems
+          .filter(item => item.service_item.trim()) // Only insert items with service names
+          .map((item, index) => ({
+            quote_id: quoteId,
+            service_item: item.service_item.trim(),
+            description: item.description?.trim() || '',
+            quantity: parseFloat(String(item.quantity)) || 0,
+            unit: item.unit?.trim() || 'ea',
+            unit_rate: parseFloat(String(item.unit_rate)) || 0,
+            line_total: parseFloat(String(item.line_total)) || 0,
+            sort_order: index,
+          }));
 
-      const { error: insertError } = await supabase
-        .from('quote_line_items')
-        .insert(itemsToInsert);
+        if (itemsToInsert.length > 0) {
+          const { error: insertError } = await supabase
+            .from('quote_line_items')
+            .insert(itemsToInsert);
 
-      if (insertError) throw insertError;
+          if (insertError) throw insertError;
+        }
+      }
 
       toast({
         title: 'Success',
