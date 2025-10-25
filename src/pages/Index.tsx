@@ -14,10 +14,38 @@ import QuickCaptureForm from '@/components/QuickCaptureForm';
 import NavigationFlowOptimizer from '@/components/NavigationFlowOptimizer';
 import StrategicCTAManager from '@/components/StrategicCTAManager';
 import PremiumCTASection from '@/components/PremiumCTASection';
+import { CaseStudyShowcase } from '@/components/CaseStudyShowcase';
+import CompactTestimonials from '@/components/CompactTestimonials';
+import CompactServiceAreas from '@/components/CompactServiceAreas';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import waterFlowAbstract from '/src/assets/water-flow-abstract.jpg';
 
 const Index = () => {
-  const services = [
+  // Fetch featured services from Supabase
+  const { data: featuredServices } = useQuery({
+    queryKey: ['featured-services'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('content_services')
+        .select('*')
+        .eq('featured', true)
+        .order('display_order');
+      
+      if (error) throw error;
+      return data;
+    },
+    staleTime: 15 * 60 * 1000, // 15 minutes (matches Notion sync)
+  });
+
+  // Fallback services if DB query fails
+  const services = featuredServices?.length ? featuredServices.map(service => ({
+    title: service.name,
+    description: service.short_description || '',
+    benefits: service.features || [],
+    perfectFor: service.full_description?.split('\n')[0] || '',
+    href: `/services/${service.slug}`,
+  })) : [
     {
       title: "Roof Restoration",
       description: "Stop leaks before they wreck your house. Complete overhaul with 15-year warranty.",

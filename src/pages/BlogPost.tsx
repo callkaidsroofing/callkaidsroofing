@@ -1,4 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { blogPosts, blogCategories } from "@/data/blogPosts";
 import { OptimizedImage } from "@/components/OptimizedImage";
 import { Badge } from "@/components/ui/badge";
@@ -12,15 +14,42 @@ import { SEOHead } from "@/components/SEOHead";
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   
-  const post = blogPosts.find(p => p.slug === slug);
+  // Fetch post from Supabase
+  const { data: dbPost, isLoading } = useQuery({
+    queryKey: ['blog-post', slug],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('content_blog_posts')
+        .select('*')
+        .eq('slug', slug)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+    staleTime: 15 * 60 * 1000,
+  });
+
+  // Fallback to hardcoded posts
+  const hardcodedPost = blogPosts.find((p) => p.slug === slug);
+  const post = dbPost || hardcodedPost;
+  
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
+      </div>
+    );
+  }
   
   if (!post) {
     return <Navigate to="/blog" replace />;
   }
 
   const category = blogCategories.find(c => c.id === post.category);
-  const relatedPosts = post.relatedPosts 
-    ? blogPosts.filter(p => post.relatedPosts?.includes(p.id)).slice(0, 3)
+  const relatedPostsIds = (post as any).relatedPosts || (post as any).related_posts;
+  const relatedPosts = relatedPostsIds
+    ? blogPosts.filter(p => relatedPostsIds?.includes(p.id)).slice(0, 3)
     : blogPosts.filter(p => p.category === post.category && p.id !== post.id).slice(0, 3);
 
   const handleShare = () => {
@@ -39,19 +68,19 @@ export default function BlogPost() {
     <>
       <SEOHead
         title={`${post.title} | Call Kaids Roofing Blog`}
-        description={post.excerpt}
-        keywords={post.tags.join(", ")}
+        description={(post as any).meta_description || post.excerpt}
+        keywords={post.tags?.join(", ") || ''}
       />
 
       <Helmet>
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt} />
-        <meta property="og:image" content={post.imageUrl} />
+        <meta property="og:image" content={(post as any).imageUrl || (post as any).image_url} />
         <meta property="og:type" content="article" />
         <meta property="article:author" content={post.author} />
-        <meta property="article:published_time" content={post.publishDate} />
+        <meta property="article:published_time" content={(post as any).publishDate || (post as any).publish_date} />
         <meta property="article:section" content={category?.name} />
-        {post.tags.map(tag => (
+        {post.tags?.map((tag: string) => (
           <meta key={tag} property="article:tag" content={tag} />
         ))}
       </Helmet>
@@ -92,7 +121,7 @@ export default function BlogPost() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  <span>{new Date(post.publishDate).toLocaleDateString('en-AU', { 
+                  <span>{new Date((post as any).publishDate || (post as any).publish_date).toLocaleDateString('en-AU', { 
                     year: 'numeric', 
                     month: 'long', 
                     day: 'numeric' 
@@ -100,7 +129,7 @@ export default function BlogPost() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4" />
-                  <span>{post.readTime} min read</span>
+                  <span>{(post as any).readTime || (post as any).read_time} min read</span>
                 </div>
                 <Button
                   variant="ghost"
@@ -114,7 +143,7 @@ export default function BlogPost() {
               </div>
 
               <div className="flex flex-wrap gap-2">
-                {post.tags.map(tag => (
+                {post.tags?.map((tag: string) => (
                   <Badge key={tag} variant="secondary" className="text-xs">
                     {tag}
                   </Badge>
@@ -125,7 +154,7 @@ export default function BlogPost() {
             {/* Featured Image */}
             <div className="relative overflow-hidden rounded-xl mb-12 shadow-2xl">
               <OptimizedImage
-                src={post.imageUrl}
+                src={(post as any).imageUrl || (post as any).image_url}
                 alt={post.title}
                 className="w-full h-64 md:h-96 object-cover"
               />
@@ -200,7 +229,7 @@ export default function BlogPost() {
             <div className="container mx-auto max-w-6xl">
               <h3 className="text-3xl font-bold mb-8 text-center">Related Articles</h3>
               <div className="grid md:grid-cols-3 gap-8">
-                {relatedPosts.map((relatedPost) => {
+                {relatedPosts.map((relatedPost: any) => {
                   const relatedCategory = blogCategories.find(c => c.id === relatedPost.category);
                   return (
                     <Card key={relatedPost.id} className="group hover:shadow-lg transition-all duration-300">
