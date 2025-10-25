@@ -317,6 +317,174 @@ export type Database = {
           },
         ]
       }
+      content_blog_posts: {
+        Row: {
+          author: string | null
+          category: string
+          content: string
+          created_at: string | null
+          excerpt: string | null
+          featured: boolean | null
+          id: string
+          image_url: string | null
+          last_synced_at: string | null
+          meta_description: string | null
+          notion_id: string | null
+          publish_date: string | null
+          read_time: number | null
+          related_posts: string[] | null
+          slug: string
+          tags: string[] | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          author?: string | null
+          category: string
+          content: string
+          created_at?: string | null
+          excerpt?: string | null
+          featured?: boolean | null
+          id?: string
+          image_url?: string | null
+          last_synced_at?: string | null
+          meta_description?: string | null
+          notion_id?: string | null
+          publish_date?: string | null
+          read_time?: number | null
+          related_posts?: string[] | null
+          slug: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          author?: string | null
+          category?: string
+          content?: string
+          created_at?: string | null
+          excerpt?: string | null
+          featured?: boolean | null
+          id?: string
+          image_url?: string | null
+          last_synced_at?: string | null
+          meta_description?: string | null
+          notion_id?: string | null
+          publish_date?: string | null
+          read_time?: number | null
+          related_posts?: string[] | null
+          slug?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      content_case_studies: {
+        Row: {
+          after_image: string | null
+          before_image: string | null
+          client_problem: string
+          created_at: string | null
+          featured: boolean | null
+          id: string
+          job_type: string
+          key_outcome: string
+          last_synced_at: string | null
+          meta_description: string | null
+          notion_id: string | null
+          project_date: string | null
+          slug: string | null
+          solution_provided: string
+          study_id: string
+          suburb: string
+          testimonial: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          after_image?: string | null
+          before_image?: string | null
+          client_problem: string
+          created_at?: string | null
+          featured?: boolean | null
+          id?: string
+          job_type: string
+          key_outcome: string
+          last_synced_at?: string | null
+          meta_description?: string | null
+          notion_id?: string | null
+          project_date?: string | null
+          slug?: string | null
+          solution_provided: string
+          study_id: string
+          suburb: string
+          testimonial?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          after_image?: string | null
+          before_image?: string | null
+          client_problem?: string
+          created_at?: string | null
+          featured?: boolean | null
+          id?: string
+          job_type?: string
+          key_outcome?: string
+          last_synced_at?: string | null
+          meta_description?: string | null
+          notion_id?: string | null
+          project_date?: string | null
+          slug?: string | null
+          solution_provided?: string
+          study_id?: string
+          suburb?: string
+          testimonial?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      content_knowledge_base: {
+        Row: {
+          answer: string
+          category: string | null
+          created_at: string | null
+          display_order: number | null
+          featured: boolean | null
+          id: string
+          last_synced_at: string | null
+          notion_id: string | null
+          question: string
+          related_services: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          answer: string
+          category?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          featured?: boolean | null
+          id?: string
+          last_synced_at?: string | null
+          notion_id?: string | null
+          question: string
+          related_services?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          answer?: string
+          category?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          featured?: boolean | null
+          id?: string
+          last_synced_at?: string | null
+          notion_id?: string | null
+          question?: string
+          related_services?: string[] | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       content_queue: {
         Row: {
           ai_confidence_score: number | null
@@ -352,6 +520,239 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      content_services: {
+        Row: {
+          created_at: string | null
+          display_order: number | null
+          featured: boolean | null
+          features: string[] | null
+          full_description: string | null
+          icon: string | null
+          id: string
+          image_url: string | null
+          last_synced_at: string | null
+          meta_description: string | null
+          meta_title: string | null
+          name: string
+          notion_id: string | null
+          pricing_info: Json | null
+          process_steps: Json | null
+          service_category: string | null
+          service_tags: string[] | null
+          short_description: string | null
+          slug: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          display_order?: number | null
+          featured?: boolean | null
+          features?: string[] | null
+          full_description?: string | null
+          icon?: string | null
+          id?: string
+          image_url?: string | null
+          last_synced_at?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
+          name: string
+          notion_id?: string | null
+          pricing_info?: Json | null
+          process_steps?: Json | null
+          service_category?: string | null
+          service_tags?: string[] | null
+          short_description?: string | null
+          slug: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          display_order?: number | null
+          featured?: boolean | null
+          features?: string[] | null
+          full_description?: string | null
+          icon?: string | null
+          id?: string
+          image_url?: string | null
+          last_synced_at?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
+          name?: string
+          notion_id?: string | null
+          pricing_info?: Json | null
+          process_steps?: Json | null
+          service_category?: string | null
+          service_tags?: string[] | null
+          short_description?: string | null
+          slug?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      content_suburbs: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          distance_from_base: number | null
+          featured_projects: string[] | null
+          id: string
+          last_synced_at: string | null
+          local_seo_content: string | null
+          meta_description: string | null
+          meta_title: string | null
+          name: string
+          notion_id: string | null
+          postcode: string | null
+          projects_completed: number | null
+          region: string | null
+          services_available: string[] | null
+          slug: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          distance_from_base?: number | null
+          featured_projects?: string[] | null
+          id?: string
+          last_synced_at?: string | null
+          local_seo_content?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
+          name: string
+          notion_id?: string | null
+          postcode?: string | null
+          projects_completed?: number | null
+          region?: string | null
+          services_available?: string[] | null
+          slug: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          distance_from_base?: number | null
+          featured_projects?: string[] | null
+          id?: string
+          last_synced_at?: string | null
+          local_seo_content?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
+          name?: string
+          notion_id?: string | null
+          postcode?: string | null
+          projects_completed?: number | null
+          region?: string | null
+          services_available?: string[] | null
+          slug?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      content_sync_log: {
+        Row: {
+          completed_at: string | null
+          duration_seconds: number | null
+          errors: Json | null
+          id: string
+          records_created: number | null
+          records_deleted: number | null
+          records_synced: number | null
+          records_updated: number | null
+          started_at: string | null
+          sync_status: string | null
+          sync_type: string
+          table_name: string
+        }
+        Insert: {
+          completed_at?: string | null
+          duration_seconds?: number | null
+          errors?: Json | null
+          id?: string
+          records_created?: number | null
+          records_deleted?: number | null
+          records_synced?: number | null
+          records_updated?: number | null
+          started_at?: string | null
+          sync_status?: string | null
+          sync_type: string
+          table_name: string
+        }
+        Update: {
+          completed_at?: string | null
+          duration_seconds?: number | null
+          errors?: Json | null
+          id?: string
+          records_created?: number | null
+          records_deleted?: number | null
+          records_synced?: number | null
+          records_updated?: number | null
+          started_at?: string | null
+          sync_status?: string | null
+          sync_type?: string
+          table_name?: string
+        }
+        Relationships: []
+      }
+      content_testimonials: {
+        Row: {
+          case_study_id: string | null
+          client_name: string
+          created_at: string | null
+          featured: boolean | null
+          id: string
+          job_date: string | null
+          last_synced_at: string | null
+          notion_id: string | null
+          rating: number | null
+          service_type: string | null
+          suburb: string | null
+          testimonial_text: string
+          updated_at: string | null
+          verified: boolean | null
+        }
+        Insert: {
+          case_study_id?: string | null
+          client_name: string
+          created_at?: string | null
+          featured?: boolean | null
+          id?: string
+          job_date?: string | null
+          last_synced_at?: string | null
+          notion_id?: string | null
+          rating?: number | null
+          service_type?: string | null
+          suburb?: string | null
+          testimonial_text: string
+          updated_at?: string | null
+          verified?: boolean | null
+        }
+        Update: {
+          case_study_id?: string | null
+          client_name?: string
+          created_at?: string | null
+          featured?: boolean | null
+          id?: string
+          job_date?: string | null
+          last_synced_at?: string | null
+          notion_id?: string | null
+          rating?: number | null
+          service_type?: string | null
+          suburb?: string | null
+          testimonial_text?: string
+          updated_at?: string | null
+          verified?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_testimonials_case_study_id_fkey"
+            columns: ["case_study_id"]
+            isOneToOne: false
+            referencedRelation: "content_case_studies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       generated_reports: {
         Row: {
@@ -862,6 +1263,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      knowledge_files: {
+        Row: {
+          active: boolean | null
+          category: string
+          content: string
+          created_at: string | null
+          file_key: string
+          id: string
+          last_synced_at: string | null
+          metadata: Json | null
+          title: string
+          updated_at: string | null
+          version: number | null
+        }
+        Insert: {
+          active?: boolean | null
+          category: string
+          content: string
+          created_at?: string | null
+          file_key: string
+          id?: string
+          last_synced_at?: string | null
+          metadata?: Json | null
+          title: string
+          updated_at?: string | null
+          version?: number | null
+        }
+        Update: {
+          active?: boolean | null
+          category?: string
+          content?: string
+          created_at?: string | null
+          file_key?: string
+          id?: string
+          last_synced_at?: string | null
+          metadata?: Json | null
+          title?: string
+          updated_at?: string | null
+          version?: number | null
+        }
+        Relationships: []
       }
       lead_notes: {
         Row: {
