@@ -75,7 +75,7 @@ export const useFacebookLogin = () => {
   const login = (callback: (response: unknown) => void) => {
     if (window.FB) {
       window.FB.login(callback, {
-        scope: 'pages_manage_posts,pages_read_engagement,pages_show_list,publish_to_groups'
+        scope: 'pages_manage_posts,pages_read_engagement,pages_show_list,instagram_basic,instagram_content_publish'
       });
     }
   };

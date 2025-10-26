@@ -1689,6 +1689,56 @@ export type Database = {
           },
         ]
       }
+      post_engagement: {
+        Row: {
+          clicks: number | null
+          comments: number | null
+          created_at: string | null
+          engagement_rate: number | null
+          fetched_at: string | null
+          id: string
+          likes: number | null
+          platform: string
+          post_id: string | null
+          reach: number | null
+          shares: number | null
+        }
+        Insert: {
+          clicks?: number | null
+          comments?: number | null
+          created_at?: string | null
+          engagement_rate?: number | null
+          fetched_at?: string | null
+          id?: string
+          likes?: number | null
+          platform: string
+          post_id?: string | null
+          reach?: number | null
+          shares?: number | null
+        }
+        Update: {
+          clicks?: number | null
+          comments?: number | null
+          created_at?: string | null
+          engagement_rate?: number | null
+          fetched_at?: string | null
+          id?: string
+          likes?: number | null
+          platform?: string
+          post_id?: string | null
+          reach?: number | null
+          shares?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_engagement_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "social_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pricing_rules: {
         Row: {
           created_at: string | null
@@ -2351,6 +2401,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      webhook_logs: {
+        Row: {
+          created_at: string | null
+          error_message: string | null
+          event_type: string
+          id: number
+          payload: Json
+          processed: boolean | null
+          received_at: string
+          source: string
+        }
+        Insert: {
+          created_at?: string | null
+          error_message?: string | null
+          event_type: string
+          id?: number
+          payload: Json
+          processed?: boolean | null
+          received_at?: string
+          source: string
+        }
+        Update: {
+          created_at?: string | null
+          error_message?: string | null
+          event_type?: string
+          id?: number
+          payload?: Json
+          processed?: boolean | null
+          received_at?: string
+          source?: string
+        }
+        Relationships: []
       }
     }
     Views: {
