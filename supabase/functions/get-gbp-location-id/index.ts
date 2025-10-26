@@ -39,9 +39,9 @@ serve(async (req) => {
 
     const { access_token } = await tokenResponse.json();
 
-    // List all locations for the account
+    // List all locations for the account using the newer API
     const locationsResponse = await fetch(
-      `https://mybusiness.googleapis.com/v4/accounts/${accountId}/locations`,
+      `https://mybusinessbusinessinformation.googleapis.com/v1/accounts/${accountId}/locations?readMask=name,title,storefrontAddress,phoneNumbers,websiteUri`,
       {
         headers: {
           'Authorization': `Bearer ${access_token}`,
@@ -59,12 +59,13 @@ serve(async (req) => {
     // Format the response with helpful information
     const locations = locationsData.locations || [];
     const formattedLocations = locations.map((loc: any) => ({
-      name: loc.locationName,
-      address: loc.address?.addressLines?.join(', ') || 'N/A',
+      name: loc.title || 'N/A',
+      address: loc.storefrontAddress ? 
+        `${loc.storefrontAddress.addressLines?.join(', ') || ''}, ${loc.storefrontAddress.locality || ''}, ${loc.storefrontAddress.administrativeArea || ''} ${loc.storefrontAddress.postalCode || ''}`.trim() : 'N/A',
       locationId: loc.name.split('/').pop(), // Extract just the ID
       fullPath: loc.name,
-      phoneNumber: loc.primaryPhone || 'N/A',
-      websiteUrl: loc.websiteUrl || 'N/A'
+      phoneNumber: loc.phoneNumbers?.primaryPhone || 'N/A',
+      websiteUrl: loc.websiteUri || 'N/A'
     }));
 
     return new Response(
