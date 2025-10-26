@@ -113,3 +113,6 @@ verify_jwt = false
 
 [functions.fetch-engagement]
 verify_jwt = false
+
+[functions.get-gbp-location-id]
+verify_jwt = true
