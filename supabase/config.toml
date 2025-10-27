@@ -1,12 +1,38 @@
 project_id = "vlnkzpyeppfdmresiaoh"
 
-[functions.ckr-gem-api]
-verify_jwt = false
+# ============================================
+# NEW CONSOLIDATED FUNCTIONS
+# ============================================
 
 [functions.crm-api]
-verify_jwt = false
+verify_jwt = true
 
 [functions.quote-engine]
+verify_jwt = true
+
+[functions.ai-agent-scheduler]
+verify_jwt = false
+
+[functions.measurement-ai]
+verify_jwt = false
+
+[functions.social-manager]
+verify_jwt = true
+
+[functions.notification-service]
+verify_jwt = false
+
+[functions.media-tools]
+verify_jwt = true
+
+[functions.admin-tools]
+verify_jwt = true
+
+# ============================================
+# LEGACY FUNCTIONS (being phased out)
+# ============================================
+
+[functions.ckr-gem-api]
 verify_jwt = false
 
 [functions.nexus-ai-hub]
