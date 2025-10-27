@@ -1739,6 +1739,50 @@ export type Database = {
           },
         ]
       }
+      pricing_models: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string
+          hash: string
+          id: string
+          is_active: boolean | null
+          json: Json
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          hash: string
+          id?: string
+          is_active?: boolean | null
+          json: Json
+          updated_at?: string
+          version: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          hash?: string
+          id?: string
+          is_active?: boolean | null
+          json?: Json
+          updated_at?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pricing_models_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "admin_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       pricing_rules: {
         Row: {
           created_at: string | null
@@ -1868,43 +1912,55 @@ export type Database = {
       }
       quote_line_items: {
         Row: {
+          composition: Json | null
           created_at: string | null
           description: string | null
           id: string
           line_total: number
+          material_spec: string | null
           material_spec_id: string | null
           quantity: number
           quote_id: string
+          service_code: string | null
           service_item: string
           sort_order: number | null
           unit: string
           unit_rate: number
+          warranty_years: number[] | null
         }
         Insert: {
+          composition?: Json | null
           created_at?: string | null
           description?: string | null
           id?: string
           line_total: number
+          material_spec?: string | null
           material_spec_id?: string | null
           quantity: number
           quote_id: string
+          service_code?: string | null
           service_item: string
           sort_order?: number | null
           unit: string
           unit_rate: number
+          warranty_years?: number[] | null
         }
         Update: {
+          composition?: Json | null
           created_at?: string | null
           description?: string | null
           id?: string
           line_total?: number
+          material_spec?: string | null
           material_spec_id?: string | null
           quantity?: number
           quote_id?: string
+          service_code?: string | null
           service_item?: string
           sort_order?: number | null
           unit?: string
           unit_rate?: number
+          warranty_years?: number[] | null
         }
         Relationships: [
           {
@@ -1934,12 +1990,17 @@ export type Database = {
           inspection_report_id: string | null
           notes: string | null
           phone: string
+          pricing_hash: string | null
+          pricing_snapshot: Json | null
+          pricing_version: string | null
           quote_number: string
+          regional_modifier: number | null
           site_address: string
           status: string | null
           subtotal: number
           suburb_postcode: string
           tier_level: string
+          tier_profile: string | null
           total: number
           updated_at: string | null
           valid_until: string | null
@@ -1954,12 +2015,17 @@ export type Database = {
           inspection_report_id?: string | null
           notes?: string | null
           phone: string
+          pricing_hash?: string | null
+          pricing_snapshot?: Json | null
+          pricing_version?: string | null
           quote_number: string
+          regional_modifier?: number | null
           site_address: string
           status?: string | null
           subtotal: number
           suburb_postcode: string
           tier_level: string
+          tier_profile?: string | null
           total: number
           updated_at?: string | null
           valid_until?: string | null
@@ -1974,12 +2040,17 @@ export type Database = {
           inspection_report_id?: string | null
           notes?: string | null
           phone?: string
+          pricing_hash?: string | null
+          pricing_snapshot?: Json | null
+          pricing_version?: string | null
           quote_number?: string
+          regional_modifier?: number | null
           site_address?: string
           status?: string | null
           subtotal?: number
           suburb_postcode?: string
           tier_level?: string
+          tier_profile?: string | null
           total?: number
           updated_at?: string | null
           valid_until?: string | null
@@ -2437,7 +2508,26 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      v_pricing_latest: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string | null
+          hash: string | null
+          id: string | null
+          json: Json | null
+          version: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pricing_models_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "admin_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
     }
     Functions: {
       cleanup_rate_limits: { Args: never; Returns: undefined }

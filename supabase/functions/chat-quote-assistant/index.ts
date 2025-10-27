@@ -78,11 +78,14 @@ serve(async (req) => {
       inspectionReport = data;
     }
 
-    // Fetch pricing rules
-    const { data: pricingRules } = await supabase
-      .from('pricing_rules')
-      .select('*')
-      .eq('is_active', true);
+    // Fetch KF_02 pricing model
+    const { data: pricingData } = await supabase
+      .from('v_pricing_latest')
+      .select('json, version, hash')
+      .single();
+
+    const kf02 = pricingData?.json?.KF_02_PRICING_MODEL || null;
+    const kf02Version = pricingData?.version || 'unknown';
 
     // Get conversation history
     const { data: messages, error: messagesError } = await supabase
@@ -102,8 +105,8 @@ serve(async (req) => {
         content: message,
       });
 
-    // Build system prompt
-    const systemPrompt = `You are a quote refinement assistant for Call Kaids Roofing.
+    // Build system prompt with KF_02
+    const systemPrompt = `You are a quote refinement assistant for Call Kaids Roofing using KF_02 v${kf02Version}.
 
 CURRENT QUOTE:
 ${JSON.stringify(quote, null, 2)}
@@ -111,8 +114,8 @@ ${JSON.stringify(quote, null, 2)}
 INSPECTION REPORT:
 ${inspectionReport ? JSON.stringify(inspectionReport, null, 2) : 'Not available'}
 
-PRICING RULES:
-${JSON.stringify(pricingRules, null, 2)}
+KF_02 PRICING MODEL:
+${kf02 ? JSON.stringify(kf02.services, null, 2) : 'Using legacy pricing rules'}
 
 YOUR ROLE:
 - Help refine quantities, materials, pricing
@@ -193,6 +196,13 @@ Be concise but thorough. Always explain WHY a change makes sense.`;
     if (assistantResponse.action === 'modify_quote' && assistantResponse.modifications) {
       const mods = assistantResponse.modifications;
       
+      // Update pricing snapshot if available
+      const updatedSnapshot = quote.pricing_snapshot ? {
+        ...quote.pricing_snapshot,
+        modifiedAt: new Date().toISOString(),
+        modifiedBy: 'chat_assistant'
+      } : null;
+      
       // Update quote totals
       await supabase
         .from('quotes')
@@ -201,6 +211,7 @@ Be concise but thorough. Always explain WHY a change makes sense.`;
           gst: mods.gst,
           total: mods.total,
           notes: mods.notes,
+          pricing_snapshot: updatedSnapshot,
         })
         .eq('id', quote.id);
 
@@ -212,13 +223,17 @@ Be concise but thorough. Always explain WHY a change makes sense.`;
 
       const lineItemsToInsert = mods.lineItems.map((item: any, index: number) => ({
         quote_id: quote.id,
-        service_item: item.serviceItem,
+        service_item: item.displayName || item.serviceItem,
         description: item.description,
         quantity: item.quantity,
         unit: item.unit,
         unit_rate: item.unitRate,
         line_total: item.lineTotal,
         sort_order: index,
+        service_code: item.serviceCode,
+        composition: item.composition,
+        warranty_years: item.warrantyYears,
+        material_spec: item.materialSpec,
       }));
 
       await supabase

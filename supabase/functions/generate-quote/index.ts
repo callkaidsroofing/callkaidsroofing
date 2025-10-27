@@ -31,15 +31,41 @@ serve(async (req) => {
       throw new Error('Inspection report not found');
     }
 
-    // Fetch pricing rules
-    const { data: pricingRules, error: pricingError } = await supabase
-      .from('pricing_rules')
-      .select('*')
-      .eq('is_active', true);
+    // Fetch KF_02 pricing model
+    console.log("[generate-quote] Fetching KF_02 pricing model...");
+    const { data: pricingData, error: pricingError } = await supabase
+      .from('v_pricing_latest')
+      .select('json, version, hash')
+      .single();
 
-    if (pricingError) {
-      throw new Error('Failed to fetch pricing rules');
+    if (pricingError || !pricingData) {
+      throw new Error(`Failed to fetch pricing model: ${pricingError?.message || 'No active pricing found'}`);
     }
+
+    const kf02 = pricingData.json.KF_02_PRICING_MODEL;
+    const kf02Version = pricingData.version;
+    const kf02Hash = pricingData.hash;
+
+    console.log(`[generate-quote] Using KF_02 v${kf02Version}`);
+
+    // Map tier to KF_02 tier profile
+    const tierMapping: Record<string, string> = {
+      'essential': 'REPAIR',
+      'premium': 'RESTORE',
+      'complete': 'PREMIUM'
+    };
+    const tierProfile = tierMapping[tier] || 'RESTORE';
+    const tierMarkup = kf02.logic.calculationRules.tierProfiles[tierProfile].markup;
+
+    console.log(`[generate-quote] Tier: ${tier} → Profile: ${tierProfile} (${tierMarkup}x markup)`);
+
+    // Get regional modifier from preferences
+    const region = preferences?.region || 'Metro';
+    const regionalModifier = kf02.logic.calculationRules.regionalModifiers.find(
+      (r: any) => r.region === region
+    )?.uplift || 1.0;
+
+    console.log(`[generate-quote] Region: ${region} → Modifier: ${regionalModifier}x`);
 
     // Build context for AI
     const context = {
@@ -87,8 +113,23 @@ QUOTE PREFERENCES:
 ${preferences.specialRequirements ? `- Special Requirements: ${preferences.specialRequirements}` : ''}
 ` : '';
 
-    // System prompt with pricing logic
-    const systemPrompt = `You are an AI quote generator for Call Kaids Roofing, owned by Kaidyn Brownlie (ABN 39475055075) in Clyde North, Victoria.
+    // Enhanced system prompt with KF_02 services
+    const systemPrompt = `You are an AI quote generator for Call Kaids Roofing using KF_02 v${kf02Version} pricing model.
+
+PRICING MODEL CONSTANTS:
+- GST Rate: ${kf02.constants.gstRate * 100}%
+- Profit Margin Target: ${kf02.constants.profitMarginTarget * 100}%
+- Contingency Buffer: ${kf02.constants.contingencyBuffer * 100}%
+- Rounding: Nearest $${kf02.constants.roundTo}
+
+TIER CONFIGURATION:
+- Selected Tier: ${tier} → Profile: ${tierProfile}
+- Tier Markup: ${tierMarkup}x
+- Warranty: ${kf02.logic.calculationRules.tierProfiles[tierProfile].warranty}
+
+REGIONAL MODIFIER:
+- Region: ${region}
+- Uplift: ${regionalModifier}x
 
 BRAND VOICE:
 - Down-to-earth, honest, direct (like a switched-on tradie)
@@ -96,30 +137,38 @@ BRAND VOICE:
 - "No Leaks. No Lifting. Just Quality."
 - "Professional Roofing, Melbourne Style."
 
+AVAILABLE SERVICES (select from these serviceCode values):
+${kf02.services.map((s: any) => `
+- ${s.serviceCode}: ${s.displayName}
+  Unit: ${s.unit} | Base Rate: $${s.baseRate || s.addOnRate}${s.addOnRate ? ' (addon)' : ''}
+  Composition: ${JSON.stringify(s.composition || {})}
+  Warranty: ${s.defaultWarrantyYears?.join('-') || 'N/A'} years
+  Time per unit: ${s.timePerUnitHr || 'N/A'} hrs
+`).join('\n')}
+
 TIER PHILOSOPHY:
-- Essential: Fix what's broken (stops leaks, meets minimum safety)
-- Premium: Fix + protect (adds 5-7 years of life, quality materials)
-- Complete: Like-new condition (10+ year warranty, full restoration)
+- REPAIR (Essential): Fix what's broken (stops leaks, meets minimum safety)
+- RESTORE (Premium): Fix + protect (adds 5-7 years of life, quality materials)
+- PREMIUM (Complete): Like-new condition (10+ year warranty, full restoration)
 ${preferencesContext}
 
-PRICING RULES AVAILABLE:
-${JSON.stringify(pricingRules, null, 2)}
+CALCULATION RULES:
+1. Select services from KF_02 services array matching serviceCode
+2. Apply rate adjustments:
+   - adjustedRate = baseRate × tierMarkup (${tierMarkup}) × regionalModifier (${regionalModifier})
+3. Calculate quantity from inspection measurements
+4. lineTotal = quantity × adjustedRate
+5. subtotal = sum(lineTotals)
+6. Apply contingency if applicable: subtotal × (1 + ${kf02.constants.contingencyBuffer})
+7. GST = subtotal × ${kf02.constants.gstRate}
+8. total = subtotal + GST, rounded to nearest $${kf02.constants.roundTo}
 
-CRITICAL PRICING INSTRUCTIONS:
-1. Ridge work: Prioritize "ridge" unit (per cap), but you can convert from LM if needed (assume ~3 caps per LM)
-2. Wash + Paint: If preferences say "combined", use "Pressure Wash + 3-Coat Paint" as ONE line item. If "separate", use "Pressure Wash" and "3-Coat Paint System" as TWO line items
-3. Gutter Cleaning: 
-   - If preference is "free": Include line item with $0.00 rate
-   - If preference is "auto": Free for premium/complete tiers, priced for essential tier
-   - If preference is "priced": Always include pricing based on rate_min/rate_max
-4. Budget Level:
-   - "budget": Use rate_min from pricing rules
-   - "standard": Use average of (rate_min + rate_max) / 2
-   - "premium": Use rate_max from pricing rules
-5. Calculate lineTotal = quantity × unitRate for each item
-6. Calculate subtotal = sum of all lineTotals
-7. GST = subtotal × 0.1 (always calculate, display will be controlled by preferences)
-8. Total = subtotal + GST
+CRITICAL INSTRUCTIONS:
+- ONLY use serviceCode values from the KF_02 services list above
+- ALWAYS apply both tierMarkup AND regionalModifier to baseRate
+- ALWAYS round final total to nearest $${kf02.constants.roundTo}
+- Include composition breakdown for transparency
+- Match warranty years to tier profile expectations
 
 TIER-SPECIFIC COMBINATIONS:
 Essential Tier:
@@ -156,28 +205,31 @@ RETURN FORMAT (JSON):
   "tierName": "descriptive name for this tier (e.g., 'Essential Repair Package', 'Premium Restoration')",
   "lineItems": [
     {
-      "serviceItem": "exact service name from pricing rules",
+      "serviceCode": "EXACT_MATCH_FROM_KF02_SERVICES_LIST",
+      "displayName": "Human-readable name",
       "description": "clear, detailed explanation of what's included and why it's needed",
       "quantity": calculated from inspection data (be precise),
-      "unit": "ridge|ea|LM|m²|hrs as appropriate",
-      "unitRate": calculated from pricing rules + budget level (actual dollar amount),
-      "lineTotal": quantity × unitRate (actual dollar amount),
-      "materialSpec": "recommended brand/product from pricing rules"
+      "unit": "lm|m2|each",
+      "unitRate": adjusted rate after tierMarkup × regionalModifier,
+      "lineTotal": quantity × unitRate,
+      "composition": { "labour": {...}, "materials": {...} },
+      "materialSpec": "SupaPoint flexible compound",
+      "warrantyYears": [7, 10]
     }
   ],
   "subtotal": sum of all lineTotals,
-  "gst": subtotal × 0.1,
-  "total": subtotal + gst,
-  "scopeNotes": "Brief explanation of this tier's approach, what's included vs excluded, and expected outcomes (2-4 sentences, brand voice)"
+  "gst": subtotal × ${kf02.constants.gstRate},
+  "total": subtotal + gst (rounded to nearest $${kf02.constants.roundTo}),
+  "contingencyAmount": applicable contingency,
+  "scopeNotes": "Brief explanation of this tier's approach (2-4 sentences, brand voice)"
 }
 
 LINE ITEM GRANULARITY:
-- CRITICAL: Create SEPARATE line items for ridge caps, tiles, gables, valleys, etc.
-- DO NOT combine different work types unless preferences specifically say "combined" for wash+paint
+- Create SEPARATE line items for ridge caps, tiles, gables, valleys, etc.
 - Each distinct work item must be its own line with specific quantity and calculated pricing
-- Match serviceItem names EXACTLY to pricing_rules table entries
+- Match serviceCode names EXACTLY to KF_02 services list
 
-Be precise with quantities based on inspection measurements. Calculate ALL pricing based on the rules provided.`;
+Be precise with quantities based on inspection measurements.`;
 
     // Call Lovable AI
     const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
@@ -229,7 +281,24 @@ Be precise with quantities based on inspection measurements. Calculate ALL prici
       userId = user?.id;
     }
 
-    // Insert quote
+    // Store pricing snapshot (immutable record)
+    const pricingSnapshot = {
+      version: kf02Version,
+      hash: kf02Hash,
+      tierProfile,
+      regionalModifier,
+      servicesUsed: quoteData.lineItems.map((item: any) => {
+        const service = kf02.services.find((s: any) => s.serviceCode === item.serviceCode);
+        return {
+          serviceCode: item.serviceCode,
+          baseRate: service?.baseRate || service?.addOnRate,
+          composition: service?.composition,
+          warranty: service?.defaultWarrantyYears
+        };
+      })
+    };
+
+    // Insert quote with KF_02 metadata
     const { data: quote, error: quoteError } = await supabase
       .from('quotes')
       .insert({
@@ -241,31 +310,42 @@ Be precise with quantities based on inspection measurements. Calculate ALL prici
         email: report.email,
         phone: report.phone,
         tier_level: tier,
+        tier_profile: tierProfile,
         subtotal: quoteData.subtotal,
         gst: quoteData.gst,
         total: quoteData.total,
         valid_until: validUntil.toISOString().split('T')[0],
-        notes: quoteData.notes,
+        notes: quoteData.scopeNotes || quoteData.notes,
+        pricing_version: kf02Version,
+        pricing_hash: kf02Hash,
+        pricing_snapshot: pricingSnapshot,
+        regional_modifier: regionalModifier,
         created_by: userId,
       })
       .select()
       .single();
+
+    console.log(`[generate-quote] Quote created with KF_02 v${kf02Version} metadata`);
 
     if (quoteError) {
       console.error('Quote insert error:', quoteError);
       throw new Error('Failed to save quote');
     }
 
-    // Insert line items
+    // Insert line items with KF_02 metadata
     const lineItemsToInsert = quoteData.lineItems.map((item: any, index: number) => ({
       quote_id: quote.id,
-      service_item: item.serviceItem,
+      service_item: item.displayName,
       description: item.description,
       quantity: item.quantity,
       unit: item.unit,
       unit_rate: item.unitRate,
       line_total: item.lineTotal,
       sort_order: index,
+      service_code: item.serviceCode,
+      composition: item.composition,
+      warranty_years: item.warrantyYears,
+      material_spec: item.materialSpec,
     }));
 
     const { error: lineItemsError } = await supabase

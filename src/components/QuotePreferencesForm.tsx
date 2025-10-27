@@ -16,6 +16,7 @@ export interface QuotePreferences {
   washPaintPreference: "combined" | "separate";
   ridgeMeasurement: "caps" | "lm" | "both";
   specialRequirements: string;
+  region?: "Metro" | "Outer-SE" | "Rural";
 }
 
 interface QuotePreferencesFormProps {
@@ -224,6 +225,38 @@ export function QuotePreferencesForm({ preferences, onChange }: QuotePreferences
               </Label>
             </div>
           </RadioGroup>
+        </CardContent>
+      </Card>
+
+      {/* Regional Pricing */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base flex items-center gap-2">
+            Regional Pricing Modifier
+            <Badge variant="secondary" className="text-xs">KF_02 v7.1</Badge>
+          </CardTitle>
+          <CardDescription>
+            Applies regional uplift: Metro (1.0x), Outer-SE (1.05x), Rural (1.10x)
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Select
+            value={preferences.region || "Metro"}
+            onValueChange={(value) => updatePreference("region", value as QuotePreferences["region"])}
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Metro">Metro (1.0x) - Default</SelectItem>
+              <SelectItem value="Outer-SE">Outer South-East (1.05x)</SelectItem>
+              <SelectItem value="Rural">Rural (1.10x)</SelectItem>
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-muted-foreground mt-2">
+            Based on {preferences.region || "Metro"}, rates will be adjusted by{" "}
+            {preferences.region === "Outer-SE" ? "5%" : preferences.region === "Rural" ? "10%" : "0%"}.
+          </p>
         </CardContent>
       </Card>
 
