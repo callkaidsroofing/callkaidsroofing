@@ -49,12 +49,20 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const QuotesDashboard = lazy(() => import("./pages/QuotesDashboard"));
 const ReportViewer = lazy(() => import("./pages/ReportViewer"));
 const InternalHome = lazy(() => import("./pages/InternalHome"));
+const InternalHomeNew = lazy(() => import("./pages/InternalHomeNew"));
+const SystemTransition = lazy(() => import("./pages/SystemTransition"));
 const LeadsDashboard = lazy(() => import("./pages/LeadsDashboard"));
 const ChatDashboard = lazy(() => import("./pages/ChatDashboard"));
 const Nexus = lazy(() => import("./pages/Nexus"));
 const NexusDemo = lazy(() => import("./pages/NexusDemo"));
 const ImageGenerator = lazy(() => import("./pages/ImageGenerator"));
+const DocsHub = lazy(() => import("./pages/DocsHub"));
+const FormsStudio = lazy(() => import("./pages/FormsStudio"));
+const DataHub = lazy(() => import("./pages/DataHub"));
+const MediaLibrary = lazy(() => import("./pages/MediaLibrary"));
+const MarketingStudio = lazy(() => import("./pages/MarketingStudio"));
 import { InternalLayout } from "@/components/InternalLayout";
+import { InternalLayoutNew } from "@/components/InternalLayoutNew";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -129,9 +137,23 @@ function App() {
                     </ProtectedRoute>
                   } />
                   
-                  {/* Internal routes - with sidebar layout */}
+                  {/* NEW INTERNAL SYSTEM - with unified sidebar layout */}
+                  <Route path="/internal/v2/*" element={<InternalLayoutNew />}>
+                    <Route index element={<InternalHomeNew />} />
+                    <Route path="home" element={<InternalHomeNew />} />
+                    <Route path="docs" element={<DocsHub />} />
+                    <Route path="forms" element={<FormsStudio />} />
+                    <Route path="data" element={<DataHub />} />
+                    <Route path="media" element={<MediaLibrary />} />
+                    <Route path="marketing" element={<MarketingStudio />} />
+                  </Route>
+                  
+                  {/* System transition page */}
+                  <Route path="/internal/transition" element={<SystemTransition />} />
+                  
+                  {/* LEGACY INTERNAL ROUTES - will be deprecated */}
                   <Route path="/internal/*" element={<InternalLayout />}>
-                    <Route index element={<InternalHome />} />
+                    <Route index element={<SystemTransition />} />
                     <Route path="home" element={<InternalHome />} />
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="quotes" element={<QuotesDashboard />} />
