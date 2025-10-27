@@ -37,12 +37,12 @@ export default function FormsStudio() {
   const loadForms = async () => {
     try {
       const { data, error } = await supabase
-        .from('form_definitions')
+        .from('form_definitions' as any)
         .select('*')
         .order('updated_at', { ascending: false });
 
       if (error) throw error;
-      setForms((data || []) as FormDefinition[]);
+      setForms((data || []) as any as FormDefinition[]);
     } catch (error) {
       console.error('Error loading forms:', error);
       toast.error('Failed to load forms');
@@ -94,7 +94,7 @@ export default function FormsStudio() {
 
       if (selectedForm) {
         const { data, error } = await supabase
-          .from('form_definitions')
+          .from('form_definitions' as any)
           .update(formData)
           .eq('id', selectedForm.id)
           .select()
@@ -104,7 +104,7 @@ export default function FormsStudio() {
         result = data;
       } else {
         const { data, error } = await supabase
-          .from('form_definitions')
+          .from('form_definitions' as any)
           .insert(formData)
           .select()
           .single();
@@ -126,8 +126,8 @@ export default function FormsStudio() {
   const handlePublishForm = async (formId: string) => {
     try {
       const { error } = await supabase
-        .from('form_definitions')
-        .update({ is_published: true })
+        .from('form_definitions' as any)
+        .update({ is_published: true } as any)
         .eq('id', formId);
 
       if (error) throw error;

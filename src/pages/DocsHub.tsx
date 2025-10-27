@@ -38,7 +38,7 @@ export default function DocsHub() {
   const loadDocuments = async () => {
     try {
       let query = supabase
-        .from('documents')
+        .from('documents' as any)
         .select('*')
         .order('updated_at', { ascending: false });
 
@@ -49,7 +49,7 @@ export default function DocsHub() {
       const { data, error } = await query;
 
       if (error) throw error;
-      setDocuments((data || []) as Document[]);
+      setDocuments((data || []) as any as Document[]);
     } catch (error) {
       console.error('Error loading documents:', error);
       toast.error('Failed to load documents');
@@ -84,7 +84,7 @@ export default function DocsHub() {
       if (selectedDoc) {
         // Update existing
         const { data, error } = await supabase
-          .from('documents')
+          .from('documents' as any)
           .update(documentData)
           .eq('id', selectedDoc.id)
           .select()
@@ -95,7 +95,7 @@ export default function DocsHub() {
       } else {
         // Create new
         const { data, error } = await supabase
-          .from('documents')
+          .from('documents' as any)
           .insert(documentData)
           .select()
           .single();
@@ -128,8 +128,8 @@ export default function DocsHub() {
       const shareCode = Math.random().toString(36).substring(2, 10);
       
       const { error } = await supabase
-        .from('documents')
-        .update({ share_code: shareCode })
+        .from('documents' as any)
+        .update({ share_code: shareCode } as any)
         .eq('id', docId);
 
       if (error) throw error;

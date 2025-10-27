@@ -42,7 +42,7 @@ export default function InternalHomeNew() {
         .gte('created_at', thirtyDaysAgo.toISOString())
         .eq('status', 'paid');
 
-      const revenue = invoices?.reduce((sum, inv) => sum + parseFloat(inv.total), 0) || 0;
+      const revenue = invoices?.reduce((sum, inv) => sum + Number(inv.total), 0) || 0;
 
       // Conversion rate
       const { count: quoteCount } = await supabase
