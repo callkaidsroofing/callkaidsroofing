@@ -383,34 +383,43 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
 
   return (
     <div className="bg-bg min-h-screen">
+      {/* Page Navigation - Mobile Optimized */}
       <div className="fixed top-3 right-3 bg-white rounded-lg shadow-lg p-2 z-50 print:hidden">
-        <div className="flex gap-2 mb-2">
+        <div className="flex gap-1 mb-2">
           <Button
             onClick={() => setCurrentPage(p => Math.max(0, p - 1))}
             disabled={currentPage === 0}
             size="sm"
+            variant="outline"
+            className="h-8 px-2 md:px-3"
           >
-            ← Prev
+            <span className="hidden sm:inline">← Prev</span>
+            <span className="sm:hidden">←</span>
           </Button>
           <Button
             onClick={() => setCurrentPage(p => Math.min(totalPages - 1, p + 1))}
             disabled={currentPage === totalPages - 1}
             size="sm"
+            variant="outline"
+            className="h-8 px-2 md:px-3"
           >
-            Next →
+            <span className="hidden sm:inline">Next →</span>
+            <span className="sm:hidden">→</span>
           </Button>
         </div>
-        <div className="text-center text-sm text-muted">
-          Page {currentPage + 1} of {totalPages}
+        <div className="text-center text-xs md:text-sm text-muted-foreground">
+          Page {currentPage + 1}/{totalPages}
         </div>
         {onPrint && (
-          <Button onClick={onPrint} className="w-full mt-2" size="sm">
-            Print / Export PDF
+          <Button onClick={onPrint} className="w-full mt-2 text-xs" size="sm">
+            <span className="hidden sm:inline">Print / Export PDF</span>
+            <span className="sm:hidden">Print</span>
           </Button>
         )}
       </div>
 
-      <div className="max-w-[210mm] mx-auto bg-white shadow-lg print:shadow-none print:max-w-none">
+      {/* Document Container - Responsive */}
+      <div className="max-w-[210mm] mx-auto bg-white shadow-lg print:shadow-none print:max-w-none px-2 md:px-0">
         {pages[currentPage]}
       </div>
     </div>

@@ -134,12 +134,12 @@ export default function InternalHomeNew() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-3 md:p-6 space-y-4 md:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div>
-          <h1 className="text-3xl font-bold">Universal Dashboard</h1>
-          <p className="text-muted-foreground">Welcome back to Call Kaids Roofing</p>
+          <h1 className="text-2xl md:text-3xl font-bold">Universal Dashboard</h1>
+          <p className="text-sm md:text-base text-muted-foreground">Welcome back to Call Kaids Roofing</p>
         </div>
       </div>
 
@@ -162,15 +162,15 @@ export default function InternalHomeNew() {
       </Card>
 
       {/* KPI Bar */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 md:gap-4 grid-cols-2 lg:grid-cols-4">
         {kpis.map((kpi, idx) => (
           <Card key={idx}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">{kpi.label}</CardTitle>
-              <kpi.icon className="h-4 w-4 text-muted-foreground" />
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-xs md:text-sm font-medium">{kpi.label}</CardTitle>
+              <kpi.icon className="h-3 w-3 md:h-4 md:w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{kpi.value}</div>
+              <div className="text-lg md:text-2xl font-bold">{kpi.value}</div>
               <p className="text-xs text-muted-foreground">
                 <span className={kpi.trend === 'up' ? 'text-green-600' : 'text-red-600'}>
                   {kpi.change}
@@ -189,27 +189,31 @@ export default function InternalHomeNew() {
           <CardDescription>Common tasks and shortcuts</CardDescription>
         </CardHeader>
         <CardContent className="flex gap-2 flex-wrap">
-          <Button onClick={() => navigate('/internal/inspection')}>
-            <Plus className="h-4 w-4 mr-2" />
-            New Inspection
+          <Button onClick={() => navigate('/internal/v2/forms')} size="sm">
+            <Plus className="h-4 w-4 mr-1 md:mr-2" />
+            <span className="hidden sm:inline">New Inspection</span>
+            <span className="sm:hidden">Inspect</span>
           </Button>
-          <Button variant="outline" onClick={() => navigate('/internal/leads')}>
-            <Users className="h-4 w-4 mr-2" />
-            Add Lead
+          <Button variant="outline" onClick={() => navigate('/internal/v2/data')} size="sm">
+            <Users className="h-4 w-4 mr-1 md:mr-2" />
+            <span className="hidden sm:inline">Add Lead</span>
+            <span className="sm:hidden">Lead</span>
           </Button>
-          <Button variant="outline" onClick={() => navigate('/internal/media')}>
-            <Plus className="h-4 w-4 mr-2" />
-            Upload Media
+          <Button variant="outline" onClick={() => navigate('/internal/v2/media')} size="sm">
+            <Plus className="h-4 w-4 mr-1 md:mr-2" />
+            <span className="hidden sm:inline">Upload Media</span>
+            <span className="sm:hidden">Media</span>
           </Button>
-          <Button variant="outline" onClick={() => navigate('/internal/docs')}>
-            <FileText className="h-4 w-4 mr-2" />
-            Create Document
+          <Button variant="outline" onClick={() => navigate('/internal/v2/docs')} size="sm">
+            <FileText className="h-4 w-4 mr-1 md:mr-2" />
+            <span className="hidden sm:inline">Create Document</span>
+            <span className="sm:hidden">Doc</span>
           </Button>
         </CardContent>
       </Card>
 
       {/* Queue Monitor & System Health */}
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-3 md:gap-4 grid-cols-1 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Queue Monitor</CardTitle>

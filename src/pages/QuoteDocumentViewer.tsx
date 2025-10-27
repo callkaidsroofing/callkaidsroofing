@@ -40,36 +40,42 @@ const QuoteDocumentViewer = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header - Responsive */}
       <div className="print:hidden bg-card border-b sticky top-0 z-40 shadow-sm">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+        <div className="container mx-auto px-3 md:px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2 md:gap-4 w-full sm:w-auto">
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => navigate('/internal/quotes')}
+              onClick={() => navigate('/internal/v2/data')}
+              className="shrink-0"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Quotes
+              <ArrowLeft className="w-4 h-4 mr-1 md:mr-2" />
+              <span className="hidden sm:inline">Back to Data</span>
+              <span className="sm:hidden">Back</span>
             </Button>
-            <div>
-              <h1 className="text-lg font-semibold">Quote Document</h1>
-              <p className="text-sm text-muted-foreground">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-base md:text-lg font-semibold truncate">Quote Document</h1>
+              <p className="text-xs md:text-sm text-muted-foreground truncate">
                 {quoteData.client_name || "New Quote"}
               </p>
             </div>
           </div>
           
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <Button
               variant="outline"
               onClick={() => setShowAIAssistant(true)}
-              className="gap-2"
+              className="gap-2 flex-1 sm:flex-initial"
+              size="sm"
             >
               <Sparkles className="w-4 h-4" />
-              AI Fill Data
+              <span className="hidden sm:inline">AI Fill Data</span>
+              <span className="sm:hidden">AI Fill</span>
             </Button>
-            <Button onClick={handlePrint}>
-              Print / Export PDF
+            <Button onClick={handlePrint} size="sm" className="flex-1 sm:flex-initial">
+              <span className="hidden sm:inline">Print / Export PDF</span>
+              <span className="sm:hidden">Export</span>
             </Button>
           </div>
         </div>
