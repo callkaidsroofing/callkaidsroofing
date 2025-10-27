@@ -28,6 +28,9 @@ verify_jwt = true
 [functions.admin-tools]
 verify_jwt = true
 
+[functions.ai-quote-helper]
+verify_jwt = false
+
 # ============================================
 # LEGACY FUNCTIONS (being phased out)
 # ============================================

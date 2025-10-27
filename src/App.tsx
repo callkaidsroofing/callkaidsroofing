@@ -48,6 +48,7 @@ const Auth = lazy(() => import("./pages/Auth"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const QuotesDashboard = lazy(() => import("./pages/QuotesDashboard"));
 const ReportViewer = lazy(() => import("./pages/ReportViewer"));
+const QuoteDocumentViewer = lazy(() => import("./pages/QuoteDocumentViewer"));
 const InternalHome = lazy(() => import("./pages/InternalHome"));
 const InternalHomeNew = lazy(() => import("./pages/InternalHomeNew"));
 const SystemTransition = lazy(() => import("./pages/SystemTransition"));
@@ -127,6 +128,7 @@ function App() {
                     <Route path="landing/:source" element={<LandingPage />} />
                     <Route path="restoration-landing" element={<RestorationLanding />} />
                     <Route path="measurement-tool" element={<MeasurementTool />} />
+                    <Route path="quote-document" element={<QuoteDocumentViewer />} />
                     <Route path="*" element={<NotFound />} />
                   </Route>
                   
