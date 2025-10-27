@@ -8,12 +8,8 @@ export default function SystemTransition() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Auto-redirect after 3 seconds
-    const timer = setTimeout(() => {
-      navigate('/internal/v2/home');
-    }, 3000);
-
-    return () => clearTimeout(timer);
+    // Immediate redirect - old system is archived
+    navigate('/internal/v2/home', { replace: true });
   }, [navigate]);
 
   return (
@@ -23,9 +19,9 @@ export default function SystemTransition() {
           <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
             <Sparkles className="h-8 w-8 text-primary" />
           </div>
-          <CardTitle className="text-3xl">🎉 New Internal System Available!</CardTitle>
+          <CardTitle className="text-3xl">🎉 Redirecting to New System</CardTitle>
           <CardDescription className="text-lg mt-2">
-            We've completely rebuilt the internal dashboard with improved performance and new features
+            The legacy internal system has been archived. Unified v2 interface loading...
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -59,26 +55,8 @@ export default function SystemTransition() {
             </div>
           </div>
 
-          <div className="flex gap-3">
-            <Button 
-              className="flex-1" 
-              size="lg"
-              onClick={() => navigate('/internal/v2/home')}
-            >
-              Go to New System
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg"
-              onClick={() => navigate('/internal/home')}
-            >
-              Stay on Legacy
-            </Button>
-          </div>
-
-          <p className="text-xs text-center text-muted-foreground">
-            Redirecting automatically in 3 seconds...
+          <p className="text-sm text-center text-muted-foreground">
+            If not redirected automatically, <button onClick={() => navigate('/internal/v2/home')} className="text-primary underline">click here</button>.
           </p>
         </CardContent>
       </Card>

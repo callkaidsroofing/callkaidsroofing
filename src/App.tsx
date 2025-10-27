@@ -128,7 +128,6 @@ function App() {
                     <Route path="landing/:source" element={<LandingPage />} />
                     <Route path="restoration-landing" element={<RestorationLanding />} />
                     <Route path="measurement-tool" element={<MeasurementTool />} />
-                    <Route path="quote-document" element={<QuoteDocumentViewer />} />
                     <Route path="*" element={<NotFound />} />
                   </Route>
                   
@@ -146,27 +145,13 @@ function App() {
                     <Route path="docs" element={<DocsHub />} />
                     <Route path="forms" element={<FormsStudio />} />
                     <Route path="data" element={<DataHub />} />
+                    <Route path="quote-documents" element={<QuoteDocumentViewer />} />
                     <Route path="media" element={<MediaLibrary />} />
                     <Route path="marketing" element={<MarketingStudio />} />
                   </Route>
                   
-                  {/* System transition page */}
-                  <Route path="/internal/transition" element={<SystemTransition />} />
-                  
-                  {/* LEGACY INTERNAL ROUTES - will be deprecated */}
-                  <Route path="/internal/*" element={<InternalLayout />}>
-                    <Route index element={<SystemTransition />} />
-                    <Route path="home" element={<InternalHome />} />
-                    <Route path="dashboard" element={<Dashboard />} />
-                    <Route path="quotes" element={<QuotesDashboard />} />
-                    <Route path="leads" element={<LeadsDashboard />} />
-                    <Route path="chat" element={<ChatDashboard />} />
-                    <Route path="nexus" element={<Nexus />} />
-                    <Route path="nexus-demo" element={<NexusDemo />} />
-                    <Route path="inspection" element={<InspectionForm />} />
-                    <Route path="image-generator" element={<ImageGenerator />} />
-                    <Route path="reports/:id" element={<ReportViewer />} />
-                  </Route>
+                  {/* Redirect old /internal to new v2 system */}
+                  <Route path="/internal/*" element={<SystemTransition />} />
               </Routes>
             </Suspense>
           </BrowserRouter>

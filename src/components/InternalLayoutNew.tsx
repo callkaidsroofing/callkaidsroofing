@@ -1,14 +1,15 @@
 import { Outlet, NavLink } from 'react-router-dom';
-import { Home, FileText, FormInput, Database, Image, Megaphone } from 'lucide-react';
+import { Home, FileText, FormInput, Database, Image, Megaphone, FileOutput } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 
 const navItems = [
-  { title: 'Docs Hub', path: '/internal/docs', icon: FileText },
-  { title: 'Forms Studio', path: '/internal/forms', icon: FormInput },
-  { title: 'Data Hub', path: '/internal/data', icon: Database },
-  { title: 'Media Library', path: '/internal/media', icon: Image },
-  { title: 'Marketing Studio', path: '/internal/marketing', icon: Megaphone },
+  { title: 'Docs Hub', path: '/internal/v2/docs', icon: FileText },
+  { title: 'Forms Studio', path: '/internal/v2/forms', icon: FormInput },
+  { title: 'Data Hub', path: '/internal/v2/data', icon: Database },
+  { title: 'Quote Documents', path: '/internal/v2/quote-documents', icon: FileOutput },
+  { title: 'Media Library', path: '/internal/v2/media', icon: Image },
+  { title: 'Marketing Studio', path: '/internal/v2/marketing', icon: Megaphone },
 ];
 
 export function InternalLayoutNew() {
@@ -20,7 +21,7 @@ export function InternalLayoutNew() {
       <aside className="w-60 border-r bg-muted/30 flex flex-col">
         {/* Home Anchor - Always visible */}
         <NavLink
-          to="/internal/home"
+          to="/internal/v2/home"
           className="p-4 border-b flex items-center gap-3 font-bold text-lg hover:bg-muted transition-colors"
         >
           <Home className="h-5 w-5" />
