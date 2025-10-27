@@ -1,0 +1,322 @@
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Plus, FormInput, Eye, Save, CheckCircle } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+
+interface FormDefinition {
+  id: string;
+  name: string;
+  description: string;
+  version: number;
+  schema: any;
+  ui_schema: any;
+  outputs: string[];
+  roles: string[];
+  is_published: boolean;
+  created_at: string;
+}
+
+export default function FormsStudio() {
+  const [forms, setForms] = useState<FormDefinition[]>([]);
+  const [selectedForm, setSelectedForm] = useState<FormDefinition | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [formName, setFormName] = useState('');
+  const [formDescription, setFormDescription] = useState('');
+  const [formSchema, setFormSchema] = useState('');
+
+  useEffect(() => {
+    loadForms();
+  }, []);
+
+  const loadForms = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('form_definitions')
+        .select('*')
+        .order('updated_at', { ascending: false });
+
+      if (error) throw error;
+      setForms((data || []) as FormDefinition[]);
+    } catch (error) {
+      console.error('Error loading forms:', error);
+      toast.error('Failed to load forms');
+    }
+  };
+
+  const handleCreateForm = () => {
+    setIsEditing(true);
+    setSelectedForm(null);
+    setFormName('');
+    setFormDescription('');
+    setFormSchema(JSON.stringify({
+      type: 'object',
+      properties: {
+        name: { type: 'string', title: 'Name' },
+        email: { type: 'string', format: 'email', title: 'Email' }
+      },
+      required: ['name', 'email']
+    }, null, 2));
+  };
+
+  const handleSaveForm = async () => {
+    try {
+      if (!formName.trim()) {
+        toast.error('Form name is required');
+        return;
+      }
+
+      let parsedSchema;
+      try {
+        parsedSchema = JSON.parse(formSchema);
+      } catch {
+        toast.error('Invalid JSON schema');
+        return;
+      }
+
+      const formData = {
+        name: formName,
+        description: formDescription,
+        schema: parsedSchema,
+        ui_schema: {},
+        outputs: ['html', 'crm'],
+        roles: ['admin', 'inspector'],
+        is_published: false,
+        version: selectedForm ? selectedForm.version + 1 : 1
+      };
+
+      let result;
+
+      if (selectedForm) {
+        const { data, error } = await supabase
+          .from('form_definitions')
+          .update(formData)
+          .eq('id', selectedForm.id)
+          .select()
+          .single();
+
+        if (error) throw error;
+        result = data;
+      } else {
+        const { data, error } = await supabase
+          .from('form_definitions')
+          .insert(formData)
+          .select()
+          .single();
+
+        if (error) throw error;
+        result = data;
+      }
+
+      toast.success(selectedForm ? 'Form updated' : 'Form created');
+      setIsEditing(false);
+      setSelectedForm(result);
+      loadForms();
+    } catch (error) {
+      console.error('Error saving form:', error);
+      toast.error('Failed to save form');
+    }
+  };
+
+  const handlePublishForm = async (formId: string) => {
+    try {
+      const { error } = await supabase
+        .from('form_definitions')
+        .update({ is_published: true })
+        .eq('id', formId);
+
+      if (error) throw error;
+
+      toast.success('Form published successfully');
+      loadForms();
+      if (selectedForm?.id === formId) {
+        setSelectedForm({ ...selectedForm, is_published: true });
+      }
+    } catch (error) {
+      console.error('Error publishing form:', error);
+      toast.error('Failed to publish form');
+    }
+  };
+
+  const handleSelectForm = (form: FormDefinition) => {
+    setSelectedForm(form);
+    setIsEditing(false);
+    setFormName(form.name);
+    setFormDescription(form.description || '');
+    setFormSchema(JSON.stringify(form.schema, null, 2));
+  };
+
+  return (
+    <div className="container mx-auto p-6">
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-3xl font-bold">Forms Studio</h1>
+          <p className="text-muted-foreground">Build and manage custom forms</p>
+        </div>
+        <Button onClick={handleCreateForm}>
+          <Plus className="h-4 w-4 mr-2" />
+          New Form
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-3 gap-6">
+        {/* Forms List */}
+        <Card className="col-span-1">
+          <CardHeader>
+            <CardTitle className="text-base">Forms</CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            <ScrollArea className="h-[600px]">
+              <div className="space-y-1 p-4">
+                {forms.map((form) => (
+                  <div
+                    key={form.id}
+                    onClick={() => handleSelectForm(form)}
+                    className={`p-3 rounded-md cursor-pointer hover:bg-muted transition-colors ${
+                      selectedForm?.id === form.id ? 'bg-muted' : ''
+                    }`}
+                  >
+                    <div className="flex items-start gap-2">
+                      <FormInput className="h-4 w-4 mt-1 text-muted-foreground" />
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium truncate">{form.name}</div>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Badge variant="outline" className="text-xs">v{form.version}</Badge>
+                          {form.is_published && (
+                            <Badge className="text-xs bg-green-600">Published</Badge>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          </CardContent>
+        </Card>
+
+        {/* Form Builder/Editor */}
+        <Card className="col-span-2">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>
+                  {isEditing ? (selectedForm ? 'Edit Form' : 'New Form') : selectedForm?.name || 'Select a form'}
+                </CardTitle>
+                {selectedForm && !isEditing && (
+                  <CardDescription>
+                    Version {selectedForm.version} • {selectedForm.is_published ? 'Published' : 'Draft'}
+                  </CardDescription>
+                )}
+              </div>
+              {selectedForm && !isEditing && (
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
+                    <Save className="h-4 w-4 mr-2" />
+                    Edit
+                  </Button>
+                  {!selectedForm.is_published && (
+                    <Button size="sm" onClick={() => handlePublishForm(selectedForm.id)}>
+                      <CheckCircle className="h-4 w-4 mr-2" />
+                      Publish
+                    </Button>
+                  )}
+                </div>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            {isEditing ? (
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium">Form Name</label>
+                  <Input
+                    value={formName}
+                    onChange={(e) => setFormName(e.target.value)}
+                    placeholder="e.g., Contact Form, Inspection Request..."
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Description</label>
+                  <Input
+                    value={formDescription}
+                    onChange={(e) => setFormDescription(e.target.value)}
+                    placeholder="Brief description of this form..."
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">JSON Schema</label>
+                  <Textarea
+                    value={formSchema}
+                    onChange={(e) => setFormSchema(e.target.value)}
+                    placeholder='{"type": "object", "properties": {...}}'
+                    rows={20}
+                    className="font-mono text-sm"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Define form fields using JSON Schema format
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <Button onClick={handleSaveForm}>
+                    <Save className="h-4 w-4 mr-2" />
+                    Save Form
+                  </Button>
+                  <Button variant="outline" onClick={() => {
+                    setIsEditing(false);
+                    if (!selectedForm) setSelectedForm(null);
+                  }}>
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            ) : selectedForm ? (
+              <ScrollArea className="h-[600px]">
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="font-medium mb-2">Description</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {selectedForm.description || 'No description provided'}
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-2">Schema</h3>
+                    <pre className="bg-muted p-4 rounded-md text-sm overflow-auto">
+                      {JSON.stringify(selectedForm.schema, null, 2)}
+                    </pre>
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-2">Output Formats</h3>
+                    <div className="flex gap-2">
+                      {selectedForm.outputs.map((output, idx) => (
+                        <Badge key={idx} variant="secondary">{output}</Badge>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-2">Access Roles</h3>
+                    <div className="flex gap-2">
+                      {selectedForm.roles.map((role, idx) => (
+                        <Badge key={idx} variant="outline">{role}</Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </ScrollArea>
+            ) : (
+              <div className="text-center py-12 text-muted-foreground">
+                <FormInput className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <p>Select a form to view or create a new one</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}

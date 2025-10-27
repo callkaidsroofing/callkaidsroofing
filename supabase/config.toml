@@ -3,6 +3,12 @@ project_id = "vlnkzpyeppfdmresiaoh"
 [functions.ckr-gem-api]
 verify_jwt = false
 
+[functions.crm-api]
+verify_jwt = false
+
+[functions.quote-engine]
+verify_jwt = false
+
 [functions.nexus-ai-hub]
 verify_jwt = true
 
