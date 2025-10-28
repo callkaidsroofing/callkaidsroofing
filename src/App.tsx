@@ -62,6 +62,9 @@ const FormsStudio = lazy(() => import("./pages/FormsStudio"));
 const DataHub = lazy(() => import("./pages/DataHub"));
 const MediaLibrary = lazy(() => import("./pages/MediaLibrary"));
 const MarketingStudio = lazy(() => import("./pages/MarketingStudio"));
+const LeadsPipeline = lazy(() => import("./pages/LeadsPipeline"));
+const QuoteBuilderNew = lazy(() => import("./pages/QuoteBuilderNew"));
+const JobsCalendar = lazy(() => import("./pages/JobsCalendar"));
 import { InternalLayout } from "@/components/InternalLayout";
 import { InternalLayoutNew } from "@/components/InternalLayoutNew";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -148,6 +151,9 @@ function App() {
                     <Route path="quote-documents" element={<QuoteDocumentViewer />} />
                     <Route path="media" element={<MediaLibrary />} />
                     <Route path="marketing" element={<MarketingStudio />} />
+                    <Route path="leads" element={<AuthGuard><LeadsPipeline /></AuthGuard>} />
+                    <Route path="quotes/new" element={<AuthGuard><QuoteBuilderNew /></AuthGuard>} />
+                    <Route path="jobs" element={<AuthGuard><JobsCalendar /></AuthGuard>} />
                   </Route>
                   
                   {/* Redirect old /internal to new v2 system */}

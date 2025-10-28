@@ -80,7 +80,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
 
         // Search jobs
         const { data: jobs } = await supabase
-          .from('jobs')
+          .from('jobs' as any)
           .select('id, job_number, client_name, site_address')
           .or(`job_number.ilike.${searchTerm},client_name.ilike.${searchTerm},site_address.ilike.${searchTerm}`)
           .limit(5);
@@ -102,7 +102,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
             path: `/internal/v2/quotes/${q.id}`,
             icon: FileText,
           })),
-          ...(jobs || []).map(j => ({
+          ...((jobs as any[]) || []).map((j: any) => ({
             id: j.id,
             type: 'job' as const,
             title: j.job_number,

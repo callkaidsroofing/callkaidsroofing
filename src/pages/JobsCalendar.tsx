@@ -38,14 +38,14 @@ export default function JobsCalendar() {
       const end = endOfMonth(currentDate);
 
       const { data, error } = await supabase
-        .from('jobs')
+        .from('jobs' as any)
         .select('*')
         .gte('scheduled_date', format(start, 'yyyy-MM-dd'))
         .lte('scheduled_date', format(end, 'yyyy-MM-dd'))
         .order('scheduled_date', { ascending: true });
 
       if (error) throw error;
-      setJobs(data || []);
+      setJobs((data || []) as unknown as Job[]);
     } catch (error) {
       console.error('Error fetching jobs:', error);
     } finally {

@@ -56,7 +56,7 @@ export function ActivityTimeline({ entityType, entityId }: ActivityTimelineProps
   const fetchActivities = async () => {
     try {
       let query = supabase
-        .from('activities')
+        .from('activities' as any)
         .select('*')
         .eq('entity_type', entityType)
         .eq('entity_id', entityId)
@@ -70,7 +70,7 @@ export function ActivityTimeline({ entityType, entityId }: ActivityTimelineProps
       const { data, error } = await query;
 
       if (error) throw error;
-      setActivities(data || []);
+      setActivities((data || []) as unknown as Activity[]);
     } catch (error) {
       console.error('Error fetching activities:', error);
     } finally {
@@ -85,14 +85,14 @@ export function ActivityTimeline({ entityType, entityId }: ActivityTimelineProps
     const channel = supabase
       .channel(`activities:${entityType}:${entityId}`)
       .on(
-        'postgres_changes',
+        'postgres_changes' as any,
         {
           event: 'INSERT',
           schema: 'public',
           table: 'activities',
           filter: `entity_type=eq.${entityType},entity_id=eq.${entityId}`,
         },
-        (payload) => {
+        (payload: any) => {
           setActivities((current) => [payload.new as Activity, ...current]);
         }
       )
@@ -108,7 +108,7 @@ export function ActivityTimeline({ entityType, entityId }: ActivityTimelineProps
 
     setAdding(true);
     try {
-      const { error } = await supabase.from('activities').insert({
+      const { error } = await supabase.from('activities' as any).insert({
         entity_type: entityType,
         entity_id: entityId,
         activity_type: 'note_added',

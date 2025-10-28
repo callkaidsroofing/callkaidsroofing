@@ -20,10 +20,10 @@ interface Lead {
   email?: string;
   suburb: string;
   service: string;
-  stage: string;
+  stage?: string;
   value_band?: string;
   next_activity_date?: string;
-  tags?: string[];
+  tags?: any;
   urgency?: string;
   created_at: string;
 }
@@ -56,7 +56,7 @@ export default function LeadsPipeline() {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setLeads(data || []);
+      setLeads((data || []) as Lead[]);
     } catch (error) {
       console.error('Error fetching leads:', error);
     } finally {
@@ -78,13 +78,13 @@ export default function LeadsPipeline() {
     try {
       const { error } = await supabase
         .from('leads')
-        .update({ stage: newStage })
+        .update({ stage: newStage } as any)
         .eq('id', draggedLead);
 
       if (error) throw error;
 
       // Log activity
-      await supabase.from('activities').insert({
+      await supabase.from('activities' as any).insert({
         entity_type: 'lead',
         entity_id: draggedLead,
         activity_type: 'status_changed',
