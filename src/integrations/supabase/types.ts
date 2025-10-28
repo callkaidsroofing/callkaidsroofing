@@ -1739,6 +1739,51 @@ export type Database = {
           },
         ]
       }
+      price_book: {
+        Row: {
+          base_rate: number
+          category: string
+          created_at: string | null
+          description: string | null
+          display_name: string
+          id: string
+          is_active: boolean | null
+          labour_hours: number | null
+          material_cost: number | null
+          service_code: string
+          unit: string
+          updated_at: string | null
+        }
+        Insert: {
+          base_rate: number
+          category: string
+          created_at?: string | null
+          description?: string | null
+          display_name: string
+          id?: string
+          is_active?: boolean | null
+          labour_hours?: number | null
+          material_cost?: number | null
+          service_code: string
+          unit: string
+          updated_at?: string | null
+        }
+        Update: {
+          base_rate?: number
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          display_name?: string
+          id?: string
+          is_active?: boolean | null
+          labour_hours?: number | null
+          material_cost?: number | null
+          service_code?: string
+          unit?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       pricing_models: {
         Row: {
           approved_at: string | null
@@ -1981,79 +2026,115 @@ export type Database = {
       }
       quotes: {
         Row: {
+          accepted_at: string | null
           client_name: string
           created_at: string | null
           created_by: string | null
+          discount_amount: number | null
+          discount_reason: string | null
+          draft: boolean | null
           email: string | null
           gst: number
           id: string
           inspection_report_id: string | null
+          line_items: Json | null
           notes: string | null
+          parent_quote_id: string | null
           phone: string
+          photo_ids: string[] | null
+          pricing: Json | null
           pricing_hash: string | null
           pricing_snapshot: Json | null
           pricing_version: string | null
           quote_number: string
           regional_modifier: number | null
+          scope: Json | null
+          sent_at: string | null
           site_address: string
           status: string | null
           subtotal: number
           suburb_postcode: string
+          terms: Json | null
           tier_level: string
           tier_profile: string | null
           total: number
           updated_at: string | null
           valid_until: string | null
+          version: number | null
         }
         Insert: {
+          accepted_at?: string | null
           client_name: string
           created_at?: string | null
           created_by?: string | null
+          discount_amount?: number | null
+          discount_reason?: string | null
+          draft?: boolean | null
           email?: string | null
           gst: number
           id?: string
           inspection_report_id?: string | null
+          line_items?: Json | null
           notes?: string | null
+          parent_quote_id?: string | null
           phone: string
+          photo_ids?: string[] | null
+          pricing?: Json | null
           pricing_hash?: string | null
           pricing_snapshot?: Json | null
           pricing_version?: string | null
           quote_number: string
           regional_modifier?: number | null
+          scope?: Json | null
+          sent_at?: string | null
           site_address: string
           status?: string | null
           subtotal: number
           suburb_postcode: string
+          terms?: Json | null
           tier_level: string
           tier_profile?: string | null
           total: number
           updated_at?: string | null
           valid_until?: string | null
+          version?: number | null
         }
         Update: {
+          accepted_at?: string | null
           client_name?: string
           created_at?: string | null
           created_by?: string | null
+          discount_amount?: number | null
+          discount_reason?: string | null
+          draft?: boolean | null
           email?: string | null
           gst?: number
           id?: string
           inspection_report_id?: string | null
+          line_items?: Json | null
           notes?: string | null
+          parent_quote_id?: string | null
           phone?: string
+          photo_ids?: string[] | null
+          pricing?: Json | null
           pricing_hash?: string | null
           pricing_snapshot?: Json | null
           pricing_version?: string | null
           quote_number?: string
           regional_modifier?: number | null
+          scope?: Json | null
+          sent_at?: string | null
           site_address?: string
           status?: string | null
           subtotal?: number
           suburb_postcode?: string
+          terms?: Json | null
           tier_level?: string
           tier_profile?: string | null
           total?: number
           updated_at?: string | null
           valid_until?: string | null
+          version?: number | null
         }
         Relationships: [
           {
@@ -2061,6 +2142,13 @@ export type Database = {
             columns: ["inspection_report_id"]
             isOneToOne: false
             referencedRelation: "inspection_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quotes_parent_quote_id_fkey"
+            columns: ["parent_quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
             referencedColumns: ["id"]
           },
         ]
