@@ -45,15 +45,9 @@ const RoofPaintingClydeNorth = lazy(() => import("./pages/services/suburbs/RoofP
 const MeasurementTool = lazy(() => import("./pages/MeasurementTool"));
 const InspectionForm = lazy(() => import("./pages/InspectionForm"));
 const Auth = lazy(() => import("./pages/Auth"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
-const QuotesDashboard = lazy(() => import("./pages/QuotesDashboard"));
-const ReportViewer = lazy(() => import("./pages/ReportViewer"));
 const QuoteDocumentViewer = lazy(() => import("./pages/QuoteDocumentViewer"));
-const InternalHome = lazy(() => import("./pages/InternalHome"));
 const InternalHomeNew = lazy(() => import("./pages/InternalHomeNew"));
 const SystemTransition = lazy(() => import("./pages/SystemTransition"));
-const LeadsDashboard = lazy(() => import("./pages/LeadsDashboard"));
-const ChatDashboard = lazy(() => import("./pages/ChatDashboard"));
 const Nexus = lazy(() => import("./pages/Nexus"));
 const NexusDemo = lazy(() => import("./pages/NexusDemo"));
 const ImageGenerator = lazy(() => import("./pages/ImageGenerator"));
@@ -149,10 +143,14 @@ function App() {
                     <Route path="home" element={<InternalHomeNew />} />
                     <Route path="docs" element={<DocsHub />} />
                     <Route path="forms" element={<FormsStudio />} />
+                    <Route path="forms/inspection" element={<AuthGuard><InspectionForm /></AuthGuard>} />
                     <Route path="data" element={<DataHub />} />
                     <Route path="quote-documents" element={<QuoteDocumentViewer />} />
                     <Route path="media" element={<MediaLibrary />} />
+                    <Route path="media/generator" element={<AuthGuard><ImageGenerator /></AuthGuard>} />
                     <Route path="marketing" element={<MarketingStudio />} />
+                    <Route path="nexus" element={<AuthGuard><Nexus /></AuthGuard>} />
+                    <Route path="tools" element={<AuthGuard><MeasurementTool /></AuthGuard>} />
                     <Route path="leads" element={<AuthGuard><LeadsPipeline /></AuthGuard>} />
                     <Route path="quotes/new" element={<AuthGuard><QuoteBuilderNew /></AuthGuard>} />
                     <Route path="jobs" element={<AuthGuard><JobsCalendar /></AuthGuard>} />

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
-import { Home, FileText, FormInput, Database, Image, Megaphone, FileOutput, Menu, X } from 'lucide-react';
+import { Home, FileText, FormInput, Database, Image, Megaphone, FileOutput, Menu, Sparkles, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useAuth } from '@/hooks/useAuth';
@@ -12,6 +12,8 @@ const navItems = [
   { title: 'Quote Documents', path: '/internal/v2/quote-documents', icon: FileOutput },
   { title: 'Media Library', path: '/internal/v2/media', icon: Image },
   { title: 'Marketing Studio', path: '/internal/v2/marketing', icon: Megaphone },
+  { title: 'Nexus AI', path: '/internal/v2/nexus', icon: Sparkles },
+  { title: 'Tools', path: '/internal/v2/tools', icon: Wrench },
 ];
 
 function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
