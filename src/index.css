@@ -222,6 +222,12 @@ All colors MUST be HSL.
   .muted-text {
     color: hsl(var(--roofing-steel));
   }
+
+  /* Utility aliases to fix legacy classes and improve readability */
+  .text-navy { color: hsl(var(--roofing-navy)); }
+  .bg-navy { background-color: hsl(var(--secondary)); color: hsl(var(--secondary-foreground)); }
+  .text-muted { color: hsl(var(--muted-foreground)); }
+  .bg-bg { background-color: hsl(var(--muted)); }
   
   /* Brand Shadows */
   .roofing-shadow {

@@ -233,15 +233,23 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
         <div className="text-center">
-          <div className="w-full h-36 bg-gradient-to-br from-bg to-white border-2 border-dashed border-muted rounded-lg flex items-center justify-center text-foreground/60 font-semibold italic mb-2">
-            Before — replace
-          </div>
+          {data.photos?.before && data.photos.before.length > 0 ? (
+            <img src={data.photos.before[0]} alt="Before" className="w-full h-36 object-cover rounded-lg border" />
+          ) : (
+            <div className="w-full h-36 bg-gradient-to-br from-bg to-white border-2 border-dashed border-muted rounded-lg flex items-center justify-center text-foreground/60 font-semibold italic mb-2">
+              Before — replace
+            </div>
+          )}
           <div className="font-semibold text-foreground">Current Condition</div>
         </div>
         <div className="text-center">
-          <div className="w-full h-36 bg-gradient-to-br from-bg to-white border-2 border-dashed border-muted rounded-lg flex items-center justify-center text-foreground/60 font-semibold italic mb-2">
-            After — replace
-          </div>
+          {data.photos?.after && data.photos.after.length > 0 ? (
+            <img src={data.photos.after[0]} alt="Projected Result" className="w-full h-36 object-cover rounded-lg border" />
+          ) : (
+            <div className="w-full h-36 bg-gradient-to-br from-bg to-white border-2 border-dashed border-muted rounded-lg flex items-center justify-center text-foreground/60 font-semibold italic mb-2">
+              After — replace
+            </div>
+          )}
           <div className="font-semibold text-foreground">Expected Result</div>
         </div>
       </div>

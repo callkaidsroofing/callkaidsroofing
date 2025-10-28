@@ -88,13 +88,13 @@ export const ImageUploadField = ({ label, name, value, onChange, helpText, error
 
         try {
           const { error: uploadError, data } = await supabase.storage
-            .from('inspection-photos')
+            .from('media')
             .upload(filePath, file);
 
           if (uploadError) throw uploadError;
 
           const { data: { publicUrl } } = supabase.storage
-            .from('inspection-photos')
+            .from('media')
             .getPublicUrl(filePath);
 
           uploadedUrls.push(publicUrl);

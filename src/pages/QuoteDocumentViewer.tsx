@@ -6,10 +6,11 @@ import { AIQuoteAssistant } from "@/components/AIQuoteAssistant";
 import { ArrowLeft, Sparkles, FileText, Monitor, Upload, Share2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { generateBrandedPDF } from "@/lib/pdfGenerator";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { ImageUploadField } from "@/components/ImageUploadField";
 
 interface QuoteData {
   company_name: string;
@@ -124,21 +125,36 @@ const QuoteDocumentViewer = () => {
   };
 
   const handleShareDigitalQuote = async () => {
-    // In a real implementation, this would create a shareable link
     const url = `${window.location.origin}/quote/${Date.now()}`;
-    
     try {
       await navigator.clipboard.writeText(url);
-      toast({
-        title: "Link Copied",
-        description: "Digital quote link copied to clipboard."
-      });
+      toast({ title: "Link Copied", description: "Digital quote link copied to clipboard." });
     } catch (error) {
-      toast({
-        title: "Copy Failed",
-        description: "Unable to copy link. Please try again.",
-        variant: "destructive"
-      });
+      toast({ title: "Copy Failed", description: "Unable to copy link. Please try again.", variant: "destructive" });
+    }
+  };
+
+  const suggestProjectedImages = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('media_assets' as any)
+        .select('file_path, kind')
+        .eq('kind', 'photo')
+        .order('created_at', { ascending: false })
+        .limit(3);
+
+      if (error) throw error;
+
+      const urls = (data || []).map((a: any) => supabase.storage.from('media').getPublicUrl(a.file_path).data.publicUrl);
+
+      if (urls.length) {
+        setQuoteData(prev => ({
+          ...prev,
+          photos: { ...prev.photos, after: urls }
+        }));
+      }
+    } catch (e) {
+      console.error('suggestProjectedImages error', e);
     }
   };
 
@@ -237,7 +253,28 @@ const QuoteDocumentViewer = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-3 md:px-6 py-6">
+      <div className="container mx-auto px-3 md:px-6 py-6 space-y-6">
+        {/* AI Summary & Inspection Photos */}
+        <Card>
+          <CardHeader>
+            <CardTitle>AI Summary & Photos</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ImageUploadField
+              label="Upload inspection photos for AI analysis"
+              name="roof_condition_photos"
+              value={quoteData.photos?.before || []}
+              onChange={async (_name, urls) => {
+                setQuoteData(prev => ({
+                  ...prev,
+                  photos: { ...prev.photos, before: urls }
+                }));
+                await suggestProjectedImages();
+              }}
+              helpText="We’ll analyze defects and auto-suggest projected result images."
+            />
+          </CardContent>
+        </Card>
         {activeView === "digital" ? (
           <Card className="overflow-hidden">
             <QuoteDocumentDigital data={quoteData} />
