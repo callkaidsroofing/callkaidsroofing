@@ -12,6 +12,11 @@ interface QuoteDocumentData {
   option1_total: string;
   option2_total: string;
   option3_total: string;
+  photos?: {
+    before?: string[];
+    during?: string[];
+    after?: string[];
+  };
 }
 
 interface QuoteDocumentTemplateProps {
@@ -21,7 +26,7 @@ interface QuoteDocumentTemplateProps {
 
 export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplateProps) => {
   const [currentPage, setCurrentPage] = useState(0);
-  const totalPages = 10;
+  const totalPages = 6; // Reduced from 10 to 6 pages
 
   const calcGST = (totalInc: number) => {
     const exGST = totalInc / 1.1;
@@ -54,93 +59,147 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
   }, []);
 
   const PageHeader = () => (
-    <header className="flex justify-between items-center pb-3 border-b-2 border-primary mb-5 gap-3 flex-wrap">
-      <div className="w-[120px] h-14 bg-primary rounded-lg text-white font-semibold text-sm flex items-center justify-center">
+    <header className="flex justify-between items-center pb-4 border-b-2 border-primary mb-6 gap-3 flex-wrap">
+      <div className="w-[140px] h-16 bg-primary rounded-lg text-white font-bold text-base flex items-center justify-center shadow-sm">
         CKR LOGO
       </div>
-      <div className="text-navy font-semibold">Quote Document</div>
+      <div className="text-navy font-bold text-lg">Quote Document</div>
     </header>
   );
 
   const PageFooter = ({ pageNum }: { pageNum: number }) => (
-    <footer className="absolute bottom-[15mm] left-[20mm] right-[20mm] border-t border-muted pt-2 flex justify-between items-center text-xs text-muted gap-2 flex-wrap">
+    <footer className="absolute bottom-[15mm] left-[20mm] right-[20mm] border-t-2 border-muted pt-3 flex justify-between items-center text-sm font-medium text-muted gap-2 flex-wrap">
       <div>ABN 39475055075</div>
-      <div>0435 900 709 · callkaidsroofing@outlook.com</div>
+      <div className="font-semibold">0435 900 709 · callkaidsroofing@outlook.com</div>
       <div>Page {pageNum} of {totalPages}</div>
     </footer>
   );
 
   const pages = [
-    // Page 1 - Cover
+    // Page 1 - Cover & Details Combined
     <section key="page1" className="min-h-[297mm] p-[20mm] relative bg-white">
       <PageHeader />
-      <h1 className="text-4xl text-navy font-semibold mb-2">{data.company_name} — Quote Document</h1>
-      <div className="text-primary text-lg font-semibold mb-4">{data.slogan}</div>
+      <h1 className="text-4xl text-navy font-bold mb-3 leading-tight">{data.company_name}</h1>
+      <div className="text-primary text-xl font-bold mb-6">{data.slogan}</div>
       
-      <p className="text-base mt-4">Dear {data.client_name},</p>
-      <p>Thank you for considering Call Kaids Roofing. This document outlines our recommended scope and clear pricing options for your property.</p>
+      <p className="text-lg mt-4 mb-2">Dear <span className="font-bold">{data.client_name}</span>,</p>
+      <p className="text-base leading-relaxed mb-6">Thank you for considering Call Kaids Roofing. This document outlines our recommended scope and clear pricing options for your property.</p>
 
-      <div className="bg-bg p-4 rounded-lg my-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="bg-gradient-to-br from-bg to-white p-5 rounded-xl my-6 grid grid-cols-1 md:grid-cols-3 gap-4 border-2 border-primary/20">
         <div>
-          <div className="text-xs text-muted uppercase tracking-wide">ABN</div>
-          <div className="font-semibold text-navy mt-1">39475055075</div>
+          <div className="text-xs text-muted uppercase tracking-wide font-semibold">ABN</div>
+          <div className="font-bold text-navy mt-1 text-base">39475055075</div>
         </div>
         <div>
-          <div className="text-xs text-muted uppercase tracking-wide">Phone</div>
-          <div className="font-semibold text-navy mt-1">0435 900 709</div>
+          <div className="text-xs text-muted uppercase tracking-wide font-semibold">Phone</div>
+          <div className="font-bold text-navy mt-1 text-base">0435 900 709</div>
         </div>
         <div>
-          <div className="text-xs text-muted uppercase tracking-wide">Email</div>
-          <div className="font-semibold text-navy mt-1">callkaidsroofing@outlook.com</div>
+          <div className="text-xs text-muted uppercase tracking-wide font-semibold">Email</div>
+          <div className="font-bold text-navy mt-1 text-base">callkaidsroofing@outlook.com</div>
         </div>
       </div>
 
-      <div className="w-full h-40 bg-gradient-to-br from-bg to-white border-2 border-dashed border-muted rounded-lg flex items-center justify-center text-muted italic my-4">
-        Optional hero image — replace with jobsite photo
+      {/* Property Details on Page 1 */}
+      <h2 className="text-2xl text-navy font-bold mb-4 mt-8">Property Details</h2>
+      <div className="bg-white rounded-xl p-5 shadow-lg border-2 border-primary/10">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="py-3 border-b border-bg">
+            <div className="text-sm font-semibold text-muted mb-1">Client</div>
+            <div className="font-bold text-navy text-base">{data.client_name}</div>
+          </div>
+          <div className="py-3 border-b border-bg">
+            <div className="text-sm font-semibold text-muted mb-1">Roof Type</div>
+            <div className="font-bold text-navy text-base">{data.roof_type}</div>
+          </div>
+          <div className="py-3 border-b border-bg col-span-2">
+            <div className="text-sm font-semibold text-muted mb-1">Property Address</div>
+            <div className="font-bold text-navy text-base">{data.property_address}</div>
+          </div>
+          <div className="py-3">
+            <div className="text-sm font-semibold text-muted mb-1">Measured Area</div>
+            <div className="font-bold text-navy text-base">{data.measured_area}</div>
+          </div>
+          <div className="py-3">
+            <div className="text-sm font-semibold text-muted mb-1">Key Lengths</div>
+            <div className="font-bold text-navy text-base">{data.key_lengths}</div>
+          </div>
+        </div>
       </div>
+
+      {data.photos?.before && data.photos.before.length > 0 && (
+        <div className="grid grid-cols-2 gap-4 my-6">
+          {data.photos.before.slice(0, 2).map((photo, idx) => (
+            <div key={idx} className="rounded-xl overflow-hidden border-2 border-primary/20 shadow-md">
+              <img src={photo} alt={`Inspection ${idx + 1}`} className="w-full h-40 object-cover" />
+            </div>
+          ))}
+        </div>
+      )}
 
       <PageFooter pageNum={1} />
     </section>,
 
-    // Page 2 - Job Details
+    // Page 2 - Findings & Scope Combined
     <section key="page2" className="min-h-[297mm] p-[20mm] relative bg-white">
       <PageHeader />
-      <h2 className="text-2xl text-navy font-semibold mb-4">1. Job Details</h2>
+      <h2 className="text-2xl text-navy font-bold mb-5">Inspection Findings & Recommendations</h2>
 
-      <div className="bg-white rounded-xl p-4 shadow-md">
-        <div className="flex justify-between py-3 border-b border-bg gap-3">
-          <div className="font-semibold text-navy min-w-[120px]">Client:</div>
-          <div className="text-right">{data.client_name}</div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        {[
+          { title: "Ridge Caps", desc: "Mortar cracking. Re-bedding required.", icon: "1" },
+          { title: "Pointing", desc: "Deteriorated joints along ridge/junctions.", icon: "2" },
+          { title: "Valleys", desc: "Clean required; apply Stormseal for flow.", icon: "3" },
+          { title: "Surface", desc: "Organic growth; wash + biocide before coating.", icon: "4" }
+        ].map((item, idx) => (
+          <div key={idx} className="flex gap-3 p-4 bg-gradient-to-br from-bg to-white rounded-xl border-l-4 border-primary shadow-sm">
+            <span className="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0">
+              {item.icon}
+            </span>
+            <div>
+              <strong className="text-base text-navy block mb-1">{item.title}</strong>
+              <span className="text-sm text-muted">{item.desc}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {data.photos?.during && data.photos.during.length > 0 && (
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          {data.photos.during.slice(0, 4).map((photo, idx) => (
+            <div key={idx} className="rounded-xl overflow-hidden border-2 border-primary/20 shadow-md">
+              <img src={photo} alt={`Finding ${idx + 1}`} className="w-full h-32 object-cover" />
+            </div>
+          ))}
         </div>
-        <div className="flex justify-between py-3 border-b border-bg gap-3">
-          <div className="font-semibold text-navy min-w-[120px]">Property:</div>
-          <div className="text-right">{data.property_address}</div>
-        </div>
-        <div className="flex justify-between py-3 border-b border-bg gap-3">
-          <div className="font-semibold text-navy min-w-[120px]">Roof Type:</div>
-          <div className="text-right">{data.roof_type}</div>
-        </div>
-        <div className="flex justify-between py-3 border-b border-bg gap-3">
-          <div className="font-semibold text-navy min-w-[120px]">Measured Area:</div>
-          <div className="text-right">{data.measured_area}</div>
-        </div>
-        <div className="flex justify-between py-3 border-b border-bg gap-3">
-          <div className="font-semibold text-navy min-w-[120px]">Key Lengths:</div>
-          <div className="text-right">{data.key_lengths}</div>
+      )}
+
+      <div className="bg-gradient-to-r from-primary/10 to-primary/5 border-l-4 border-primary p-5 rounded-xl my-6">
+        <div className="font-bold text-navy mb-2 text-lg">Recommended Scope</div>
+        <p className="text-base leading-relaxed mb-4">Full Re-Bed & Re-Point + Valley Stormseal + Pressure Clean + Prime + 2-Coat Membrane</p>
+        
+        <div className="grid md:grid-cols-2 gap-3 text-sm">
+          {[
+            "Site prep & edge protection",
+            "Remove old mortar; polymer re-bed",
+            "Flexible pointing - ridges & junctions",
+            "Valley clean + Stormseal both sides",
+            "Pressure clean + biocide entire roof",
+            "Bonding primer application",
+            "2-coat UV-stable membrane system",
+            "Progress photos & final inspection"
+          ].map((step, idx) => (
+            <div key={idx} className="flex items-start gap-2">
+              <span className="text-primary font-bold">✓</span>
+              <span className="leading-relaxed">{step}</span>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="bg-bg p-4 rounded-lg my-4">
-        <h3 className="text-lg font-semibold text-navy mt-0 mb-2">Project Assumptions</h3>
-        <ul className="list-disc pl-5 text-muted space-y-1">
-          <li>Standard hours 7:00–17:00, Mon–Fri</li>
-          <li>Weather suitable for works</li>
-          <li>Clear, safe roof access</li>
-          <li>No structural repairs outside scope</li>
-          <li>Street delivery access available</li>
-          <li>Water and power available onsite</li>
-        </ul>
-        <p className="mt-3 font-semibold text-navy">Note: Variations billed or credited at agreed unit rates.</p>
+      <div className="bg-navy text-white p-5 rounded-xl text-center">
+        <p className="font-bold text-lg mb-2">Warranty Coverage</p>
+        <p className="text-base"><strong>15-year coating warranty</strong> + <strong>7-10 year workmanship guarantee</strong></p>
       </div>
 
       <PageFooter pageNum={2} />
@@ -224,40 +283,56 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
       <PageFooter pageNum={4} />
     </section>,
 
-    // Page 5 - Quote Options
-    <section key="page5" className="min-h-[297mm] p-[20mm] relative bg-white">
+    // Page 3 - Quote Options & Breakdown
+    <section key="page3" className="min-h-[297mm] p-[20mm] relative bg-white">
       <PageHeader />
-      <h2 className="text-2xl text-navy font-semibold mb-4">4. Quote Options</h2>
+      <h2 className="text-2xl text-navy font-bold mb-5">Investment Options</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
-        <div className="border-2 border-bg rounded-xl p-4 text-center shadow-md hover:border-primary transition-colors">
-          <div className="font-semibold text-navy mb-2">Option 1<br />Repairs + Wash</div>
-          <div className="text-2xl font-semibold text-primary my-2">${formatMoney(o1.incGST)}</div>
-          <div className="text-sm text-muted mb-2">Re-bed & re-point · Valley clean + Stormseal · Pressure wash + biocide</div>
-          <div className="bg-bg p-2 rounded text-xs text-navy font-semibold">Workmanship 7–10 years</div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+        <div className="border-2 border-bg rounded-xl p-5 text-center shadow-lg hover:border-primary transition-all hover:shadow-xl">
+          <div className="font-bold text-navy mb-3 text-lg">Option 1<br />Repairs + Wash</div>
+          <div className="text-3xl font-bold text-primary my-3">${formatMoney(o1.incGST)}</div>
+          <div className="text-sm text-muted mb-4 min-h-[60px] leading-relaxed">Re-bed & re-point · Valley clean + Stormseal · Pressure wash + biocide</div>
+          <div className="bg-bg p-3 rounded-lg text-sm text-navy font-bold">7-10 year workmanship</div>
         </div>
 
-        <div className="border-2 border-primary rounded-xl p-4 text-center shadow-md bg-gradient-to-br from-primary/10 to-primary/5">
-          <div className="font-semibold text-navy mb-2">Option 2<br />Full Restoration</div>
-          <div className="text-2xl font-semibold text-primary my-2">${formatMoney(o2.incGST)}</div>
-          <div className="text-sm text-muted mb-2">Option 1 + Primer + 2-coat membrane</div>
-          <div className="bg-bg p-2 rounded text-xs text-navy font-semibold">Coating 15 years · Work 7–10 years</div>
+        <div className="border-4 border-primary rounded-xl p-5 text-center shadow-xl bg-gradient-to-br from-primary/15 to-primary/5 relative">
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white px-4 py-1 rounded-full text-xs font-bold">
+            RECOMMENDED
+          </div>
+          <div className="font-bold text-navy mb-3 text-lg">Option 2<br />Full Restoration</div>
+          <div className="text-3xl font-bold text-primary my-3">${formatMoney(o2.incGST)}</div>
+          <div className="text-sm text-muted mb-4 min-h-[60px] leading-relaxed">All Option 1 services + Bonding primer + 2-coat UV membrane</div>
+          <div className="bg-primary text-white p-3 rounded-lg text-sm font-bold">15 year coating · 7-10 year work</div>
         </div>
 
-        <div className="border-2 border-bg rounded-xl p-4 text-center shadow-md hover:border-primary transition-colors">
-          <div className="font-semibold text-navy mb-2">Option 3<br />Premium Package</div>
-          <div className="text-2xl font-semibold text-primary my-2">${formatMoney(o3.incGST)}</div>
-          <div className="text-sm text-muted mb-2">Option 2 + High-build or Heat-reflective</div>
-          <div className="bg-bg p-2 rounded text-xs text-navy font-semibold">Coating 15–20 years · Work 7–10 years</div>
+        <div className="border-2 border-bg rounded-xl p-5 text-center shadow-lg hover:border-primary transition-all hover:shadow-xl">
+          <div className="font-bold text-navy mb-3 text-lg">Option 3<br />Premium Package</div>
+          <div className="text-3xl font-bold text-primary my-3">${formatMoney(o3.incGST)}</div>
+          <div className="text-sm text-muted mb-4 min-h-[60px] leading-relaxed">All Option 2 + High-build or Heat-reflective coating</div>
+          <div className="bg-bg p-3 rounded-lg text-sm text-navy font-bold">15-20 year coating · 7-10 year work</div>
         </div>
       </div>
 
-      <div className="bg-gradient-to-r from-primary/10 to-primary/5 border-l-4 border-primary p-4 rounded-lg my-4">
-        <div className="font-semibold text-navy mb-2">Recommendation</div>
-        <p><strong>Option 2</strong> balances coverage, durability, and cost.</p>
+      {/* GST Breakdown */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        {[
+          { title: "Option 1", data: o1 },
+          { title: "Option 2", data: o2, featured: true },
+          { title: "Option 3", data: o3 }
+        ].map((opt, idx) => (
+          <div key={idx} className={`rounded-xl p-4 text-sm ${opt.featured ? 'bg-primary/10 border-2 border-primary' : 'bg-bg border border-muted'}`}>
+            <div className="font-bold text-navy mb-3">{opt.title}</div>
+            <div className="space-y-2">
+              <div className="flex justify-between"><span className="text-muted">Ex GST:</span><span className="font-semibold">${formatMoney(opt.data.exGST)}</span></div>
+              <div className="flex justify-between"><span className="text-muted">GST:</span><span className="font-semibold">${formatMoney(opt.data.gst)}</span></div>
+              <div className="flex justify-between font-bold border-t-2 border-primary pt-2"><span>Inc GST:</span><span className="text-primary">${formatMoney(opt.data.incGST)}</span></div>
+            </div>
+          </div>
+        ))}
       </div>
 
-      <PageFooter pageNum={5} />
+      <PageFooter pageNum={3} />
     </section>,
 
     // Remaining pages follow same pattern...
