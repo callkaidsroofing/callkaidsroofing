@@ -134,27 +134,101 @@ const QuoteDocumentViewer = () => {
     }
   };
 
-  const suggestProjectedImages = async () => {
+  const suggestProjectedImages = async (uploadedUrls: string[]) => {
+    if (!uploadedUrls.length) return;
+
     try {
-      const { data, error } = await supabase
+      // Analyze the first uploaded photo to detect roof characteristics
+      const { data: analysisData, error: analysisError } = await supabase.functions.invoke('analyze-image', {
+        body: {
+          imageUrl: uploadedUrls[0],
+          analysisType: 'roof_condition',
+          conversationId: null,
+        },
+      });
+
+      if (analysisError) throw analysisError;
+
+      const analysis = analysisData?.analysis || {};
+      const roofType = analysis.roofType?.toLowerCase() || '';
+      const materials = analysis.materials?.toLowerCase() || '';
+
+      // Query media_assets for matching "after" photos
+      let query = supabase
         .from('media_assets' as any)
-        .select('file_path, kind')
+        .select('file_path, kind, tags, meta')
         .eq('kind', 'photo')
         .order('created_at', { ascending: false })
-        .limit(3);
+        .limit(10);
 
-      if (error) throw error;
+      const { data: assets, error: assetsError } = await query;
 
-      const urls = (data || []).map((a: any) => supabase.storage.from('media').getPublicUrl(a.file_path).data.publicUrl);
+      if (assetsError) throw assetsError;
 
-      if (urls.length) {
+      // Filter and score assets based on roof type/material match
+      const scoredAssets = (assets || []).map((asset: any) => {
+        let score = 0;
+        const tags = (asset.tags || []).map((t: string) => t.toLowerCase()).join(' ');
+        const metaStr = JSON.stringify(asset.meta || {}).toLowerCase();
+        const searchText = `${tags} ${metaStr}`;
+
+        // Prioritize "after", "completed", "restoration" tagged images
+        if (searchText.includes('after') || searchText.includes('completed') || searchText.includes('restoration')) score += 10;
+        if (searchText.includes('premium') || searchText.includes('painted')) score += 5;
+
+        // Match roof type (concrete, terracotta, metal, etc.)
+        if (roofType && searchText.includes(roofType)) score += 8;
+        
+        // Match materials
+        if (materials && searchText.includes(materials)) score += 6;
+
+        // Avoid "before", "damage", "defect"
+        if (searchText.includes('before') || searchText.includes('damage') || searchText.includes('defect')) score -= 5;
+
+        return { asset, score };
+      });
+
+      // Sort by score and get top 3
+      const topAssets = scoredAssets
+        .filter(({ score }) => score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 3)
+        .map(({ asset }) => supabase.storage.from('media').getPublicUrl(asset.file_path).data.publicUrl);
+
+      if (topAssets.length > 0) {
         setQuoteData(prev => ({
           ...prev,
-          photos: { ...prev.photos, after: urls }
+          photos: { ...prev.photos, after: topAssets }
         }));
+        
+        toast({
+          title: "AI-Matched Results",
+          description: `Found ${topAssets.length} projected result image(s) matching ${roofType || 'detected roof type'}.`
+        });
+      } else {
+        // Fallback: use recent "after" tagged photos
+        const fallback = (assets || [])
+          .filter((a: any) => {
+            const tags = (a.tags || []).join(' ').toLowerCase();
+            return tags.includes('after') || tags.includes('completed');
+          })
+          .slice(0, 3)
+          .map((a: any) => supabase.storage.from('media').getPublicUrl(a.file_path).data.publicUrl);
+
+        if (fallback.length) {
+          setQuoteData(prev => ({
+            ...prev,
+            photos: { ...prev.photos, after: fallback }
+          }));
+        }
       }
     } catch (e) {
       console.error('suggestProjectedImages error', e);
+      toast({
+        title: "AI Matching Failed",
+        description: "Using recent photos instead.",
+        variant: "destructive"
+      });
     }
   };
 
@@ -265,13 +339,16 @@ const QuoteDocumentViewer = () => {
               name="roof_condition_photos"
               value={quoteData.photos?.before || []}
               onChange={async (_name, urls) => {
+                const newUrls = urls.filter(u => !(quoteData.photos?.before || []).includes(u));
                 setQuoteData(prev => ({
                   ...prev,
                   photos: { ...prev.photos, before: urls }
                 }));
-                await suggestProjectedImages();
+                if (newUrls.length > 0) {
+                  await suggestProjectedImages(newUrls);
+                }
               }}
-              helpText="We’ll analyze defects and auto-suggest projected result images."
+              helpText="We'll analyze roof type & materials, then auto-suggest matching 'after' images."
             />
           </CardContent>
         </Card>
