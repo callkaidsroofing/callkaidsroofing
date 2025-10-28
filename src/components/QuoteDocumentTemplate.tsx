@@ -87,16 +87,16 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
 
       <div className="bg-gradient-to-br from-bg to-white p-5 rounded-xl my-6 grid grid-cols-1 md:grid-cols-3 gap-4 border-2 border-primary/20">
         <div>
-          <div className="text-xs text-muted uppercase tracking-wide font-semibold">ABN</div>
-          <div className="font-bold text-navy mt-1 text-base">39475055075</div>
+          <div className="text-xs text-foreground/70 uppercase tracking-wide font-bold">ABN</div>
+          <div className="font-bold text-foreground mt-1 text-base">39475055075</div>
         </div>
         <div>
-          <div className="text-xs text-muted uppercase tracking-wide font-semibold">Phone</div>
-          <div className="font-bold text-navy mt-1 text-base">0435 900 709</div>
+          <div className="text-xs text-foreground/70 uppercase tracking-wide font-bold">Phone</div>
+          <div className="font-bold text-foreground mt-1 text-base">0435 900 709</div>
         </div>
         <div>
-          <div className="text-xs text-muted uppercase tracking-wide font-semibold">Email</div>
-          <div className="font-bold text-navy mt-1 text-base">callkaidsroofing@outlook.com</div>
+          <div className="text-xs text-foreground/70 uppercase tracking-wide font-bold">Email</div>
+          <div className="font-bold text-foreground mt-1 text-base">callkaidsroofing@outlook.com</div>
         </div>
       </div>
 
@@ -105,24 +105,24 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
       <div className="bg-white rounded-xl p-5 shadow-lg border-2 border-primary/10">
         <div className="grid grid-cols-2 gap-4">
           <div className="py-3 border-b border-bg">
-            <div className="text-sm font-semibold text-muted mb-1">Client</div>
-            <div className="font-bold text-navy text-base">{data.client_name}</div>
+            <div className="text-sm font-bold text-foreground/70 mb-1">Client</div>
+            <div className="font-bold text-foreground text-base">{data.client_name}</div>
           </div>
           <div className="py-3 border-b border-bg">
-            <div className="text-sm font-semibold text-muted mb-1">Roof Type</div>
-            <div className="font-bold text-navy text-base">{data.roof_type}</div>
+            <div className="text-sm font-bold text-foreground/70 mb-1">Roof Type</div>
+            <div className="font-bold text-foreground text-base">{data.roof_type}</div>
           </div>
           <div className="py-3 border-b border-bg col-span-2">
-            <div className="text-sm font-semibold text-muted mb-1">Property Address</div>
-            <div className="font-bold text-navy text-base">{data.property_address}</div>
+            <div className="text-sm font-bold text-foreground/70 mb-1">Property Address</div>
+            <div className="font-bold text-foreground text-base">{data.property_address}</div>
           </div>
           <div className="py-3">
-            <div className="text-sm font-semibold text-muted mb-1">Measured Area</div>
-            <div className="font-bold text-navy text-base">{data.measured_area}</div>
+            <div className="text-sm font-bold text-foreground/70 mb-1">Measured Area</div>
+            <div className="font-bold text-foreground text-base">{data.measured_area}</div>
           </div>
           <div className="py-3">
-            <div className="text-sm font-semibold text-muted mb-1">Key Lengths</div>
-            <div className="font-bold text-navy text-base">{data.key_lengths}</div>
+            <div className="text-sm font-bold text-foreground/70 mb-1">Key Lengths</div>
+            <div className="font-bold text-foreground text-base">{data.key_lengths}</div>
           </div>
         </div>
       </div>
@@ -157,8 +157,8 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
               {item.icon}
             </span>
             <div>
-              <strong className="text-base text-navy block mb-1">{item.title}</strong>
-              <span className="text-sm text-muted">{item.desc}</span>
+              <strong className="text-base text-foreground block mb-1">{item.title}</strong>
+              <span className="text-sm text-foreground/80">{item.desc}</span>
             </div>
           </div>
         ))}
@@ -233,16 +233,16 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
         <div className="text-center">
-          <div className="w-full h-36 bg-gradient-to-br from-bg to-white border-2 border-dashed border-muted rounded-lg flex items-center justify-center text-muted italic mb-2">
+          <div className="w-full h-36 bg-gradient-to-br from-bg to-white border-2 border-dashed border-muted rounded-lg flex items-center justify-center text-foreground/60 font-semibold italic mb-2">
             Before — replace
           </div>
-          <div className="font-semibold text-navy">Current Condition</div>
+          <div className="font-semibold text-foreground">Current Condition</div>
         </div>
         <div className="text-center">
-          <div className="w-full h-36 bg-gradient-to-br from-bg to-white border-2 border-dashed border-muted rounded-lg flex items-center justify-center text-muted italic mb-2">
+          <div className="w-full h-36 bg-gradient-to-br from-bg to-white border-2 border-dashed border-muted rounded-lg flex items-center justify-center text-foreground/60 font-semibold italic mb-2">
             After — replace
           </div>
-          <div className="font-semibold text-navy">Expected Result</div>
+          <div className="font-semibold text-foreground">Expected Result</div>
         </div>
       </div>
 
