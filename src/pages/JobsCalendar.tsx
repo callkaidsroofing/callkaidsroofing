@@ -84,29 +84,29 @@ export default function JobsCalendar() {
 
   return (
     <AppShell>
-      <div className="p-6 space-y-6">
+      <div className="p-3 md:p-6 space-y-4 md:space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Jobs Calendar</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-2xl md:text-3xl font-bold">Jobs Calendar</h1>
+            <p className="text-sm md:text-base text-muted-foreground">
               Schedule and manage your roofing jobs
             </p>
           </div>
-          <Button onClick={() => navigate('/internal/v2/jobs/new')}>
+          <Button onClick={() => navigate('/internal/v2/jobs/new')} className="w-full sm:w-auto">
             <Plus className="mr-2 h-4 w-4" />
             New Job
           </Button>
         </div>
 
         {/* Calendar Controls */}
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+        <Card className="p-3 md:p-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
+            <div className="flex items-center justify-center gap-2">
               <Button variant="outline" size="icon" onClick={previousMonth}>
                 <ChevronLeft className="h-4 w-4" />
               </Button>
-              <h2 className="text-xl font-semibold min-w-[200px] text-center">
+              <h2 className="text-lg md:text-xl font-semibold min-w-[150px] md:min-w-[200px] text-center">
                 {format(currentDate, 'MMMM yyyy')}
               </h2>
               <Button variant="outline" size="icon" onClick={nextMonth}>
@@ -114,11 +114,12 @@ export default function JobsCalendar() {
               </Button>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 justify-center">
               <Button
                 variant={view === 'month' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setView('month')}
+                className="text-xs md:text-sm"
               >
                 Month
               </Button>
@@ -126,6 +127,7 @@ export default function JobsCalendar() {
                 variant={view === 'week' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setView('week')}
+                className="text-xs md:text-sm"
               >
                 Week
               </Button>
@@ -133,6 +135,7 @@ export default function JobsCalendar() {
                 variant={view === 'day' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setView('day')}
+                className="text-xs md:text-sm"
               >
                 Day
               </Button>
@@ -141,68 +144,71 @@ export default function JobsCalendar() {
         </Card>
 
         {/* Calendar Grid */}
-        <Card className="p-4">
-          {/* Weekday Headers */}
-          <div className="grid grid-cols-7 gap-2 mb-2">
-            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-              <div key={day} className="text-center font-semibold text-sm p-2">
-                {day}
-              </div>
-            ))}
-          </div>
-
-          {/* Calendar Days */}
-          <div className="grid grid-cols-7 gap-2">
-            {daysInMonth.map((day) => {
-              const dayJobs = getJobsForDate(day);
-              const isCurrentMonth = isSameMonth(day, currentDate);
-              const isCurrentDay = isToday(day);
-
-              return (
-                <div
-                  key={day.toString()}
-                  className={cn(
-                    "min-h-[120px] p-2 rounded-lg border transition-colors",
-                    !isCurrentMonth && "bg-muted/30",
-                    isCurrentDay && "border-primary border-2",
-                    "hover:bg-muted/50"
-                  )}
-                >
-                  <div className={cn(
-                    "text-sm font-semibold mb-2",
-                    !isCurrentMonth && "text-muted-foreground",
-                    isCurrentDay && "text-primary"
-                  )}>
-                    {format(day, 'd')}
-                  </div>
-
-                  <div className="space-y-1">
-                    {dayJobs.map((job) => (
-                      <div
-                        key={job.id}
-                        onClick={() => navigate(`/internal/v2/jobs/${job.id}`)}
-                        className="text-xs p-1 rounded bg-card border cursor-pointer hover:shadow-sm transition-shadow"
-                      >
-                        <div className="flex items-center gap-1">
-                          <div className={cn("w-2 h-2 rounded-full shrink-0", getStatusColor(job.status))} />
-                          <span className="font-medium truncate">{job.client_name}</span>
-                        </div>
-                        {job.scheduled_time && (
-                          <div className="text-muted-foreground mt-0.5">
-                            {job.scheduled_time}
-                          </div>
-                        )}
-                        {job.weather_risk === 'high' && (
-                          <Badge variant="destructive" className="text-xs mt-1">
-                            Weather Risk
-                          </Badge>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+        <Card className="p-2 md:p-4 overflow-x-auto">
+          <div className="min-w-[640px]">
+            {/* Weekday Headers */}
+            <div className="grid grid-cols-7 gap-1 md:gap-2 mb-2">
+              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+                <div key={day} className="text-center font-semibold text-xs md:text-sm p-1 md:p-2">
+                  <span className="hidden md:inline">{day}</span>
+                  <span className="md:hidden">{day.charAt(0)}</span>
                 </div>
-              );
-            })}
+              ))}
+            </div>
+
+            {/* Calendar Days */}
+            <div className="grid grid-cols-7 gap-1 md:gap-2">
+              {daysInMonth.map((day) => {
+                const dayJobs = getJobsForDate(day);
+                const isCurrentMonth = isSameMonth(day, currentDate);
+                const isCurrentDay = isToday(day);
+
+                return (
+                  <div
+                    key={day.toString()}
+                    className={cn(
+                      "min-h-[80px] md:min-h-[120px] p-1 md:p-2 rounded-lg border transition-colors",
+                      !isCurrentMonth && "bg-muted/30",
+                      isCurrentDay && "border-primary border-2",
+                      "hover:bg-muted/50"
+                    )}
+                  >
+                    <div className={cn(
+                      "text-xs md:text-sm font-semibold mb-1 md:mb-2",
+                      !isCurrentMonth && "text-muted-foreground",
+                      isCurrentDay && "text-primary"
+                    )}>
+                      {format(day, 'd')}
+                    </div>
+
+                    <div className="space-y-0.5 md:space-y-1">
+                      {dayJobs.slice(0, 3).map((job) => (
+                        <div
+                          key={job.id}
+                          onClick={() => navigate(`/internal/v2/jobs/${job.id}`)}
+                          className="text-[10px] md:text-xs p-0.5 md:p-1 rounded bg-card border cursor-pointer hover:shadow-sm transition-shadow"
+                        >
+                          <div className="flex items-center gap-1">
+                            <div className={cn("w-1.5 h-1.5 md:w-2 md:h-2 rounded-full shrink-0", getStatusColor(job.status))} />
+                            <span className="font-medium truncate">{job.client_name}</span>
+                          </div>
+                          {job.scheduled_time && (
+                            <div className="text-muted-foreground mt-0.5 hidden md:block">
+                              {job.scheduled_time}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      {dayJobs.length > 3 && (
+                        <div className="text-[10px] text-muted-foreground">
+                          +{dayJobs.length - 3}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </Card>
 

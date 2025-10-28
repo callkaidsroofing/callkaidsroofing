@@ -80,12 +80,13 @@ export function AppShell({ children, showActivityRail = false, entityType, entit
           {/* Command Palette Trigger */}
           <Button
             variant="outline"
-            className="ml-auto w-64 justify-start text-muted-foreground"
+            size="icon"
+            className="ml-auto md:w-64 md:justify-start"
             onClick={() => setCommandPaletteOpen(true)}
           >
-            <Search className="mr-2 h-4 w-4" />
-            <span className="hidden sm:inline">Search...</span>
-            <kbd className="ml-auto hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-xs">
+            <Search className="h-4 w-4 md:mr-2" />
+            <span className="hidden md:inline">Search...</span>
+            <kbd className="ml-auto hidden lg:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-xs">
               <span className="text-xs">⌘</span>K
             </kbd>
           </Button>

@@ -123,23 +123,23 @@ export default function LeadsPipeline() {
 
   return (
     <AppShell>
-      <div className="p-6 space-y-6">
+      <div className="p-3 md:p-6 space-y-4 md:space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Leads Pipeline</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-2xl md:text-3xl font-bold">Leads Pipeline</h1>
+            <p className="text-sm md:text-base text-muted-foreground">
               Manage and track your leads through the sales pipeline
             </p>
           </div>
-          <Button onClick={() => navigate('/internal/v2/leads/new')}>
+          <Button onClick={() => navigate('/internal/v2/leads/new')} className="w-full sm:w-auto">
             <Plus className="mr-2 h-4 w-4" />
             New Lead
           </Button>
         </div>
 
         {/* Filters */}
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-2 md:gap-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
@@ -149,35 +149,35 @@ export default function LeadsPipeline() {
               className="pl-9"
             />
           </div>
-          <Button variant="outline">
+          <Button variant="outline" className="w-full sm:w-auto">
             <Filter className="mr-2 h-4 w-4" />
             Filters
           </Button>
         </div>
 
-        {/* Kanban Board */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {/* Kanban Board - Horizontal scroll on mobile */}
+        <div className="flex md:grid md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 overflow-x-auto -mx-3 md:mx-0 px-3 md:px-0 pb-4">
           {stages.map((stage) => {
             const stageLeads = getLeadsByStage(stage.id);
             
             return (
               <div
                 key={stage.id}
-                className="flex flex-col min-h-[600px]"
+                className="flex flex-col min-h-[400px] md:min-h-[600px] flex-shrink-0 w-72 md:w-auto"
                 onDragOver={handleDragOver}
                 onDrop={() => handleDrop(stage.id)}
               >
                 {/* Stage Header */}
-                <div className="flex items-center gap-2 mb-3">
-                  <div className={cn("w-3 h-3 rounded-full", stage.color)} />
-                  <h3 className="font-semibold">{stage.title}</h3>
-                  <Badge variant="secondary" className="ml-auto">
+                <div className="flex items-center gap-2 mb-2 md:mb-3">
+                  <div className={cn("w-2 h-2 md:w-3 md:h-3 rounded-full", stage.color)} />
+                  <h3 className="font-semibold text-sm md:text-base">{stage.title}</h3>
+                  <Badge variant="secondary" className="ml-auto text-xs">
                     {stageLeads.length}
                   </Badge>
                 </div>
 
                 {/* Lead Cards */}
-                <div className="flex-1 space-y-2 overflow-y-auto">
+                <div className="flex-1 space-y-1.5 md:space-y-2 overflow-y-auto">
                   {stageLeads.map((lead) => (
                     <Card
                       key={lead.id}
@@ -185,15 +185,15 @@ export default function LeadsPipeline() {
                       onDragStart={() => handleDragStart(lead.id)}
                       onClick={() => navigate(`/internal/v2/leads/${lead.id}`)}
                       className={cn(
-                        "p-3 cursor-pointer hover:shadow-md transition-all",
+                        "p-2.5 md:p-3 cursor-pointer hover:shadow-md transition-all active:scale-95",
                         draggedLead === lead.id && "opacity-50"
                       )}
                     >
                       {/* Lead Header */}
-                      <div className="flex items-start justify-between gap-2 mb-2">
-                        <h4 className="font-semibold text-sm line-clamp-1">{lead.name}</h4>
+                      <div className="flex items-start justify-between gap-2 mb-1.5 md:mb-2">
+                        <h4 className="font-semibold text-xs md:text-sm line-clamp-1">{lead.name}</h4>
                         {lead.urgency === 'urgent' && (
-                          <Flame className="h-4 w-4 text-destructive shrink-0" />
+                          <Flame className="h-3 w-3 md:h-4 md:w-4 text-destructive shrink-0" />
                         )}
                       </div>
 

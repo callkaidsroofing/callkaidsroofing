@@ -65,6 +65,8 @@ const MarketingStudio = lazy(() => import("./pages/MarketingStudio"));
 const LeadsPipeline = lazy(() => import("./pages/LeadsPipeline"));
 const QuoteBuilderNew = lazy(() => import("./pages/QuoteBuilderNew"));
 const JobsCalendar = lazy(() => import("./pages/JobsCalendar"));
+const LeadIntelligence = lazy(() => import("./pages/LeadIntelligence"));
+const ReportsAnalytics = lazy(() => import("./pages/ReportsAnalytics"));
 import { InternalLayout } from "@/components/InternalLayout";
 import { InternalLayoutNew } from "@/components/InternalLayoutNew";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -154,6 +156,8 @@ function App() {
                     <Route path="leads" element={<AuthGuard><LeadsPipeline /></AuthGuard>} />
                     <Route path="quotes/new" element={<AuthGuard><QuoteBuilderNew /></AuthGuard>} />
                     <Route path="jobs" element={<AuthGuard><JobsCalendar /></AuthGuard>} />
+                    <Route path="intelligence" element={<AuthGuard><LeadIntelligence /></AuthGuard>} />
+                    <Route path="reports" element={<AuthGuard><ReportsAnalytics /></AuthGuard>} />
                   </Route>
                   
                   {/* Redirect old /internal to new v2 system */}
