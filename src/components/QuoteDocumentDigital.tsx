@@ -99,6 +99,7 @@ export const QuoteDocumentDigital = ({ data }: QuoteDocumentDigitalProps) => {
                 key={idx}
                 src={photo} 
                 alt={`Inspection photo ${idx + 1}`}
+                loading="lazy"
                 className="rounded-lg w-full h-40 object-cover border-2 border-border"
               />
             ))}

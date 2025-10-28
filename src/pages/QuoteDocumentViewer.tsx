@@ -149,6 +149,12 @@ const QuoteDocumentViewer = () => {
 
       if (analysisError) throw analysisError;
 
+      const confidence = analysisData?.confidenceScore ?? 0;
+      if (confidence < 0.6) {
+        toast({ title: "Low Confidence", description: "AI was unsure. Using recent photos instead." });
+        return;
+      }
+
       const analysis = analysisData?.analysis || {};
       const roofType = analysis.roofType?.toLowerCase() || '';
       const materials = analysis.materials?.toLowerCase() || '';

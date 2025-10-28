@@ -68,7 +68,7 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
   );
 
   const PageFooter = ({ pageNum }: { pageNum: number }) => (
-    <footer className="absolute bottom-[15mm] left-[20mm] right-[20mm] border-t-2 border-muted pt-3 flex justify-between items-center text-sm font-medium text-muted gap-2 flex-wrap">
+    <footer className="mt-8 md:mt-0 md:absolute md:bottom-[15mm] md:left-[20mm] md:right-[20mm] border-t-2 border-muted pt-3 flex justify-between items-center text-sm font-medium text-muted gap-2 flex-wrap bg-white/90">
       <div>ABN 39475055075</div>
       <div className="font-semibold">0435 900 709 · callkaidsroofing@outlook.com</div>
       <div>Page {pageNum} of {totalPages}</div>
@@ -77,7 +77,7 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
 
   const pages = [
     // Page 1 - Cover & Details Combined
-    <section key="page1" className="min-h-[297mm] p-[20mm] relative bg-white">
+    <section key="page1" className="min-h-[297mm] p-[20mm] pb-[45mm] relative bg-white">
       <PageHeader />
       <h1 className="text-4xl text-navy font-bold mb-3 leading-tight">{data.company_name}</h1>
       <div className="text-primary text-xl font-bold mb-6">{data.slogan}</div>
@@ -131,7 +131,7 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
         <div className="grid grid-cols-2 gap-4 my-6">
           {data.photos.before.slice(0, 2).map((photo, idx) => (
             <div key={idx} className="rounded-xl overflow-hidden border-2 border-primary/20 shadow-md">
-              <img src={photo} alt={`Inspection ${idx + 1}`} className="w-full h-40 object-cover" />
+              <img src={photo} alt={`Inspection ${idx + 1}`} loading="lazy" className="w-full h-40 object-cover" />
             </div>
           ))}
         </div>
@@ -141,7 +141,7 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
     </section>,
 
     // Page 2 - Findings & Scope Combined
-    <section key="page2" className="min-h-[297mm] p-[20mm] relative bg-white">
+    <section key="page2" className="min-h-[297mm] p-[20mm] pb-[45mm] relative bg-white">
       <PageHeader />
       <h2 className="text-2xl text-navy font-bold mb-5">Inspection Findings & Recommendations</h2>
 
@@ -168,7 +168,7 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
         <div className="grid grid-cols-2 gap-4 mb-6">
           {data.photos.during.slice(0, 4).map((photo, idx) => (
             <div key={idx} className="rounded-xl overflow-hidden border-2 border-primary/20 shadow-md">
-              <img src={photo} alt={`Finding ${idx + 1}`} className="w-full h-32 object-cover" />
+              <img src={photo} alt={`Finding ${idx + 1}`} loading="lazy" className="w-full h-32 object-cover" />
             </div>
           ))}
         </div>
@@ -206,7 +206,7 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
     </section>,
 
     // Page 3 - Findings
-    <section key="page3" className="min-h-[297mm] p-[20mm] relative bg-white">
+    <section key="page3" className="min-h-[297mm] p-[20mm] pb-[45mm] relative bg-white">
       <PageHeader />
       <h2 className="text-2xl text-navy font-semibold mb-4">2. Findings (From Site Photos)</h2>
 
@@ -234,7 +234,7 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
         <div className="text-center">
           {data.photos?.before && data.photos.before.length > 0 ? (
-            <img src={data.photos.before[0]} alt="Before" className="w-full h-36 object-cover rounded-lg border" />
+            <img src={data.photos.before[0]} alt="Before" loading="lazy" className="w-full h-36 object-cover rounded-lg border" />
           ) : (
             <div className="w-full h-36 bg-gradient-to-br from-bg to-white border-2 border-dashed border-muted rounded-lg flex items-center justify-center text-foreground/60 font-semibold italic mb-2">
               Before — replace
@@ -244,7 +244,7 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
         </div>
         <div className="text-center">
           {data.photos?.after && data.photos.after.length > 0 ? (
-            <img src={data.photos.after[0]} alt="Projected Result" className="w-full h-36 object-cover rounded-lg border" />
+            <img src={data.photos.after[0]} alt="Projected Result" loading="lazy" className="w-full h-36 object-cover rounded-lg border" />
           ) : (
             <div className="w-full h-36 bg-gradient-to-br from-bg to-white border-2 border-dashed border-muted rounded-lg flex items-center justify-center text-foreground/60 font-semibold italic mb-2">
               After — replace
@@ -258,7 +258,7 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
     </section>,
 
     // Page 4 - Scope
-    <section key="page4" className="min-h-[297mm] p-[20mm] relative bg-white">
+    <section key="page4" className="min-h-[297mm] p-[20mm] pb-[45mm] relative bg-white">
       <PageHeader />
       <h2 className="text-2xl text-navy font-semibold mb-4">3. Recommended Scope of Works</h2>
       <h3 className="text-lg text-primary mb-3">Full Re-Bed & Re-Point + Valley Stormseal + Pressure Clean + Paint (Prime + 2-Coat)</h3>
@@ -292,7 +292,7 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
     </section>,
 
     // Page 3 - Quote Options & Breakdown
-    <section key="page3" className="min-h-[297mm] p-[20mm] relative bg-white">
+    <section key="page3" className="min-h-[297mm] p-[20mm] pb-[45mm] relative bg-white">
       <PageHeader />
       <h2 className="text-2xl text-navy font-bold mb-5">Investment Options</h2>
 
@@ -344,7 +344,7 @@ export const QuoteDocumentTemplate = ({ data, onPrint }: QuoteDocumentTemplatePr
     </section>,
 
     // Remaining pages follow same pattern...
-    <section key="page6" className="min-h-[297mm] p-[20mm] relative bg-white">
+    <section key="page6" className="min-h-[297mm] p-[20mm] pb-[45mm] relative bg-white">
       <PageHeader />
       <h2 className="text-2xl text-navy font-semibold mb-4">5. Inclusions / Exclusions / Allowances</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
