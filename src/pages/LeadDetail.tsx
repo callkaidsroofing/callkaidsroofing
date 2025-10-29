@@ -67,19 +67,36 @@ export default function LeadDetail() {
   const fetchLead = async () => {
     try {
       setLoading(true);
+      console.log('🔍 Fetching lead with ID:', id);
+      
       const { data, error } = await supabase
         .from('leads')
         .select('*')
         .eq('id', id)
-        .single();
+        .maybeSingle();
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Supabase error:', error);
+        throw error;
+      }
+
+      if (!data) {
+        console.warn('⚠️ No lead found with ID:', id);
+        toast({
+          title: 'Lead Not Found',
+          description: 'This lead may have been deleted or you don\'t have permission to view it.',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      console.log('✅ Lead loaded successfully:', data);
       setLead(data);
-    } catch (error) {
-      console.error('Error fetching lead:', error);
+    } catch (error: any) {
+      console.error('❌ Error fetching lead:', error);
       toast({
-        title: 'Error',
-        description: 'Failed to load lead details',
+        title: 'Error Loading Lead',
+        description: error.message || 'Failed to load lead details. Check console for details.',
         variant: 'destructive',
       });
     } finally {

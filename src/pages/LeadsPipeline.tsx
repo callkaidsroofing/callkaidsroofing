@@ -65,40 +65,54 @@ export default function LeadsPipeline() {
   const fetchLeads = async () => {
     try {
       setLoading(true);
-      let query = supabase.from('leads').select('*');
+      console.log('🔍 Fetching leads with filters:', filters);
+      
+      let query = supabase
+        .from('leads')
+        .select('*')
+        .eq('merge_status', 'active')
+        .order('created_at', { ascending: false });
 
-      // Apply filters
-      if (filters.status && filters.status !== 'all') {
+      // Apply filters only if they have non-empty values
+      if (filters.status && filters.status !== '' && filters.status !== 'all') {
+        console.log('Applying status filter:', filters.status);
         query = query.eq('status', filters.status);
       }
-      if (filters.service && filters.service !== 'all') {
+      if (filters.service && filters.service !== '' && filters.service !== 'all') {
+        console.log('Applying service filter:', filters.service);
         query = query.eq('service', filters.service);
       }
-      if (filters.source && filters.source !== 'all') {
+      if (filters.source && filters.source !== '' && filters.source !== 'all') {
+        console.log('Applying source filter:', filters.source);
         query = query.eq('source', filters.source);
       }
-      if (filters.suburb) {
+      if (filters.suburb && filters.suburb !== '') {
+        console.log('Applying suburb filter:', filters.suburb);
         query = query.ilike('suburb', `%${filters.suburb}%`);
       }
-      if (filters.dateFrom) {
+      if (filters.dateFrom && filters.dateFrom !== '') {
+        console.log('Applying dateFrom filter:', filters.dateFrom);
         query = query.gte('created_at', filters.dateFrom);
       }
-      if (filters.dateTo) {
+      if (filters.dateTo && filters.dateTo !== '') {
+        console.log('Applying dateTo filter:', filters.dateTo);
         query = query.lte('created_at', filters.dateTo);
       }
 
-      query = query.order('created_at', { ascending: false });
-
       const { data, error } = await query;
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Supabase error:', error);
+        throw error;
+      }
 
+      console.log('✅ Fetched leads:', data?.length || 0, 'leads');
       setLeads((data || []) as Lead[]);
-    } catch (error) {
-      console.error('Error fetching leads:', error);
+    } catch (error: any) {
+      console.error('❌ Error fetching leads:', error);
       toast({
-        title: 'Error',
-        description: 'Failed to load leads',
+        title: 'Error Loading Leads',
+        description: error.message || 'Failed to load leads. Check console for details.',
         variant: 'destructive',
       });
     } finally {
