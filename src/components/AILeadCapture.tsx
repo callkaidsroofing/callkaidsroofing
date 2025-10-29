@@ -1,191 +1,96 @@
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Sparkles, Loader2, UserPlus } from 'lucide-react';
-import { useNexusAI } from '@/hooks/useNexusAI';
+import { Sparkles } from 'lucide-react';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { AIAssistantPanel } from '@/components/shared/AIAssistantPanel';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 interface AILeadCaptureProps {
   onLeadCreated?: () => void;
 }
 
-/**
- * AI-Powered Lead Capture Component
- * Allows creating leads via:
- * 1. Natural language (AI interprets and fills fields)
- * 2. Quick form with basic fields
- */
 export function AILeadCapture({ onLeadCreated }: AILeadCaptureProps) {
-  const [naturalLanguage, setNaturalLanguage] = useState('');
-  const [quickForm, setQuickForm] = useState({
-    name: '',
-    phone: '',
-    suburb: '',
-    service: 'Roof Painting'
-  });
+  const [showAIAssistant, setShowAIAssistant] = useState(false);
 
-  const { commands, isProcessing } = useNexusAI({
-    onComplete: () => {
+  const handleAIGenerate = async (generatedData: any) => {
+    try {
+      if (!generatedData.name || !generatedData.phone) {
+        toast.error('Name and phone are required');
+        return;
+      }
+
+      const leadData = {
+        name: generatedData.name,
+        phone: generatedData.phone,
+        email: generatedData.email || null,
+        suburb: generatedData.suburb || 'Not specified',
+        service: generatedData.service || 'Roof Restoration',
+        message: generatedData.message || '',
+        urgency: generatedData.urgency || 'medium',
+        source: generatedData.source || 'manual_ai_capture',
+      };
+
+      const { error } = await supabase.from('leads').insert([leadData]);
+
+      if (error) throw error;
+
       toast.success('Lead created successfully!');
-      setNaturalLanguage('');
-      setQuickForm({ name: '', phone: '', suburb: '', service: 'Roof Painting' });
+      setShowAIAssistant(false);
       onLeadCreated?.();
+    } catch (error: any) {
+      console.error('Error creating lead:', error);
+      toast.error(error.message || 'Failed to create lead');
     }
-  });
-
-  const handleNaturalLanguageCreate = async () => {
-    if (!naturalLanguage.trim() || isProcessing) return;
-    
-    // AI will parse the natural language and create the lead
-    await commands.createLead({
-      name: extractName(naturalLanguage),
-      phone: extractPhone(naturalLanguage),
-      suburb: extractSuburb(naturalLanguage),
-      service: extractService(naturalLanguage)
-    });
-  };
-
-  const handleQuickCreate = async () => {
-    if (!quickForm.name || !quickForm.phone || isProcessing) {
-      toast.error('Name and phone are required');
-      return;
-    }
-    
-    await commands.createLead(quickForm);
-  };
-
-  // Simple extraction functions (AI will handle this better on backend)
-  const extractName = (text: string) => {
-    const nameMatch = text.match(/(?:called?|named?|from)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
-    return nameMatch ? nameMatch[1] : 'Customer';
-  };
-
-  const extractPhone = (text: string) => {
-    const phoneMatch = text.match(/\d{10}|\d{4}\s?\d{3}\s?\d{3}/);
-    return phoneMatch ? phoneMatch[0] : '';
-  };
-
-  const extractSuburb = (text: string) => {
-    const suburbMatch = text.match(/(?:in|from|at)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/);
-    return suburbMatch ? suburbMatch[1] : '';
-  };
-
-  const extractService = (text: string) => {
-    if (/painting/i.test(text)) return 'Roof Painting';
-    if (/resto/i.test(text)) return 'Roof Restoration';
-    if (/leak/i.test(text)) return 'Leak Detection';
-    if (/clean/i.test(text)) return 'Gutter Cleaning';
-    return 'Roof Restoration';
   };
 
   return (
-    <div className="space-y-6">
-      {/* Natural Language Input */}
-      <Card className="border-primary/20 bg-primary/5">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary" />
-            AI Lead Capture (Natural Language)
-          </CardTitle>
-          <CardDescription>
-            Describe the lead in plain English - AI will extract all details automatically
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Textarea
-            value={naturalLanguage}
-            onChange={(e) => setNaturalLanguage(e.target.value)}
-            placeholder="Example: 'John from Berwick called about roof painting at 0412345678, urgent leak'"
-            rows={3}
-            disabled={isProcessing}
-          />
-          <Button
-            onClick={handleNaturalLanguageCreate}
-            disabled={isProcessing || !naturalLanguage.trim()}
-            className="w-full"
-          >
-            {isProcessing ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                AI Processing...
-              </>
-            ) : (
-              <>
-                <Sparkles className="mr-2 h-4 w-4" />
-                Create Lead with AI
-              </>
-            )}
-          </Button>
-          
-          <div className="text-xs text-muted-foreground space-y-1">
-            <p><strong>Try these examples:</strong></p>
-            <p>• "Sarah at 0435900709 needs roof restoration in Cranbourne"</p>
-            <p>• "Mike from Pakenham - leak repair - 0412345678 - urgent"</p>
-            <p>• "Call from John Smith in Berwick about roof painting"</p>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Quick Form */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <UserPlus className="h-5 w-5" />
-            Quick Lead Form
-          </CardTitle>
-          <CardDescription>
-            Fast manual entry with basic details
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <Input
-              placeholder="Name *"
-              value={quickForm.name}
-              onChange={(e) => setQuickForm({ ...quickForm, name: e.target.value })}
-              disabled={isProcessing}
-            />
-            <Input
-              placeholder="Phone *"
-              value={quickForm.phone}
-              onChange={(e) => setQuickForm({ ...quickForm, phone: e.target.value })}
-              disabled={isProcessing}
-            />
-            <Input
-              placeholder="Suburb"
-              value={quickForm.suburb}
-              onChange={(e) => setQuickForm({ ...quickForm, suburb: e.target.value })}
-              disabled={isProcessing}
-            />
-            <Input
-              placeholder="Service"
-              value={quickForm.service}
-              onChange={(e) => setQuickForm({ ...quickForm, service: e.target.value })}
-              disabled={isProcessing}
-            />
-          </div>
-          <Button
-            onClick={handleQuickCreate}
-            disabled={isProcessing}
-            variant="outline"
-            className="w-full"
-          >
-            {isProcessing ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Creating...
-              </>
-            ) : (
-              <>
-                <UserPlus className="mr-2 h-4 w-4" />
-                Create Lead
-              </>
-            )}
-          </Button>
-        </CardContent>
-      </Card>
-    </div>
+    <Card className="border-primary/20 bg-primary/5">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Sparkles className="h-5 w-5 text-primary" />
+          AI Lead Capture
+        </CardTitle>
+        <CardDescription>
+          Create leads from natural language descriptions - AI extracts all details automatically
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Sheet open={showAIAssistant} onOpenChange={setShowAIAssistant}>
+          <SheetTrigger asChild>
+            <Button className="w-full">
+              <Sparkles className="mr-2 h-4 w-4" />
+              Open AI Lead Assistant
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
+            <SheetHeader>
+              <SheetTitle>AI Lead Capture Assistant</SheetTitle>
+            </SheetHeader>
+            <div className="mt-6 h-[calc(100vh-8rem)]">
+              <AIAssistantPanel
+                functionName="lead-capture-assistant"
+                onGenerate={handleAIGenerate}
+                placeholder="Describe the lead in natural language..."
+                title="Lead AI"
+                examples={[
+                  "Sarah called about roof painting in Cranbourne, 0412 345 678",
+                  "John from Berwick - leak repair - 0435900709 - urgent",
+                  "Mike needs roof restoration in Pakenham, contact 0411222333",
+                ]}
+              />
+            </div>
+          </SheetContent>
+        </Sheet>
+        
+        <div className="mt-4 text-xs text-muted-foreground space-y-1">
+          <p><strong>Example prompts:</strong></p>
+          <p>• "Sarah at 0435900709 needs roof restoration in Cranbourne"</p>
+          <p>• "Mike from Pakenham - leak repair - 0412345678 - urgent"</p>
+          <p>• "Call from John Smith in Berwick about roof painting"</p>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

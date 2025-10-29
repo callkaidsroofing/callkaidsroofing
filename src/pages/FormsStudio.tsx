@@ -5,9 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Plus, FormInput, Eye, Save, CheckCircle } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Plus, FormInput, Eye, Save, CheckCircle, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { AIAssistantPanel } from '@/components/shared/AIAssistantPanel';
 
 interface FormDefinition {
   id: string;
@@ -151,6 +153,15 @@ export default function FormsStudio() {
     setFormSchema(JSON.stringify(form.schema, null, 2));
   };
 
+  const handleAIGenerate = (generatedData: any) => {
+    if (generatedData.name) setFormName(generatedData.name);
+    if (generatedData.description) setFormDescription(generatedData.description);
+    if (generatedData.schema) {
+      setFormSchema(JSON.stringify(generatedData.schema, null, 2));
+    }
+    toast.success('AI-generated form applied! Review and save when ready.');
+  };
+
   return (
     <div className="container mx-auto p-6">
       <div className="flex items-center justify-between mb-6">
@@ -231,6 +242,16 @@ export default function FormsStudio() {
             </div>
           </CardHeader>
           <CardContent>
+            <Tabs defaultValue="editor" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-4">
+                <TabsTrigger value="editor">Form Editor</TabsTrigger>
+                <TabsTrigger value="ai">
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  AI Builder
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="editor">
             {isEditing ? (
               <div className="space-y-4">
                 <div>
@@ -314,6 +335,22 @@ export default function FormsStudio() {
                 <p>Select a form to view or create a new one</p>
               </div>
             )}
+              </TabsContent>
+
+              <TabsContent value="ai" className="h-[600px]">
+                <AIAssistantPanel
+                  functionName="forms-builder-assistant"
+                  onGenerate={handleAIGenerate}
+                  placeholder="Describe the form you want to create..."
+                  title="Form Builder AI"
+                  examples={[
+                    "Create a warranty claim form with customer details and photo upload",
+                    "Build a customer satisfaction survey with rating scales",
+                    "Generate a job completion checklist form",
+                  ]}
+                />
+              </TabsContent>
+            </Tabs>
           </CardContent>
         </Card>
       </div>

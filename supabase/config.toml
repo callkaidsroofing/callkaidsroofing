@@ -151,3 +151,19 @@ verify_jwt = false
 
 [functions.get-gbp-location-id]
 verify_jwt = false
+
+# ============================================
+# AI ASSISTANT FUNCTIONS (Phase 1)
+# ============================================
+
+[functions.inspection-form-assistant]
+verify_jwt = true
+
+[functions.lead-capture-assistant]
+verify_jwt = true
+
+[functions.forms-builder-assistant]
+verify_jwt = true
+
+[functions.docs-writer-assistant]
+verify_jwt = true

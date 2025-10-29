@@ -6,9 +6,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Plus, FileText, Share2, RefreshCw, Clock } from 'lucide-react';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Search, Plus, FileText, Share2, RefreshCw, Clock, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { AIAssistantPanel } from '@/components/shared/AIAssistantPanel';
 
 interface Document {
   id: string;
@@ -30,6 +32,16 @@ export default function DocsHub() {
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
   const [editTags, setEditTags] = useState<string[]>([]);
+  const [showAIWriter, setShowAIWriter] = useState(false);
+
+  const handleAIGenerate = (generatedData: any) => {
+    if (generatedData.title) setEditTitle(generatedData.title);
+    if (generatedData.content) setEditContent(generatedData.content);
+    if (generatedData.category) setFilterType(generatedData.category);
+    setIsEditing(true);
+    setShowAIWriter(false);
+    toast.success('AI-generated document applied! Review and save when ready.');
+  };
 
   useEffect(() => {
     loadDocuments();
@@ -155,10 +167,38 @@ export default function DocsHub() {
           <h1 className="text-3xl font-bold">Docs Hub</h1>
           <p className="text-muted-foreground">Knowledge base and document management</p>
         </div>
-        <Button onClick={handleCreateDocument}>
-          <Plus className="h-4 w-4 mr-2" />
-          New Document
-        </Button>
+        <div className="flex gap-2">
+          <Sheet open={showAIWriter} onOpenChange={setShowAIWriter}>
+            <SheetTrigger asChild>
+              <Button variant="secondary">
+                <Sparkles className="h-4 w-4 mr-2" />
+                AI Writer
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
+              <SheetHeader>
+                <SheetTitle>AI Document Writer</SheetTitle>
+              </SheetHeader>
+              <div className="mt-6 h-[calc(100vh-8rem)]">
+                <AIAssistantPanel
+                  functionName="docs-writer-assistant"
+                  onGenerate={handleAIGenerate}
+                  placeholder="Describe the document you need..."
+                  title="Document AI"
+                  examples={[
+                    "Write a 7-year workmanship warranty policy",
+                    "Create a roof inspection checklist SOP",
+                    "Draft a customer maintenance guide for tiled roofs",
+                  ]}
+                />
+              </div>
+            </SheetContent>
+          </Sheet>
+          <Button onClick={handleCreateDocument}>
+            <Plus className="h-4 w-4 mr-2" />
+            New Document
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-6">

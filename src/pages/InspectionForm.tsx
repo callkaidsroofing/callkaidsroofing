@@ -4,10 +4,12 @@ import { AuthGuard } from '@/components/AuthGuard';
 import { SimpleInspectionForm } from '@/components/SimpleInspectionForm';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Satellite } from 'lucide-react';
+import { ArrowLeft, Satellite, Sparkles } from 'lucide-react';
 import { InspectionRoofMeasurement } from '@/components/InspectionRoofMeasurement';
 import { useState } from 'react';
 import { Save, Send, AlertCircle } from 'lucide-react';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { AIAssistantPanel } from '@/components/shared/AIAssistantPanel';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
@@ -156,6 +158,33 @@ const InspectionForm = () => {
   const formData = watch();
   const [showRoofMeasurement, setShowRoofMeasurement] = useState(false);
   const [roofMeasurementData, setRoofMeasurementData] = useState<any>(null);
+  const [showAIAssistant, setShowAIAssistant] = useState(false);
+
+  const handleAIGenerate = (generatedData: any) => {
+    // Apply AI-generated data to form
+    if (generatedData.clientName) setValue('clientName', generatedData.clientName);
+    if (generatedData.phone) setValue('phone', generatedData.phone);
+    if (generatedData.email) setValue('email', generatedData.email);
+    if (generatedData.siteAddress) setValue('siteAddress', generatedData.siteAddress);
+    if (generatedData.claddingType) setValue('claddingType', generatedData.claddingType);
+    if (generatedData.roofArea) setValue('roofArea', generatedData.roofArea);
+    if (generatedData.ridgeCaps) setValue('ridgeCaps', generatedData.ridgeCaps);
+    if (generatedData.gableLengthLM) setValue('gableLengthLM', generatedData.gableLengthLM);
+    if (generatedData.valleyIronsLM) setValue('valleyLength', generatedData.valleyIronsLM);
+    if (generatedData.brokenTiles) setValue('brokenTiles', generatedData.brokenTiles);
+    if (generatedData.observations) {
+      if (generatedData.observations.brokenTilesNotes) setValue('brokenTilesNotes', generatedData.observations.brokenTilesNotes);
+      if (generatedData.observations.pointingNotes) setValue('pointingNotes', generatedData.observations.pointingNotes);
+      if (generatedData.observations.valleyIronsNotes) setValue('valleyIronsNotes', generatedData.observations.valleyIronsNotes);
+      if (generatedData.observations.generalCondition) setValue('overallConditionNotes', generatedData.observations.generalCondition);
+    }
+    if (generatedData.priority) setValue('priority', generatedData.priority);
+    
+    toast({
+      title: 'AI data applied',
+      description: 'Review and adjust the auto-filled fields as needed.',
+    });
+  };
 
   // Load existing report if editing
   useEffect(() => {
@@ -300,6 +329,33 @@ const InspectionForm = () => {
               </h1>
               <p className="text-sm opacity-90">ABN 39475055075 | callkaidsroofing@outlook.com | 0435 900 709</p>
             </div>
+            <Sheet open={showAIAssistant} onOpenChange={setShowAIAssistant}>
+              <SheetTrigger asChild>
+                <Button variant="secondary">
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  AI Assistant
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
+                <SheetHeader>
+                  <SheetTitle>Inspection AI Assistant</SheetTitle>
+                </SheetHeader>
+                <div className="mt-6 h-[calc(100vh-8rem)]">
+                  <AIAssistantPanel
+                    functionName="inspection-form-assistant"
+                    context={{ address: formData.siteAddress }}
+                    onGenerate={handleAIGenerate}
+                    placeholder="Describe inspection observations..."
+                    title="Inspection AI"
+                    examples={[
+                      "15 broken ridge caps on north side, valley iron rusted",
+                      "Concrete tile roof, 200sqm, minor pointing issues",
+                      "3-bedroom house in Berwick, needs full restoration",
+                    ]}
+                  />
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
