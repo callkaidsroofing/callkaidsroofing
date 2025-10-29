@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import { AppShell } from '@/components/AppShell';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -322,7 +321,7 @@ export default function QuoteBuilderNew() {
   };
 
   return (
-    <AppShell>
+    <>
       <AutosaveIndicator
         isSaving={isSaving}
         lastSaved={lastSaved}
@@ -419,6 +418,6 @@ export default function QuoteBuilderNew() {
           </Button>
         </div>
       </div>
-    </AppShell>
+    </>
   );
 }

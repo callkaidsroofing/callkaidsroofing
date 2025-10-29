@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { AppShell } from '@/components/AppShell';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -34,8 +33,7 @@ export default function ReportsAnalytics() {
   const [timeframe, setTimeframe] = useState<'week' | 'month' | 'quarter' | 'year'>('month');
 
   return (
-    <AppShell>
-      <div className="p-3 md:p-6 space-y-4 md:space-y-6">
+    <div className="p-3 md:p-6 space-y-4 md:space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
           <div>
@@ -228,6 +226,5 @@ export default function ReportsAnalytics() {
           </TabsContent>
         </Tabs>
       </div>
-    </AppShell>
-  );
-}
+    );
+  }

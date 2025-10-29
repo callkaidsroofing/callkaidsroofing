@@ -1,23 +1,96 @@
 import { useState } from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
-import { Home, FileText, FormInput, Database, Image, Megaphone, FileOutput, Menu, Sparkles, Wrench } from 'lucide-react';
+import { Outlet, NavLink, useLocation } from 'react-router-dom';
+import { 
+  Home, FileText, FormInput, Database, Image, Megaphone, FileOutput, 
+  Menu, Sparkles, Wrench, Phone, DollarSign, Calendar, BarChart3, 
+  Brain, ClipboardList, Settings, Ruler, Users, FileStack,
+  ChevronDown
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useAuth } from '@/hooks/useAuth';
 
-const navItems = [
-  { title: 'Docs Hub', path: '/internal/v2/docs', icon: FileText },
-  { title: 'Forms Studio', path: '/internal/v2/forms', icon: FormInput },
-  { title: 'Data Hub', path: '/internal/v2/data', icon: Database },
-  { title: 'Quote Documents', path: '/internal/v2/quote-documents', icon: FileOutput },
-  { title: 'Media Library', path: '/internal/v2/media', icon: Image },
-  { title: 'Marketing Studio', path: '/internal/v2/marketing', icon: Megaphone },
-  { title: 'Nexus AI', path: '/internal/v2/nexus', icon: Sparkles },
-  { title: 'Tools', path: '/internal/v2/tools', icon: Wrench },
+interface NavItem {
+  title: string;
+  path: string;
+  icon: any;
+}
+
+interface NavSection {
+  title: string;
+  icon: any;
+  items: NavItem[];
+  defaultOpen?: boolean;
+}
+
+const navStructure: NavSection[] = [
+  {
+    title: 'CRM',
+    icon: Users,
+    defaultOpen: true,
+    items: [
+      { title: 'Leads Pipeline', path: '/internal/v2/leads', icon: Phone },
+      { title: 'Lead Intelligence', path: '/internal/v2/lead-intelligence', icon: Brain },
+      { title: 'Quotes', path: '/internal/v2/quote-builder', icon: DollarSign },
+      { title: 'Jobs Calendar', path: '/internal/v2/jobs', icon: Calendar },
+    ],
+  },
+  {
+    title: 'Business Intelligence',
+    icon: BarChart3,
+    items: [
+      { title: 'Reports & Analytics', path: '/internal/v2/dashboard', icon: BarChart3 },
+      { title: 'Nexus AI Hub', path: '/internal/v2/nexus', icon: Sparkles },
+    ],
+  },
+  {
+    title: 'Tools & Utilities',
+    icon: Wrench,
+    defaultOpen: true,
+    items: [
+      { title: 'Measurement Tool', path: '/internal/v2/measurement', icon: Ruler },
+      { title: 'Inspection Form', path: '/internal/inspection', icon: ClipboardList },
+      { title: 'Image Generator', path: '/internal/image-generator', icon: Image },
+    ],
+  },
+  {
+    title: 'Marketing & Media',
+    icon: Megaphone,
+    items: [
+      { title: 'Media Library', path: '/internal/v2/media', icon: Image },
+      { title: 'Marketing Studio', path: '/internal/v2/marketing', icon: Megaphone },
+    ],
+  },
+  {
+    title: 'Configuration',
+    icon: Settings,
+    items: [
+      { title: 'Data Hub', path: '/internal/v2/data', icon: Database },
+      { title: 'Forms Studio', path: '/internal/v2/forms', icon: FormInput },
+      { title: 'Docs Hub', path: '/internal/v2/docs', icon: FileText },
+      { title: 'Quote Documents', path: '/internal/v2/quote-documents', icon: FileStack },
+    ],
+  },
 ];
 
 function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
   const { user, signOut } = useAuth();
+  const location = useLocation();
+
+  // Determine which sections should be open by default based on current route
+  const getDefaultOpenSections = () => {
+    const currentPath = location.pathname;
+    const openSections: string[] = [];
+    
+    navStructure.forEach((section, index) => {
+      if (section.defaultOpen || section.items.some(item => currentPath.includes(item.path))) {
+        openSections.push(`section-${index}`);
+      }
+    });
+    
+    return openSections;
+  };
 
   return (
     <>
@@ -25,35 +98,63 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
       <NavLink
         to="/internal/v2/home"
         onClick={onLinkClick}
-        className="p-4 border-b flex items-center gap-3 font-bold text-lg hover:bg-muted transition-colors"
+        className={({ isActive }) =>
+          `p-4 border-b flex items-center gap-3 font-bold text-lg transition-colors ${
+            isActive ? 'bg-primary/10 text-primary' : 'hover:bg-muted'
+          }`
+        }
       >
         <Home className="h-5 w-5" />
         <span>CKR Home</span>
       </NavLink>
 
-      {/* Main Navigation */}
-      <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            onClick={onLinkClick}
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
-                isActive
-                  ? 'bg-primary text-primary-foreground'
-                  : 'hover:bg-muted text-muted-foreground'
-              }`
-            }
-          >
-            <item.icon className="h-4 w-4" />
-            <span>{item.title}</span>
-          </NavLink>
-        ))}
+      {/* Main Navigation with Accordions */}
+      <nav className="flex-1 overflow-y-auto">
+        <Accordion 
+          type="multiple" 
+          defaultValue={getDefaultOpenSections()}
+          className="w-full"
+        >
+          {navStructure.map((section, sectionIndex) => (
+            <AccordionItem 
+              key={`section-${sectionIndex}`} 
+              value={`section-${sectionIndex}`}
+              className="border-none"
+            >
+              <AccordionTrigger className="px-4 py-3 hover:bg-muted/50 hover:no-underline">
+                <div className="flex items-center gap-3 text-sm font-semibold">
+                  <section.icon className="h-4 w-4" />
+                  <span>{section.title}</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="pb-0">
+                <div className="space-y-1 px-2 py-2">
+                  {section.items.map((item) => (
+                    <NavLink
+                      key={item.path}
+                      to={item.path}
+                      onClick={onLinkClick}
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
+                          isActive
+                            ? 'bg-primary text-primary-foreground font-medium'
+                            : 'hover:bg-muted text-muted-foreground'
+                        }`
+                      }
+                    >
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.title}</span>
+                    </NavLink>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </nav>
 
       {/* User Footer */}
-      <div className="p-3 border-t space-y-2">
+      <div className="p-3 border-t space-y-2 bg-muted/30">
         <div className="text-xs text-muted-foreground truncate px-2">
           {user?.email}
         </div>

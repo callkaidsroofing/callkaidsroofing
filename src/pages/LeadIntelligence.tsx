@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { AppShell } from '@/components/AppShell';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -84,8 +83,7 @@ export default function LeadIntelligence() {
   };
 
   return (
-    <AppShell>
-      <div className="p-3 md:p-6 space-y-4 md:space-y-6">
+    <div className="p-3 md:p-6 space-y-4 md:space-y-6">
         {/* Header */}
         <div>
           <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
@@ -256,6 +254,5 @@ export default function LeadIntelligence() {
           </TabsContent>
         </Tabs>
       </div>
-    </AppShell>
-  );
-}
+    );
+  }

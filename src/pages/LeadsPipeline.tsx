@@ -4,7 +4,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { AppShell } from '@/components/AppShell';
 import { Plus, Search, Phone, Mail, MapPin, DollarSign, FileText, Loader2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
@@ -224,7 +223,7 @@ export default function LeadsPipeline() {
   };
 
   return (
-    <AppShell>
+    <div className="p-6">
       <div className="flex flex-col gap-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -389,6 +388,6 @@ export default function LeadsPipeline() {
         open={drawerOpen}
         onOpenChange={setDrawerOpen}
       />
-    </AppShell>
-  );
-}
+      </div>
+    );
+  }

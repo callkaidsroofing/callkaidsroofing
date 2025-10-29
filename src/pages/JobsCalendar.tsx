@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { AppShell } from '@/components/AppShell';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -83,8 +82,7 @@ export default function JobsCalendar() {
   };
 
   return (
-    <AppShell>
-      <div className="p-3 md:p-6 space-y-4 md:space-y-6">
+    <div className="p-3 md:p-6 space-y-4 md:space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
           <div>
@@ -235,6 +233,5 @@ export default function JobsCalendar() {
           </div>
         </Card>
       </div>
-    </AppShell>
-  );
-}
+    );
+  }
