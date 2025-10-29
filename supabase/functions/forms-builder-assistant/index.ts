@@ -10,6 +10,13 @@ serve(async (req) => {
   }
 
   try {
+    if (!LOVABLE_API_KEY) {
+      return new Response(
+        JSON.stringify({ error: "AI service not configured. Please contact support." }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
@@ -36,22 +43,37 @@ serve(async (req) => {
 
     let conversation;
     if (conversationId) {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("chat_conversations")
         .select("*")
         .eq("id", conversationId)
         .single();
+      
+      if (error || !data) {
+        return new Response(
+          JSON.stringify({ error: "Conversation not found" }),
+          { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
       conversation = data;
     } else {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("chat_conversations")
         .insert({
           user_id: user.id,
-          context_type: "form_builder",
+          conversation_type: "form_builder",
           context_data: context,
         })
         .select()
         .single();
+      
+      if (error || !data) {
+        console.error("Failed to create conversation:", error);
+        return new Response(
+          JSON.stringify({ error: "Failed to create conversation" }),
+          { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
       conversation = data;
     }
 

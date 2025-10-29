@@ -18,7 +18,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   useEffect(() => {
     // If user is authenticated and on auth page, redirect to internal home
     if (!loading && user && location.pathname === '/auth') {
-      navigate('/internal/home', { replace: true });
+      navigate('/internal/v2/home', { replace: true });
     }
   }, [user, loading, navigate, location]);
 

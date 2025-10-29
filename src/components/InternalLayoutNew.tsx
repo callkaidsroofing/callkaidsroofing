@@ -31,8 +31,8 @@ const navStructure: NavSection[] = [
     defaultOpen: true,
     items: [
       { title: 'Leads Pipeline', path: '/internal/v2/leads', icon: Phone },
-      { title: 'Lead Intelligence', path: '/internal/v2/lead-intelligence', icon: Brain },
-      { title: 'Quotes', path: '/internal/v2/quote-builder', icon: DollarSign },
+      { title: 'Lead Intelligence', path: '/internal/v2/intelligence', icon: Brain },
+      { title: 'Quotes', path: '/internal/v2/quotes/new', icon: DollarSign },
       { title: 'Jobs Calendar', path: '/internal/v2/jobs', icon: Calendar },
     ],
   },
@@ -40,7 +40,7 @@ const navStructure: NavSection[] = [
     title: 'Business Intelligence',
     icon: BarChart3,
     items: [
-      { title: 'Reports & Analytics', path: '/internal/v2/dashboard', icon: BarChart3 },
+      { title: 'Reports & Analytics', path: '/internal/v2/reports', icon: BarChart3 },
       { title: 'Nexus AI Hub', path: '/internal/v2/nexus', icon: Sparkles },
     ],
   },
@@ -49,9 +49,9 @@ const navStructure: NavSection[] = [
     icon: Wrench,
     defaultOpen: true,
     items: [
-      { title: 'Measurement Tool', path: '/internal/v2/measurement', icon: Ruler },
-      { title: 'Inspection Form', path: '/internal/inspection', icon: ClipboardList },
-      { title: 'Image Generator', path: '/internal/image-generator', icon: Image },
+      { title: 'Measurement Tool', path: '/internal/v2/tools', icon: Ruler },
+      { title: 'Inspection Form', path: '/internal/v2/forms/inspection', icon: ClipboardList },
+      { title: 'Image Generator', path: '/internal/v2/media/generator', icon: Image },
     ],
   },
   {
