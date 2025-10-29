@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { Autocomplete, useLoadScript } from '@react-google-maps/api';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,6 +9,8 @@ import { Loader2, MapPin, Ruler, Calendar, CheckCircle2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useRoofData } from '@/hooks/useRoofData';
+
+const libraries: ("places")[] = ["places"];
 
 interface RoofMeasurement {
   id: string;
@@ -37,6 +40,12 @@ export function RoofMeasurementSelector({
   onSelect,
   defaultAddress = ''
 }: RoofMeasurementSelectorProps) {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '',
+    libraries,
+  });
+
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const [address, setAddress] = useState(defaultAddress);
   const [measurements, setMeasurements] = useState<RoofMeasurement[]>([]);
   const [loading, setLoading] = useState(false);
@@ -76,6 +85,15 @@ export function RoofMeasurementSelector({
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePlaceSelect = () => {
+    if (autocompleteRef.current) {
+      const place = autocompleteRef.current.getPlace();
+      if (place.formatted_address) {
+        setAddress(place.formatted_address);
+      }
     }
   };
 
@@ -130,13 +148,37 @@ export function RoofMeasurementSelector({
                   Scan New Roof
                 </div>
                 <div className="flex gap-2">
-                  <Input
-                    placeholder="Enter property address..."
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleScanRoof()}
-                  />
-                  <Button 
+                  {isLoaded ? (
+                    <Autocomplete
+                      onLoad={(autocomplete) => {
+                        autocompleteRef.current = autocomplete;
+                      }}
+                      onPlaceChanged={handlePlaceSelect}
+                      options={{
+                        types: ['address'],
+                        componentRestrictions: { country: 'au' },
+                      }}
+                    >
+                      <div className="relative flex-1">
+                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
+                        <Input
+                          placeholder="Enter property address..."
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && handleScanRoof()}
+                          className="pl-10"
+                        />
+                      </div>
+                    </Autocomplete>
+                  ) : (
+                    <Input
+                      placeholder="Enter property address..."
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleScanRoof()}
+                    />
+                  )}
+                  <Button
                     onClick={handleScanRoof}
                     disabled={isScanning || !address.trim()}
                   >
