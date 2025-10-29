@@ -57,6 +57,7 @@ const DataHub = lazy(() => import("./pages/DataHub"));
 const MediaLibrary = lazy(() => import("./pages/MediaLibrary"));
 const MarketingStudio = lazy(() => import("./pages/MarketingStudio"));
 const LeadsPipeline = lazy(() => import("./pages/LeadsPipeline"));
+const LeadDetail = lazy(() => import("./pages/LeadDetail"));
 const QuoteBuilderNew = lazy(() => import("./pages/QuoteBuilderNew"));
 const JobsCalendar = lazy(() => import("./pages/JobsCalendar"));
 const LeadIntelligence = lazy(() => import("./pages/LeadIntelligence"));
@@ -152,6 +153,7 @@ function App() {
                     <Route path="nexus" element={<AuthGuard><Nexus /></AuthGuard>} />
                     <Route path="tools" element={<AuthGuard><MeasurementTool /></AuthGuard>} />
                     <Route path="leads" element={<AuthGuard><LeadsPipeline /></AuthGuard>} />
+                    <Route path="leads/:id" element={<AuthGuard><LeadDetail /></AuthGuard>} />
                     <Route path="quotes/new" element={<AuthGuard><QuoteBuilderNew /></AuthGuard>} />
                     <Route path="jobs" element={<AuthGuard><JobsCalendar /></AuthGuard>} />
                     <Route path="intelligence" element={<AuthGuard><LeadIntelligence /></AuthGuard>} />

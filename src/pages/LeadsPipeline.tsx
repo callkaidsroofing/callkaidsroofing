@@ -1,258 +1,380 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { AppShell } from '@/components/AppShell';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
+import { AppShell } from '@/components/AppShell';
+import { Plus, Search, Phone, Mail, MapPin, DollarSign, FileText, Loader2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
-import { 
-  Search, Filter, Plus, Phone, Mail, MapPin, 
-  Calendar, DollarSign, Flame
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
+import { LeadDetailDrawer } from '@/components/LeadDetailDrawer';
+import { LeadBulkActions } from '@/components/LeadBulkActions';
+import { LeadFilters, LeadFilterState } from '@/components/LeadFilters';
 
 interface Lead {
   id: string;
   name: string;
   phone: string;
-  email?: string;
+  email: string | null;
   suburb: string;
   service: string;
-  stage?: string;
-  value_band?: string;
-  next_activity_date?: string;
-  tags?: any;
-  urgency?: string;
+  status: string;
+  message: string | null;
+  source: string;
+  urgency: string | null;
+  ai_score: number | null;
   created_at: string;
+  updated_at: string;
 }
 
 const stages = [
-  { id: 'new', title: 'New', color: 'bg-blue-500' },
-  { id: 'contacted', title: 'Contacted', color: 'bg-purple-500' },
-  { id: 'qualified', title: 'Qualified', color: 'bg-orange-500' },
-  { id: 'quoted', title: 'Quoted', color: 'bg-cyan-500' },
-  { id: 'won', title: 'Won', color: 'bg-green-500' },
-  { id: 'lost', title: 'Lost', color: 'bg-gray-400' },
+  { id: 'new', title: 'New', color: 'bg-blue-500/10 text-blue-500' },
+  { id: 'contacted', title: 'Contacted', color: 'bg-purple-500/10 text-purple-500' },
+  { id: 'qualified', title: 'Qualified', color: 'bg-green-500/10 text-green-500' },
+  { id: 'quoted', title: 'Quoted', color: 'bg-yellow-500/10 text-yellow-500' },
+  { id: 'won', title: 'Won', color: 'bg-emerald-500/10 text-emerald-500' },
+  { id: 'lost', title: 'Lost', color: 'bg-red-500/10 text-red-500' },
 ];
 
 export default function LeadsPipeline() {
-  const navigate = useNavigate();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [draggedLead, setDraggedLead] = useState<string | null>(null);
+  const [draggedLead, setDraggedLead] = useState<Lead | null>(null);
+  const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
+  const [filters, setFilters] = useState<LeadFilterState>({
+    service: '',
+    suburb: '',
+    status: '',
+    source: '',
+    dateFrom: '',
+    dateTo: '',
+  });
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchLeads();
-  }, []);
+  }, [filters]);
 
   const fetchLeads = async () => {
     try {
-      const { data, error } = await supabase
-        .from('leads')
-        .select('*')
-        .order('created_at', { ascending: false });
+      setLoading(true);
+      let query = supabase.from('leads').select('*');
+
+      // Apply filters
+      if (filters.status && filters.status !== 'all') {
+        query = query.eq('status', filters.status);
+      }
+      if (filters.service && filters.service !== 'all') {
+        query = query.eq('service', filters.service);
+      }
+      if (filters.source && filters.source !== 'all') {
+        query = query.eq('source', filters.source);
+      }
+      if (filters.suburb) {
+        query = query.ilike('suburb', `%${filters.suburb}%`);
+      }
+      if (filters.dateFrom) {
+        query = query.gte('created_at', filters.dateFrom);
+      }
+      if (filters.dateTo) {
+        query = query.lte('created_at', filters.dateTo);
+      }
+
+      query = query.order('created_at', { ascending: false });
+
+      const { data, error } = await query;
 
       if (error) throw error;
+
       setLeads((data || []) as Lead[]);
     } catch (error) {
       console.error('Error fetching leads:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to load leads',
+        variant: 'destructive',
+      });
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDragStart = (leadId: string) => {
-    setDraggedLead(leadId);
+  const handleDragStart = (event: React.DragEvent, lead: Lead) => {
+    setDraggedLead(lead);
   };
 
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
+  const handleDragOver = (event: React.DragEvent) => {
+    event.preventDefault();
   };
 
-  const handleDrop = async (newStage: string) => {
+  const handleDrop = async (event: React.DragEvent, newStage: string) => {
+    event.preventDefault();
     if (!draggedLead) return;
 
     try {
       const { error } = await supabase
         .from('leads')
-        .update({ stage: newStage } as any)
-        .eq('id', draggedLead);
+        .update({ status: newStage, updated_at: new Date().toISOString() })
+        .eq('id', draggedLead.id);
 
       if (error) throw error;
 
+      setLeads((prevLeads) =>
+        prevLeads.map((lead) =>
+          lead.id === draggedLead.id ? { ...lead, status: newStage } : lead
+        )
+      );
+
       // Log activity
-      await supabase.from('activities' as any).insert({
-        entity_type: 'lead',
-        entity_id: draggedLead,
-        activity_type: 'status_changed',
-        data: { new_status: newStage },
+      await supabase.from('lead_notes').insert({
+        lead_id: draggedLead.id,
+        note_type: 'status_change',
+        content: `Status changed to ${newStage}`,
       });
 
-      fetchLeads();
+      toast({
+        title: 'Success',
+        description: `Lead moved to ${newStage}`,
+      });
     } catch (error) {
       console.error('Error updating lead:', error);
-    } finally {
-      setDraggedLead(null);
+      toast({
+        title: 'Error',
+        description: 'Failed to update lead',
+        variant: 'destructive',
+      });
+    }
+
+    setDraggedLead(null);
+  };
+
+  const handleLeadClick = (leadId: string) => {
+    setSelectedLeadId(leadId);
+    setDrawerOpen(true);
+  };
+
+  const handleConvertToQuote = (lead: Lead, e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigate('/internal/v2/quotes/new', {
+      state: {
+        fromLead: true,
+        leadData: {
+          clientName: lead.name,
+          phone: lead.phone,
+          email: lead.email || '',
+          suburb: lead.suburb,
+          service: lead.service,
+          message: lead.message || '',
+        },
+      },
+    });
+  };
+
+  const handleToggleSelectLead = (leadId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedLeads((prev) =>
+      prev.includes(leadId) ? prev.filter((id) => id !== leadId) : [...prev, leadId]
+    );
+  };
+
+  const handleSelectAll = (stage: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const stageLeads = getLeadsByStage(stage);
+    const stageLeadIds = stageLeads.map((l) => l.id);
+    const allSelected = stageLeadIds.every((id) => selectedLeads.includes(id));
+
+    if (allSelected) {
+      setSelectedLeads((prev) => prev.filter((id) => !stageLeadIds.includes(id)));
+    } else {
+      setSelectedLeads((prev) => [...new Set([...prev, ...stageLeadIds])]);
     }
   };
 
   const getLeadsByStage = (stageId: string) => {
-    return leads.filter(lead => 
-      (lead.stage || 'new') === stageId &&
-      (searchTerm === '' || 
-        lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lead.suburb.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lead.phone.includes(searchTerm))
-    );
-  };
-
-  const getValueBandIcon = (band?: string) => {
-    if (!band) return null;
-    const count = band === 'high' ? 3 : band === 'medium' ? 2 : 1;
-    return (
-      <div className="flex gap-0.5">
-        {Array.from({ length: count }).map((_, i) => (
-          <DollarSign key={i} className="h-3 w-3 text-green-600" />
-        ))}
-      </div>
+    return leads.filter(
+      (lead) =>
+        lead.status === stageId &&
+        (searchTerm === '' ||
+          lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          lead.suburb.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          lead.phone.includes(searchTerm) ||
+          (lead.email && lead.email.toLowerCase().includes(searchTerm.toLowerCase())))
     );
   };
 
   return (
     <AppShell>
-      <div className="p-3 md:p-6 space-y-4 md:space-y-6">
+      <div className="flex flex-col gap-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
+        <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold">Leads Pipeline</h1>
-            <p className="text-sm md:text-base text-muted-foreground">
-              Manage and track your leads through the sales pipeline
+            <h1 className="text-3xl font-bold">Leads Pipeline</h1>
+            <p className="text-sm text-muted-foreground">
+              Drag and drop leads between stages or click to view details
             </p>
           </div>
-          <Button onClick={() => navigate('/internal/v2/leads/new')} className="w-full sm:w-auto">
+          <Button>
             <Plus className="mr-2 h-4 w-4" />
             New Lead
           </Button>
         </div>
 
-        {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-2 md:gap-4">
-          <div className="flex-1 relative">
+        {/* Bulk Actions */}
+        {selectedLeads.length > 0 && (
+          <LeadBulkActions
+            selectedLeads={selectedLeads}
+            onActionComplete={() => {
+              fetchLeads();
+              setSelectedLeads([]);
+            }}
+            onClearSelection={() => setSelectedLeads([])}
+          />
+        )}
+
+        {/* Search & Filters */}
+        <div className="flex items-center gap-3">
+          <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search leads..."
+              placeholder="Search leads by name, phone, or suburb..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-9"
             />
           </div>
-          <Button variant="outline" className="w-full sm:w-auto">
-            <Filter className="mr-2 h-4 w-4" />
-            Filters
-          </Button>
+          <LeadFilters filters={filters} onFiltersChange={setFilters} />
         </div>
 
-        {/* Kanban Board - Horizontal scroll on mobile */}
-        <div className="flex md:grid md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 overflow-x-auto -mx-3 md:mx-0 px-3 md:px-0 pb-4">
-          {stages.map((stage) => {
-            const stageLeads = getLeadsByStage(stage.id);
-            
-            return (
-              <div
-                key={stage.id}
-                className="flex flex-col min-h-[400px] md:min-h-[600px] flex-shrink-0 w-72 md:w-auto"
-                onDragOver={handleDragOver}
-                onDrop={() => handleDrop(stage.id)}
-              >
-                {/* Stage Header */}
-                <div className="flex items-center gap-2 mb-2 md:mb-3">
-                  <div className={cn("w-2 h-2 md:w-3 md:h-3 rounded-full", stage.color)} />
-                  <h3 className="font-semibold text-sm md:text-base">{stage.title}</h3>
-                  <Badge variant="secondary" className="ml-auto text-xs">
-                    {stageLeads.length}
-                  </Badge>
-                </div>
+        {/* Pipeline Board */}
+        {loading ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+            {stages.map((stage) => {
+              const stageLeads = getLeadsByStage(stage.id);
+              const allStageSelected =
+                stageLeads.length > 0 && stageLeads.every((l) => selectedLeads.includes(l.id));
 
-                {/* Lead Cards */}
-                <div className="flex-1 space-y-1.5 md:space-y-2 overflow-y-auto">
-                  {stageLeads.map((lead) => (
-                    <Card
-                      key={lead.id}
-                      draggable
-                      onDragStart={() => handleDragStart(lead.id)}
-                      onClick={() => navigate(`/internal/v2/leads/${lead.id}`)}
-                      className={cn(
-                        "p-2.5 md:p-3 cursor-pointer hover:shadow-md transition-all active:scale-95",
-                        draggedLead === lead.id && "opacity-50"
-                      )}
-                    >
-                      {/* Lead Header */}
-                      <div className="flex items-start justify-between gap-2 mb-1.5 md:mb-2">
-                        <h4 className="font-semibold text-xs md:text-sm line-clamp-1">{lead.name}</h4>
-                        {lead.urgency === 'urgent' && (
-                          <Flame className="h-3 w-3 md:h-4 md:w-4 text-destructive shrink-0" />
-                        )}
-                      </div>
-
-                      {/* Service & Suburb */}
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground mb-2">
-                        <MapPin className="h-3 w-3" />
-                        <span className="truncate">{lead.suburb}</span>
-                      </div>
-
-                      <Badge variant="outline" className="text-xs mb-2">
-                        {lead.service}
-                      </Badge>
-
-                      {/* Value Band */}
-                      {lead.value_band && (
-                        <div className="mb-2">
-                          {getValueBandIcon(lead.value_band)}
-                        </div>
-                      )}
-
-                      {/* Next Activity */}
-                      {lead.next_activity_date && (
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <Calendar className="h-3 w-3" />
-                          <span>
-                            {formatDistanceToNow(new Date(lead.next_activity_date), { addSuffix: true })}
-                          </span>
-                        </div>
-                      )}
-
-                      {/* Age */}
-                      <div className="text-xs text-muted-foreground mt-2">
-                        {formatDistanceToNow(new Date(lead.created_at), { addSuffix: true })}
-                      </div>
-
-                      {/* Tags */}
-                      {lead.tags && lead.tags.length > 0 && (
-                        <div className="flex gap-1 mt-2 flex-wrap">
-                          {lead.tags.map((tag, i) => (
-                            <Badge key={i} variant="secondary" className="text-xs">
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                      )}
-                    </Card>
-                  ))}
-
-                  {stageLeads.length === 0 && (
-                    <div className="text-center text-sm text-muted-foreground py-8">
-                      No leads in this stage
+              return (
+                <div
+                  key={stage.id}
+                  className="flex flex-col gap-3"
+                  onDragOver={handleDragOver}
+                  onDrop={(e) => handleDrop(e, stage.id)}
+                >
+                  {/* Stage Header */}
+                  <div
+                    className={`p-3 rounded-lg ${stage.color} font-semibold flex items-center justify-between border`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Checkbox
+                        checked={allStageSelected}
+                        onCheckedChange={(e) => handleSelectAll(stage.id, e as any)}
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                      <span>{stage.title}</span>
                     </div>
-                  )}
+                    <Badge variant="secondary" className="bg-background/50">
+                      {stageLeads.length}
+                    </Badge>
+                  </div>
+
+                  {/* Lead Cards */}
+                  <div className="space-y-2 min-h-[200px]">
+                    {stageLeads.length === 0 ? (
+                      <div className="flex items-center justify-center h-32 border-2 border-dashed rounded-lg text-sm text-muted-foreground">
+                        No leads in this stage
+                      </div>
+                    ) : (
+                      stageLeads.map((lead) => (
+                        <Card
+                          key={lead.id}
+                          draggable
+                          onDragStart={(e) => handleDragStart(e, lead)}
+                          onClick={() => handleLeadClick(lead.id)}
+                          className="cursor-pointer hover:shadow-md transition-all hover:border-primary/50"
+                        >
+                          <CardContent className="p-4 space-y-2">
+                            <div className="flex items-start justify-between gap-2">
+                              <div className="flex items-center gap-2">
+                                <Checkbox
+                                  checked={selectedLeads.includes(lead.id)}
+                                  onCheckedChange={(e) => handleToggleSelectLead(lead.id, e as any)}
+                                  onClick={(e) => e.stopPropagation()}
+                                />
+                                <div className="font-semibold">{lead.name}</div>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={(e) => handleConvertToQuote(lead, e)}
+                                className="h-7 text-xs"
+                              >
+                                <FileText className="mr-1 h-3 w-3" />
+                                Quote
+                              </Button>
+                            </div>
+
+                            <div className="space-y-1 text-sm">
+                              <div className="flex items-center gap-2 text-muted-foreground">
+                                <Phone className="h-3.5 w-3.5" />
+                                <span>{lead.phone}</span>
+                              </div>
+
+                              {lead.email && (
+                                <div className="flex items-center gap-2 text-muted-foreground">
+                                  <Mail className="h-3.5 w-3.5" />
+                                  <span className="truncate">{lead.email}</span>
+                                </div>
+                              )}
+
+                              <div className="flex items-center gap-2 text-muted-foreground">
+                                <MapPin className="h-3.5 w-3.5" />
+                                <span>{lead.suburb}</span>
+                              </div>
+                            </div>
+
+                            <Badge variant="outline" className="text-xs">
+                              {lead.service}
+                            </Badge>
+
+                            {lead.ai_score && (
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="text-muted-foreground">AI Score</span>
+                                <Badge variant="secondary">{lead.ai_score}/100</Badge>
+                              </div>
+                            )}
+
+                            <div className="text-xs text-muted-foreground">
+                              {formatDistanceToNow(new Date(lead.created_at), { addSuffix: true })}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
+
+      {/* Lead Detail Drawer */}
+      <LeadDetailDrawer
+        leadId={selectedLeadId}
+        open={drawerOpen}
+        onOpenChange={setDrawerOpen}
+      />
     </AppShell>
   );
 }
