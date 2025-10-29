@@ -20,6 +20,17 @@ serve(async (req) => {
 
     const systemPrompt = `You are an AI assistant for Call Kaids Roofing that extracts quote information from natural language descriptions.
 
+KNOWLEDGE BASE:
+- Pricing Model: /knowledge-base/core-knowledge/KF_02_PRICING_MODEL.json
+- Service Definitions: /knowledge-base/core-knowledge/KF_03_05_SOP_ALL.txt
+
+SERVICES (KF_03_05):
+- Roof Restoration, Roof Painting, Roof Repairs
+- Ridge Capping & Gable Rebedding/Repointing
+- Gutter Cleaning, Leak Detection
+- Valley Iron Replacement, Tile Replacement
+- Re-sarking & Rebattening, Full Rebedding & Pointing
+
 Extract the following fields from the user's input and return them as JSON:
 - client_name: Full name of the client
 - property_address: Complete property address
@@ -38,7 +49,8 @@ Instructions:
 - Merge new information with existing data
 - Format prices with $ and commas (e.g., "$8,500")
 - Include units for measurements (m², lm, etc.)
-- Be precise and accurate`;
+- Be precise and accurate
+- Match service terminology to KF_02 service codes where possible`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",

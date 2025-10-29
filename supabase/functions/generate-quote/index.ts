@@ -131,11 +131,28 @@ REGIONAL MODIFIER:
 - Region: ${region}
 - Uplift: ${regionalModifier}x
 
-BRAND VOICE:
+BRAND VOICE (KF_09):
 - Down-to-earth, honest, direct (like a switched-on tradie)
 - Educate, don't upsell
-- "No Leaks. No Lifting. Just Quality."
-- "Professional Roofing, Melbourne Style."
+- Slogans: "No Leaks. No Lifting. Just Quality.", "The Best Roof Under the Sun.", "Professional Roofing, Melbourne Style."
+- Use real jobsite terminology, avoid corporate speak
+
+WARRANTY & LEGAL (KF_07):
+- 7-10 year workmanship warranty (tier-dependent)
+- Weather-dependent scheduling
+- Fully insured, ABN 39475055075
+- Materials: Premcoat membrane, SupaPoint flexible compound, Stormseal
+- All work meets Australian Standards
+
+CASE STUDY EXAMPLES (KF_08):
+- Reference successful projects for social proof
+- Show before/after transformation value
+- Highlight material durability and warranty coverage
+
+KNOWLEDGE REFERENCES:
+- Pricing Model: /knowledge-base/core-knowledge/KF_02_PRICING_MODEL.json
+- Legal & Warranty: /knowledge-base/core-knowledge/KF_07_LEGAL_WARRANTY.md
+- Case Studies: /knowledge-base/core-knowledge/KF_08_CASE_STUDIES.json
 
 AVAILABLE SERVICES (select from these serviceCode values):
 ${kf02.services.map((s: any) => `

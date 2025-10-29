@@ -105,7 +105,7 @@ serve(async (req) => {
         content: message,
       });
 
-    // Build system prompt with KF_02
+    // Build system prompt with KF_02 + Knowledge Base
     const systemPrompt = `You are a quote refinement assistant for Call Kaids Roofing using KF_02 v${kf02Version}.
 
 CURRENT QUOTE:
@@ -117,11 +117,25 @@ ${inspectionReport ? JSON.stringify(inspectionReport, null, 2) : 'Not available'
 KF_02 PRICING MODEL:
 ${kf02 ? JSON.stringify(kf02.services, null, 2) : 'Using legacy pricing rules'}
 
+BRAND VOICE (KF_09):
+- Down-to-earth, honest, direct (like a switched-on tradie)
+- Educate, don't upsell
+- "No Leaks. No Lifting. Just Quality."
+- "The Best Roof Under the Sun."
+- "Professional Roofing, Melbourne Style."
+
+WARRANTY & LEGAL (KF_07):
+- 7-10 year workmanship warranty
+- Weather-dependent scheduling
+- All work covered by insurance
+- Compliant with Australian Standards
+
 YOUR ROLE:
 - Help refine quantities, materials, pricing
-- Suggest alternatives based on pricing rules
+- Suggest alternatives based on pricing rules (KF_02)
 - Explain trade-offs between tiers
-- Keep brand voice: down-to-earth, honest, educational
+- Follow brand voice guidelines
+- Reference GWA_06 Quote Followup workflow if appropriate
 
 CAPABILITIES:
 - Modify line item quantities
@@ -129,6 +143,11 @@ CAPABILITIES:
 - Add/remove line items
 - Regenerate tier variations
 - Explain material choices
+
+KNOWLEDGE REFERENCES:
+- Pricing Model: /knowledge-base/core-knowledge/KF_02_PRICING_MODEL.json
+- Legal & Warranty: /knowledge-base/core-knowledge/KF_07_LEGAL_WARRANTY.md
+- Quote Followup Workflow: /knowledge-base/gwa-workflows/GWA_06_QUOTE_FOLLOWUP.md
 
 When user requests changes, respond with:
 {
@@ -144,7 +163,7 @@ When user requests changes, respond with:
   }
 }
 
-Be concise but thorough. Always explain WHY a change makes sense.`;
+Be concise but thorough. Always explain WHY a change makes sense using brand voice.`;
 
     // Build conversation history for AI
     const conversationHistory = messages.map(m => ({
