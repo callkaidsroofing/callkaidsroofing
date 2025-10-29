@@ -5,10 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, MapPin, Ruler, Calendar, CheckCircle2 } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Loader2, MapPin, Ruler, Calendar, CheckCircle2, Edit3, Satellite } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useRoofData } from '@/hooks/useRoofData';
+import { ManualRoofMeasurementForm } from './ManualRoofMeasurementForm';
 
 const libraries: ("places")[] = ["places"];
 
@@ -138,9 +140,25 @@ export function RoofMeasurementSelector({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6">
-          {/* Scan New Roof Section */}
-          <Card>
+        <Tabs defaultValue="scan" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="scan">
+              <Satellite className="h-4 w-4 mr-2" />
+              Scan Roof
+            </TabsTrigger>
+            <TabsTrigger value="manual">
+              <Edit3 className="h-4 w-4 mr-2" />
+              Manual Entry
+            </TabsTrigger>
+            <TabsTrigger value="recent">
+              <Ruler className="h-4 w-4 mr-2" />
+              Recent
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Scan New Roof Tab */}
+          <TabsContent value="scan" className="space-y-4">
+            <Card>
             <CardContent className="pt-6">
               <div className="space-y-4">
                 <div className="flex items-center gap-2 text-sm font-medium">
@@ -222,9 +240,28 @@ export function RoofMeasurementSelector({
               </div>
             </CardContent>
           </Card>
+          </TabsContent>
 
-          {/* Recent Measurements Section */}
-          <div className="space-y-3">
+          {/* Manual Entry Tab */}
+          <TabsContent value="manual">
+            <ManualRoofMeasurementForm
+              address={address}
+              onComplete={(data) => {
+                onSelect(data as any);
+                onOpenChange(false);
+                toast({
+                  title: 'Measurement Saved',
+                  description: 'Manual roof measurement has been saved and imported',
+                });
+              }}
+              onCancel={() => {
+                // Optionally close dialog or switch tab
+              }}
+            />
+          </TabsContent>
+
+          {/* Recent Measurements Tab */}
+          <TabsContent value="recent" className="space-y-3">
             <div className="text-sm font-medium">Recent Measurements</div>
             {loading ? (
               <div className="flex items-center justify-center py-8">
@@ -277,8 +314,8 @@ export function RoofMeasurementSelector({
                 ))}
               </div>
             )}
-          </div>
-        </div>
+          </TabsContent>
+        </Tabs>
       </DialogContent>
     </Dialog>
   );

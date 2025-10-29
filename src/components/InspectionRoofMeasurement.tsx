@@ -5,9 +5,11 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Satellite, Loader2, Ruler, TrendingUp, Calendar, MapPin } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Satellite, Loader2, Ruler, TrendingUp, Calendar, MapPin, AlertTriangle, Edit3 } from 'lucide-react';
 import { useRoofData } from '@/hooks/useRoofData';
 import { Autocomplete, useLoadScript } from '@react-google-maps/api';
+import { ManualRoofMeasurementForm } from './ManualRoofMeasurementForm';
 
 interface InspectionRoofMeasurementProps {
   address: string;
@@ -26,6 +28,7 @@ export function InspectionRoofMeasurement({ address: initialAddress, onMeasureme
   const { mutate: getRoofData, data: measurement, isPending, error } = useRoofData();
   const [hasScanned, setHasScanned] = useState(false);
   const [address, setAddress] = useState(initialAddress);
+  const [showManualEntry, setShowManualEntry] = useState(false);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
   const handleScan = () => {
@@ -130,18 +133,57 @@ export function InspectionRoofMeasurement({ address: initialAddress, onMeasureme
           </div>
         )}
 
-        {error && (
-          <div className="p-4 bg-destructive/10 border border-destructive rounded-lg text-sm space-y-2">
-            <div>
-              <strong className="text-destructive">Error:</strong>{' '}
-              <span className="text-destructive/90">{error.message}</span>
+        {error && !showManualEntry && (
+          <Alert variant="destructive">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Satellite Measurements Unavailable</AlertTitle>
+            <AlertDescription className="space-y-3">
+              <p className="text-sm">
+                {error.message?.includes('COVERAGE_UNAVAILABLE') || error.message?.includes('404')
+                  ? 'Google Solar API coverage is not available for this address. This is common in Australia where satellite measurement data is limited.'
+                  : error.message}
+              </p>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setShowManualEntry(true)}
+                className="mt-2"
+              >
+                <Edit3 className="mr-2 h-4 w-4" />
+                Enter Measurements Manually
+              </Button>
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {showManualEntry && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-medium">Manual Measurement Entry</h3>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowManualEntry(false)}
+              >
+                Cancel
+              </Button>
             </div>
-            {error.message?.includes('Google Solar API') && (
-              <div className="text-xs text-muted-foreground pt-2 border-t border-destructive/20">
-                The Google Solar API needs to be enabled in your Google Cloud Console. 
-                Contact your administrator or check the Supabase function logs for the activation link.
-              </div>
-            )}
+            <ManualRoofMeasurementForm
+              address={address}
+              onComplete={(data) => {
+                if (data.savedId && onMeasurementComplete) {
+                  onMeasurementComplete(data.savedId);
+                }
+                if (onDataReceived) {
+                  onDataReceived(data);
+                }
+                setShowManualEntry(false);
+                setHasScanned(true);
+              }}
+              onCancel={() => setShowManualEntry(false)}
+            />
           </div>
         )}
 
