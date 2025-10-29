@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import ElegantLayout from "@/components/ElegantLayout";
 import { EnhancedCustomerChat } from "@/components/EnhancedCustomerChat";
@@ -127,7 +127,7 @@ function App() {
                     <Route path="emergency-landing" element={<LandingPage />} />
                     <Route path="landing/:source" element={<LandingPage />} />
                     <Route path="restoration-landing" element={<RestorationLanding />} />
-                    <Route path="measurement-tool" element={<MeasurementTool />} />
+                    <Route path="measurement-tool" element={<Navigate to="/internal/v2/tools" replace />} />
                     <Route path="*" element={<NotFound />} />
                   </Route>
                   

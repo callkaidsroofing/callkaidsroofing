@@ -68,7 +68,10 @@ export default function MeasurementTool() {
           <Card className="mb-8 border-destructive">
             <CardContent className="pt-6">
               <div className="text-destructive">
-                <strong>Error:</strong> {error.message}
+                <strong>Error:</strong>{' '}
+                {error.message.includes('non-2xx')
+                  ? 'Satellite roof measurements are not available for this address (coverage unavailable). Please try a nearby address or enter measurements manually.'
+                  : error.message}
               </div>
             </CardContent>
           </Card>

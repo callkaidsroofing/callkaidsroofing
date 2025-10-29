@@ -62,6 +62,14 @@ async function getSolarData(latitude: number, longitude: number, apiKey: string)
   if (!response.ok) {
     const errorText = await response.text();
     console.error('Solar API error:', response.status, errorText);
+    if (response.status === 404) {
+      const coverageError = new Error('COVERAGE_UNAVAILABLE');
+      // Attach metadata to the error for downstream handling
+      ;(coverageError as any).code = 'COVERAGE_UNAVAILABLE';
+      ;(coverageError as any).status = 404;
+      ;(coverageError as any).details = errorText;
+      throw coverageError;
+    }
     throw new Error(`Solar API failed: ${response.status}. ${errorText}`);
   }
   
@@ -198,13 +206,27 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    console.error('Error in get-roof-data:', error);
+  console.error('Error in get-roof-data:', error);
+  
+  // Provide a specific error for coverage unavailability
+  if ((error as any)?.code === 'COVERAGE_UNAVAILABLE' || (error as Error)?.message?.includes('COVERAGE_UNAVAILABLE')) {
     return new Response(JSON.stringify({ 
-      error: error.message,
-      details: 'Ensure Google Solar API and Geocoding API are enabled in your Google Cloud Console and billing is active.'
+      error: 'COVERAGE_UNAVAILABLE',
+      message: 'Satellite roof measurements are not yet available for this address. The Google Solar API currently has limited coverage in Australia.',
+      suggestion: 'Please try a nearby address or enter measurements manually.'
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 400,
+      status: 404,
     });
+  }
+
+  return new Response(JSON.stringify({ 
+    error: 'MEASUREMENT_FAILED',
+    message: (error as Error)?.message || 'Unknown error',
+    details: 'Ensure Google Solar API and Geocoding API are enabled in your Google Cloud Console and billing is active.'
+  }), {
+    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    status: 400,
+  });
   }
 });
