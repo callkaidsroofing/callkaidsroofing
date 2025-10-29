@@ -137,6 +137,42 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_generation_history: {
+        Row: {
+          applied: boolean
+          applied_at: string | null
+          created_at: string
+          generator_type: string
+          id: string
+          input_prompt: string
+          output_data: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          applied?: boolean
+          applied_at?: string | null
+          created_at?: string
+          generator_type: string
+          id?: string
+          input_prompt: string
+          output_data: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          applied?: boolean
+          applied_at?: string | null
+          created_at?: string
+          generator_type?: string
+          id?: string
+          input_prompt?: string
+          output_data?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       ai_optimization_history: {
         Row: {
           after_metrics: Json | null
