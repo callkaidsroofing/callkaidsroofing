@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { loadMKF } from "../_shared/mkf-loader.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -58,23 +59,15 @@ serve(async (req) => {
       });
     }
 
-    // Generate blog post using Gemini 2.5 Pro
-    const blogResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${lovableApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'google/gemini-2.5-pro',
-        messages: [
-          {
-            role: 'system',
-            content: `You are writing an SEO blog post for Call Kaids Roofing (ABN 39475055075).
+    // Load MKF knowledge dynamically
+    const mkfPrompt = await loadMKF('agent-content-generator', supabase, {
+      customPrompt: `You are writing an SEO blog post for Call Kaids Roofing.
 
-Brand voice: Down-to-earth, honest, educational (not salesy)
-Tone: Like a switched-on tradie explaining things clearly
-Slogans: "No Leaks. No Lifting. Just Quality." | "The Best Roof Under the Sun."
+Based on recent jobs data, generate content that:
+- Uses brand voice from MKF_01 (down-to-earth, educational)
+- Follows SEO guidelines from MKF_03 (1200-1500 words, H1+H2 structure)
+- Incorporates marketing messaging from MKF_06
+- References real services from MKF_05
 
 SEO requirements:
 - 1200-1500 words
@@ -86,7 +79,21 @@ SEO requirements:
 - 7-10 year workmanship warranty
 
 Write in Australian English (e.g., "colour" not "color")`
-          },
+    });
+
+    const systemPrompt = mkfPrompt;
+
+    // Generate blog post using Gemini 2.5 Pro
+    const blogResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${lovableApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'google/gemini-2.5-pro',
+        messages: [
+          { role: 'system', content: systemPrompt },
           {
             role: 'user',
             content: `Write a blog post about ${topIssue[0].replace('_', ' ')} repairs in ${topSuburbs.join(', ')}.

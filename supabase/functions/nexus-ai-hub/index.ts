@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { loadMKF, auditMKFAction } from "../_shared/mkf-loader.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -129,22 +130,17 @@ serve(async (req) => {
 
     const startTime = Date.now();
 
-    // Step 1: Classify intent using Gemini 2.5 Flash
-    const intentResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${lovableApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
-        messages: [
-          {
-            role: 'system',
-            content: `You are CKR Nexus AI, analyzing user requests for a roofing business.
+    // Load MKF knowledge for Nexus AI
+    const mkfPrompt = await loadMKF('nexus-ai-hub', supabase, {
+      customPrompt: `You are CKR Nexus AI, analyzing user requests for operations.
+
 Classify the intent and create an execution plan using available tools: ${Object.keys(TOOL_REGISTRY).join(', ')}
 
 Context: ${JSON.stringify(context || {})}
+
+Follow MKF_07 authorization rules for data access.
+Use MKF_05 service definitions for service-related queries.
+Apply MKF_01 brand voice in responses.
 
 Respond ONLY with valid JSON in this format:
 {
@@ -156,7 +152,25 @@ Respond ONLY with valid JSON in this format:
   "requiresApproval": boolean,
   "estimatedTime": seconds
 }`
-          },
+    });
+
+    await auditMKFAction(supabase, 'load_mkf', {
+      function: 'nexus-ai-hub',
+      user_id: user.id,
+      message_preview: message.substring(0, 100)
+    });
+
+    // Step 1: Classify intent using Gemini 2.5 Flash
+    const intentResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${lovableApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'google/gemini-2.5-flash',
+        messages: [
+          { role: 'system', content: mkfPrompt },
           { role: 'user', content: message }
         ],
         response_format: { type: 'json_object' }

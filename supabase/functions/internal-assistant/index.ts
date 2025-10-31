@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { loadMKF, auditMKFAction } from "../_shared/mkf-loader.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -88,8 +89,9 @@ serve(async (req) => {
         content: message,
       });
 
-    // System prompt for internal assistant
-    const systemPrompt = `You are an internal operations assistant for Call Kaids Roofing staff.
+    // Load MKF knowledge dynamically
+    const mkfPrompt = await loadMKF('internal-assistant', supabase, {
+      customPrompt: `You are an internal operations assistant for Call Kaids Roofing staff.
 
 CAPABILITIES:
 - Help with inspection reporting (use /inspect to start)
@@ -98,12 +100,6 @@ CAPABILITIES:
 - Close-out procedures (use /closeout <job-id>)
 - SOP lookup (use /sop <topic>)
 - Field assistance and guidance
-
-BRAND & STANDARDS:
-- Follow KF_03-05 SOPs for inspections
-- Use KF_02 Pricing Model for quotes
-- Enforce photo verification (GWA-03)
-- 5-Stage Diagnostic Funnel for assessments
 
 COMMANDS AVAILABLE:
 /inspect - Start site checklist
@@ -114,13 +110,23 @@ COMMANDS AVAILABLE:
 
 RESPONSE STYLE:
 - Direct and practical
-- Reference SOP sections when relevant
+- Reference SOP sections from MKF_05 when relevant
 - Provide step-by-step guidance
 - Include safety considerations
+- Follow MKF_07 authorization rules
 
 ${commandResult ? `\nCOMMAND RESULT: ${JSON.stringify(commandResult)}` : ''}
 
-Respond conversationally but stay focused on helping staff complete tasks efficiently.`;
+Respond conversationally but stay focused on helping staff complete tasks efficiently.`
+    });
+
+    // Log MKF usage
+    await auditMKFAction(supabase, 'load_mkf', {
+      function: 'internal-assistant',
+      conversation_id: conversation.id
+    });
+
+    const systemPrompt = mkfPrompt;
 
     // Build conversation history
     const conversationHistory = (messages || []).map(m => ({
