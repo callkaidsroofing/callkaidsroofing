@@ -1,0 +1,42 @@
+name: Extract knowledge zips
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'knowledge-base/uploads/**/*.zip'
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Ensure dirs
+        run: |
+          mkdir -p knowledge-base/extracted
+      - name: Extract all zips
+        shell: bash
+        run: |
+          shopt -s globstar nullglob
+          for z in knowledge-base/uploads/**/*.zip; do
+            echo "Extracting $z"
+            subdir=$(basename "$z" .zip | tr '[:upper:]' '[:lower:]' | tr '_' '-')
+            dest="knowledge-base/extracted/${subdir}"
+            mkdir -p "$dest"
+            unzip -o "$z" -d "$dest"
+          done
+      - name: Commit extracted files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add knowledge-base/extracted
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore(kb): extract uploaded knowledge zips"
+            git push
+          fi
