@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 import logoMain from '@/assets/call-kaids-logo-main.png';
 
 export default function Auth() {
@@ -33,17 +34,34 @@ export default function Auth() {
       const { error } = await signIn(email, password);
 
       if (error) {
+        // Check if MFA is required
+        if (error.message?.includes('MFA') || error.message?.includes('factor')) {
+          navigate('/mfa-verify');
+          return;
+        }
+        
         toast({
           title: 'Login Failed',
           description: error.message,
           variant: 'destructive',
         });
       } else {
-        toast({
-          title: 'Welcome back!',
-          description: 'Redirecting to dashboard...',
-        });
-        navigate('/internal/v2/home');
+        // Check if user needs MFA setup
+        const { data: factors } = await supabase.auth.mfa.listFactors();
+        
+        if (!factors?.totp || factors.totp.length === 0) {
+          toast({
+            title: 'MFA Setup Required',
+            description: 'Please set up multi-factor authentication',
+          });
+          navigate('/mfa-setup');
+        } else {
+          toast({
+            title: 'Welcome back!',
+            description: 'Redirecting to dashboard...',
+          });
+          navigate('/internal/v2/home');
+        }
       }
     } catch (error) {
       toast({

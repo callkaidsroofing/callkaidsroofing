@@ -44,6 +44,8 @@ const RoofPaintingCranbourne = lazy(() => import("./pages/services/suburbs/RoofP
 const RoofPaintingClydeNorth = lazy(() => import("./pages/services/suburbs/RoofPaintingClydeNorth"));
 const InspectionForm = lazy(() => import("./pages/InspectionForm"));
 const Auth = lazy(() => import("./pages/Auth"));
+const MFASetup = lazy(() => import("./pages/MFASetup"));
+const MFAVerify = lazy(() => import("./pages/MFAVerify"));
 const QuoteDocumentViewer = lazy(() => import("./pages/QuoteDocumentViewer"));
 const InternalHomeNew = lazy(() => import("./pages/InternalHomeNew"));
 const Nexus = lazy(() => import("./pages/Nexus"));
@@ -134,12 +136,18 @@ function App() {
                     <Route path="*" element={<NotFound />} />
                   </Route>
                   
-                  {/* Auth route - no layout, with redirect protection */}
+                  {/* Auth routes - no layout, with redirect protection */}
                   <Route path="/auth" element={
                     <ProtectedRoute>
                       <Auth />
                     </ProtectedRoute>
                   } />
+                  <Route path="/mfa-setup" element={
+                    <ProtectedRoute>
+                      <MFASetup />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/mfa-verify" element={<MFAVerify />} />
                   
                   {/* NEW INTERNAL SYSTEM - with unified sidebar layout */}
                   <Route path="/internal/v2" element={<ProtectedLayout />}>

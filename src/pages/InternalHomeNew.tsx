@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useAuth } from '@/hooks/useAuth';
 import { 
   Search, 
   FileText, 
@@ -19,7 +20,8 @@ import {
   Image,
   BarChart3,
   Settings,
-  Loader2
+  Loader2,
+  Shield
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
@@ -52,6 +54,7 @@ interface QuickLink {
 export default function InternalHomeNew() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { isAdmin } = useAuth();
   const [kpis, setKpis] = useState<KPI[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
@@ -276,11 +279,22 @@ export default function InternalHomeNew() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Command Center</h1>
           <p className="text-muted-foreground">Welcome back to Call Kaids Roofing</p>
         </div>
+        {isAdmin && (
+          <Button
+            onClick={() => navigate('/mfa-setup')}
+            variant="outline"
+            size="sm"
+            className="gap-2"
+          >
+            <Shield className="h-4 w-4" />
+            Setup MFA
+          </Button>
+        )}
       </div>
 
       {/* AI-Powered Search */}
