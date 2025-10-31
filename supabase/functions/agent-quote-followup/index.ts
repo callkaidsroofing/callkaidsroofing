@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { loadMKF } from "../_shared/mkf-loader.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -50,6 +51,23 @@ serve(async (req) => {
       try {
         const quote = quoteEmail.quotes;
 
+        // Load MKF for follow-up email
+        const mkfPrompt = await loadMKF('agent-quote-followup', supabase, {
+          customPrompt: `You write follow-up emails for Call Kaids Roofing.
+
+Tone: Professional, friendly, helpful (not pushy)
+Use brand voice from MKF_01
+Reference services from MKF_05
+
+Write a personalized follow-up email (2-3 paragraphs max) that:
+- References their specific services quoted
+- Offers to answer questions
+- Mentions warranty from MKF_00
+- Includes a soft CTA to book or discuss
+
+Sign off with contact details from MKF_00`
+        });
+
         // Generate personalized follow-up email using AI
         const emailResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
           method: 'POST',
@@ -60,22 +78,7 @@ serve(async (req) => {
           body: JSON.stringify({
             model: 'google/gemini-2.5-flash',
             messages: [
-              {
-                role: 'system',
-                content: `You are writing a follow-up email for Call Kaids Roofing (ABN 39475055075).
-
-Tone: Professional, friendly, helpful (not pushy)
-Brand voice: Down-to-earth tradie who educates
-Slogan: "No Leaks. No Lifting. Just Quality."
-
-Write a personalized follow-up email (2-3 paragraphs max) that:
-- References their specific services quoted
-- Offers to answer questions
-- Mentions 7-10 year workmanship warranty
-- Includes a soft CTA to book or discuss
-
-Sign off: "Kaidyn Brownlie | 0435 900 709 | callkaidsroofing@outlook.com"`
-              },
+              { role: 'system', content: mkfPrompt },
               {
                 role: 'user',
                 content: `Client: ${quote.client_name}

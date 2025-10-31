@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { loadMKF } from "../_shared/mkf-loader.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -113,142 +114,28 @@ QUOTE PREFERENCES:
 ${preferences.specialRequirements ? `- Special Requirements: ${preferences.specialRequirements}` : ''}
 ` : '';
 
-    // Enhanced system prompt with KF_02 services
-    const systemPrompt = `You are an AI quote generator for Call Kaids Roofing using KF_02 v${kf02Version} pricing model.
+    // Load MKF knowledge for quote generation
+    const mkfPrompt = await loadMKF('generate-quote', supabase, {
+      customPrompt: `You are generating a quote using KF_02 v${kf02Version} pricing model.
 
 PRICING MODEL CONSTANTS:
 - GST Rate: ${kf02.constants.gstRate * 100}%
-- Profit Margin Target: ${kf02.constants.profitMarginTarget * 100}%
-- Contingency Buffer: ${kf02.constants.contingencyBuffer * 100}%
-- Rounding: Nearest $${kf02.constants.roundTo}
+- Tier: ${tier} → Profile: ${tierProfile} (${tierMarkup}x markup)
+- Regional Modifier: ${region} (${regionalModifier}x)
 
-TIER CONFIGURATION:
-- Selected Tier: ${tier} → Profile: ${tierProfile}
-- Tier Markup: ${tierMarkup}x
-- Warranty: ${kf02.logic.calculationRules.tierProfiles[tierProfile].warranty}
-
-REGIONAL MODIFIER:
-- Region: ${region}
-- Uplift: ${regionalModifier}x
-
-BRAND VOICE (KF_09):
-- Down-to-earth, honest, direct (like a switched-on tradie)
-- Educate, don't upsell
-- Slogans: "No Leaks. No Lifting. Just Quality.", "The Best Roof Under the Sun.", "Professional Roofing, Melbourne Style."
-- Use real jobsite terminology, avoid corporate speak
-
-WARRANTY & LEGAL (KF_07):
-- 7-10 year workmanship warranty (tier-dependent)
-- Weather-dependent scheduling
-- Fully insured, ABN 39475055075
-- Materials: Premcoat membrane, SupaPoint flexible compound, Stormseal
-- All work meets Australian Standards
-
-CASE STUDY EXAMPLES (KF_08):
-- Reference successful projects for social proof
-- Show before/after transformation value
-- Highlight material durability and warranty coverage
-
-KNOWLEDGE REFERENCES:
-- Pricing Model: /knowledge-base/core-knowledge/KF_02_PRICING_MODEL.json
-- Legal & Warranty: /knowledge-base/core-knowledge/KF_07_LEGAL_WARRANTY.md
-- Case Studies: /knowledge-base/core-knowledge/KF_08_CASE_STUDIES.json
-
-AVAILABLE SERVICES (select from these serviceCode values):
-${kf02.services.map((s: any) => `
-- ${s.serviceCode}: ${s.displayName}
-  Unit: ${s.unit} | Base Rate: $${s.baseRate || s.addOnRate}${s.addOnRate ? ' (addon)' : ''}
-  Composition: ${JSON.stringify(s.composition || {})}
-  Warranty: ${s.defaultWarrantyYears?.join('-') || 'N/A'} years
-  Time per unit: ${s.timePerUnitHr || 'N/A'} hrs
-`).join('\n')}
-
-TIER PHILOSOPHY:
-- REPAIR (Essential): Fix what's broken (stops leaks, meets minimum safety)
-- RESTORE (Premium): Fix + protect (adds 5-7 years of life, quality materials)
-- PREMIUM (Complete): Like-new condition (10+ year warranty, full restoration)
-${preferencesContext}
-
-CALCULATION RULES:
-1. Select services from KF_02 services array matching serviceCode
-2. Apply rate adjustments:
-   - adjustedRate = baseRate × tierMarkup (${tierMarkup}) × regionalModifier (${regionalModifier})
-3. Calculate quantity from inspection measurements
-4. lineTotal = quantity × adjustedRate
-5. subtotal = sum(lineTotals)
-6. Apply contingency if applicable: subtotal × (1 + ${kf02.constants.contingencyBuffer})
-7. GST = subtotal × ${kf02.constants.gstRate}
-8. total = subtotal + GST, rounded to nearest $${kf02.constants.roundTo}
-
-CRITICAL INSTRUCTIONS:
-- ONLY use serviceCode values from the KF_02 services list above
-- ALWAYS apply both tierMarkup AND regionalModifier to baseRate
-- ALWAYS round final total to nearest $${kf02.constants.roundTo}
-- Include composition breakdown for transparency
-- Match warranty years to tier profile expectations
-
-TIER-SPECIFIC COMBINATIONS:
-Essential Tier:
-- Broken tiles, ridge/gable critical repairs, valley stormsealing (if needed)
-- Seal penetrations if leaking
-- Gutter cleaning: priced if "auto" preference, otherwise follow preference
-- NO painting unless critical
-
-Premium Tier:
-- All essential work PLUS
-- Full ridge/gable rebedding + repointing
-- Pressure wash + paint (combined or separate based on preference)
-- Valley iron replacement (not just stormseal)
-- Gutter cleaning: FREE if "auto" preference
-- Seal all penetrations properly
-
-Complete Tier:
-- All premium work PLUS
-- Re-sarking + re-battening (if inspection shows old sarking/battens)
-- Valley clips installation
-- Safety rails if required
-- Premium materials throughout
-- Gutter cleaning: FREE
-
-YOUR TASK:
-Generate a complete quote for the "${tier}" tier based on the inspection report and preferences.
-Calculate ACTUAL PRICING using the pricing rules and budget level.
-
-INSPECTION DATA:
+QUOTE CONTEXT:
 ${JSON.stringify(context, null, 2)}
 
-RETURN FORMAT (JSON):
-{
-  "tierName": "descriptive name for this tier (e.g., 'Essential Repair Package', 'Premium Restoration')",
-  "lineItems": [
-    {
-      "serviceCode": "EXACT_MATCH_FROM_KF02_SERVICES_LIST",
-      "displayName": "Human-readable name",
-      "description": "clear, detailed explanation of what's included and why it's needed",
-      "quantity": calculated from inspection data (be precise),
-      "unit": "lm|m2|each",
-      "unitRate": adjusted rate after tierMarkup × regionalModifier,
-      "lineTotal": quantity × unitRate,
-      "composition": { "labour": {...}, "materials": {...} },
-      "materialSpec": "SupaPoint flexible compound",
-      "warrantyYears": [7, 10]
-    }
-  ],
-  "subtotal": sum of all lineTotals,
-  "gst": subtotal × ${kf02.constants.gstRate},
-  "total": subtotal + gst (rounded to nearest $${kf02.constants.roundTo}),
-  "contingencyAmount": applicable contingency,
-  "scopeNotes": "Brief explanation of this tier's approach (2-4 sentences, brand voice)"
-}
+${preferencesContext}
 
-LINE ITEM GRANULARITY:
-- Create SEPARATE line items for ridge caps, tiles, gables, valleys, etc.
-- Each distinct work item must be its own line with specific quantity and calculated pricing
-- Match serviceCode names EXACTLY to KF_02 services list
+Generate accurate quote with line items following KF_02 service codes and rates.
+Apply tier markup and regional modifier to all line items.
+Include materials specifications from MKF_05.`
+    });
 
-Be precise with quantities based on inspection measurements.`;
+    const systemPrompt = mkfPrompt;
 
-    // Call Lovable AI
+    // Generate the quote using AI
     const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {

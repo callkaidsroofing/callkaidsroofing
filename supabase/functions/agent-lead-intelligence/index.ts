@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { loadMKF } from "../_shared/mkf-loader.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -43,6 +44,25 @@ serve(async (req) => {
 
     for (const lead of leads) {
       try {
+        // Load MKF for lead scoring
+        const mkfPrompt = await loadMKF('agent-lead-intelligence', supabase, {
+          customPrompt: `You qualify leads for Call Kaids Roofing in SE Melbourne.
+
+Score leads 1-10 based on:
+- Service complexity (restorations=high, repairs=medium, cleaning=low)
+- Urgency indicators (leak, emergency, urgent, storm damage)
+- Suburb proximity (verify against MKF_00 service area)
+- Message detail level (specific issues vs vague inquiries)
+
+Respond ONLY with valid JSON:
+{
+  "score": 1-10,
+  "tags": ["hot_lead" | "needs_followup" | "out_of_area" | "low_priority"],
+  "urgency": "low|medium|high|emergency",
+  "reasoning": "brief explanation"
+}`
+        });
+
         // AI scoring using Gemini 2.5 Flash
         const scoreResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
           method: 'POST',
@@ -53,24 +73,7 @@ serve(async (req) => {
           body: JSON.stringify({
             model: 'google/gemini-2.5-flash',
             messages: [
-              {
-                role: 'system',
-                content: `You are a lead qualification AI for Call Kaids Roofing in SE Melbourne.
-
-Score leads 1-10 based on:
-- Service complexity (restorations=high, repairs=medium, cleaning=low)
-- Urgency indicators (leak, emergency, urgent, storm damage)
-- Suburb proximity (Berwick, Cranbourne, Clyde North, Pakenham = 50km service area)
-- Message detail level (specific issues vs vague inquiries)
-
-Respond ONLY with valid JSON:
-{
-  "score": 1-10,
-  "tags": ["hot_lead" | "needs_followup" | "out_of_area" | "low_priority"],
-  "urgency": "low|medium|high|emergency",
-  "reasoning": "brief explanation"
-}`
-              },
+              { role: 'system', content: mkfPrompt },
               {
                 role: 'user',
                 content: `Lead: ${lead.name}
