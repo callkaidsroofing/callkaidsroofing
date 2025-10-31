@@ -81,6 +81,13 @@ export default function FormsStudio() {
         return;
       }
 
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast.error('You must be logged in to save forms');
+        return;
+      }
+
       const formData = {
         name: formName,
         description: formDescription,
@@ -89,7 +96,8 @@ export default function FormsStudio() {
         outputs: ['html', 'crm'],
         roles: ['admin', 'inspector'],
         is_published: false,
-        version: selectedForm ? selectedForm.version + 1 : 1
+        version: selectedForm ? selectedForm.version + 1 : 1,
+        ...(!selectedForm && { created_by: user.id }) // Only include created_by for new forms
       };
 
       let result;
@@ -102,7 +110,10 @@ export default function FormsStudio() {
           .select()
           .single();
 
-        if (error) throw error;
+        if (error) {
+          console.error('Update error:', error);
+          throw error;
+        }
         result = data;
       } else {
         const { data, error } = await supabase
@@ -111,7 +122,10 @@ export default function FormsStudio() {
           .select()
           .single();
 
-        if (error) throw error;
+        if (error) {
+          console.error('Insert error:', error);
+          throw error;
+        }
         result = data;
       }
 
@@ -119,9 +133,9 @@ export default function FormsStudio() {
       setIsEditing(false);
       setSelectedForm(result);
       loadForms();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving form:', error);
-      toast.error('Failed to save form');
+      toast.error(`Failed to save form: ${error.message || 'Unknown error'}`);
     }
   };
 
@@ -175,14 +189,14 @@ export default function FormsStudio() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Forms List */}
-        <Card className="col-span-1">
+        <Card className="lg:col-span-1 h-fit max-h-[calc(100vh-200px)]">
           <CardHeader>
             <CardTitle className="text-base">Forms</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
-            <ScrollArea className="h-[600px]">
+            <ScrollArea className="h-[500px]">
               <div className="space-y-1 p-4">
                 {forms.map((form) => (
                   <div
@@ -212,7 +226,7 @@ export default function FormsStudio() {
         </Card>
 
         {/* Form Builder/Editor */}
-        <Card className="col-span-2">
+        <Card className="lg:col-span-2">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -251,9 +265,9 @@ export default function FormsStudio() {
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="editor">
+              <TabsContent value="editor" className="mt-4">
             {isEditing ? (
-              <div className="space-y-4">
+              <div className="space-y-4 max-h-[calc(100vh-400px)] overflow-y-auto pr-2">
                 <div>
                   <label className="text-sm font-medium">Form Name</label>
                   <Input
@@ -270,19 +284,19 @@ export default function FormsStudio() {
                     placeholder="Brief description of this form..."
                   />
                 </div>
-                <div>
-                  <label className="text-sm font-medium">JSON Schema</label>
-                  <Textarea
-                    value={formSchema}
-                    onChange={(e) => setFormSchema(e.target.value)}
-                    placeholder='{"type": "object", "properties": {...}}'
-                    rows={20}
-                    className="font-mono text-sm"
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Define form fields using JSON Schema format
-                  </p>
-                </div>
+                 <div>
+                   <label className="text-sm font-medium">JSON Schema</label>
+                   <Textarea
+                     value={formSchema}
+                     onChange={(e) => setFormSchema(e.target.value)}
+                     placeholder='{"type": "object", "properties": {...}}'
+                     rows={15}
+                     className="font-mono text-sm"
+                   />
+                   <p className="text-xs text-muted-foreground mt-1">
+                     Define form fields using JSON Schema format
+                   </p>
+                 </div>
                 <div className="flex gap-2">
                   <Button onClick={handleSaveForm}>
                     <Save className="h-4 w-4 mr-2" />
@@ -329,7 +343,7 @@ export default function FormsStudio() {
                   </div>
                 </div>
               </ScrollArea>
-            ) : (
+              ) : (
               <div className="text-center py-12 text-muted-foreground">
                 <FormInput className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <p>Select a form to view or create a new one</p>
@@ -337,18 +351,20 @@ export default function FormsStudio() {
             )}
               </TabsContent>
 
-              <TabsContent value="ai" className="h-[600px]">
-                <AIAssistantPanel
-                  functionName="forms-builder-assistant"
-                  onGenerate={handleAIGenerate}
-                  placeholder="Describe the form you want to create..."
-                  title="Form Builder AI"
-                  examples={[
-                    "Create a warranty claim form with customer details and photo upload",
-                    "Build a customer satisfaction survey with rating scales",
-                    "Generate a job completion checklist form",
-                  ]}
-                />
+              <TabsContent value="ai" className="mt-4">
+                <div className="h-[calc(100vh-400px)]">
+                  <AIAssistantPanel
+                    functionName="forms-builder-assistant"
+                    onGenerate={handleAIGenerate}
+                    placeholder="Describe the form you want to create..."
+                    title="Form Builder AI"
+                    examples={[
+                      "Create a warranty claim form with customer details and photo upload",
+                      "Build a customer satisfaction survey with rating scales",
+                      "Generate a job completion checklist form",
+                    ]}
+                  />
+                </div>
               </TabsContent>
             </Tabs>
           </CardContent>
