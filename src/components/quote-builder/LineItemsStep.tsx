@@ -5,8 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Trash2, GripVertical, Search } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Plus, Trash2, GripVertical, Search, Info } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { fetchLatestPricing, getCachedServices } from '@/lib/pricingClient';
+import type { Service } from '@/lib/kf02';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface LineItem {
   id: string;
@@ -26,41 +30,67 @@ interface LineItemsStepProps {
 }
 
 export function LineItemsStep({ value, onChange }: LineItemsStepProps) {
-  const [priceBook, setPriceBook] = useState<any[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [tierProfile, setTierProfile] = useState<'REPAIR' | 'RESTORE' | 'PREMIUM'>('RESTORE');
+  const [regionalModifier, setRegionalModifier] = useState<number>(1.0);
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchPriceBook();
+    loadPricingModel();
   }, []);
 
-  const fetchPriceBook = async () => {
-    const { data, error } = await supabase
-      .from('price_book')
-      .select('*')
-      .eq('is_active', true)
-      .order('category');
-
-    if (!error && data) {
-      setPriceBook(data);
+  const loadPricingModel = async () => {
+    try {
+      setLoading(true);
+      await fetchLatestPricing();
+      const kf02Services = getCachedServices();
+      setServices(kf02Services);
+    } catch (error: any) {
+      toast({
+        title: 'Failed to load pricing model',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
-  const addItem = (item: any) => {
+  const calculateServiceRate = (service: Service): number => {
+    // Get base or add-on rate
+    const baseRate = service.baseRate ?? service.addOnRate ?? 0;
+    
+    // Apply tier markup (REPAIR: 1.0, RESTORE: 1.15, PREMIUM: 1.35)
+    const tierMarkups = { REPAIR: 1.0, RESTORE: 1.15, PREMIUM: 1.35 };
+    const tierMarkup = tierMarkups[tierProfile];
+    
+    // Apply regional modifier (Metro: 1.0, Outer-SE: 1.05, Rural: 1.10)
+    const finalRate = baseRate * tierMarkup * regionalModifier;
+    
+    return parseFloat(finalRate.toFixed(2));
+  };
+
+  const addItem = (service: Service) => {
+    const rate = calculateServiceRate(service);
     const lineItem: LineItem = {
       id: crypto.randomUUID(),
-      service_code: item.service_code,
-      display_name: item.display_name,
-      description: item.description || '',
+      service_code: service.serviceCode,
+      display_name: service.displayName,
+      description: `${service.category}${service.roofType ? ` - ${service.roofType.join(', ')}` : ''}`,
       quantity: 1,
-      unit: item.unit,
-      unit_rate: item.base_rate,
-      line_total: item.base_rate,
-      category: item.category,
+      unit: service.unit,
+      unit_rate: rate,
+      line_total: rate,
+      category: service.category,
     };
     onChange([...value, lineItem]);
-    toast({ title: 'Item added', description: item.display_name });
+    toast({ 
+      title: 'Item added', 
+      description: `${service.displayName} - $${rate.toFixed(2)} per ${service.unit}` 
+    });
   };
 
   const removeItem = (id: string) => {
@@ -85,65 +115,131 @@ export function LineItemsStep({ value, onChange }: LineItemsStepProps) {
     onChange(updated);
   };
 
-  const categories = ['all', ...Array.from(new Set(priceBook.map((i) => i.category)))];
-  const filteredItems = priceBook.filter(
-    (item) =>
-      (selectedCategory === 'all' || item.category === selectedCategory) &&
-      (item.display_name.toLowerCase().includes(search.toLowerCase()) ||
-        item.description?.toLowerCase().includes(search.toLowerCase()))
+  const categories = ['all', ...Array.from(new Set(services.map((s) => s.category)))];
+  const filteredItems = services.filter(
+    (service) =>
+      (selectedCategory === 'all' || service.category === selectedCategory) &&
+      (service.displayName.toLowerCase().includes(search.toLowerCase()) ||
+        service.serviceCode.toLowerCase().includes(search.toLowerCase()))
   );
 
   const runningTotal = value.reduce((sum, item) => sum + item.line_total, 0);
 
   return (
     <div className="space-y-4">
-      {/* Price Book Browser */}
-      <Card className="p-4">
-        <h3 className="font-semibold mb-3">Add from Price Book</h3>
-        <div className="space-y-3">
-          <div className="flex gap-2">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search services..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="pl-10"
-              />
-            </div>
+      {/* Pricing Controls */}
+      <Card className="p-4 bg-muted/30">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <Label>Tier Profile</Label>
+            <Select value={tierProfile} onValueChange={(v: any) => setTierProfile(v)}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="REPAIR">Repair (Standard)</SelectItem>
+                <SelectItem value="RESTORE">Restore (+15%)</SelectItem>
+                <SelectItem value="PREMIUM">Premium (+35%)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          <div className="flex gap-2 flex-wrap">
-            {categories.map((cat) => (
-              <Badge
-                key={cat}
-                variant={selectedCategory === cat ? 'default' : 'outline'}
-                className="cursor-pointer"
-                onClick={() => setSelectedCategory(cat)}
-              >
-                {cat === 'all' ? 'All' : cat}
-              </Badge>
-            ))}
+          <div>
+            <Label>Region</Label>
+            <Select 
+              value={regionalModifier.toString()} 
+              onValueChange={(v) => setRegionalModifier(parseFloat(v))}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1.0">Metro (Standard)</SelectItem>
+                <SelectItem value="1.05">Outer-SE (+5%)</SelectItem>
+                <SelectItem value="1.10">Rural (+10%)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          <div className="grid gap-2 max-h-[200px] overflow-y-auto">
-            {filteredItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors"
-              >
-                <div className="flex-1">
-                  <div className="font-medium text-sm">{item.display_name}</div>
-                  <div className="text-xs text-muted-foreground">{item.description}</div>
-                  <div className="text-xs text-muted-foreground mt-1">
-                    ${item.base_rate} per {item.unit}
-                  </div>
-                </div>
-                <Button size="sm" onClick={() => addItem(item)}>
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </div>
-            ))}
+          <div className="flex items-end">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="sm" className="w-full">
+                    <Info className="h-4 w-4 mr-2" />
+                    KF_02 Pricing Active
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p className="text-xs">Using KF_02 pricing model v7.1 with dynamic tier and regional modifiers. All rates calculated from labour + materials composition.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
+      </Card>
+
+      {/* Service Catalog Browser */}
+      <Card className="p-4">
+        <h3 className="font-semibold mb-3">Add from Service Catalog</h3>
+        {loading ? (
+          <div className="text-center py-8 text-muted-foreground">Loading KF_02 pricing model...</div>
+        ) : (
+          <div className="space-y-3">
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search services..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </div>
+            <div className="flex gap-2 flex-wrap">
+              {categories.map((cat) => (
+                <Badge
+                  key={cat}
+                  variant={selectedCategory === cat ? 'default' : 'outline'}
+                  className="cursor-pointer"
+                  onClick={() => setSelectedCategory(cat)}
+                >
+                  {cat === 'all' ? 'All Services' : cat}
+                </Badge>
+              ))}
+            </div>
+            <div className="grid gap-2 max-h-[300px] overflow-y-auto">
+              {filteredItems.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  No services found. Try a different search or category.
+                </div>
+              ) : (
+                filteredItems.map((service) => {
+                  const rate = calculateServiceRate(service);
+                  return (
+                    <div
+                      key={service.serviceCode}
+                      className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors"
+                    >
+                      <div className="flex-1">
+                        <div className="font-medium text-sm">{service.displayName}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {service.serviceCode} • {service.category}
+                          {service.roofType && ` • ${service.roofType.join(', ')}`}
+                        </div>
+                        <div className="text-xs text-primary font-semibold mt-1">
+                          ${rate.toFixed(2)} per {service.unit}
+                        </div>
+                      </div>
+                      <Button size="sm" onClick={() => addItem(service)}>
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        )}
       </Card>
 
       {/* Selected Items */}
