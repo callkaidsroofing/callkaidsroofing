@@ -113,7 +113,8 @@ TRIAGE RULES:
       conversation_id: conversation.id
     });
 
-    const systemPrompt = mkfPrompt;
+    const systemPrompt = `${mkfPrompt}
+
 EXTRACT:
 - Name (required)
 - Phone (required, Australian format: 04XX XXX XXX or 03 XXXX XXXX)
