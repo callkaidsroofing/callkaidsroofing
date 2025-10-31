@@ -835,6 +835,86 @@ export type Database = {
           },
         ]
       }
+      form_definitions: {
+        Row: {
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          is_published: boolean
+          name: string
+          outputs: string[]
+          roles: string[]
+          schema: Json
+          ui_schema: Json
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: string
+          is_published?: boolean
+          name: string
+          outputs?: string[]
+          roles?: string[]
+          schema: Json
+          ui_schema?: Json
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          is_published?: boolean
+          name?: string
+          outputs?: string[]
+          roles?: string[]
+          schema?: Json
+          ui_schema?: Json
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
+      form_submissions: {
+        Row: {
+          created_at: string
+          form_id: string
+          id: string
+          submitted_by: string | null
+          submitted_data: Json
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          form_id: string
+          id?: string
+          submitted_by?: string | null
+          submitted_data: Json
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          form_id?: string
+          id?: string
+          submitted_by?: string | null
+          submitted_data?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "form_submissions_form_id_fkey"
+            columns: ["form_id"]
+            isOneToOne: false
+            referencedRelation: "form_definitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       generated_reports: {
         Row: {
           created_at: string | null
