@@ -63,10 +63,11 @@ jobs:
           set -euo pipefail
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git checkout main
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          # Check out the branch that triggered this workflow (don't assume 'main')
+          git checkout -B "$GITHUB_REF_NAME" "origin/$GITHUB_REF_NAME" || git checkout "$GITHUB_REF_NAME"
           git branch -f deploy-public HEAD || true
-          git checkout deploy-public
-
+          git checkout -B deploy-public
           while read -r p; do
             [ -z "$p" ] && continue || true
             echo "Pruning: $p"
@@ -142,10 +143,10 @@ jobs:
           set -euo pipefail
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git checkout main
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git checkout -B "$GITHUB_REF_NAME" "origin/$GITHUB_REF_NAME" || git checkout "$GITHUB_REF_NAME"
           git branch -f deploy-internal HEAD || true
-          git checkout deploy-internal
-
+          git checkout -B deploy-internal
           while read -r p; do
             [ -z "$p" ] && continue || true
             echo "Pruning: $p"
