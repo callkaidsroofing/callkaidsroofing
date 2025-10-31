@@ -14,36 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      admin_profiles: {
-        Row: {
-          created_at: string
-          email: string
-          full_name: string
-          id: string
-          role: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          email: string
-          full_name: string
-          id?: string
-          role?: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          email?: string
-          full_name?: string
-          id?: string
-          role?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       ai_action_log: {
         Row: {
           action_details: Json | null
@@ -1929,15 +1899,7 @@ export type Database = {
           updated_at?: string
           version?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "pricing_models_approved_by_fkey"
-            columns: ["approved_by"]
-            isOneToOne: false
-            referencedRelation: "admin_profiles"
-            referencedColumns: ["user_id"]
-          },
-        ]
+        Relationships: []
       }
       pricing_rules: {
         Row: {
@@ -2717,20 +2679,11 @@ export type Database = {
           json: Json | null
           version: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "pricing_models_approved_by_fkey"
-            columns: ["approved_by"]
-            isOneToOne: false
-            referencedRelation: "admin_profiles"
-            referencedColumns: ["user_id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Functions: {
       cleanup_rate_limits: { Args: never; Returns: undefined }
-      create_admin_for_authenticated_user: { Args: never; Returns: Json }
       generate_invoice_number: { Args: never; Returns: string }
       generate_quote_number: { Args: never; Returns: string }
       has_role: {

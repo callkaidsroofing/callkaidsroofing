@@ -4,7 +4,7 @@ import {
   Home, FileText, FormInput, Database, Image, Megaphone, FileOutput, 
   Menu, Sparkles, Wrench, Phone, DollarSign, Calendar, BarChart3, 
   Brain, ClipboardList, Settings, Ruler, Users, FileStack,
-  ChevronDown
+  ChevronDown, Shield
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -73,10 +73,17 @@ const navStructure: NavSection[] = [
       { title: 'Quote Documents', path: '/internal/v2/quote-documents', icon: FileStack },
     ],
   },
+  {
+    title: 'Admin',
+    icon: Shield,
+    items: [
+      { title: 'User Management', path: '/internal/v2/admin/users', icon: Users },
+    ],
+  },
 ];
 
 function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
-  const { user, signOut } = useAuth();
+  const { user, signOut, isAdmin } = useAuth();
   const location = useLocation();
 
   // Determine which sections should be open by default based on current route
@@ -116,41 +123,46 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
           defaultValue={getDefaultOpenSections()}
           className="w-full"
         >
-          {navStructure.map((section, sectionIndex) => (
-            <AccordionItem 
-              key={`section-${sectionIndex}`} 
-              value={`section-${sectionIndex}`}
-              className="border-none"
-            >
-              <AccordionTrigger className="px-4 py-3 hover:bg-muted/50 hover:no-underline">
-                <div className="flex items-center gap-3 text-sm font-semibold">
-                  <section.icon className="h-4 w-4" />
-                  <span>{section.title}</span>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="pb-0">
-                <div className="space-y-1 px-2 py-2">
-                  {section.items.map((item) => (
-                    <NavLink
-                      key={item.path}
-                      to={item.path}
-                      onClick={onLinkClick}
-                      className={({ isActive }) =>
-                        `flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
-                          isActive
-                            ? 'bg-primary text-primary-foreground font-medium'
-                            : 'hover:bg-muted text-muted-foreground'
-                        }`
-                      }
-                    >
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </NavLink>
-                  ))}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
+          {navStructure.map((section, sectionIndex) => {
+            // Hide Admin section if user is not admin
+            if (section.title === 'Admin' && !isAdmin) return null;
+            
+            return (
+              <AccordionItem 
+                key={`section-${sectionIndex}`} 
+                value={`section-${sectionIndex}`}
+                className="border-none"
+              >
+                <AccordionTrigger className="px-4 py-3 hover:bg-muted/50 hover:no-underline">
+                  <div className="flex items-center gap-3 text-sm font-semibold">
+                    <section.icon className="h-4 w-4" />
+                    <span>{section.title}</span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="pb-0">
+                  <div className="space-y-1 px-2 py-2">
+                    {section.items.map((item) => (
+                      <NavLink
+                        key={item.path}
+                        to={item.path}
+                        onClick={onLinkClick}
+                        className={({ isActive }) =>
+                          `flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
+                            isActive
+                              ? 'bg-primary text-primary-foreground font-medium'
+                              : 'hover:bg-muted text-muted-foreground'
+                          }`
+                        }
+                      >
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.title}</span>
+                      </NavLink>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            );
+          })}
         </Accordion>
       </nav>
 

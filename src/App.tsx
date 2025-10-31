@@ -61,6 +61,7 @@ const QuoteBuilderNew = lazy(() => import("./pages/QuoteBuilderNew"));
 const JobsCalendar = lazy(() => import("./pages/JobsCalendar"));
 const LeadIntelligence = lazy(() => import("./pages/LeadIntelligence"));
 const ReportsAnalytics = lazy(() => import("./pages/ReportsAnalytics"));
+const AdminUserManagement = lazy(() => import("./pages/AdminUserManagement"));
 import { InternalLayoutNew } from "@/components/InternalLayoutNew";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import ProtectedLayout from "@/components/ProtectedLayout";
@@ -158,6 +159,7 @@ function App() {
                       <Route path="jobs" element={<JobsCalendar />} />
                       <Route path="intelligence" element={<LeadIntelligence />} />
                       <Route path="reports" element={<ReportsAnalytics />} />
+                      <Route path="admin/users" element={<AdminUserManagement />} />
                     </Route>
                   </Route>
                   
