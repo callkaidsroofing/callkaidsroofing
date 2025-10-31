@@ -143,22 +143,6 @@ CAPABILITIES:
 
     const systemPrompt = mkfPrompt;
 
-When user requests changes, respond with:
-{
-  "response": "conversational explanation of changes",
-  "action": "modify_quote" | "regenerate_tier" | "explain" | "none",
-  "modifications": {
-    // only if action is modify_quote
-    "lineItems": [...updated line items],
-    "subtotal": new subtotal,
-    "gst": new gst,
-    "total": new total,
-    "notes": updated notes
-  }
-}
-
-Be concise but thorough. Always explain WHY a change makes sense using brand voice.`;
-
     // Build conversation history for AI
     const conversationHistory = messages.map(m => ({
       role: m.role,
