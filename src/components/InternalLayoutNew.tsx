@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useAuth } from '@/hooks/useAuth';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 interface NavItem {
   title: string;
@@ -200,7 +201,10 @@ export function InternalLayoutNew() {
 
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
-        <Outlet />
+        <div className="p-4 md:p-6 lg:p-8">
+          <Breadcrumbs />
+          <Outlet />
+        </div>
       </main>
     </div>
   );

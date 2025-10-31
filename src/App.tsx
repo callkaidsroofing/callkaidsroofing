@@ -47,7 +47,6 @@ const InspectionForm = lazy(() => import("./pages/InspectionForm"));
 const Auth = lazy(() => import("./pages/Auth"));
 const QuoteDocumentViewer = lazy(() => import("./pages/QuoteDocumentViewer"));
 const InternalHomeNew = lazy(() => import("./pages/InternalHomeNew"));
-const SystemTransition = lazy(() => import("./pages/SystemTransition"));
 const Nexus = lazy(() => import("./pages/Nexus"));
 const NexusDemo = lazy(() => import("./pages/NexusDemo"));
 const ImageGenerator = lazy(() => import("./pages/ImageGenerator"));
@@ -62,7 +61,6 @@ const QuoteBuilderNew = lazy(() => import("./pages/QuoteBuilderNew"));
 const JobsCalendar = lazy(() => import("./pages/JobsCalendar"));
 const LeadIntelligence = lazy(() => import("./pages/LeadIntelligence"));
 const ReportsAnalytics = lazy(() => import("./pages/ReportsAnalytics"));
-import { InternalLayout } from "@/components/InternalLayout";
 import { InternalLayoutNew } from "@/components/InternalLayoutNew";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import ProtectedLayout from "@/components/ProtectedLayout";
@@ -164,9 +162,9 @@ function App() {
                   </Route>
                   
                   {/* Redirect old /internal routes to new v2 system */}
-                  <Route path="/internal/*" element={<SystemTransition />} />
                   <Route path="/internal/dashboard" element={<Navigate to="/internal/v2/home" replace />} />
                   <Route path="/internal/home" element={<Navigate to="/internal/v2/home" replace />} />
+                  <Route path="/internal/*" element={<Navigate to="/internal/v2/home" replace />} />
               </Routes>
             </Suspense>
           </BrowserRouter>
