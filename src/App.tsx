@@ -52,6 +52,8 @@ const NexusDemo = lazy(() => import("./pages/NexusDemo"));
 const ImageGenerator = lazy(() => import("./pages/ImageGenerator"));
 const DocsHub = lazy(() => import("./pages/DocsHub"));
 const FormsStudio = lazy(() => import("./pages/FormsStudio"));
+const FormSubmissions = lazy(() => import("./pages/FormSubmissions"));
+const FormView = lazy(() => import("./pages/FormView"));
 const DataHub = lazy(() => import("./pages/DataHub"));
 const MediaLibrary = lazy(() => import("./pages/MediaLibrary"));
 const MarketingStudio = lazy(() => import("./pages/MarketingStudio"));
@@ -94,6 +96,7 @@ function App() {
                     <Route path="contact" element={<Contact />} />
                     <Route path="book" element={<BookingPage />} />
                     <Route path="booking" element={<BookingPage />} />
+                    <Route path="forms/:formId" element={<FormView />} />
                     <Route path="blog" element={<Blog />} />
                     <Route path="blog/:slug" element={<BlogPost />} />
                     <Route path="gallery" element={<Gallery />} />
@@ -146,6 +149,7 @@ function App() {
                       <Route path="home" element={<InternalHomeNew />} />
                       <Route path="docs" element={<DocsHub />} />
                       <Route path="forms" element={<FormsStudio />} />
+                      <Route path="forms/:formId/submissions" element={<FormSubmissions />} />
                       <Route path="forms/inspection" element={<InspectionForm />} />
                       <Route path="data" element={<DataHub />} />
                       <Route path="quote-documents" element={<QuoteDocumentViewer />} />

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, FormInput, Eye, Save, CheckCircle, Sparkles } from 'lucide-react';
+import { Plus, FormInput, Eye, Save, CheckCircle, Sparkles, FileText } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { AIAssistantPanel } from '@/components/shared/AIAssistantPanel';
@@ -25,6 +26,7 @@ interface FormDefinition {
 }
 
 export default function FormsStudio() {
+  const navigate = useNavigate();
   const [forms, setForms] = useState<FormDefinition[]>([]);
   const [selectedForm, setSelectedForm] = useState<FormDefinition | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -244,6 +246,16 @@ export default function FormsStudio() {
                   <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
                     <Save className="h-4 w-4 mr-2" />
                     Edit
+                  </Button>
+                  {selectedForm.is_published && (
+                    <Button variant="outline" size="sm" onClick={() => window.open(`/forms/${selectedForm.id}`, '_blank')}>
+                      <Eye className="h-4 w-4 mr-2" />
+                      Preview
+                    </Button>
+                  )}
+                  <Button variant="outline" size="sm" onClick={() => navigate(`/internal/v2/forms/${selectedForm.id}/submissions`)}>
+                    <FileText className="h-4 w-4 mr-2" />
+                    Submissions
                   </Button>
                   {!selectedForm.is_published && (
                     <Button size="sm" onClick={() => handlePublishForm(selectedForm.id)}>
