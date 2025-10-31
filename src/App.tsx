@@ -65,6 +65,7 @@ const ReportsAnalytics = lazy(() => import("./pages/ReportsAnalytics"));
 import { InternalLayout } from "@/components/InternalLayout";
 import { InternalLayoutNew } from "@/components/InternalLayoutNew";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import ProtectedLayout from "@/components/ProtectedLayout";
 
 const queryClient = new QueryClient();
 
@@ -139,33 +140,33 @@ function App() {
                   } />
                   
                   {/* NEW INTERNAL SYSTEM - with unified sidebar layout */}
-                  <Route path="/internal/v2/*" element={
-                    <AuthGuard requireInspector>
-                      <InternalLayoutNew />
-                    </AuthGuard>
-                  }>
-                    <Route index element={<InternalHomeNew />} />
-                    <Route path="home" element={<InternalHomeNew />} />
-                    <Route path="docs" element={<DocsHub />} />
-                    <Route path="forms" element={<FormsStudio />} />
-                    <Route path="forms/inspection" element={<InspectionForm />} />
-                    <Route path="data" element={<DataHub />} />
-                    <Route path="quote-documents" element={<QuoteDocumentViewer />} />
-                    <Route path="media" element={<MediaLibrary />} />
-                    <Route path="media/generator" element={<ImageGenerator />} />
-                    <Route path="marketing" element={<MarketingStudio />} />
-                    <Route path="nexus" element={<Nexus />} />
-                    <Route path="tools" element={<MeasurementTool />} />
-                    <Route path="leads" element={<LeadsPipeline />} />
-                    <Route path="leads/:id" element={<LeadDetail />} />
-                    <Route path="quotes/new" element={<QuoteBuilderNew />} />
-                    <Route path="jobs" element={<JobsCalendar />} />
-                    <Route path="intelligence" element={<LeadIntelligence />} />
-                    <Route path="reports" element={<ReportsAnalytics />} />
+                  <Route path="/internal/v2" element={<ProtectedLayout />}>
+                    <Route element={<InternalLayoutNew />}>
+                      <Route index element={<Navigate to="/internal/v2/home" replace />} />
+                      <Route path="home" element={<InternalHomeNew />} />
+                      <Route path="docs" element={<DocsHub />} />
+                      <Route path="forms" element={<FormsStudio />} />
+                      <Route path="forms/inspection" element={<InspectionForm />} />
+                      <Route path="data" element={<DataHub />} />
+                      <Route path="quote-documents" element={<QuoteDocumentViewer />} />
+                      <Route path="media" element={<MediaLibrary />} />
+                      <Route path="media/generator" element={<ImageGenerator />} />
+                      <Route path="marketing" element={<MarketingStudio />} />
+                      <Route path="nexus" element={<Nexus />} />
+                      <Route path="tools" element={<MeasurementTool />} />
+                      <Route path="leads" element={<LeadsPipeline />} />
+                      <Route path="leads/:id" element={<LeadDetail />} />
+                      <Route path="quotes/new" element={<QuoteBuilderNew />} />
+                      <Route path="jobs" element={<JobsCalendar />} />
+                      <Route path="intelligence" element={<LeadIntelligence />} />
+                      <Route path="reports" element={<ReportsAnalytics />} />
+                    </Route>
                   </Route>
                   
-                  {/* Redirect old /internal to new v2 system */}
+                  {/* Redirect old /internal routes to new v2 system */}
                   <Route path="/internal/*" element={<SystemTransition />} />
+                  <Route path="/internal/dashboard" element={<Navigate to="/internal/v2/home" replace />} />
+                  <Route path="/internal/home" element={<Navigate to="/internal/v2/home" replace />} />
               </Routes>
             </Suspense>
           </BrowserRouter>

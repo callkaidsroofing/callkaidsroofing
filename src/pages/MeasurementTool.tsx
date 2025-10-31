@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Loader2, MapPin, Ruler, TrendingUp } from 'lucide-react';
+import MapsKeyBanner from '@/components/MapsKeyBanner';
 
 export default function MeasurementTool() {
   const [address, setAddress] = useState('6 Ingleton Court, Narre Warren, VIC 3805');
@@ -26,6 +27,8 @@ export default function MeasurementTool() {
             Enter a property address to generate a detailed roof takeoff plan with measurements
           </p>
         </div>
+
+        <MapsKeyBanner />
 
         <Card className="mb-8">
           <CardHeader>

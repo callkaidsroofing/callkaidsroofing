@@ -17,6 +17,7 @@ Allow: /about
 Allow: /contact
 Allow: /emergency
 Allow: /warranty
+Disallow: /internal
 Disallow: /admin/
 Disallow: /private/
 

@@ -23,6 +23,7 @@ import { useToast } from '@/hooks/use-toast';
 import { ImageUploadField } from '@/components/ImageUploadField';
 import { InspectionFormSection } from '@/components/InspectionFormSection';
 import { inspectionFormSchema, type InspectionFormData } from '@/lib/validation-schemas';
+import MapsKeyBanner from '@/components/MapsKeyBanner';
 
 const InspectionForm = () => {
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ const InspectionForm = () => {
       <AuthGuard requireInspector>
         <div className="min-h-screen bg-muted/30 p-8">
           <div className="max-w-5xl mx-auto">
+            <MapsKeyBanner />
             <div className="flex items-center gap-4 mb-6">
               <Button
                 variant="ghost"
