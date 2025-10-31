@@ -1,0 +1,18 @@
+name: Deploy Public
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/public/**'
+      - 'packages/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholder build
+        run: |
+          echo 'Public app build would run here'
+          echo 'This is a scaffold; replace with your host deploy step'

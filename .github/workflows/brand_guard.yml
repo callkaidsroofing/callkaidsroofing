@@ -1,0 +1,16 @@
+name: Brand Guard
+
+on: [pull_request]
+
+jobs:
+  brand-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan for brand violations
+        run: |
+          set -e
+          echo 'Scanning for outdated contact details and colours'
+          ! git grep -n "callkaidsroofing@outlook.com" || (echo 'Old email found' && exit 1)
+          # Enforce colours presence in knowledge index (soft check)
+          grep -E "#007ACC|#0B3B69|#111827|#6B7280|#F7F8FA|#FFFFFF" -r knowledge || (echo 'Brand colours not referenced in knowledge' && exit 1)
