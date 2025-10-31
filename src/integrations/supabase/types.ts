@@ -209,6 +209,81 @@ export type Database = {
         }
         Relationships: []
       }
+      campaigns: {
+        Row: {
+          ad_creatives: Json | null
+          ad_sets: Json | null
+          audience_size_estimate: string | null
+          budget_type: string | null
+          campaign_name: string
+          created_at: string
+          created_by: string | null
+          daily_budget: number | null
+          end_date: string | null
+          id: string
+          last_synced_at: string | null
+          lifetime_budget: number | null
+          metrics: Json | null
+          notes: string | null
+          objective: string
+          platform: string
+          platform_campaign_id: string | null
+          spend_to_date: number | null
+          start_date: string | null
+          status: string | null
+          targeting: Json | null
+          updated_at: string
+        }
+        Insert: {
+          ad_creatives?: Json | null
+          ad_sets?: Json | null
+          audience_size_estimate?: string | null
+          budget_type?: string | null
+          campaign_name: string
+          created_at?: string
+          created_by?: string | null
+          daily_budget?: number | null
+          end_date?: string | null
+          id?: string
+          last_synced_at?: string | null
+          lifetime_budget?: number | null
+          metrics?: Json | null
+          notes?: string | null
+          objective: string
+          platform: string
+          platform_campaign_id?: string | null
+          spend_to_date?: number | null
+          start_date?: string | null
+          status?: string | null
+          targeting?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          ad_creatives?: Json | null
+          ad_sets?: Json | null
+          audience_size_estimate?: string | null
+          budget_type?: string | null
+          campaign_name?: string
+          created_at?: string
+          created_by?: string | null
+          daily_budget?: number | null
+          end_date?: string | null
+          id?: string
+          last_synced_at?: string | null
+          lifetime_budget?: number | null
+          metrics?: Json | null
+          notes?: string | null
+          objective?: string
+          platform?: string
+          platform_campaign_id?: string | null
+          spend_to_date?: number | null
+          start_date?: string | null
+          status?: string | null
+          targeting?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       chat_analytics: {
         Row: {
           conversation_id: string | null
