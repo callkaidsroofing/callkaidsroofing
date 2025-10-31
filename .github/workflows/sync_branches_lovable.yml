@@ -1,0 +1,91 @@
+name: Sync Public and Internal Branches (Lovable-compatible)
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  sync-public:
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_PRUNE: |
+        knowledge
+        apps
+        scripts
+        .github
+        src/pages/internal
+        src/pages/Internal*
+        src/pages/Leads*
+        src/pages/Quote*
+        src/pages/Jobs*
+        src/pages/Nexus*
+        src/pages/Reports*
+        src/components/Internal*
+        internal
+        admin
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Prepare public branch tree
+        run: |
+          set -euo pipefail
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          # start from main
+          git checkout main
+          # create/update branch
+          git branch -f deploy-public HEAD || true
+          git checkout deploy-public
+          # prune internal-only files and non-runtime folders
+          while read -r p; do
+            [ -z "$p" ] && continue || true
+            echo "Pruning: $p"
+            rm -rf "$p" || true
+          done <<< "$PUBLIC_PRUNE"
+          git add -A
+          git commit -m "Auto-sync: Public-only build from main" || echo 'No public changes'
+          git push origin HEAD:deploy-public --force
+
+  sync-internal:
+    runs-on: ubuntu-latest
+    env:
+      INTERNAL_PRUNE: |
+        src/pages/index.*
+        src/pages/Index.*
+        src/pages/About*
+        src/pages/Services*
+        src/pages/Blog*
+        src/pages/Contact*
+        src/pages/Gallery*
+        src/components/Header*
+        src/components/Footer*
+        marketing
+        landing
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Prepare internal branch tree
+        run: |
+          set -euo pipefail
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git checkout main
+          git branch -f deploy-internal HEAD || true
+          git checkout deploy-internal
+          # keep knowledge in internal; prune public-only files
+          while read -r p; do
+            [ -z "$p" ] && continue || true
+            echo "Pruning: $p"
+            rm -rf "$p" || true
+          done <<< "$INTERNAL_PRUNE"
+          # optional: ensure robots.txt exists for internal (defense-in-depth)
+          mkdir -p public
+          echo -e 'User-agent: *
+Disallow: /' > public/robots.txt
+          git add -A
+          git commit -m "Auto-sync: Internal-only build from main" || echo 'No internal changes'
+          git push origin HEAD:deploy-internal --force
