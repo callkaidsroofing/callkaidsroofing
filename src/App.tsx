@@ -62,6 +62,7 @@ const JobsCalendar = lazy(() => import("./pages/JobsCalendar"));
 const LeadIntelligence = lazy(() => import("./pages/LeadIntelligence"));
 const ReportsAnalytics = lazy(() => import("./pages/ReportsAnalytics"));
 const AdminUserManagement = lazy(() => import("./pages/AdminUserManagement"));
+const KnowledgeManagement = lazy(() => import("./pages/KnowledgeManagement"));
 import { InternalLayoutNew } from "@/components/InternalLayoutNew";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import ProtectedLayout from "@/components/ProtectedLayout";
@@ -160,6 +161,7 @@ function App() {
                       <Route path="intelligence" element={<LeadIntelligence />} />
                       <Route path="reports" element={<ReportsAnalytics />} />
                       <Route path="admin/users" element={<AdminUserManagement />} />
+                      <Route path="admin/knowledge" element={<KnowledgeManagement />} />
                     </Route>
                   </Route>
                   

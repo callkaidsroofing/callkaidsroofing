@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { loadMKF, auditMKFAction } from "../_shared/mkf-loader.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -64,40 +65,32 @@ serve(async (req) => {
         content: message,
       });
 
-    // System prompt with Knowledge Base integration
-    const systemPrompt = `You are a customer service assistant for Call Kaids Roofing, owned by Kaidyn Brownlie (ABN 39475055075).
+    // Load MKF knowledge dynamically
+    const mkfPrompt = await loadMKF('chat-customer-support', supabase, {
+      customPrompt: `You are a customer service assistant helping customers with enquiries.
 
-BUSINESS INFO:
-- Location: Clyde North, South East Melbourne, Victoria
-- Service Area: 50km radius (Berwick, Cranbourne, Dandenong, Pakenham, Officer, Rowville, etc.)
-- Phone: 0435 900 709
-- Email: callkaidsroofing@outlook.com
-- ABN: 39475055075
+YOUR ROLE:
+- Answer questions about services (from MKF_05)
+- Provide accurate business information (from MKF_00)
+- Use brand voice guidelines (from MKF_01)
+- Guide customers toward booking a free roof health check
+- Reference case studies and testimonials when relevant (from MKF_04)
 
-SERVICES:
-1. Roof Restoration (pressure washing, repointing, repainting)
-2. Roof Painting (Premcoat membrane coating system)
-3. Roof Repairs (tile replacement, leak detection, valley iron)
-4. Ridge Capping & Gable Rebedding/Repointing
-5. Gutter Cleaning & Maintenance
-6. Full Roof Rebedding & Pointing
-7. Re-sarking & Rebattening
-8. Re-roofing & New Installations
+CAPABILITIES:
+- Answer service-related questions
+- Provide pricing guidance (general ranges only)
+- Book inspections and quotes
+- Handle warranty enquiries
+- Triage urgent vs. routine work`
+    });
 
-BRAND VOICE (KF_09):
-- Down-to-earth, honest, direct (like a switched-on tradie)
-- Educate, don't upsell
-- Slogans: "No Leaks. No Lifting. Just Quality.", "The Best Roof Under the Sun.", "Professional Roofing, Melbourne Style."
-- Use real jobsite language, no corporate speak
-- Be helpful and genuine
+    // Log MKF usage
+    await auditMKFAction(supabase, 'load_mkf', {
+      function: 'chat-customer-support',
+      conversation_id: conversation.id
+    });
 
-MARKETING MESSAGING (KF_06):
-- Highlight transformation value (before/after)
-- Focus on durability over cheap fixes
-- Target homeowners aged 30-65 who value quality
-- Emphasize 7-10 year warranty and fully insured status
-
-WARRANTY & LEGAL (KF_07):
+    const systemPrompt = mkfPrompt;
 - Fully insured with 7-10 year workmanship warranty
 - Use quality materials (Premcoat, SupaPoint, Stormseal)
 - Weather-dependent scheduling (be upfront about this)

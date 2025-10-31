@@ -1,4 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { loadMKF } from "../_shared/mkf-loader.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -13,23 +15,17 @@ serve(async (req) => {
   try {
     const { prompt, currentData } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
     if (!LOVABLE_API_KEY) {
       throw new Error("LOVABLE_API_KEY not configured");
     }
 
-    const systemPrompt = `You are an AI assistant for Call Kaids Roofing that extracts quote information from natural language descriptions.
-
-KNOWLEDGE BASE:
-- Pricing Model: /knowledge-base/core-knowledge/KF_02_PRICING_MODEL.json
-- Service Definitions: /knowledge-base/core-knowledge/KF_03_05_SOP_ALL.txt
-
-SERVICES (KF_03_05):
-- Roof Restoration, Roof Painting, Roof Repairs
-- Ridge Capping & Gable Rebedding/Repointing
-- Gutter Cleaning, Leak Detection
-- Valley Iron Replacement, Tile Replacement
-- Re-sarking & Rebattening, Full Rebedding & Pointing
+    // Load MKF knowledge dynamically
+    const mkfPrompt = await loadMKF('ai-quote-helper', supabase, {
+      customPrompt: `You extract quote information from natural language descriptions.
 
 Extract the following fields from the user's input and return them as JSON:
 - client_name: Full name of the client
@@ -50,7 +46,10 @@ Instructions:
 - Format prices with $ and commas (e.g., "$8,500")
 - Include units for measurements (m², lm, etc.)
 - Be precise and accurate
-- Match service terminology to KF_02 service codes where possible`;
+- Match service terminology from MKF_05`
+    });
+
+    const systemPrompt = mkfPrompt;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",

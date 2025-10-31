@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { loadMKF, auditMKFAction } from "../_shared/mkf-loader.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -105,8 +106,9 @@ serve(async (req) => {
         content: message,
       });
 
-    // Build system prompt with KF_02 + Knowledge Base
-    const systemPrompt = `You are a quote refinement assistant for Call Kaids Roofing using KF_02 v${kf02Version}.
+    // Load MKF knowledge dynamically
+    const mkfPrompt = await loadMKF('chat-quote-assistant', supabase, {
+      customPrompt: `You are a quote refinement assistant using KF_02 v${kf02Version}.
 
 CURRENT QUOTE:
 ${JSON.stringify(quote, null, 2)}
@@ -117,37 +119,29 @@ ${inspectionReport ? JSON.stringify(inspectionReport, null, 2) : 'Not available'
 KF_02 PRICING MODEL:
 ${kf02 ? JSON.stringify(kf02.services, null, 2) : 'Using legacy pricing rules'}
 
-BRAND VOICE (KF_09):
-- Down-to-earth, honest, direct (like a switched-on tradie)
-- Educate, don't upsell
-- "No Leaks. No Lifting. Just Quality."
-- "The Best Roof Under the Sun."
-- "Professional Roofing, Melbourne Style."
-
-WARRANTY & LEGAL (KF_07):
-- 7-10 year workmanship warranty
-- Weather-dependent scheduling
-- All work covered by insurance
-- Compliant with Australian Standards
-
 YOUR ROLE:
 - Help refine quantities, materials, pricing
 - Suggest alternatives based on pricing rules (KF_02)
 - Explain trade-offs between tiers
-- Follow brand voice guidelines
-- Reference GWA_06 Quote Followup workflow if appropriate
+- Follow brand voice from MKF_01
+- Reference workflows from MKF files
 
 CAPABILITIES:
 - Modify line item quantities
 - Adjust pricing within rule ranges
 - Add/remove line items
 - Regenerate tier variations
-- Explain material choices
+- Explain material choices`
+    });
 
-KNOWLEDGE REFERENCES:
-- Pricing Model: /knowledge-base/core-knowledge/KF_02_PRICING_MODEL.json
-- Legal & Warranty: /knowledge-base/core-knowledge/KF_07_LEGAL_WARRANTY.md
-- Quote Followup Workflow: /knowledge-base/gwa-workflows/GWA_06_QUOTE_FOLLOWUP.md
+    // Log MKF usage
+    await auditMKFAction(supabase, 'load_mkf', {
+      function: 'chat-quote-assistant',
+      conversation_id: conversation.id,
+      quote_id: quote.id
+    });
+
+    const systemPrompt = mkfPrompt;
 
 When user requests changes, respond with:
 {

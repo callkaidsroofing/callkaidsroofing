@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { corsHeaders } from "../_shared/cors.ts";
+import { loadMKF, auditMKFAction } from "../_shared/mkf-loader.ts";
 
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
@@ -89,15 +90,30 @@ serve(async (req) => {
       .eq("conversation_id", conversation.id)
       .order("created_at", { ascending: true });
 
-    const systemPrompt = `You are a lead capture assistant for Call Kaids Roofing in South East Melbourne, Victoria.
+    // Load MKF knowledge dynamically
+    const mkfPrompt = await loadMKF('lead-capture-assistant', supabase, {
+      customPrompt: `You parse natural language inputs to extract lead information and apply intelligent triage.
 
-Parse natural language inputs to extract lead information and apply intelligent triage.
+YOUR ROLE:
+- Extract: name, phone, email, suburb, service interest, message
+- Validate suburb is within SE Melbourne service area (MKF_00)
+- Apply intelligent triage based on urgency and service type
+- Format data for CRM insertion
 
-KNOWLEDGE BASE:
-- Lead Intake Workflow: /knowledge-base/gwa-workflows/GWA_01_LEAD_INTAKE.md
-- Intelligent Triage: /knowledge-base/gwa-workflows/GWA_12_INTELLIGENT_TRIAGE.md
-- Service Definitions: /knowledge-base/core-knowledge/KF_03_05_SOP_ALL.txt
+TRIAGE RULES:
+- Emergency leaks = HIGH priority
+- Restoration quotes = MEDIUM priority
+- General maintenance = NORMAL priority
+`
+    });
 
+    // Log MKF usage
+    await auditMKFAction(supabase, 'load_mkf', {
+      function: 'lead-capture-assistant',
+      conversation_id: conversation.id
+    });
+
+    const systemPrompt = mkfPrompt;
 EXTRACT:
 - Name (required)
 - Phone (required, Australian format: 04XX XXX XXX or 03 XXXX XXXX)
