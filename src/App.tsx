@@ -42,7 +42,6 @@ const RoofRestorationMountEliza = lazy(() => import("./pages/services/suburbs/Ro
 const RoofPaintingPakenham = lazy(() => import("./pages/services/suburbs/RoofPaintingPakenham"));
 const RoofPaintingCranbourne = lazy(() => import("./pages/services/suburbs/RoofPaintingCranbourne"));
 const RoofPaintingClydeNorth = lazy(() => import("./pages/services/suburbs/RoofPaintingClydeNorth"));
-const MeasurementTool = lazy(() => import("./pages/MeasurementTool"));
 const InspectionForm = lazy(() => import("./pages/InspectionForm"));
 const Auth = lazy(() => import("./pages/Auth"));
 const QuoteDocumentViewer = lazy(() => import("./pages/QuoteDocumentViewer"));
@@ -157,7 +156,6 @@ function App() {
                       <Route path="media/generator" element={<ImageGenerator />} />
                       <Route path="marketing" element={<MarketingStudio />} />
                       <Route path="nexus" element={<Nexus />} />
-                      <Route path="tools" element={<MeasurementTool />} />
                       <Route path="leads" element={<LeadsPipeline />} />
                       <Route path="leads/:id" element={<LeadDetail />} />
                       <Route path="quotes/new" element={<QuoteBuilderNew />} />

@@ -8,11 +8,10 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Loader2, Sparkles, Plus, Trash2, FileText, Save, Calculator, Satellite } from "lucide-react";
+import { Loader2, Sparkles, Plus, Trash2, FileText, Save, Calculator } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { QuoteTierCard } from "./QuoteTierCard";
-import { RoofMeasurementSelector } from "./RoofMeasurementSelector";
 
 interface LineItem {
   serviceItem: string;
@@ -95,93 +94,31 @@ export function ProfessionalQuoteBuilder({ open, onOpenChange, reportId }: Profe
     }
   };
 
-  const handleImportRoofMeasurement = (measurement: any) => {
-    const { total_area_m2, predominant_pitch, hips, ridges, valleys, perimeter_features } = measurement;
-    
-    // Calculate total hip length
-    const totalHipLength = Array.isArray(hips) 
-      ? hips.reduce((sum: number, h: any) => sum + (h.length || 0), 0) 
-      : 0;
-    
-    // Calculate total ridge length
-    const totalRidgeLength = Array.isArray(ridges) 
-      ? ridges.reduce((sum: number, r: any) => sum + (r.length || 0), 0) 
-      : 0;
-    
-    // Calculate total valley length
-    const totalValleyLength = Array.isArray(valleys) 
-      ? valleys.reduce((sum: number, v: any) => sum + (v.length || 0), 0) 
-      : 0;
-
-    // Auto-populate line items based on measurements
-    const importedItems: LineItem[] = [];
-
-    if (total_area_m2 > 0) {
-      importedItems.push({
-        serviceItem: "Roof Restoration",
-        description: `Complete roof restoration including pressure wash and protective coating`,
-        quantity: parseFloat(total_area_m2.toFixed(2)),
-        unit: "m²",
-        unitRate: 0,
-        lineTotal: 0,
-      });
-    }
-
-    if (totalRidgeLength > 0 || totalHipLength > 0) {
-      importedItems.push({
-        serviceItem: "Ridge & Hip Capping",
-        description: "Rebedding and repointing of ridge and hip caps with flexible bedding compound",
-        quantity: parseFloat((totalRidgeLength + totalHipLength).toFixed(2)),
-        unit: "m",
-        unitRate: 0,
-        lineTotal: 0,
-      });
-    }
-
-    if (totalValleyLength > 0) {
-      importedItems.push({
-        serviceItem: "Valley Iron Replacement",
-        description: "Supply and install new valley iron with valley clips",
-        quantity: parseFloat(totalValleyLength.toFixed(2)),
-        unit: "m",
-        unitRate: 0,
-        lineTotal: 0,
-      });
-    }
-
-    setLineItems(importedItems);
-    
-    // Add measurement details to quote notes
-    const measurementNotes = `\n\n--- Satellite Measurements ---\nTotal Roof Area: ${total_area_m2} m²\nPredominant Pitch: ${predominant_pitch}°\nRidge/Hip Length: ${(totalRidgeLength + totalHipLength).toFixed(2)} m\nValley Length: ${totalValleyLength.toFixed(2)} m\nImagery Quality: ${measurement.imagery_quality || 'N/A'}`;
-    
-    setQuoteNotes(prev => prev + measurementNotes);
-    
-    toast.success("Roof measurements imported! Add pricing to complete the quote.");
+  // Helper functions for line items
+  const addLineItem = () => {
+    setLineItems([...lineItems, {
+      serviceItem: '',
+      description: '',
+      quantity: 0,
+      unit: 'ea',
+      unitRate: 0,
+      lineTotal: 0,
+    }]);
   };
 
   const updateLineItem = (index: number, field: keyof LineItem, value: any) => {
     const updated = [...lineItems];
-    updated[index] = { ...updated[index], [field]: value };
+    const item = { ...updated[index] };
     
-    // Recalculate line total if quantity or rate changes
     if (field === 'quantity' || field === 'unitRate') {
-      const qty = field === 'quantity' ? parseFloat(value) || 0 : updated[index].quantity;
-      const rate = field === 'unitRate' ? parseFloat(value) || 0 : updated[index].unitRate;
-      updated[index].lineTotal = qty * rate;
+      item[field] = parseFloat(value) || 0;
+    } else {
+      (item as any)[field] = value;
     }
     
+    item.lineTotal = item.quantity * item.unitRate;
+    updated[index] = item;
     setLineItems(updated);
-  };
-
-  const addLineItem = () => {
-    setLineItems([...lineItems, {
-      serviceItem: "",
-      description: "",
-      quantity: 0,
-      unit: "ea",
-      unitRate: 0,
-      lineTotal: 0,
-    }]);
   };
 
   const removeLineItem = (index: number) => {
@@ -194,6 +131,7 @@ export function ProfessionalQuoteBuilder({ open, onOpenChange, reportId }: Profe
     const total = subtotal + gst;
     return { subtotal, gst, total };
   };
+
 
   const handleSaveQuote = async () => {
     if (savingQuote) return;
@@ -313,17 +251,6 @@ export function ProfessionalQuoteBuilder({ open, onOpenChange, reportId }: Profe
                 <li>You review, adjust, and add pricing manually</li>
                 <li>Save the professional quote</li>
               </ol>
-            </div>
-
-            <div className="flex justify-center">
-              <Button
-                variant="outline"
-                onClick={() => setRoofMeasurementDialogOpen(true)}
-                className="gap-2"
-              >
-                <Satellite className="h-4 w-4" />
-                Import from Roof Measurement
-              </Button>
             </div>
 
             <Separator className="my-4" />
@@ -595,16 +522,6 @@ export function ProfessionalQuoteBuilder({ open, onOpenChange, reportId }: Profe
           </div>
         )}
       </DialogContent>
-
-      <RoofMeasurementSelector
-        open={roofMeasurementDialogOpen}
-        onOpenChange={setRoofMeasurementDialogOpen}
-        onSelect={(measurement) => {
-          handleImportRoofMeasurement(measurement);
-          setStep("build");
-        }}
-        defaultAddress={report?.siteAddress || ''}
-      />
     </Dialog>
   );
 }

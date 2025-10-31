@@ -4,8 +4,7 @@ import { AuthGuard } from '@/components/AuthGuard';
 import { SimpleInspectionForm } from '@/components/SimpleInspectionForm';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Satellite, Sparkles } from 'lucide-react';
-import { InspectionRoofMeasurement } from '@/components/InspectionRoofMeasurement';
+import { ArrowLeft, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { Save, Send, AlertCircle } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
@@ -516,38 +515,10 @@ const InspectionForm = () => {
 
           {/* Section 3: Quantity Summary */}
           <InspectionFormSection title="Roof Measurements & Quantities" sectionNumber={3}>
-            <div className="mb-4 flex justify-end">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setShowRoofMeasurement(!showRoofMeasurement)}
-              >
-                <Satellite className="h-4 w-4 mr-2" />
-                {showRoofMeasurement ? 'Hide Satellite Scan' : 'Scan from Satellite'}
-              </Button>
+            <div className="mb-6">
+              <h3 className="font-semibold text-lg">Roof Measurements & Quantities</h3>
+              <p className="text-sm text-muted-foreground">Manual measurements and quantities</p>
             </div>
-
-            {showRoofMeasurement && (
-              <div className="mb-6">
-                <InspectionRoofMeasurement
-                  address={`${formData.siteAddress}, ${formData.suburbPostcode}`}
-                  onDataReceived={(data) => {
-                    setRoofMeasurementData(data);
-                    if (data.totalAreaM2) {
-                      setValue('roofArea', Math.round(data.totalAreaM2), { shouldValidate: true });
-                    }
-                    if (data.predominantPitch) {
-                      setValue('roofPitch', 
-                        data.predominantPitch < 15 ? 'Low' : 
-                        data.predominantPitch < 30 ? 'Medium' : 'Steep',
-                        { shouldValidate: true }
-                      );
-                    }
-                  }}
-                />
-              </div>
-            )}
 
             <div className="grid md:grid-cols-3 gap-4">
               <div>

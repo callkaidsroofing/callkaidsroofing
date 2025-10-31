@@ -4,9 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { OptimizedImage } from '@/components/OptimizedImage';
-import { EnhancedContactForm } from '@/components/EnhancedContactForm';
 import { Link } from 'react-router-dom';
-import { Shield, Star, Phone, CheckCircle, AlertTriangle, Clock, Award } from 'lucide-react';
+import { Shield, Star, Phone, CheckCircle, AlertTriangle, Clock, Award, Mail } from 'lucide-react';
 
 const TileReplacement = () => {
   const structuredData = {
@@ -309,11 +308,28 @@ const TileReplacement = () => {
                   <CardHeader>
                     <CardTitle>Get Your Tile Replacement Quote</CardTitle>
                     <CardDescription>
-                      Tell us about your tile damage and we'll provide an accurate quote
+                      Contact us directly or use our online booking system
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <EnhancedContactForm />
+                  <CardContent className="space-y-3">
+                    <Button asChild className="w-full" size="lg">
+                      <Link to="/booking">
+                        <Clock className="mr-2 h-5 w-5" />
+                        Book Online
+                      </Link>
+                    </Button>
+                    <Button asChild variant="outline" className="w-full" size="lg">
+                      <a href="tel:0435900709">
+                        <Phone className="mr-2 h-5 w-5" />
+                        Call: 0435 900 709
+                      </a>
+                    </Button>
+                    <Button asChild variant="outline" className="w-full" size="lg">
+                      <a href="mailto:info@callkaidsroofing.com.au">
+                        <Mail className="mr-2 h-5 w-5" />
+                        Email Us
+                      </a>
+                    </Button>
                   </CardContent>
                 </Card>
               </div>

@@ -2,8 +2,8 @@ import { Button } from '@/components/ui/button';
 import { Phone, Mail, MapPin, Clock, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SEOHead } from '@/components/SEOHead';
-import { EnhancedContactForm } from '@/components/EnhancedContactForm';
 import PremiumCTASection from '@/components/PremiumCTASection';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const Contact = () => {
   return (
@@ -127,9 +127,38 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Enhanced Quote Form */}
+            {/* Direct Contact Card */}
             <div>
-              <EnhancedContactForm />
+              <Card>
+                <CardHeader>
+                  <CardTitle>Ready to Get Started?</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-muted-foreground">
+                    Use the booking system to schedule your free roof assessment or contact me directly:
+                  </p>
+                  <div className="space-y-3">
+                    <Button asChild className="w-full" size="lg">
+                      <Link to="/booking">
+                        <Clock className="mr-2 h-5 w-5" />
+                        Book Your Free Assessment
+                      </Link>
+                    </Button>
+                    <Button asChild variant="outline" className="w-full" size="lg">
+                      <a href="tel:0435900709">
+                        <Phone className="mr-2 h-5 w-5" />
+                        Call Now: 0435 900 709
+                      </a>
+                    </Button>
+                    <Button asChild variant="outline" className="w-full" size="lg">
+                      <a href="mailto:info@callkaidsroofing.com.au">
+                        <Mail className="mr-2 h-5 w-5" />
+                        Email Direct
+                      </a>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
