@@ -1,23 +1,24 @@
-import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 
-// Gate all internal routes behind auth; add noindex headers.
+// Production middleware using Supabase Auth sessions.
 export async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl
+  const res = NextResponse.next()
+  const supabase = createMiddlewareClient({ req, res })
 
-  // Example auth check: replace with Supabase/JWT validation
-  const isAuthed = Boolean(req.cookies.get('ckr_session'))
+  const { data: { session } } = await supabase.auth.getSession()
 
-  if (!isAuthed) {
+  if (!session) {
     const loginUrl = new URL('/login', req.url)
+    loginUrl.searchParams.set('redirect', req.nextUrl.pathname)
     return NextResponse.redirect(loginUrl)
   }
 
-  const res = NextResponse.next()
   res.headers.set('X-Robots-Tag', 'noindex, nofollow')
   return res
 }
 
 export const config = {
-  matcher: ['/((?!_next|static|public).*)'],
+  matcher: ['/((?!_next|static|public|login).*)'],
 }
