@@ -31,6 +31,9 @@ verify_jwt = true
 [functions.ai-quote-helper]
 verify_jwt = false
 
+[functions.internal-search]
+verify_jwt = true
+
 # ============================================
 # LEGACY FUNCTIONS (being phased out)
 # ============================================
