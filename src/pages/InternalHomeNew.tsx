@@ -3,9 +3,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Search, Plus, FileText, Users, DollarSign, TrendingUp, Clock, AlertCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 interface KPI {
   label: string;
@@ -17,8 +19,10 @@ interface KPI {
 
 export default function InternalHomeNew() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [kpis, setKpis] = useState<KPI[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(true);
   const [queueData, setQueueData] = useState({
     pending_quotes: 0,
     new_leads: 0,
@@ -30,31 +34,38 @@ export default function InternalHomeNew() {
   }, []);
 
   const loadDashboardData = async () => {
+    setLoading(true);
     try {
       // Fetch KPIs
       const today = new Date();
       const thirtyDaysAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
 
       // Total revenue (last 30 days)
-      const { data: invoices } = await supabase
+      const { data: invoices, error: invoiceError } = await supabase
         .from('invoices')
         .select('total')
         .gte('created_at', thirtyDaysAgo.toISOString())
         .eq('status', 'paid');
 
+      if (invoiceError) throw invoiceError;
+
       const revenue = invoices?.reduce((sum, inv) => sum + Number(inv.total), 0) || 0;
 
       // Conversion rate
-      const { count: quoteCount } = await supabase
+      const { count: quoteCount, error: quoteCountError } = await supabase
         .from('quotes')
         .select('*', { count: 'exact', head: true })
         .gte('created_at', thirtyDaysAgo.toISOString());
 
-      const { count: wonCount } = await supabase
+      if (quoteCountError) throw quoteCountError;
+
+      const { count: wonCount, error: wonCountError } = await supabase
         .from('quotes')
         .select('*', { count: 'exact', head: true })
         .eq('status', 'accepted')
         .gte('created_at', thirtyDaysAgo.toISOString());
+
+      if (wonCountError) throw wonCountError;
 
       const conversionRate = quoteCount && wonCount ? ((wonCount / quoteCount) * 100).toFixed(1) : '0';
 
@@ -62,10 +73,12 @@ export default function InternalHomeNew() {
       const avgResponseTime = '2.4h';
 
       // Active jobs
-      const { count: activeJobs } = await supabase
+      const { count: activeJobs, error: jobsError } = await supabase
         .from('inspection_reports')
         .select('*', { count: 'exact', head: true })
         .eq('status', 'scheduled');
+
+      if (jobsError) throw jobsError;
 
       const activeJobsCount = activeJobs ?? 0;
 
@@ -101,20 +114,26 @@ export default function InternalHomeNew() {
       ]);
 
       // Queue depths
-      const { count: pendingQuotes } = await supabase
+      const { count: pendingQuotes, error: pendingQuotesError } = await supabase
         .from('quotes')
         .select('*', { count: 'exact', head: true })
         .eq('status', 'draft');
 
-      const { count: newLeads } = await supabase
+      if (pendingQuotesError) throw pendingQuotesError;
+
+      const { count: newLeads, error: newLeadsError } = await supabase
         .from('leads')
         .select('*', { count: 'exact', head: true })
         .eq('status', 'new');
 
-      const { count: scheduledPosts } = await supabase
+      if (newLeadsError) throw newLeadsError;
+
+      const { count: scheduledPosts, error: scheduledPostsError } = await supabase
         .from('social_posts')
         .select('*', { count: 'exact', head: true })
         .eq('status', 'scheduled');
+
+      if (scheduledPostsError) throw scheduledPostsError;
 
       setQueueData({
         pending_quotes: pendingQuotes || 0,
@@ -122,8 +141,15 @@ export default function InternalHomeNew() {
         scheduled_posts: scheduledPosts || 0
       });
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error loading dashboard:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Failed to load dashboard data',
+        description: error.message || 'Please check your connection and try again.',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -163,23 +189,46 @@ export default function InternalHomeNew() {
 
       {/* KPI Bar */}
       <div className="grid gap-3 md:gap-4 grid-cols-2 lg:grid-cols-4">
-        {kpis.map((kpi, idx) => (
-          <Card key={idx}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-              <CardTitle className="text-xs md:text-sm font-medium">{kpi.label}</CardTitle>
-              <kpi.icon className="h-3 w-3 md:h-4 md:w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-lg md:text-2xl font-bold">{kpi.value}</div>
-              <p className="text-xs text-muted-foreground">
-                <span className={kpi.trend === 'up' ? 'text-green-600' : 'text-red-600'}>
-                  {kpi.change}
-                </span>
-                {' '}from last month
-              </p>
+        {loading ? (
+          // Loading skeletons
+          Array.from({ length: 4 }).map((_, idx) => (
+            <Card key={idx}>
+              <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-4 w-4 rounded" />
+              </CardHeader>
+              <CardContent>
+                <Skeleton className="h-8 w-20 mb-2" />
+                <Skeleton className="h-3 w-16" />
+              </CardContent>
+            </Card>
+          ))
+        ) : kpis.length > 0 ? (
+          kpis.map((kpi, idx) => (
+            <Card key={idx}>
+              <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+                <CardTitle className="text-xs md:text-sm font-medium">{kpi.label}</CardTitle>
+                <kpi.icon className="h-3 w-3 md:h-4 md:w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-lg md:text-2xl font-bold">{kpi.value}</div>
+                <p className="text-xs text-muted-foreground">
+                  <span className={kpi.trend === 'up' ? 'text-green-600' : 'text-red-600'}>
+                    {kpi.change}
+                  </span>
+                  {' '}from last month
+                </p>
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <Card className="col-span-full">
+            <CardContent className="pt-6 text-center text-muted-foreground">
+              <AlertCircle className="h-8 w-8 mx-auto mb-2" />
+              <p>No data available</p>
             </CardContent>
           </Card>
-        ))}
+        )}
       </div>
 
       {/* Quick Actions */}

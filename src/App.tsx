@@ -139,25 +139,29 @@ function App() {
                   } />
                   
                   {/* NEW INTERNAL SYSTEM - with unified sidebar layout */}
-                  <Route path="/internal/v2/*" element={<InternalLayoutNew />}>
+                  <Route path="/internal/v2/*" element={
+                    <AuthGuard requireInspector>
+                      <InternalLayoutNew />
+                    </AuthGuard>
+                  }>
                     <Route index element={<InternalHomeNew />} />
                     <Route path="home" element={<InternalHomeNew />} />
                     <Route path="docs" element={<DocsHub />} />
                     <Route path="forms" element={<FormsStudio />} />
-                    <Route path="forms/inspection" element={<AuthGuard><InspectionForm /></AuthGuard>} />
+                    <Route path="forms/inspection" element={<InspectionForm />} />
                     <Route path="data" element={<DataHub />} />
                     <Route path="quote-documents" element={<QuoteDocumentViewer />} />
                     <Route path="media" element={<MediaLibrary />} />
-                    <Route path="media/generator" element={<AuthGuard><ImageGenerator /></AuthGuard>} />
+                    <Route path="media/generator" element={<ImageGenerator />} />
                     <Route path="marketing" element={<MarketingStudio />} />
-                    <Route path="nexus" element={<AuthGuard><Nexus /></AuthGuard>} />
-                    <Route path="tools" element={<AuthGuard><MeasurementTool /></AuthGuard>} />
-                    <Route path="leads" element={<AuthGuard><LeadsPipeline /></AuthGuard>} />
-                    <Route path="leads/:id" element={<AuthGuard><LeadDetail /></AuthGuard>} />
-                    <Route path="quotes/new" element={<AuthGuard><QuoteBuilderNew /></AuthGuard>} />
-                    <Route path="jobs" element={<AuthGuard><JobsCalendar /></AuthGuard>} />
-                    <Route path="intelligence" element={<AuthGuard><LeadIntelligence /></AuthGuard>} />
-                    <Route path="reports" element={<AuthGuard><ReportsAnalytics /></AuthGuard>} />
+                    <Route path="nexus" element={<Nexus />} />
+                    <Route path="tools" element={<MeasurementTool />} />
+                    <Route path="leads" element={<LeadsPipeline />} />
+                    <Route path="leads/:id" element={<LeadDetail />} />
+                    <Route path="quotes/new" element={<QuoteBuilderNew />} />
+                    <Route path="jobs" element={<JobsCalendar />} />
+                    <Route path="intelligence" element={<LeadIntelligence />} />
+                    <Route path="reports" element={<ReportsAnalytics />} />
                   </Route>
                   
                   {/* Redirect old /internal to new v2 system */}

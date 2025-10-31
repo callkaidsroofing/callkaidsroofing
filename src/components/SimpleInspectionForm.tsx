@@ -96,7 +96,7 @@ export function SimpleInspectionForm({ prefillData }: SimpleInspectionFormProps)
       if (error) throw error;
 
       toast.success('Inspection report saved!');
-      navigate('/internal/dashboard');
+      navigate('/internal/v2/home');
       
     } catch (error: any) {
       console.error('Error saving report:', error);
@@ -304,7 +304,7 @@ export function SimpleInspectionForm({ prefillData }: SimpleInspectionFormProps)
         <Button
           type="button"
           variant="outline"
-          onClick={() => navigate('/internal/dashboard')}
+          onClick={() => navigate('/internal/v2/home')}
           disabled={loading}
         >
           Cancel

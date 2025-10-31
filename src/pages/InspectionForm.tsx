@@ -44,7 +44,7 @@ const InspectionForm = () => {
             <div className="flex items-center gap-4 mb-6">
               <Button
                 variant="ghost"
-                onClick={() => navigate('/internal/dashboard')}
+                onClick={() => navigate('/internal/v2/home')}
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Dashboard
@@ -277,7 +277,7 @@ const InspectionForm = () => {
         description: editId ? 'Report updated successfully.' : 'Report saved successfully.',
       });
 
-      navigate('/internal/dashboard');
+      navigate('/internal/v2/home');
     } catch (error: any) {
       console.error('Submission error:', error);
       

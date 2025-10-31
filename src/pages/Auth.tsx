@@ -21,7 +21,7 @@ export default function Auth() {
   useEffect(() => {
     // Redirect if already authenticated
     if (user) {
-      navigate('/internal/dashboard');
+      navigate('/internal/v2/home');
     }
   }, [user, navigate]);
 
@@ -43,7 +43,7 @@ export default function Auth() {
           title: 'Welcome back!',
           description: 'Redirecting to dashboard...',
         });
-        navigate('/internal/dashboard');
+        navigate('/internal/v2/home');
       }
     } catch (error) {
       toast({
