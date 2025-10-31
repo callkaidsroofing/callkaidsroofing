@@ -80,7 +80,7 @@ export default function KnowledgeManagement() {
   }, {}) || {};
 
   return (
-    <div className="w-full max-w-full overflow-x-hidden px-2 sm:px-4 md:px-6 lg:px-8 py-4">
+    <div className="w-full max-w-full overflow-x-hidden">
       <div className="mb-6">
         <h1 className="text-2xl md:text-3xl font-bold">MKF Knowledge Management</h1>
         <p className="text-muted-foreground mt-2">
