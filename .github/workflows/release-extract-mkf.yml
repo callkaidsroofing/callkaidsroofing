@@ -1,0 +1,66 @@
+# .github/workflows/release-extract-mkf.yml
+name: Extract MKF release for agent retrieval
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to extract (e.g. mkf-v1.0)"
+        required: true
+        default: mkf-v1.0
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download release ZIPs
+        uses: robinraju/release-downloader@v1.9
+        with:
+          repository: callkaidsroofing/callkaidsroofing
+          tag: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.event.release.tag_name }}
+          fileName: "*.zip"
+          out-file-path: _mkf_zips
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Unzip into docs
+        shell: bash
+        run: |
+          set -e
+          TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.event.release.tag_name }}"
+          TARGET="docs/mkf/${TAG}"
+          mkdir -p "$TARGET"
+          shopt -s nullglob
+          for z in _mkf_zips/*.zip; do
+            echo "Unzipping $z -> $TARGET"
+            unzip -o "$z" -d "$TARGET"
+          done
+
+      - name: Build mkf_index.json
+        shell: bash
+        env:
+          TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.event.release.tag_name }}
+        run: |
+          python - <<'PY'
+import os, hashlib, json
+tag = os.environ['TAG']
+root = os.path.join("docs","mkf",tag)
+index = []
+for dp,_,files in os.walk(root):
+  for f in files:
+    p = os.path.join(dp,f)
+    h = hashlib.sha256(open(p,'rb').read()).hexdigest()
+    url = f"https://callkaidsroofing.github.io/callkaidsroofing/{p.replace('docs/','')}"
+    index.append({"path": p.replace("docs/",""), "sha256": h, "url": url})
+open(os.path.join(root,"mkf_index.json"),"w").write(json.dumps({"files": index}, indent=2))
+PY
+
+      - name: Commit extracted files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(mkf): extract release to docs/ and generate index"
