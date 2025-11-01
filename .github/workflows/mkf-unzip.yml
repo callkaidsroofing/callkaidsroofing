@@ -1,0 +1,69 @@
+name: MKF unzip to Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (e.g. mkf-v1.0)"
+        required: true
+        default: mkf-v1.0
+
+permissions:
+  contents: write
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install unzip
+        run: sudo apt-get update && sudo apt-get install -y unzip
+
+      - name: Download ZIP assets for tag via gh (if any)
+        id: dl
+        run: |
+          mkdir -p _mkf
+          set +e
+          gh release download "${{ inputs.tag }}" -R "${{ github.repository }}" -p "*.zip" -D _mkf
+          rc=$?
+          set -e
+          shopt -s nullglob
+          z=( _mkf/*.zip )
+          echo "found=${#z[@]}" >> $GITHUB_OUTPUT
+          echo "Downloaded ${#z[@]} asset zip(s), rc=$rc"
+
+      - name: Fallback — copy ZIPs from repo if release has none
+        if: steps.dl.outputs.found == '0'
+        run: |
+          echo "No release assets matched. Falling back to repo ZIPs."
+          shopt -s nullglob
+          mkdir -p _mkf
+          # copy any zip checked into the repo (e.g., CKR_MKF_v1_0.zip)
+          while IFS= read -r -d '' f; do
+            echo "Copying $f"
+            cp "$f" _mkf/
+          done < <(find . -maxdepth 3 -type f -name "*.zip" -not -path "./.git/*" -print0)
+          z=( _mkf/*.zip )
+          echo "Copied ${#z[@]} repo zip(s)"
+          [ ${#z[@]} -gt 0 ] || { echo "No ZIPs found in repo either"; exit 1; }
+
+      - name: Unzip into docs/mkf/<tag>/
+        run: |
+          set -e
+          TARGET="docs/mkf/${{ inputs.tag }}"
+          mkdir -p "$TARGET"
+          for z in _mkf/*.zip; do
+            echo "Unzipping $z -> $TARGET"
+            unzip -o "$z" -d "$TARGET"
+          done
+          touch docs/.nojekyll
+
+      - name: Commit extracted files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(mkf): extract ${{ inputs.tag }} to docs/"
+          file_pattern: docs/**
+          branch: ${{ github.ref_name }}
