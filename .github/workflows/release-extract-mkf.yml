@@ -1,4 +1,3 @@
-# .github/workflows/release-extract-mkf.yml
 name: Extract MKF release for agent retrieval
 
 on:
@@ -35,6 +34,32 @@ jobs:
           TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.event.release.tag_name }}"
           TARGET="docs/mkf/${TAG}"
           mkdir -p "$TARGET"
+          shopt -s nullglob
+          for z in _mkf_zips/*.zip; do
+            echo "Unzipping $z -> $TARGET"
+            unzip -o "$z" -d "$TARGET"
+          done
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Build mkf_index.json
+        shell: bash
+        run: |
+          set -e
+          TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.event.release.tag_name }}"
+          ROOT="docs/mkf/${TAG}"
+          find "$ROOT" -type f -printf '%P\0' | \
+          while IFS= read -r -d '' rel; do
+            sha=$(sha256sum "$ROOT/$rel" | cut -d ' ' -f1)
+            url="https://callkaidsroofing.github.io/callkaidsroofing/mkf/${TAG}/${rel}"
+            printf '{"path":"mkf/%s/%s","sha256":"%s","url":"%s"}\n' "$TAG" "$rel" "$sha" "$url"
+          done | jq -s '{files: .}' > "$ROOT/mkf_index.json"
+
+      - name: Commit extracted files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(mkf): extract ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.event.release.tag_name }} to docs/ and index"          mkdir -p "$TARGET"
           shopt -s nullglob
           for z in _mkf_zips/*.zip; do
             echo "Unzipping $z -> $TARGET"
