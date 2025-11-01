@@ -1,0 +1,85 @@
+name: MKF unzip to Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (e.g. mkf-v1.0)"
+        required: true
+        default: mkf-v1.0
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/mkf-unzip.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install unzip
+        run: sudo apt-get update && sudo apt-get install -y unzip jq
+
+      - name: Resolve tag
+        id: t
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.tag }}" ]; then
+            echo "TAG=${{ inputs.tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "TAG=mkf-v1.0" >> $GITHUB_OUTPUT
+          fi
+          echo "Using tag: ${{ steps.t.outputs.TAG }}"
+
+      - name: Download ZIP assets for tag
+        uses: robinraju/release-downloader@v1.9
+        with:
+          repository: ${{ github.repository }}
+          tag: ${{ steps.t.outputs.TAG }}
+          fileName: "*.zip"
+          out-file-path: _mkf
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fail if no ZIPs
+        run: |
+          shopt -s nullglob
+          z=( _mkf/*.zip )
+          echo "Found ${#z[@]} zip(s)"
+          [ ${#z[@]} -gt 0 ] || { echo "No *.zip assets on that tag"; exit 1; }
+
+      - name: Unzip into docs/mkf/<tag>/
+        run: |
+          set -e
+          TARGET="docs/mkf/${{ steps.t.outputs.TAG }}"
+          mkdir -p "$TARGET"
+          for z in _mkf/*.zip; do
+            echo "Unzipping $z -> $TARGET"
+            unzip -o "$z" -d "$TARGET"
+          done
+          touch docs/.nojekyll
+
+      - name: Build mkf_index.json
+        run: |
+          set -e
+          ROOT="docs/mkf/${{ steps.t.outputs.TAG }}"
+          echo '{"files":[]}' > "$ROOT/mkf_index.json"
+          while IFS= read -r -d '' f; do
+            rel="${f#$ROOT/}"
+            sha=$(sha256sum "$f" | cut -d ' ' -f1)
+            url="https://callkaidsroofing.github.io/callkaidsroofing/mkf/${{ steps.t.outputs.TAG }}/$rel"
+            jq --arg p "mkf/${{ steps.t.outputs.TAG }}/$rel" --arg s "$sha" --arg u "$url" \
+               '.files += [{"path":$p,"sha256":$s,"url":$u}]' "$ROOT/mkf_index.json" > "$ROOT/.tmp" && mv "$ROOT/.tmp" "$ROOT/mkf_index.json"
+          done < <(find "$ROOT" -type f -print0)
+
+      - name: Commit extracted files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(mkf): extract ${{ steps.t.outputs.TAG }} to docs and index"
+          file_pattern: docs/**
+
+      - name: Cleanup download cache
+        run: rm -rf _mkf
