@@ -14,23 +14,20 @@ permissions:
 jobs:
   unzip:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Install unzip
         run: sudo apt-get update && sudo apt-get install -y unzip
 
-      - name: Download ZIP assets for tag
-        uses: robinraju/release-downloader@v1.9
-        with:
-          repository: ${{ github.repository }}
-          tag: ${{ inputs.tag }}
-          fileName: "*.zip"
-          out-file-path: _mkf
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Fail if no ZIPs
+      - name: Download ZIP assets for tag via gh
         run: |
+          mkdir -p _mkf
+          gh release download "${{ inputs.tag }}" \
+            -R "${{ github.repository }}" \
+            -p "*.zip" -D _mkf
           shopt -s nullglob
           z=( _mkf/*.zip )
           echo "Found ${#z[@]} zip(s)"
