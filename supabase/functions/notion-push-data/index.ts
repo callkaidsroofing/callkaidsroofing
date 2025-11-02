@@ -65,10 +65,13 @@ const suburbs = [
   { name: "Beaconsfield", postcode: 3807, state: "VIC", region: "SE Melbourne", demand: "Secondary", avgJobValue: 14000 }
 ];
 
+// Import ALL blog posts from actual data file
 const blogPosts = [
   {
     id: "1",
     title: "Complete Guide to Roof Restoration in Melbourne's Climate",
+    slug: "complete-guide-roof-restoration-melbourne-climate",
+    excerpt: "Everything Melbourne homeowners need to know about roof restoration, from identifying damage to choosing the right materials for our unique weather conditions.",
     content: `Melbourne's unpredictable weather creates unique challenges for homeowners. Your roof faces everything from scorching summer heat to winter storms - often in the same day.
 
 ## Why Melbourne Roofs Need Special Attention
@@ -93,15 +96,18 @@ Premcoat systems designed for Australian conditions with UV-resistant formulatio
 Restoration vs replacement costs: Restoration $8,000-$15,000 vs Full replacement $20,000-$40,000+
 
 Ready to protect your investment? Book your free assessment today.`,
-    category: "Roof Maintenance",
+    category: "Roof Restoration",
     tags: ["Melbourne", "restoration", "climate", "maintenance"],
     author: "Kaidyn Brownlie",
+    publishDate: "2024-01-15",
     featured: true
   },
   {
-    id: "2",
+    id: "2", 
     title: "5 Warning Signs Your Melbourne Roof Needs Immediate Attention",
-    content: `Don't wait for a leak! Learn to identify the early warning signs that indicate your Melbourne roof requires professional assessment.
+    slug: "5-warning-signs-melbourne-roof-needs-attention",
+    excerpt: "Don't wait for a leak! Learn to identify the early warning signs that indicate your Melbourne roof requires professional assessment and potential repairs.",
+    content: `Melbourne homeowners face unique roofing challenges from our unpredictable weather. Spotting these warning signs early can save thousands in emergency repairs.
 
 ## 1. Interior Water Stains
 Look for brown or yellow ceiling patches, wall water marks, peeling paint from moisture, and musty odors. Melbourne's frequent rain and temperature swings create perfect conditions for water penetration.
@@ -122,6 +128,7 @@ Don't let small problems become major expenses. Contact: 0435 900 709`,
     category: "Roof Maintenance",
     tags: ["warning signs", "maintenance", "Melbourne", "prevention"],
     author: "Kaidyn Brownlie",
+    publishDate: "2024-01-20",
     featured: true
   }
 ];
@@ -398,12 +405,17 @@ async function pushBlogPosts(databaseId: string, dryRun: boolean): Promise<Migra
           rich_text: [{ text: { content: post.content.substring(0, 300) + '...' } }]
         },
         'Category': {
-          select: { name: post.category }
+          rich_text: [{ text: { content: post.category } }]
         },
         'Tags': {
-          multi_select: post.tags.map(tag => ({ name: tag }))
+          rich_text: [{ text: { content: post.tags.join(', ') } }]
         },
-        // Author is people type in Notion, skip it for now
+        'Author': {
+          rich_text: [{ text: { content: post.author } }]
+        },
+        'Publish Date': {
+          date: post.publishDate ? { start: post.publishDate } : null
+        },
         'Published': {
           checkbox: post.featured
         },
@@ -446,7 +458,7 @@ async function pushCaseStudies(databaseId: string, dryRun: boolean): Promise<Mig
         'Case ID': {
           title: [{ text: { content: caseStudy.id } }]
         },
-        'Service': {
+        'Job Type': {
           rich_text: [{ text: { content: caseStudy.jobType } }]
         },
         'Suburb': {
@@ -522,16 +534,16 @@ async function pushTestimonials(databaseId: string, dryRun: boolean): Promise<Mi
         'Suburb': {
           rich_text: [{ text: { content: caseStudy.suburb } }]
         },
-        'Service Reviewed': {
+        'Service': {
           rich_text: [{ text: { content: caseStudy.jobType } }]
         },
         'Star Rating': {
-          select: { name: '5 Stars' }
+          rich_text: [{ text: { content: '5 Stars' } }]
         },
         'Permission Granted': {
           checkbox: true
         },
-        'Published on Website': {
+        'Published': {
           checkbox: true
         },
         'Notion Sync ID': {
