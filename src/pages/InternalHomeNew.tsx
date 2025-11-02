@@ -81,6 +81,12 @@ export default function InternalHomeNew() {
       icon: FileText
     },
     {
+      title: 'New Inspection',
+      description: 'Create inspection report',
+      route: '/internal/v2/inspections/new',
+      icon: FileText
+    },
+    {
       title: 'Forms Studio',
       description: 'Manage forms & submissions',
       route: '/internal/v2/forms',
