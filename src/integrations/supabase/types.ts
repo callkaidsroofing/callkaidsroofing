@@ -1069,6 +1069,7 @@ export type Database = {
           internalLeaks: string | null
           job_checklist: Json | null
           leaksphoto: string[] | null
+          notion_sync_id: string | null
           otherMaterials: string | null
           overallCondition: string | null
           overallConditionNotes: string | null
@@ -1160,6 +1161,7 @@ export type Database = {
           internalLeaks?: string | null
           job_checklist?: Json | null
           leaksphoto?: string[] | null
+          notion_sync_id?: string | null
           otherMaterials?: string | null
           overallCondition?: string | null
           overallConditionNotes?: string | null
@@ -1251,6 +1253,7 @@ export type Database = {
           internalLeaks?: string | null
           job_checklist?: Json | null
           leaksphoto?: string[] | null
+          notion_sync_id?: string | null
           otherMaterials?: string | null
           overallCondition?: string | null
           overallConditionNotes?: string | null
@@ -1359,6 +1362,7 @@ export type Database = {
           issue_date: string
           job_id: string | null
           notes: string | null
+          notion_sync_id: string | null
           payment_terms: string | null
           quote_id: string | null
           status: string | null
@@ -1380,6 +1384,7 @@ export type Database = {
           issue_date?: string
           job_id?: string | null
           notes?: string | null
+          notion_sync_id?: string | null
           payment_terms?: string | null
           quote_id?: string | null
           status?: string | null
@@ -1401,6 +1406,7 @@ export type Database = {
           issue_date?: string
           job_id?: string | null
           notes?: string | null
+          notion_sync_id?: string | null
           payment_terms?: string | null
           quote_id?: string | null
           status?: string | null
@@ -1565,6 +1571,7 @@ export type Database = {
           merged_into_lead_id: string | null
           message: string | null
           name: string
+          notion_sync_id: string | null
           phone: string
           service: string
           service_area_match: boolean | null
@@ -1586,6 +1593,7 @@ export type Database = {
           merged_into_lead_id?: string | null
           message?: string | null
           name: string
+          notion_sync_id?: string | null
           phone: string
           service: string
           service_area_match?: boolean | null
@@ -1607,6 +1615,7 @@ export type Database = {
           merged_into_lead_id?: string | null
           message?: string | null
           name?: string
+          notion_sync_id?: string | null
           phone?: string
           service?: string
           service_area_match?: boolean | null
@@ -2192,6 +2201,7 @@ export type Database = {
           inspection_report_id: string | null
           line_items: Json | null
           notes: string | null
+          notion_sync_id: string | null
           parent_quote_id: string | null
           phone: string
           photo_ids: string[] | null
@@ -2229,6 +2239,7 @@ export type Database = {
           inspection_report_id?: string | null
           line_items?: Json | null
           notes?: string | null
+          notion_sync_id?: string | null
           parent_quote_id?: string | null
           phone: string
           photo_ids?: string[] | null
@@ -2266,6 +2277,7 @@ export type Database = {
           inspection_report_id?: string | null
           line_items?: Json | null
           notes?: string | null
+          notion_sync_id?: string | null
           parent_quote_id?: string | null
           phone?: string
           photo_ids?: string[] | null
@@ -2586,6 +2598,42 @@ export type Database = {
         }
         Relationships: []
       }
+      sync_conflicts: {
+        Row: {
+          created_at: string | null
+          id: string
+          notion_value: Json | null
+          record_id: string
+          resolved: boolean | null
+          resolved_at: string | null
+          resolved_by: string | null
+          supabase_value: Json | null
+          table_name: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          notion_value?: Json | null
+          record_id: string
+          resolved?: boolean | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          supabase_value?: Json | null
+          table_name: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          notion_value?: Json | null
+          record_id?: string
+          resolved?: boolean | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          supabase_value?: Json | null
+          table_name?: string
+        }
+        Relationships: []
+      }
       system_audit: {
         Row: {
           action: string
@@ -2749,6 +2797,15 @@ export type Database = {
       }
     }
     Views: {
+      sync_status: {
+        Row: {
+          last_update: string | null
+          synced_records: number | null
+          table_name: string | null
+          unsynced_records: number | null
+        }
+        Relationships: []
+      }
       v_pricing_latest: {
         Row: {
           approved_at: string | null
