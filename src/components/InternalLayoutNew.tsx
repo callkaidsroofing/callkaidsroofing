@@ -4,12 +4,14 @@ import {
   Home, FileText, FormInput, Database, Image, Megaphone, FileOutput, 
   Menu, Sparkles, Wrench, Phone, DollarSign, Calendar, BarChart3, 
   Brain, ClipboardList, Settings, Ruler, Users, FileStack,
-  ChevronDown, Shield
+  ChevronDown, Shield, RefreshCw
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 interface NavItem {
@@ -187,6 +189,29 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
 
 export function InternalLayoutNew() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
+
+  const handleNotionSync = async () => {
+    setIsSyncing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('supabase-to-notion-push', {
+        body: { action: 'sync_all' }
+      });
+
+      if (error) throw error;
+
+      toast.success('Notion sync initiated successfully', {
+        description: `Synced ${data.results?.length || 0} records`
+      });
+    } catch (error) {
+      console.error('Notion sync error:', error);
+      toast.error('Failed to sync with Notion', {
+        description: error.message
+      });
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row w-full bg-background">
@@ -215,7 +240,19 @@ export function InternalLayoutNew() {
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
         <div className="p-4 md:p-6 lg:p-8">
-          <Breadcrumbs />
+          <div className="flex items-center justify-between mb-4">
+            <Breadcrumbs />
+            <Button
+              onClick={handleNotionSync}
+              disabled={isSyncing}
+              size="sm"
+              variant="outline"
+              className="gap-2"
+            >
+              <RefreshCw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
+              {isSyncing ? 'Syncing...' : 'Sync to Notion'}
+            </Button>
+          </div>
           <Outlet />
         </div>
       </main>
