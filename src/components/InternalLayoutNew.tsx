@@ -53,7 +53,7 @@ const navStructure: NavSection[] = [
     defaultOpen: true,
     items: [
       { title: 'Measurement Tool', path: '/internal/v2/tools', icon: Ruler },
-      { title: 'Inspection Form', path: '/internal/v2/forms/inspection', icon: ClipboardList },
+      { title: 'New Inspection', path: '/internal/v2/inspections/new', icon: ClipboardList },
       { title: 'Image Generator', path: '/internal/v2/media/generator', icon: Image },
     ],
   },

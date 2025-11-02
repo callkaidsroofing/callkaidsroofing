@@ -61,6 +61,7 @@ const MarketingStudio = lazy(() => import("./pages/MarketingStudio"));
 const LeadsPipeline = lazy(() => import("./pages/LeadsPipeline"));
 const LeadDetail = lazy(() => import("./pages/LeadDetail"));
 const QuoteBuilderNew = lazy(() => import("./pages/QuoteBuilderNew"));
+const InspectionBuilderNew = lazy(() => import("./pages/InspectionBuilderNew"));
 const JobsCalendar = lazy(() => import("./pages/JobsCalendar"));
 const LeadIntelligence = lazy(() => import("./pages/LeadIntelligence"));
 const ReportsAnalytics = lazy(() => import("./pages/ReportsAnalytics"));
@@ -167,6 +168,8 @@ function App() {
                       <Route path="leads" element={<LeadsPipeline />} />
                       <Route path="leads/:id" element={<LeadDetail />} />
                       <Route path="quotes/new" element={<QuoteBuilderNew />} />
+                      <Route path="inspections/new" element={<InspectionBuilderNew />} />
+                      <Route path="inspections/:id" element={<InspectionBuilderNew />} />
                       <Route path="jobs" element={<JobsCalendar />} />
                       <Route path="intelligence" element={<LeadIntelligence />} />
                       <Route path="reports" element={<ReportsAnalytics />} />
