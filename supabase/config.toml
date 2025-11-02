@@ -1,6 +1,16 @@
 project_id = "vlnkzpyeppfdmresiaoh"
 
 # ============================================
+# NOTION SYNC FUNCTIONS
+# ============================================
+
+[functions.notion-discovery]
+verify_jwt = false
+
+[functions.notion-sync]
+verify_jwt = false
+
+# ============================================
 # NEW CONSOLIDATED FUNCTIONS
 # ============================================
 
