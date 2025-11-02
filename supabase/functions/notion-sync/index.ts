@@ -180,7 +180,9 @@ async function syncServices(databaseId: string): Promise<SyncResult> {
         const notionId = page.id.replace(/-/g, '');
 
         const serviceName = getPropertyValue(props['Service Name']) || '';
-        const slug = serviceName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+        // Add notion ID suffix to prevent duplicate slugs
+        const baseSlug = serviceName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+        const slug = `${baseSlug}-${notionId.substring(0, 6)}`;
 
         const service = {
           notion_id: notionId,
@@ -250,7 +252,10 @@ async function syncSuburbs(databaseId: string): Promise<SyncResult> {
         const notionId = page.id.replace(/-/g, '');
 
         const suburbName = getPropertyValue(props['Suburb Name']) || '';
-        const slug = suburbName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+        const postcode = getPropertyValue(props.Postcode)?.toString() || '';
+        // Add postcode to slug to prevent duplicates
+        const baseSlug = suburbName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+        const slug = postcode ? `${baseSlug}-${postcode}` : `${baseSlug}-${notionId.substring(0, 6)}`;
 
         const suburb = {
           notion_id: notionId,

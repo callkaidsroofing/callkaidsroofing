@@ -54,6 +54,9 @@ verify_jwt = true
 [functions.ckr-gem-api]
 verify_jwt = false
 
+[functions.supabase-to-notion-push]
+verify_jwt = false
+
 [functions.nexus-ai-hub]
 verify_jwt = true
 
