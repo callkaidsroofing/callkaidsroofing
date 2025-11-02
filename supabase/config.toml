@@ -7,6 +7,9 @@ project_id = "vlnkzpyeppfdmresiaoh"
 [functions.notion-discovery]
 verify_jwt = false
 
+[functions.notion-push-data]
+verify_jwt = false
+
 [functions.notion-sync]
 verify_jwt = false
 
