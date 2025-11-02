@@ -29,35 +29,70 @@ interface MigrationReport {
 
 // Hardcoded data arrays
 const services = [
-  { name: "Roof Restoration", category: "Restoration", description: "Complete roof restoration including cleaning, repairs, and coating", active: true },
-  { name: "Roof Painting", category: "Painting", description: "Professional roof painting and coating services", active: true },
-  { name: "Roof Repairs", category: "Repairs", description: "Emergency and scheduled roof repair services", active: true },
-  { name: "Gutter Cleaning", category: "Maintenance", description: "Professional gutter cleaning and maintenance", active: true },
-  { name: "Leak Detection", category: "Repairs", description: "Expert leak detection and repair services", active: true },
-  { name: "Valley Iron Replacement", category: "Repairs", description: "Valley iron replacement and installation", active: true },
-  { name: "Tile Replacement", category: "Repairs", description: "Broken and damaged tile replacement", active: true },
-  { name: "Roof Repointing", category: "Maintenance", description: "Ridge cap rebedding and repointing services", active: true }
+  { name: "Roof Restoration", category: "Restoration", description: "Complete roof restoration including cleaning, repairs, rebedding, repointing and premium coating systems", active: true, warranty: "15-Year Standard", duration: "2-3 Days", costRange: "$8,000-$15,000" },
+  { name: "Roof Painting", category: "Painting", description: "Professional roof painting and coating services with premium Premcoat systems", active: true, warranty: "15-Year Standard", duration: "2-3 Days", costRange: "$6,000-$12,000" },
+  { name: "Roof Repairs", category: "Repairs", description: "Emergency and scheduled roof repair services including tile replacement and leak repairs", active: true, warranty: "Workmanship Only", duration: "Same Day", costRange: "$200-$2,000" },
+  { name: "Gutter Cleaning", category: "Maintenance", description: "Professional gutter cleaning and maintenance with downpipe flushing", active: true, warranty: "Workmanship Only", duration: "2-4 Hours", costRange: "$200-$400" },
+  { name: "Leak Detection", category: "Repairs", description: "Expert leak detection and repair services with thermal imaging", active: true, warranty: "Workmanship Only", duration: "Half Day", costRange: "$300-$800" },
+  { name: "Valley Iron Replacement", category: "Repairs", description: "Complete valley iron replacement with galvanized steel installation", active: true, warranty: "15-Year Standard", duration: "1 Day", costRange: "$1,500-$4,000" },
+  { name: "Tile Replacement", category: "Repairs", description: "Broken and damaged tile replacement with matching materials", active: true, warranty: "Workmanship Only", duration: "2-4 Hours", costRange: "$50-$150 per tile" },
+  { name: "Ridge Capping Repair", category: "Maintenance", description: "Ridge cap rebedding and repointing with flexible pointing systems", active: true, warranty: "15-Year Standard", duration: "1-2 Days", costRange: "$15-$25 per LM" },
+  { name: "Roof Repointing", category: "Maintenance", description: "Complete roof repointing with premium flexible mortar systems", active: true, warranty: "15-Year Standard", duration: "1-2 Days", costRange: "$3,000-$6,000" },
+  { name: "Emergency Roof Repairs", category: "Repairs", description: "24/7 emergency roof repair service for storm damage and urgent leaks", active: true, warranty: "Workmanship Only", duration: "Same Day", costRange: "$500-$2,000" },
+  { name: "Gutter Replacement", category: "Installation", description: "Complete gutter replacement with Colorbond steel systems", active: true, warranty: "15-Year Standard", duration: "1-2 Days", costRange: "$2,000-$5,000" },
+  { name: "Roof Inspection", category: "Assessment", description: "Comprehensive 25-point roof health assessment with photo documentation", active: true, warranty: "N/A", duration: "1-2 Hours", costRange: "Free" }
 ];
 
 const suburbs = [
-  { name: "Clyde North", postcode: 3978, state: "VIC" },
-  { name: "Berwick", postcode: 3806, state: "VIC" },
-  { name: "Cranbourne", postcode: 3977, state: "VIC" },
-  { name: "Pakenham", postcode: 3810, state: "VIC" },
-  { name: "Officer", postcode: 3809, state: "VIC" },
-  { name: "Narre Warren South", postcode: 3805, state: "VIC" },
-  { name: "Rowville", postcode: 3178, state: "VIC" },
-  { name: "Dandenong", postcode: 3175, state: "VIC" },
-  { name: "Mount Eliza", postcode: 3930, state: "VIC" },
-  { name: "Lyndhurst", postcode: 3975, state: "VIC" },
-  { name: "Noble Park", postcode: 3174, state: "VIC" }
+  { name: "Clyde North", postcode: 3978, state: "VIC", region: "SE Melbourne", demand: "Primary - High Volume", avgJobValue: 12000 },
+  { name: "Berwick", postcode: 3806, state: "VIC", region: "SE Melbourne", demand: "Primary - High Volume", avgJobValue: 14000 },
+  { name: "Cranbourne", postcode: 3977, state: "VIC", region: "SE Melbourne", demand: "Primary - High Volume", avgJobValue: 11000 },
+  { name: "Cranbourne North", postcode: 3977, state: "VIC", region: "SE Melbourne", demand: "Primary - High Volume", avgJobValue: 11500 },
+  { name: "Cranbourne South", postcode: 3977, state: "VIC", region: "SE Melbourne", demand: "Secondary", avgJobValue: 10500 },
+  { name: "Cranbourne East", postcode: 3977, state: "VIC", region: "SE Melbourne", demand: "Secondary", avgJobValue: 11000 },
+  { name: "Pakenham", postcode: 3810, state: "VIC", region: "SE Melbourne", demand: "Primary - High Volume", avgJobValue: 10500 },
+  { name: "Officer", postcode: 3809, state: "VIC", region: "SE Melbourne", demand: "Primary - High Volume", avgJobValue: 11500 },
+  { name: "Narre Warren", postcode: 3805, state: "VIC", region: "SE Melbourne", demand: "Primary - High Volume", avgJobValue: 13000 },
+  { name: "Narre Warren South", postcode: 3805, state: "VIC", region: "SE Melbourne", demand: "Secondary", avgJobValue: 12500 },
+  { name: "Rowville", postcode: 3178, state: "VIC", region: "SE Melbourne", demand: "Secondary", avgJobValue: 15000 },
+  { name: "Dandenong", postcode: 3175, state: "VIC", region: "SE Melbourne", demand: "Secondary", avgJobValue: 9500 },
+  { name: "Mount Eliza", postcode: 3930, state: "VIC", region: "Mornington Peninsula", demand: "Secondary", avgJobValue: 16000 },
+  { name: "Lyndhurst", postcode: 3975, state: "VIC", region: "SE Melbourne", demand: "Secondary", avgJobValue: 10000 },
+  { name: "Noble Park", postcode: 3174, state: "VIC", region: "SE Melbourne", demand: "Secondary", avgJobValue: 9000 },
+  { name: "Hampton Park", postcode: 3976, state: "VIC", region: "SE Melbourne", demand: "Primary - High Volume", avgJobValue: 10500 },
+  { name: "Hallam", postcode: 3803, state: "VIC", region: "SE Melbourne", demand: "Secondary", avgJobValue: 11000 },
+  { name: "Keysborough", postcode: 3173, state: "VIC", region: "SE Melbourne", demand: "Secondary", avgJobValue: 12000 },
+  { name: "Beaconsfield", postcode: 3807, state: "VIC", region: "SE Melbourne", demand: "Secondary", avgJobValue: 14000 }
 ];
 
 const blogPosts = [
   {
     id: "1",
     title: "Complete Guide to Roof Restoration in Melbourne's Climate",
-    content: "Melbourne's unpredictable weather creates unique challenges for homeowners. Your roof faces everything from scorching summer heat to winter storms - often in the same day.",
+    content: `Melbourne's unpredictable weather creates unique challenges for homeowners. Your roof faces everything from scorching summer heat to winter storms - often in the same day.
+
+## Why Melbourne Roofs Need Special Attention
+
+Melbourne's "four seasons in one day" climate causes constant expansion and contraction of roofing materials, leading to tile movement, ridge cap displacement, mortar deterioration, and gutter system stress.
+
+## Our Professional Restoration Process
+
+### Step 1: 25-Point Health Assessment
+We inspect ridge capping condition, tile integrity, valley iron assessment, and gutter evaluation.
+
+### Step 2: Professional Cleaning
+Using specialized equipment to remove moss, lichen, dirt, and debris accumulation.
+
+### Step 3: Targeted Repairs
+Common Melbourne issues we fix: broken tiles, ridge cap rebedding, valley iron replacement, and leak sealing.
+
+### Step 4: Premium Coating
+Premcoat systems designed for Australian conditions with UV-resistant formulation, thermal reflection properties, and 10-year warranty coverage.
+
+## Smart Investment Choice
+Restoration vs replacement costs: Restoration $8,000-$15,000 vs Full replacement $20,000-$40,000+
+
+Ready to protect your investment? Book your free assessment today.`,
     category: "Roof Maintenance",
     tags: ["Melbourne", "restoration", "climate", "maintenance"],
     author: "Kaidyn Brownlie",
@@ -66,7 +101,24 @@ const blogPosts = [
   {
     id: "2",
     title: "5 Warning Signs Your Melbourne Roof Needs Immediate Attention",
-    content: "Don't wait for a leak! Learn to identify the early warning signs that indicate your Melbourne roof requires professional assessment and potential repairs.",
+    content: `Don't wait for a leak! Learn to identify the early warning signs that indicate your Melbourne roof requires professional assessment.
+
+## 1. Interior Water Stains
+Look for brown or yellow ceiling patches, wall water marks, peeling paint from moisture, and musty odors. Melbourne's frequent rain and temperature swings create perfect conditions for water penetration.
+
+## 2. Ridge Cap Problems  
+Visual indicators: gaps between caps and tiles, cracked pointing along ridges, displaced caps after storms, exposed fixing screws. Melbourne's strong winds cause significant ridge cap movement.
+
+## 3. Damaged Tiles
+Common problems: hair-line thermal cracks, broken tiles from hail, sliding tiles from failed fixings, lifted tiles exposing underlay.
+
+## 4. Gutter Issues
+Warning signs: overflow during rain, sagging from roofline, rust stains on walls, standing water, plant growth.
+
+## 5. Valley Iron & Flashing Failure
+Monitor valley intersections, chimney surrounds, skylight seals, and vent penetrations for rust, lifted edges, or cracked sealants.
+
+Don't let small problems become major expenses. Contact: 0435 900 709`,
     category: "Roof Maintenance",
     tags: ["warning signs", "maintenance", "Melbourne", "prevention"],
     author: "Kaidyn Brownlie",
@@ -80,27 +132,90 @@ const caseStudies = [
     jobType: "Full Tile Roof Restoration",
     suburb: "Berwick",
     clientProblem: "20-year-old roof looked 'tired and faded' with extensive moss growth and visible cracking in the ridge capping mortar, creating a risk of leaks.",
-    solutionProvided: "Full restoration including high-pressure clean, replacement of 18 cracked tiles, full re-bed and re-point of all ridge capping, and application of a 3-coat Premcoat membrane.",
+    solutionProvided: "Full restoration including high-pressure clean (SOP-T1), replacement of 18 cracked tiles (SOP-T2), full re-bed and re-point of all ridge capping (SOP-T3), and application of a 3-coat Premcoat membrane in 'Monument' (SOP-T4).",
     keyOutcome: "Complete aesthetic transformation, restored structural integrity, and long-term protection backed by a 15-year warranty.",
-    testimonial: "Could not be happier with the result. The team was professional from start to finish. Our roof looks brand new and the whole house looks better for it."
+    testimonial: "Could not be happier with the result. The team was professional from start to finish. Our roof looks brand new and the whole house looks better for it. The photo updates they sent were fantastic. Highly recommend.",
+    projectValue: 14500
   },
   {
     id: "CS-2025-08-22-CRN-01",
     jobType: "Metal Roof Painting",
     suburb: "Cranbourne North",
     clientProblem: "Colorbond roof severely faded (chalking) with surface rust, particularly around fasteners.",
-    solutionProvided: "Pressure cleaned, all rust spots mechanically ground back to bare metal and treated. All 450+ fasteners systematically replaced with new Class 4 screws. Full 3-coat system applied.",
+    solutionProvided: "Pressure cleaned (SOP-M1), all rust spots mechanically ground back to bare metal and treated (SOP-M2). All 450+ fasteners systematically replaced with new Class 4 screws (SOP-M4). Full 3-coat system applied in 'Woodland Grey'.",
     keyOutcome: "Full restoration of original roof color and sheen. All rust eliminated, extending the roof life for a fraction of the cost of replacement.",
-    testimonial: "Professional service from start to finish. The roof looks brand new!"
+    testimonial: "Professional service from start to finish. The roof looks brand new and has completely transformed the appearance of our home!",
+    projectValue: 9800
   },
   {
     id: "CS-2025-07-30-PAK-01",
-    jobType: "Ridge Capping Repair",
+    jobType: "Ridge Capping Repair (Structural)",
     suburb: "Pakenham",
     clientProblem: "Client noticed pieces of brittle mortar falling onto their driveway, leading to concerns about ridge capping security during high winds.",
-    solutionProvided: "A full re-bed and re-point of the main ridge and two hips. All old mortar chipped away and new flexible pointing applied and tooled to a professional finish.",
+    solutionProvided: "A full re-bed and re-point of the main ridge and two hips as per the Master Craftsmanship SOP-T3. All old mortar chipped away and new flexible pointing applied and tooled to a professional finish.",
     keyOutcome: "Ridge capping is now structurally sound and the primary leak point on the roof has been eliminated. Guaranteed long-term security.",
-    testimonial: "Very happy with the work. They showed me photos of the problem so I could understand what was needed. The finished job looks great and I feel much safer now."
+    testimonial: "Very happy with the work. They showed me photos of the problem so I could understand what was needed. The finished job looks great and I feel much safer now.",
+    projectValue: 3200
+  },
+  {
+    id: "CS-2025-06-18-NAR-01",
+    jobType: "Valley Iron Replacement & Leak Repair",
+    suburb: "Narre Warren South",
+    clientProblem: "Persistent leak causing ceiling stain. Source traced to the main valley iron which had rusted through in several places.",
+    solutionProvided: "Root cause eliminated. Old, rusted valley iron cut out and replaced with new, galvanized valley iron with correct overlaps. Tiles re-cut and re-laid.",
+    keyOutcome: "Permanent resolution to the persistent leak, preventing major internal water damage. Guaranteed structural integrity.",
+    testimonial: "Finally, someone who could actually find and repair the leak! Professional, explained everything clearly. Worth every cent.",
+    projectValue: 2800
+  },
+  {
+    id: "CS-2025-05-20-CLY-01",
+    jobType: "Gutter Cleaning & Drainage Restoration",
+    suburb: "Clyde North",
+    clientProblem: "Water overflowing from gutters at the front of a two-storey home during heavy rain due to blockages.",
+    solutionProvided: "Full gutter and downpipe clean performed as per SOP-GR5. All solid debris manually removed, followed by a high-volume flush to restore full drainage capacity.",
+    keyOutcome: "Roof drainage system restored to full capacity. Prevented potential water damage to fascia and foundation. Confirmed downpipes were flowing freely.",
+    testimonial: "Efficient service, did a great job. Much safer than me trying to get up on a ladder myself.",
+    projectValue: 350
+  },
+  {
+    id: "CS-2025-03-05-ROW-02",
+    jobType: "Systematic Fastener Replacement",
+    suburb: "Rowville",
+    clientProblem: "Widespread failure of EPDM washers on fasteners of a 10-year-old metal roof, leading to multiple micro-leaks and rust staining.",
+    solutionProvided: "Systematic replacement of all 650+ exposed roof fasteners using new Buildex Class 4 screws with compliant EPDM washers (SOP-GR1). Each hole mechanically cleaned prior to installation.",
+    keyOutcome: "Restored waterproofing integrity. Eliminated future risk of thermal fatigue leaks. Proof of meticulous preparation (During Photo Protocol U-3R).",
+    testimonial: "The technician explained the difference between a low-cost screw and a proper one. The attention to detail was exceptional, I can feel confident in the repair.",
+    projectValue: 2400
+  },
+  {
+    id: "CS-2025-02-14-OFCR-03",
+    jobType: "Dektite Replacement & Sealing",
+    suburb: "Officer",
+    clientProblem: "Major leak around the plumbing vent pipe. Inspection revealed the rubber boot of the Dektite was severely perished and cracked from UV exposure.",
+    solutionProvided: "Full Dektite replacement (SOP-GR4). Surface prepared by removing all old silicone, then a new Dektite was installed using the 20% Rule (to ensure compression seal) and secured with a secondary silicone seal at the base.",
+    keyOutcome: "Permanent resolution to a high-risk leak point. Use of Neutral Cure Silicone eliminated galvanic corrosion risk.",
+    testimonial: "The team responded quickly and repaired what three other roofers couldn't seem to find. The new flashing looks very neat and tidy.",
+    projectValue: 450
+  },
+  {
+    id: "CS-2024-11-01-LYND-04",
+    jobType: "Tile Roof Porosity & Coating Failure",
+    suburb: "Lyndhurst",
+    clientProblem: "Client reported a generalized dampness in the roof cavity during heavy rain, diagnosed as system-wide tile porosity due to failed 15-year-old surface coating.",
+    solutionProvided: "Full restoration required. Tiles pressure cleaned (SOP-T1), then one coat of COAT_PRIMER_RAWTILE_20L applied to seal the porous substrate, followed by two coats of the Premcoat Plus (20-Year) top coat.",
+    keyOutcome: "Transformed the roof from an absorbent sponge back into a waterproof surface. Client opted for the premium package, securing the 20-year workmanship warranty for maximum peace of mind.",
+    testimonial: "We chose the top-tier warranty because we plan to stay here for a long time. The quality difference in the coating is amazing. It looks fantastic.",
+    projectValue: 13800
+  },
+  {
+    id: "CS-2024-10-15-NPK-05",
+    jobType: "Apron Flashing Resealing",
+    suburb: "Noble Park",
+    clientProblem: "Leak where the back of an extension meets the main house roof. Failed sealant along the apron flashing seam.",
+    solutionProvided: "Flashing resealing (SOP-GR3). The old sealant was 100% removed and the surface chemically cleaned with methylated spirits (SOP-GR2). A new bead of Neutral Cure Silicone was applied and professionally tooled to ensure a flexible, durable seal that accommodates thermal expansion.",
+    keyOutcome: "Eliminated the high-risk leak point. The During Photo provided clear evidence that the surface preparation (Step 2 of SOP-GR2) was meticulous.",
+    testimonial: "They showed me a photo of the bare metal after they cleaned off the old material. That level of transparency instantly earned my trust.",
+    projectValue: 680
   }
 ];
 
@@ -168,6 +283,15 @@ async function pushServices(databaseId: string, dryRun: boolean): Promise<Migrat
         'Category': {
           select: { name: service.category }
         },
+        'Typical Cost Range': {
+          rich_text: [{ text: { content: service.costRange || '' } }]
+        },
+        'Typical Duration': {
+          select: { name: service.duration || '1-2 Days' }
+        },
+        'Warranty Offered': {
+          select: { name: service.warranty || 'Workmanship Only' }
+        },
         'Active': {
           checkbox: service.active
         },
@@ -215,6 +339,12 @@ async function pushSuburbs(databaseId: string, dryRun: boolean): Promise<Migrati
         },
         'State': {
           select: { name: suburb.state }
+        },
+        'Service Demand Level': {
+          select: { name: suburb.demand || 'Secondary' }
+        },
+        'Average Job Value': {
+          number: suburb.avgJobValue || 0
         },
         'Notion Sync ID': {
           rich_text: [{ text: { content: `suburb-${suburb.name.toLowerCase().replace(/\s+/g, '-')}` } }]
@@ -273,9 +403,7 @@ async function pushBlogPosts(databaseId: string, dryRun: boolean): Promise<Migra
         'Tags': {
           multi_select: post.tags.map(tag => ({ name: tag }))
         },
-        'Author': {
-          rich_text: [{ text: { content: post.author } }]
-        },
+        // Author is people type in Notion, skip it for now
         'Published': {
           checkbox: post.featured
         },
@@ -319,10 +447,10 @@ async function pushCaseStudies(databaseId: string, dryRun: boolean): Promise<Mig
           title: [{ text: { content: caseStudy.id } }]
         },
         'Service': {
-          select: { name: caseStudy.jobType }
+          rich_text: [{ text: { content: caseStudy.jobType } }]
         },
         'Suburb': {
-          select: { name: caseStudy.suburb }
+          rich_text: [{ text: { content: caseStudy.suburb } }]
         },
         'Challenges': {
           rich_text: [{ text: { content: caseStudy.clientProblem.substring(0, 2000) } }]
@@ -335,6 +463,9 @@ async function pushCaseStudies(databaseId: string, dryRun: boolean): Promise<Mig
         },
         'Client Name': {
           rich_text: [{ text: { content: caseStudy.suburb + ' Homeowner' } }]
+        },
+        'Project Value': {
+          number: caseStudy.projectValue || 0
         },
         'Published': {
           checkbox: true
@@ -389,10 +520,10 @@ async function pushTestimonials(databaseId: string, dryRun: boolean): Promise<Mi
           rich_text: [{ text: { content: caseStudy.testimonial } }]
         },
         'Suburb': {
-          select: { name: caseStudy.suburb }
+          rich_text: [{ text: { content: caseStudy.suburb } }]
         },
         'Service Reviewed': {
-          select: { name: caseStudy.jobType }
+          rich_text: [{ text: { content: caseStudy.jobType } }]
         },
         'Star Rating': {
           select: { name: '5 Stars' }
