@@ -30,11 +30,16 @@ export function ClientSiteStep({ value, onChange }: ClientSiteStepProps) {
 
   useEffect(() => {
     fetchLeads();
-    // Set default date/time if empty
-    if (!value.date) {
+    // Set default date/time/inspector if empty
+    if (!value.date || !value.time || !value.inspector) {
       const today = new Date().toISOString().split('T')[0];
       const now = new Date().toTimeString().slice(0, 5);
-      onChange({ ...value, date: today, time: now });
+      onChange({ 
+        ...value, 
+        date: value.date || today, 
+        time: value.time || now,
+        inspector: value.inspector || 'Kaidyn'
+      });
     }
   }, []);
 
