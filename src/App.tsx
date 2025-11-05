@@ -42,14 +42,11 @@ const RoofRestorationMountEliza = lazy(() => import("./pages/services/suburbs/Ro
 const RoofPaintingPakenham = lazy(() => import("./pages/services/suburbs/RoofPaintingPakenham"));
 const RoofPaintingCranbourne = lazy(() => import("./pages/services/suburbs/RoofPaintingCranbourne"));
 const RoofPaintingClydeNorth = lazy(() => import("./pages/services/suburbs/RoofPaintingClydeNorth"));
-const InspectionForm = lazy(() => import("./pages/InspectionForm"));
 const Auth = lazy(() => import("./pages/Auth"));
 const MFASetup = lazy(() => import("./pages/MFASetup"));
 const MFAVerify = lazy(() => import("./pages/MFAVerify"));
 const QuoteDocumentViewer = lazy(() => import("./pages/QuoteDocumentViewer"));
 const InternalHomeNew = lazy(() => import("./pages/InternalHomeNew"));
-const Nexus = lazy(() => import("./pages/Nexus"));
-const NexusDemo = lazy(() => import("./pages/NexusDemo"));
 const ImageGenerator = lazy(() => import("./pages/ImageGenerator"));
 const DocsHub = lazy(() => import("./pages/DocsHub"));
 const FormsStudio = lazy(() => import("./pages/FormsStudio"));
@@ -158,13 +155,11 @@ function App() {
                       <Route path="docs" element={<DocsHub />} />
                       <Route path="forms" element={<FormsStudio />} />
                       <Route path="forms/:formId/submissions" element={<FormSubmissions />} />
-                      <Route path="forms/inspection" element={<InspectionForm />} />
                       <Route path="data" element={<DataHub />} />
                       <Route path="quote-documents" element={<QuoteDocumentViewer />} />
                       <Route path="media" element={<MediaLibrary />} />
                       <Route path="media/generator" element={<ImageGenerator />} />
                       <Route path="marketing" element={<MarketingStudio />} />
-                      <Route path="nexus" element={<Nexus />} />
                       <Route path="leads" element={<LeadsPipeline />} />
                       <Route path="leads/:id" element={<LeadDetail />} />
                       <Route path="quotes/new" element={<QuoteBuilderNew />} />

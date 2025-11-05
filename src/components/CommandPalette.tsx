@@ -30,11 +30,10 @@ interface SearchResult {
 }
 
 const quickActions = [
-  { id: 'new-lead', title: 'New Lead', path: '/internal/v2/leads/new', icon: Plus },
   { id: 'new-quote', title: 'New Quote', path: '/internal/v2/quotes/new', icon: Plus },
-  { id: 'new-inspection', title: 'New Inspection', path: '/internal/inspection', icon: Plus },
-  { id: 'settings', title: 'Settings', path: '/internal/v2/settings', icon: Settings },
-  { id: 'price-book', title: 'Price Book', path: '/internal/v2/settings/pricebook', icon: FileText },
+  { id: 'new-inspection', title: 'New Inspection', path: '/internal/v2/inspections/new', icon: Plus },
+  { id: 'data-hub', title: 'Data Hub', path: '/internal/v2/data', icon: Settings },
+  { id: 'media-library', title: 'Media Library', path: '/internal/v2/media', icon: Image },
 ];
 
 export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {

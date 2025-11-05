@@ -44,7 +44,6 @@ const navStructure: NavSection[] = [
     icon: BarChart3,
     items: [
       { title: 'Reports & Analytics', path: '/internal/v2/reports', icon: BarChart3 },
-      { title: 'Nexus AI Hub', path: '/internal/v2/nexus', icon: Sparkles },
     ],
   },
   {
@@ -52,7 +51,6 @@ const navStructure: NavSection[] = [
     icon: Wrench,
     defaultOpen: true,
     items: [
-      { title: 'Measurement Tool', path: '/internal/v2/tools', icon: Ruler },
       { title: 'New Inspection', path: '/internal/v2/inspections/new', icon: ClipboardList },
       { title: 'Image Generator', path: '/internal/v2/media/generator', icon: Image },
     ],

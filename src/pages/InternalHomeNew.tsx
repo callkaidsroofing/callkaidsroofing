@@ -117,12 +117,6 @@ export default function InternalHomeNew() {
       icon: BarChart3
     },
     {
-      title: 'Nexus AI Hub',
-      description: 'AI tools & assistants',
-      route: '/internal/v2/nexus',
-      icon: Sparkles
-    },
-    {
       title: 'Data Hub',
       description: 'Database management',
       route: '/internal/v2/data',
