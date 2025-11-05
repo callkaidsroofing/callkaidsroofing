@@ -264,6 +264,16 @@ const Footer = () => {
               Quality work takes time - book early to secure your slot
             </div>
           </div>
+
+          {/* Admin Access Link - Discreet */}
+          <div className="text-center mt-4">
+            <Link 
+              to="/internal/v2/home" 
+              className="text-xs text-muted-foreground/40 hover:text-primary transition-colors"
+            >
+              Internal System
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
