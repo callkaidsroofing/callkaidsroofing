@@ -28,9 +28,14 @@ export class GlobalErrorBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('Error boundary caught error:', error, errorInfo);
     
-    // Log to error tracking service in production
+    // Log to Sentry if enabled (per MKF_07)
     if (import.meta.env.PROD) {
-      // Add error tracking service integration here (e.g., Sentry)
+      import('@/lib/sentry').then(({ captureError }) => {
+        captureError(error, {
+          componentStack: errorInfo.componentStack,
+          errorBoundary: 'GlobalErrorBoundary',
+        });
+      });
     }
   }
 

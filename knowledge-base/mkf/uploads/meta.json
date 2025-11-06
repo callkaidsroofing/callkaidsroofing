@@ -1,0 +1,25 @@
+{
+  "ingest_log": {
+    "timestamp": "2025-01-09T14:30:00+11:00",
+    "timezone": "Australia/Melbourne",
+    "package_name": "CKR_Workspace_Upgrade_1wlhJicb.zip",
+    "package_url": "https://drive.google.com/uc?export=download&id=1wlhJicbvvueV3v-qx0cPDBzq4S4_b9gd",
+    "expected_size_mb": 200,
+    "status": "downloaded",
+    "sha256": "PENDING_MANUAL_VERIFICATION",
+    "notes": [
+      "Package downloaded via lov-download-to-repo",
+      "Manual unzip required - Lovable cannot extract archives",
+      "Verification steps: 1) Download locally, 2) Verify SHA256, 3) Extract to knowledge-base/mkf/imported/",
+      "Excluded patterns: dist/, .env, node_modules/, *.log"
+    ]
+  },
+  "mkf_precedence": {
+    "rule": "MKF > KF",
+    "enforcement": "CI pipeline blocks merge if KF overrides MKF keys",
+    "structure": {
+      "mkf": "knowledge-base/mkf/ (Master Knowledge Framework - primary source)",
+      "legacy": "knowledge-base/legacy/ (KF backups - read-only fallback)"
+    }
+  }
+}

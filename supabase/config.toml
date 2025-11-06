@@ -186,3 +186,19 @@ verify_jwt = true
 
 [functions.docs-writer-assistant]
 verify_jwt = true
+
+# ============================================
+# AUTOMATION FUNCTIONS (Per MKF Requirements)
+# ============================================
+
+[functions.api-healthz]
+verify_jwt = false
+
+[functions.automation-quote-followup]
+verify_jwt = false
+
+[functions.automation-warranty-creation]
+verify_jwt = false
+
+[functions.admin-user-management]
+verify_jwt = true
