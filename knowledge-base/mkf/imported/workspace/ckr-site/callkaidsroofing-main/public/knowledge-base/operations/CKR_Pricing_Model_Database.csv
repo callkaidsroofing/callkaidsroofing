@@ -1,0 +1,13 @@
+Name,UID,Code,UnitPrice,Currency,IncludedInQuoteTemplate,Notes
+Roof Inspection (single visit),PRC001,INS-SV,150.0,AUD,Yes,
+Leak Diagnosis (per hour),PRC002,LEAK-HR,120.0,AUD,Yes,
+Tile Replacement (per tile),PRC003,TILE-UNIT,35.0,AUD,Yes,
+Roof Restoration (per m2),PRC004,REST-M2,120.0,AUD,Yes,
+Re-roofing Tiles (per m2 est.),PRC005,REROOF-T,250.0,AUD,Yes,
+Re-roofing Metal (per m2 est.),PRC006,REROOF-M,230.0,AUD,Yes,
+Gutter Cleaning (standard),PRC007,GUT-CLEAN,110.0,AUD,Yes,
+Skylight Install (basic),PRC008,SKY-B,450.0,AUD,Yes,
+Flashing Replacement (per metre),PRC009,FLASH-M,45.0,AUD,Optional,
+Maintenance Visit (annual),PRC010,MAINT-A,220.0,AUD,Optional,
+Solar Prep (per panel area),PRC011,SOLAR-P,80.0,AUD,Optional,
+Fascia Repair (per metre),PRC012,FAS-M,60.0,AUD,Optional,

@@ -1,0 +1,6 @@
+Name,UID,ContactName,ContactPhone,ContactEmail,SuburbUID,Status,Source,Created
+Taylor Residence,LEAD0001,Taylor,03 9100001,contact1@example.com,SUB002,New,Referral,2025-11-01T19:50:46.428116Z
+Patel Residence,LEAD0002,Patel,03 9100002,contact2@example.com,SUB003,New,Website,2025-11-01T19:50:46.428116Z
+Nguyen Residence,LEAD0003,Nguyen,03 9100003,contact3@example.com,SUB004,Contacted,Referral,2025-11-01T19:50:46.428116Z
+Khan Residence,LEAD0004,Khan,03 9100004,contact4@example.com,SUB005,Contacted,Website,2025-11-01T19:50:46.428116Z
+Brown Residence,LEAD0005,Brown,03 9100005,contact5@example.com,SUB006,Contacted,Referral,2025-11-01T19:50:46.428116Z

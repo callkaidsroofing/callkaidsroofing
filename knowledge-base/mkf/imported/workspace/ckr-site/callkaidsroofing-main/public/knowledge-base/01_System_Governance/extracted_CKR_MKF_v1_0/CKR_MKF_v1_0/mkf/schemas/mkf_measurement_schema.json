@@ -1,0 +1,38 @@
+{
+  "$id": "mkf_measurement_schema",
+  "type": "object",
+  "required": [
+    "measurement_source"
+  ],
+  "properties": {
+    "lead_id": {
+      "type": "string"
+    },
+    "roof_area_m2": {
+      "type": "number"
+    },
+    "ridges_lm": {
+      "type": "number"
+    },
+    "valleys_lm": {
+      "type": "number"
+    },
+    "measurement_source": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "Nearmap",
+        "Google"
+      ]
+    },
+    "reference_photos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

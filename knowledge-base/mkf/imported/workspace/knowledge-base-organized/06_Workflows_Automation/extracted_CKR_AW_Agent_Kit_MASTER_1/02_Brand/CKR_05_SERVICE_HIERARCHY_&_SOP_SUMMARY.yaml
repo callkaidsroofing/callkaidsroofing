@@ -1,0 +1,88 @@
+# LOVABLE KNOWLEDGE FILE 5/5: CKR_05_SERVICE_HIERARCHY_&_SOP_SUMMARY (SITEMAP INTEGRATION)
+# VERSION: 2.0 (Redesigned to SITEMAP)
+# ABSOLUTE_IMPORTANCE_LEVEL: CRITICAL - THIS FILE GOVERNS PAGE LOGIC AND CONTENT HIERARCHY.
+# PURPOSE: Maps SOPs to the exact page URLs in the sitemap to ensure content is targeted, verifiable, and authoritative.
+# SOURCE KFS: KF_01, KF_03, KF_05, KF_07, KF_02, SITEMAP.XML
+
+---
+
+MANDATORY_PAGE_STRUCTURE:
+  # Mandate: The AI must use the following URLs as the canonical page destinations.
+  - PAGE_ID: HOME_PAGE
+    URL_MAPPING: "https://callkaidsroofing.com.au/"
+    TITLE: "Call Kaids Roofing | SE Melbourne's Proof-Driven Roof Experts: *Proof In Every Roof*"
+    FOCUS: "Priority 1.0. The central hub. Content must feature the **3-Step Process Summary**, the **20-Year Warranty** as the anchor, and link immediately to the high-priority localized service pages."
+
+  - PAGE_ID: GALLERY_CASE_STUDIES
+    URL_MAPPING: "https://callkaidsroofing.com.au/gallery"
+    TITLE: "Proof In Every Roof | Local Before & After Gallery"
+    FOCUS: "Priority 0.8. Content is purely evidentiary. Must load and display data directly from the CKR_04 Proof Points, organized by **Suburb** and **Job Type** to enhance local SEO authority."
+
+  - PAGE_ID: ABOUT_US
+    URL_MAPPING: "https://callkaidsroofing.com.au/about"
+    TITLE: "Meet The Expert Consultant Team | Our Local SE Melbourne Story"
+    FOCUS: "Priority 0.9. Content must detail the **Local Expertise** (SE Melbourne specialization) and **Accountability** (Insurance/ABN/Warranty philosophy) pillars."
+
+## OPERATIONAL_CONTENT_MAPPING (SERVICE PAGES)
+
+### GROUP_1_FLAGSHIP_RESTORATION (HIGH PRIORITY)
+
+  - PAGE_ID: SERVICE_ROOF_RESTORATION_GENERAL
+    URL_MAPPING: "https://callkaidsroofing.com.au/services/roof-restoration"
+    TITLE: "Complete Tile & Metal Roof Restoration System | 15 & 20-Year Warranty"
+    FOCUS: "The main authority page for the service. Content must detail the **FOUR_PHASE_PROCESS_MANDATE** below, framing it as the systemic solution to David's roofing anxiety."
+    HIGH_PRIORITY_LOCALIZED_PAGES: 
+      - "https://callkaidsroofing.com.au/services/roof-restoration-berwick"
+      - "https://callkaidsroofing.com.au/services/roof-restoration-cranbourne"
+      - "https://callkaidsroofing.com.au/services/roof-restoration-pakenham"
+      - "https://callkaidsroofing.com.au/services/roof-restoration-clyde-north"
+      # Mandate: These localized pages must aggressively target the specific suburb keywords from CKR_03 and feature a testimonial from that suburb (CKR_04).
+
+### GROUP_2_COATING_SPECIALTY (HIGH PRIORITY)
+
+  - PAGE_ID: SERVICE_ROOF_PAINTING_GENERAL
+    URL_MAPPING: "https://callkaidsroofing.com.au/services/roof-painting"
+    TITLE: "Professional Roof Painting & Re-Coating | Premium Membrane Systems"
+    FOCUS: "Differentiates coating from amateur paint jobs. Must focus on **Preparation** (SOP-M2/T1) and the **Material Tier** (COAT\_PAINT\_STD\_20L vs. COAT\_PAINT\_PREM\_15L) as the source of durability and the **20-year warranty**."
+    HIGH_PRIORITY_LOCALIZED_PAGES:
+      - "https://callkaidsroofing.com.au/services/roof-painting-cranbourne"
+      - "https://callkaidsroofing.com.au/services/roof-painting-pakenham"
+
+### GROUP_3_REPAIR_AND_DIAGNOSTICS (HIGH PRIORITY)
+
+  - PAGE_ID: SERVICE_ROOF_REPAIRS_GENERAL
+    URL_MAPPING: "https://callkaidsroofing.com.au/services/roof-repairs"
+    TITLE: "Targeted Roof Repair & Structural Integrity Restoration"
+    FOCUS: "The master hub for all repair sub-pages below. Must feature the **Expert Consultant** persona by emphasizing scientific diagnosis over patching."
+
+  - PAGE_ID: SERVICE_LEAK_DETECTION
+    URL_MAPPING: "https://callkaidsroofing.com.au/services/leak-detection"
+    TITLE: "Scientific Leak Detection & Permanent Repair | Stop Recurring Leaks"
+    FOCUS: "Must detail the **5-Stage Diagnostic Funnel** and the use of **Controlled Water Testing** (Protocol U-2R) to find the *true* source, not just the symptom."
+
+  - PAGE_ID: SERVICE_ROOF_REPOINTING
+    URL_MAPPING: "https://callkaidsroofing.com.au/services/roof-repointing"
+    TITLE: "Master-Level Ridge Capping Re-Pointing & Re-Bedding"
+    FOCUS: "Highlights the structural nature of the work. Must explicitly mention **SOP-T3** procedures, including **100% mortar removal**, new bedding, and **Weep Hole Formation**."
+
+  - PAGE_ID: SERVICE_VALLEY_IRON_REPLACEMENT
+    URL_MAPPING: "https://callkaidsroofing.com.au/services/valley-iron-replacement"
+    TITLE: "Corrosion-Proof Valley Iron Replacement"
+    FOCUS: "Content must focus on rust prevention and the process of **replacing** failed valley irons rather than temporary patch jobs. Reference Narre Warren Case Study (CKR_04)."
+
+  - PAGE_ID: SERVICE_TILE_REPLACEMENT
+    URL_MAPPING: "https://callkaidsroofing.com.au/services/tile-replacement"
+    TITLE: "Broken Tile Replacement: Surgical Integrity Restoration"
+    FOCUS: "Content must emphasize the CKR commitment to **sourcing the right, matching profile** (SOP-T2) and using **proper technique** (lifting surrounding tiles, checking sarking) to maintain system integrity."
+
+  - PAGE_ID: SERVICE_GUTTER_CLEANING
+    URL_MAPPING: "https://callkaidsroofing.com.au/services/gutter-cleaning"
+    TITLE: "Professional Gutter Cleaning & Drainage Restoration (SOP-GR5)"
+    FOCUS: "Focus on preventative maintenance. Must detail the **High-Volume Flush** and **Downpipe Verification Flush** (SOP-GR5) to prove the *entire* system is working, not just the visible part."
+
+## FOUR_PHASE_PROCESS_MANDATE_FOR_WEB_COPY
+  # Mandate: All content blocks for restoration/painting services must reference this logical flow:
+  PHASE_1: "Diagnosis (Evidence Trinity)"
+  PHASE_2: "Preparation (Absolute Clean & Structural Repair)"
+  PHASE_3: "Protection (3-Coat System & Sealing Integrity)"
+  PHASE_4: "Handover (QA Checklist & Warranty Activation)"

@@ -1,0 +1,9 @@
+Name,UID,FileName,Type,Usage
+Logo Primary,BA001,logo_primary.png,Asset,Branding
+Logo Monochrome,BA002,logo_mono.png,Asset,Branding
+Brand Colors,BA003,brand_colors.png,Asset,Branding
+Font Files,BA004,fonts.zip,Asset,Branding
+Vehicle Wrap Template,BA005,vehicle_wrap.ai,Asset,Branding
+Uniform Mockup,BA006,uniform.psd,Asset,Branding
+Business Card Template,BA007,card.ai,Asset,Branding
+Signage Guidelines,BA008,signage.pdf,Asset,Branding

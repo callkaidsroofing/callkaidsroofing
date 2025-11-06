@@ -1,0 +1,28 @@
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: *
+Allow: /
+Allow: /services/
+Allow: /about
+Allow: /contact
+Allow: /emergency
+Allow: /warranty
+Disallow: /internal
+Disallow: /admin/
+Disallow: /private/
+
+# Sitemaps
+Sitemap: https://callkaidsroofing.com.au/sitemap.xml
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1

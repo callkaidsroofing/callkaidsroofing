@@ -1,0 +1,12 @@
+Name,UID,KF_Code,Type,RelatedSOPs,LastUpdated
+Company Overview & Brand Guidelines,KB001,KF_00,Knowledge File,,2025-11-01T19:50:46.428116Z
+Sales Playbook & Lead Qualification,KB002,KF_01,Knowledge File,,2025-11-01T19:50:46.428116Z
+Pricing Catalogue (KF_02),KB003,KF_02,Knowledge File,,2025-11-01T19:50:46.428116Z
+SOPs - Pre-inspection Procedures (KF_03),KB004,KF_03,Knowledge File,SOP001;SOP002;SOP003,2025-11-01T19:50:46.428116Z
+SOPs - On-site Safety & PPE (KF_04),KB005,KF_04,Knowledge File,SOP001;SOP002;SOP003,2025-11-01T19:50:46.428116Z
+SOPs - Post-service Handover (KF_05),KB006,KF_05,Knowledge File,SOP001;SOP002;SOP003,2025-11-01T19:50:46.428116Z
+Warranty Policy & Terms (KF_06),KB007,KF_06,Knowledge File,,2025-11-01T19:50:46.428116Z
+Customer Communication Templates (KF_07),KB008,KF_07,Knowledge File,,2025-11-01T19:50:46.428116Z
+Agent Configuration & Setup (KF_08),KB009,KF_08,Knowledge File,,2025-11-01T19:50:46.428116Z
+Workflows GWA Index (KF_09),KB010,KF_09,Knowledge File,,2025-11-01T19:50:46.428116Z
+Case Study Templates & Examples (KF_10),KB011,KF_10,Knowledge File,,2025-11-01T19:50:46.428116Z

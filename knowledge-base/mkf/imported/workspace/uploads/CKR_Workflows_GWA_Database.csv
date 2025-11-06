@@ -1,0 +1,13 @@
+Name,UID,GWA_Code,Description,RelatedSOPs,Active
+Workstream GWA-03,GWA003,GWA-03,"Standard workflow for GWA-03 covering tasks, checks and approvals.",SOP001;SOP002,Yes
+Workstream GWA-04,GWA004,GWA-04,"Standard workflow for GWA-04 covering tasks, checks and approvals.",SOP003,Yes
+Workstream GWA-05,GWA005,GWA-05,"Standard workflow for GWA-05 covering tasks, checks and approvals.",SOP001;SOP002,Yes
+Workstream GWA-06,GWA006,GWA-06,"Standard workflow for GWA-06 covering tasks, checks and approvals.",SOP003,Yes
+Workstream GWA-07,GWA007,GWA-07,"Standard workflow for GWA-07 covering tasks, checks and approvals.",SOP001;SOP002,Yes
+Workstream GWA-08,GWA008,GWA-08,"Standard workflow for GWA-08 covering tasks, checks and approvals.",SOP003,Yes
+Workstream GWA-09,GWA009,GWA-09,"Standard workflow for GWA-09 covering tasks, checks and approvals.",SOP001;SOP002,Yes
+Workstream GWA-10,GWA010,GWA-10,"Standard workflow for GWA-10 covering tasks, checks and approvals.",SOP003,Yes
+Workstream GWA-11,GWA011,GWA-11,"Standard workflow for GWA-11 covering tasks, checks and approvals.",SOP001;SOP002,Yes
+Workstream GWA-12,GWA012,GWA-12,"Standard workflow for GWA-12 covering tasks, checks and approvals.",SOP003,Yes
+Workstream GWA-13,GWA013,GWA-13,"Standard workflow for GWA-13 covering tasks, checks and approvals.",SOP001;SOP002,Yes
+Workstream GWA-14,GWA014,GWA-14,"Standard workflow for GWA-14 covering tasks, checks and approvals.",SOP003,Yes

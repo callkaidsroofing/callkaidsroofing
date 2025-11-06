@@ -1,0 +1,433 @@
+openapi: 3.1.0
+info:
+  title: CKR-GEM API v4.0
+  version: 4.0.0
+  description: |
+    Call Kaids Roofing - Growth, Efficiency & Management Gateway
+    
+    **Business Details:**
+    - ABN: 39475055075
+    - Phone: 0435 900 709
+    - Email: callkaidsroofing@outlook.com
+    - Location: Clyde North, SE Melbourne, Victoria
+    
+    **Service Area:** 50km radius covering Berwick, Cranbourne, Dandenong, Pakenham, Officer, Rowville
+    
+    Unified CRM operations gateway supporting 25 actions across lead management, quoting, 
+    job tracking, and automation workflows.
+
+servers:
+  - url: https://vlnkzpyeppfdmresiaoh.supabase.co/functions/v1
+    description: Production Edge Function
+
+security:
+  - apiKey: []
+
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: GPT_PROXY_KEY from Supabase secrets
+
+  schemas:
+    ActionRequest:
+      type: object
+      required: [action, params]
+      properties:
+        action:
+          type: string
+          enum:
+            # Core CRM (1-10)
+            - InsertLeadRecord
+            - UpdateLeadStatus
+            - InsertJobRecord
+            - UpdateJobStatus
+            - UploadInspectionForm
+            - FetchJobDetails
+            - GenerateQuoteDraft
+            - SendQuoteToClient
+            - RecordClientResponse
+            - ArchiveCompletedJob
+            # Advanced Lead Management (11-15)
+            - BatchImportLeads
+            - SearchLeadsAdvanced
+            - MergeLeadDuplicates
+            - CreateLeadTask
+            - FetchLeadTimeline
+            # Quote Intelligence (16-20)
+            - CompareQuoteVersions
+            - FetchQuotesForLead
+            - CloneQuote
+            - ScheduleJobWithConflictCheck
+            - GenerateJobChecklistFromInspection
+            # Automation (21-25)
+            - BulkUpdateLeadStatus
+            - ScheduleQuoteFollowup
+            - TrackQuoteEmailEngagement
+            - ExportLeadsToCSV
+            - NotifyTeamAboutHotLead
+        params:
+          type: object
+          description: Action-specific parameters (see examples)
+        mode:
+          type: string
+          enum: [live, dry-run]
+          default: dry-run
+          description: |
+            **CRITICAL SAFETY RULE:**
+            Always use 'dry-run' first for ANY destructive operation (insert/update/delete/send).
+            Preview what WOULD happen, ask user for confirmation, then execute with 'live'.
+
+    ActionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+        mode:
+          type: string
+          enum: [live, dry-run]
+        timestamp:
+          type: string
+          format: date-time
+        execution_time_ms:
+          type: number
+
+paths:
+  /ckr-gem-api:
+    post:
+      operationId: executeCRMAction
+      summary: Execute a CRM action
+      description: |
+        Unified gateway for 25 CRM operations. CRITICAL: Use mode='dry-run' first for destructive actions (Insert*, Update*, Send*, Upload*, Merge*, Batch*, Schedule*, Notify*). Preview changes, confirm with user, then execute with mode='live'.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionRequest'
+            examples:
+              insertLead:
+                summary: "1. Insert Lead Record (dry-run first)"
+                value:
+                  action: InsertLeadRecord
+                  params:
+                    name: "John Smith"
+                    suburb: "Berwick"
+                    service: "roof_restoration"
+                    contact: "0412 345 678"
+                    email: "john.smith@example.com"
+                    source: "google_ads"
+                    message: "Interested in roof restoration quote"
+                  mode: dry-run
+
+              updateLeadStatus:
+                summary: "2. Update Lead Status"
+                value:
+                  action: UpdateLeadStatus
+                  params:
+                    leadId: "abc-123-def"
+                    newStatus: "contacted"
+                    notes: "Called client, inspection scheduled for Monday"
+                  mode: dry-run
+
+              insertJob:
+                summary: "3. Insert Job Record"
+                value:
+                  action: InsertJobRecord
+                  params:
+                    leadId: "abc-123-def"
+                    quoteId: "quote-456"
+                    scheduledDate: "2025-11-01"
+                    siteAddress: "123 Main St, Berwick VIC 3806"
+                  mode: dry-run
+
+              uploadInspection:
+                summary: "5. Upload Inspection Form"
+                value:
+                  action: UploadInspectionForm
+                  params:
+                    leadId: "abc-123-def"
+                    jobId: "job-789"
+                    roofType: "tile"
+                    roofArea: 150
+                    ridgeCaps: 25
+                    valleys: 2
+                    condition: "Fair - surface wear and some broken tiles"
+                    leaks: true
+                    recommendedWorks: "Full restoration including cleaning, painting, and ridge cap rebedding"
+                    photoUrls: ["https://storage.url/photo1.jpg"]
+                  mode: dry-run
+
+              fetchJobDetails:
+                summary: "6. Fetch Job Details (safe for live)"
+                value:
+                  action: FetchJobDetails
+                  params:
+                    jobId: "job-789"
+                  mode: live
+
+              generateQuote:
+                summary: "7. Generate Quote Draft"
+                value:
+                  action: GenerateQuoteDraft
+                  params:
+                    inspectionReportId: "insp-456"
+                    tier: "premium"
+                    clientName: "John Smith"
+                    siteAddress: "123 Main St, Berwick VIC 3806"
+                  mode: dry-run
+
+              sendQuote:
+                summary: "8. Send Quote to Client"
+                value:
+                  action: SendQuoteToClient
+                  params:
+                    quoteId: "quote-789"
+                    clientEmail: "john.smith@example.com"
+                    message: "Hi John, here's your premium roof restoration quote as discussed."
+                  mode: dry-run
+
+              searchLeads:
+                summary: "12. Search Leads Advanced (safe for live)"
+                value:
+                  action: SearchLeadsAdvanced
+                  params:
+                    filters:
+                      suburbs: ["Berwick", "Cranbourne"]
+                      aiScoreMin: 7
+                      status: ["new", "contacted"]
+                      dateRange:
+                        start: "2025-10-15"
+                        end: "2025-10-22"
+                    sortBy: "ai_score"
+                    sortOrder: "desc"
+                    limit: 20
+                  mode: live
+
+              mergeLeads:
+                summary: "13. Merge Lead Duplicates"
+                value:
+                  action: MergeLeadDuplicates
+                  params:
+                    primaryLeadId: "lead-abc-123"
+                    duplicateLeadIds: ["lead-def-456", "lead-ghi-789"]
+                    strategy: "keep_best_data"
+                  mode: dry-run
+
+              createTask:
+                summary: "14. Create Lead Task"
+                value:
+                  action: CreateLeadTask
+                  params:
+                    leadId: "lead-abc-123"
+                    title: "Follow up on quote"
+                    description: "Client requested callback after reviewing premium quote"
+                    priority: "high"
+                    category: "follow_up"
+                    dueDate: "2025-10-25"
+                  mode: dry-run
+
+              fetchTimeline:
+                summary: "15. Fetch Lead Timeline (safe for live)"
+                value:
+                  action: FetchLeadTimeline
+                  params:
+                    leadId: "lead-abc-123"
+                    includeNotes: true
+                    includeTasks: true
+                    includeQuotes: true
+                  mode: live
+
+              compareQuotes:
+                summary: "16. Compare Quote Versions (safe for live)"
+                value:
+                  action: CompareQuoteVersions
+                  params:
+                    quoteId1: "quote-v1-123"
+                    quoteId2: "quote-v2-123"
+                  mode: live
+
+              fetchQuotesForLead:
+                summary: "17. Fetch Quotes for Lead (safe for live)"
+                value:
+                  action: FetchQuotesForLead
+                  params:
+                    leadId: "lead-abc-123"
+                    includeLineItems: true
+                    includeEmailTracking: true
+                  mode: live
+
+              cloneQuote:
+                summary: "18. Clone Quote"
+                value:
+                  action: CloneQuote
+                  params:
+                    quoteId: "quote-original-123"
+                    newTier: "prestige"
+                    newClientName: "John Smith (Prestige Option)"
+                  mode: dry-run
+
+              scheduleJob:
+                summary: "19. Schedule Job with Conflict Check"
+                value:
+                  action: ScheduleJobWithConflictCheck
+                  params:
+                    inspectionReportId: "insp-456"
+                    scheduledDate: "2025-11-05"
+                    estimatedDurationHours: 8
+                    assignedCrew: "Team A"
+                  mode: dry-run
+
+              generateChecklist:
+                summary: "20. Generate Job Checklist (safe for live)"
+                value:
+                  action: GenerateJobChecklistFromInspection
+                  params:
+                    inspectionReportId: "insp-456"
+                    includePhotos: true
+                    includeMaterials: true
+                  mode: live
+
+              bulkUpdate:
+                summary: "21. Bulk Update Lead Status"
+                value:
+                  action: BulkUpdateLeadStatus
+                  params:
+                    leadIds: ["lead-1", "lead-2", "lead-3"]
+                    newStatus: "nurture"
+                    addNote: "Moved to nurture - follow up in 2 weeks"
+                    createFollowupTask: true
+                  mode: dry-run
+
+              scheduleFollowup:
+                summary: "22. Schedule Quote Followup"
+                value:
+                  action: ScheduleQuoteFollowup
+                  params:
+                    quoteId: "quote-789"
+                    followupInDays: 3
+                    followupMethod: "sms"
+                  mode: dry-run
+
+              trackEngagement:
+                summary: "23. Track Quote Email Engagement"
+                value:
+                  action: TrackQuoteEmailEngagement
+                  params:
+                    quoteEmailId: "email-123"
+                    opened: true
+                    openedAt: "2025-10-22T10:30:00Z"
+                    clicked: true
+                    clickedAt: "2025-10-22T10:35:00Z"
+                    clicksData:
+                      - linkUrl: "https://callkaidsroofing.com/warranty"
+                        clickedAt: "2025-10-22T10:35:00Z"
+                  mode: dry-run
+
+              exportLeads:
+                summary: "24. Export Leads to CSV (safe for live)"
+                value:
+                  action: ExportLeadsToCSV
+                  params:
+                    filters:
+                      status: ["new", "contacted"]
+                      dateRange:
+                        start: "2025-10-01"
+                        end: "2025-10-31"
+                    sortBy: "created_at"
+                  mode: live
+
+              notifyHotLead:
+                summary: "25. Notify Team About Hot Lead"
+                value:
+                  action: NotifyTeamAboutHotLead
+                  params:
+                    leadId: "lead-hot-999"
+                    reason: "AI score 9.5/10 - immediate roof leak repair needed"
+                    urgency: "high"
+                  mode: dry-run
+
+      responses:
+        '200':
+          description: Action executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionResponse'
+              examples:
+                successDryRun:
+                  summary: Successful dry-run
+                  value:
+                    success: true
+                    message: "Dry-run successful. No changes made."
+                    data:
+                      preview:
+                        leadId: "abc-123-def"
+                        name: "John Smith"
+                        suburb: "Berwick"
+                        estimatedAiScore: 7.5
+                    mode: dry-run
+                    timestamp: "2025-10-22T08:30:00Z"
+                    execution_time_ms: 45
+
+                successLive:
+                  summary: Successful live execution
+                  value:
+                    success: true
+                    message: "Lead created successfully"
+                    data:
+                      leadId: "abc-123-def"
+                      aiScore: 7.8
+                      status: "new"
+                    mode: live
+                    timestamp: "2025-10-22T08:30:15Z"
+                    execution_time_ms: 182
+
+        '400':
+          description: Bad request - validation error or invalid action
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: {type: boolean, example: false}
+                  error: {type: string, example: "Validation error: Invalid suburb"}
+                  details: {type: object}
+
+        '401':
+          description: Authentication failed - invalid or missing API key
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: {type: boolean, example: false}
+                  error: {type: string, example: "Authentication failed"}
+
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: {type: boolean, example: false}
+                  error: {type: string, example: "Rate limit exceeded"}
+                  retryAfter: {type: number, example: 60}
+
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: {type: boolean, example: false}
+                  error: {type: string, example: "Internal server error"}

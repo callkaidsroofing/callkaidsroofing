@@ -1,0 +1,145 @@
+{
+  "version": "1.0",
+  "updated": "31 Oct 2025",
+  "invariants": {
+    "abn": "39475055075",
+    "phone": "0435 900 709",
+    "email": "info@callkaidsroofing.com.au",
+    "colours": [
+      "#007ACC",
+      "#0B3B69",
+      "#111827",
+      "#6B7280",
+      "#F7F8FA",
+      "#FFFFFF"
+    ],
+    "no_orange": true,
+    "locale": "en-AU",
+    "date_format": "DD MMM YYYY",
+    "units": [
+      "m²",
+      "LM"
+    ],
+    "ctas": [
+      "Get Your Free Roof Health Check",
+      "Secure Your Investment. Call Us Today.",
+      "Book Your Roof Assessment"
+    ],
+    "claims": {
+      "insured": "Fully insured.",
+      "warranty": [
+        "7–10 year warranty",
+        "10-year workmanship warranty"
+      ]
+    },
+    "imagery": "Real jobsite photos only"
+  },
+  "docs": [
+    {
+      "id": "MKF_00",
+      "title": "Invariants & Contacts",
+      "path": "src/mkf/MKF_00.md",
+      "type": "policy"
+    },
+    {
+      "id": "MKF_01",
+      "title": "Brand & Voice Mandate",
+      "path": "src/mkf/MKF_01.md",
+      "type": "style"
+    },
+    {
+      "id": "MKF_02",
+      "title": "Web Design System",
+      "path": "src/mkf/MKF_02.md",
+      "type": "dev"
+    },
+    {
+      "id": "MKF_03",
+      "title": "SEO Keyword Matrix",
+      "path": "src/mkf/MKF_03.md",
+      "type": "seo"
+    },
+    {
+      "id": "MKF_04",
+      "title": "Proof Points & Case Studies",
+      "path": "src/mkf/MKF_04.md",
+      "type": "content"
+    },
+    {
+      "id": "MKF_05",
+      "title": "Services & SOP Summary",
+      "path": "src/mkf/MKF_05.md",
+      "type": "ops"
+    },
+    {
+      "id": "MKF_06",
+      "title": "Marketing Copy Kit & Tone",
+      "path": "src/mkf/MKF_06.md",
+      "type": "content"
+    },
+    {
+      "id": "MKF_07",
+      "title": "Systems Integration Map",
+      "path": "src/mkf/MKF_07.md",
+      "type": "policy"
+    },
+    {
+      "id": "MKF_08",
+      "title": "Case Studies (Structured)",
+      "path": "src/mkf/MKF_08.md",
+      "type": "data"
+    },
+    {
+      "id": "MKF_09",
+      "title": "Marketing Generation (GWA-09)",
+      "path": "src/mkf/MKF_09.md",
+      "type": "gwa"
+    },
+    {
+      "id": "MKF_10",
+      "title": "Financial Reporting (GWA-10)",
+      "path": "src/mkf/MKF_10.md",
+      "type": "gwa"
+    },
+    {
+      "id": "MKF_11",
+      "title": "SOP Risk Assessment (GWA-11)",
+      "path": "src/mkf/MKF_11.md",
+      "type": "gwa"
+    },
+    {
+      "id": "MKF_12",
+      "title": "Intelligent Triage (GWA-12)",
+      "path": "src/mkf/MKF_12.md",
+      "type": "gwa"
+    },
+    {
+      "id": "MKF_13",
+      "title": "Lead Nurture (GWA-13)",
+      "path": "src/mkf/MKF_13.md",
+      "type": "gwa"
+    },
+    {
+      "id": "MKF_14",
+      "title": "Systems Orchestrator (GWA-14)",
+      "path": "src/mkf/MKF_14.md",
+      "type": "gwa"
+    }
+  ],
+  "embedding": {
+    "chunk_size_chars": 1200,
+    "chunk_overlap_chars": 150,
+    "metadata_fields": [
+      "doc_id",
+      "title",
+      "section",
+      "version",
+      "updated",
+      "tags"
+    ],
+    "stop_sections": [
+      "Legal",
+      "Change Log"
+    ]
+  }
+}
