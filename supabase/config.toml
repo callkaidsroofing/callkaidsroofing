@@ -215,3 +215,22 @@ verify_jwt = true
 
 [functions.chat-with-rag]
 verify_jwt = false
+
+# ============================================
+# STORAGE ADMIN FUNCTIONS (Phase 3)
+# ============================================
+
+[functions.file-manager]
+verify_jwt = true
+
+[functions.conflict-detector]
+verify_jwt = true
+
+[functions.conflict-resolver-chat]
+verify_jwt = true
+
+[functions.category-summarizer]
+verify_jwt = true
+
+[functions.sync-engine]
+verify_jwt = true

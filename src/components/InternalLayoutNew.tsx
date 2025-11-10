@@ -79,8 +79,7 @@ const navStructure: NavSection[] = [
     items: [
       { title: 'User Management', path: '/internal/v2/admin/users', icon: Users },
       { title: 'AI Assistant', path: '/internal/v2/ai-assistant', icon: Sparkles },
-      { title: 'Knowledge Base Manager', path: '/internal/v2/admin/knowledge-base', icon: FileStack },
-      { title: 'Database Management', path: '/internal/v2/admin/database', icon: Database },
+      { title: 'Storage Admin', path: '/internal/v2/admin/storage', icon: Database },
     ],
   },
 ];
