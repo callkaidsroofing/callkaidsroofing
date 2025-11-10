@@ -835,6 +835,54 @@ export type Database = {
           },
         ]
       }
+      embedding_jobs: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          error_log: Json | null
+          failed_chunks: number | null
+          id: string
+          job_type: string
+          processed_chunks: number | null
+          source_path: string | null
+          started_at: string | null
+          status: string
+          total_chunks: number | null
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_log?: Json | null
+          failed_chunks?: number | null
+          id?: string
+          job_type: string
+          processed_chunks?: number | null
+          source_path?: string | null
+          started_at?: string | null
+          status?: string
+          total_chunks?: number | null
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_log?: Json | null
+          failed_chunks?: number | null
+          id?: string
+          job_type?: string
+          processed_chunks?: number | null
+          source_path?: string | null
+          started_at?: string | null
+          status?: string
+          total_chunks?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       form_definitions: {
         Row: {
           created_at: string
@@ -1430,6 +1478,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      knowledge_chunks: {
+        Row: {
+          active: boolean | null
+          category: string
+          chunk_index: number
+          content: string
+          created_at: string
+          doc_id: string
+          embedding: string | null
+          id: string
+          metadata: Json | null
+          section: string | null
+          title: string
+          updated_at: string
+          version: number | null
+        }
+        Insert: {
+          active?: boolean | null
+          category: string
+          chunk_index: number
+          content: string
+          created_at?: string
+          doc_id: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json | null
+          section?: string | null
+          title: string
+          updated_at?: string
+          version?: number | null
+        }
+        Update: {
+          active?: boolean | null
+          category?: string
+          chunk_index?: number
+          content?: string
+          created_at?: string
+          doc_id?: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json | null
+          section?: string | null
+          title?: string
+          updated_at?: string
+          version?: number | null
+        }
+        Relationships: []
       }
       knowledge_files: {
         Row: {
@@ -2832,6 +2928,24 @@ export type Database = {
       }
       is_admin_user: { Args: { user_id?: string }; Returns: boolean }
       is_inspector: { Args: { _user_id?: string }; Returns: boolean }
+      search_knowledge_chunks: {
+        Args: {
+          filter_category?: string
+          match_count?: number
+          match_threshold?: number
+          query_embedding: string
+        }
+        Returns: {
+          category: string
+          content: string
+          doc_id: string
+          id: string
+          metadata: Json
+          section: string
+          similarity: number
+          title: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "inspector" | "viewer"
