@@ -118,6 +118,17 @@ serve(async (req) => {
         try {
           console.log(`Processing: ${doc.docId} - ${doc.title}`);
 
+          // Deactivate existing chunks for this document
+          const { error: deactivateError } = await supabase
+            .from('knowledge_chunks')
+            .update({ active: false })
+            .eq('doc_id', doc.docId)
+            .eq('active', true);
+
+          if (deactivateError) {
+            console.error(`  Error deactivating old chunks:`, deactivateError);
+          }
+
           // Extract section from content (look for markdown headers)
           const chunks = chunkText(doc.content);
           console.log(`  Split into ${chunks.length} chunks`);
