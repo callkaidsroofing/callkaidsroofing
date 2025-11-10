@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { PremiumPageHeader } from "@/components/admin/PremiumPageHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
 import { 
   RefreshCw, 
   Database, 
@@ -16,7 +17,8 @@ import {
   AlertCircle,
   TrendingUp,
   Clock,
-  Zap
+  Zap,
+  Upload
 } from "lucide-react";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
@@ -42,6 +44,7 @@ interface EmbeddingStats {
 export default function DataSync() {
   const [embeddingStats, setEmbeddingStats] = useState<EmbeddingStats[]>([]);
   const [loadingStats, setLoadingStats] = useState(true);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [syncStatuses, setSyncStatuses] = useState<Record<string, SyncStatus>>({
     rag: {
@@ -211,6 +214,50 @@ export default function DataSync() {
     }
   };
 
+  const handleKnowledgeUpload = async (file: File) => {
+    updateSyncStatus('knowledge', { loading: true, status: 'syncing', error: undefined });
+    
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const { data, error } = await supabase.functions.invoke('process-knowledge-upload', {
+        body: formData
+      });
+
+      if (error) throw error;
+
+      if (!data?.success) {
+        throw new Error(data?.error || 'Upload failed');
+      }
+
+      updateSyncStatus('knowledge', {
+        loading: false,
+        status: 'success',
+        lastSync: new Date(),
+        stats: [
+          { label: 'File Uploaded', value: data.file_name },
+          { label: 'Processing', value: 'In Queue' }
+        ]
+      });
+      
+      toast.success('Knowledge system uploaded successfully', {
+        description: 'File will be processed and embedded into RAG database'
+      });
+      loadEmbeddingStats();
+    } catch (err: any) {
+      console.error('Knowledge upload error:', err);
+      updateSyncStatus('knowledge', {
+        loading: false,
+        status: 'error',
+        error: err.message || 'Failed to upload knowledge system'
+      });
+      toast.error('Failed to upload knowledge system', {
+        description: err.message
+      });
+    }
+  };
+
   const handleSyncAll = async () => {
     toast.info('Starting full system sync...');
     await handleSyncPricing();
@@ -367,24 +414,66 @@ export default function DataSync() {
                     </div>
                   )}
 
-                  <Button
-                    onClick={syncHandlers[key as keyof typeof syncHandlers]}
-                    disabled={status.loading}
-                    className="w-full"
-                    variant={status.status === 'success' ? 'outline' : 'default'}
-                  >
-                    {status.loading ? (
-                      <>
-                        <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                        Syncing...
-                      </>
-                    ) : (
-                      <>
-                        <RefreshCw className="mr-2 h-4 w-4" />
-                        Sync Now
-                      </>
-                    )}
-                  </Button>
+                  {key === 'knowledge' ? (
+                    <div className="space-y-2">
+                      <Input
+                        ref={fileInputRef}
+                        type="file"
+                        accept=".zip"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleKnowledgeUpload(file);
+                        }}
+                      />
+                      <Button
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={status.loading}
+                        className="w-full"
+                        variant="outline"
+                      >
+                        <Upload className="mr-2 h-4 w-4" />
+                        Upload Knowledge System
+                      </Button>
+                      <Button
+                        onClick={syncHandlers[key as keyof typeof syncHandlers]}
+                        disabled={status.loading}
+                        className="w-full"
+                        variant={status.status === 'success' ? 'outline' : 'default'}
+                      >
+                        {status.loading ? (
+                          <>
+                            <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                            Syncing...
+                          </>
+                        ) : (
+                          <>
+                            <RefreshCw className="mr-2 h-4 w-4" />
+                            Sync Existing
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button
+                      onClick={syncHandlers[key as keyof typeof syncHandlers]}
+                      disabled={status.loading}
+                      className="w-full"
+                      variant={status.status === 'success' ? 'outline' : 'default'}
+                    >
+                      {status.loading ? (
+                        <>
+                          <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                          Syncing...
+                        </>
+                      ) : (
+                        <>
+                          <RefreshCw className="mr-2 h-4 w-4" />
+                          Sync Now
+                        </>
+                      )}
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
             );
