@@ -327,6 +327,35 @@ All colors MUST be HSL.
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 20px 40px -15px rgba(0, 122, 204, 0.4);
   }
+  
+  /* Glass morphism effect */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 122, 204, 0.2);
+  }
+  
+  /* Gradient text utility */
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* Stagger animation for lists */
+  .stagger-animation > * {
+    animation: fade-in 0.5s ease-out backwards;
+  }
+  
+  .stagger-animation > *:nth-child(1) { animation-delay: 0.05s; }
+  .stagger-animation > *:nth-child(2) { animation-delay: 0.1s; }
+  .stagger-animation > *:nth-child(3) { animation-delay: 0.15s; }
+  .stagger-animation > *:nth-child(4) { animation-delay: 0.2s; }
+  .stagger-animation > *:nth-child(5) { animation-delay: 0.25s; }
+  .stagger-animation > *:nth-child(6) { animation-delay: 0.3s; }
+  .stagger-animation > *:nth-child(7) { animation-delay: 0.35s; }
+  .stagger-animation > *:nth-child(8) { animation-delay: 0.4s; }
 
   /* Advanced text animations */
   .text-glow {

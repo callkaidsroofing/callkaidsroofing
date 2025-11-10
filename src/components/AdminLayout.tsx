@@ -105,24 +105,36 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-gradient-to-b from-background to-muted/20">
-      {/* Home Anchor */}
+    <div className="flex flex-col h-full bg-gradient-to-b from-background via-background to-primary/5 backdrop-blur-xl">
+      {/* Home Anchor with Enhanced Styling */}
       <NavLink
         to="/admin"
         onClick={onLinkClick}
         className={({ isActive }) =>
-          `p-4 border-b flex items-center gap-3 font-bold text-lg transition-all hover-lift ${
-            isActive ? 'bg-primary/10 text-primary shadow-sm' : 'hover:bg-primary/5'
+          `p-4 border-b border-primary/10 flex items-center gap-3 font-bold text-lg transition-all duration-300 group relative overflow-hidden ${
+            isActive ? 'bg-gradient-to-r from-primary/15 to-primary/5 text-primary shadow-sm' : 'hover:bg-primary/5'
           }`
         }
       >
-        <div className={`p-1.5 rounded-lg ${({ isActive }: any) => isActive ? 'bg-primary/20' : 'bg-primary/10'}`}>
-          <Home className="h-5 w-5" />
-        </div>
-        <span>Hub</span>
+        {({ isActive }) => (
+          <>
+            {/* Active indicator bar */}
+            {isActive && (
+              <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-primary to-primary/50 shadow-lg shadow-primary/50 animate-fade-in" />
+            )}
+            <div className={`p-2 rounded-xl transition-all duration-300 group-hover:scale-110 ${
+              isActive ? 'bg-primary/20 shadow-lg shadow-primary/20' : 'bg-primary/10 group-hover:bg-primary/15'
+            }`}>
+              <Home className={`h-5 w-5 transition-colors ${isActive ? 'text-primary' : 'text-primary/70'}`} />
+            </div>
+            <span className="relative z-10">Hub</span>
+            {/* Hover glow effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          </>
+        )}
       </NavLink>
 
-      {/* Main Navigation */}
+      {/* Main Navigation with Enhanced Animations */}
       <nav className="flex-1 overflow-y-auto custom-scrollbar">
         <Accordion 
           type="multiple" 
@@ -130,37 +142,49 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
           className="w-full"
         >
           {navStructure.map((section, sectionIndex) => {
-            // No admin-only restrictions in new structure
-            
             return (
               <AccordionItem 
                 key={`section-${sectionIndex}`} 
                 value={`section-${sectionIndex}`}
                 className="border-none"
               >
-                <AccordionTrigger className="px-4 py-3 hover:bg-primary/5 hover:no-underline transition-colors">
-                  <div className="flex items-center gap-2.5 text-sm font-semibold">
-                    <section.icon className="h-4 w-4 text-primary" />
-                    <span>{section.title}</span>
+                <AccordionTrigger className="px-4 py-3 hover:bg-primary/5 hover:no-underline transition-all duration-200 group">
+                  <div className="flex items-center gap-3 text-sm font-semibold">
+                    <div className="p-1.5 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-all duration-200 group-hover:scale-110">
+                      <section.icon className="h-4 w-4 text-primary" />
+                    </div>
+                    <span className="group-hover:text-primary transition-colors">{section.title}</span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-1">
-                  <div className="space-y-0.5 px-2 py-1">
+                  <div className="space-y-1 px-2 py-2">
                     {section.items.map((item) => (
                       <NavLink
                         key={item.path}
                         to={item.path}
                         onClick={onLinkClick}
                         className={({ isActive }) =>
-                          `flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all ${
+                          `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200 group relative overflow-hidden ${
                             isActive
-                              ? 'bg-primary text-primary-foreground font-medium shadow-sm'
-                              : 'hover:bg-primary/5 text-muted-foreground hover:text-foreground'
+                              ? 'bg-gradient-to-r from-primary to-primary/80 text-primary-foreground font-medium shadow-lg shadow-primary/30'
+                              : 'hover:bg-primary/5 text-muted-foreground hover:text-foreground hover:translate-x-1'
                           }`
                         }
                       >
-                        <item.icon className="h-3.5 w-3.5" />
-                        <span>{item.title}</span>
+                        {({ isActive }) => (
+                          <>
+                            {/* Active indicator */}
+                            {isActive && (
+                              <div className="absolute left-0 top-0 h-full w-1 bg-primary-foreground/30 animate-fade-in" />
+                            )}
+                            <item.icon className={`h-4 w-4 transition-all duration-200 group-hover:scale-110 ${
+                              isActive ? '' : 'group-hover:text-primary'
+                            }`} />
+                            <span className="flex-1">{item.title}</span>
+                            {/* Hover shimmer effect */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -translate-x-full group-hover:translate-x-full transform" />
+                          </>
+                        )}
                       </NavLink>
                     ))}
                   </div>
@@ -171,16 +195,23 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
         </Accordion>
       </nav>
 
-      {/* User Footer */}
-      <div className="p-3 border-t space-y-2 bg-card">
-        <div className="text-xs text-muted-foreground truncate px-2 font-medium">
-          {user?.email}
+      {/* Enhanced User Footer */}
+      <div className="p-4 border-t border-primary/10 space-y-3 bg-gradient-to-t from-primary/5 to-transparent backdrop-blur-sm">
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-card/50 backdrop-blur-sm border border-primary/10">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-primary-foreground font-bold text-sm">
+            {user?.email?.charAt(0).toUpperCase()}
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="text-xs text-muted-foreground truncate font-medium">
+              {user?.email}
+            </div>
+          </div>
         </div>
         <Button 
           variant="outline" 
           size="sm" 
           onClick={signOut}
-          className="w-full hover:bg-destructive hover:text-destructive-foreground transition-colors"
+          className="w-full hover:bg-destructive hover:text-destructive-foreground transition-all duration-200 hover-lift border-primary/20"
         >
           Sign Out
         </Button>
@@ -216,43 +247,55 @@ export function AdminLayout() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row w-full bg-gradient-to-br from-background via-background to-muted/10">
-      {/* Mobile Header */}
-      <header className="md:hidden sticky top-0 z-40 bg-card/95 backdrop-blur-lg border-b h-14 flex items-center justify-between px-4 shadow-sm">
-        <div className="flex items-center gap-2">
+    <div className="min-h-screen flex flex-col md:flex-row w-full bg-gradient-to-br from-background via-background to-primary/5">
+      {/* Enhanced Mobile Header */}
+      <header className="md:hidden sticky top-0 z-40 bg-card/80 backdrop-blur-xl border-b border-primary/20 h-16 flex items-center justify-between px-4 shadow-lg">
+        <div className="flex items-center gap-3">
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="hover:bg-primary/10">
-                <Menu className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="hover:bg-primary/10 hover-lift transition-all duration-200">
+                <Menu className="h-5 w-5 text-primary" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-64 p-0 flex flex-col bg-background z-[100]">
+            <SheetContent side="left" className="w-72 p-0 flex flex-col bg-background/95 backdrop-blur-xl border-r border-primary/20 z-[100]">
               <SidebarContent onLinkClick={() => setMobileMenuOpen(false)} />
             </SheetContent>
           </Sheet>
-          <span className="font-bold gradient-text">CKR Admin</span>
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+              <Home className="h-4 w-4 text-primary-foreground" />
+            </div>
+            <span className="font-bold text-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              CKR Admin
+            </span>
+          </div>
         </div>
       </header>
 
-      {/* Desktop Sidebar */}
-      <aside className="hidden md:flex md:w-64 border-r border-primary/10 bg-card/50 backdrop-blur-sm flex-col shadow-sm">
-        <SidebarContent />
+      {/* Enhanced Desktop Sidebar with Glass Effect */}
+      <aside className="hidden md:flex md:w-64 border-r border-primary/10 bg-card/40 backdrop-blur-xl flex-col shadow-xl relative overflow-hidden">
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-secondary/5 pointer-events-none" />
+        <div className="relative z-10 h-full">
+          <SidebarContent />
+        </div>
       </aside>
 
-      {/* Main Content */}
+      {/* Main Content with Enhanced Layout */}
       <main className="flex-1 overflow-auto">
-        <div className="p-4 md:p-6 lg:p-8 max-w-[1800px] mx-auto">
-          <div className="flex items-center justify-between mb-6">
+        <div className="p-4 md:p-6 lg:p-8 max-w-[1800px] mx-auto animate-fade-in">
+          {/* Enhanced Header Bar */}
+          <div className="flex items-center justify-between mb-6 p-4 rounded-2xl bg-card/50 backdrop-blur-sm border border-primary/10 shadow-sm hover-lift transition-all duration-200">
             <Breadcrumbs />
             <Button
               onClick={handleNotionSync}
               disabled={isSyncing}
               size="sm"
               variant="outline"
-              className="gap-2 border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all"
+              className="gap-2 border-primary/20 hover:bg-primary/10 hover:border-primary/40 transition-all duration-200 hover-lift backdrop-blur-sm"
             >
-              <RefreshCw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
-              {isSyncing ? 'Syncing...' : 'Sync Notion'}
+              <RefreshCw className={`h-4 w-4 text-primary ${isSyncing ? 'animate-spin' : ''}`} />
+              <span className="font-medium">{isSyncing ? 'Syncing...' : 'Sync Notion'}</span>
             </Button>
           </div>
           <Outlet />

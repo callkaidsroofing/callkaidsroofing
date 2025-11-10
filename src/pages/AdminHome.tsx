@@ -273,51 +273,94 @@ export default function AdminHome() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      {/* Hero Header with Gradient */}
-      <div className="relative overflow-hidden rounded-2xl p-8 card-gradient border border-primary/20">
-        <div className="absolute inset-0 pattern-overlay opacity-50" />
-        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="space-y-2">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 rounded-xl bg-primary/10 backdrop-blur-sm">
-                <Sparkles className="h-6 w-6 text-primary animate-pulse" />
+      {/* Enhanced Hero Header with Animated Gradient */}
+      <div className="relative overflow-hidden rounded-3xl p-8 md:p-12 border border-primary/20 shadow-2xl group">
+        {/* Animated background gradients */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/10 to-background opacity-90" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/5 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+        
+        {/* Animated particles effect */}
+        <div className="absolute inset-0 pattern-overlay opacity-30" />
+        
+        {/* Content */}
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div className="space-y-4">
+            <div className="flex items-center gap-4">
+              {/* Animated icon container */}
+              <div className="relative">
+                <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-xl animate-pulse" />
+                <div className="relative p-3 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 backdrop-blur-xl border border-primary/30 shadow-lg">
+                  <Sparkles className="h-7 w-7 text-primary animate-pulse" />
+                </div>
               </div>
-              <h1 className="text-4xl font-bold gradient-text">CKR Admin Hub</h1>
+              <div>
+                <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-primary/90 to-secondary bg-clip-text text-transparent">
+                  CKR Admin Hub
+                </h1>
+                <p className="text-lg md:text-xl text-muted-foreground mt-1 font-medium">
+                  Business management & operations center
+                </p>
+              </div>
             </div>
-            <p className="text-lg text-muted-foreground">Business management & operations center</p>
+            
+            {/* Stats preview */}
+            <div className="flex gap-4 flex-wrap">
+              <div className="px-4 py-2 rounded-xl bg-card/50 backdrop-blur-sm border border-primary/20">
+                <div className="text-2xl font-bold text-primary">{kpis[0]?.value || '...'}</div>
+                <div className="text-xs text-muted-foreground">Revenue (30d)</div>
+              </div>
+              <div className="px-4 py-2 rounded-xl bg-card/50 backdrop-blur-sm border border-primary/20">
+                <div className="text-2xl font-bold text-primary">{kpis[3]?.value || '...'}</div>
+                <div className="text-xs text-muted-foreground">Active Jobs</div>
+              </div>
+            </div>
           </div>
-          {isAdmin && (
-            <Button
-              onClick={() => navigate('/mfa-setup')}
-              className="btn-premium bg-primary hover:bg-primary/90 shadow-lg hover-lift"
-              size="lg"
-            >
-              <Shield className="h-4 w-4 mr-2" />
-              Setup MFA
-            </Button>
-          )}
+          
+          {/* Action buttons */}
+          <div className="flex flex-col sm:flex-row gap-3">
+            {isAdmin && (
+              <Button
+                onClick={() => navigate('/mfa-setup')}
+                className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-xl shadow-primary/30 hover-lift transition-all duration-300 border-0"
+                size="lg"
+              >
+                <Shield className="h-5 w-5 mr-2" />
+                <span className="font-semibold">Setup MFA</span>
+              </Button>
+            )}
+          </div>
         </div>
+        
+        {/* Bottom glow effect */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
       </div>
 
-      {/* AI-Powered Search */}
-      <Card className="border-primary/30 shadow-lg hover-lift overflow-hidden relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5" />
+      {/* Enhanced AI-Powered Search */}
+      <Card className="border-primary/20 shadow-xl hover-lift overflow-hidden relative group">
+        {/* Gradient background with animation */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-background opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        
         <CardContent className="pt-6 relative z-10">
           <form onSubmit={handleAISearch} className="space-y-4">
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary" />
+                {/* Icon with glow effect */}
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10">
+                  <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full" />
+                  <Search className="relative h-5 w-5 text-primary" />
+                </div>
                 <Input
                   placeholder="Ask AI: 'find leads', 'create quote', 'marketing tools'..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-11 h-12 border-primary/20 focus:border-primary/50 bg-background/80 backdrop-blur-sm"
+                  className="pl-12 h-14 border-primary/30 focus:border-primary/60 bg-card/50 backdrop-blur-xl text-base font-medium shadow-sm hover:shadow-md transition-all duration-200"
                 />
               </div>
               <Button 
                 type="submit" 
                 disabled={searching}
-                className="btn-premium h-12 px-6 bg-primary hover:bg-primary/90"
+                className="h-14 px-8 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-xl shadow-primary/30 hover-lift transition-all duration-300 font-semibold"
                 size="lg"
               >
                 {searching ? (
@@ -335,19 +378,24 @@ export default function AdminHome() {
             </div>
 
             {searchResults.length > 0 && (
-              <div className="space-y-2 stagger-animation">
+              <div className="space-y-2 stagger-animation mt-6">
                 {searchResults.map((result, idx) => (
                   <button
                     key={idx}
                     onClick={() => navigate(result.route)}
-                    className="w-full text-left p-4 rounded-xl border border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all hover-lift bg-background/50 backdrop-blur-sm"
+                    className="w-full text-left p-4 rounded-xl border border-primary/20 hover:bg-primary/10 hover:border-primary/40 transition-all duration-200 hover-lift bg-card/50 backdrop-blur-sm group/item relative overflow-hidden"
                   >
-                    <div className="flex items-start justify-between gap-2">
+                    {/* Hover shimmer effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 -translate-x-full group-hover/item:translate-x-full" />
+                    
+                    <div className="flex items-start justify-between gap-3 relative z-10">
                       <div className="flex-1">
-                        <div className="font-semibold text-foreground">{result.title}</div>
+                        <div className="font-semibold text-foreground group-hover/item:text-primary transition-colors">{result.title}</div>
                         <div className="text-sm text-muted-foreground mt-1">{result.description}</div>
                       </div>
-                      <Badge variant="outline" className="border-primary/30 bg-primary/5">{result.category}</Badge>
+                      <Badge variant="outline" className="border-primary/30 bg-primary/10 text-primary font-medium">
+                        {result.category}
+                      </Badge>
                     </div>
                   </button>
                 ))}
@@ -357,74 +405,129 @@ export default function AdminHome() {
         </CardContent>
       </Card>
 
-      {/* KPI Bar */}
+      {/* Enhanced KPI Bar with Animated Cards */}
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-4 stagger-animation">
         {loading ? (
           Array.from({ length: 4 }).map((_, idx) => (
-            <Card key={idx} className="overflow-hidden">
+            <Card key={idx} className="overflow-hidden border-primary/10">
               <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                 <Skeleton className="h-4 w-24" />
-                <Skeleton className="h-4 w-4 rounded" />
+                <Skeleton className="h-10 w-10 rounded-xl" />
               </CardHeader>
               <CardContent>
-                <Skeleton className="h-8 w-20 mb-2" />
-                <Skeleton className="h-3 w-16" />
+                <Skeleton className="h-10 w-24 mb-2" />
+                <Skeleton className="h-3 w-20" />
               </CardContent>
             </Card>
           ))
         ) : (
           kpis.map((kpi, idx) => (
-            <Card key={idx} className="hover-lift border-primary/20 overflow-hidden relative group">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0 relative z-10">
-                <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.label}</CardTitle>
-                <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                  <kpi.icon className="h-4 w-4 text-primary" />
+            <Card key={idx} className="hover-lift border-primary/20 overflow-hidden relative group cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl">
+              {/* Gradient background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 opacity-0 group-hover:opacity-100 transition-all duration-500" />
+              
+              {/* Animated border glow */}
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/50 via-secondary/50 to-primary/50 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500" />
+              
+              <CardHeader className="flex flex-row items-center justify-between pb-3 space-y-0 relative z-10">
+                <CardTitle className="text-sm font-semibold text-muted-foreground group-hover:text-foreground transition-colors">
+                  {kpi.label}
+                </CardTitle>
+                <div className="p-2.5 rounded-xl bg-primary/10 group-hover:bg-gradient-to-br group-hover:from-primary/20 group-hover:to-secondary/20 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                  <kpi.icon className="h-5 w-5 text-primary" />
                 </div>
               </CardHeader>
+              
               <CardContent className="relative z-10">
-                <div className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">{kpi.value}</div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  <span className={kpi.trend === 'up' ? 'text-roofing-success font-semibold' : 'text-roofing-emergency font-semibold'}>
+                <div className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-primary via-primary/90 to-secondary bg-clip-text text-transparent mb-2">
+                  {kpi.value}
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
+                    kpi.trend === 'up' 
+                      ? 'bg-roofing-success/10 text-roofing-success' 
+                      : 'bg-roofing-emergency/10 text-roofing-emergency'
+                  }`}>
+                    <TrendingUp className={`h-3 w-3 ${kpi.trend === 'down' ? 'rotate-180' : ''}`} />
                     {kpi.change}
-                  </span>
-                  {' '}from last month
-                </p>
+                  </div>
+                  <span className="text-xs text-muted-foreground">vs last month</span>
+                </div>
               </CardContent>
+              
+              {/* Bottom accent line */}
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
             </Card>
           ))
         )}
       </div>
 
-      {/* Quick Links Grid */}
-      <Card className="border-primary/20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/3 to-transparent pointer-events-none" />
-        <CardHeader className="relative z-10">
-          <CardTitle className="text-2xl">Quick Links</CardTitle>
-          <CardDescription>Access key features and tools</CardDescription>
+      {/* Enhanced Quick Links Grid with 3D Effects */}
+      <Card className="border-primary/20 overflow-hidden shadow-xl relative group">
+        {/* Animated background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/10 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+        
+        <CardHeader className="relative z-10 pb-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 backdrop-blur-sm">
+              <ArrowRight className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Quick Links
+              </CardTitle>
+              <CardDescription className="mt-1 font-medium">Access key features and tools</CardDescription>
+            </div>
+          </div>
         </CardHeader>
+        
         <CardContent className="relative z-10">
-          <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 stagger-animation">
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 stagger-animation">
             {quickLinks.map((link, idx) => (
               <button
                 key={idx}
                 onClick={() => navigate(link.route)}
-                className="flex items-start gap-3 p-4 rounded-xl border border-primary/10 hover:border-primary/30 hover:bg-primary/5 transition-all text-left group hover-lift relative overflow-hidden"
+                className="flex flex-col gap-3 p-5 rounded-2xl border border-primary/20 hover:border-primary/40 bg-card/50 hover:bg-card/80 backdrop-blur-sm transition-all duration-300 text-left group/link hover-lift relative overflow-hidden shadow-md hover:shadow-xl"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="p-2.5 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-all group-hover:scale-110 relative z-10">
-                  <link.icon className="h-5 w-5 text-primary" />
+                {/* Gradient overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 opacity-0 group-hover/link:opacity-100 transition-opacity duration-500" />
+                
+                {/* Animated shimmer effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent opacity-0 group-hover/link:opacity-100 transition-opacity duration-500 -translate-x-full group-hover/link:translate-x-full transform" />
+                
+                {/* Icon with glow */}
+                <div className="relative">
+                  <div className="absolute inset-0 bg-primary/20 blur-xl rounded-2xl opacity-0 group-hover/link:opacity-100 transition-opacity duration-300" />
+                  <div className="relative p-3 rounded-2xl bg-gradient-to-br from-primary/15 to-secondary/10 group-hover/link:from-primary/25 group-hover/link:to-secondary/20 transition-all duration-300 group-hover/link:scale-110 shadow-sm">
+                    <link.icon className="h-6 w-6 text-primary" />
+                  </div>
                 </div>
+                
+                {/* Content */}
                 <div className="flex-1 min-w-0 relative z-10">
-                  <div className="flex items-center gap-2">
-                    <div className="font-semibold group-hover:text-primary transition-colors">{link.title}</div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="font-bold text-lg group-hover/link:text-primary transition-colors">{link.title}</div>
                     {link.badge && (
-                      <Badge variant="secondary" className="ml-auto bg-primary/10 text-primary border-primary/20 font-semibold">{link.badge}</Badge>
+                      <Badge className="ml-auto bg-gradient-to-r from-primary/20 to-secondary/20 text-primary border-primary/30 font-bold shadow-sm animate-pulse">
+                        {link.badge}
+                      </Badge>
                     )}
                   </div>
-                  <div className="text-sm text-muted-foreground mt-0.5">{link.description}</div>
+                  <div className="text-sm text-muted-foreground group-hover/link:text-foreground transition-colors font-medium">
+                    {link.description}
+                  </div>
                 </div>
-                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all mt-1 relative z-10" />
+                
+                {/* Arrow indicator */}
+                <div className="flex justify-end">
+                  <div className="p-1.5 rounded-lg bg-primary/10 group-hover/link:bg-primary/20 transition-all duration-300">
+                    <ArrowRight className="h-4 w-4 text-primary group-hover/link:translate-x-1 transition-transform duration-300" />
+                  </div>
+                </div>
+                
+                {/* Bottom accent */}
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-primary transform scale-x-0 group-hover/link:scale-x-100 transition-transform duration-500" />
               </button>
             ))}
           </div>
