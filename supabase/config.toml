@@ -240,3 +240,13 @@ verify_jwt = true
 
 [functions.process-knowledge-upload]
 verify_jwt = true
+
+# ============================================
+# KNOWLEDGE PACK V1.1 FUNCTIONS
+# ============================================
+
+[functions.rag-indexer]
+verify_jwt = false
+
+[functions.embed-knowledge-docs]
+verify_jwt = true

@@ -1,0 +1,49 @@
+{
+  "version": "1.1",
+  "updated": "2025-11-10",
+  "files": {
+    "mkf": [
+      {
+        "id": "MKF_00_COMBINED",
+        "path": "mkf/MKF_00_combined.md",
+        "contains": ["brand_mandate", "voice_guide", "invariants", "business_context"]
+      },
+      {
+        "id": "BUSINESS_KNOWLEDGE_FULL",
+        "path": "mkf/Business_knowledge_full.md",
+        "contains": ["gwa_workflows", "ckr_gem_v3", "operations", "sop"]
+      }
+    ],
+    "brand": [
+      {
+        "id": "BRAND_GUIDE",
+        "path": "brand/BRAND_GUIDE.md",
+        "contains": ["brand_identity", "visual_guidelines", "voice_tone"]
+      }
+    ],
+    "governance": [
+      {
+        "id": "GOVERNANCE",
+        "path": "governance/GOVERNANCE.md",
+        "contains": ["authorization_rules", "compliance", "security"]
+      }
+    ],
+    "warranty": [
+      {
+        "id": "WARRANTY_POLICY",
+        "path": "warranty/WARRANTY_POLICY.md",
+        "contains": ["warranty_terms", "coverage", "exclusions"]
+      }
+    ],
+    "config": [
+      "rag-config.json",
+      "assign-knowledge.json"
+    ],
+    "prompts": [
+      "admin-assistant.prompt.md"
+    ]
+  },
+  "embedding_provider": "openai",
+  "embedding_model": "text-embedding-3-small",
+  "vector_dimensions": 768
+}

@@ -1,0 +1,20 @@
+{
+  "embedding_model": "text-embedding-004",
+  "embedding_dims": 768,
+  "chunk": {
+    "size": 1200,
+    "overlap": 150
+  },
+  "namespace": "ckr",
+  "tables": [
+    "content_blog_posts",
+    "content_services",
+    "content_case_studies",
+    "content_testimonials",
+    "content_suburbs",
+    "content_pages",
+    "master_knowledge"
+  ],
+  "min_score": 0.7,
+  "k": 5
+}

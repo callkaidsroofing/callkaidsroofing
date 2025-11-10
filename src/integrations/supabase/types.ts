@@ -676,6 +676,13 @@ export type Database = {
             referencedRelation: "content_case_studies"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "content_gallery_case_study_id_fkey"
+            columns: ["case_study_id"]
+            isOneToOne: false
+            referencedRelation: "content_case_studies_view_for_rag"
+            referencedColumns: ["id"]
+          },
         ]
       }
       content_knowledge_base: {
@@ -1057,6 +1064,13 @@ export type Database = {
             columns: ["case_study_id"]
             isOneToOne: false
             referencedRelation: "content_case_studies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_testimonials_case_study_id_fkey"
+            columns: ["case_study_id"]
+            isOneToOne: false
+            referencedRelation: "content_case_studies_view_for_rag"
             referencedColumns: ["id"]
           },
         ]
@@ -3337,6 +3351,102 @@ export type Database = {
       }
     }
     Views: {
+      content_blog_posts_view_for_rag: {
+        Row: {
+          content: string | null
+          id: string | null
+          metadata: Json | null
+          source_id: string | null
+          title: string | null
+        }
+        Insert: {
+          content?: never
+          id?: string | null
+          metadata?: never
+          source_id?: string | null
+          title?: string | null
+        }
+        Update: {
+          content?: never
+          id?: string | null
+          metadata?: never
+          source_id?: string | null
+          title?: string | null
+        }
+        Relationships: []
+      }
+      content_case_studies_view_for_rag: {
+        Row: {
+          content: string | null
+          id: string | null
+          metadata: Json | null
+          source_id: string | null
+          title: string | null
+        }
+        Insert: {
+          content?: never
+          id?: string | null
+          metadata?: never
+          source_id?: string | null
+          title?: string | null
+        }
+        Update: {
+          content?: never
+          id?: string | null
+          metadata?: never
+          source_id?: string | null
+          title?: string | null
+        }
+        Relationships: []
+      }
+      content_pages_view_for_rag: {
+        Row: {
+          content: string | null
+          id: string | null
+          metadata: Json | null
+          source_id: string | null
+          title: string | null
+        }
+        Insert: {
+          content?: never
+          id?: string | null
+          metadata?: never
+          source_id?: string | null
+          title?: string | null
+        }
+        Update: {
+          content?: never
+          id?: string | null
+          metadata?: never
+          source_id?: string | null
+          title?: string | null
+        }
+        Relationships: []
+      }
+      content_services_view_for_rag: {
+        Row: {
+          content: string | null
+          id: string | null
+          metadata: Json | null
+          source_id: string | null
+          title: string | null
+        }
+        Insert: {
+          content?: never
+          id?: string | null
+          metadata?: never
+          source_id?: string | null
+          title?: string | null
+        }
+        Update: {
+          content?: never
+          id?: string | null
+          metadata?: never
+          source_id?: string | null
+          title?: string | null
+        }
+        Relationships: []
+      }
       master_knowledge_overview: {
         Row: {
           category: string | null
@@ -3347,6 +3457,30 @@ export type Database = {
           min_priority: number | null
           subcategory: string | null
           total_chunks: number | null
+        }
+        Relationships: []
+      }
+      master_knowledge_view_for_rag: {
+        Row: {
+          content: string | null
+          id: string | null
+          metadata: Json | null
+          source_id: string | null
+          title: string | null
+        }
+        Insert: {
+          content?: string | null
+          id?: string | null
+          metadata?: never
+          source_id?: string | null
+          title?: string | null
+        }
+        Update: {
+          content?: string | null
+          id?: string | null
+          metadata?: never
+          source_id?: string | null
+          title?: string | null
         }
         Relationships: []
       }
@@ -3376,6 +3510,28 @@ export type Database = {
       cleanup_rate_limits: { Args: never; Returns: undefined }
       generate_invoice_number: { Args: never; Returns: string }
       generate_quote_number: { Args: never; Returns: string }
+      get_embedding_stats: {
+        Args: never
+        Returns: {
+          embedded: number
+          percentage: number
+          source_table: string
+          total: number
+        }[]
+      }
+      get_knowledge_docs: {
+        Args: never
+        Returns: {
+          created_at: string
+          embedding: string
+          id: string
+          metadata: Json
+          source_id: string
+          source_table: string
+          title: string
+          updated_at: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
