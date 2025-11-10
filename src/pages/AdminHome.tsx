@@ -52,7 +52,7 @@ interface QuickLink {
   badge?: string;
 }
 
-export default function InternalHomeNew() {
+export default function AdminHome() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { isAdmin } = useAuth();
@@ -71,56 +71,56 @@ export default function InternalHomeNew() {
     {
       title: 'Leads Pipeline',
       description: 'Manage and track leads',
-      route: '/internal/v2/leads',
+      route: '/admin/leads',
       icon: Users,
       badge: queueData.new_leads > 0 ? String(queueData.new_leads) : undefined
     },
     {
       title: 'Create Quote',
       description: 'Build new quote',
-      route: '/internal/v2/quotes/new',
+      route: '/admin/quotes/new',
       icon: FileText
     },
     {
       title: 'New Inspection',
       description: 'Create inspection report',
-      route: '/internal/v2/inspections/new',
+      route: '/admin/inspections/new',
       icon: FileText
     },
     {
       title: 'Forms Studio',
       description: 'Manage forms & submissions',
-      route: '/internal/v2/forms',
+      route: '/admin/forms',
       icon: Folder
     },
     {
       title: 'Jobs Calendar',
       description: 'Schedule & track jobs',
-      route: '/internal/v2/jobs',
+      route: '/admin/jobs',
       icon: Calendar
     },
     {
       title: 'Marketing Studio',
       description: 'Content & campaigns',
-      route: '/internal/v2/marketing',
+      route: '/admin/marketing',
       icon: TrendingUp
     },
     {
       title: 'Media Library',
       description: 'Manage photos & assets',
-      route: '/internal/v2/media',
+      route: '/admin/media',
       icon: Image
     },
     {
       title: 'Reports & Analytics',
       description: 'Business insights',
-      route: '/internal/v2/reports',
+      route: '/admin/reports',
       icon: BarChart3
     },
     {
       title: 'Data Hub',
       description: 'Database management',
-      route: '/internal/v2/data',
+      route: '/admin/data',
       icon: Settings
     }
   ];
@@ -282,8 +282,8 @@ export default function InternalHomeNew() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Command Center</h1>
-          <p className="text-muted-foreground">Welcome back to Call Kaids Roofing</p>
+          <h1 className="text-3xl font-bold">CKR Admin Hub</h1>
+          <p className="text-muted-foreground">Business management & operations center</p>
         </div>
         {isAdmin && (
           <Button
@@ -429,7 +429,7 @@ export default function InternalHomeNew() {
             </CardHeader>
             <CardContent className="space-y-3">
               <button
-                onClick={() => navigate('/internal/v2/quotes/new')}
+                onClick={() => navigate('/admin/quotes/new')}
                 className="w-full flex items-center justify-between p-3 rounded-lg border hover:bg-muted transition-colors"
               >
                 <span className="text-sm font-medium">Pending Quotes</span>
@@ -438,7 +438,7 @@ export default function InternalHomeNew() {
                 </Badge>
               </button>
               <button
-                onClick={() => navigate('/internal/v2/leads')}
+                onClick={() => navigate('/admin/leads')}
                 className="w-full flex items-center justify-between p-3 rounded-lg border hover:bg-muted transition-colors"
               >
                 <span className="text-sm font-medium">New Leads</span>
@@ -447,7 +447,7 @@ export default function InternalHomeNew() {
                 </Badge>
               </button>
               <button
-                onClick={() => navigate('/internal/v2/marketing')}
+                onClick={() => navigate('/admin/marketing')}
                 className="w-full flex items-center justify-between p-3 rounded-lg border hover:bg-muted transition-colors"
               >
                 <span className="text-sm font-medium">Scheduled Posts</span>

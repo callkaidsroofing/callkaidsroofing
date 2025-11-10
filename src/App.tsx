@@ -46,7 +46,7 @@ const Auth = lazy(() => import("./pages/Auth"));
 const MFASetup = lazy(() => import("./pages/MFASetup"));
 const MFAVerify = lazy(() => import("./pages/MFAVerify"));
 const QuoteDocumentViewer = lazy(() => import("./pages/QuoteDocumentViewer"));
-const InternalHomeNew = lazy(() => import("./pages/InternalHomeNew"));
+const AdminHome = lazy(() => import("./pages/AdminHome"));
 const ImageGenerator = lazy(() => import("./pages/ImageGenerator"));
 const DocsHub = lazy(() => import("./pages/DocsHub"));
 const FormsStudio = lazy(() => import("./pages/FormsStudio"));
@@ -63,15 +63,12 @@ const JobsCalendar = lazy(() => import("./pages/JobsCalendar"));
 const LeadIntelligence = lazy(() => import("./pages/LeadIntelligence"));
 const ReportsAnalytics = lazy(() => import("./pages/ReportsAnalytics"));
 const AdminUserManagement = lazy(() => import("./pages/AdminUserManagement"));
-const KnowledgeManagement = lazy(() => import("./pages/KnowledgeManagement"));
-const KnowledgeBase = lazy(() => import("./pages/internal/v2/KnowledgeBase"));
-const DatabaseManagement = lazy(() => import("./pages/internal/v2/DatabaseManagement"));
 const AIAssistant = lazy(() => import("./pages/internal/v2/AIAssistant"));
 const StorageAdmin = lazy(() => import("./pages/internal/v2/admin/StorageAdmin"));
 const EmbeddingGenerator = lazy(() => import("./pages/internal/v2/admin/EmbeddingGenerator"));
 const KnowledgeUploader = lazy(() => import("./pages/internal/v2/admin/KnowledgeUploader"));
 const AdminHub = lazy(() => import("./pages/internal/v2/admin/AdminHub"));
-import { InternalLayoutNew } from "@/components/InternalLayoutNew";
+import { AdminLayout } from "@/components/AdminLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import ProtectedLayout from "@/components/ProtectedLayout";
 
@@ -154,11 +151,11 @@ function App() {
                   } />
                   <Route path="/mfa-verify" element={<MFAVerify />} />
                   
-                  {/* NEW INTERNAL SYSTEM - with unified sidebar layout */}
-                  <Route path="/internal/v2" element={<ProtectedLayout />}>
-                    <Route element={<InternalLayoutNew />}>
-                      <Route index element={<Navigate to="/internal/v2/home" replace />} />
-                      <Route path="home" element={<InternalHomeNew />} />
+                  {/* CKR Admin Hub - Unified business management system */}
+                  <Route path="/admin" element={<ProtectedLayout />}>
+                    <Route element={<AdminLayout />}>
+                      <Route index element={<Navigate to="/admin/home" replace />} />
+                      <Route path="home" element={<AdminHome />} />
                       <Route path="docs" element={<DocsHub />} />
                       <Route path="forms" element={<FormsStudio />} />
                       <Route path="forms/:formId/submissions" element={<FormSubmissions />} />
@@ -175,24 +172,18 @@ function App() {
                       <Route path="jobs" element={<JobsCalendar />} />
                       <Route path="intelligence" element={<LeadIntelligence />} />
                       <Route path="reports" element={<ReportsAnalytics />} />
-                      <Route path="admin" element={<AdminHub />} />
-                      <Route path="admin/users" element={<AdminUserManagement />} />
-                      <Route path="admin/storage" element={<StorageAdmin />} />
-                      <Route path="admin/upload" element={<KnowledgeUploader />} />
-                      <Route path="admin/embeddings" element={<EmbeddingGenerator />} />
-                      
-                      {/* Legacy redirects */}
-                      <Route path="admin/knowledge" element={<Navigate to="/internal/v2/admin/storage" replace />} />
-                      <Route path="admin/knowledge-base" element={<Navigate to="/internal/v2/admin/storage" replace />} />
-                      <Route path="admin/database" element={<Navigate to="/internal/v2/admin/storage" replace />} />
+                      <Route path="system" element={<AdminHub />} />
+                      <Route path="system/users" element={<AdminUserManagement />} />
+                      <Route path="system/storage" element={<StorageAdmin />} />
+                      <Route path="system/upload" element={<KnowledgeUploader />} />
+                      <Route path="system/embeddings" element={<EmbeddingGenerator />} />
                       <Route path="ai-assistant" element={<AIAssistant />} />
                     </Route>
                   </Route>
                   
-                  {/* Redirect old /internal routes to new v2 system */}
-                  <Route path="/internal/dashboard" element={<Navigate to="/internal/v2/home" replace />} />
-                  <Route path="/internal/home" element={<Navigate to="/internal/v2/home" replace />} />
-                  <Route path="/internal/*" element={<Navigate to="/internal/v2/home" replace />} />
+                  {/* Legacy redirects - old internal/v2 routes */}
+                  <Route path="/internal/v2/*" element={<Navigate to="/admin" replace />} />
+                  <Route path="/internal/*" element={<Navigate to="/admin" replace />} />
               </Routes>
             </Suspense>
           </BrowserRouter>

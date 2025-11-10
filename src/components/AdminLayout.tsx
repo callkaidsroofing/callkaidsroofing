@@ -33,17 +33,17 @@ const navStructure: NavSection[] = [
     icon: Users,
     defaultOpen: true,
     items: [
-      { title: 'Leads Pipeline', path: '/internal/v2/leads', icon: Phone },
-      { title: 'Lead Intelligence', path: '/internal/v2/intelligence', icon: Brain },
-      { title: 'Quotes', path: '/internal/v2/quotes/new', icon: DollarSign },
-      { title: 'Jobs Calendar', path: '/internal/v2/jobs', icon: Calendar },
+      { title: 'Leads Pipeline', path: '/admin/leads', icon: Phone },
+      { title: 'Lead Intelligence', path: '/admin/intelligence', icon: Brain },
+      { title: 'Quotes', path: '/admin/quotes/new', icon: DollarSign },
+      { title: 'Jobs Calendar', path: '/admin/jobs', icon: Calendar },
     ],
   },
   {
     title: 'Business Intelligence',
     icon: BarChart3,
     items: [
-      { title: 'Reports & Analytics', path: '/internal/v2/reports', icon: BarChart3 },
+      { title: 'Reports & Analytics', path: '/admin/reports', icon: BarChart3 },
     ],
   },
   {
@@ -51,38 +51,38 @@ const navStructure: NavSection[] = [
     icon: Wrench,
     defaultOpen: true,
     items: [
-      { title: 'New Inspection', path: '/internal/v2/inspections/new', icon: ClipboardList },
-      { title: 'Image Generator', path: '/internal/v2/media/generator', icon: Image },
+      { title: 'New Inspection', path: '/admin/inspections/new', icon: ClipboardList },
+      { title: 'Image Generator', path: '/admin/media/generator', icon: Image },
     ],
   },
   {
     title: 'Marketing & Media',
     icon: Megaphone,
     items: [
-      { title: 'Media Library', path: '/internal/v2/media', icon: Image },
-      { title: 'Marketing Studio', path: '/internal/v2/marketing', icon: Megaphone },
+      { title: 'Media Library', path: '/admin/media', icon: Image },
+      { title: 'Marketing Studio', path: '/admin/marketing', icon: Megaphone },
     ],
   },
   {
     title: 'Configuration',
     icon: Settings,
     items: [
-      { title: 'Data Hub', path: '/internal/v2/data', icon: Database },
-      { title: 'Forms Studio', path: '/internal/v2/forms', icon: FormInput },
-      { title: 'Docs Hub', path: '/internal/v2/docs', icon: FileText },
-      { title: 'Quote Documents', path: '/internal/v2/quote-documents', icon: FileStack },
+      { title: 'Data Hub', path: '/admin/data', icon: Database },
+      { title: 'Forms Studio', path: '/admin/forms', icon: FormInput },
+      { title: 'Docs Hub', path: '/admin/docs', icon: FileText },
+      { title: 'Quote Documents', path: '/admin/quote-documents', icon: FileStack },
     ],
   },
   {
-    title: 'Admin',
+    title: 'System Admin',
     icon: Shield,
     items: [
-      { title: 'Admin Hub', path: '/internal/v2/admin', icon: Shield },
-      { title: 'User Management', path: '/internal/v2/admin/users', icon: Users },
-      { title: 'Knowledge Files', path: '/internal/v2/admin/storage', icon: FileStack },
-      { title: 'Upload Knowledge', path: '/internal/v2/admin/upload', icon: FileText },
-      { title: 'Generate Embeddings', path: '/internal/v2/admin/embeddings', icon: Database },
-      { title: 'AI Assistant', path: '/internal/v2/ai-assistant', icon: Sparkles },
+      { title: 'System Dashboard', path: '/admin/system', icon: Shield },
+      { title: 'User Management', path: '/admin/system/users', icon: Users },
+      { title: 'Knowledge Files', path: '/admin/system/storage', icon: FileStack },
+      { title: 'Upload Knowledge', path: '/admin/system/upload', icon: FileText },
+      { title: 'Generate Embeddings', path: '/admin/system/embeddings', icon: Database },
+      { title: 'AI Assistant', path: '/admin/ai-assistant', icon: Sparkles },
     ],
   },
 ];
@@ -109,7 +109,7 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
     <>
       {/* Home Anchor - Always visible */}
       <NavLink
-        to="/internal/v2/home"
+        to="/admin/home"
         onClick={onLinkClick}
         className={({ isActive }) =>
           `p-4 border-b flex items-center gap-3 font-bold text-lg transition-colors ${
@@ -118,7 +118,7 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
         }
       >
         <Home className="h-5 w-5" />
-        <span>CKR Home</span>
+        <span>Admin Hub</span>
       </NavLink>
 
       {/* Main Navigation with Accordions */}
@@ -129,8 +129,8 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
           className="w-full"
         >
           {navStructure.map((section, sectionIndex) => {
-            // Hide Admin section if user is not admin
-            if (section.title === 'Admin' && !isAdmin) return null;
+            // Hide System Admin section if user is not admin
+            if (section.title === 'System Admin' && !isAdmin) return null;
             
             return (
               <AccordionItem 
@@ -189,7 +189,7 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
   );
 }
 
-export function InternalLayoutNew() {
+export function AdminLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
 
@@ -230,7 +230,7 @@ export function InternalLayoutNew() {
               <SidebarContent onLinkClick={() => setMobileMenuOpen(false)} />
             </SheetContent>
           </Sheet>
-          <span className="font-bold text-primary">Call Kaids Roofing</span>
+          <span className="font-bold text-primary">CKR Admin Hub</span>
         </div>
       </header>
 

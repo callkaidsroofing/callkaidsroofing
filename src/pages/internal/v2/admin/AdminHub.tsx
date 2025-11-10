@@ -12,7 +12,7 @@ const adminTools = [
     title: 'User Management',
     description: 'Manage user accounts, roles, and permissions',
     icon: Users,
-    path: '/internal/v2/admin/users',
+    path: '/admin/system/users',
     color: 'bg-blue-500/10 text-blue-500',
     badge: 'Access Control',
   },
@@ -20,7 +20,7 @@ const adminTools = [
     title: 'Knowledge Files',
     description: 'Browse, edit, and manage knowledge base files',
     icon: FileStack,
-    path: '/internal/v2/admin/storage',
+    path: '/admin/system/storage',
     color: 'bg-purple-500/10 text-purple-500',
     badge: 'Storage',
   },
@@ -28,7 +28,7 @@ const adminTools = [
     title: 'Upload Knowledge',
     description: 'Upload new documents with AI-powered categorization',
     icon: Upload,
-    path: '/internal/v2/admin/upload',
+    path: '/admin/system/upload',
     color: 'bg-green-500/10 text-green-500',
     badge: 'Import',
   },
@@ -36,7 +36,7 @@ const adminTools = [
     title: 'Generate Embeddings',
     description: 'Create vector embeddings for RAG search',
     icon: Database,
-    path: '/internal/v2/admin/embeddings',
+    path: '/admin/system/embeddings',
     color: 'bg-orange-500/10 text-orange-500',
     badge: 'AI',
   },
@@ -44,7 +44,7 @@ const adminTools = [
     title: 'AI Assistant',
     description: 'Internal AI assistant for admin tasks',
     icon: Sparkles,
-    path: '/internal/v2/ai-assistant',
+    path: '/admin/ai-assistant',
     color: 'bg-pink-500/10 text-pink-500',
     badge: 'Chat',
   },
@@ -60,12 +60,12 @@ export default function AdminHub() {
         <div className="p-3 rounded-lg bg-primary/10">
           <Shield className="h-8 w-8 text-primary" />
         </div>
-        <div>
-          <h1 className="text-3xl font-bold">Admin Hub</h1>
-          <p className="text-muted-foreground">
-            Central dashboard for all administrative tools and functions
-          </p>
-        </div>
+      <div>
+        <h1 className="text-3xl font-bold">System Admin Dashboard</h1>
+        <p className="text-muted-foreground">
+          Central hub for system administration and knowledge management
+        </p>
+      </div>
       </div>
 
       {/* Quick Stats */}
@@ -160,7 +160,7 @@ export default function AdminHub() {
           <Button
             variant="outline"
             className="w-full justify-start"
-            onClick={() => navigate('/internal/v2/admin/upload')}
+            onClick={() => navigate('/admin/system/upload')}
           >
             <Upload className="h-4 w-4 mr-2" />
             Upload New Knowledge File
@@ -168,7 +168,7 @@ export default function AdminHub() {
           <Button
             variant="outline"
             className="w-full justify-start"
-            onClick={() => navigate('/internal/v2/admin/embeddings')}
+            onClick={() => navigate('/admin/system/embeddings')}
           >
             <Database className="h-4 w-4 mr-2" />
             Generate Missing Embeddings
@@ -176,7 +176,7 @@ export default function AdminHub() {
           <Button
             variant="outline"
             className="w-full justify-start"
-            onClick={() => navigate('/internal/v2/admin/storage')}
+            onClick={() => navigate('/admin/system/storage')}
           >
             <FileStack className="h-4 w-4 mr-2" />
             Browse Knowledge Files
