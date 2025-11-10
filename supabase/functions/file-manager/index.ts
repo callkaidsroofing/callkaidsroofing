@@ -42,36 +42,113 @@ serve(async (req) => {
 
     // LIST FILES
     if (action === 'list') {
-      const query = supabase
+      // Get files from knowledge_files table
+      const filesQuery = supabase
         .from('knowledge_files')
         .select('*')
         .eq('active', true)
         .order('updated_at', { ascending: false });
 
       if (category) {
-        query.eq('category', category);
+        filesQuery.eq('category', category);
       }
 
-      const { data: files, error } = await query;
+      const { data: knowledgeFiles, error: filesError } = await filesQuery;
+      if (filesError) throw filesError;
 
-      if (error) throw error;
+      // Get unique documents from knowledge_chunks (these are the actual RAG sources)
+      const chunksQuery = supabase
+        .from('knowledge_chunks')
+        .select('doc_id, title, category, created_at, updated_at, version, metadata')
+        .eq('active', true)
+        .order('updated_at', { ascending: false });
 
-      return new Response(JSON.stringify({ success: true, files }), {
+      if (category) {
+        chunksQuery.eq('category', category);
+      }
+
+      const { data: chunks, error: chunksError } = await chunksQuery;
+      if (chunksError) throw chunksError;
+
+      // Aggregate chunks by doc_id to create file entries
+      const chunkFileMap = new Map();
+      chunks?.forEach(chunk => {
+        if (!chunkFileMap.has(chunk.doc_id)) {
+          chunkFileMap.set(chunk.doc_id, {
+            id: chunk.doc_id, // Use doc_id as id for chunks
+            file_key: chunk.doc_id,
+            title: chunk.title,
+            category: chunk.category,
+            content: '[Vector Chunks - Click to view]', // Placeholder
+            metadata: { ...chunk.metadata, source: 'chunks' },
+            version: chunk.version || 1,
+            active: true,
+            created_at: chunk.created_at,
+            updated_at: chunk.updated_at
+          });
+        }
+      });
+
+      // Merge both sources, prioritizing knowledge_files if doc_id matches
+      const allFiles = [...(knowledgeFiles || [])];
+      const existingFileKeys = new Set(allFiles.map(f => f.file_key));
+      
+      chunkFileMap.forEach(file => {
+        if (!existingFileKeys.has(file.file_key)) {
+          allFiles.push(file);
+        }
+      });
+
+      // Sort by updated_at
+      allFiles.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+
+      return new Response(JSON.stringify({ success: true, files: allFiles }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
 
     // GET FILE
     if (action === 'get' && fileId) {
+      // Try knowledge_files first
       const { data: file, error: fileError } = await supabase
         .from('knowledge_files')
         .select('*')
         .eq('id', fileId)
         .single();
 
-      if (fileError) throw fileError;
+      let fileData = file;
+      let fileKey = file?.file_key;
 
-      // Get version history
+      // If not found, try getting from knowledge_chunks (fileId might be doc_id)
+      if (fileError) {
+        const { data: chunks, error: chunksError } = await supabase
+          .from('knowledge_chunks')
+          .select('*')
+          .eq('doc_id', fileId)
+          .eq('active', true)
+          .order('chunk_index', { ascending: true });
+
+        if (chunksError || !chunks || chunks.length === 0) {
+          throw new Error('File not found in knowledge_files or knowledge_chunks');
+        }
+
+        // Reconstruct file from chunks
+        fileKey = fileId;
+        fileData = {
+          id: fileId,
+          file_key: fileId,
+          title: chunks[0].title,
+          category: chunks[0].category,
+          content: chunks.map(c => c.content).join('\n\n'),
+          metadata: { ...chunks[0].metadata, source: 'chunks', totalChunks: chunks.length },
+          version: chunks[0].version || 1,
+          active: true,
+          created_at: chunks[0].created_at,
+          updated_at: chunks[0].updated_at
+        };
+      }
+
+      // Get version history (only for knowledge_files)
       const { data: versions } = await supabase
         .from('knowledge_file_versions')
         .select('*')
@@ -82,12 +159,12 @@ serve(async (req) => {
       const { count: chunkCount } = await supabase
         .from('knowledge_chunks')
         .select('id', { count: 'exact', head: true })
-        .eq('doc_id', file.file_key)
+        .eq('doc_id', fileKey)
         .eq('active', true);
 
       return new Response(JSON.stringify({ 
         success: true, 
-        file, 
+        file: fileData, 
         versions: versions || [], 
         chunkCount: chunkCount || 0 
       }), {

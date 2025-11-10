@@ -99,8 +99,13 @@ export function FileBrowser({ onFileSelect, onCreateNew }: FileBrowserProps) {
                       <div className="flex items-center gap-2 mb-1">
                         <FileText className="h-4 w-4 text-primary flex-shrink-0" />
                         <span className="font-medium truncate">{file.title}</span>
+                        {file.metadata?.source === 'chunks' && (
+                          <Badge variant="outline" className="text-xs bg-primary/10">
+                            RAG Vector
+                          </Badge>
+                        )}
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
                         <Badge variant="outline" className="text-xs">
                           {file.file_key}
                         </Badge>
@@ -110,6 +115,11 @@ export function FileBrowser({ onFileSelect, onCreateNew }: FileBrowserProps) {
                         <span className="text-xs">
                           v{file.version}
                         </span>
+                        {file.metadata?.totalChunks && (
+                          <span className="text-xs text-primary">
+                            {file.metadata.totalChunks} chunks
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div className="text-xs text-muted-foreground whitespace-nowrap ml-2">
