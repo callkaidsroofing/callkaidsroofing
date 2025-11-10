@@ -136,8 +136,17 @@ export default function DataSync() {
     updateSyncStatus('pricing', { loading: true, status: 'syncing', error: undefined });
     
     try {
+      // Fetch the pricing JSON file
+      const response = await fetch('/pricing/KF_02_PRICING_MODEL.json');
+      if (!response.ok) throw new Error('Failed to fetch pricing model');
+      const pricingData = await response.json();
+
+      // Sync to database with embeddings
       const { data, error } = await supabase.functions.invoke('sync-pricing-data', {
-        body: { action: 'sync' }
+        body: { 
+          action: 'sync_from_json',
+          data: pricingData
+        }
       });
 
       if (error) throw error;
@@ -147,12 +156,13 @@ export default function DataSync() {
         status: 'success',
         lastSync: new Date(),
         stats: [
-          { label: 'Items Synced', value: String(data?.itemsCount || 0) },
-          { label: 'Constants Updated', value: String(data?.constantsCount || 0) }
+          { label: 'Items Synced', value: String(data?.results?.success || 0) },
+          { label: 'Failed', value: String(data?.results?.failed || 0) }
         ]
       });
       
       toast.success('Pricing database synchronized successfully');
+      loadEmbeddingStats();
     } catch (err: any) {
       console.error('Pricing sync error:', err);
       updateSyncStatus('pricing', {
