@@ -213,6 +213,33 @@ FOR EACH ROW EXECUTE FUNCTION sync_to_master_knowledge();
 - **Cost**: ~$0.02 per 1M tokens
 - **Estimated for 71 docs**: < $0.50 total
 
+## Knowledge Upload System
+
+### Dynamic File Upload Pipeline
+**Admin UI**: `/internal/v2/admin/upload`
+
+Upload new knowledge files that are automatically:
+1. **Parsed** - Markdown, text, PDF, or DOCX
+2. **Categorized** - AI detects category/doc_type if not specified
+3. **Embedded** - Vector embeddings generated automatically
+4. **Indexed** - Immediately searchable via RAG
+
+### Features
+- ✅ **12 Categories**: system, brand, operations, etc.
+- ✅ **11 Doc Types**: mkf, gwa, sop, faq, service, etc.
+- ✅ **AI Auto-Detection**: Analyzes content when metadata not provided
+- ✅ **Multi-Document Parsing**: Splits files by H1 headers
+- ✅ **Auto-Embedding**: Optional immediate vector generation
+- ✅ **Audit Trail**: Tracks all uploads in `knowledge_uploads` table
+- ✅ **50MB Limit**: Supports large documents
+
+### Storage
+- **Bucket**: `knowledge-uploads` (private)
+- **Tracking**: `knowledge_uploads` table
+- **Destination**: `master_knowledge` table
+
+**See**: `docs/KNOWLEDGE_UPLOAD_SYSTEM.md` for full documentation
+
 ## Success Metrics
 
 - ✅ **96 documents** unified
@@ -222,6 +249,7 @@ FOR EACH ROW EXECUTE FUNCTION sync_to_master_knowledge();
 - ✅ **No legacy distinctions** (all current)
 - ✅ **Machine readable** (structured markdown + JSON)
 - ✅ **Vector indexed** (sub-second search)
+- ✅ **Dynamic upload system** (AI-powered, future-proof)
 - 🔄 **Embeddings**: 26% complete (generating remaining 71)
 
-**Mission: In Progress** - Call Kaids Roofing now has a single absolute machine-readable, indexable, RAG-callable central system of truth. Vector embeddings being generated to complete 100% RAG coverage. 🎯
+**Mission: In Progress** - Call Kaids Roofing now has a single absolute machine-readable, indexable, RAG-callable central system of truth with dynamic upload capabilities. Vector embeddings being generated to complete 100% RAG coverage. 🎯

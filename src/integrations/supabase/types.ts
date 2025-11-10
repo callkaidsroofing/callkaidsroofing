@@ -1663,6 +1663,66 @@ export type Database = {
         }
         Relationships: []
       }
+      knowledge_uploads: {
+        Row: {
+          created_at: string
+          detected_category: string | null
+          detected_doc_type: string | null
+          detected_priority: number | null
+          doc_count: number | null
+          error_message: string | null
+          file_path: string
+          file_size: number
+          generated_doc_ids: string[] | null
+          id: string
+          mime_type: string
+          original_filename: string
+          processing_completed_at: string | null
+          processing_started_at: string | null
+          status: string
+          updated_at: string
+          uploaded_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          detected_category?: string | null
+          detected_doc_type?: string | null
+          detected_priority?: number | null
+          doc_count?: number | null
+          error_message?: string | null
+          file_path: string
+          file_size: number
+          generated_doc_ids?: string[] | null
+          id?: string
+          mime_type: string
+          original_filename: string
+          processing_completed_at?: string | null
+          processing_started_at?: string | null
+          status?: string
+          updated_at?: string
+          uploaded_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          detected_category?: string | null
+          detected_doc_type?: string | null
+          detected_priority?: number | null
+          doc_count?: number | null
+          error_message?: string | null
+          file_path?: string
+          file_size?: number
+          generated_doc_ids?: string[] | null
+          id?: string
+          mime_type?: string
+          original_filename?: string
+          processing_completed_at?: string | null
+          processing_started_at?: string | null
+          status?: string
+          updated_at?: string
+          uploaded_by?: string | null
+        }
+        Relationships: []
+      }
       lead_notes: {
         Row: {
           content: string
