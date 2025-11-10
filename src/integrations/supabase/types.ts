@@ -1825,6 +1825,75 @@ export type Database = {
           },
         ]
       }
+      master_knowledge: {
+        Row: {
+          active: boolean | null
+          category: string
+          chunk_count: number | null
+          content: string
+          created_at: string | null
+          doc_id: string
+          doc_type: string
+          embedding: string | null
+          id: string
+          last_synced_at: string | null
+          metadata: Json | null
+          migration_notes: string | null
+          priority: number | null
+          source: string
+          subcategory: string | null
+          supersedes: string[] | null
+          tags: string[] | null
+          title: string
+          updated_at: string | null
+          version: number
+        }
+        Insert: {
+          active?: boolean | null
+          category: string
+          chunk_count?: number | null
+          content: string
+          created_at?: string | null
+          doc_id: string
+          doc_type: string
+          embedding?: string | null
+          id?: string
+          last_synced_at?: string | null
+          metadata?: Json | null
+          migration_notes?: string | null
+          priority?: number | null
+          source: string
+          subcategory?: string | null
+          supersedes?: string[] | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string | null
+          version?: number
+        }
+        Update: {
+          active?: boolean | null
+          category?: string
+          chunk_count?: number | null
+          content?: string
+          created_at?: string | null
+          doc_id?: string
+          doc_type?: string
+          embedding?: string | null
+          id?: string
+          last_synced_at?: string | null
+          metadata?: Json | null
+          migration_notes?: string | null
+          priority?: number | null
+          source?: string
+          subcategory?: string | null
+          supersedes?: string[] | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string | null
+          version?: number
+        }
+        Relationships: []
+      }
       material_specs: {
         Row: {
           brand: string
@@ -3087,6 +3156,22 @@ export type Database = {
           id: string
           metadata: Json
           section: string
+          similarity: number
+          title: string
+        }[]
+      }
+      search_master_knowledge: {
+        Args: {
+          filter_category?: string
+          match_count?: number
+          match_threshold?: number
+          query_embedding: string
+        }
+        Returns: {
+          category: string
+          content: string
+          doc_id: string
+          metadata: Json
           similarity: number
           title: string
         }[]
