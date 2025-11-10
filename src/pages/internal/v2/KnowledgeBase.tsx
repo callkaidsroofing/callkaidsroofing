@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   Database,
   Search,
@@ -17,10 +18,13 @@ import {
   TrendingUp,
   FileText,
   Loader2,
+  AlertCircle,
 } from 'lucide-react';
 import { useRagSearch } from '@/hooks/useRagSearch';
 import { useEmbeddingStatus } from '@/hooks/useEmbeddingStatus';
 import { getKnowledgeBaseStats } from '@/lib/knowledgeBaseLoader';
+import { useKnowledgeBaseLoader } from '@/hooks/useKnowledgeBaseLoader';
+import { LoadDocumentsPanel } from '@/components/kb/LoadDocumentsPanel';
 import { toast } from 'sonner';
 
 export default function KnowledgeBase() {
@@ -121,8 +125,12 @@ export default function KnowledgeBase() {
               <Search className="h-4 w-4 mr-2" />
               Search
             </TabsTrigger>
-            <TabsTrigger value="jobs">
+            <TabsTrigger value="load">
               <Upload className="h-4 w-4 mr-2" />
+              Load Documents
+            </TabsTrigger>
+            <TabsTrigger value="jobs">
+              <Clock className="h-4 w-4 mr-2" />
               Embedding Jobs
             </TabsTrigger>
           </TabsList>
@@ -191,6 +199,11 @@ export default function KnowledgeBase() {
                 )}
               </div>
             </Card>
+          </TabsContent>
+
+          {/* Load Documents Tab */}
+          <TabsContent value="load" className="space-y-4">
+            <LoadDocumentsPanel onLoadComplete={loadStats} />
           </TabsContent>
 
           {/* Jobs Tab */}
