@@ -68,9 +68,9 @@ serve(async (req) => {
 
     console.log('Searching knowledge chunks with similarity threshold:', matchThreshold);
 
-    // Search knowledge chunks using vector similarity
-    const { data: chunks, error: searchError } = await supabase.rpc(
-      'search_knowledge_chunks',
+    // Search unified master_knowledge using vector similarity
+    const { data: results, error: searchError } = await supabase.rpc(
+      'search_master_knowledge',
       {
         query_embedding: queryEmbedding,
         match_threshold: matchThreshold,
@@ -84,21 +84,22 @@ serve(async (req) => {
       throw searchError;
     }
 
-    console.log(`Found ${chunks?.length || 0} matching chunks`);
+    console.log(`Found ${results?.length || 0} matching documents from master_knowledge`);
 
     // Format context for LLM consumption
-    const context = chunks?.map((chunk: any) => ({
-      title: chunk.title,
-      category: chunk.category,
-      section: chunk.section,
-      content: chunk.content,
-      similarity: chunk.similarity,
+    const context = results?.map((doc: any) => ({
+      docId: doc.doc_id,
+      title: doc.title,
+      category: doc.category,
+      content: doc.content,
+      similarity: doc.similarity,
+      metadata: doc.metadata
     })) || [];
 
     // Build context string
     const contextString = context
-      .map((c: any) => `[${c.category}] ${c.title}${c.section ? ` - ${c.section}` : ''}\n${c.content}`)
-      .join('\n\n---\n\n');
+      .map((c: any) => `[${c.category}] ${c.docId}: ${c.title}\n${c.content}`)
+      .join('\n\n--- Document Separator ---\n\n');
 
     return new Response(
       JSON.stringify({
@@ -107,7 +108,7 @@ serve(async (req) => {
         chunks: context,
         context: contextString,
         metadata: {
-          totalMatches: chunks?.length || 0,
+          totalMatches: results?.length || 0,
           threshold: matchThreshold,
           category: filterCategory,
         },

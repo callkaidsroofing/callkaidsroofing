@@ -40,136 +40,110 @@ serve(async (req) => {
 
     const { action, fileId, fileKey, category, title, content, metadata }: FileManagerRequest = await req.json();
 
-    // LIST FILES
+    // LIST FILES - Query unified master_knowledge table
     if (action === 'list') {
-      // Get files from knowledge_files table
-      const filesQuery = supabase
-        .from('knowledge_files')
+      let query = supabase
+        .from('master_knowledge')
         .select('*')
         .eq('active', true)
-        .order('updated_at', { ascending: false });
-
-      if (category) {
-        filesQuery.eq('category', category);
-      }
-
-      const { data: knowledgeFiles, error: filesError } = await filesQuery;
-      if (filesError) throw filesError;
-
-      // Get unique documents from knowledge_chunks (these are the actual RAG sources)
-      const chunksQuery = supabase
-        .from('knowledge_chunks')
-        .select('doc_id, title, category, created_at, updated_at, version, metadata')
-        .eq('active', true)
-        .order('updated_at', { ascending: false });
-
-      if (category) {
-        chunksQuery.eq('category', category);
-      }
-
-      const { data: chunks, error: chunksError } = await chunksQuery;
-      if (chunksError) throw chunksError;
-
-      // Aggregate chunks by doc_id to create file entries
-      const chunkFileMap = new Map();
-      chunks?.forEach(chunk => {
-        if (!chunkFileMap.has(chunk.doc_id)) {
-          chunkFileMap.set(chunk.doc_id, {
-            id: chunk.doc_id, // Use doc_id as id for chunks
-            file_key: chunk.doc_id,
-            title: chunk.title,
-            category: chunk.category,
-            content: '[Vector Chunks - Click to view]', // Placeholder
-            metadata: { ...chunk.metadata, source: 'chunks' },
-            version: chunk.version || 1,
-            active: true,
-            created_at: chunk.created_at,
-            updated_at: chunk.updated_at
-          });
-        }
-      });
-
-      // Merge both sources, prioritizing knowledge_files if doc_id matches
-      const allFiles = [...(knowledgeFiles || [])];
-      const existingFileKeys = new Set(allFiles.map(f => f.file_key));
+        .order('priority', { ascending: false })
+        .order('category')
+        .order('doc_id');
       
-      chunkFileMap.forEach(file => {
-        if (!existingFileKeys.has(file.file_key)) {
-          allFiles.push(file);
-        }
-      });
+      if (category) {
+        query = query.eq('category', category);
+      }
 
-      // Sort by updated_at
-      allFiles.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+      const { data: files, error } = await query;
+      
+      if (error) throw error;
 
-      return new Response(JSON.stringify({ success: true, files: allFiles }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
+      // Transform to standard format
+      const allFiles = (files || []).map((f: any) => ({
+        id: f.id,
+        fileKey: f.doc_id,
+        docId: f.doc_id,
+        title: f.title,
+        category: f.category,
+        subcategory: f.subcategory,
+        docType: f.doc_type,
+        version: f.version,
+        supersedes: f.supersedes,
+        priority: f.priority,
+        active: f.active,
+        source: f.source,
+        createdAt: f.created_at,
+        updatedAt: f.updated_at,
+        metadata: f.metadata,
+        chunkCount: f.chunk_count,
+        tags: f.tags,
+        migrationNotes: f.migration_notes
+      }));
+
+      return new Response(
+        JSON.stringify({ success: true, files: allFiles }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
-    // GET FILE
-    if (action === 'get' && fileId) {
-      // Try knowledge_files first
-      const { data: file, error: fileError } = await supabase
-        .from('knowledge_files')
-        .select('*')
-        .eq('id', fileId)
-        .single();
-
-      let fileData = file;
-      let fileKey = file?.file_key;
-
-      // If not found, try getting from knowledge_chunks (fileId might be doc_id)
-      if (fileError) {
-        const { data: chunks, error: chunksError } = await supabase
-          .from('knowledge_chunks')
-          .select('*')
-          .eq('doc_id', fileId)
-          .eq('active', true)
-          .order('chunk_index', { ascending: true });
-
-        if (chunksError || !chunks || chunks.length === 0) {
-          throw new Error('File not found in knowledge_files or knowledge_chunks');
-        }
-
-        // Reconstruct file from chunks
-        fileKey = fileId;
-        fileData = {
-          id: fileId,
-          file_key: fileId,
-          title: chunks[0].title,
-          category: chunks[0].category,
-          content: chunks.map(c => c.content).join('\n\n'),
-          metadata: { ...chunks[0].metadata, source: 'chunks', totalChunks: chunks.length },
-          version: chunks[0].version || 1,
-          active: true,
-          created_at: chunks[0].created_at,
-          updated_at: chunks[0].updated_at
-        };
+    // GET FILE - Query unified master_knowledge table
+    if (action === 'get') {
+      if (!fileId) {
+        return new Response(
+          JSON.stringify({ error: 'fileId required' }),
+          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
       }
 
-      // Get version history (only for knowledge_files)
+      // Get from unified master_knowledge (by id or doc_id)
+      let { data: file, error } = await supabase
+        .from('master_knowledge')
+        .select('*')
+        .or(`id.eq.${fileId},doc_id.eq.${fileId}`)
+        .single();
+
+      if (error || !file) {
+        return new Response(
+          JSON.stringify({ error: 'File not found in master knowledge' }),
+          { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      // Get versions if exists (legacy only)
       const { data: versions } = await supabase
         .from('knowledge_file_versions')
         .select('*')
         .eq('file_id', fileId)
         .order('version_number', { ascending: false });
 
-      // Get chunk count
-      const { count: chunkCount } = await supabase
-        .from('knowledge_chunks')
-        .select('id', { count: 'exact', head: true })
-        .eq('doc_id', fileKey)
-        .eq('active', true);
-
-      return new Response(JSON.stringify({ 
-        success: true, 
-        file: fileData, 
-        versions: versions || [], 
-        chunkCount: chunkCount || 0 
-      }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
+      return new Response(
+        JSON.stringify({ 
+          success: true, 
+          file: {
+            id: file.id,
+            fileKey: file.doc_id,
+            docId: file.doc_id,
+            title: file.title,
+            category: file.category,
+            subcategory: file.subcategory,
+            docType: file.doc_type,
+            content: file.content,
+            version: file.version,
+            supersedes: file.supersedes,
+            priority: file.priority,
+            active: file.active,
+            source: file.source,
+            createdAt: file.created_at,
+            updatedAt: file.updated_at,
+            metadata: file.metadata,
+            chunkCount: file.chunk_count,
+            tags: file.tags,
+            migrationNotes: file.migration_notes
+          },
+          versions: versions || []
+        }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     // CREATE FILE
@@ -177,12 +151,14 @@ serve(async (req) => {
       const newFileKey = fileKey || `KF_${Date.now()}`;
       
       const { data: newFile, error: createError } = await supabase
-        .from('knowledge_files')
+        .from('master_knowledge')
         .insert({
-          file_key: newFileKey,
+          doc_id: newFileKey,
           title,
           content,
           category,
+          doc_type: 'custom',
+          source: 'user_created',
           metadata: metadata || {},
           version: 1
         })
@@ -190,17 +166,6 @@ serve(async (req) => {
         .single();
 
       if (createError) throw createError;
-
-      // Create initial version
-      await supabase
-        .from('knowledge_file_versions')
-        .insert({
-          file_id: newFile.id,
-          version_number: 1,
-          content,
-          change_summary: 'Initial version',
-          changed_by: user.id
-        });
 
       // Trigger embedding
       const { error: embedError } = await supabase.functions.invoke('embed-knowledge-base', {
@@ -229,7 +194,7 @@ serve(async (req) => {
     if (action === 'update' && fileId && content) {
       // Get current file
       const { data: currentFile, error: fetchError } = await supabase
-        .from('knowledge_files')
+        .from('master_knowledge')
         .select('*')
         .eq('id', fileId)
         .single();
@@ -240,7 +205,7 @@ serve(async (req) => {
 
       // Update file
       const { data: updatedFile, error: updateError } = await supabase
-        .from('knowledge_files')
+        .from('master_knowledge')
         .update({
           content,
           title: title || currentFile.title,
@@ -255,17 +220,6 @@ serve(async (req) => {
 
       if (updateError) throw updateError;
 
-      // Create version entry
-      await supabase
-        .from('knowledge_file_versions')
-        .insert({
-          file_id: fileId,
-          version_number: newVersion,
-          content,
-          change_summary: metadata?.changeSummary || 'Updated content',
-          changed_by: user.id
-        });
-
       return new Response(JSON.stringify({ success: true, file: updatedFile }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
@@ -274,7 +228,7 @@ serve(async (req) => {
     // RE-EMBED FILE
     if (action === 're-embed' && fileId) {
       const { data: file, error: fileError } = await supabase
-        .from('knowledge_files')
+        .from('master_knowledge')
         .select('*')
         .eq('id', fileId)
         .single();
@@ -285,7 +239,7 @@ serve(async (req) => {
       const { data: embedResult, error: embedError } = await supabase.functions.invoke('embed-knowledge-base', {
         body: {
           documents: [{
-            docId: file.file_key,
+            docId: file.doc_id,
             title: file.title,
             category: file.category,
             content: file.content,
@@ -305,7 +259,7 @@ serve(async (req) => {
     // DELETE FILE (soft delete)
     if (action === 'delete' && fileId) {
       const { error: deleteError } = await supabase
-        .from('knowledge_files')
+        .from('master_knowledge')
         .update({ active: false })
         .eq('id', fileId);
 
