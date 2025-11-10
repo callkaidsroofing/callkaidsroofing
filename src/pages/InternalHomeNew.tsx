@@ -1,3 +1,4 @@
+import { AIAssistantWidget } from '@/components/dashboard/AIAssistantWidget';
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -418,45 +419,51 @@ export default function InternalHomeNew() {
         </CardContent>
       </Card>
 
-      {/* Queue Monitor & System Health */}
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Attention Required</CardTitle>
-            <CardDescription>Items pending action</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <button
-              onClick={() => navigate('/internal/v2/quotes/new')}
-              className="w-full flex items-center justify-between p-3 rounded-lg border hover:bg-muted transition-colors"
-            >
-              <span className="text-sm font-medium">Pending Quotes</span>
-              <Badge variant={queueData.pending_quotes > 0 ? 'default' : 'secondary'}>
-                {queueData.pending_quotes}
-              </Badge>
-            </button>
-            <button
-              onClick={() => navigate('/internal/v2/leads')}
-              className="w-full flex items-center justify-between p-3 rounded-lg border hover:bg-muted transition-colors"
-            >
-              <span className="text-sm font-medium">New Leads</span>
-              <Badge variant={queueData.new_leads > 0 ? 'default' : 'secondary'}>
-                {queueData.new_leads}
-              </Badge>
-            </button>
-            <button
-              onClick={() => navigate('/internal/v2/marketing')}
-              className="w-full flex items-center justify-between p-3 rounded-lg border hover:bg-muted transition-colors"
-            >
-              <span className="text-sm font-medium">Scheduled Posts</span>
-              <Badge variant={queueData.scheduled_posts > 0 ? 'default' : 'secondary'}>
-                {queueData.scheduled_posts}
-              </Badge>
-            </button>
-          </CardContent>
-        </Card>
+      {/* AI Assistant Widget */}
+      <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Attention Required</CardTitle>
+              <CardDescription>Items pending action</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <button
+                onClick={() => navigate('/internal/v2/quotes/new')}
+                className="w-full flex items-center justify-between p-3 rounded-lg border hover:bg-muted transition-colors"
+              >
+                <span className="text-sm font-medium">Pending Quotes</span>
+                <Badge variant={queueData.pending_quotes > 0 ? 'default' : 'secondary'}>
+                  {queueData.pending_quotes}
+                </Badge>
+              </button>
+              <button
+                onClick={() => navigate('/internal/v2/leads')}
+                className="w-full flex items-center justify-between p-3 rounded-lg border hover:bg-muted transition-colors"
+              >
+                <span className="text-sm font-medium">New Leads</span>
+                <Badge variant={queueData.new_leads > 0 ? 'default' : 'secondary'}>
+                  {queueData.new_leads}
+                </Badge>
+              </button>
+              <button
+                onClick={() => navigate('/internal/v2/marketing')}
+                className="w-full flex items-center justify-between p-3 rounded-lg border hover:bg-muted transition-colors"
+              >
+                <span className="text-sm font-medium">Scheduled Posts</span>
+                <Badge variant={queueData.scheduled_posts > 0 ? 'default' : 'secondary'}>
+                  {queueData.scheduled_posts}
+                </Badge>
+              </button>
+            </CardContent>
+          </Card>
+        </div>
 
-        <Card>
+        <AIAssistantWidget />
+      </div>
+
+      {/* System Health */}
+      <Card>
           <CardHeader>
             <CardTitle>System Status</CardTitle>
             <CardDescription>Platform health monitoring</CardDescription>
@@ -476,7 +483,6 @@ export default function InternalHomeNew() {
             </div>
           </CardContent>
         </Card>
-      </div>
     </div>
   );
 }

@@ -66,6 +66,7 @@ const AdminUserManagement = lazy(() => import("./pages/AdminUserManagement"));
 const KnowledgeManagement = lazy(() => import("./pages/KnowledgeManagement"));
 const KnowledgeBase = lazy(() => import("./pages/internal/v2/KnowledgeBase"));
 const DatabaseManagement = lazy(() => import("./pages/internal/v2/DatabaseManagement"));
+const AIAssistant = lazy(() => import("./pages/internal/v2/AIAssistant"));
 import { InternalLayoutNew } from "@/components/InternalLayoutNew";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import ProtectedLayout from "@/components/ProtectedLayout";
@@ -174,6 +175,7 @@ function App() {
                       <Route path="admin/knowledge" element={<KnowledgeManagement />} />
                       <Route path="admin/knowledge-base" element={<KnowledgeBase />} />
                       <Route path="admin/database" element={<DatabaseManagement />} />
+                      <Route path="ai-assistant" element={<AIAssistant />} />
                     </Route>
                   </Route>
                   
