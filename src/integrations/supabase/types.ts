@@ -398,6 +398,62 @@ export type Database = {
           },
         ]
       }
+      conflict_resolutions: {
+        Row: {
+          ai_conversation: Json | null
+          ai_recommendation: Json | null
+          conflict_type: string
+          created_at: string
+          file_id: string | null
+          id: string
+          merged_content: string | null
+          original_content: string | null
+          proposed_content: string | null
+          resolution_strategy: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          status: string | null
+        }
+        Insert: {
+          ai_conversation?: Json | null
+          ai_recommendation?: Json | null
+          conflict_type: string
+          created_at?: string
+          file_id?: string | null
+          id?: string
+          merged_content?: string | null
+          original_content?: string | null
+          proposed_content?: string | null
+          resolution_strategy?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string | null
+        }
+        Update: {
+          ai_conversation?: Json | null
+          ai_recommendation?: Json | null
+          conflict_type?: string
+          created_at?: string
+          file_id?: string | null
+          id?: string
+          merged_content?: string | null
+          original_content?: string | null
+          proposed_content?: string | null
+          resolution_strategy?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conflict_resolutions_file_id_fkey"
+            columns: ["file_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_files"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       content_blog_posts: {
         Row: {
           author: string | null
@@ -1526,6 +1582,44 @@ export type Database = {
           version?: number | null
         }
         Relationships: []
+      }
+      knowledge_file_versions: {
+        Row: {
+          change_summary: string | null
+          changed_by: string | null
+          content: string
+          created_at: string
+          file_id: string | null
+          id: string
+          version_number: number
+        }
+        Insert: {
+          change_summary?: string | null
+          changed_by?: string | null
+          content: string
+          created_at?: string
+          file_id?: string | null
+          id?: string
+          version_number: number
+        }
+        Update: {
+          change_summary?: string | null
+          changed_by?: string | null
+          content?: string
+          created_at?: string
+          file_id?: string | null
+          id?: string
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_file_versions_file_id_fkey"
+            columns: ["file_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_files"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       knowledge_files: {
         Row: {
@@ -2727,6 +2821,57 @@ export type Database = {
           resolved_by?: string | null
           supabase_value?: Json | null
           table_name?: string
+        }
+        Relationships: []
+      }
+      sync_rules: {
+        Row: {
+          active: boolean | null
+          created_at: string
+          created_by: string | null
+          id: string
+          last_synced_at: string | null
+          next_sync_at: string | null
+          rule_name: string
+          source_table: string
+          sync_direction: string
+          sync_interval_minutes: number | null
+          sync_query: string | null
+          target_doc_id: string
+          transform_logic: Json | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          last_synced_at?: string | null
+          next_sync_at?: string | null
+          rule_name: string
+          source_table: string
+          sync_direction: string
+          sync_interval_minutes?: number | null
+          sync_query?: string | null
+          target_doc_id: string
+          transform_logic?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          last_synced_at?: string | null
+          next_sync_at?: string | null
+          rule_name?: string
+          source_table?: string
+          sync_direction?: string
+          sync_interval_minutes?: number | null
+          sync_query?: string | null
+          target_doc_id?: string
+          transform_logic?: Json | null
+          updated_at?: string
         }
         Relationships: []
       }
