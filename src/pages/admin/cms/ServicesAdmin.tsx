@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Wrench, Plus, Edit, Trash2, Eye, Search } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { logAudit } from '@/lib/audit';
+import { PremiumPageHeader } from '@/components/admin/PremiumPageHeader';
 
 type Service = {
   id: string;
@@ -219,43 +220,45 @@ export default function ServicesAdmin() {
   ) || [];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <div className="p-2 rounded-lg bg-primary/10">
-          <Wrench className="h-6 w-6 text-primary" />
-        </div>
-        <div>
-          <h1 className="text-3xl font-bold">Services</h1>
-          <p className="text-muted-foreground">Manage service offerings and details</p>
-        </div>
-      </div>
+    <div className="space-y-6 animate-fade-in">
+      <PremiumPageHeader
+        icon={Wrench}
+        title="Services Management"
+        description="Manage service offerings, descriptions, and SEO metadata"
+        actions={
+          <Button 
+            onClick={() => {
+              setSelectedService(null);
+              setFormData({
+                name: '',
+                slug: '',
+                short_description: '',
+                full_description: '',
+                meta_title: '',
+                meta_description: '',
+                image_url: '',
+                icon: '',
+                service_category: '',
+                service_tags: '',
+                features: '',
+                display_order: (services?.length || 0) + 1,
+                featured: false,
+              });
+              setIsEditing(true);
+            }}
+            className="gap-2 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground shadow-lg"
+          >
+            <Plus className="h-4 w-4" />
+            New Service
+          </Button>
+        }
+      />
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-1">
+        <Card className="lg:col-span-1 glass-card border-primary/10 hover-lift">
           <CardHeader>
             <div className="flex items-center justify-between mb-2">
-              <CardTitle>Services ({filteredServices.length})</CardTitle>
-              <Button size="sm" onClick={() => {
-                setSelectedService(null);
-                setFormData({
-                  name: '',
-                  slug: '',
-                  short_description: '',
-                  full_description: '',
-                  meta_title: '',
-                  meta_description: '',
-                  image_url: '',
-                  icon: '',
-                  service_category: '',
-                  service_tags: '',
-                  features: '',
-                  display_order: (services?.length || 0) + 1,
-                  featured: false,
-                });
-                setIsEditing(true);
-              }}>
-                <Plus className="h-4 w-4" />
-              </Button>
+              <CardTitle>All Services ({filteredServices.length})</CardTitle>
             </div>
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />

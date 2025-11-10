@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -10,6 +11,8 @@ import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { Plus, Edit, Star, ArrowUp, ArrowDown } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { logAudit } from '@/lib/audit';
+import { PremiumPageHeader } from '@/components/admin/PremiumPageHeader';
+import { FileText } from 'lucide-react';
 
 interface FAQ {
   id: string;
@@ -148,59 +151,68 @@ export default function KnowledgeFAQAdmin() {
   );
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Knowledge Base / FAQ Manager</h1>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={() => setEditingFAQ(null)}>
-              <Plus className="mr-2 h-4 w-4" />
-              Add FAQ
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>{editingFAQ ? 'Edit' : 'Create'} FAQ</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="text-sm font-medium">Question</label>
-                <Input name="question" defaultValue={editingFAQ?.question} required />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Answer</label>
-                <Textarea name="answer" defaultValue={editingFAQ?.answer} required rows={6} />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Category</label>
-                <Input name="category" defaultValue={editingFAQ?.category || ''} placeholder="e.g., Roofing, Pricing, Services" />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Related Services (comma-separated)</label>
-                <Input name="related_services" defaultValue={editingFAQ?.related_services.join(', ')} placeholder="roof-restoration, gutter-cleaning" />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Display Order</label>
-                <Input name="display_order" type="number" defaultValue={editingFAQ?.display_order || 0} />
-              </div>
-              <Button type="submit" className="w-full">
-                {editingFAQ ? 'Update' : 'Create'} FAQ
+    <div className="container mx-auto p-6 space-y-6 animate-fade-in">
+      <PremiumPageHeader
+        icon={FileText}
+        title="Knowledge Base / FAQ"
+        description="Manage customer questions, answers, and knowledge articles"
+        actions={
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button 
+                onClick={() => setEditingFAQ(null)}
+                className="gap-2 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground shadow-lg"
+              >
+                <Plus className="h-4 w-4" />
+                Add FAQ
               </Button>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
-
-      <Input
-        placeholder="Search FAQs..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-4"
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>{editingFAQ ? 'Edit' : 'Create'} FAQ</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium">Question</label>
+                  <Input name="question" defaultValue={editingFAQ?.question} required />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Answer</label>
+                  <Textarea name="answer" defaultValue={editingFAQ?.answer} required rows={6} />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Category</label>
+                  <Input name="category" defaultValue={editingFAQ?.category || ''} placeholder="e.g., Roofing, Pricing, Services" />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Related Services (comma-separated)</label>
+                  <Input name="related_services" defaultValue={editingFAQ?.related_services.join(', ')} placeholder="roof-restoration, gutter-cleaning" />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Display Order</label>
+                  <Input name="display_order" type="number" defaultValue={editingFAQ?.display_order || 0} />
+                </div>
+                <Button type="submit" className="w-full">
+                  {editingFAQ ? 'Update' : 'Create'} FAQ
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
+        }
       />
 
-      {isLoading ? (
-        <p>Loading FAQs...</p>
-      ) : (
+      <Card className="glass-card border-primary/10">
+        <CardHeader>
+          <Input
+            placeholder="Search FAQs..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </CardHeader>
+        <CardContent>
+        {isLoading ? (
+          <p className="text-center py-8 text-muted-foreground">Loading FAQs...</p>
+        ) : (
         <Table>
           <TableHeader>
             <TableRow>
@@ -268,7 +280,9 @@ export default function KnowledgeFAQAdmin() {
             ))}
           </TableBody>
         </Table>
-      )}
+        )}
+      </CardContent>
+    </Card>
     </div>
   );
 }
