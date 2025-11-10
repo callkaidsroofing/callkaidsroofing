@@ -68,6 +68,39 @@ const StorageAdmin = lazy(() => import("./pages/internal/v2/admin/StorageAdmin")
 const EmbeddingGenerator = lazy(() => import("./pages/internal/v2/admin/EmbeddingGenerator"));
 const KnowledgeUploader = lazy(() => import("./pages/internal/v2/admin/KnowledgeUploader"));
 const AdminHub = lazy(() => import("./pages/internal/v2/admin/AdminHub"));
+
+// New admin structure lazy imports
+const CRMLeads = lazy(() => import("./pages/admin/crm/Leads"));
+const CRMLeadDetail = lazy(() => import("./pages/admin/crm/LeadDetail"));
+const CRMQuotes = lazy(() => import("./pages/admin/crm/Quotes"));
+const CRMJobs = lazy(() => import("./pages/admin/crm/Jobs"));
+const CRMIntelligence = lazy(() => import("./pages/admin/crm/Intelligence"));
+const CRMReports = lazy(() => import("./pages/admin/crm/Reports"));
+const ToolsInspections = lazy(() => import("./pages/admin/tools/Inspections"));
+const ToolsMeasurements = lazy(() => import("./pages/admin/tools/Measurements"));
+const ToolsAI = lazy(() => import("./pages/admin/tools/AIAssistant"));
+const ToolsCalculator = lazy(() => import("./pages/admin/tools/Calculator"));
+const ContentGenerator = lazy(() => import("./pages/admin/content/Generator"));
+const ContentMedia = lazy(() => import("./pages/admin/content/Media"));
+const ContentImageGen = lazy(() => import("./pages/admin/content/ImageGenerator"));
+const ContentMarketing = lazy(() => import("./pages/admin/content/Marketing"));
+const ContentBlog = lazy(() => import("./pages/admin/content/Blog"));
+const ContentSEO = lazy(() => import("./pages/admin/content/SEO"));
+const SettingsBusiness = lazy(() => import("./pages/admin/settings/Business"));
+const SettingsUsers = lazy(() => import("./pages/admin/settings/Users"));
+const SettingsPricing = lazy(() => import("./pages/admin/settings/Pricing"));
+const SettingsForms = lazy(() => import("./pages/admin/settings/Forms"));
+const SettingsFormSubs = lazy(() => import("./pages/admin/settings/FormSubmissions"));
+const SettingsIntegrations = lazy(() => import("./pages/admin/settings/Integrations"));
+const CMSKnowledge = lazy(() => import("./pages/admin/cms/Knowledge"));
+const CMSKnowledgeUpload = lazy(() => import("./pages/admin/cms/KnowledgeUploader"));
+const CMSEmbeddings = lazy(() => import("./pages/admin/cms/EmbeddingGenerator"));
+const CMSServices = lazy(() => import("./pages/admin/cms/Services"));
+const CMSSuburbs = lazy(() => import("./pages/admin/cms/Suburbs"));
+const CMSData = lazy(() => import("./pages/admin/cms/Data"));
+const CMSDocs = lazy(() => import("./pages/admin/cms/Documents"));
+const CMSQuoteDocs = lazy(() => import("./pages/admin/cms/QuoteDocuments"));
+
 import { AdminLayout } from "@/components/AdminLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import ProtectedLayout from "@/components/ProtectedLayout";
@@ -154,30 +187,73 @@ function App() {
                   {/* CKR Admin Hub - Unified business management system */}
                   <Route path="/admin" element={<ProtectedLayout />}>
                     <Route element={<AdminLayout />}>
-                      <Route index element={<Navigate to="/admin/home" replace />} />
-                      <Route path="home" element={<AdminHome />} />
-                      <Route path="docs" element={<DocsHub />} />
-                      <Route path="forms" element={<FormsStudio />} />
-                      <Route path="forms/:formId/submissions" element={<FormSubmissions />} />
-                      <Route path="data" element={<DataHub />} />
-                      <Route path="quote-documents" element={<QuoteDocumentViewer />} />
-                      <Route path="media" element={<MediaLibrary />} />
-                      <Route path="media/generator" element={<ImageGenerator />} />
-                      <Route path="marketing" element={<MarketingStudio />} />
-                      <Route path="leads" element={<LeadsPipeline />} />
-                      <Route path="leads/:id" element={<LeadDetail />} />
-                      <Route path="quotes/new" element={<QuoteBuilderNew />} />
-                      <Route path="inspections/new" element={<InspectionBuilderNew />} />
-                      <Route path="inspections/:id" element={<InspectionBuilderNew />} />
-                      <Route path="jobs" element={<JobsCalendar />} />
-                      <Route path="intelligence" element={<LeadIntelligence />} />
-                      <Route path="reports" element={<ReportsAnalytics />} />
-                      <Route path="system" element={<AdminHub />} />
-                      <Route path="system/users" element={<AdminUserManagement />} />
-                      <Route path="system/storage" element={<StorageAdmin />} />
-                      <Route path="system/upload" element={<KnowledgeUploader />} />
-                      <Route path="system/embeddings" element={<EmbeddingGenerator />} />
-                      <Route path="ai-assistant" element={<AIAssistant />} />
+                      <Route index element={<AdminHome />} />
+                      
+                      {/* CRM Section */}
+                      <Route path="crm/leads" element={<CRMLeads />} />
+                      <Route path="crm/leads/:id" element={<CRMLeadDetail />} />
+                      <Route path="crm/quotes" element={<CRMQuotes />} />
+                      <Route path="crm/jobs" element={<CRMJobs />} />
+                      <Route path="crm/intelligence" element={<CRMIntelligence />} />
+                      <Route path="crm/reports" element={<CRMReports />} />
+                      
+                      {/* Tools Section */}
+                      <Route path="tools/inspections" element={<ToolsInspections />} />
+                      <Route path="tools/inspections/:id" element={<ToolsInspections />} />
+                      <Route path="tools/measurements" element={<ToolsMeasurements />} />
+                      <Route path="tools/ai" element={<ToolsAI />} />
+                      <Route path="tools/calculator" element={<ToolsCalculator />} />
+                      
+                      {/* Content Engine Section */}
+                      <Route path="content/generate" element={<ContentGenerator />} />
+                      <Route path="content/media" element={<ContentMedia />} />
+                      <Route path="content/media/generate" element={<ContentImageGen />} />
+                      <Route path="content/marketing" element={<ContentMarketing />} />
+                      <Route path="content/blog" element={<ContentBlog />} />
+                      <Route path="content/seo" element={<ContentSEO />} />
+                      
+                      {/* Settings Section */}
+                      <Route path="settings/business" element={<SettingsBusiness />} />
+                      <Route path="settings/users" element={<SettingsUsers />} />
+                      <Route path="settings/pricing" element={<SettingsPricing />} />
+                      <Route path="settings/forms" element={<SettingsForms />} />
+                      <Route path="settings/forms/:formId/submissions" element={<SettingsFormSubs />} />
+                      <Route path="settings/integrations" element={<SettingsIntegrations />} />
+                      
+                      {/* CMS Section */}
+                      <Route path="cms/knowledge" element={<CMSKnowledge />} />
+                      <Route path="cms/knowledge/upload" element={<CMSKnowledgeUpload />} />
+                      <Route path="cms/knowledge/embeddings" element={<CMSEmbeddings />} />
+                      <Route path="cms/services" element={<CMSServices />} />
+                      <Route path="cms/suburbs" element={<CMSSuburbs />} />
+                      <Route path="cms/data" element={<CMSData />} />
+                      <Route path="cms/documents" element={<CMSDocs />} />
+                      <Route path="cms/documents/quotes" element={<CMSQuoteDocs />} />
+                      
+                      {/* Legacy redirects */}
+                      <Route path="home" element={<Navigate to="/admin" replace />} />
+                      <Route path="leads" element={<Navigate to="/admin/crm/leads" replace />} />
+                      <Route path="leads/:id" element={<Navigate to="/admin/crm/leads/:id" replace />} />
+                      <Route path="intelligence" element={<Navigate to="/admin/crm/intelligence" replace />} />
+                      <Route path="quotes/new" element={<Navigate to="/admin/crm/quotes" replace />} />
+                      <Route path="jobs" element={<Navigate to="/admin/crm/jobs" replace />} />
+                      <Route path="reports" element={<Navigate to="/admin/crm/reports" replace />} />
+                      <Route path="inspections/new" element={<Navigate to="/admin/tools/inspections" replace />} />
+                      <Route path="inspections/:id" element={<Navigate to="/admin/tools/inspections/:id" replace />} />
+                      <Route path="ai-assistant" element={<Navigate to="/admin/tools/ai" replace />} />
+                      <Route path="media" element={<Navigate to="/admin/content/media" replace />} />
+                      <Route path="media/generator" element={<Navigate to="/admin/content/media/generate" replace />} />
+                      <Route path="marketing" element={<Navigate to="/admin/content/marketing" replace />} />
+                      <Route path="forms" element={<Navigate to="/admin/settings/forms" replace />} />
+                      <Route path="forms/:formId/submissions" element={<Navigate to="/admin/settings/forms/:formId/submissions" replace />} />
+                      <Route path="data" element={<Navigate to="/admin/cms/data" replace />} />
+                      <Route path="docs" element={<Navigate to="/admin/cms/documents" replace />} />
+                      <Route path="quote-documents" element={<Navigate to="/admin/cms/documents/quotes" replace />} />
+                      <Route path="system" element={<Navigate to="/admin/settings" replace />} />
+                      <Route path="system/users" element={<Navigate to="/admin/settings/users" replace />} />
+                      <Route path="system/storage" element={<Navigate to="/admin/cms/knowledge" replace />} />
+                      <Route path="system/upload" element={<Navigate to="/admin/cms/knowledge/upload" replace />} />
+                      <Route path="system/embeddings" element={<Navigate to="/admin/cms/knowledge/embeddings" replace />} />
                     </Route>
                   </Route>
                   

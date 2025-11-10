@@ -33,10 +33,11 @@ const navStructure: NavSection[] = [
     icon: Users,
     defaultOpen: true,
     items: [
-      { title: 'Leads', path: '/admin/leads', icon: Phone },
-      { title: 'Intelligence', path: '/admin/intelligence', icon: Brain },
-      { title: 'Quotes', path: '/admin/quotes/new', icon: DollarSign },
-      { title: 'Jobs', path: '/admin/jobs', icon: Calendar },
+      { title: 'Leads', path: '/admin/crm/leads', icon: Phone },
+      { title: 'Quotes', path: '/admin/crm/quotes', icon: DollarSign },
+      { title: 'Jobs', path: '/admin/crm/jobs', icon: Calendar },
+      { title: 'Intelligence', path: '/admin/crm/intelligence', icon: Brain },
+      { title: 'Reports', path: '/admin/crm/reports', icon: BarChart3 },
     ],
   },
   {
@@ -44,27 +45,43 @@ const navStructure: NavSection[] = [
     icon: Wrench,
     defaultOpen: true,
     items: [
-      { title: 'Inspection', path: '/admin/inspections/new', icon: ClipboardList },
-      { title: 'Media', path: '/admin/media', icon: Image },
-      { title: 'Marketing', path: '/admin/marketing', icon: Megaphone },
-      { title: 'Reports', path: '/admin/reports', icon: BarChart3 },
+      { title: 'Inspections', path: '/admin/tools/inspections', icon: ClipboardList },
+      { title: 'Measurements', path: '/admin/tools/measurements', icon: Ruler },
+      { title: 'AI Assistant', path: '/admin/tools/ai', icon: Sparkles },
+      { title: 'Calculator', path: '/admin/tools/calculator', icon: DollarSign },
+    ],
+  },
+  {
+    title: 'Content Engine',
+    icon: Sparkles,
+    items: [
+      { title: 'Generator', path: '/admin/content/generate', icon: Wrench },
+      { title: 'Media Library', path: '/admin/content/media', icon: Image },
+      { title: 'Marketing', path: '/admin/content/marketing', icon: Megaphone },
+      { title: 'Blog', path: '/admin/content/blog', icon: FileText },
+      { title: 'SEO', path: '/admin/content/seo', icon: BarChart3 },
     ],
   },
   {
     title: 'Settings',
     icon: Settings,
     items: [
-      { title: 'Data', path: '/admin/data', icon: Database },
-      { title: 'Forms', path: '/admin/forms', icon: FormInput },
-      { title: 'Documents', path: '/admin/docs', icon: FileText },
+      { title: 'Business', path: '/admin/settings/business', icon: Home },
+      { title: 'Users', path: '/admin/settings/users', icon: Users },
+      { title: 'Pricing', path: '/admin/settings/pricing', icon: DollarSign },
+      { title: 'Forms', path: '/admin/settings/forms', icon: FormInput },
+      { title: 'Integrations', path: '/admin/settings/integrations', icon: FileStack },
     ],
   },
   {
-    title: 'System',
-    icon: Shield,
+    title: 'CMS',
+    icon: Database,
     items: [
-      { title: 'Admin Hub', path: '/admin/system', icon: Shield },
-      { title: 'AI Assistant', path: '/admin/ai-assistant', icon: Sparkles },
+      { title: 'Knowledge Base', path: '/admin/cms/knowledge', icon: FileText },
+      { title: 'Services', path: '/admin/cms/services', icon: Wrench },
+      { title: 'Suburbs', path: '/admin/cms/suburbs', icon: Home },
+      { title: 'Data Hub', path: '/admin/cms/data', icon: Database },
+      { title: 'Documents', path: '/admin/cms/documents', icon: FileText },
     ],
   },
 ];
@@ -91,7 +108,7 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
     <div className="flex flex-col h-full bg-gradient-to-b from-background to-muted/20">
       {/* Home Anchor */}
       <NavLink
-        to="/admin/home"
+        to="/admin"
         onClick={onLinkClick}
         className={({ isActive }) =>
           `p-4 border-b flex items-center gap-3 font-bold text-lg transition-all hover-lift ${
@@ -113,7 +130,7 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
           className="w-full"
         >
           {navStructure.map((section, sectionIndex) => {
-            if (section.title === 'System' && !isAdmin) return null;
+            // No admin-only restrictions in new structure
             
             return (
               <AccordionItem 
