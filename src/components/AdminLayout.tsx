@@ -49,6 +49,7 @@ const navStructure: NavSection[] = [
       { title: 'Measurements', path: '/admin/tools/measurements', icon: Ruler },
       { title: 'AI Assistant', path: '/admin/tools/ai', icon: Sparkles },
       { title: 'Calculator', path: '/admin/tools/calculator', icon: DollarSign },
+      { title: 'Forms', path: '/admin/tools/forms', icon: FileText },
     ],
   },
   {

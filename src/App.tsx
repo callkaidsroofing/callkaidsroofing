@@ -80,6 +80,7 @@ const ToolsInspections = lazy(() => import("./pages/admin/tools/Inspections"));
 const ToolsMeasurements = lazy(() => import("./pages/admin/tools/Measurements"));
 const ToolsAI = lazy(() => import("./pages/admin/tools/AIAssistant"));
 const ToolsCalculator = lazy(() => import("./pages/admin/tools/Calculator"));
+const ToolsForms = lazy(() => import("./pages/admin/tools/Forms"));
 const ContentGenerator = lazy(() => import("./pages/admin/content/Generator"));
 const ContentMedia = lazy(() => import("./pages/admin/content/Media"));
 const ContentImageGen = lazy(() => import("./pages/admin/content/ImageGenerator"));
@@ -203,6 +204,7 @@ function App() {
                       <Route path="tools/measurements" element={<ToolsMeasurements />} />
                       <Route path="tools/ai" element={<ToolsAI />} />
                       <Route path="tools/calculator" element={<ToolsCalculator />} />
+                      <Route path="tools/forms" element={<ToolsForms />} />
                       
                       {/* Content Engine Section */}
                       <Route path="content/generate" element={<ContentGenerator />} />
