@@ -65,6 +65,7 @@ const ReportsAnalytics = lazy(() => import("./pages/ReportsAnalytics"));
 const AdminUserManagement = lazy(() => import("./pages/AdminUserManagement"));
 const KnowledgeManagement = lazy(() => import("./pages/KnowledgeManagement"));
 const KnowledgeBase = lazy(() => import("./pages/internal/v2/KnowledgeBase"));
+const DatabaseManagement = lazy(() => import("./pages/internal/v2/DatabaseManagement"));
 import { InternalLayoutNew } from "@/components/InternalLayoutNew";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import ProtectedLayout from "@/components/ProtectedLayout";
@@ -172,6 +173,7 @@ function App() {
                       <Route path="admin/users" element={<AdminUserManagement />} />
                       <Route path="admin/knowledge" element={<KnowledgeManagement />} />
                       <Route path="admin/knowledge-base" element={<KnowledgeBase />} />
+                      <Route path="admin/database" element={<DatabaseManagement />} />
                     </Route>
                   </Route>
                   

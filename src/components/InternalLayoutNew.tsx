@@ -78,7 +78,8 @@ const navStructure: NavSection[] = [
     icon: Shield,
     items: [
       { title: 'User Management', path: '/internal/v2/admin/users', icon: Users },
-      { title: 'Knowledge Base', path: '/internal/v2/admin/knowledge', icon: FileStack },
+      { title: 'Knowledge Base Manager', path: '/internal/v2/admin/knowledge-base', icon: FileStack },
+      { title: 'Database Management', path: '/internal/v2/admin/database', icon: Database },
     ],
   },
 ];
