@@ -77,9 +77,12 @@ const navStructure: NavSection[] = [
     title: 'Admin',
     icon: Shield,
     items: [
+      { title: 'Admin Hub', path: '/internal/v2/admin', icon: Shield },
       { title: 'User Management', path: '/internal/v2/admin/users', icon: Users },
+      { title: 'Knowledge Files', path: '/internal/v2/admin/storage', icon: FileStack },
+      { title: 'Upload Knowledge', path: '/internal/v2/admin/upload', icon: FileText },
+      { title: 'Generate Embeddings', path: '/internal/v2/admin/embeddings', icon: Database },
       { title: 'AI Assistant', path: '/internal/v2/ai-assistant', icon: Sparkles },
-      { title: 'Storage Admin', path: '/internal/v2/admin/storage', icon: Database },
     ],
   },
 ];

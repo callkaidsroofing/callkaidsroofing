@@ -70,6 +70,7 @@ const AIAssistant = lazy(() => import("./pages/internal/v2/AIAssistant"));
 const StorageAdmin = lazy(() => import("./pages/internal/v2/admin/StorageAdmin"));
 const EmbeddingGenerator = lazy(() => import("./pages/internal/v2/admin/EmbeddingGenerator"));
 const KnowledgeUploader = lazy(() => import("./pages/internal/v2/admin/KnowledgeUploader"));
+const AdminHub = lazy(() => import("./pages/internal/v2/admin/AdminHub"));
 import { InternalLayoutNew } from "@/components/InternalLayoutNew";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import ProtectedLayout from "@/components/ProtectedLayout";
@@ -174,11 +175,14 @@ function App() {
                       <Route path="jobs" element={<JobsCalendar />} />
                       <Route path="intelligence" element={<LeadIntelligence />} />
                       <Route path="reports" element={<ReportsAnalytics />} />
+                      <Route path="admin" element={<AdminHub />} />
                       <Route path="admin/users" element={<AdminUserManagement />} />
-                      <Route path="admin/knowledge" element={<KnowledgeManagement />} />
                       <Route path="admin/storage" element={<StorageAdmin />} />
-                      <Route path="admin/embeddings" element={<EmbeddingGenerator />} />
                       <Route path="admin/upload" element={<KnowledgeUploader />} />
+                      <Route path="admin/embeddings" element={<EmbeddingGenerator />} />
+                      
+                      {/* Legacy redirects */}
+                      <Route path="admin/knowledge" element={<Navigate to="/internal/v2/admin/storage" replace />} />
                       <Route path="admin/knowledge-base" element={<Navigate to="/internal/v2/admin/storage" replace />} />
                       <Route path="admin/database" element={<Navigate to="/internal/v2/admin/storage" replace />} />
                       <Route path="ai-assistant" element={<AIAssistant />} />

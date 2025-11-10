@@ -239,6 +239,7 @@ Upload new knowledge files that are automatically:
 - **Destination**: `master_knowledge` table
 
 **See**: `docs/KNOWLEDGE_UPLOAD_SYSTEM.md` for full documentation
+**See**: `docs/ADMIN_NAVIGATION.md` for admin tool navigation guide
 
 ## Success Metrics
 
