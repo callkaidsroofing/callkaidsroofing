@@ -45,13 +45,14 @@ serve(async (req) => {
     const { data: jobData, error: jobError } = await supabase
       .from('embedding_jobs')
       .insert({
-        source_table: 'knowledge_system_upload',
+        job_type: 'knowledge_system_upload',
+        source_path: fileName,
         total_chunks: 0,
         processed_chunks: 0,
+        failed_chunks: 0,
         status: 'pending',
-        metadata: {
+        error_log: {
           file_name: file.name,
-          file_path: fileName,
           file_size: file.size,
           uploaded_at: new Date().toISOString()
         }
