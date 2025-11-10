@@ -3107,6 +3107,19 @@ export type Database = {
       }
     }
     Views: {
+      master_knowledge_overview: {
+        Row: {
+          category: string | null
+          doc_count: number | null
+          doc_type: string | null
+          embedded_count: number | null
+          max_priority: number | null
+          min_priority: number | null
+          subcategory: string | null
+          total_chunks: number | null
+        }
+        Relationships: []
+      }
       sync_status: {
         Row: {
           last_update: string | null
