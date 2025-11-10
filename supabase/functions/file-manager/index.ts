@@ -44,7 +44,7 @@ serve(async (req) => {
     if (action === 'list') {
       let query = supabase
         .from('master_knowledge')
-        .select('*')
+        .select('id, doc_id, title, content, category, subcategory, doc_type, version, supersedes, priority, active, source, created_at, updated_at, metadata, chunk_count, tags, migration_notes')
         .eq('active', true)
         .order('priority', { ascending: false })
         .order('category')
@@ -58,26 +58,25 @@ serve(async (req) => {
       
       if (error) throw error;
 
-      // Transform to standard format
+      // Transform to match expected format (snake_case)
       const allFiles = (files || []).map((f: any) => ({
         id: f.id,
-        fileKey: f.doc_id,
-        docId: f.doc_id,
+        file_key: f.doc_id,
         title: f.title,
+        content: f.content || '',
         category: f.category,
-        subcategory: f.subcategory,
-        docType: f.doc_type,
-        version: f.version,
-        supersedes: f.supersedes,
-        priority: f.priority,
+        metadata: {
+          ...f.metadata,
+          subcategory: f.subcategory,
+          docType: f.doc_type,
+          source: f.source,
+          totalChunks: f.chunk_count,
+          tags: f.tags
+        },
+        version: f.version || 1,
         active: f.active,
-        source: f.source,
-        createdAt: f.created_at,
-        updatedAt: f.updated_at,
-        metadata: f.metadata,
-        chunkCount: f.chunk_count,
-        tags: f.tags,
-        migrationNotes: f.migration_notes
+        created_at: f.created_at,
+        updated_at: f.updated_at
       }));
 
       return new Response(
@@ -121,26 +120,28 @@ serve(async (req) => {
           success: true, 
           file: {
             id: file.id,
-            fileKey: file.doc_id,
-            docId: file.doc_id,
+            file_key: file.doc_id,
             title: file.title,
+            content: file.content || '',
             category: file.category,
-            subcategory: file.subcategory,
-            docType: file.doc_type,
-            content: file.content,
-            version: file.version,
-            supersedes: file.supersedes,
-            priority: file.priority,
+            metadata: {
+              ...file.metadata,
+              subcategory: file.subcategory,
+              docType: file.doc_type,
+              source: file.source,
+              totalChunks: file.chunk_count,
+              tags: file.tags,
+              supersedes: file.supersedes,
+              priority: file.priority,
+              migrationNotes: file.migration_notes
+            },
+            version: file.version || 1,
             active: file.active,
-            source: file.source,
-            createdAt: file.created_at,
-            updatedAt: file.updated_at,
-            metadata: file.metadata,
-            chunkCount: file.chunk_count,
-            tags: file.tags,
-            migrationNotes: file.migration_notes
+            created_at: file.created_at,
+            updated_at: file.updated_at
           },
-          versions: versions || []
+          versions: versions || [],
+          chunkCount: file.chunk_count || 0
         }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
