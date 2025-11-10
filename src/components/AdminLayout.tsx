@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Outlet, NavLink, useLocation } from 'react-router-dom';
+import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Home, FileText, FormInput, Database, Image, Megaphone, FileOutput, 
   Menu, Sparkles, Wrench, Phone, DollarSign, Calendar, BarChart3, 
@@ -10,8 +10,6 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useAuth } from '@/hooks/useAuth';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 interface NavItem {
@@ -78,6 +76,7 @@ const navStructure: NavSection[] = [
     title: 'CMS',
     icon: Database,
     items: [
+      { title: 'Data Sync', path: '/admin/cms/sync', icon: RefreshCw },
       { title: 'Knowledge Base', path: '/admin/cms/knowledge', icon: FileText },
       { title: 'Services', path: '/admin/cms/services', icon: Wrench },
       { title: 'Suburbs', path: '/admin/cms/suburbs', icon: Home },
@@ -288,29 +287,7 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
 
 export function AdminLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isSyncing, setIsSyncing] = useState(false);
-
-  const handleNotionSync = async () => {
-    setIsSyncing(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('supabase-to-notion-push', {
-        body: { action: 'sync_all' }
-      });
-
-      if (error) throw error;
-
-      toast.success('Notion sync initiated successfully', {
-        description: `Synced ${data.results?.length || 0} records`
-      });
-    } catch (error) {
-      console.error('Notion sync error:', error);
-      toast.error('Failed to sync with Notion', {
-        description: error.message
-      });
-    } finally {
-      setIsSyncing(false);
-    }
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row w-full bg-gradient-to-br from-background via-background to-primary/5">
@@ -348,15 +325,14 @@ export function AdminLayout() {
             </div>
           </div>
           
-          {/* Quick sync button for mobile */}
+          {/* Quick data sync button for mobile */}
           <Button
-            onClick={handleNotionSync}
-            disabled={isSyncing}
+            onClick={() => navigate('/admin/cms/sync')}
             size="icon"
             variant="ghost"
             className="hover:bg-primary/10 transition-all duration-300 hover-lift rounded-xl"
           >
-            <RefreshCw className={`h-5 w-5 text-primary ${isSyncing ? 'animate-spin' : ''}`} />
+            <Database className="h-5 w-5 text-primary" />
           </Button>
         </div>
       </header>
@@ -393,13 +369,12 @@ export function AdminLayout() {
               </div>
               
               <Button
-                onClick={handleNotionSync}
-                disabled={isSyncing}
+                onClick={() => navigate('/admin/cms/sync')}
                 size="sm"
                 className="gap-2 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5 border-0"
               >
-                <RefreshCw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
-                <span className="font-semibold">{isSyncing ? 'Syncing...' : 'Sync Notion'}</span>
+                <Database className="h-4 w-4" />
+                <span className="font-semibold">Data Sync</span>
               </Button>
             </div>
           </div>

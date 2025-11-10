@@ -101,6 +101,7 @@ const CMSSuburbs = lazy(() => import("./pages/admin/cms/Suburbs"));
 const CMSData = lazy(() => import("./pages/admin/cms/Data"));
 const CMSDocs = lazy(() => import("./pages/admin/cms/Documents"));
 const CMSQuoteDocs = lazy(() => import("./pages/admin/cms/QuoteDocuments"));
+const CMSDataSync = lazy(() => import("./pages/admin/cms/DataSync"));
 
 import { AdminLayout } from "@/components/AdminLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -231,6 +232,7 @@ function App() {
                       <Route path="cms/data" element={<CMSData />} />
                       <Route path="cms/documents" element={<CMSDocs />} />
                       <Route path="cms/documents/quotes" element={<CMSQuoteDocs />} />
+                      <Route path="cms/sync" element={<CMSDataSync />} />
                       
                       {/* Legacy redirects */}
                       <Route path="home" element={<Navigate to="/admin" replace />} />

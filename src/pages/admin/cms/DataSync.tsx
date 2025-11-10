@@ -1,0 +1,386 @@
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { PremiumPageHeader } from "@/components/admin/PremiumPageHeader";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Progress } from "@/components/ui/progress";
+import { 
+  RefreshCw, 
+  Database, 
+  Sparkles, 
+  DollarSign, 
+  FileText, 
+  CheckCircle2, 
+  AlertCircle,
+  TrendingUp,
+  Clock,
+  Zap
+} from "lucide-react";
+import { toast } from "sonner";
+import { formatDistanceToNow } from "date-fns";
+
+interface SyncStatus {
+  name: string;
+  description: string;
+  icon: any;
+  loading: boolean;
+  lastSync: Date | null;
+  status: 'idle' | 'syncing' | 'success' | 'error';
+  stats?: { label: string; value: string }[];
+  error?: string;
+}
+
+interface EmbeddingStats {
+  source_table: string;
+  total: number;
+  embedded: number;
+  percentage: number;
+}
+
+export default function DataSync() {
+  const [embeddingStats, setEmbeddingStats] = useState<EmbeddingStats[]>([]);
+  const [loadingStats, setLoadingStats] = useState(true);
+  
+  const [syncStatuses, setSyncStatuses] = useState<Record<string, SyncStatus>>({
+    rag: {
+      name: "RAG Vector Index",
+      description: "Sync content to AI documents table with embeddings",
+      icon: Sparkles,
+      loading: false,
+      lastSync: null,
+      status: 'idle',
+    },
+    pricing: {
+      name: "Pricing Database",
+      description: "Sync pricing model from JSON to database with vectors",
+      icon: DollarSign,
+      loading: false,
+      lastSync: null,
+      status: 'idle',
+    },
+    knowledge: {
+      name: "Knowledge Base",
+      description: "Embed knowledge documents for RAG retrieval",
+      icon: FileText,
+      loading: false,
+      lastSync: null,
+      status: 'idle',
+    },
+  });
+
+  useEffect(() => {
+    loadEmbeddingStats();
+  }, []);
+
+  const loadEmbeddingStats = async () => {
+    setLoadingStats(true);
+    try {
+      const { data, error } = await supabase.rpc('get_embedding_stats');
+      
+      if (error) throw error;
+      
+      setEmbeddingStats(data || []);
+    } catch (err: any) {
+      console.error('Error loading embedding stats:', err);
+      toast.error('Failed to load embedding statistics');
+    } finally {
+      setLoadingStats(false);
+    }
+  };
+
+  const updateSyncStatus = (key: string, updates: Partial<SyncStatus>) => {
+    setSyncStatuses(prev => ({
+      ...prev,
+      [key]: { ...prev[key], ...updates }
+    }));
+  };
+
+  const handleSyncRAG = async () => {
+    updateSyncStatus('rag', { loading: true, status: 'syncing', error: undefined });
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('rag-indexer', {
+        body: { mode: 'full' }
+      });
+
+      if (error) throw error;
+
+      updateSyncStatus('rag', {
+        loading: false,
+        status: 'success',
+        lastSync: new Date(),
+        stats: [
+          { label: 'Documents Indexed', value: String(data?.indexed || 0) },
+          { label: 'Embeddings Generated', value: String(data?.embeddings || 0) }
+        ]
+      });
+      
+      toast.success('RAG index synchronized successfully');
+      loadEmbeddingStats();
+    } catch (err: any) {
+      console.error('RAG sync error:', err);
+      updateSyncStatus('rag', {
+        loading: false,
+        status: 'error',
+        error: err.message || 'Failed to sync RAG index'
+      });
+      toast.error('Failed to sync RAG index', {
+        description: err.message
+      });
+    }
+  };
+
+  const handleSyncPricing = async () => {
+    updateSyncStatus('pricing', { loading: true, status: 'syncing', error: undefined });
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('sync-pricing-data', {
+        body: { action: 'sync' }
+      });
+
+      if (error) throw error;
+
+      updateSyncStatus('pricing', {
+        loading: false,
+        status: 'success',
+        lastSync: new Date(),
+        stats: [
+          { label: 'Items Synced', value: String(data?.itemsCount || 0) },
+          { label: 'Constants Updated', value: String(data?.constantsCount || 0) }
+        ]
+      });
+      
+      toast.success('Pricing database synchronized successfully');
+    } catch (err: any) {
+      console.error('Pricing sync error:', err);
+      updateSyncStatus('pricing', {
+        loading: false,
+        status: 'error',
+        error: err.message || 'Failed to sync pricing data'
+      });
+      toast.error('Failed to sync pricing data', {
+        description: err.message
+      });
+    }
+  };
+
+  const handleSyncKnowledge = async () => {
+    updateSyncStatus('knowledge', { loading: true, status: 'syncing', error: undefined });
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('embed-knowledge-docs', {
+        body: { reembed: false }
+      });
+
+      if (error) throw error;
+
+      updateSyncStatus('knowledge', {
+        loading: false,
+        status: 'success',
+        lastSync: new Date(),
+        stats: [
+          { label: 'Documents Processed', value: String(data?.processed || 0) },
+          { label: 'Embeddings Created', value: String(data?.embeddings || 0) }
+        ]
+      });
+      
+      toast.success('Knowledge base synchronized successfully');
+      loadEmbeddingStats();
+    } catch (err: any) {
+      console.error('Knowledge sync error:', err);
+      updateSyncStatus('knowledge', {
+        loading: false,
+        status: 'error',
+        error: err.message || 'Failed to sync knowledge base'
+      });
+      toast.error('Failed to sync knowledge base', {
+        description: err.message
+      });
+    }
+  };
+
+  const handleSyncAll = async () => {
+    toast.info('Starting full system sync...');
+    await handleSyncPricing();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await handleSyncKnowledge();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await handleSyncRAG();
+    toast.success('Full system sync completed!');
+  };
+
+  const syncHandlers = {
+    rag: handleSyncRAG,
+    pricing: handleSyncPricing,
+    knowledge: handleSyncKnowledge,
+  };
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'success':
+        return <CheckCircle2 className="h-4 w-4 text-green-500" />;
+      case 'error':
+        return <AlertCircle className="h-4 w-4 text-red-500" />;
+      case 'syncing':
+        return <RefreshCw className="h-4 w-4 text-primary animate-spin" />;
+      default:
+        return <Clock className="h-4 w-4 text-muted-foreground" />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      <PremiumPageHeader
+        title="Data Sync & RAG Management"
+        description="Synchronize databases, generate embeddings, and manage vector indices"
+        icon={Database}
+      />
+
+      <div className="container mx-auto px-4 py-8 space-y-6">
+        {/* Quick Actions */}
+        <Card className="border-primary/20 bg-gradient-to-br from-card to-card/50 backdrop-blur">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Zap className="h-5 w-5 text-primary" />
+              Quick Actions
+            </CardTitle>
+            <CardDescription>
+              Synchronize all systems or trigger individual syncs
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button 
+              onClick={handleSyncAll}
+              disabled={Object.values(syncStatuses).some(s => s.loading)}
+              className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
+            >
+              <RefreshCw className={`mr-2 h-4 w-4 ${Object.values(syncStatuses).some(s => s.loading) ? 'animate-spin' : ''}`} />
+              Sync All Systems
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Embedding Statistics */}
+        <Card className="border-primary/20 bg-gradient-to-br from-card to-card/50 backdrop-blur">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-primary" />
+              Vector Embedding Statistics
+            </CardTitle>
+            <CardDescription>
+              Current status of vector embeddings across all tables
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {loadingStats ? (
+              <div className="flex items-center justify-center py-8">
+                <RefreshCw className="h-6 w-6 animate-spin text-primary" />
+              </div>
+            ) : embeddingStats.length === 0 ? (
+              <Alert>
+                <AlertDescription>No embedding data available yet</AlertDescription>
+              </Alert>
+            ) : (
+              <div className="space-y-4">
+                {embeddingStats.map((stat) => (
+                  <div key={stat.source_table} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium capitalize">
+                        {stat.source_table.replace(/_/g, ' ')}
+                      </span>
+                      <Badge variant={stat.percentage === 100 ? "default" : "secondary"}>
+                        {stat.embedded} / {stat.total}
+                      </Badge>
+                    </div>
+                    <Progress value={stat.percentage} className="h-2" />
+                    <p className="text-xs text-muted-foreground">
+                      {stat.percentage.toFixed(1)}% embedded
+                    </p>
+                  </div>
+                ))}
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={loadEmbeddingStats}
+                  className="w-full"
+                >
+                  <RefreshCw className="mr-2 h-3 w-3" />
+                  Refresh Statistics
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Sync Operations */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Object.entries(syncStatuses).map(([key, status]) => {
+            const Icon = status.icon;
+            return (
+              <Card 
+                key={key}
+                className="border-border/50 bg-card/50 backdrop-blur hover:shadow-lg transition-all"
+              >
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <Icon className="h-8 w-8 text-primary" />
+                    {getStatusIcon(status.status)}
+                  </div>
+                  <CardTitle className="mt-4">{status.name}</CardTitle>
+                  <CardDescription>{status.description}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {status.lastSync && (
+                    <p className="text-xs text-muted-foreground">
+                      Last synced {formatDistanceToNow(status.lastSync, { addSuffix: true })}
+                    </p>
+                  )}
+
+                  {status.error && (
+                    <Alert variant="destructive">
+                      <AlertDescription className="text-xs">
+                        {status.error}
+                      </AlertDescription>
+                    </Alert>
+                  )}
+
+                  {status.stats && (
+                    <div className="grid grid-cols-2 gap-2">
+                      {status.stats.map((stat, idx) => (
+                        <div key={idx} className="bg-muted/50 p-2 rounded">
+                          <p className="text-xs text-muted-foreground">{stat.label}</p>
+                          <p className="text-lg font-bold">{stat.value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <Button
+                    onClick={syncHandlers[key as keyof typeof syncHandlers]}
+                    disabled={status.loading}
+                    className="w-full"
+                    variant={status.status === 'success' ? 'outline' : 'default'}
+                  >
+                    {status.loading ? (
+                      <>
+                        <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                        Syncing...
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCw className="mr-2 h-4 w-4" />
+                        Sync Now
+                      </>
+                    )}
+                  </Button>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
