@@ -181,6 +181,38 @@ AFTER INSERT OR UPDATE ON content_services
 FOR EACH ROW EXECUTE FUNCTION sync_to_master_knowledge();
 ```
 
+## Embedding Generation
+
+### Current Status
+- **Total Documents**: 96
+- **With Embeddings**: 25 (26%)
+- **Missing Embeddings**: 71 (74%)
+
+### Embedding Pipeline
+1. **Edge Function**: `generate-embeddings`
+   - Processes all documents without embeddings
+   - Uses OpenAI `text-embedding-3-small` (768 dimensions)
+   - Batch processing (10 docs at a time)
+   - Rate-limited to respect API constraints
+   - Updates `master_knowledge.embedding` column
+
+2. **Admin UI**: `/internal/v2/admin/embedding-generator`
+   - Shows real-time coverage statistics
+   - Category-level breakdown
+   - One-click bulk generation
+   - Progress tracking and error reporting
+
+3. **Quality Verification**
+   - Test RAG queries across all categories
+   - Verify similarity scores (0.7-0.95 range)
+   - Ensure all document types are searchable
+   - Validate embedding dimensions (768)
+
+### Expected Costs
+- **Model**: text-embedding-3-small
+- **Cost**: ~$0.02 per 1M tokens
+- **Estimated for 71 docs**: < $0.50 total
+
 ## Success Metrics
 
 - ✅ **96 documents** unified
@@ -190,5 +222,6 @@ FOR EACH ROW EXECUTE FUNCTION sync_to_master_knowledge();
 - ✅ **No legacy distinctions** (all current)
 - ✅ **Machine readable** (structured markdown + JSON)
 - ✅ **Vector indexed** (sub-second search)
+- 🔄 **Embeddings**: 26% complete (generating remaining 71)
 
-**Mission: Complete** - Call Kaids Roofing now has a single absolute machine-readable, indexable, RAG-callable central system of truth. 🎯
+**Mission: In Progress** - Call Kaids Roofing now has a single absolute machine-readable, indexable, RAG-callable central system of truth. Vector embeddings being generated to complete 100% RAG coverage. 🎯

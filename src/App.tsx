@@ -68,6 +68,7 @@ const KnowledgeBase = lazy(() => import("./pages/internal/v2/KnowledgeBase"));
 const DatabaseManagement = lazy(() => import("./pages/internal/v2/DatabaseManagement"));
 const AIAssistant = lazy(() => import("./pages/internal/v2/AIAssistant"));
 const StorageAdmin = lazy(() => import("./pages/internal/v2/admin/StorageAdmin"));
+const EmbeddingGenerator = lazy(() => import("./pages/internal/v2/admin/EmbeddingGenerator"));
 import { InternalLayoutNew } from "@/components/InternalLayoutNew";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import ProtectedLayout from "@/components/ProtectedLayout";
@@ -175,6 +176,7 @@ function App() {
                       <Route path="admin/users" element={<AdminUserManagement />} />
                       <Route path="admin/knowledge" element={<KnowledgeManagement />} />
                       <Route path="admin/storage" element={<StorageAdmin />} />
+                      <Route path="admin/embeddings" element={<EmbeddingGenerator />} />
                       <Route path="admin/knowledge-base" element={<Navigate to="/internal/v2/admin/storage" replace />} />
                       <Route path="admin/database" element={<Navigate to="/internal/v2/admin/storage" replace />} />
                       <Route path="ai-assistant" element={<AIAssistant />} />
