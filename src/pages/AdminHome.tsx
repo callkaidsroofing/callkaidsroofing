@@ -69,57 +69,51 @@ export default function AdminHome() {
 
   const quickLinks: QuickLink[] = [
     {
-      title: 'Leads Pipeline',
-      description: 'Manage and track leads',
+      title: 'Leads',
+      description: 'Pipeline management',
       route: '/admin/leads',
       icon: Users,
       badge: queueData.new_leads > 0 ? String(queueData.new_leads) : undefined
     },
     {
-      title: 'Create Quote',
-      description: 'Build new quote',
+      title: 'Quote',
+      description: 'Create new',
       route: '/admin/quotes/new',
-      icon: FileText
+      icon: DollarSign
     },
     {
-      title: 'New Inspection',
-      description: 'Create inspection report',
+      title: 'Inspection',
+      description: 'New report',
       route: '/admin/inspections/new',
       icon: FileText
     },
     {
-      title: 'Forms Studio',
-      description: 'Manage forms & submissions',
-      route: '/admin/forms',
-      icon: Folder
-    },
-    {
-      title: 'Jobs Calendar',
-      description: 'Schedule & track jobs',
+      title: 'Jobs',
+      description: 'Schedule',
       route: '/admin/jobs',
       icon: Calendar
     },
     {
-      title: 'Marketing Studio',
-      description: 'Content & campaigns',
+      title: 'Marketing',
+      description: 'Campaigns',
       route: '/admin/marketing',
       icon: TrendingUp
     },
     {
-      title: 'Media Library',
-      description: 'Manage photos & assets',
+      title: 'Media',
+      description: 'Assets',
       route: '/admin/media',
       icon: Image
     },
     {
-      title: 'Reports & Analytics',
-      description: 'Business insights',
+      title: 'Reports',
+      description: 'Analytics',
       route: '/admin/reports',
       icon: BarChart3
     },
     {
-      title: 'Data Hub',
-      description: 'Database management',
+      title: 'Data',
+      description: 'Database',
       route: '/admin/data',
       icon: Settings
     }

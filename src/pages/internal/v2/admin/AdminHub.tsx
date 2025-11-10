@@ -1,188 +1,89 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { 
   Users, FileStack, Upload, Database, Sparkles, 
-  ArrowRight, Shield, Zap
+  Shield, ChevronRight
 } from 'lucide-react';
 
 const adminTools = [
   {
-    title: 'User Management',
-    description: 'Manage user accounts, roles, and permissions',
+    title: 'Users',
     icon: Users,
     path: '/admin/system/users',
-    color: 'bg-blue-500/10 text-blue-500',
-    badge: 'Access Control',
+    gradient: 'from-blue-500/20 to-blue-600/10',
   },
   {
-    title: 'Knowledge Files',
-    description: 'Browse, edit, and manage knowledge base files',
+    title: 'Knowledge',
     icon: FileStack,
     path: '/admin/system/storage',
-    color: 'bg-purple-500/10 text-purple-500',
-    badge: 'Storage',
+    gradient: 'from-purple-500/20 to-purple-600/10',
   },
   {
-    title: 'Upload Knowledge',
-    description: 'Upload new documents with AI-powered categorization',
+    title: 'Upload',
     icon: Upload,
     path: '/admin/system/upload',
-    color: 'bg-green-500/10 text-green-500',
-    badge: 'Import',
+    gradient: 'from-green-500/20 to-green-600/10',
   },
   {
-    title: 'Generate Embeddings',
-    description: 'Create vector embeddings for RAG search',
+    title: 'Embeddings',
     icon: Database,
     path: '/admin/system/embeddings',
-    color: 'bg-orange-500/10 text-orange-500',
-    badge: 'AI',
+    gradient: 'from-orange-500/20 to-orange-600/10',
   },
   {
     title: 'AI Assistant',
-    description: 'Internal AI assistant for admin tasks',
     icon: Sparkles,
     path: '/admin/ai-assistant',
-    color: 'bg-pink-500/10 text-pink-500',
-    badge: 'Chat',
+    gradient: 'from-pink-500/20 to-pink-600/10',
   },
 ];
 
 export default function AdminHub() {
   const navigate = useNavigate();
+  const [hoveredTool, setHoveredTool] = useState<string | null>(null);
 
   return (
-    <div className="container mx-auto py-8 space-y-6">
-      {/* Header */}
-      <div className="flex items-center gap-3">
-        <div className="p-3 rounded-lg bg-primary/10">
-          <Shield className="h-8 w-8 text-primary" />
-        </div>
-      <div>
-        <h1 className="text-3xl font-bold">System Admin Dashboard</h1>
-        <p className="text-muted-foreground">
-          Central hub for system administration and knowledge management
-        </p>
-      </div>
-      </div>
-
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Knowledge Base
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-bold">96</span>
-              <span className="text-sm text-muted-foreground">documents</span>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              RAG Coverage
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-bold">26%</span>
-              <span className="text-sm text-muted-foreground">embedded</span>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              System Status
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-2">
-              <Zap className="h-4 w-4 text-green-500" />
-              <span className="text-lg font-semibold text-green-500">Operational</span>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Admin Tools Grid */}
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Administrative Tools</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {adminTools.map((tool) => (
-            <Card
-              key={tool.path}
-              className="hover:shadow-lg transition-shadow cursor-pointer group"
-              onClick={() => navigate(tool.path)}
-            >
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className={`p-3 rounded-lg ${tool.color}`}>
-                    <tool.icon className="h-6 w-6" />
-                  </div>
-                  <Badge variant="secondary" className="text-xs">
-                    {tool.badge}
-                  </Badge>
-                </div>
-                <CardTitle className="mt-4">{tool.title}</CardTitle>
-                <CardDescription>{tool.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="w-full justify-between group-hover:bg-primary group-hover:text-primary-foreground"
-                >
-                  Open Tool
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+    <div className="container mx-auto py-8 space-y-8 animate-fade-in">
+      {/* Hero Header */}
+      <div className="relative overflow-hidden rounded-3xl p-8 lg:p-12 bg-gradient-to-br from-primary/10 via-secondary/5 to-background border border-primary/20">
+        <div className="absolute inset-0 pattern-overlay opacity-30" />
+        <div className="relative z-10 flex items-center gap-4">
+          <div className="p-4 rounded-2xl bg-primary/10 backdrop-blur-sm">
+            <Shield className="h-10 w-10 text-primary" />
+          </div>
+          <div>
+            <h1 className="text-4xl lg:text-5xl font-bold gradient-text mb-2">System Admin</h1>
+            <p className="text-lg text-muted-foreground">Knowledge & user management</p>
+          </div>
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-          <CardDescription>Common administrative tasks</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <Button
-            variant="outline"
-            className="w-full justify-start"
-            onClick={() => navigate('/admin/system/upload')}
+      {/* Simplified Admin Tools Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        {adminTools.map((tool) => (
+          <Card
+            key={tool.path}
+            className={`relative overflow-hidden cursor-pointer group hover-lift border-primary/20 transition-all duration-300 ${
+              hoveredTool === tool.path ? 'ring-2 ring-primary/50' : ''
+            }`}
+            onClick={() => navigate(tool.path)}
+            onMouseEnter={() => setHoveredTool(tool.path)}
+            onMouseLeave={() => setHoveredTool(null)}
           >
-            <Upload className="h-4 w-4 mr-2" />
-            Upload New Knowledge File
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full justify-start"
-            onClick={() => navigate('/admin/system/embeddings')}
-          >
-            <Database className="h-4 w-4 mr-2" />
-            Generate Missing Embeddings
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full justify-start"
-            onClick={() => navigate('/admin/system/storage')}
-          >
-            <FileStack className="h-4 w-4 mr-2" />
-            Browse Knowledge Files
-          </Button>
-        </CardContent>
-      </Card>
+            <div className={`absolute inset-0 bg-gradient-to-br ${tool.gradient} opacity-0 group-hover:opacity-100 transition-opacity`} />
+            <div className="relative z-10 p-6 flex flex-col items-center text-center space-y-3">
+              <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 group-hover:scale-110 transition-all">
+                <tool.icon className="h-8 w-8 text-primary" />
+              </div>
+              <div className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                {tool.title}
+              </div>
+              <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all" />
+            </div>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }

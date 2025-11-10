@@ -33,55 +33,37 @@ const navStructure: NavSection[] = [
     icon: Users,
     defaultOpen: true,
     items: [
-      { title: 'Leads Pipeline', path: '/admin/leads', icon: Phone },
-      { title: 'Lead Intelligence', path: '/admin/intelligence', icon: Brain },
+      { title: 'Leads', path: '/admin/leads', icon: Phone },
+      { title: 'Intelligence', path: '/admin/intelligence', icon: Brain },
       { title: 'Quotes', path: '/admin/quotes/new', icon: DollarSign },
-      { title: 'Jobs Calendar', path: '/admin/jobs', icon: Calendar },
+      { title: 'Jobs', path: '/admin/jobs', icon: Calendar },
     ],
   },
   {
-    title: 'Business Intelligence',
-    icon: BarChart3,
-    items: [
-      { title: 'Reports & Analytics', path: '/admin/reports', icon: BarChart3 },
-    ],
-  },
-  {
-    title: 'Tools & Utilities',
+    title: 'Tools',
     icon: Wrench,
     defaultOpen: true,
     items: [
-      { title: 'New Inspection', path: '/admin/inspections/new', icon: ClipboardList },
-      { title: 'Image Generator', path: '/admin/media/generator', icon: Image },
+      { title: 'Inspection', path: '/admin/inspections/new', icon: ClipboardList },
+      { title: 'Media', path: '/admin/media', icon: Image },
+      { title: 'Marketing', path: '/admin/marketing', icon: Megaphone },
+      { title: 'Reports', path: '/admin/reports', icon: BarChart3 },
     ],
   },
   {
-    title: 'Marketing & Media',
-    icon: Megaphone,
-    items: [
-      { title: 'Media Library', path: '/admin/media', icon: Image },
-      { title: 'Marketing Studio', path: '/admin/marketing', icon: Megaphone },
-    ],
-  },
-  {
-    title: 'Configuration',
+    title: 'Settings',
     icon: Settings,
     items: [
-      { title: 'Data Hub', path: '/admin/data', icon: Database },
-      { title: 'Forms Studio', path: '/admin/forms', icon: FormInput },
-      { title: 'Docs Hub', path: '/admin/docs', icon: FileText },
-      { title: 'Quote Documents', path: '/admin/quote-documents', icon: FileStack },
+      { title: 'Data', path: '/admin/data', icon: Database },
+      { title: 'Forms', path: '/admin/forms', icon: FormInput },
+      { title: 'Documents', path: '/admin/docs', icon: FileText },
     ],
   },
   {
-    title: 'System Admin',
+    title: 'System',
     icon: Shield,
     items: [
-      { title: 'System Dashboard', path: '/admin/system', icon: Shield },
-      { title: 'User Management', path: '/admin/system/users', icon: Users },
-      { title: 'Knowledge Files', path: '/admin/system/storage', icon: FileStack },
-      { title: 'Upload Knowledge', path: '/admin/system/upload', icon: FileText },
-      { title: 'Generate Embeddings', path: '/admin/system/embeddings', icon: Database },
+      { title: 'Admin Hub', path: '/admin/system', icon: Shield },
       { title: 'AI Assistant', path: '/admin/ai-assistant', icon: Sparkles },
     ],
   },
@@ -106,31 +88,32 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
   };
 
   return (
-    <>
-      {/* Home Anchor - Always visible */}
+    <div className="flex flex-col h-full bg-gradient-to-b from-background to-muted/20">
+      {/* Home Anchor */}
       <NavLink
         to="/admin/home"
         onClick={onLinkClick}
         className={({ isActive }) =>
-          `p-4 border-b flex items-center gap-3 font-bold text-lg transition-colors ${
-            isActive ? 'bg-primary/10 text-primary' : 'hover:bg-muted'
+          `p-4 border-b flex items-center gap-3 font-bold text-lg transition-all hover-lift ${
+            isActive ? 'bg-primary/10 text-primary shadow-sm' : 'hover:bg-primary/5'
           }`
         }
       >
-        <Home className="h-5 w-5" />
-        <span>Admin Hub</span>
+        <div className={`p-1.5 rounded-lg ${({ isActive }: any) => isActive ? 'bg-primary/20' : 'bg-primary/10'}`}>
+          <Home className="h-5 w-5" />
+        </div>
+        <span>Hub</span>
       </NavLink>
 
-      {/* Main Navigation with Accordions */}
-      <nav className="flex-1 overflow-y-auto">
+      {/* Main Navigation */}
+      <nav className="flex-1 overflow-y-auto custom-scrollbar">
         <Accordion 
           type="multiple" 
           defaultValue={getDefaultOpenSections()}
           className="w-full"
         >
           {navStructure.map((section, sectionIndex) => {
-            // Hide System Admin section if user is not admin
-            if (section.title === 'System Admin' && !isAdmin) return null;
+            if (section.title === 'System' && !isAdmin) return null;
             
             return (
               <AccordionItem 
@@ -138,28 +121,28 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
                 value={`section-${sectionIndex}`}
                 className="border-none"
               >
-                <AccordionTrigger className="px-4 py-3 hover:bg-muted/50 hover:no-underline">
-                  <div className="flex items-center gap-3 text-sm font-semibold">
-                    <section.icon className="h-4 w-4" />
+                <AccordionTrigger className="px-4 py-3 hover:bg-primary/5 hover:no-underline transition-colors">
+                  <div className="flex items-center gap-2.5 text-sm font-semibold">
+                    <section.icon className="h-4 w-4 text-primary" />
                     <span>{section.title}</span>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="pb-0">
-                  <div className="space-y-1 px-2 py-2">
+                <AccordionContent className="pb-1">
+                  <div className="space-y-0.5 px-2 py-1">
                     {section.items.map((item) => (
                       <NavLink
                         key={item.path}
                         to={item.path}
                         onClick={onLinkClick}
                         className={({ isActive }) =>
-                          `flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
+                          `flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all ${
                             isActive
-                              ? 'bg-primary text-primary-foreground font-medium'
-                              : 'hover:bg-muted text-muted-foreground'
+                              ? 'bg-primary text-primary-foreground font-medium shadow-sm'
+                              : 'hover:bg-primary/5 text-muted-foreground hover:text-foreground'
                           }`
                         }
                       >
-                        <item.icon className="h-4 w-4" />
+                        <item.icon className="h-3.5 w-3.5" />
                         <span>{item.title}</span>
                       </NavLink>
                     ))}
@@ -172,20 +155,20 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
       </nav>
 
       {/* User Footer */}
-      <div className="p-3 border-t space-y-2 bg-muted/30">
-        <div className="text-xs text-muted-foreground truncate px-2">
+      <div className="p-3 border-t space-y-2 bg-card">
+        <div className="text-xs text-muted-foreground truncate px-2 font-medium">
           {user?.email}
         </div>
         <Button 
           variant="outline" 
           size="sm" 
           onClick={signOut}
-          className="w-full"
+          className="w-full hover:bg-destructive hover:text-destructive-foreground transition-colors"
         >
           Sign Out
         </Button>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -216,43 +199,43 @@ export function AdminLayout() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row w-full bg-background">
+    <div className="min-h-screen flex flex-col md:flex-row w-full bg-gradient-to-br from-background via-background to-muted/10">
       {/* Mobile Header */}
-      <header className="md:hidden sticky top-0 z-40 bg-card border-b h-14 flex items-center justify-between px-4">
+      <header className="md:hidden sticky top-0 z-40 bg-card/95 backdrop-blur-lg border-b h-14 flex items-center justify-between px-4 shadow-sm">
         <div className="flex items-center gap-2">
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="hover:bg-primary/10">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-60 p-0 flex flex-col">
+            <SheetContent side="left" className="w-64 p-0 flex flex-col bg-background z-[100]">
               <SidebarContent onLinkClick={() => setMobileMenuOpen(false)} />
             </SheetContent>
           </Sheet>
-          <span className="font-bold text-primary">CKR Admin Hub</span>
+          <span className="font-bold gradient-text">CKR Admin</span>
         </div>
       </header>
 
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex md:w-60 border-r bg-muted/30 flex-col">
+      <aside className="hidden md:flex md:w-64 border-r border-primary/10 bg-card/50 backdrop-blur-sm flex-col shadow-sm">
         <SidebarContent />
       </aside>
 
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
-        <div className="p-4 md:p-6 lg:p-8">
-          <div className="flex items-center justify-between mb-4">
+        <div className="p-4 md:p-6 lg:p-8 max-w-[1800px] mx-auto">
+          <div className="flex items-center justify-between mb-6">
             <Breadcrumbs />
             <Button
               onClick={handleNotionSync}
               disabled={isSyncing}
               size="sm"
               variant="outline"
-              className="gap-2"
+              className="gap-2 border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all"
             >
               <RefreshCw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
-              {isSyncing ? 'Syncing...' : 'Sync to Notion'}
+              {isSyncing ? 'Syncing...' : 'Sync Notion'}
             </Button>
           </div>
           <Outlet />
