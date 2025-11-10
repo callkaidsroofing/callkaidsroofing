@@ -278,49 +278,62 @@ export default function AdminHome() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">CKR Admin Hub</h1>
-          <p className="text-muted-foreground">Business management & operations center</p>
+    <div className="space-y-8 animate-fade-in">
+      {/* Hero Header with Gradient */}
+      <div className="relative overflow-hidden rounded-2xl p-8 card-gradient border border-primary/20">
+        <div className="absolute inset-0 pattern-overlay opacity-50" />
+        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="space-y-2">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 rounded-xl bg-primary/10 backdrop-blur-sm">
+                <Sparkles className="h-6 w-6 text-primary animate-pulse" />
+              </div>
+              <h1 className="text-4xl font-bold gradient-text">CKR Admin Hub</h1>
+            </div>
+            <p className="text-lg text-muted-foreground">Business management & operations center</p>
+          </div>
+          {isAdmin && (
+            <Button
+              onClick={() => navigate('/mfa-setup')}
+              className="btn-premium bg-primary hover:bg-primary/90 shadow-lg hover-lift"
+              size="lg"
+            >
+              <Shield className="h-4 w-4 mr-2" />
+              Setup MFA
+            </Button>
+          )}
         </div>
-        {isAdmin && (
-          <Button
-            onClick={() => navigate('/mfa-setup')}
-            variant="outline"
-            size="sm"
-            className="gap-2"
-          >
-            <Shield className="h-4 w-4" />
-            Setup MFA
-          </Button>
-        )}
       </div>
 
       {/* AI-Powered Search */}
-      <Card className="border-primary/20">
-        <CardContent className="pt-6">
+      <Card className="border-primary/30 shadow-lg hover-lift overflow-hidden relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5" />
+        <CardContent className="pt-6 relative z-10">
           <form onSubmit={handleAISearch} className="space-y-4">
             <div className="flex gap-2">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary" />
                 <Input
                   placeholder="Ask AI: 'find leads', 'create quote', 'marketing tools'..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
+                  className="pl-11 h-12 border-primary/20 focus:border-primary/50 bg-background/80 backdrop-blur-sm"
                 />
               </div>
-              <Button type="submit" disabled={searching}>
+              <Button 
+                type="submit" 
+                disabled={searching}
+                className="btn-premium h-12 px-6 bg-primary hover:bg-primary/90"
+                size="lg"
+              >
                 {searching ? (
                   <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
                     Searching
                   </>
                 ) : (
                   <>
-                    <Sparkles className="h-4 w-4 mr-2" />
+                    <Sparkles className="h-5 w-5 mr-2" />
                     AI Search
                   </>
                 )}
@@ -328,19 +341,19 @@ export default function AdminHome() {
             </div>
 
             {searchResults.length > 0 && (
-              <div className="space-y-2">
+              <div className="space-y-2 stagger-animation">
                 {searchResults.map((result, idx) => (
                   <button
                     key={idx}
                     onClick={() => navigate(result.route)}
-                    className="w-full text-left p-3 rounded-lg border hover:bg-muted transition-colors"
+                    className="w-full text-left p-4 rounded-xl border border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all hover-lift bg-background/50 backdrop-blur-sm"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1">
-                        <div className="font-medium">{result.title}</div>
-                        <div className="text-sm text-muted-foreground">{result.description}</div>
+                        <div className="font-semibold text-foreground">{result.title}</div>
+                        <div className="text-sm text-muted-foreground mt-1">{result.description}</div>
                       </div>
-                      <Badge variant="outline">{result.category}</Badge>
+                      <Badge variant="outline" className="border-primary/30 bg-primary/5">{result.category}</Badge>
                     </div>
                   </button>
                 ))}
@@ -351,10 +364,10 @@ export default function AdminHome() {
       </Card>
 
       {/* KPI Bar */}
-      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4 stagger-animation">
         {loading ? (
           Array.from({ length: 4 }).map((_, idx) => (
-            <Card key={idx}>
+            <Card key={idx} className="overflow-hidden">
               <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                 <Skeleton className="h-4 w-24" />
                 <Skeleton className="h-4 w-4 rounded" />
@@ -367,15 +380,18 @@ export default function AdminHome() {
           ))
         ) : (
           kpis.map((kpi, idx) => (
-            <Card key={idx}>
-              <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-                <CardTitle className="text-sm font-medium">{kpi.label}</CardTitle>
-                <kpi.icon className="h-4 w-4 text-muted-foreground" />
+            <Card key={idx} className="hover-lift border-primary/20 overflow-hidden relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0 relative z-10">
+                <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.label}</CardTitle>
+                <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                  <kpi.icon className="h-4 w-4 text-primary" />
+                </div>
               </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{kpi.value}</div>
-                <p className="text-xs text-muted-foreground">
-                  <span className={kpi.trend === 'up' ? 'text-green-600' : 'text-red-600'}>
+              <CardContent className="relative z-10">
+                <div className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">{kpi.value}</div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  <span className={kpi.trend === 'up' ? 'text-roofing-success font-semibold' : 'text-roofing-emergency font-semibold'}>
                     {kpi.change}
                   </span>
                   {' '}from last month
@@ -387,32 +403,34 @@ export default function AdminHome() {
       </div>
 
       {/* Quick Links Grid */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Quick Links</CardTitle>
+      <Card className="border-primary/20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/3 to-transparent pointer-events-none" />
+        <CardHeader className="relative z-10">
+          <CardTitle className="text-2xl">Quick Links</CardTitle>
           <CardDescription>Access key features and tools</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <CardContent className="relative z-10">
+          <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 stagger-animation">
             {quickLinks.map((link, idx) => (
               <button
                 key={idx}
                 onClick={() => navigate(link.route)}
-                className="flex items-start gap-3 p-4 rounded-lg border hover:bg-muted transition-colors text-left group"
+                className="flex items-start gap-3 p-4 rounded-xl border border-primary/10 hover:border-primary/30 hover:bg-primary/5 transition-all text-left group hover-lift relative overflow-hidden"
               >
-                <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="p-2.5 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-all group-hover:scale-110 relative z-10">
                   <link.icon className="h-5 w-5 text-primary" />
                 </div>
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 relative z-10">
                   <div className="flex items-center gap-2">
-                    <div className="font-medium">{link.title}</div>
+                    <div className="font-semibold group-hover:text-primary transition-colors">{link.title}</div>
                     {link.badge && (
-                      <Badge variant="secondary" className="ml-auto">{link.badge}</Badge>
+                      <Badge variant="secondary" className="ml-auto bg-primary/10 text-primary border-primary/20 font-semibold">{link.badge}</Badge>
                     )}
                   </div>
-                  <div className="text-sm text-muted-foreground">{link.description}</div>
+                  <div className="text-sm text-muted-foreground mt-0.5">{link.description}</div>
                 </div>
-                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors mt-1" />
+                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all mt-1 relative z-10" />
               </button>
             ))}
           </div>
@@ -422,36 +440,49 @@ export default function AdminHome() {
       {/* AI Assistant Widget */}
       <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Attention Required</CardTitle>
+          <Card className="border-primary/20 hover-lift overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-roofing-warning/5 to-transparent pointer-events-none" />
+            <CardHeader className="relative z-10">
+              <div className="flex items-center gap-2">
+                <AlertCircle className="h-5 w-5 text-roofing-warning" />
+                <CardTitle className="text-xl">Attention Required</CardTitle>
+              </div>
               <CardDescription>Items pending action</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-3 relative z-10">
               <button
                 onClick={() => navigate('/admin/quotes/new')}
-                className="w-full flex items-center justify-between p-3 rounded-lg border hover:bg-muted transition-colors"
+                className="w-full flex items-center justify-between p-4 rounded-xl border border-primary/10 hover:border-primary/30 hover:bg-primary/5 transition-all group hover-lift"
               >
-                <span className="text-sm font-medium">Pending Quotes</span>
-                <Badge variant={queueData.pending_quotes > 0 ? 'default' : 'secondary'}>
+                <span className="text-sm font-semibold group-hover:text-primary transition-colors">Pending Quotes</span>
+                <Badge 
+                  variant={queueData.pending_quotes > 0 ? 'default' : 'secondary'}
+                  className={queueData.pending_quotes > 0 ? 'bg-primary text-primary-foreground px-3 py-1' : 'px-3 py-1'}
+                >
                   {queueData.pending_quotes}
                 </Badge>
               </button>
               <button
                 onClick={() => navigate('/admin/leads')}
-                className="w-full flex items-center justify-between p-3 rounded-lg border hover:bg-muted transition-colors"
+                className="w-full flex items-center justify-between p-4 rounded-xl border border-primary/10 hover:border-primary/30 hover:bg-primary/5 transition-all group hover-lift"
               >
-                <span className="text-sm font-medium">New Leads</span>
-                <Badge variant={queueData.new_leads > 0 ? 'default' : 'secondary'}>
+                <span className="text-sm font-semibold group-hover:text-primary transition-colors">New Leads</span>
+                <Badge 
+                  variant={queueData.new_leads > 0 ? 'default' : 'secondary'}
+                  className={queueData.new_leads > 0 ? 'bg-primary text-primary-foreground px-3 py-1' : 'px-3 py-1'}
+                >
                   {queueData.new_leads}
                 </Badge>
               </button>
               <button
                 onClick={() => navigate('/admin/marketing')}
-                className="w-full flex items-center justify-between p-3 rounded-lg border hover:bg-muted transition-colors"
+                className="w-full flex items-center justify-between p-4 rounded-xl border border-primary/10 hover:border-primary/30 hover:bg-primary/5 transition-all group hover-lift"
               >
-                <span className="text-sm font-medium">Scheduled Posts</span>
-                <Badge variant={queueData.scheduled_posts > 0 ? 'default' : 'secondary'}>
+                <span className="text-sm font-semibold group-hover:text-primary transition-colors">Scheduled Posts</span>
+                <Badge 
+                  variant={queueData.scheduled_posts > 0 ? 'default' : 'secondary'}
+                  className={queueData.scheduled_posts > 0 ? 'bg-primary text-primary-foreground px-3 py-1' : 'px-3 py-1'}
+                >
                   {queueData.scheduled_posts}
                 </Badge>
               </button>
@@ -463,26 +494,32 @@ export default function AdminHome() {
       </div>
 
       {/* System Health */}
-      <Card>
-          <CardHeader>
-            <CardTitle>System Status</CardTitle>
-            <CardDescription>Platform health monitoring</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="flex items-center justify-between p-3 rounded-lg border">
-              <span className="text-sm font-medium">Database</span>
-              <Badge className="bg-green-600">Operational</Badge>
+      <Card className="border-roofing-success/30 hover-lift overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-roofing-success/5 to-transparent pointer-events-none" />
+        <CardHeader className="relative z-10">
+          <div className="flex items-center gap-2">
+            <div className="p-2 rounded-lg bg-roofing-success/10">
+              <Settings className="h-5 w-5 text-roofing-success animate-spin" style={{ animationDuration: '8s' }} />
             </div>
-            <div className="flex items-center justify-between p-3 rounded-lg border">
-              <span className="text-sm font-medium">AI Services</span>
-              <Badge className="bg-green-600">Operational</Badge>
-            </div>
-            <div className="flex items-center justify-between p-3 rounded-lg border">
-              <span className="text-sm font-medium">Storage</span>
-              <Badge className="bg-green-600">Operational</Badge>
-            </div>
-          </CardContent>
-        </Card>
+            <CardTitle className="text-xl">System Status</CardTitle>
+          </div>
+          <CardDescription>Platform health monitoring</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3 relative z-10">
+          <div className="flex items-center justify-between p-4 rounded-xl border border-roofing-success/20 bg-roofing-success/5 hover:bg-roofing-success/10 transition-colors">
+            <span className="text-sm font-semibold">Database</span>
+            <Badge className="bg-roofing-success text-white px-3 py-1 shadow-sm">Operational</Badge>
+          </div>
+          <div className="flex items-center justify-between p-4 rounded-xl border border-roofing-success/20 bg-roofing-success/5 hover:bg-roofing-success/10 transition-colors">
+            <span className="text-sm font-semibold">AI Services</span>
+            <Badge className="bg-roofing-success text-white px-3 py-1 shadow-sm">Operational</Badge>
+          </div>
+          <div className="flex items-center justify-between p-4 rounded-xl border border-roofing-success/20 bg-roofing-success/5 hover:bg-roofing-success/10 transition-colors">
+            <span className="text-sm font-semibold">Storage</span>
+            <Badge className="bg-roofing-success text-white px-3 py-1 shadow-sm">Operational</Badge>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
