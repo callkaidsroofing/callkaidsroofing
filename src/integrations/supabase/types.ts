@@ -2457,6 +2457,102 @@ export type Database = {
         }
         Relationships: []
       }
+      pricing_constants: {
+        Row: {
+          active: boolean | null
+          constant_id: string
+          contingency: number
+          created_at: string | null
+          description: string | null
+          gst: number
+          id: string
+          material_markup: number
+          profit_margin: number
+          updated_at: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          constant_id: string
+          contingency?: number
+          created_at?: string | null
+          description?: string | null
+          gst?: number
+          id?: string
+          material_markup?: number
+          profit_margin?: number
+          updated_at?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          constant_id?: string
+          contingency?: number
+          created_at?: string | null
+          description?: string | null
+          gst?: number
+          id?: string
+          material_markup?: number
+          profit_margin?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      pricing_items: {
+        Row: {
+          active: boolean | null
+          base_cost: number
+          created_at: string | null
+          embedding: string | null
+          id: string
+          item_category: string
+          item_id: string
+          item_name: string
+          metadata: Json | null
+          preferred_supplier: string | null
+          quality_tier: string | null
+          supplier_code: string | null
+          unit_of_measure: string
+          updated_at: string | null
+          usage_notes: string | null
+          version_history: Json | null
+        }
+        Insert: {
+          active?: boolean | null
+          base_cost: number
+          created_at?: string | null
+          embedding?: string | null
+          id?: string
+          item_category: string
+          item_id: string
+          item_name: string
+          metadata?: Json | null
+          preferred_supplier?: string | null
+          quality_tier?: string | null
+          supplier_code?: string | null
+          unit_of_measure: string
+          updated_at?: string | null
+          usage_notes?: string | null
+          version_history?: Json | null
+        }
+        Update: {
+          active?: boolean | null
+          base_cost?: number
+          created_at?: string | null
+          embedding?: string | null
+          id?: string
+          item_category?: string
+          item_id?: string
+          item_name?: string
+          metadata?: Json | null
+          preferred_supplier?: string | null
+          quality_tier?: string | null
+          supplier_code?: string | null
+          unit_of_measure?: string
+          updated_at?: string | null
+          usage_notes?: string | null
+          version_history?: Json | null
+        }
+        Relationships: []
+      }
       pricing_models: {
         Row: {
           approved_at: string | null
@@ -3507,6 +3603,10 @@ export type Database = {
       }
     }
     Functions: {
+      calculate_final_price: {
+        Args: { base_cost: number; constant_id?: string }
+        Returns: number
+      }
       cleanup_rate_limits: { Args: never; Returns: undefined }
       generate_invoice_number: { Args: never; Returns: string }
       generate_quote_number: { Args: never; Returns: string }
@@ -3573,6 +3673,24 @@ export type Database = {
           metadata: Json
           similarity: number
           title: string
+        }[]
+      }
+      search_pricing_items: {
+        Args: {
+          filter_category?: string
+          match_count?: number
+          match_threshold?: number
+          query_embedding: string
+        }
+        Returns: {
+          base_cost: number
+          id: string
+          item_category: string
+          item_id: string
+          item_name: string
+          similarity: number
+          unit_of_measure: string
+          usage_notes: string
         }[]
       }
     }
