@@ -8,59 +8,67 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MapPin, Plus, Edit, Trash2, Eye, Search } from 'lucide-react';
+import { Wrench, Plus, Edit, Trash2, Eye, Search } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { logAudit } from '@/lib/audit';
 
-type Suburb = {
+type Service = {
   id: string;
   name: string;
   slug: string;
-  postcode?: string;
-  region?: string;
-  description?: string;
-  local_seo_content?: string;
+  short_description?: string;
+  full_description?: string;
   meta_title?: string;
   meta_description?: string;
-  services_available?: string[];
+  image_url?: string;
+  icon?: string;
+  service_category?: string;
+  service_tags?: string[];
+  features?: string[];
+  display_order: number;
+  featured: boolean;
   created_at: string;
   updated_at: string;
-}
+};
 
-export default function Suburbs() {
+export default function ServicesAdmin() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [selectedSuburb, setSelectedSuburb] = useState<Suburb | null>(null);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   const [formData, setFormData] = useState({
     name: '',
     slug: '',
-    postcode: '',
-    region: '',
-    description: '',
-    local_seo_content: '',
+    short_description: '',
+    full_description: '',
     meta_title: '',
     meta_description: '',
-    services_available: '',
+    image_url: '',
+    icon: '',
+    service_category: '',
+    service_tags: '',
+    features: '',
+    display_order: 0,
+    featured: false,
   });
 
-  const { data: suburbs, isLoading } = useQuery({
-    queryKey: ['admin-suburbs'],
+  const { data: services, isLoading } = useQuery({
+    queryKey: ['admin-services'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('content_suburbs')
+        .from('content_services')
         .select('*')
-        .order('name');
+        .order('display_order');
       
       if (error) throw error;
-      return data as Suburb[];
+      return data as Service[];
     },
   });
 
   const saveMutation = useMutation({
-    mutationFn: async (data: Partial<Suburb>) => {
+    mutationFn: async (data: Partial<Service>) => {
       if (!data.name || !data.slug) {
         throw new Error('Name and slug are required');
       }
@@ -68,34 +76,38 @@ export default function Suburbs() {
       const payload = {
         name: data.name,
         slug: data.slug,
-        services_available: data.services_available || [],
-        postcode: data.postcode,
-        region: data.region,
-        description: data.description,
-        local_seo_content: data.local_seo_content,
+        service_tags: data.service_tags || [],
+        features: data.features || [],
+        short_description: data.short_description,
+        full_description: data.full_description,
         meta_title: data.meta_title,
         meta_description: data.meta_description,
+        image_url: data.image_url,
+        icon: data.icon,
+        service_category: data.service_category,
+        display_order: data.display_order || 0,
+        featured: data.featured || false,
         updated_at: new Date().toISOString(),
       };
 
-      if (selectedSuburb) {
+      if (selectedService) {
         const { error } = await supabase
-          .from('content_suburbs')
+          .from('content_services')
           .update(payload)
-          .eq('id', selectedSuburb.id);
+          .eq('id', selectedService.id);
         
         if (error) throw error;
         
         await logAudit({
           event_type: 'content_edit',
           action: 'update',
-          resource_type: 'suburb',
-          resource_id: selectedSuburb.id,
+          resource_type: 'service',
+          resource_id: selectedService.id,
           details: { name: data.name },
         });
       } else {
         const { error } = await supabase
-          .from('content_suburbs')
+          .from('content_services')
           .insert([payload]);
         
         if (error) throw error;
@@ -103,15 +115,15 @@ export default function Suburbs() {
         await logAudit({
           event_type: 'content_create',
           action: 'create',
-          resource_type: 'suburb',
+          resource_type: 'service',
           details: { name: data.name },
         });
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-suburbs'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-services'] });
       toast({
-        title: selectedSuburb ? 'Suburb updated' : 'Suburb created',
+        title: selectedService ? 'Service updated' : 'Service created',
         description: `${formData.name} has been saved successfully.`,
       });
       setIsEditing(false);
@@ -128,7 +140,7 @@ export default function Suburbs() {
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('content_suburbs')
+        .from('content_services')
         .delete()
         .eq('id', id);
       
@@ -137,32 +149,36 @@ export default function Suburbs() {
       await logAudit({
         event_type: 'content_delete',
         action: 'delete',
-        resource_type: 'suburb',
+        resource_type: 'service',
         resource_id: id,
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-suburbs'] });
-      setSelectedSuburb(null);
+      queryClient.invalidateQueries({ queryKey: ['admin-services'] });
+      setSelectedService(null);
       toast({
-        title: 'Suburb deleted',
-        description: 'The suburb has been removed.',
+        title: 'Service deleted',
+        description: 'The service has been removed.',
       });
     },
   });
 
-  const handleSelectSuburb = (suburb: Suburb) => {
-    setSelectedSuburb(suburb);
+  const handleSelectService = (service: Service) => {
+    setSelectedService(service);
     setFormData({
-      name: suburb.name,
-      slug: suburb.slug,
-      postcode: suburb.postcode || '',
-      region: suburb.region || '',
-      description: suburb.description || '',
-      local_seo_content: suburb.local_seo_content || '',
-      meta_title: suburb.meta_title || '',
-      meta_description: suburb.meta_description || '',
-      services_available: suburb.services_available?.join(', ') || '',
+      name: service.name,
+      slug: service.slug,
+      short_description: service.short_description || '',
+      full_description: service.full_description || '',
+      meta_title: service.meta_title || '',
+      meta_description: service.meta_description || '',
+      image_url: service.image_url || '',
+      icon: service.icon || '',
+      service_category: service.service_category || '',
+      service_tags: service.service_tags?.join(', ') || '',
+      features: service.features?.join('\n') || '',
+      display_order: service.display_order,
+      featured: service.featured,
     });
     setIsEditing(false);
   };
@@ -177,35 +193,40 @@ export default function Suburbs() {
       return;
     }
 
-    const services_available = formData.services_available.split(',').map(s => s.trim()).filter(Boolean);
+    const service_tags = formData.service_tags.split(',').map(t => t.trim()).filter(Boolean);
+    const features = formData.features.split('\n').map(f => f.trim()).filter(Boolean);
     
     saveMutation.mutate({
       name: formData.name,
       slug: formData.slug,
-      postcode: formData.postcode,
-      region: formData.region,
-      description: formData.description,
-      local_seo_content: formData.local_seo_content,
+      short_description: formData.short_description,
+      full_description: formData.full_description,
       meta_title: formData.meta_title,
       meta_description: formData.meta_description,
-      services_available,
+      image_url: formData.image_url,
+      icon: formData.icon,
+      service_category: formData.service_category,
+      service_tags,
+      features,
+      display_order: formData.display_order,
+      featured: formData.featured,
     });
   };
 
-  const filteredSuburbs = suburbs?.filter(s => 
+  const filteredServices = services?.filter(s => 
     s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    s.postcode?.includes(searchTerm)
+    s.service_category?.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
         <div className="p-2 rounded-lg bg-primary/10">
-          <MapPin className="h-6 w-6 text-primary" />
+          <Wrench className="h-6 w-6 text-primary" />
         </div>
         <div>
-          <h1 className="text-3xl font-bold">Suburbs Editor</h1>
-          <p className="text-muted-foreground">Manage suburb pages and local SEO</p>
+          <h1 className="text-3xl font-bold">Services</h1>
+          <p className="text-muted-foreground">Manage service offerings and details</p>
         </div>
       </div>
 
@@ -213,19 +234,23 @@ export default function Suburbs() {
         <Card className="lg:col-span-1">
           <CardHeader>
             <div className="flex items-center justify-between mb-2">
-              <CardTitle>Suburbs List</CardTitle>
+              <CardTitle>Services ({filteredServices.length})</CardTitle>
               <Button size="sm" onClick={() => {
-                setSelectedSuburb(null);
+                setSelectedService(null);
                 setFormData({
                   name: '',
                   slug: '',
-                  postcode: '',
-                  region: '',
-                  description: '',
-                  local_seo_content: '',
+                  short_description: '',
+                  full_description: '',
                   meta_title: '',
                   meta_description: '',
-                  services_available: '',
+                  image_url: '',
+                  icon: '',
+                  service_category: '',
+                  service_tags: '',
+                  features: '',
+                  display_order: (services?.length || 0) + 1,
+                  featured: false,
                 });
                 setIsEditing(true);
               }}>
@@ -235,7 +260,7 @@ export default function Suburbs() {
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search suburbs..."
+                placeholder="Search services..."
                 className="pl-8"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -245,24 +270,29 @@ export default function Suburbs() {
           <CardContent className="space-y-2 max-h-[600px] overflow-y-auto">
             {isLoading ? (
               <div className="text-center py-8 text-muted-foreground">Loading...</div>
-            ) : filteredSuburbs.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground">No suburbs found</div>
+            ) : filteredServices.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground">No services found</div>
             ) : (
-              filteredSuburbs.map((suburb) => (
+              filteredServices.map((service) => (
                 <div
-                  key={suburb.id}
+                  key={service.id}
                   className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                    selectedSuburb?.id === suburb.id ? 'bg-primary/5 border-primary' : 'hover:bg-muted/50'
+                    selectedService?.id === service.id ? 'bg-primary/5 border-primary' : 'hover:bg-muted/50'
                   }`}
-                  onClick={() => handleSelectSuburb(suburb)}
+                  onClick={() => handleSelectService(service)}
                 >
-                  <div className="flex items-start justify-between">
+                  <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium truncate">{suburb.name}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {suburb.postcode} • {suburb.region}
+                      <div className="font-medium truncate">{service.name}</div>
+                      <div className="text-sm text-muted-foreground truncate">
+                        {service.service_category || 'Uncategorized'}
                       </div>
                     </div>
+                    {service.featured && (
+                      <Badge className="bg-amber-500/10 text-amber-700 dark:text-amber-400 shrink-0" variant="secondary">
+                        Featured
+                      </Badge>
+                    )}
                   </div>
                 </div>
               ))
@@ -271,21 +301,21 @@ export default function Suburbs() {
         </Card>
 
         <Card className="lg:col-span-2">
-          {selectedSuburb || isEditing ? (
+          {selectedService || isEditing ? (
             <Tabs defaultValue="content">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>
-                    {isEditing ? (selectedSuburb ? 'Edit' : 'New') : ''} {formData.name || 'Suburb Page'}
+                    {isEditing ? (selectedService ? 'Edit' : 'New') : ''} {formData.name || 'Service'}
                   </CardTitle>
                   <div className="flex gap-2">
-                    {selectedSuburb && (
+                    {selectedService && (
                       <Button 
                         variant="outline" 
                         size="sm"
                         asChild
                       >
-                        <a href={`/suburbs/${selectedSuburb.slug}`} target="_blank" rel="noopener noreferrer">
+                        <a href={`/services/${selectedService.slug}`} target="_blank" rel="noopener noreferrer">
                           <Eye className="h-4 w-4 mr-2" />
                           View Live
                         </a>
@@ -300,9 +330,9 @@ export default function Suburbs() {
               </CardHeader>
               <CardContent>
                 <TabsContent value="content" className="space-y-4 mt-0">
-                  <div className="grid gap-4 sm:grid-cols-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Suburb Name</Label>
+                      <Label htmlFor="name">Service Name</Label>
                       <Input
                         id="name"
                         value={formData.name}
@@ -319,66 +349,89 @@ export default function Suburbs() {
                         disabled={!isEditing}
                       />
                     </div>
+                  </div>
+
+                  <div className="grid gap-4 sm:grid-cols-3">
                     <div className="space-y-2">
-                      <Label htmlFor="postcode">Postcode</Label>
+                      <Label htmlFor="service_category">Category</Label>
                       <Input
-                        id="postcode"
-                        value={formData.postcode}
-                        onChange={(e) => setFormData({ ...formData, postcode: e.target.value })}
+                        id="service_category"
+                        value={formData.service_category}
+                        onChange={(e) => setFormData({ ...formData, service_category: e.target.value })}
                         disabled={!isEditing}
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="region">Region</Label>
+                      <Label htmlFor="display_order">Display Order</Label>
                       <Input
-                        id="region"
-                        value={formData.region}
-                        onChange={(e) => setFormData({ ...formData, region: e.target.value })}
+                        id="display_order"
+                        type="number"
+                        value={formData.display_order}
+                        onChange={(e) => setFormData({ ...formData, display_order: parseInt(e.target.value) || 0 })}
                         disabled={!isEditing}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="icon">Icon</Label>
+                      <Input
+                        id="icon"
+                        value={formData.icon}
+                        onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
+                        disabled={!isEditing}
+                        placeholder="lucide-icon-name"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="description">Description</Label>
+                    <Label htmlFor="short_description">Short Description</Label>
                     <Textarea
-                      id="description"
-                      value={formData.description}
-                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                      id="short_description"
+                      value={formData.short_description}
+                      onChange={(e) => setFormData({ ...formData, short_description: e.target.value })}
                       disabled={!isEditing}
-                      rows={3}
+                      rows={2}
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="local_seo_content">Local SEO Content</Label>
+                    <Label htmlFor="full_description">Full Description</Label>
                     <Textarea
-                      id="local_seo_content"
-                      value={formData.local_seo_content}
-                      onChange={(e) => setFormData({ ...formData, local_seo_content: e.target.value })}
+                      id="full_description"
+                      value={formData.full_description}
+                      onChange={(e) => setFormData({ ...formData, full_description: e.target.value })}
                       disabled={!isEditing}
                       rows={8}
-                      placeholder="Enter suburb-specific content, including services, local landmarks, and relevant information..."
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="services_available">Available Services (comma separated)</Label>
-                    <Input
-                      id="services_available"
-                      value={formData.services_available}
-                      onChange={(e) => setFormData({ ...formData, services_available: e.target.value })}
+                    <Label htmlFor="features">Features (one per line)</Label>
+                    <Textarea
+                      id="features"
+                      value={formData.features}
+                      onChange={(e) => setFormData({ ...formData, features: e.target.value })}
                       disabled={!isEditing}
-                      placeholder="Roof Restoration, Repairs, Cleaning"
+                      rows={5}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="service_tags">Tags (comma separated)</Label>
+                    <Input
+                      id="service_tags"
+                      value={formData.service_tags}
+                      onChange={(e) => setFormData({ ...formData, service_tags: e.target.value })}
+                      disabled={!isEditing}
                     />
                   </div>
 
                   <div className="flex justify-between pt-4">
                     <div className="flex gap-2">
-                      {selectedSuburb && (
+                      {selectedService && (
                         <Button
                           variant="destructive"
-                          onClick={() => deleteMutation.mutate(selectedSuburb.id)}
+                          onClick={() => deleteMutation.mutate(selectedService.id)}
                         >
                           <Trash2 className="h-4 w-4 mr-2" />
                           Delete
@@ -390,10 +443,10 @@ export default function Suburbs() {
                         <>
                           <Button variant="outline" onClick={() => {
                             setIsEditing(false);
-                            if (selectedSuburb) {
-                              handleSelectSuburb(selectedSuburb);
+                            if (selectedService) {
+                              handleSelectService(selectedService);
                             } else {
-                              setSelectedSuburb(null);
+                              setSelectedService(null);
                             }
                           }}>
                             Cancel
@@ -442,6 +495,16 @@ export default function Suburbs() {
                     </div>
                   </div>
 
+                  <div className="space-y-2">
+                    <Label htmlFor="image_url">Image URL</Label>
+                    <Input
+                      id="image_url"
+                      value={formData.image_url}
+                      onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                      disabled={!isEditing}
+                    />
+                  </div>
+
                   <div className="flex justify-end pt-4">
                     {isEditing ? (
                       <>
@@ -462,28 +525,17 @@ export default function Suburbs() {
             </Tabs>
           ) : (
             <CardContent className="flex flex-col items-center justify-center py-16">
-              <MapPin className="h-16 w-16 text-muted-foreground mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No suburb selected</h3>
+              <Wrench className="h-16 w-16 text-muted-foreground mb-4" />
+              <h3 className="text-lg font-semibold mb-2">No service selected</h3>
               <p className="text-muted-foreground text-center mb-4">
-                Select a suburb from the list or create a new one
+                Select a service from the list or create a new one
               </p>
               <Button onClick={() => {
-                setSelectedSuburb(null);
-                setFormData({
-                  name: '',
-                  slug: '',
-                  postcode: '',
-                  region: '',
-                  description: '',
-                  local_seo_content: '',
-                  meta_title: '',
-                  meta_description: '',
-                  services_available: '',
-                });
+                setSelectedService(null);
                 setIsEditing(true);
               }}>
                 <Plus className="h-4 w-4 mr-2" />
-                Create New Suburb Page
+                Create New Service
               </Button>
             </CardContent>
           )}

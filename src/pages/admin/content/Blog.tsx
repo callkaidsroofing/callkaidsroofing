@@ -1,1 +1,1 @@
-export { default } from '@/pages/Blog';
+export { default } from './BlogAdmin';

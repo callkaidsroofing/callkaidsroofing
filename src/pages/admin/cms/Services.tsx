@@ -1,1 +1,1 @@
-export { default } from '@/pages/Services';
+export { default } from './ServicesAdmin';
