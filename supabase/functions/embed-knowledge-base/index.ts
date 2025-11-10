@@ -47,7 +47,7 @@ function chunkText(text: string, maxChars: number = 1200, overlap: number = 150)
 
 // Generate embedding using Lovable AI Gateway
 async function generateEmbedding(text: string, lovableApiKey: string): Promise<number[]> {
-  const response = await fetch('https://lovable.app/api/ai-gateway', {
+  const response = await fetch('https://api.lovable.app/v1/embed', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${lovableApiKey}`,
@@ -61,11 +61,21 @@ async function generateEmbedding(text: string, lovableApiKey: string): Promise<n
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`Embedding API error: ${errorText}`);
+    console.error('Embedding API error response:', errorText);
+    throw new Error(`Embedding API error (${response.status}): ${errorText}`);
   }
 
   const data = await response.json();
-  return data.data[0].embedding;
+  
+  // Handle both response formats
+  if (data.embedding) {
+    return data.embedding;
+  } else if (data.data && data.data[0] && data.data[0].embedding) {
+    return data.data[0].embedding;
+  } else {
+    console.error('Unexpected response format:', JSON.stringify(data));
+    throw new Error('Unexpected embedding response format');
+  }
 }
 
 serve(async (req) => {
