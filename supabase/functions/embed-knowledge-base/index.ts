@@ -45,19 +45,20 @@ function chunkText(text: string, maxChars: number = 1200, overlap: number = 150)
   return chunks.filter(chunk => chunk.length > 50); // Filter out tiny chunks
 }
 
-// Generate embedding using Lovable AI Gateway
-async function generateEmbedding(text: string, lovableApiKey: string): Promise<number[]> {
+// Generate embedding using OpenAI API
+async function generateEmbedding(text: string, openaiApiKey: string): Promise<number[]> {
   console.log(`Generating embedding for text of length ${text.length}...`);
   
-  const response = await fetch('https://ai.gateway.lovable.dev/v1/embeddings', {
+  const response = await fetch('https://api.openai.com/v1/embeddings', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${lovableApiKey}`,
+      'Authorization': `Bearer ${openaiApiKey}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'text-embedding-004',
+      model: 'text-embedding-3-small',
       input: text,
+      dimensions: 768, // Match pgvector column size
     }),
   });
 
@@ -68,19 +69,8 @@ async function generateEmbedding(text: string, lovableApiKey: string): Promise<n
   }
 
   const data = await response.json();
-  console.log('Embedding response structure:', Object.keys(data));
-  
-  // Handle both response formats
-  if (data.embedding) {
-    console.log(`✓ Got embedding vector of length ${data.embedding.length}`);
-    return data.embedding;
-  } else if (data.data && data.data[0] && data.data[0].embedding) {
-    console.log(`✓ Got embedding vector of length ${data.data[0].embedding.length}`);
-    return data.data[0].embedding;
-  } else {
-    console.error('Unexpected response format:', JSON.stringify(data).substring(0, 200));
-    throw new Error('Unexpected embedding response format');
-  }
+  console.log(`✓ Got embedding vector of length ${data.data[0].embedding.length}`);
+  return data.data[0].embedding;
 }
 
 serve(async (req) => {
@@ -91,7 +81,14 @@ serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const lovableApiKey = Deno.env.get('LOVABLE_API_KEY')!;
+    const openaiApiKey = Deno.env.get('OPENAI_API_KEY');
+    
+    if (!openaiApiKey) {
+      return new Response(
+        JSON.stringify({ error: 'OPENAI_API_KEY not configured. Please add it in Supabase Edge Functions secrets.' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
     
     const supabase = createClient(supabaseUrl, supabaseKey);
     
@@ -134,7 +131,7 @@ serve(async (req) => {
             const section = sectionMatch ? sectionMatch[1] : null;
 
             // Generate embedding
-            const embedding = await generateEmbedding(chunk, lovableApiKey);
+            const embedding = await generateEmbedding(chunk, openaiApiKey);
 
             // Insert into database
             const { error: insertError } = await supabase
