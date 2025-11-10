@@ -27,6 +27,7 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
+import { RAGSearchBar } from '@/components/admin/RAGSearchBar';
 
 interface KPI {
   label: string;
@@ -335,7 +336,37 @@ export default function AdminHome() {
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
       </div>
 
-      {/* Enhanced AI-Powered Search */}
+      {/* RAG-Powered Knowledge Search */}
+      <Card className="border-2 border-primary/30 shadow-2xl hover-lift overflow-hidden relative group">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        
+        <CardHeader className="relative z-10 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20">
+              <Sparkles className="h-5 w-5 text-primary animate-pulse" />
+            </div>
+            <div>
+              <CardTitle className="text-xl">AI Knowledge Search</CardTitle>
+              <CardDescription>Search across pricing, services, knowledge base, and case studies</CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+        
+        <CardContent className="relative z-10">
+          <RAGSearchBar
+            placeholder="Search: 'ridge capping costs', 'tile replacement process', 'warranty terms'..."
+            onResultSelect={(result) => {
+              toast({
+                title: "Knowledge Retrieved",
+                description: result.title,
+              });
+            }}
+          />
+        </CardContent>
+      </Card>
+
+      {/* Legacy Admin Search */}
       <Card className="border-primary/20 shadow-xl hover-lift overflow-hidden relative group">
         {/* Gradient background with animation */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-background opacity-80" />

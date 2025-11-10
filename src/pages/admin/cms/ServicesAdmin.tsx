@@ -12,6 +12,8 @@ import { Wrench, Plus, Edit, Trash2, Eye, Search } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { logAudit } from '@/lib/audit';
 import { PremiumPageHeader } from '@/components/admin/PremiumPageHeader';
+import { RAGSearchBar } from '@/components/admin/RAGSearchBar';
+import { SmartContentSuggestions } from '@/components/admin/SmartContentSuggestions';
 
 type Service = {
   id: string;
@@ -396,6 +398,15 @@ export default function ServicesAdmin() {
                       rows={2}
                     />
                   </div>
+
+                  {/* AI Content Suggestions */}
+                  {formData.name && formData.name.length > 5 && isEditing && (
+                    <SmartContentSuggestions
+                      context={`${formData.name} ${formData.short_description} ${formData.service_category}`}
+                      excludeTypes={['content_services']}
+                      title="Related Knowledge & Case Studies"
+                    />
+                  )}
 
                   <div className="space-y-2">
                     <Label htmlFor="full_description">Full Description</Label>

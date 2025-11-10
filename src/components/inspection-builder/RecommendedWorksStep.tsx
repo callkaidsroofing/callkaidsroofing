@@ -4,6 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Plus, Trash2, Sparkles } from 'lucide-react';
+import { SmartPricingSuggestions } from '@/components/admin/SmartPricingSuggestions';
 
 interface WorkItem {
   service: string;
@@ -21,6 +22,8 @@ interface RecommendedWorksStepProps {
 }
 
 export function RecommendedWorksStep({ value, onChange }: RecommendedWorksStepProps) {
+  const contextText = value.workItems.map(w => w.service).join(', ');
+
   const addWorkItem = () => {
     onChange({
       workItems: [...value.workItems, { service: '', qty: undefined, notes: '' }],
@@ -59,6 +62,22 @@ export function RecommendedWorksStep({ value, onChange }: RecommendedWorksStepPr
 
   return (
     <div className="space-y-4">
+      {/* AI Pricing Suggestions */}
+      {contextText && contextText.length > 10 && (
+        <SmartPricingSuggestions
+          context={contextText}
+          onAddItem={(item) => {
+            onChange({
+              workItems: [...value.workItems, { 
+                service: item.item_name,
+                qty: 1,
+                notes: item.usage_notes || ''
+              }],
+            });
+          }}
+        />
+      )}
+
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="font-semibold text-lg">Recommended Works</h3>
@@ -72,8 +91,11 @@ export function RecommendedWorksStep({ value, onChange }: RecommendedWorksStepPr
         </Button>
       </div>
 
-      <Card className="p-4 bg-primary/5 border-primary/20">
-        <Label className="text-sm font-semibold mb-2 block">Quick Templates</Label>
+      <Card className="glass-card p-4 bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20">
+        <div className="flex items-center gap-2 mb-2">
+          <Sparkles className="h-4 w-4 text-primary" />
+          <Label className="text-sm font-semibold">Quick Templates</Label>
+        </div>
         <div className="flex flex-wrap gap-2">
           {templates.map((t) => (
             <Button

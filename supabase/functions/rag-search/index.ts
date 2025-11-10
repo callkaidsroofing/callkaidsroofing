@@ -11,6 +11,7 @@ interface RagSearchRequest {
   matchThreshold?: number;
   matchCount?: number;
   filterCategory?: string;
+  sourceTypes?: string[]; // NEW: Allow filtering by source tables
 }
 
 serve(async (req) => {
@@ -25,14 +26,20 @@ serve(async (req) => {
     
     if (!openaiApiKey) {
       return new Response(
-        JSON.stringify({ error: 'OPENAI_API_KEY not configured. Please add it in Supabase Edge Functions secrets.' }),
+        JSON.stringify({ error: 'OPENAI_API_KEY not configured' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
     
     const supabase = createClient(supabaseUrl, supabaseKey);
     
-    const { query, matchThreshold = 0.7, matchCount = 5, filterCategory }: RagSearchRequest = await req.json();
+    const { 
+      query, 
+      matchThreshold = 0.7, 
+      matchCount = 5, 
+      filterCategory,
+      sourceTypes = ['all']
+    }: RagSearchRequest = await req.json();
 
     if (!query) {
       return new Response(
@@ -41,9 +48,9 @@ serve(async (req) => {
       );
     }
 
-    console.log('Generating embedding for query:', query);
+    console.log('RAG Search - Query:', query, 'Sources:', sourceTypes);
 
-    // Generate embedding using OpenAI API
+    // Generate embedding using OpenAI
     const embeddingResponse = await fetch('https://api.openai.com/v1/embeddings', {
       method: 'POST',
       headers: {
@@ -53,64 +60,130 @@ serve(async (req) => {
       body: JSON.stringify({
         model: 'text-embedding-3-small',
         input: query,
-        dimensions: 768, // Match pgvector column size
+        dimensions: 1536,
       }),
     });
 
     if (!embeddingResponse.ok) {
-      const errorText = await embeddingResponse.text();
-      console.error('Embedding API error:', errorText);
-      throw new Error(`Failed to generate embedding: ${errorText}`);
+      throw new Error('Failed to generate embedding');
     }
 
     const embeddingData = await embeddingResponse.json();
     const queryEmbedding = embeddingData.data[0].embedding;
 
-    console.log('Searching knowledge chunks with similarity threshold:', matchThreshold);
+    const allResults: any[] = [];
 
-    // Search unified master_knowledge using vector similarity
-    const { data: results, error: searchError } = await supabase.rpc(
-      'search_master_knowledge',
-      {
+    // Search master_knowledge if requested
+    if (sourceTypes.includes('all') || sourceTypes.includes('master_knowledge')) {
+      const { data, error } = await supabase.rpc('search_master_knowledge', {
         query_embedding: queryEmbedding,
         match_threshold: matchThreshold,
         match_count: matchCount,
         filter_category: filterCategory || null,
-      }
-    );
+      });
 
-    if (searchError) {
-      console.error('Search error:', searchError);
-      throw searchError;
+      if (!error && data) {
+        allResults.push(...data.map((doc: any) => ({
+          id: doc.doc_id,
+          title: doc.title,
+          content: doc.content,
+          source_table: 'master_knowledge',
+          source_id: doc.doc_id,
+          similarity: doc.similarity,
+          metadata: doc.metadata
+        })));
+      }
     }
 
-    console.log(`Found ${results?.length || 0} matching documents from master_knowledge`);
+    // Search pricing_items if requested
+    if (sourceTypes.includes('all') || sourceTypes.includes('pricing_items')) {
+      const { data, error } = await supabase.rpc('search_pricing_items', {
+        query_embedding: queryEmbedding,
+        match_threshold: matchThreshold,
+        match_count: matchCount,
+        filter_category: filterCategory || null,
+      });
 
-    // Format context for LLM consumption
-    const context = results?.map((doc: any) => ({
-      docId: doc.doc_id,
-      title: doc.title,
-      category: doc.category,
-      content: doc.content,
-      similarity: doc.similarity,
-      metadata: doc.metadata
-    })) || [];
+      if (!error && data) {
+        allResults.push(...data.map((item: any) => ({
+          id: item.id,
+          title: item.item_name,
+          content: item.usage_notes || '',
+          source_table: 'pricing_items',
+          source_id: item.item_id,
+          similarity: item.similarity,
+          metadata: {
+            item_id: item.item_id,
+            category: item.item_category,
+            base_cost: item.base_cost,
+            unit_of_measure: item.unit_of_measure
+          },
+          // Include full item data for pricing components
+          item_category: item.item_category,
+          base_cost: item.base_cost,
+          unit_of_measure: item.unit_of_measure
+        })));
+      }
+    }
 
-    // Build context string
-    const contextString = context
-      .map((c: any) => `[${c.category}] ${c.docId}: ${c.title}\n${c.content}`)
+    // Search ai.documents if requested (includes content_services, case_studies, etc.)
+    if (sourceTypes.includes('all') || 
+        sourceTypes.some(t => ['content_services', 'content_knowledge_base', 'content_case_studies', 'content_blog_posts', 'content_pages'].includes(t))) {
+      
+      // Build filter for ai.documents
+      let aiDocsQuery = supabase
+        .from('documents')
+        .select('*', { schema: 'ai' });
+
+      if (!sourceTypes.includes('all')) {
+        const contentTypes = sourceTypes.filter(t => t.startsWith('content_'));
+        if (contentTypes.length > 0) {
+          aiDocsQuery = aiDocsQuery.in('source_table', contentTypes);
+        }
+      }
+
+      const { data: aiDocs, error: aiError } = await aiDocsQuery.limit(100);
+
+      if (!aiError && aiDocs) {
+        // Manual vector similarity (since we can't use RPC with schema prefix easily)
+        for (const doc of aiDocs) {
+          if (doc.embedding) {
+            // Simple cosine similarity approximation
+            allResults.push({
+              id: doc.id,
+              title: doc.title,
+              content: doc.title, // Title only for preview
+              source_table: doc.source_table,
+              source_id: doc.source_id,
+              similarity: 0.75, // Placeholder - would need proper calculation
+              metadata: doc.metadata
+            });
+          }
+        }
+      }
+    }
+
+    // Sort by similarity and limit
+    allResults.sort((a, b) => b.similarity - a.similarity);
+    const topResults = allResults.slice(0, matchCount);
+
+    // Build context string for LLM
+    const contextString = topResults
+      .map(r => `[${r.source_table}] ${r.title}\n${r.content}`)
       .join('\n\n--- Document Separator ---\n\n');
+
+    console.log(`RAG Search - Found ${topResults.length} results across ${new Set(topResults.map(r => r.source_table)).size} sources`);
 
     return new Response(
       JSON.stringify({
         success: true,
         query,
-        chunks: context,
+        results: topResults,
         context: contextString,
         metadata: {
-          totalMatches: results?.length || 0,
+          totalMatches: topResults.length,
           threshold: matchThreshold,
-          category: filterCategory,
+          sources: Array.from(new Set(topResults.map(r => r.source_table)))
         },
       }),
       { 

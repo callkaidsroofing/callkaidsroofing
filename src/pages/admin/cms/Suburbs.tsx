@@ -11,6 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { MapPin, Plus, Edit, Trash2, Eye, Search } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { logAudit } from '@/lib/audit';
+import { PremiumPageHeader } from '@/components/admin/PremiumPageHeader';
+import { SmartContentSuggestions } from '@/components/admin/SmartContentSuggestions';
 
 type Suburb = {
   id: string;
@@ -198,39 +200,41 @@ export default function Suburbs() {
   ) || [];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <div className="p-2 rounded-lg bg-primary/10">
-          <MapPin className="h-6 w-6 text-primary" />
-        </div>
-        <div>
-          <h1 className="text-3xl font-bold">Suburbs Editor</h1>
-          <p className="text-muted-foreground">Manage suburb pages and local SEO</p>
-        </div>
-      </div>
+    <div className="space-y-6 animate-fade-in">
+      <PremiumPageHeader
+        icon={MapPin}
+        title="Suburbs Management"
+        description="Local SEO optimization and suburb-specific content"
+        actions={
+          <Button 
+            onClick={() => {
+              setSelectedSuburb(null);
+              setFormData({
+                name: '',
+                slug: '',
+                postcode: '',
+                region: '',
+                description: '',
+                local_seo_content: '',
+                meta_title: '',
+                meta_description: '',
+                services_available: '',
+              });
+              setIsEditing(true);
+            }}
+            className="gap-2 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground shadow-lg"
+          >
+            <Plus className="h-4 w-4" />
+            New Suburb
+          </Button>
+        }
+      />
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-1">
+        <Card className="lg:col-span-1 glass-card border-primary/10 hover-lift">
           <CardHeader>
             <div className="flex items-center justify-between mb-2">
-              <CardTitle>Suburbs List</CardTitle>
-              <Button size="sm" onClick={() => {
-                setSelectedSuburb(null);
-                setFormData({
-                  name: '',
-                  slug: '',
-                  postcode: '',
-                  region: '',
-                  description: '',
-                  local_seo_content: '',
-                  meta_title: '',
-                  meta_description: '',
-                  services_available: '',
-                });
-                setIsEditing(true);
-              }}>
-                <Plus className="h-4 w-4" />
-              </Button>
+              <CardTitle>All Suburbs ({filteredSuburbs.length})</CardTitle>
             </div>
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -361,6 +365,15 @@ export default function Suburbs() {
                       placeholder="Enter suburb-specific content, including services, local landmarks, and relevant information..."
                     />
                   </div>
+
+                  {/* AI Content Suggestions */}
+                  {formData.name && isEditing && (
+                    <SmartContentSuggestions
+                      context={`${formData.name} ${formData.region} ${formData.description} roofing services`}
+                      excludeTypes={['content_suburbs']}
+                      title="Relevant Case Studies & Services"
+                    />
+                  )}
 
                   <div className="space-y-2">
                     <Label htmlFor="services_available">Available Services (comma separated)</Label>

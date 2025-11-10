@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { fetchLatestPricing, getCachedServices } from '@/lib/pricingClient';
 import type { Service } from '@/lib/kf02';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { SmartPricingSuggestions } from '@/components/admin/SmartPricingSuggestions';
 
 interface LineItem {
   id: string;
@@ -127,6 +128,31 @@ export function LineItemsStep({ value, onChange }: LineItemsStepProps) {
 
   return (
     <div className="space-y-4">
+      {/* AI-Powered Pricing Suggestions */}
+      {search && search.length > 3 && (
+        <SmartPricingSuggestions
+          context={search}
+          onAddItem={(pricingItem) => {
+            const lineItem: LineItem = {
+              id: crypto.randomUUID(),
+              service_code: pricingItem.item_id,
+              display_name: pricingItem.item_name,
+              description: pricingItem.usage_notes || pricingItem.item_category,
+              quantity: 1,
+              unit: pricingItem.unit_of_measure,
+              unit_rate: Number(pricingItem.base_cost),
+              line_total: Number(pricingItem.base_cost),
+              category: pricingItem.item_category,
+            };
+            onChange([...value, lineItem]);
+            toast({ 
+              title: 'AI suggestion added', 
+              description: `${pricingItem.item_name} from database` 
+            });
+          }}
+        />
+      )}
+
       {/* Pricing Controls */}
       <Card className="p-4 bg-muted/30">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
