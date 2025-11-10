@@ -202,3 +202,16 @@ verify_jwt = false
 
 [functions.admin-user-management]
 verify_jwt = true
+
+# ============================================
+# RAG SYSTEM FUNCTIONS (Phase 2)
+# ============================================
+
+[functions.rag-search]
+verify_jwt = false
+
+[functions.embed-knowledge-base]
+verify_jwt = true
+
+[functions.chat-with-rag]
+verify_jwt = false
