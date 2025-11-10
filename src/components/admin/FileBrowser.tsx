@@ -123,7 +123,9 @@ export function FileBrowser({ onFileSelect, onCreateNew }: FileBrowserProps) {
                       </div>
                     </div>
                     <div className="text-xs text-muted-foreground whitespace-nowrap ml-2">
-                      {formatDistanceToNow(new Date(file.updated_at), { addSuffix: true })}
+                      {file.updated_at && !isNaN(new Date(file.updated_at).getTime())
+                        ? formatDistanceToNow(new Date(file.updated_at), { addSuffix: true })
+                        : 'Unknown date'}
                     </div>
                   </div>
                 </div>
