@@ -1,0 +1,643 @@
+{
+  "fileInfo": {
+    "fileId": "KF_02_PRICING_MODEL",
+    "version": "5.0",
+    "description": "The central repository for all billable items, including labour, materials, and overheads. This file is the single source of truth for generating quotes and financial reports.",
+    "lastUpdated": "2025-10-05T12:50:00AEDT",
+    "currency": "AUD"
+  },
+  "financialConstants": {
+    "constantsId": "FIN_CONST_V1",
+    "materialMarkup": {
+      "value": 0.20,
+      "description": "Standard markup percentage applied to the base cost of all materials."
+    },
+    "contingency": {
+      "value": 0.05,
+      "description": "A percentage added to the subtotal (cost + markup) to cover unforeseen minor expenses."
+    },
+    "profitMargin": {
+      "value": 0.30,
+      "description": "The target profit margin applied to the total cost (cost + markup + contingency)."
+    },
+    "gst": {
+      "value": 0.10,
+      "description": "Goods and Services Tax, applied to the final pre-tax total."
+    },
+    "lastUpdated": "2025-10-03T23:00:00AEST"
+  },
+  "labour": [
+    {
+      "itemId": "LAB_SUBCON_PRIMARY_DAY",
+      "itemName": "Subcontracted Labour (Primary)",
+      "itemCategory": "labour",
+      "unitOfMeasure": "per Day",
+      "baseCost": 400.00,
+      "supplierInfo": {
+        "preferredSupplier": "Internal",
+        "supplierCode": "Z_ANGUS"
+      },
+      "usageNotes": "Full day rate (8 hours) for primary skilled labourer.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 400.00
+        }
+      ]
+    },
+    {
+      "itemId": "LAB_SUBCON_PRIMARY_HALF",
+      "itemName": "Subcontracted Labour (Primary)",
+      "itemCategory": "labour",
+      "unitOfMeasure": "per Half-Day",
+      "baseCost": 250.00,
+      "supplierInfo": {
+        "preferredSupplier": "Internal",
+        "supplierCode": "Z_ANGUS"
+      },
+      "usageNotes": "Half-day rate (up to 4 hours) for primary skilled labourer. Used for small repairs.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 250.00
+        }
+      ]
+    },
+    {
+      "itemId": "LAB_SUBCON_ASSIST_DAY",
+      "itemName": "Subcontracted Labour (Assistant)",
+      "itemCategory": "labour",
+      "unitOfMeasure": "per Day",
+      "baseCost": 250.00,
+      "supplierInfo": {
+        "preferredSupplier": "Internal",
+        "supplierCode": null
+      },
+      "usageNotes": "Full day rate for an assistant labourer. No half-day option. Used for jobs requiring a two-person crew.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 250.00
+        }
+      ]
+    },
+    {
+      "itemId": "LAB_CLEAN_M2",
+      "itemName": "High-Pressure Cleaning (Labour)",
+      "itemCategory": "labour",
+      "unitOfMeasure": "per m²",
+      "baseCost": 3.50,
+      "supplierInfo": {
+        "preferredSupplier": "Internal",
+        "supplierCode": null
+      },
+      "usageNotes": "Labour cost for the physical act of pressure cleaning a roof surface. Does not include equipment hire or chemical costs.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-03",
+          "cost": 3.50
+        }
+      ]
+    },
+    {
+      "itemId": "LAB_REBED_LM",
+      "itemName": "Ridge Capping Re-bedding (Labour)",
+      "itemCategory": "labour",
+      "unitOfMeasure": "per Linear Metre (LM)",
+      "baseCost": 27.37,
+      "supplierInfo": {
+        "preferredSupplier": "Internal",
+        "supplierCode": null
+      },
+      "usageNotes": "Labour for removing old mortar, cleaning the surface, and laying a new mortar bed for ridge capping.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 27.37
+        },
+        {
+          "date": "2025-10-03",
+          "cost": 12.00
+        }
+      ]
+    },
+    {
+      "itemId": "LAB_REPOINT_LM",
+      "itemName": "Ridge Capping Re-pointing (Labour)",
+      "itemCategory": "labour",
+      "unitOfMeasure": "per Linear Metre (LM)",
+      "baseCost": 44.03,
+      "supplierInfo": {
+        "preferredSupplier": "Internal",
+        "supplierCode": null
+      },
+      "usageNotes": "Labour for applying flexible pointing over a new or existing mortar bed to seal and secure ridge capping.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 44.03
+        },
+        {
+          "date": "2025-10-03",
+          "cost": 8.00
+        }
+      ]
+    },
+    {
+      "itemId": "LAB_PAINT_M2",
+      "itemName": "Roof Paint Application (Labour per Coat)",
+      "itemCategory": "labour",
+      "unitOfMeasure": "per m² per Coat",
+      "baseCost": 6.50,
+      "supplierInfo": {
+        "preferredSupplier": "Internal",
+        "supplierCode": null
+      },
+      "usageNotes": "Labour for applying a single coat of primer or paint membrane. A standard job requires 3 coats (1 primer, 2 top coats).",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 6.50
+        },
+        {
+          "date": "2025-10-03",
+          "cost": 10.00
+        }
+      ]
+    },
+    {
+      "itemId": "LAB_REPTILE_EA",
+      "itemName": "Single Tile Replacement (Labour)",
+      "itemCategory": "labour",
+      "unitOfMeasure": "per Tile (Each)",
+      "baseCost": 12.00,
+      "supplierInfo": {
+        "preferredSupplier": "Internal",
+        "supplierCode": null
+      },
+      "usageNotes": "Labour for removing a single broken/cracked tile and fitting a replacement. Cost is per tile, up to a reasonable quantity before moving to hourly rates.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 12.00
+        },
+        {
+          "date": "2025-10-03",
+          "cost": 25.00
+        }
+      ]
+    }
+  ],
+  "tileMaterials": [
+    {
+      "itemId": "MAT_TILE_SAND_20KG",
+      "itemName": "Builder's Sand",
+      "itemCategory": "tileMaterials",
+      "unitOfMeasure": "20kg Bag",
+      "baseCost": 9.00,
+      "supplierInfo": {
+        "preferredSupplier": "Bunnings Trade",
+        "supplierCode": null
+      },
+      "usageNotes": "Component for on-site mixing of bedding mortar.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 9.00
+        }
+      ]
+    },
+    {
+      "itemId": "MAT_TILE_CEMENT_20KG",
+      "itemName": "General Purpose Cement",
+      "itemCategory": "tileMaterials",
+      "unitOfMeasure": "20kg Bag",
+      "baseCost": 11.00,
+      "supplierInfo": {
+        "preferredSupplier": "Bunnings Trade",
+        "supplierCode": null
+      },
+      "usageNotes": "Component for on-site mixing of bedding mortar.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 11.00
+        }
+      ]
+    },
+    {
+      "itemId": "MAT_TILE_FLEXPOINT_10L",
+      "itemName": "Flexible Pointing",
+      "itemCategory": "tileMaterials",
+      "unitOfMeasure": "10L Tub",
+      "baseCost": 50.00,
+      "supplierInfo": {
+        "preferredSupplier": "Roofing Tile Supplies VIC",
+        "supplierCode": null
+      },
+      "usageNotes": "Premium, acrylic-based flexible pointing compound. Based on operational data, one 10L tub covers approximately 30 ridge caps, which equates to ~13 linear metres.",
+      "qualityTier": "Premium",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 50.00
+        }
+      ]
+    },
+    {
+      "itemId": "MAT_TILE_REPC_CONC",
+      "itemName": "Replacement Tile (Concrete)",
+      "itemCategory": "tileMaterials",
+      "unitOfMeasure": "Each",
+      "baseCost": 3.50,
+      "supplierInfo": {
+        "preferredSupplier": "Local Tile Recyclers",
+        "supplierCode": "VARIES"
+      },
+      "usageNotes": "Standard profile concrete tile (e.g., Monier, Boral). Sourced to match existing profile and colour as closely as possible.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 3.50
+        },
+        {
+          "date": "2025-08-01",
+          "cost": 8.00
+        }
+      ]
+    },
+    {
+      "itemId": "MAT_TILE_REPC_TERRA",
+      "itemName": "Replacement Tile (Terracotta)",
+      "itemCategory": "tileMaterials",
+      "unitOfMeasure": "Each",
+      "baseCost": 4.50,
+      "supplierInfo": {
+        "preferredSupplier": "Local Tile Recyclers",
+        "supplierCode": "VARIES"
+      },
+      "usageNotes": "Standard profile terracotta tile. Sourced to match existing profile and colour as closely as possible. More expensive than concrete.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 4.50
+        },
+        {
+          "date": "2025-08-01",
+          "cost": 12.00
+        }
+      ]
+    },
+    {
+      "itemId": "REP_VALLEY_IRON_LM",
+      "itemName": "Valley Iron Replacement",
+      "itemCategory": "tileMaterials",
+      "unitOfMeasure": "per Linear Metre (LM)",
+      "baseCost": 12.50,
+      "supplierInfo": {
+        "preferredSupplier": "Metal roofing suppliers VIC",
+        "supplierCode": "VALL-IRON-STD"
+      },
+      "usageNotes": "Cost of the galvanised steel valley iron material itself. Typically supplied in 3.6m lengths. Does not include labour to install.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 12.50
+        },
+        {
+          "date": "2025-09-01",
+          "cost": 22.00
+        }
+      ]
+    }
+  ],
+  "metalMaterials": [
+    {
+      "itemId": "MAT_METAL_CORR_LM",
+      "itemName": "Corrugated Metal Sheet (Colorbond)",
+      "itemCategory": "metalMaterials",
+      "unitOfMeasure": "per Linear Metre (LM)",
+      "baseCost": 27.00,
+      "supplierInfo": {
+        "preferredSupplier": "Metal roofing suppliers VIC",
+        "supplierCode": "CB-CORR-STD"
+      },
+      "usageNotes": "Standard Colorbond corrugated profile sheet for repairs and reroofing.",
+      "qualityTier": "Premium",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 27.00
+        },
+        {
+          "date": "2025-09-01",
+          "cost": 22.00
+        }
+      ]
+    },
+    {
+      "itemId": "MAT_METAL_SCREWS_100",
+      "itemName": "Metal Fastening Screws (with seal)",
+      "itemCategory": "metalMaterials",
+      "unitOfMeasure": "per 100",
+      "baseCost": 30.00,
+      "supplierInfo": {
+        "preferredSupplier": "Bunnings Trade",
+        "supplierCode": "SCR-MET-SEAL-100"
+      },
+      "usageNotes": "Used to fasten metal sheets to battens. Waterproof seal is essential.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 30.00
+        },
+        {
+          "date": "2025-07-15",
+          "cost": 25.00
+        }
+      ]
+    },
+    {
+      "itemId": "MAT_METAL_SILICONE_300ML",
+      "itemName": "Silicone Sealant (Roof Grade)",
+      "itemCategory": "metalMaterials",
+      "unitOfMeasure": "300ml Tube",
+      "baseCost": 10.00,
+      "supplierInfo": {
+        "preferredSupplier": "Bunnings Trade",
+        "supplierCode": "SIL-ROOF-300"
+      },
+      "usageNotes": "Neutral cure silicone for sealing flashing, joints, and penetrations.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 10.00
+        },
+        {
+          "date": "2025-07-15",
+          "cost": 8.50
+        }
+      ]
+    }
+  ],
+  "paintAndCoatings": [
+    {
+      "itemId": "COAT_PRIMER_RAWTILE_20L",
+      "itemName": "Primer (for raw/powdery tiles)",
+      "itemCategory": "paintAndCoatings",
+      "unitOfMeasure": "20L Drum",
+      "baseCost": 110.00,
+      "supplierInfo": {
+        "preferredSupplier": "Premier Paint Supplies",
+        "supplierCode": null
+      },
+      "usageNotes": "Clear acrylic sealer for oxidised/powdery tile substrates. Coverage approx 90m².",
+      "qualityTier": "Premium",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 110.00
+        }
+      ]
+    },
+    {
+      "itemId": "COAT_PRIMER_REPAINT_20L",
+      "itemName": "Deo Prime (for re-paints)",
+      "itemCategory": "paintAndCoatings",
+      "unitOfMeasure": "20L Drum",
+      "baseCost": 110.00,
+      "supplierInfo": {
+        "preferredSupplier": "Premier Paint Supplies",
+        "supplierCode": null
+      },
+      "usageNotes": "Adhesion primer for previously painted tile substrates. Coverage approx 90m².",
+      "qualityTier": "Premium",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 110.00
+        }
+      ]
+    },
+    {
+      "itemId": "COAT_PRIMER_METAL_20L",
+      "itemName": "Premcoat Metal Primer",
+      "itemCategory": "paintAndCoatings",
+      "unitOfMeasure": "20L Drum",
+      "baseCost": 110.00,
+      "supplierInfo": {
+        "preferredSupplier": "Premier Paint Supplies",
+        "supplierCode": null
+      },
+      "usageNotes": "Etch primer with anti-corrosion properties for metal surfaces. Coverage approx 90m².",
+      "qualityTier": "Premium",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 110.00
+        }
+      ]
+    },
+    {
+      "itemId": "COAT_PAINT_STD_20L",
+      "itemName": "Premcoat (Standard Top Coat | 15-Year Warranty)",
+      "itemCategory": "paintAndCoatings",
+      "unitOfMeasure": "20L Drum",
+      "baseCost": 130.00,
+      "supplierInfo": {
+        "preferredSupplier": "Premier Paint Supplies",
+        "supplierCode": null
+      },
+      "usageNotes": "100% pure acrylic gloss membrane for tile and metal surfaces. Associated with a 15-year workmanship warranty. Coverage approx 90m².",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 130.00
+        }
+      ]
+    },
+    {
+      "itemId": "COAT_PAINT_PREM_15L",
+      "itemName": "Premcoat Plus (Premium Top Coat | 20-Year Warranty)",
+      "itemCategory": "paintAndCoatings",
+      "unitOfMeasure": "15L Drum",
+      "baseCost": 200.00,
+      "supplierInfo": {
+        "preferredSupplier": "Premier Paint Supplies",
+        "supplierCode": null
+      },
+      "usageNotes": "High gloss, pollution-resistant finishing coat for superior, long-lasting results. Associated with a 20-year workmanship warranty. Coverage approx 90m².",
+      "qualityTier": "Premium",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 200.00
+        }
+      ]
+    }
+  ],
+  "overheadsAndRepairs": [
+    {
+      "itemId": "REP_SARKING_M2",
+      "itemName": "Sarking Membrane",
+      "itemCategory": "overheadsAndRepairs",
+      "unitOfMeasure": "per m²",
+      "baseCost": 1.78,
+      "supplierInfo": {
+        "preferredSupplier": "Bunnings Trade",
+        "supplierCode": "SARK-STD-M2"
+      },
+      "usageNotes": "Waterproof, vapour-permeable membrane installed under tiles/sheets. Typically supplied in 30m rolls (45m² coverage).",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 1.78
+        },
+        {
+          "date": "2025-06-30",
+          "cost": 3.50
+        }
+      ]
+    },
+    {
+      "itemId": "OHD_WASTE_MINOR",
+      "itemName": "Waste Disposal (Minor Repair)",
+      "itemCategory": "overheadsAndRepairs",
+      "unitOfMeasure": "per Site",
+      "baseCost": 100.00,
+      "supplierInfo": {
+        "preferredSupplier": "Local Waste Management",
+        "supplierCode": null
+      },
+      "usageNotes": "Cost for disposal of a small quantity of materials, e.g., a few dozen broken tiles, old pointing.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 100.00
+        },
+        {
+          "date": "2025-10-03",
+          "cost": 150.00
+        }
+      ]
+    },
+    {
+      "itemId": "OHD_SKIP_3M_MINI",
+      "itemName": "Skip Bin Hire (3m³ - Mini)",
+      "itemCategory": "overheadsAndRepairs",
+      "unitOfMeasure": "per Site",
+      "baseCost": 500.00,
+      "supplierInfo": {
+        "preferredSupplier": "Local Waste Management",
+        "supplierCode": null
+      },
+      "usageNotes": "Cost for a 3m³ mini skip bin, suitable for smaller restoration projects.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 500.00
+        }
+      ]
+    },
+    {
+      "itemId": "OHD_SKIP_4M_HEAVY",
+      "itemName": "Skip Bin Hire (4m³ - Heavy Load)",
+      "itemCategory": "overheadsAndRepairs",
+      "unitOfMeasure": "per Site",
+      "baseCost": 640.00,
+      "supplierInfo": {
+        "preferredSupplier": "Local Waste Management",
+        "supplierCode": null
+      },
+      "usageNotes": "Cost for a 4m³ skip bin rated for heavy materials like soil, concrete, or tiles.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 640.00
+        }
+      ]
+    },
+    {
+      "itemId": "OHD_SKIP_6M_HEAVY",
+      "itemName": "Skip Bin Hire (6m³ - Heavy Load)",
+      "itemCategory": "overheadsAndRepairs",
+      "unitOfMeasure": "per Site",
+      "baseCost": 800.00,
+      "supplierInfo": {
+        "preferredSupplier": "Local Waste Management",
+        "supplierCode": null
+      },
+      "usageNotes": "Cost for a 6m³ skip bin rated for heavy materials. Standard for full roof restorations.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 800.00
+        }
+      ]
+    },
+    {
+      "itemId": "OHD_EQUIP_PCLEAN_DAY",
+      "itemName": "Pressure Cleaner Running Cost",
+      "itemCategory": "overheadsAndRepairs",
+      "unitOfMeasure": "per Day",
+      "baseCost": 25.00,
+      "supplierInfo": {
+        "preferredSupplier": "Internal",
+        "supplierCode": null
+      },
+      "usageNotes": "Daily running cost for company-owned 4000psi petrol pressure cleaner (covers fuel, maintenance, depreciation).",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 25.00
+        },
+        {
+          "date": "2025-05-20",
+          "cost": 80.00
+        }
+      ]
+    },
+    {
+      "itemId": "OHD_SCAFF_LM",
+      "itemName": "Scaffolding Hire & Install",
+      "itemCategory": "overheadsAndRepairs",
+      "unitOfMeasure": "per Linear Metre (LM)",
+      "baseCost": 13.00,
+      "supplierInfo": {
+        "preferredSupplier": "Local Scaffold Hire",
+        "supplierCode": null
+      },
+      "usageNotes": "Per-metre hire and installation cost for safety rail scaffolding.",
+      "qualityTier": "Standard",
+      "versionHistory": [
+        {
+          "date": "2025-10-05",
+          "cost": 13.00
+        }
+      ]
+    }
+  ]
+}
+ 

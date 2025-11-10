@@ -1,0 +1,50 @@
+{
+  "$id": "mkf_case_study_schema",
+  "type": "object",
+  "required": [
+    "id",
+    "suburb",
+    "jobType",
+    "problem",
+    "actions",
+    "result"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "suburb": {
+      "type": "string"
+    },
+    "jobType": {
+      "type": "string"
+    },
+    "problem": {
+      "type": "string"
+    },
+    "findings": {
+      "type": "string"
+    },
+    "actions": {
+      "type": "string"
+    },
+    "materials": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "result": {
+      "type": "string"
+    },
+    "warranty": {
+      "type": "string"
+    },
+    "photos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
