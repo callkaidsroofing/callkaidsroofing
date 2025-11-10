@@ -25,6 +25,8 @@ import { useEmbeddingStatus } from '@/hooks/useEmbeddingStatus';
 import { getKnowledgeBaseStats } from '@/lib/knowledgeBaseLoader';
 import { useKnowledgeBaseLoader } from '@/hooks/useKnowledgeBaseLoader';
 import { LoadDocumentsPanel } from '@/components/kb/LoadDocumentsPanel';
+import { RAGTestPanel } from '@/components/kb/RAGTestPanel';
+import { PhaseTracker } from '@/components/kb/PhaseTracker';
 import { toast } from 'sonner';
 
 export default function KnowledgeBase() {
@@ -94,28 +96,32 @@ export default function KnowledgeBase() {
 
         {/* Stats Overview */}
         {stats && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Card className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Total Chunks</p>
-                  <p className="text-2xl font-bold">{stats.totalChunks}</p>
-                </div>
-                <FileText className="h-8 w-8 text-muted-foreground" />
-              </div>
-            </Card>
-
-            {Object.entries(stats.byCategory as Record<string, number>).slice(0, 3).map(([category, count]) => (
-              <Card key={category} className="p-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Card className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-muted-foreground capitalize">{category}</p>
-                    <p className="text-2xl font-bold">{count}</p>
+                    <p className="text-sm text-muted-foreground">Total Chunks</p>
+                    <p className="text-2xl font-bold">{stats.totalChunks}</p>
                   </div>
-                  <Badge variant="secondary">{Math.round((count / stats.totalChunks) * 100)}%</Badge>
+                  <FileText className="h-8 w-8 text-muted-foreground" />
                 </div>
               </Card>
-            ))}
+
+              {Object.entries(stats.byCategory as Record<string, number>).slice(0, 3).map(([category, count]) => (
+                <Card key={category} className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground capitalize">{category}</p>
+                      <p className="text-2xl font-bold">{count}</p>
+                    </div>
+                    <Badge variant="secondary">{Math.round((count / stats.totalChunks) * 100)}%</Badge>
+                  </div>
+                </Card>
+              ))}
+            </div>
+            
+            <PhaseTracker />
           </div>
         )}
 
@@ -128,6 +134,10 @@ export default function KnowledgeBase() {
             <TabsTrigger value="load">
               <Upload className="h-4 w-4 mr-2" />
               Load Documents
+            </TabsTrigger>
+            <TabsTrigger value="test">
+              <RefreshCw className="h-4 w-4 mr-2" />
+              RAG Test
             </TabsTrigger>
             <TabsTrigger value="jobs">
               <Clock className="h-4 w-4 mr-2" />
@@ -204,6 +214,11 @@ export default function KnowledgeBase() {
           {/* Load Documents Tab */}
           <TabsContent value="load" className="space-y-4">
             <LoadDocumentsPanel onLoadComplete={loadStats} />
+          </TabsContent>
+
+          {/* RAG Test Tab */}
+          <TabsContent value="test" className="space-y-4">
+            <RAGTestPanel />
           </TabsContent>
 
           {/* Jobs Tab */}
