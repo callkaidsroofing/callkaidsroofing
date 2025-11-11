@@ -3732,6 +3732,28 @@ export type Database = {
       }
     }
     Functions: {
+      ai_upsert_document:
+        | {
+            Args: {
+              p_content: string
+              p_embedding: string
+              p_metadata: Json
+              p_source_id: string
+              p_source_table: string
+              p_title: string
+            }
+            Returns: string
+          }
+        | {
+            Args: {
+              p_content: string
+              p_metadata: Json
+              p_source_id: string
+              p_source_table: string
+              p_title: string
+            }
+            Returns: string
+          }
       calculate_final_price: {
         Args: { base_cost: number; constant_id?: string }
         Returns: number
