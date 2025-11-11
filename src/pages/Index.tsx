@@ -13,6 +13,7 @@ import { HeroSection } from "@/components/ui/hero-section";
 import { CTASection } from "@/components/ui/cta-section";
 import { FeatureCard } from "@/components/ui/feature-card";
 import { HeroConversionForm } from "@/components/HeroConversionForm";
+import { GalleryDisplay } from "@/components/GalleryDisplay";
 import {
   heroContent,
   servicesData,
@@ -177,6 +178,18 @@ const Index = () => {
             </Container>
           </SectionWrapper>
         </ParallaxBackground>
+
+        {/* Project Gallery */}
+        <SectionWrapper variant="compact" background="muted">
+          <Container>
+            <div className="text-center mb-6">
+              <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Our Work
+              </h2>
+            </div>
+            <GalleryDisplay page="homepage" />
+          </Container>
+        </SectionWrapper>
 
         {/* Why Choose Us */}
         <SectionWrapper variant="compact" background="muted">
