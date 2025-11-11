@@ -27,9 +27,9 @@ import callKaidsFullLogo from "@/assets/call-kaids-logo-slogan.png";
 
 const topLevelLinks = [
   { href: "/", label: "Home" },
-  { href: "/gallery", label: "Our Work" },
-  { href: "/blog", label: "Blog" },
-  { href: "/about", label: "About Us" },
+  { href: "/portfolio", label: "Our Work" },
+  { href: "/faq", label: "FAQs" },
+  { href: "/about", label: "About" },
 ];
 
 const serviceComponents: { title: string; href: string; description: string }[] = [
