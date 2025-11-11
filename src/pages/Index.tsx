@@ -77,14 +77,13 @@ const Index = () => {
                         Roof Looking <span className="text-conversion-orange">Tired?</span> Leaking? Faded?
                       </h1>
                     }
-                    subheadline="Get it fixed properly with a 15-year warranty. Local owner, no sales teams."
-                    trustSignals={["Direct Owner Contact", "Same-Day Quotes", "SE Melbourne Local"]}
+                    subheadline="15-year warranty. Local owner. No sales teams."
                   />
                   
                   {/* Urgency Message */}
-                  <div className="mt-6 bg-conversion-gold/20 backdrop-blur-sm border-2 border-conversion-gold rounded-lg p-4 inline-block">
-                    <p className="text-white font-semibold">
-                      <span className="text-conversion-gold">⚡ This Week Only:</span> Free roof assessment worth $250 with every quote
+                  <div className="mt-6 bg-conversion-gold/20 backdrop-blur-sm border-2 border-conversion-gold rounded-lg p-3 inline-block">
+                    <p className="text-white font-semibold text-sm">
+                      <span className="text-conversion-gold">⚡ This Week:</span> Free $250 roof assessment
                     </p>
                   </div>
                 </div>
