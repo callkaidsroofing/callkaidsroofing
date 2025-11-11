@@ -583,6 +583,8 @@ export type Database = {
       content_case_studies: {
         Row: {
           after_image: string | null
+          ai_analysis: Json | null
+          authenticity_score: number | null
           before_image: string | null
           client_problem: string
           created_at: string | null
@@ -593,16 +595,24 @@ export type Database = {
           last_synced_at: string | null
           meta_description: string | null
           notion_id: string | null
+          pairing_confidence: number | null
           project_date: string | null
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
           slug: string | null
           solution_provided: string
           study_id: string
           suburb: string
+          tags: Json | null
           testimonial: string | null
           updated_at: string | null
+          verification_status: string | null
         }
         Insert: {
           after_image?: string | null
+          ai_analysis?: Json | null
+          authenticity_score?: number | null
           before_image?: string | null
           client_problem: string
           created_at?: string | null
@@ -613,16 +623,24 @@ export type Database = {
           last_synced_at?: string | null
           meta_description?: string | null
           notion_id?: string | null
+          pairing_confidence?: number | null
           project_date?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           slug?: string | null
           solution_provided: string
           study_id: string
           suburb: string
+          tags?: Json | null
           testimonial?: string | null
           updated_at?: string | null
+          verification_status?: string | null
         }
         Update: {
           after_image?: string | null
+          ai_analysis?: Json | null
+          authenticity_score?: number | null
           before_image?: string | null
           client_problem?: string
           created_at?: string | null
@@ -633,13 +651,19 @@ export type Database = {
           last_synced_at?: string | null
           meta_description?: string | null
           notion_id?: string | null
+          pairing_confidence?: number | null
           project_date?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           slug?: string | null
           solution_provided?: string
           study_id?: string
           suburb?: string
+          tags?: Json | null
           testimonial?: string | null
           updated_at?: string | null
+          verification_status?: string | null
         }
         Relationships: []
       }

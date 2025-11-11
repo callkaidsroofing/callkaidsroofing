@@ -114,6 +114,14 @@ const MediaManager = () => {
             RAG-powered intelligent media analysis and storage
           </p>
         </div>
+        <Button 
+          onClick={() => window.location.href = '/admin/cms/media-verification'}
+          variant="outline"
+          className="gap-2"
+        >
+          <Sparkles className="h-4 w-4" />
+          Verification Center
+        </Button>
       </div>
 
       {/* Upload & Analyze Section */}
@@ -226,6 +234,34 @@ const MediaManager = () => {
                       )}
                     </div>
                     <p className="text-sm font-medium">{study.suburb}</p>
+                    <div className="flex gap-1 flex-wrap">
+                      {study.authenticity_score > 0 && (
+                        <span className={`text-xs px-2 py-0.5 rounded-full ${
+                          study.authenticity_score >= 0.85 ? 'bg-green-500/10 text-green-700' :
+                          study.authenticity_score >= 0.7 ? 'bg-amber-500/10 text-amber-700' :
+                          'bg-red-500/10 text-red-700'
+                        }`}>
+                          Auth: {Math.round(study.authenticity_score * 100)}%
+                        </span>
+                      )}
+                      {study.pairing_confidence > 0 && (
+                        <span className={`text-xs px-2 py-0.5 rounded-full ${
+                          study.pairing_confidence >= 0.85 ? 'bg-green-500/10 text-green-700' :
+                          study.pairing_confidence >= 0.7 ? 'bg-amber-500/10 text-amber-700' :
+                          'bg-red-500/10 text-red-700'
+                        }`}>
+                          Pair: {Math.round(study.pairing_confidence * 100)}%
+                        </span>
+                      )}
+                      <span className={`text-xs px-2 py-0.5 rounded-full ${
+                        study.verification_status === 'verified' ? 'bg-green-500/10 text-green-700' :
+                        study.verification_status === 'needs_review' ? 'bg-amber-500/10 text-amber-700' :
+                        study.verification_status === 'rejected' ? 'bg-red-500/10 text-red-700' :
+                        'bg-secondary text-secondary-foreground'
+                      }`}>
+                        {study.verification_status.replace('_', ' ').toUpperCase()}
+                      </span>
+                    </div>
                     <p className="text-xs text-muted-foreground line-clamp-2">
                       {study.testimonial}
                     </p>

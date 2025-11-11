@@ -109,6 +109,7 @@ const CMSQuoteDocs = lazy(() => import("./pages/admin/cms/QuoteDocuments"));
 const CMSDataSync = lazy(() => import("./pages/admin/cms/DataSync"));
 const CMSKnowledgeSystem = lazy(() => import("./pages/admin/cms/KnowledgeSystem"));
 const CMSMediaManager = lazy(() => import("./pages/admin/cms/MediaManager"));
+const CMSMediaVerification = lazy(() => import("./pages/admin/cms/MediaVerification"));
 const ToolsWorkflows = lazy(() => import("./pages/admin/tools/Workflows"));
 
 import { AdminLayout } from "@/components/AdminLayout";
@@ -247,6 +248,7 @@ function App() {
                       <Route path="cms/documents/quotes" element={<CMSQuoteDocs />} />
                       <Route path="cms/sync" element={<CMSDataSync />} />
                       <Route path="cms/media-manager" element={<CMSMediaManager />} />
+                      <Route path="cms/media-verification" element={<CMSMediaVerification />} />
                       <Route path="tools/workflows" element={<ToolsWorkflows />} />
                       
                       {/* Legacy redirects */}

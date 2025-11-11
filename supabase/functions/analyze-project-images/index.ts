@@ -25,9 +25,9 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     );
 
-    console.log(`Starting intelligent analysis of ${images.length} project images...`);
+    console.log(`[REANALYSIS] Starting comprehensive analysis of ${images.length} images...`);
 
-    // Step 1: Use RAG to get contextual knowledge about roofing projects
+    // STEP 1: RAG Context Retrieval
     const ragContextResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -36,27 +36,25 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         model: 'google/gemini-2.5-flash',
-        messages: [
-          {
-            role: 'user',
-            content: `Based on CKR roofing knowledge base, provide expert context for analyzing roof restoration projects including:
-1. Common issues in tile and metal roofs
-2. Signs of quality restoration work
-3. Key improvements to highlight
-4. Professional terminology for conditions
-5. Typical project workflows
+        messages: [{
+          role: 'user',
+          content: `As a CKR roofing expert, provide comprehensive context for analyzing roof projects:
+1. Tile roof degradation signs (cracked tiles, moss, lichen, broken ridges, color fading)
+2. Metal roof issues (rust, corrosion, loose fasteners, damaged flashings)
+3. Quality restoration indicators (clean finish, proper repointing, protective coatings, uniform appearance)
+4. CKR brand standards (professional workmanship, attention to detail, warranty compliance)
+5. Authentication markers (typical SE Melbourne roofing styles, CKR work characteristics)
 
-Keep response concise but comprehensive.`
-          }
-        ]
+Be detailed and specific for image analysis.`
+        }]
       })
     });
 
     const ragData = await ragContextResponse.json();
     const expertContext = ragData.choices[0].message.content;
-    console.log('RAG context retrieved:', expertContext.substring(0, 200));
+    console.log('[REANALYSIS] Expert context retrieved');
 
-    // Step 2: Generate embeddings for the analysis context
+    // STEP 2: Master Knowledge Search
     const embeddingResponse = await fetch('https://api.openai.com/v1/embeddings', {
       method: 'POST',
       headers: {
@@ -65,24 +63,23 @@ Keep response concise but comprehensive.`
       },
       body: JSON.stringify({
         model: 'text-embedding-3-small',
-        input: 'roofing project analysis before after restoration tile metal'
+        input: 'CKR roofing restoration before after analysis tile metal quality standards authentication SE Melbourne'
       })
     });
 
     const embeddingData = await embeddingResponse.json();
     const queryEmbedding = embeddingData.data[0].embedding;
 
-    // Step 3: Search master_knowledge for relevant roofing information
     const { data: knowledgeResults } = await supabase.rpc('search_master_knowledge', {
       query_embedding: queryEmbedding,
       match_threshold: 0.7,
       match_count: 5
     });
 
-    const relevantKnowledge = knowledgeResults?.map((r: any) => r.content).join('\n') || '';
-    console.log('Retrieved knowledge chunks:', knowledgeResults?.length || 0);
+    const relevantKnowledge = knowledgeResults?.map((r: any) => r.content).join('\n\n') || '';
+    console.log(`[REANALYSIS] Retrieved ${knowledgeResults?.length || 0} knowledge chunks`);
 
-    // Step 4: Analyze each image with RAG-enhanced context
+    // STEP 3: Comprehensive Image Analysis with Tagging
     const analysisPromises = images.map(async (imageUrl: string) => {
       const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
         method: 'POST',
@@ -95,38 +92,65 @@ Keep response concise but comprehensive.`
           messages: [
             {
               role: 'system',
-              content: `You are an expert roofing analyst for Call Kaids Roofing. Use this context:
-
-EXPERT CONTEXT:
-${expertContext}
-
-COMPANY KNOWLEDGE:
-${relevantKnowledge}
-
-Analyze images with professional terminology and CKR standards.`
+              content: `EXPERT CONTEXT:\n${expertContext}\n\nCOMPANY KNOWLEDGE:\n${relevantKnowledge}\n\nYou are analyzing for CKR (Call Kaids Roofing). Be thorough and professional.`
             },
             {
               role: 'user',
               content: [
                 {
                   type: 'text',
-                  text: `Analyze this roofing project image in detail. Determine:
-1. Stage: BEFORE or AFTER (look for damage, wear, new materials, protective coatings)
-2. Roof type (tile, metal, colorbond)
-3. Condition (poor/fair/good/excellent)
-4. Specific issues visible or improvements made
-5. Professional assessment
+                  text: `Perform COMPREHENSIVE analysis:
+
+1. STAGE DETERMINATION (before/after)
+2. DETAILED TAGGING:
+   - roof_type: (tile, terracotta, concrete, colorbond, metal, etc.)
+   - materials: specific materials visible
+   - condition_level: (critical, poor, fair, good, excellent)
+   - visible_issues: detailed list
+   - work_completed: specific improvements if after
+   - weather_conditions: lighting, season indicators
+   - angle_perspective: (full, partial, close-up, aerial)
+   - suburb_indicators: architectural style clues
+   
+3. AUTHENTICITY VERIFICATION:
+   - CKR_quality_markers: professional finish indicators
+   - SE_melbourne_typical: regional roofing characteristics
+   - authenticity_confidence: 0-1 score
+   - authenticity_reasoning: why genuine or suspicious
+   
+4. TECHNICAL ASSESSMENT:
+   - specific_damages: crack locations, rust spots, etc.
+   - repair_quality: workmanship assessment if after
+   - material_compatibility: proper materials used
+   - longevity_indicators: warranty compliance signs
 
 Respond in JSON:
 {
   "stage": "before" | "after",
-  "roofType": string,
-  "condition": string,
-  "issues": string[],
-  "improvements": string[],
-  "professionalNotes": string,
+  "tags": {
+    "roof_type": string,
+    "materials": string[],
+    "condition_level": string,
+    "visible_issues": string[],
+    "work_completed": string[],
+    "weather_conditions": string,
+    "angle_perspective": string,
+    "suburb_indicators": string[]
+  },
+  "authenticity": {
+    "score": number (0-1),
+    "reasoning": string,
+    "ckr_markers": string[],
+    "regional_fit": string
+  },
+  "technical": {
+    "specific_damages": string[],
+    "repair_quality": string,
+    "material_compatibility": string,
+    "longevity_indicators": string[]
+  },
   "confidence": number (0-1),
-  "description": string
+  "description": string (detailed professional assessment)
 }`
                 },
                 {
@@ -149,9 +173,9 @@ Respond in JSON:
     });
 
     const analyses = await Promise.all(analysisPromises);
-    console.log('Individual analyses complete:', analyses.length);
+    console.log('[REANALYSIS] Individual analyses complete with full tagging');
 
-    // Step 5: Intelligent pairing using AI + RAG context
+    // STEP 4: Intelligent Pairing with Fact-Checking
     const pairingResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -163,39 +187,41 @@ Respond in JSON:
         messages: [
           {
             role: 'system',
-            content: `You are pairing before/after images for Call Kaids Roofing projects.
-
-CONTEXT:
-${expertContext}
-
-Use CKR standards and professional terminology.`
+            content: `CONTEXT:\n${expertContext}\n\nPerform RIGOROUS pairing verification for CKR projects.`
           },
           {
             role: 'user',
-            content: `Create intelligent before/after pairs from these analyses:
+            content: `FACT-CHECK and pair these images with VERIFICATION:
 
 ${JSON.stringify(analyses, null, 2)}
 
-Match based on:
-- Same roof type and similar angle
-- Logical progression (damaged → restored)
-- Confidence scores
-- Professional pairing logic
+PAIRING RULES (STRICT):
+1. Same roof_type mandatory
+2. Similar angle_perspective required
+3. Same suburb_indicators preferred
+4. Before must show issues, after must show resolution
+5. Material compatibility must match
 
-Return JSON array:
-[
-  {
-    "before": { "url": string, "analysis": object },
-    "after": { "url": string, "analysis": object },
-    "location": "SE Melbourne",
-    "workPerformed": string (detailed, professional),
-    "confidence": number,
-    "projectType": string,
-    "keyOutcomes": string[]
-  }
-]
+For each pair provide:
+{
+  "before": { "url": string, "analysis": object },
+  "after": { "url": string, "analysis": object },
+  "location": string,
+  "workPerformed": string (detailed),
+  "pairingConfidence": number (0-1),
+  "factCheck": {
+    "roof_type_match": boolean,
+    "angle_match": boolean,
+    "logical_progression": boolean,
+    "material_consistency": boolean,
+    "verification_notes": string
+  },
+  "authenticityScore": number (average of both images),
+  "tags": string[] (combined relevant tags),
+  "needsReview": boolean (flag if confidence < 0.85)
+}
 
-Use standalone projects if no good pair exists.`
+Return JSON array. Mark standalone images if no good pair.`
           }
         ]
       })
@@ -203,14 +229,17 @@ Use standalone projects if no good pair exists.`
 
     const pairingData = await pairingResponse.json();
     const pairs = JSON.parse(pairingData.choices[0].message.content);
-    console.log('Paired projects:', pairs.length);
+    console.log(`[REANALYSIS] Created ${pairs.length} verified pairs`);
 
-    // Step 6: Save to database if requested
+    // STEP 5: Save with Complete Metadata
     if (saveToDatabase) {
       const savedProjects = [];
       
       for (const pair of pairs) {
-        // Create a case study entry
+        const verificationStatus = pair.needsReview ? 'needs_review' : 
+                                   pair.authenticityScore < 0.7 ? 'needs_review' :
+                                   pair.pairingConfidence < 0.8 ? 'needs_review' : 'pending';
+
         const { data: caseStudy, error: insertError } = await supabase
           .from('content_case_studies')
           .insert({
@@ -219,18 +248,28 @@ Use standalone projects if no good pair exists.`
             before_image: pair.before.url,
             after_image: pair.after.url,
             testimonial: pair.workPerformed,
-            featured: pair.confidence > 0.85,
-            meta_title: `${pair.projectType} - ${pair.location}`,
+            featured: pair.authenticityScore > 0.85 && pair.pairingConfidence > 0.85,
+            meta_title: `${pair.before.tags.roof_type} Restoration - ${pair.location}`,
             meta_description: pair.workPerformed.substring(0, 160),
-            published_at: new Date().toISOString()
+            published_at: verificationStatus === 'pending' ? new Date().toISOString() : null,
+            tags: pair.tags,
+            ai_analysis: {
+              before: pair.before.analysis,
+              after: pair.after.analysis,
+              fact_check: pair.factCheck,
+              analysis_timestamp: new Date().toISOString()
+            },
+            verification_status: verificationStatus,
+            authenticity_score: Math.round(pair.authenticityScore * 100) / 100,
+            pairing_confidence: Math.round(pair.pairingConfidence * 100) / 100
           })
           .select()
           .single();
 
         if (insertError) {
-          console.error('Error saving case study:', insertError);
+          console.error('[REANALYSIS] Error saving case study:', insertError);
         } else {
-          console.log('Saved case study:', caseStudy.id);
+          console.log(`[REANALYSIS] Saved: ${caseStudy.study_id} | Auth: ${caseStudy.authenticity_score} | Pair: ${caseStudy.pairing_confidence}`);
           savedProjects.push(caseStudy);
         }
       }
@@ -241,7 +280,14 @@ Use standalone projects if no good pair exists.`
           analyses,
           pairs,
           savedProjects,
-          message: `Analyzed ${images.length} images, created ${pairs.length} project pairs, saved ${savedProjects.length} to database`
+          summary: {
+            total_analyzed: images.length,
+            pairs_created: pairs.length,
+            saved_to_db: savedProjects.length,
+            needs_review: savedProjects.filter(p => p.verification_status === 'needs_review').length,
+            high_confidence: savedProjects.filter(p => p.authenticity_score > 0.85).length
+          },
+          message: `Reanalysis complete: ${pairs.length} pairs, ${savedProjects.filter(p => p.verification_status === 'needs_review').length} need review`
         }),
         {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -253,11 +299,7 @@ Use standalone projects if no good pair exists.`
       JSON.stringify({ 
         success: true,
         analyses,
-        pairs,
-        ragContext: {
-          expertKnowledge: expertContext.substring(0, 300),
-          knowledgeChunks: knowledgeResults?.length || 0
-        }
+        pairs
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -265,7 +307,7 @@ Use standalone projects if no good pair exists.`
     );
 
   } catch (error) {
-    console.error('Error in analyze-project-images:', error);
+    console.error('[REANALYSIS] Error:', error);
     return new Response(
       JSON.stringify({ 
         success: false,

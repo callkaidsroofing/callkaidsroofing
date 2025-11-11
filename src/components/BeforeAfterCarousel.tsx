@@ -19,6 +19,7 @@ export const BeforeAfterCarousel = () => {
       const { data, error } = await supabase
         .from('content_case_studies')
         .select('*')
+        .eq('verification_status', 'verified')
         .eq('featured', true)
         .order('created_at', { ascending: false })
         .limit(10);
@@ -26,37 +27,42 @@ export const BeforeAfterCarousel = () => {
       if (error) throw error;
       
       // Transform database records to match expected format
-      return data.map(study => ({
-        before: {
-          url: study.before_image || '',
-          analysis: {
-            stage: 'before',
-            roofType: 'Tile/Metal',
-            condition: 'Requires attention',
-            issues: [],
-            improvements: [],
-            confidence: 0.9,
-            description: 'Before restoration'
-          }
-        },
-        after: {
-          url: study.after_image || '',
-          analysis: {
-            stage: 'after',
-            roofType: 'Tile/Metal',
-            condition: 'Excellent',
-            issues: [],
-            improvements: ['Complete restoration', 'Professional finish'],
-            confidence: 0.9,
-            description: 'After restoration'
-          }
-        },
-        location: study.suburb || 'SE Melbourne',
-        workPerformed: study.testimonial || 'Professional roof restoration',
-        confidence: 0.9,
-        id: study.id,
-        studyId: study.study_id
-      }));
+      return data.map(study => {
+        const aiAnalysis = study.ai_analysis as any;
+        return {
+          before: {
+            url: study.before_image || '',
+            analysis: aiAnalysis?.before || {
+              stage: 'before',
+              roofType: 'Tile/Metal',
+              condition: 'Requires attention',
+              issues: [],
+              improvements: [],
+              confidence: 0.9,
+              description: 'Before restoration'
+            }
+          },
+          after: {
+            url: study.after_image || '',
+            analysis: aiAnalysis?.after || {
+              stage: 'after',
+              roofType: 'Tile/Metal',
+              condition: 'Excellent',
+              issues: [],
+              improvements: ['Complete restoration', 'Professional finish'],
+              confidence: 0.9,
+              description: 'After restoration'
+            }
+          },
+          location: study.suburb || 'SE Melbourne',
+          workPerformed: study.testimonial || 'Professional roof restoration',
+          confidence: study.pairing_confidence || 0.9,
+          authenticityScore: study.authenticity_score || 0.9,
+          verificationStatus: study.verification_status,
+          id: study.id,
+          studyId: study.study_id
+        };
+      });
     },
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
   });
@@ -112,7 +118,7 @@ export const BeforeAfterCarousel = () => {
           {/* RAG-Powered Badge */}
           <div className="absolute top-4 left-4 z-20 bg-gradient-to-r from-conversion-blue to-conversion-cyan text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg flex items-center gap-2">
             <Sparkles className="h-4 w-4" />
-            RAG-Enhanced
+            Verified
           </div>
 
           {/* Database Source Indicator */}
@@ -169,9 +175,24 @@ export const BeforeAfterCarousel = () => {
           <div className="p-4 md:p-6 space-y-3 bg-gradient-to-t from-background via-background to-transparent">
             <div className="flex items-center gap-3 flex-wrap">
               <span className="text-xs md:text-sm text-muted-foreground">📍 {currentProject.location}</span>
-              <span className="text-xs px-2 py-1 bg-conversion-cyan/10 text-conversion-cyan rounded-full">
-                {Math.round(currentProject.confidence * 100)}% confidence
-              </span>
+              {currentProject.authenticityScore && (
+                <span className={`text-xs px-2 py-1 rounded-full ${
+                  currentProject.authenticityScore >= 0.85 ? 'bg-green-500/10 text-green-700' :
+                  currentProject.authenticityScore >= 0.7 ? 'bg-amber-500/10 text-amber-700' :
+                  'bg-red-500/10 text-red-700'
+                }`}>
+                  Auth: {Math.round(currentProject.authenticityScore * 100)}%
+                </span>
+              )}
+              {currentProject.confidence && (
+                <span className={`text-xs px-2 py-1 rounded-full ${
+                  currentProject.confidence >= 0.85 ? 'bg-green-500/10 text-green-700' :
+                  currentProject.confidence >= 0.7 ? 'bg-amber-500/10 text-amber-700' :
+                  'bg-red-500/10 text-red-700'
+                }`}>
+                  Pair: {Math.round(currentProject.confidence * 100)}%
+                </span>
+              )}
               {currentProject.studyId && (
                 <span className="text-xs px-2 py-1 bg-secondary/50 text-secondary-foreground rounded-full">
                   {currentProject.studyId}
