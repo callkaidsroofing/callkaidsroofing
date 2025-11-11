@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MapPin, Plus, Edit, Trash2, Eye, Search } from 'lucide-react';
+import { MapPin, Plus, Edit, Trash2, Eye, Search, Sparkles, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { logAudit } from '@/lib/audit';
 import { PremiumPageHeader } from '@/components/admin/PremiumPageHeader';
@@ -35,6 +35,7 @@ export default function Suburbs() {
   const [selectedSuburb, setSelectedSuburb] = useState<Suburb | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -167,6 +168,61 @@ export default function Suburbs() {
       services_available: suburb.services_available?.join(', ') || '',
     });
     setIsEditing(false);
+  };
+
+  const handleGenerateContent = async () => {
+    if (!formData.name) {
+      toast({
+        title: 'Validation Error',
+        description: 'Suburb name is required to generate content',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setIsGenerating(true);
+    
+    try {
+      const services = formData.services_available.split(',').map(s => s.trim()).filter(Boolean);
+      
+      const { data, error } = await supabase.functions.invoke('generate-suburb-content', {
+        body: {
+          suburbName: formData.name,
+          postcode: formData.postcode,
+          region: formData.region,
+          services: services.length > 0 ? services : ['Roof Restoration', 'Roof Repairs', 'Roof Cleaning', 'Roof Painting']
+        }
+      });
+
+      if (error) throw error;
+
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to generate content');
+      }
+
+      // Update form with generated content
+      setFormData({
+        ...formData,
+        meta_title: data.content.meta_title,
+        meta_description: data.content.meta_description,
+        description: data.content.description,
+        local_seo_content: data.content.local_seo_content,
+      });
+
+      toast({
+        title: 'Content Generated!',
+        description: 'AI-powered SEO content has been created. Review and save when ready.',
+      });
+    } catch (error: any) {
+      console.error('Content generation error:', error);
+      toast({
+        title: 'Generation Failed',
+        description: error.message || 'Failed to generate content. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleSave = () => {
@@ -304,6 +360,43 @@ export default function Suburbs() {
               </CardHeader>
               <CardContent>
                 <TabsContent value="content" className="space-y-4 mt-0">
+                  {/* AI Content Generator */}
+                  {isEditing && formData.name && (
+                    <Card className="bg-gradient-to-br from-primary/5 via-secondary/5 to-background border-primary/20">
+                      <CardContent className="pt-6">
+                        <div className="flex items-start gap-4">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Sparkles className="h-5 w-5 text-primary" />
+                              <h3 className="font-semibold">AI Content Generator</h3>
+                            </div>
+                            <p className="text-sm text-muted-foreground mb-4">
+                              Generate SEO-optimized content for {formData.name} using RAG-powered AI. 
+                              Includes meta tags, descriptions, and local SEO content aligned with CKR brand guidelines.
+                            </p>
+                            <Button 
+                              onClick={handleGenerateContent} 
+                              disabled={isGenerating}
+                              className="gap-2"
+                            >
+                              {isGenerating ? (
+                                <>
+                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                  Generating Content...
+                                </>
+                              ) : (
+                                <>
+                                  <Sparkles className="h-4 w-4" />
+                                  Generate Page Content
+                                </>
+                              )}
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
                   <div className="grid gap-4 sm:grid-cols-4">
                     <div className="space-y-2">
                       <Label htmlFor="name">Suburb Name</Label>
