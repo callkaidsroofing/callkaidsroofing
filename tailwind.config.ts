@@ -73,6 +73,16 @@ export default {
           emergency: "hsl(var(--roofing-emergency))", /* #DC2626 */
         },
         charcoal: "hsl(var(--charcoal))",
+        electric: {
+          bright: "hsl(var(--electric-bright))",
+          light: "hsl(var(--electric-light))",
+          glow: "hsl(var(--electric-glow))",
+        },
+        steel: {
+          light: "hsl(var(--steel-light))",
+          dark: "hsl(var(--steel-dark))",
+        },
+        chrome: "hsl(var(--chrome))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -96,10 +106,28 @@ export default {
             height: "0",
           },
         },
+        "metallic-shimmer": {
+          "0%": {
+            backgroundPosition: "-200% center",
+          },
+          "100%": {
+            backgroundPosition: "200% center",
+          },
+        },
+        "electric-pulse": {
+          "0%, 100%": {
+            boxShadow: "0 0 20px hsla(199, 100%, 55%, 0.4)",
+          },
+          "50%": {
+            boxShadow: "0 0 40px hsla(199, 100%, 55%, 0.8)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "metallic-shimmer": "metallic-shimmer 8s ease-in-out infinite",
+        "electric-pulse": "electric-pulse 2s ease-in-out infinite",
       },
     },
   },

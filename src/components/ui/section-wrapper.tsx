@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 interface SectionWrapperProps {
   children: ReactNode;
   variant?: 'default' | 'compact' | 'spacious' | 'hero';
-  background?: 'white' | 'muted' | 'gradient-primary' | 'gradient-dark' | 'transparent';
+  background?: 'white' | 'muted' | 'gradient-primary' | 'gradient-dark' | 'metallic-steel' | 'chrome-blue' | 'black-depth' | 'electric-glow' | 'transparent';
   className?: string;
   id?: string;
 }
@@ -32,6 +32,10 @@ export const SectionWrapper = ({
     muted: 'bg-muted/50',
     'gradient-primary': 'bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10',
     'gradient-dark': 'bg-gradient-to-br from-secondary via-charcoal to-secondary',
+    'metallic-steel': 'metallic-steel',
+    'chrome-blue': 'chrome-blue',
+    'black-depth': 'black-depth',
+    'electric-glow': 'electric-glow',
     transparent: 'bg-transparent',
   };
 

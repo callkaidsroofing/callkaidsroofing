@@ -2,6 +2,8 @@ import { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { Phone, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
+import { MetallicShine } from '@/components/ui/metallic-shine';
 
 interface HeroSectionProps {
   headline: string | ReactNode;
@@ -77,38 +79,51 @@ export const HeroSection = ({
 
       <div className="flex flex-col sm:flex-row gap-4">
         {ctaPrimary && (
-          <Button
-            asChild
-            size="lg"
-            className="bg-white text-primary hover:bg-white/90 text-lg md:text-xl px-8 py-6 md:py-7 shadow-2xl hover:shadow-xl transition-all w-full sm:w-auto font-bold"
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            className="relative w-full sm:w-auto"
           >
-            <a
-              href={ctaPrimary.href}
-              onClick={ctaPrimary.onClick}
-              className="flex items-center justify-center gap-3"
+            <Button
+              asChild
+              size="lg"
+              className="relative bg-white text-primary hover:bg-white/90 text-lg md:text-xl px-8 py-6 md:py-7 shadow-2xl hover:shadow-xl transition-all w-full sm:w-auto font-bold overflow-hidden animate-electric-pulse"
             >
-              <Phone className="h-6 w-6" />
-              {ctaPrimary.text}
-            </a>
-          </Button>
+              <a
+                href={ctaPrimary.href}
+                onClick={ctaPrimary.onClick}
+                className="flex items-center justify-center gap-3"
+              >
+                <Phone className="h-6 w-6 relative z-10" />
+                <span className="relative z-10">{ctaPrimary.text}</span>
+                <MetallicShine className="absolute inset-0 opacity-30" />
+              </a>
+            </Button>
+          </motion.div>
         )}
 
         {ctaSecondary && (
-          <Button
-            asChild
-            size="lg"
-            variant="outline"
-            className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-6 md:py-7 w-full sm:w-auto font-semibold"
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full sm:w-auto"
           >
-            <a
-              href={ctaSecondary.href}
-              onClick={ctaSecondary.onClick}
-              className="flex items-center justify-center gap-2"
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="backdrop-blur-md bg-white/10 border-2 border-white/50 text-white hover:bg-white hover:text-primary text-lg px-8 py-6 md:py-7 w-full sm:w-auto font-semibold transition-all shadow-steel"
             >
-              {ctaSecondary.text}
-              <ArrowRight className="h-5 w-5" />
-            </a>
-          </Button>
+              <a
+                href={ctaSecondary.href}
+                onClick={ctaSecondary.onClick}
+                className="flex items-center justify-center gap-2"
+              >
+                {ctaSecondary.text}
+                <ArrowRight className="h-5 w-5" />
+              </a>
+            </Button>
+          </motion.div>
         )}
       </div>
     </div>

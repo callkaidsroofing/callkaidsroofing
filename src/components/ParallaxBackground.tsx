@@ -1,6 +1,7 @@
 import { useState, useEffect, ReactNode } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { RoofSilhouette, TilePattern, GeometricGrid, FloatingShapes } from '@/lib/parallax-graphics';
+import { motion } from 'framer-motion';
 
 interface ParallaxBackgroundProps {
   variant: 'hero' | 'services' | 'cta' | 'testimonials';
@@ -39,38 +40,48 @@ const ParallaxBackground = ({ variant, density = 'medium', children }: ParallaxB
 
   const baseOpacity = opacityMap[density];
 
-  // Mobile: Enhanced static background pattern
+  // Mobile: Enhanced metallic static background pattern
   if (isMobile) {
     return (
       <div className="relative">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Animated gradient mesh */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-secondary/15 animate-pulse" />
-          <div className="absolute inset-0 bg-gradient-to-tl from-accent/10 via-transparent to-primary/10" />
+          {/* Metallic animated gradient mesh */}
+          <motion.div 
+            className="absolute inset-0 metallic-mesh opacity-40"
+            animate={{
+              opacity: [0.3, 0.5, 0.3],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-electric-bright/15 via-transparent to-steel-dark/20 animate-pulse" />
           
           {variant === 'hero' && (
             <>
-              <div className="absolute top-20 right-0 w-64 h-64 opacity-25 animate-float">
-                <RoofSilhouette color="hsl(var(--primary))" />
+              <div className="absolute top-20 right-0 w-64 h-64 opacity-30 animate-float">
+                <RoofSilhouette color="hsl(var(--electric-bright))" />
               </div>
-              <div className="absolute bottom-10 left-10 w-32 h-32 opacity-20">
-                <FloatingShapes color="hsl(var(--accent))" />
+              <div className="absolute bottom-10 left-10 w-32 h-32 opacity-25">
+                <FloatingShapes color="hsl(var(--chrome))" />
               </div>
             </>
           )}
           {variant === 'services' && (
             <>
-              <div className="absolute bottom-0 left-0 w-48 h-48 opacity-30">
-                <TilePattern color="hsl(var(--primary))" />
+              <div className="absolute bottom-0 left-0 w-48 h-48 opacity-35">
+                <TilePattern color="hsl(var(--steel-light))" />
               </div>
-              <div className="absolute top-10 right-10 w-40 h-40 opacity-25">
-                <GeometricGrid color="hsl(var(--silver))" />
+              <div className="absolute top-10 right-10 w-40 h-40 opacity-30">
+                <GeometricGrid color="hsl(var(--chrome))" />
               </div>
             </>
           )}
           {variant === 'cta' && (
-            <div className="absolute inset-0 opacity-20">
-              <FloatingShapes color="hsl(var(--primary))" />
+            <div className="absolute inset-0 opacity-25">
+              <FloatingShapes color="hsl(var(--electric-bright))" />
             </div>
           )}
         </div>
@@ -79,17 +90,58 @@ const ParallaxBackground = ({ variant, density = 'medium', children }: ParallaxB
     );
   }
 
-  // Desktop: Full parallax layers with enhanced visibility
+  // Desktop: Full parallax layers with metallic aesthetic
   return (
     <div className="relative">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Animated gradient mesh backgrounds */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10 animate-gradient" />
-        <div className="absolute inset-0 bg-gradient-to-tl from-accent/8 via-transparent to-primary/8 animate-pulse" />
+        {/* Metallic animated gradient mesh backgrounds */}
+        <motion.div 
+          className="absolute inset-0 metallic-mesh opacity-20"
+          animate={{
+            backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+        <motion.div 
+          className="absolute inset-0 chrome-blue opacity-10"
+          animate={{
+            opacity: [0.05, 0.15, 0.05],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
         
-        {/* Dynamic light streaks */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent animate-shimmer" />
-        <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-l from-transparent via-accent/40 to-transparent animate-shimmer delay-1000" />
+        {/* Electric light streaks */}
+        <motion.div 
+          className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-electric-bright/60 to-transparent"
+          animate={{
+            x: ["-100%", "100%"],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-l from-transparent via-chrome/60 to-transparent"
+          animate={{
+            x: ["100%", "-100%"],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "linear",
+            delay: 2
+          }}
+        />
         {/* Layer 1: Slowest (Background) */}
         <div
           className="absolute inset-0 will-change-transform"
@@ -97,32 +149,32 @@ const ParallaxBackground = ({ variant, density = 'medium', children }: ParallaxB
         >
           {variant === 'hero' && (
             <>
-              <div className="absolute -top-40 -right-20 w-[600px] h-[600px]" style={{ opacity: baseOpacity }}>
-                <RoofSilhouette color="hsl(var(--primary))" />
+              <div className="absolute -top-40 -right-20 w-[600px] h-[600px]" style={{ opacity: baseOpacity * 1.2 }}>
+                <RoofSilhouette color="hsl(var(--electric-bright))" />
               </div>
-              <div className="absolute top-1/3 -left-32 w-[500px] h-[500px]" style={{ opacity: baseOpacity * 0.7 }}>
-                <GeometricGrid color="hsl(var(--secondary))" />
+              <div className="absolute top-1/3 -left-32 w-[500px] h-[500px]" style={{ opacity: baseOpacity * 0.9 }}>
+                <GeometricGrid color="hsl(var(--steel-light))" />
               </div>
             </>
           )}
           {variant === 'services' && (
             <>
-              <div className="absolute -top-20 left-1/4 w-[400px] h-[400px]" style={{ opacity: baseOpacity }}>
-                <TilePattern color="hsl(var(--silver))" />
+              <div className="absolute -top-20 left-1/4 w-[400px] h-[400px]" style={{ opacity: baseOpacity * 1.1 }}>
+                <TilePattern color="hsl(var(--chrome))" />
               </div>
-              <div className="absolute bottom-0 right-1/4 w-[450px] h-[450px]" style={{ opacity: baseOpacity * 0.8 }}>
-                <RoofSilhouette color="hsl(var(--primary))" />
+              <div className="absolute bottom-0 right-1/4 w-[450px] h-[450px]" style={{ opacity: baseOpacity }}>
+                <RoofSilhouette color="hsl(var(--electric-light))" />
               </div>
             </>
           )}
           {variant === 'cta' && (
-            <div className="absolute top-1/4 right-1/3 w-[500px] h-[500px]" style={{ opacity: baseOpacity * 1.2 }}>
-              <GeometricGrid color="hsl(var(--primary))" />
+            <div className="absolute top-1/4 right-1/3 w-[500px] h-[500px]" style={{ opacity: baseOpacity * 1.3 }}>
+              <GeometricGrid color="hsl(var(--electric-bright))" />
             </div>
           )}
           {variant === 'testimonials' && (
-            <div className="absolute top-0 left-1/4 w-[350px] h-[350px]" style={{ opacity: baseOpacity }}>
-              <FloatingShapes color="hsl(var(--silver))" />
+            <div className="absolute top-0 left-1/4 w-[350px] h-[350px]" style={{ opacity: baseOpacity * 1.1 }}>
+              <FloatingShapes color="hsl(var(--steel-light))" />
             </div>
           )}
         </div>
@@ -134,21 +186,21 @@ const ParallaxBackground = ({ variant, density = 'medium', children }: ParallaxB
         >
           {variant === 'hero' && (
             <>
-              <div className="absolute top-1/4 right-1/3 w-[300px] h-[300px]" style={{ opacity: baseOpacity * 1.3 }}>
-                <FloatingShapes color="hsl(var(--primary))" />
+              <div className="absolute top-1/4 right-1/3 w-[300px] h-[300px]" style={{ opacity: baseOpacity * 1.5 }}>
+                <FloatingShapes color="hsl(var(--electric-bright))" />
               </div>
-              <div className="absolute bottom-20 left-1/4 w-[350px] h-[350px]" style={{ opacity: baseOpacity * 1.1 }}>
-                <TilePattern color="hsl(var(--silver))" />
+              <div className="absolute bottom-20 left-1/4 w-[350px] h-[350px]" style={{ opacity: baseOpacity * 1.3 }}>
+                <TilePattern color="hsl(var(--steel-dark))" />
               </div>
             </>
           )}
           {variant === 'services' && (
             <>
-              <div className="absolute top-40 right-1/3 w-[280px] h-[280px]" style={{ opacity: baseOpacity * 1.2 }}>
-                <FloatingShapes color="hsl(var(--primary))" />
+              <div className="absolute top-40 right-1/3 w-[280px] h-[280px]" style={{ opacity: baseOpacity * 1.4 }}>
+                <FloatingShapes color="hsl(var(--electric-light))" />
               </div>
-              <div className="absolute bottom-1/3 left-20 w-[320px] h-[320px]" style={{ opacity: baseOpacity }}>
-                <GeometricGrid color="hsl(var(--secondary))" />
+              <div className="absolute bottom-1/3 left-20 w-[320px] h-[320px]" style={{ opacity: baseOpacity * 1.2 }}>
+                <GeometricGrid color="hsl(var(--chrome))" />
               </div>
             </>
           )}

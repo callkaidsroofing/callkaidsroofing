@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Phone, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
+import { MetallicShine } from '@/components/ui/metallic-shine';
 
 interface CTASectionProps {
   headline: string;
@@ -45,8 +47,8 @@ export const CTASection = ({
 }: CTASectionProps) => {
   const variantClasses = {
     gradient:
-      'bg-gradient-to-br from-primary via-accent to-secondary text-primary-foreground',
-    solid: 'bg-secondary text-secondary-foreground',
+      'bg-gradient-to-br from-electric-bright via-primary to-steel-dark text-primary-foreground',
+    solid: 'bg-gradient-to-br from-secondary via-charcoal to-secondary text-secondary-foreground',
   };
 
   const sizeClasses = {
@@ -74,39 +76,52 @@ export const CTASection = ({
         )}
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button
-            asChild
-            size="lg"
-            className={cn(
-              variant === 'gradient'
-                ? 'bg-background text-primary hover:bg-background/90'
-                : 'bg-primary text-primary-foreground hover:bg-primary/90'
-            )}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <a
-              href={ctaPrimary.href}
-              className="flex items-center justify-center gap-2"
+            <Button
+              asChild
+              size="lg"
+              className={cn(
+                'relative overflow-hidden',
+                variant === 'gradient'
+                  ? 'bg-background text-primary hover:bg-background/90 animate-electric-pulse'
+                  : 'bg-electric-bright text-white hover:bg-electric-bright/90'
+              )}
             >
-              {ctaPrimary.icon}
-              {ctaPrimary.text}
-            </a>
-          </Button>
+              <a
+                href={ctaPrimary.href}
+                className="flex items-center justify-center gap-2"
+              >
+                {ctaPrimary.icon}
+                <span className="relative z-10">{ctaPrimary.text}</span>
+                <MetallicShine className="absolute inset-0 opacity-20" />
+              </a>
+            </Button>
+          </motion.div>
 
-          <Button
-            asChild
-            size="lg"
-            variant="outline"
-            className={cn(
-              variant === 'gradient'
-                ? 'bg-transparent border-2 border-primary-foreground text-primary-foreground hover:bg-background hover:text-primary'
-                : 'bg-transparent border-2 border-foreground text-foreground hover:bg-foreground hover:text-background'
-            )}
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <Link to={ctaSecondary.href} className="flex items-center justify-center gap-2">
-              {ctaSecondary.text}
-              {ctaSecondary.icon}
-            </Link>
-          </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className={cn(
+                'backdrop-blur-md transition-all shadow-steel',
+                variant === 'gradient'
+                  ? 'bg-white/10 border-2 border-white/50 text-primary-foreground hover:bg-background hover:text-primary'
+                  : 'bg-transparent border-2 border-foreground text-foreground hover:bg-foreground hover:text-background'
+              )}
+            >
+              <Link to={ctaSecondary.href} className="flex items-center justify-center gap-2">
+                {ctaSecondary.text}
+                {ctaSecondary.icon}
+              </Link>
+            </Button>
+          </motion.div>
         </div>
       </div>
     </section>

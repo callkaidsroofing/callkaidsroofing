@@ -16,10 +16,19 @@
     --secondary-foreground: 0 0% 91%;  /* #E8E8E8 - Metallic Silver */
     --secondary-light: 205 81% 32%;    /* #0F5194 - Lighter navy */
     
-    /* Steel & Metallic Accents */
+    /* Steel & Metallic Accents - Co-Primary Aesthetic */
     --accent: 0 0% 75%;                /* #BFBFBF - Steel Gray */
     --accent-foreground: 0 0% 10%;     /* Dark text on steel */
     --accent-secondary: 199 100% 45%;  /* Brighter blue variant */
+    
+    /* Electric & Metallic Blue Spectrum */
+    --electric-bright: 199 100% 55%;   /* #29B3FF - Electric Bright */
+    --electric-light: 199 100% 70%;    /* #66C2FF - Light Electric */
+    --electric-glow: 199 100% 85%;     /* #99D5FF - Soft Glow */
+    --steel-light: 0 0% 85%;           /* #D9D9D9 - Light Steel */
+    --steel-dark: 0 0% 45%;            /* #737373 - Dark Steel */
+    --chrome: 0 0% 91%;                /* #E8E8E8 - Chrome Highlight */
+    --black-depth: 0 0% 0%;            /* #000000 - True Black */
     
     /* Neutral Palette with High Contrast */
     --background: 0 0% 98%;            /* #FAFAFA - Soft white */
@@ -63,11 +72,44 @@
     --gradient-steel: linear-gradient(180deg, hsl(220 13% 9%) 0%, hsl(220 13% 20%) 100%);
     --gradient-primary-accent: linear-gradient(135deg, hsl(199 100% 40%) 0%, hsl(205 81% 22%) 100%);
     
+    /* Metallic Gradient System - Co-Primary Aesthetic */
+    --gradient-metallic-steel: linear-gradient(135deg, 
+      hsl(0 0% 45%) 0%, 
+      hsl(0 0% 75%) 25%, 
+      hsl(0 0% 91%) 50%, 
+      hsl(0 0% 75%) 75%, 
+      hsl(0 0% 45%) 100%);
+    
+    --gradient-chrome-blue: linear-gradient(135deg,
+      hsl(199 100% 40%) 0%,
+      hsl(199 100% 55%) 25%,
+      hsl(0 0% 91%) 50%,
+      hsl(199 100% 55%) 75%,
+      hsl(199 100% 40%) 100%);
+    
+    --gradient-black-depth: linear-gradient(180deg,
+      hsl(0 0% 0%) 0%,
+      hsl(220 13% 9%) 40%,
+      hsl(205 81% 22%) 100%);
+    
+    --gradient-electric-glow: linear-gradient(135deg,
+      hsl(199 100% 70%) 0%,
+      hsl(199 100% 55%) 50%,
+      hsl(199 100% 40%) 100%);
+    
+    --gradient-metallic-mesh: radial-gradient(circle at 20% 50%,
+      hsl(0 0% 91%) 0%,
+      hsl(0 0% 75%) 25%,
+      hsl(220 13% 9%) 50%,
+      hsl(0 0% 0%) 100%);
+    
     /* Premium Shadows - Brand Colors */
     --shadow-sm: 0 2px 8px hsla(220 13% 9% / 0.15);
     --shadow-md: 0 8px 24px hsla(220 13% 9% / 0.25);
     --shadow-lg: 0 16px 48px hsla(220 13% 9% / 0.35);
     --shadow-blue: 0 8px 32px hsla(199 100% 40% / 0.35);
+    --shadow-electric: 0 0 40px hsla(199 100% 55% / 0.6);
+    --shadow-steel: 0 4px 16px hsla(0 0% 45% / 0.4);
     
     /* Animation Timing */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -92,6 +134,24 @@
   @keyframes gradient {
     0%, 100% { opacity: 0.5; }
     50% { opacity: 0.8; }
+  }
+  
+  @keyframes metallic-shimmer {
+    0% { 
+      background-position: -200% center;
+    }
+    100% { 
+      background-position: 200% center;
+    }
+  }
+  
+  @keyframes electric-pulse {
+    0%, 100% {
+      box-shadow: 0 0 20px hsla(199 100% 55% / 0.4);
+    }
+    50% {
+      box-shadow: 0 0 40px hsla(199 100% 55% / 0.8);
+    }
   }
 
   .animate-shimmer {
@@ -186,6 +246,49 @@
   
   .dark-gradient {
     background: var(--gradient-dark);
+  }
+  
+  /* Metallic Gradient Utilities - Co-Primary Aesthetic */
+  .metallic-steel {
+    background: var(--gradient-metallic-steel);
+    background-size: 200% 200%;
+    animation: metallic-shimmer 8s ease-in-out infinite;
+  }
+  
+  .chrome-blue {
+    background: var(--gradient-chrome-blue);
+    background-size: 200% 200%;
+  }
+  
+  .black-depth {
+    background: var(--gradient-black-depth);
+  }
+  
+  .electric-glow {
+    background: var(--gradient-electric-glow);
+  }
+  
+  .metallic-mesh {
+    background: var(--gradient-metallic-mesh);
+  }
+  
+  /* Text Shadow Utilities for Metallic Backgrounds */
+  .text-metallic-glow {
+    text-shadow: 
+      0 0 20px hsla(199 100% 55% / 0.8),
+      0 0 40px hsla(199 100% 55% / 0.4),
+      0 2px 4px hsla(0 0% 0% / 0.5);
+  }
+  
+  .text-steel-depth {
+    text-shadow: 
+      0 2px 4px hsla(0 0% 0% / 0.5),
+      0 0 10px hsla(0 0% 91% / 0.3);
+  }
+  
+  .text-electric-bright {
+    color: hsl(var(--electric-bright));
+    text-shadow: 0 0 20px hsla(199 100% 55% / 0.6);
   }
   
   .section-gradient {
