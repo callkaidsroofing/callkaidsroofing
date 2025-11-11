@@ -67,6 +67,50 @@
     --shadow-md: 0 8px 24px hsla(0 0% 10% / 0.25);
     --shadow-lg: 0 16px 48px hsla(0 0% 10% / 0.35);
     --shadow-blue: 0 8px 32px hsla(199 100% 50% / 0.3);
+    
+    /* Animation Timing */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Premium animation keyframes for parallax effects */
+  @keyframes shimmer {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-20px) scale(1.05); }
+  }
+
+  @keyframes float-delayed {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-30px) scale(1.08); }
+  }
+
+  @keyframes gradient {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 4s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float-delayed 8s ease-in-out infinite 2s;
+  }
+
+  .animate-gradient {
+    animation: gradient 5s ease-in-out infinite;
+  }
+
+  .delay-1000 {
+    animation-delay: 1s;
   }
 
   .dark {

@@ -30,29 +30,47 @@ const ParallaxBackground = ({ variant, density = 'medium', children }: ParallaxB
   const layer2Transform = `translateY(${scrollY * 0.6}px)`;
   const layer3Transform = `translateY(${scrollY * 0.9}px)`;
 
-  // Density settings
+  // Density settings - DRAMATICALLY INCREASED for visibility
   const opacityMap = {
-    low: 0.05,
-    medium: 0.10,
-    high: 0.15,
+    low: 0.25,
+    medium: 0.35,
+    high: 0.45,
   };
 
   const baseOpacity = opacityMap[density];
 
-  // Mobile: Static background pattern
+  // Mobile: Enhanced static background pattern
   if (isMobile) {
     return (
       <div className="relative">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
+          {/* Animated gradient mesh */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-secondary/15 animate-pulse" />
+          <div className="absolute inset-0 bg-gradient-to-tl from-accent/10 via-transparent to-primary/10" />
+          
           {variant === 'hero' && (
-            <div className="absolute top-20 right-0 w-64 h-64 opacity-5">
-              <RoofSilhouette color="hsl(var(--primary))" />
-            </div>
+            <>
+              <div className="absolute top-20 right-0 w-64 h-64 opacity-25 animate-float">
+                <RoofSilhouette color="hsl(var(--primary))" />
+              </div>
+              <div className="absolute bottom-10 left-10 w-32 h-32 opacity-20">
+                <FloatingShapes color="hsl(var(--accent))" />
+              </div>
+            </>
           )}
           {variant === 'services' && (
-            <div className="absolute bottom-0 left-0 w-48 h-48 opacity-5">
-              <TilePattern color="hsl(var(--silver))" />
+            <>
+              <div className="absolute bottom-0 left-0 w-48 h-48 opacity-30">
+                <TilePattern color="hsl(var(--primary))" />
+              </div>
+              <div className="absolute top-10 right-10 w-40 h-40 opacity-25">
+                <GeometricGrid color="hsl(var(--silver))" />
+              </div>
+            </>
+          )}
+          {variant === 'cta' && (
+            <div className="absolute inset-0 opacity-20">
+              <FloatingShapes color="hsl(var(--primary))" />
             </div>
           )}
         </div>
@@ -61,10 +79,17 @@ const ParallaxBackground = ({ variant, density = 'medium', children }: ParallaxB
     );
   }
 
-  // Desktop: Full parallax layers
+  // Desktop: Full parallax layers with enhanced visibility
   return (
     <div className="relative">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Animated gradient mesh backgrounds */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10 animate-gradient" />
+        <div className="absolute inset-0 bg-gradient-to-tl from-accent/8 via-transparent to-primary/8 animate-pulse" />
+        
+        {/* Dynamic light streaks */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent animate-shimmer" />
+        <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-l from-transparent via-accent/40 to-transparent animate-shimmer delay-1000" />
         {/* Layer 1: Slowest (Background) */}
         <div
           className="absolute inset-0 will-change-transform"
@@ -181,8 +206,12 @@ const ParallaxBackground = ({ variant, density = 'medium', children }: ParallaxB
           )}
         </div>
 
-        {/* Gradient overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/20 to-background/0 pointer-events-none" />
+        {/* Gradient overlay for depth - reduced to let graphics show */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/5 to-background/0 pointer-events-none" />
+        
+        {/* Floating animated orbs for extra depth */}
+        <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-primary/20 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-1/3 left-1/3 w-40 h-40 bg-accent/15 rounded-full blur-3xl animate-float-delayed" />
       </div>
       {children}
     </div>
