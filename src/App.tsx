@@ -73,7 +73,7 @@ const AdminHub = lazy(() => import("./pages/internal/v2/admin/AdminHub"));
 const CRMLeads = lazy(() => import("./pages/admin/crm/Leads"));
 const CRMLeadDetail = lazy(() => import("./pages/admin/crm/LeadDetail"));
 const CRMQuotes = lazy(() => import("./pages/admin/crm/Quotes"));
-const CRMJobs = lazy(() => import("./pages/admin/crm/Jobs"));
+const CRMJobs = lazy(() => import("./pages/admin/crm/JobsList"));
 const CRMIntelligence = lazy(() => import("./pages/admin/crm/Intelligence"));
 const CRMReports = lazy(() => import("./pages/admin/crm/Reports"));
 const ToolsQuickQuote = lazy(() => import("./pages/admin/tools/QuickQuote"));
