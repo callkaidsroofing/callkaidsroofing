@@ -17,43 +17,27 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     );
 
-    const formData = await req.formData();
-    const file = formData.get('file') as File;
+    const { filePath, fileName } = await req.json();
     
-    if (!file) {
-      throw new Error('No file provided');
+    if (!filePath) {
+      throw new Error('No file path provided');
     }
 
-    console.log(`Processing knowledge upload: ${file.name}, size: ${file.size} bytes`);
-
-    // Upload to knowledge-uploads bucket
-    const fileName = `system-uploads/${Date.now()}-${file.name}`;
-    const fileBuffer = await file.arrayBuffer();
-    
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from('knowledge-uploads')
-      .upload(fileName, fileBuffer, {
-        contentType: file.type || 'application/zip',
-        upsert: false
-      });
-
-    if (uploadError) throw uploadError;
-
-    console.log(`File uploaded to storage: ${fileName}`);
+    console.log(`[Knowledge Upload] Processing file: ${filePath}`);
 
     // Create processing job record
     const { data: jobData, error: jobError } = await supabase
       .from('embedding_jobs')
       .insert({
         job_type: 'knowledge_system_upload',
-        source_path: fileName,
+        source_path: filePath,
         total_chunks: 0,
         processed_chunks: 0,
         failed_chunks: 0,
         status: 'pending',
         error_log: {
-          file_name: file.name,
-          file_size: file.size,
+          file_name: fileName,
+          file_path: filePath,
           uploaded_at: new Date().toISOString()
         }
       })
@@ -62,13 +46,15 @@ serve(async (req) => {
 
     if (jobError) throw jobError;
 
+    console.log(`[Knowledge Upload] Job created: ${jobData.id}`);
+
     return new Response(
       JSON.stringify({
         success: true,
         message: 'Knowledge system uploaded successfully',
         job_id: jobData.id,
-        file_path: fileName,
-        file_name: file.name
+        file_path: filePath,
+        file_name: fileName
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }

@@ -271,11 +271,21 @@ export default function DataSync() {
     updateSyncStatus('knowledge', { loading: true, status: 'syncing', error: undefined });
     
     try {
-      const formData = new FormData();
-      formData.append('file', file);
+      // Upload file directly to storage first
+      const fileName = `system-uploads/${Date.now()}-${file.name}`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('knowledge-uploads')
+        .upload(fileName, file);
 
+      if (uploadError) throw uploadError;
+
+      // Then process it via edge function
       const { data, error } = await supabase.functions.invoke('process-knowledge-upload', {
-        body: formData
+        body: { 
+          filePath: fileName,
+          fileName: file.name
+        }
       });
 
       if (error) throw error;

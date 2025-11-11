@@ -241,6 +241,9 @@ verify_jwt = true
 [functions.process-knowledge-upload]
 verify_jwt = true
 
+[functions.parse-ckr-blueprint]
+verify_jwt = true
+
 # ============================================
 # KNOWLEDGE PACK V1.1 FUNCTIONS
 # ============================================
