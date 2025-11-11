@@ -138,6 +138,16 @@ const Index = () => {
             {/* CTA Buttons - KF_11 Section 4.2: CTA Perfection */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Button 
+                asChild
+                size="xl" 
+                className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground shadow-xl shadow-primary/30 border-2 border-primary-foreground/20"
+              >
+                <Link to="/quote">
+                  <ArrowRight className="mr-2 h-5 w-5" />
+                  Get Free Quote
+                </Link>
+              </Button>
+              <Button 
                 size="xl" 
                 variant="phone"
                 onClick={() => window.location.href = 'tel:0435900709'}
@@ -145,13 +155,6 @@ const Index = () => {
               >
                 <Phone className="mr-2 h-5 w-5" />
                 Call Kaidyn: 0435 900 709
-              </Button>
-              <Button 
-                asChild
-                size="xl" 
-                variant="outline"
-              >
-                <Link to="/book">Get Free Roof Health Check</Link>
               </Button>
             </div>
 
