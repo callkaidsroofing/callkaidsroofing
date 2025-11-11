@@ -6,65 +6,67 @@
 
 @layer base {
   :root {
-    /* Enhanced CKR Brand Colors - Vibrant & Dynamic */
-    --primary: 199 100% 50%;           /* #00A8FF - Brighter Action Blue */
-    --primary-foreground: 0 0% 100%;   /* White text on primary */
-    --primary-glow: 199 100% 60%;      /* Electric glow effect */
-    --primary-dark: 199 100% 35%;      /* Deeper blue for contrast */
+    /* PALETTE 1: Professional Steel & Electric Blue (Logo-Accurate) */
+    --primary: 199 100% 50%;           /* #00A8FF - Electric Blue (from logo phone) */
+    --primary-foreground: 0 0% 100%;   /* White text */
+    --primary-dark: 199 100% 38%;      /* #006FCC - Deeper blue */
+    --primary-glow: 199 100% 65%;      /* #52C4FF - Light glow */
     
-    --secondary: 207 90% 28%;          /* #0D4A85 - Rich Navy */
-    --secondary-foreground: 0 0% 100%; /* White text on secondary */
-    --secondary-light: 207 80% 40%;    /* Lighter navy for accents */
+    --secondary: 0 0% 10%;             /* #1A1A1A - Deep Black (logo background) */
+    --secondary-foreground: 0 0% 91%;  /* #E8E8E8 - Metallic Silver (logo text) */
+    --secondary-light: 0 0% 20%;       /* #333333 - Lighter black */
     
-    /* Vibrant Accent Colors */
-    --accent: 190 100% 50%;            /* #00FFD9 - Cyan accent */
-    --accent-foreground: 222 47% 11%;  /* Dark text on cyan */
-    --accent-secondary: 270 80% 60%;   /* Purple accent for variety */
+    /* Steel & Metallic Accents (from logo) */
+    --accent: 0 0% 75%;                /* #BFBFBF - Steel Gray */
+    --accent-foreground: 0 0% 10%;     /* Dark text on steel */
+    --accent-secondary: 199 100% 55%;  /* Brighter blue variant */
     
-    /* Neutral Palette with More Contrast */
-    --background: 0 0% 98%;            /* Soft white */
-    --foreground: 222 50% 8%;          /* Deeper black for text */
+    /* Neutral Palette with High Contrast */
+    --background: 0 0% 98%;            /* #FAFAFA - Soft white */
+    --foreground: 0 0% 10%;            /* #1A1A1A - Deep black */
     
     --card: 0 0% 100%;                 /* Pure white cards */
-    --card-foreground: 222 50% 8%;     /* Deep text on cards */
+    --card-foreground: 0 0% 10%;       /* Deep text */
     
     --popover: 0 0% 100%;
-    --popover-foreground: 222 50% 8%;
+    --popover-foreground: 0 0% 10%;
     
-    --muted: 210 40% 94%;              /* Lighter gray backgrounds */
-    --muted-foreground: 215 20% 40%;   /* Darker gray text */
+    --muted: 0 0% 93%;                 /* #EDEDED - Light gray */
+    --muted-foreground: 0 0% 35%;      /* #595959 - Medium gray */
     
-    --destructive: 0 85% 55%;          /* Vibrant red for errors */
+    --destructive: 0 85% 55%;          /* #E63946 - Bold red */
     --destructive-foreground: 0 0% 100%;
     
-    --border: 214 35% 88%;             /* Softer borders */
-    --input: 214 35% 88%;
-    --ring: 199 100% 50%;              /* Bright focus ring */
+    --border: 0 0% 85%;                /* #D9D9D9 - Soft border */
+    --input: 0 0% 85%;
+    --ring: 199 100% 50%;              /* Electric blue focus */
     
-    --radius: 0.75rem;                 /* Slightly rounder corners */
+    --radius: 0.5rem;
     
-    /* Extended Brand Colors - Enhanced Vibrancy */
-    --charcoal: 222 50% 8%;            /* Deeper charcoal */
-    --roofing-charcoal: 222 50% 8%;    
-    --roofing-navy: 207 90% 28%;       /* Richer navy */
-    --roofing-blue: 199 100% 50%;      /* Brighter blue */
-    --roofing-steel: 220 12% 50%;      /* More saturated steel */
-    --roofing-slate: 215 30% 25%;      /* Deeper slate */
-    --roofing-success: 142 75% 48%;    /* Brighter success green */
-    --roofing-warning: 45 98% 58%;     /* More vibrant warning yellow */
-    --roofing-emergency: 0 78% 55%;    /* Bolder emergency red */
+    /* Extended Brand Colors - Logo Inspired */
+    --charcoal: 0 0% 10%;              /* #1A1A1A - Logo black */
+    --steel: 0 0% 75%;                 /* #BFBFBF - Metallic steel */
+    --silver: 0 0% 91%;                /* #E8E8E8 - Logo silver text */
     
-    /* Dynamic Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(199 100% 50%) 0%, hsl(207 90% 28%) 100%);
-    --gradient-hero-alt: linear-gradient(135deg, hsl(207 90% 28%) 0%, hsl(190 100% 50%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(190 100% 50%) 0%, hsl(270 80% 60%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 40% 94%) 100%);
+    --roofing-charcoal: 0 0% 10%;      
+    --roofing-navy: 199 100% 38%;      /* Deeper electric blue */
+    --roofing-blue: 199 100% 50%;      /* Logo phone blue */
+    --roofing-steel: 0 0% 75%;         /* Steel gray */
+    --roofing-slate: 0 0% 20%;         /* Dark slate */
+    --roofing-success: 142 75% 48%;    /* Success green */
+    --roofing-warning: 45 98% 58%;     /* Warning yellow */
+    --roofing-emergency: 0 78% 55%;    /* Emergency red */
     
-    /* Enhanced Shadows */
-    --shadow-sm: 0 2px 8px hsla(199 100% 50% / 0.15);
-    --shadow-md: 0 8px 24px hsla(199 100% 50% / 0.25);
-    --shadow-lg: 0 16px 48px hsla(199 100% 50% / 0.35);
-    --shadow-glow: 0 0 32px hsla(190 100% 50% / 0.4);
+    /* Professional Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(199 100% 50%) 0%, hsl(0 0% 10%) 100%);
+    --gradient-metallic: linear-gradient(135deg, hsl(0 0% 91%) 0%, hsl(0 0% 75%) 50%, hsl(0 0% 91%) 100%);
+    --gradient-steel: linear-gradient(180deg, hsl(0 0% 10%) 0%, hsl(0 0% 20%) 100%);
+    
+    /* Premium Shadows */
+    --shadow-sm: 0 2px 8px hsla(0 0% 10% / 0.15);
+    --shadow-md: 0 8px 24px hsla(0 0% 10% / 0.25);
+    --shadow-lg: 0 16px 48px hsla(0 0% 10% / 0.35);
+    --shadow-blue: 0 8px 32px hsla(199 100% 50% / 0.3);
   }
 
   .dark {
