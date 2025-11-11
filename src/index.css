@@ -6,20 +6,20 @@
 
 @layer base {
   :root {
-    /* PALETTE 1: Professional Steel & Electric Blue (Logo-Accurate) */
-    --primary: 199 100% 50%;           /* #00A8FF - Electric Blue (from logo phone) */
+    /* CKR Brand Color Hierarchy - Official Palette */
+    --primary: 199 100% 40%;           /* #007ACC - Action Blue (brand primary) */
     --primary-foreground: 0 0% 100%;   /* White text */
-    --primary-dark: 199 100% 38%;      /* #006FCC - Deeper blue */
-    --primary-glow: 199 100% 65%;      /* #52C4FF - Light glow */
+    --primary-dark: 199 100% 32%;      /* #005299 - Deeper blue */
+    --primary-glow: 199 100% 55%;      /* #29B3FF - Light glow */
     
-    --secondary: 0 0% 10%;             /* #1A1A1A - Deep Black (logo background) */
-    --secondary-foreground: 0 0% 91%;  /* #E8E8E8 - Metallic Silver (logo text) */
-    --secondary-light: 0 0% 20%;       /* #333333 - Lighter black */
+    --secondary: 205 81% 22%;          /* #0B3B69 - Deep Navy (brand secondary) */
+    --secondary-foreground: 0 0% 91%;  /* #E8E8E8 - Metallic Silver */
+    --secondary-light: 205 81% 32%;    /* #0F5194 - Lighter navy */
     
-    /* Steel & Metallic Accents (from logo) */
+    /* Steel & Metallic Accents */
     --accent: 0 0% 75%;                /* #BFBFBF - Steel Gray */
     --accent-foreground: 0 0% 10%;     /* Dark text on steel */
-    --accent-secondary: 199 100% 55%;  /* Brighter blue variant */
+    --accent-secondary: 199 100% 45%;  /* Brighter blue variant */
     
     /* Neutral Palette with High Contrast */
     --background: 0 0% 98%;            /* #FAFAFA - Soft white */
@@ -43,30 +43,31 @@
     
     --radius: 0.5rem;
     
-    /* Extended Brand Colors - Logo Inspired */
-    --charcoal: 0 0% 10%;              /* #1A1A1A - Logo black */
+    /* Extended Brand Colors - CKR Official */
+    --charcoal: 220 13% 9%;            /* #111827 - Brand charcoal */
     --steel: 0 0% 75%;                 /* #BFBFBF - Metallic steel */
-    --silver: 0 0% 91%;                /* #E8E8E8 - Logo silver text */
+    --silver: 0 0% 91%;                /* #E8E8E8 - Metallic silver */
     
-    --roofing-charcoal: 0 0% 10%;      
-    --roofing-navy: 199 100% 38%;      /* Deeper electric blue */
-    --roofing-blue: 199 100% 50%;      /* Logo phone blue */
-    --roofing-steel: 0 0% 75%;         /* Steel gray */
-    --roofing-slate: 0 0% 20%;         /* Dark slate */
+    --roofing-charcoal: 220 13% 9%;    /* #111827 - Brand charcoal */
+    --roofing-navy: 205 81% 22%;       /* #0B3B69 - Deep Navy */
+    --roofing-blue: 199 100% 40%;      /* #007ACC - Action Blue */
+    --roofing-steel: 0 0% 75%;         /* #BFBFBF - Steel gray */
+    --roofing-slate: 220 13% 20%;      /* Slate variant */
     --roofing-success: 142 75% 48%;    /* Success green */
     --roofing-warning: 45 98% 58%;     /* Warning yellow */
     --roofing-emergency: 0 78% 55%;    /* Emergency red */
     
-    /* Professional Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(199 100% 50%) 0%, hsl(0 0% 10%) 100%);
+    /* Professional Gradients - Brand Hierarchy */
+    --gradient-hero: linear-gradient(135deg, hsl(205 81% 22%) 0%, hsl(220 13% 9%) 100%);
     --gradient-metallic: linear-gradient(135deg, hsl(0 0% 91%) 0%, hsl(0 0% 75%) 50%, hsl(0 0% 91%) 100%);
-    --gradient-steel: linear-gradient(180deg, hsl(0 0% 10%) 0%, hsl(0 0% 20%) 100%);
+    --gradient-steel: linear-gradient(180deg, hsl(220 13% 9%) 0%, hsl(220 13% 20%) 100%);
+    --gradient-primary-accent: linear-gradient(135deg, hsl(199 100% 40%) 0%, hsl(205 81% 22%) 100%);
     
-    /* Premium Shadows */
-    --shadow-sm: 0 2px 8px hsla(0 0% 10% / 0.15);
-    --shadow-md: 0 8px 24px hsla(0 0% 10% / 0.25);
-    --shadow-lg: 0 16px 48px hsla(0 0% 10% / 0.35);
-    --shadow-blue: 0 8px 32px hsla(199 100% 50% / 0.3);
+    /* Premium Shadows - Brand Colors */
+    --shadow-sm: 0 2px 8px hsla(220 13% 9% / 0.15);
+    --shadow-md: 0 8px 24px hsla(220 13% 9% / 0.25);
+    --shadow-lg: 0 16px 48px hsla(220 13% 9% / 0.35);
+    --shadow-blue: 0 8px 32px hsla(199 100% 40% / 0.35);
     
     /* Animation Timing */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

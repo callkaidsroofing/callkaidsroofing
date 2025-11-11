@@ -50,14 +50,21 @@ size="full"     // max-w-full (edge-to-edge)
 
 ## Color System
 
-### Primary Palette
+### CKR Brand Color Hierarchy (Official)
 ```css
---primary: 199 100% 50%           /* #00A8FF - Electric Blue */
---secondary: 0 0% 10%             /* #1A1A1A - Deep Black */
+--primary: 199 100% 40%           /* #007ACC - Action Blue (brand primary) */
+--secondary: 205 81% 22%          /* #0B3B69 - Deep Navy (brand secondary) */
 --accent: 0 0% 75%                /* #BFBFBF - Steel Gray */
---charcoal: 0 0% 10%              /* Logo black */
+--charcoal: 220 13% 9%            /* #111827 - Brand Charcoal */
 --silver: 0 0% 91%                /* #E8E8E8 - Metallic silver */
 ```
+
+**Brand Guidelines:**
+- Primary #007ACC is the main brand color for CTAs, links, and accents
+- Secondary #0B3B69 is Deep Navy for headers, backgrounds, and authority
+- Charcoal #111827 for body text and strong contrast elements
+- Steel Gray and Silver for subtle accents and metallic effects
+- **NEVER use orange** (except safety icons)
 
 ### Background Variants
 ```tsx
@@ -70,14 +77,16 @@ background="transparent"      // no background
 
 ### Gradient Patterns (STANDARD)
 ```css
-/* Hero gradients */
+/* Hero gradients - Deep Navy to Charcoal */
 bg-gradient-to-br from-secondary via-charcoal to-secondary
+/* CSS Variable: var(--gradient-hero) */
 
-/* Light gradients */
+/* Light gradients - Subtle brand wash */
 bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10
 
-/* CTA gradients */
-bg-gradient-to-br from-primary via-accent to-secondary
+/* CTA gradients - Action Blue to Deep Navy */
+bg-gradient-to-br from-primary to-secondary
+/* CSS Variable: var(--gradient-primary-accent) */
 ```
 
 ---
@@ -396,13 +405,16 @@ xl:   // 1280px+ (desktop)
 ### Mandatory Elements
 1. **Slogan:** Always italicized - *"Proof In Every Roof"*
 2. **Phone:** 0435 900 709 (formatted consistently)
-3. **Warranty:** 15-year standard, 20-year premium
-4. **Colors:** Electric blue (#00A8FF), Deep black (#1A1A1A), Steel gray (#BFBFBF)
+3. **Email:** info@callkaidsroofing.com.au
+4. **ABN:** 39475055075
+5. **Warranty:** 15-year standard, 20-year premium
+6. **Colors:** Action Blue (#007ACC), Deep Navy (#0B3B69), Charcoal (#111827)
 
 ### Forbidden
 - Orange colors (except safety icons)
 - Claims of "cheapest" (use "best value")
 - Generic stock photos (use real job photos)
+- Incorrect brand colors (always use semantic tokens from index.css)
 
 ---
 
