@@ -219,7 +219,7 @@ function App() {
                       
                       {/* Settings Section */}
                       <Route path="settings/business" element={<SettingsBusiness />} />
-                      <Route path="settings/users" element={<SettingsUsers />} />
+                      {/* <Route path="settings/users" element={<SettingsUsers />} /> */} {/* Hidden - single-user admin, infrastructure preserved */}
                       <Route path="settings/pricing" element={<SettingsPricing />} />
                       <Route path="settings/forms" element={<SettingsForms />} />
                       <Route path="settings/forms/:formId/submissions" element={<SettingsFormSubs />} />

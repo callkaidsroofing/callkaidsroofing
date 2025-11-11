@@ -242,7 +242,8 @@ export default function StorageAdmin() {
                 <ExternalLink className="h-4 w-4" />
               </Button>
 
-              <Button
+              {/* Hidden - single-user admin, infrastructure preserved */}
+              {/* <Button
                 variant="outline"
                 className="h-auto py-6 flex flex-col gap-2"
                 onClick={() => window.open('https://supabase.com/dashboard/project/vlnkzpyeppfdmresiaoh/auth/users', '_blank')}
@@ -250,7 +251,7 @@ export default function StorageAdmin() {
                 <Database className="h-8 w-8" />
                 <span className="font-medium">User Management</span>
                 <ExternalLink className="h-4 w-4" />
-              </Button>
+              </Button> */}
 
               <Button
                 variant="outline"

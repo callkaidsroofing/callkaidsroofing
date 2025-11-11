@@ -66,7 +66,7 @@ const navStructure: NavSection[] = [
     icon: Settings,
     items: [
       { title: 'Business', path: '/admin/settings/business', icon: Home },
-      { title: 'Users', path: '/admin/settings/users', icon: Users },
+      // { title: 'Users', path: '/admin/settings/users', icon: Users }, // Hidden - single-user admin, infrastructure preserved
       { title: 'Pricing', path: '/admin/settings/pricing', icon: DollarSign },
       { title: 'Forms', path: '/admin/settings/forms', icon: FormInput },
       { title: 'Integrations', path: '/admin/settings/integrations', icon: FileStack },
