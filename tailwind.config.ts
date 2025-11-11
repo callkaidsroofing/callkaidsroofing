@@ -72,6 +72,7 @@ export default {
           warning: "hsl(var(--roofing-warning))", /* #FACC15 */
           emergency: "hsl(var(--roofing-emergency))", /* #DC2626 */
         },
+        charcoal: "hsl(var(--charcoal))",
       },
       borderRadius: {
         lg: "var(--radius)",
