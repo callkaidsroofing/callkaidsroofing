@@ -73,8 +73,10 @@ export default {
           emergency: "hsl(var(--roofing-emergency))",
         },
         conversion: {
-          orange: "hsl(var(--conversion-orange))",
-          gold: "hsl(var(--conversion-gold))",
+          blue: "hsl(var(--conversion-blue))",
+          cyan: "hsl(var(--conversion-cyan))",
+          deep: "hsl(var(--conversion-deep))",
+          black: "hsl(var(--conversion-black))",
         },
         charcoal: "hsl(var(--charcoal))",
         electric: {

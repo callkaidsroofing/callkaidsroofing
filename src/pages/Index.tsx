@@ -57,10 +57,10 @@ const Index = () => {
                 {/* Left: Hero Content (7 columns on desktop) */}
                 <div className="lg:col-span-7 py-8">
                   <div className="mb-8 space-y-4">
-                    {/* Huge Phone CTA - Orange Accent */}
+                    {/* Huge Phone CTA - Bright Blue/Cyan Gradient */}
                     <motion.a 
                       href="tel:0435900709"
-                      className="inline-flex items-center gap-3 bg-gradient-to-r from-conversion-orange to-conversion-gold hover:from-conversion-gold hover:to-conversion-orange text-white px-8 py-5 rounded-2xl text-3xl sm:text-4xl font-black shadow-[0_10px_40px_rgba(255,107,53,0.4)] hover:shadow-[0_15px_50px_rgba(255,107,53,0.6)] transition-all duration-300 hover:scale-105"
+                      className="inline-flex items-center gap-3 bg-gradient-to-r from-conversion-blue via-conversion-cyan to-conversion-blue hover:from-conversion-cyan hover:to-conversion-deep text-white px-8 py-5 rounded-2xl text-3xl sm:text-4xl font-black shadow-[0_10px_40px_rgba(41,179,255,0.5)] hover:shadow-[0_15px_50px_rgba(0,212,255,0.7)] transition-all duration-300 hover:scale-105 border-2 border-conversion-black/20"
                       whileHover={{ y: -2 }}
                       whileTap={{ scale: 0.98 }}
                     >
@@ -91,7 +91,7 @@ const Index = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                       >
-                        Roof Looking <span className="text-conversion-orange drop-shadow-[0_0_20px_rgba(255,107,53,0.5)]">Tired?</span> Leaking? Faded?
+                        Roof Looking <span className="text-conversion-cyan drop-shadow-[0_0_20px_rgba(0,212,255,0.6)]">Tired?</span> Leaking? Faded?
                       </motion.h1>
                     }
                     subheadline={
@@ -107,10 +107,10 @@ const Index = () => {
                   />
                   
                   {/* Urgency Message */}
-                  <div className="mt-8 backdrop-blur-md bg-gradient-to-r from-conversion-gold/30 to-conversion-orange/30 border-2 border-conversion-gold/50 rounded-xl p-4 inline-block shadow-2xl">
+                  <div className="mt-8 backdrop-blur-md bg-gradient-to-r from-conversion-deep/40 via-conversion-blue/30 to-conversion-cyan/30 border-2 border-conversion-cyan/50 rounded-xl p-4 inline-block shadow-[0_0_30px_rgba(0,212,255,0.3)]">
                     <p className="text-white font-bold text-base flex items-center gap-2">
-                      <span className="text-conversion-gold text-xl">⚡</span>
-                      <span><span className="text-conversion-gold">This Week:</span> Free $250 roof assessment with every quote</span>
+                      <span className="text-conversion-cyan text-xl animate-pulse">⚡</span>
+                      <span><span className="text-conversion-cyan">This Week:</span> Free $250 roof assessment with every quote</span>
                     </p>
                   </div>
                 </div>

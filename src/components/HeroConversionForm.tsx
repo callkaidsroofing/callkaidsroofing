@@ -102,7 +102,7 @@ export const HeroConversionForm = () => {
         className="backdrop-blur-xl bg-white rounded-3xl p-6 shadow-[0_20px_60px_rgba(0,122,204,0.2)] border-2 border-primary/10 hover:shadow-[0_25px_70px_rgba(0,122,204,0.3)] transition-all duration-300"
       >
       {/* Urgency Header */}
-      <div className="bg-gradient-to-r from-conversion-orange via-conversion-gold to-conversion-orange bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_infinite] text-white px-4 py-3 rounded-2xl mb-4 text-center shadow-lg">
+      <div className="bg-gradient-to-r from-conversion-blue via-conversion-cyan to-conversion-blue bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_infinite] text-white px-4 py-3 rounded-2xl mb-4 text-center shadow-[0_8px_30px_rgba(0,212,255,0.4)] border border-conversion-black/30">
         <p className="text-sm font-black flex items-center justify-center gap-2">
           <span className="text-xl animate-pulse">🔥</span>
           <span>3 Spots Left This Week</span>
@@ -153,7 +153,7 @@ export const HeroConversionForm = () => {
 
         <Button
           type="submit"
-          className="w-full h-14 text-base font-black bg-gradient-to-r from-conversion-orange to-conversion-gold hover:from-conversion-gold hover:to-conversion-orange transition-all shadow-[0_8px_30px_rgba(255,107,53,0.4)] hover:shadow-[0_10px_40px_rgba(255,107,53,0.6)] hover:scale-[1.02] rounded-xl"
+          className="w-full h-14 text-base font-black bg-gradient-to-r from-conversion-blue via-conversion-cyan to-conversion-blue hover:from-conversion-cyan hover:to-conversion-deep transition-all shadow-[0_8px_30px_rgba(41,179,255,0.5)] hover:shadow-[0_10px_40px_rgba(0,212,255,0.7)] hover:scale-[1.02] rounded-xl border-2 border-conversion-black/20"
           disabled={isSubmitting}
         >
           {isSubmitting ? 'Sending...' : 'Get My Free Quote →'}
@@ -164,7 +164,7 @@ export const HeroConversionForm = () => {
       <div className="mt-4 pt-4 border-t-2 border-dashed border-border text-center">
         <a 
           href="tel:0435900709" 
-          className="inline-flex items-center gap-2 text-conversion-orange hover:text-conversion-gold font-black text-base transition-colors hover:scale-105 transform"
+          className="inline-flex items-center gap-2 text-conversion-blue hover:text-conversion-cyan font-black text-base transition-colors hover:scale-105 transform"
         >
           <Phone className="h-4 w-4" />
           0435 900 709

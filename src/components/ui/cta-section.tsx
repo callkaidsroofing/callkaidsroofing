@@ -82,7 +82,7 @@ export const CTASection = ({
             <Button
               asChild
               size="lg"
-              className="bg-gradient-to-r from-conversion-orange to-conversion-gold hover:opacity-90 text-white font-bold shadow-lg"
+              className="bg-gradient-to-r from-conversion-blue to-conversion-cyan hover:from-conversion-cyan hover:to-conversion-deep text-white font-bold shadow-[0_8px_30px_rgba(41,179,255,0.4)] hover:shadow-[0_10px_40px_rgba(0,212,255,0.6)] border-2 border-conversion-black/20"
             >
               <a
                 href={ctaPrimary.href}

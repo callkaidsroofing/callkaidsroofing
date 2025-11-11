@@ -66,9 +66,11 @@
     --roofing-warning: 45 98% 58%;     /* Warning yellow */
     --roofing-emergency: 0 78% 55%;    /* Emergency red */
     
-    /* Conversion Accent - Orange for High-Energy CTAs */
-    --conversion-orange: 19 100% 55%;  /* #FF6B35 - High-energy conversion orange */
-    --conversion-gold: 42 100% 50%;    /* #FFB800 - Urgency gold */
+    /* Conversion Accent - Bright Blue & Cyan for High-Energy CTAs */
+    --conversion-blue: 199 100% 55%;     /* #29B3FF - Bright electric blue */
+    --conversion-cyan: 185 100% 50%;     /* #00D4FF - Vibrant cyan */
+    --conversion-deep: 199 100% 35%;     /* #005C99 - Deep blue for depth */
+    --conversion-black: 210 20% 15%;     /* #202830 - Enriched black-blue tone */
     
     /* Professional Gradients - Brand Hierarchy */
     --gradient-hero: linear-gradient(135deg, hsl(205 81% 22%) 0%, hsl(220 13% 9%) 100%);
