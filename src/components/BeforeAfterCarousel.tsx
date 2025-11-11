@@ -1,50 +1,67 @@
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+const realProjects = [
+  {
+    id: 'nov-02-project',
+    testimonial: '/images/testimonials/review-instagram-oct24.png',
+    before: '/images/projects/before-nov02-1.jpg',
+    after: '/images/projects/after-nov02-1.jpg',
+    location: 'SE Melbourne',
+    description: 'Complete roof restoration with tile replacement and repointing'
+  },
+  {
+    id: 'nov-01-project',
+    before: '/images/projects/before-nov01-1.jpg',
+    after: '/images/projects/after-nov01-1.jpg',
+    location: 'SE Melbourne',
+    description: 'Full roof restoration and tile refurbishment'
+  },
+  {
+    id: 'oct-15-project',
+    before: '/images/projects/before-oct15-1.jpg',
+    after: '/images/projects/after-oct15.jpg',
+    location: 'SE Melbourne',
+    description: 'Professional roof restoration and protective coating'
+  }
+];
 
 export const BeforeAfterCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const { data: caseStudies, isLoading } = useQuery({
-    queryKey: ['featured-case-studies'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('content_case_studies')
-        .select('*')
-        .eq('featured', true)
-        .order('created_at', { ascending: false })
-        .limit(2);
-
-      if (error) throw error;
-      return data || [];
-    },
-  });
-
-  if (isLoading || !caseStudies || caseStudies.length === 0) return null;
-
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % caseStudies.length);
+    setCurrentSlide((prev) => (prev + 1) % realProjects.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + caseStudies.length) % caseStudies.length);
+    setCurrentSlide((prev) => (prev - 1 + realProjects.length) % realProjects.length);
   };
 
-  const study = caseStudies[currentSlide];
+  const currentProject = realProjects[currentSlide];
 
   return (
     <div className="relative max-w-4xl mx-auto">
-      <Card className="overflow-hidden border-2 border-primary/20">
+      <Card className="overflow-hidden border-2 border-conversion-cyan/30 shadow-2xl">
         <CardContent className="p-0">
+          {/* Testimonial Image - Main Focus */}
+          {currentProject.testimonial && (
+            <div className="relative w-full bg-gradient-to-br from-secondary/5 to-primary/5 p-4 md:p-6">
+              <img
+                src={currentProject.testimonial}
+                alt="Customer testimonial"
+                className="w-full max-w-xl mx-auto rounded-lg shadow-lg"
+                loading="lazy"
+              />
+            </div>
+          )}
+
           {/* Before/After Images */}
           <div className="grid grid-cols-2 gap-1">
             <div className="relative aspect-[4/3]">
               <img
-                src={study.before_image || '/placeholder.svg'}
-                alt="Before"
+                src={currentProject.before}
+                alt="Before restoration"
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
@@ -54,63 +71,59 @@ export const BeforeAfterCarousel = () => {
             </div>
             <div className="relative aspect-[4/3]">
               <img
-                src={study.after_image || '/placeholder.svg'}
-                alt="After"
+                src={currentProject.after}
+                alt="After restoration"
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
-              <div className="absolute top-2 right-2 bg-primary/90 text-primary-foreground px-3 py-1 rounded-md text-sm font-semibold">
+              <div className="absolute top-2 right-2 bg-conversion-cyan/90 text-white px-3 py-1 rounded-md text-sm font-semibold">
                 AFTER
               </div>
             </div>
           </div>
 
-          {/* Content */}
-          <div className="p-3 md:p-6 space-y-2 md:space-y-4">
-            <div>
-              <h3 className="font-bold text-base md:text-lg mb-0.5">{study.study_id}</h3>
-              <p className="text-xs md:text-sm text-muted-foreground">{study.suburb}</p>
+          {/* Project Info */}
+          <div className="p-3 md:p-6 space-y-2 bg-gradient-to-t from-background via-background to-transparent">
+            <div className="flex items-center gap-3">
+              <span className="text-xs md:text-sm text-muted-foreground">📍 {currentProject.location}</span>
             </div>
-
-            {study.testimonial && (
-              <div className="bg-primary/5 p-2 md:p-4 rounded-lg border-l-2 md:border-l-4 border-primary">
-                <Quote className="h-3 w-3 md:h-4 md:w-4 text-primary mb-1" />
-                <p className="text-xs md:text-sm italic line-clamp-2 md:line-clamp-none">"{study.testimonial}"</p>
-              </div>
-            )}
+            
+            <p className="text-xs md:text-sm text-foreground/80">
+              {currentProject.description}
+            </p>
           </div>
         </CardContent>
       </Card>
 
       {/* Navigation Arrows */}
-      {caseStudies.length > 1 && (
+      {realProjects.length > 1 && (
         <>
           <button
             onClick={prevSlide}
             className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/90 hover:bg-background p-2 rounded-full shadow-lg"
-            aria-label="Previous case study"
+            aria-label="Previous project"
           >
-            <ChevronLeft className="h-6 w-6 text-primary" />
+            <ChevronLeft className="h-6 w-6 text-conversion-cyan" />
           </button>
           <button
             onClick={nextSlide}
             className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/90 hover:bg-background p-2 rounded-full shadow-lg"
-            aria-label="Next case study"
+            aria-label="Next project"
           >
-            <ChevronRight className="h-6 w-6 text-primary" />
+            <ChevronRight className="h-6 w-6 text-conversion-cyan" />
           </button>
         </>
       )}
 
       {/* Dots Indicator */}
-      {caseStudies.length > 1 && (
+      {realProjects.length > 1 && (
         <div className="flex justify-center gap-2 mt-4">
-          {caseStudies.map((_, idx) => (
+          {realProjects.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentSlide(idx)}
               className={`w-2 h-2 rounded-full transition-all ${
-                idx === currentSlide ? 'bg-primary w-8' : 'bg-primary/30'
+                idx === currentSlide ? 'bg-conversion-cyan w-8' : 'bg-conversion-cyan/30'
               }`}
               aria-label={`Go to slide ${idx + 1}`}
             />
