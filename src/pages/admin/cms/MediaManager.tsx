@@ -1,0 +1,259 @@
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { Upload, Sparkles, Database, Image as ImageIcon, Loader2 } from 'lucide-react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+
+const MediaManager = () => {
+  const [imageUrls, setImageUrls] = useState<string>('');
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const { data: caseStudies, isLoading } = useQuery({
+    queryKey: ['admin-case-studies'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('content_case_studies')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(20);
+
+      if (error) throw error;
+      return data;
+    }
+  });
+
+  const handleAnalyzeImages = async () => {
+    const urls = imageUrls.split('\n').map(url => url.trim()).filter(url => url.length > 0);
+    
+    if (urls.length === 0) {
+      toast({
+        title: "No Images",
+        description: "Please enter at least one image URL",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsAnalyzing(true);
+    
+    try {
+      console.log('Analyzing images with RAG intelligence:', urls);
+      
+      const { data, error } = await supabase.functions.invoke('analyze-project-images', {
+        body: { 
+          images: urls,
+          saveToDatabase: true 
+        }
+      });
+
+      if (error) throw error;
+
+      if (data?.success) {
+        toast({
+          title: "Analysis Complete",
+          description: data.message || `Analyzed and saved ${data.savedProjects?.length || 0} projects`,
+          duration: 5000,
+        });
+        
+        // Refresh the list
+        queryClient.invalidateQueries({ queryKey: ['admin-case-studies'] });
+        queryClient.invalidateQueries({ queryKey: ['ai-analyzed-projects'] });
+        
+        setImageUrls('');
+      } else {
+        throw new Error(data?.error || 'Analysis failed');
+      }
+    } catch (error) {
+      console.error('Error analyzing images:', error);
+      toast({
+        title: "Analysis Failed",
+        description: error instanceof Error ? error.message : 'Failed to analyze images',
+        variant: "destructive"
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const handleDeleteProject = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('content_case_studies')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Project Deleted",
+        description: "Case study removed from database"
+      });
+
+      queryClient.invalidateQueries({ queryKey: ['admin-case-studies'] });
+      queryClient.invalidateQueries({ queryKey: ['ai-analyzed-projects'] });
+    } catch (error) {
+      toast({
+        title: "Delete Failed",
+        description: error instanceof Error ? error.message : 'Failed to delete project',
+        variant: "destructive"
+      });
+    }
+  };
+
+  return (
+    <div className="container mx-auto p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">AI Media Manager</h1>
+          <p className="text-muted-foreground mt-1">
+            RAG-powered intelligent media analysis and storage
+          </p>
+        </div>
+      </div>
+
+      {/* Upload & Analyze Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-conversion-cyan" />
+            AI-Powered Image Analysis
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <label className="text-sm font-medium mb-2 block">
+              Image URLs (one per line)
+            </label>
+            <textarea
+              value={imageUrls}
+              onChange={(e) => setImageUrls(e.target.value)}
+              placeholder="/images/projects/before-roof-1.jpg
+/images/projects/after-roof-1.jpg
+/images/projects/before-roof-2.jpg"
+              className="w-full min-h-[200px] p-3 border rounded-md font-mono text-sm"
+            />
+          </div>
+
+          <div className="bg-secondary/20 p-4 rounded-lg space-y-2">
+            <p className="text-sm font-semibold flex items-center gap-2">
+              <Database className="h-4 w-4 text-conversion-cyan" />
+              What this does:
+            </p>
+            <ul className="text-sm space-y-1 text-muted-foreground ml-6">
+              <li>• Uses RAG to retrieve roofing expertise from knowledge base</li>
+              <li>• AI vision analyzes each image for before/after stage, condition, issues</li>
+              <li>• Intelligently pairs before/after images based on similarity</li>
+              <li>• Stores analysis results in content_case_studies table</li>
+              <li>• Makes projects immediately available on public website</li>
+            </ul>
+          </div>
+
+          <Button 
+            onClick={handleAnalyzeImages}
+            disabled={isAnalyzing || !imageUrls.trim()}
+            className="w-full"
+            size="lg"
+          >
+            {isAnalyzing ? (
+              <>
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Analyzing with RAG Intelligence...
+              </>
+            ) : (
+              <>
+                <Sparkles className="mr-2 h-5 w-5" />
+                Analyze & Store Images
+              </>
+            )}
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Stored Projects */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Database className="h-5 w-5 text-conversion-cyan" />
+            Stored Projects ({caseStudies?.length || 0})
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {isLoading ? (
+            <div className="text-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-conversion-cyan" />
+              <p className="text-muted-foreground">Loading projects...</p>
+            </div>
+          ) : caseStudies && caseStudies.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {caseStudies.map((study) => (
+                <Card key={study.id} className="overflow-hidden">
+                  <div className="grid grid-cols-2 gap-1">
+                    <div className="relative aspect-square">
+                      <img 
+                        src={study.before_image || '/placeholder.svg'} 
+                        alt="Before"
+                        className="w-full h-full object-cover"
+                      />
+                      <span className="absolute top-1 left-1 bg-destructive text-white text-xs px-2 py-0.5 rounded">
+                        BEFORE
+                      </span>
+                    </div>
+                    <div className="relative aspect-square">
+                      <img 
+                        src={study.after_image || '/placeholder.svg'} 
+                        alt="After"
+                        className="w-full h-full object-cover"
+                      />
+                      <span className="absolute top-1 right-1 bg-conversion-cyan text-white text-xs px-2 py-0.5 rounded">
+                        AFTER
+                      </span>
+                    </div>
+                  </div>
+                  <CardContent className="p-3 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-mono text-muted-foreground">
+                        {study.study_id}
+                      </span>
+                      {study.featured && (
+                        <span className="text-xs bg-conversion-cyan/10 text-conversion-cyan px-2 py-0.5 rounded-full">
+                          Featured
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm font-medium">{study.suburb}</p>
+                    <p className="text-xs text-muted-foreground line-clamp-2">
+                      {study.testimonial}
+                    </p>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      className="w-full"
+                      onClick={() => handleDeleteProject(study.id)}
+                    >
+                      Delete
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <ImageIcon className="h-12 w-12 mx-auto mb-4 text-muted-foreground/50" />
+              <p className="text-muted-foreground">No projects stored yet</p>
+              <p className="text-sm text-muted-foreground mt-2">
+                Upload and analyze images to get started
+              </p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+export default MediaManager;
