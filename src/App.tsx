@@ -36,6 +36,7 @@ const Portfolio = lazy(() => import("./pages/Portfolio"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
 const SuburbDetail = lazy(() => import("./pages/SuburbDetail"));
+const SuburbPage = lazy(() => import("./pages/SuburbPage"));
 const RestorationLanding = lazy(() => import("./pages/RestorationLanding"));
 const RoofRestorationClydeNorth = lazy(() => import("./pages/services/suburbs/RoofRestorationClydeNorth"));
 const RoofRestorationCranbourne = lazy(() => import("./pages/services/suburbs/RoofRestorationCranbourne"));
@@ -153,7 +154,7 @@ function App() {
                     <Route path="services/:slug" element={<ServiceDetail />} />
                     <Route path="portfolio" element={<Portfolio />} />
                     <Route path="faq" element={<FAQ />} />
-                    <Route path="suburbs/:slug" element={<SuburbDetail />} />
+                    <Route path="suburbs/:slug" element={<SuburbPage />} />
                     <Route path="services/roof-restoration" element={<RoofRestoration />} />
                     <Route path="services/roof-painting" element={<RoofPainting />} />
                     <Route path="services/roof-restoration-clyde-north" element={<RoofRestorationClydeNorth />} />
