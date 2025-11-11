@@ -8,11 +8,21 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MapPin, Plus, Edit, Trash2, Eye, Search, Sparkles, Loader2 } from 'lucide-react';
+import { MapPin, Plus, Edit, Trash2, Eye, Search, Sparkles, Loader2, Download, FileText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { logAudit } from '@/lib/audit';
 import { PremiumPageHeader } from '@/components/admin/PremiumPageHeader';
 import { SmartContentSuggestions } from '@/components/admin/SmartContentSuggestions';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 type Suburb = {
   id: string;
@@ -36,6 +46,9 @@ export default function Suburbs() {
   const [isEditing, setIsEditing] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [showMigrationDialog, setShowMigrationDialog] = useState(false);
+  const [migrationPreview, setMigrationPreview] = useState<any>(null);
+  const [isMigrating, setIsMigrating] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -170,6 +183,59 @@ export default function Suburbs() {
     setIsEditing(false);
   };
 
+  const handleMigrationPreview = async () => {
+    setIsMigrating(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('migrate-suburb-pages', {
+        body: { dryRun: true }
+      });
+
+      if (error) throw error;
+
+      setMigrationPreview(data);
+      setShowMigrationDialog(true);
+    } catch (error: any) {
+      toast({
+        title: 'Preview Failed',
+        description: error.message || 'Failed to preview migration',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsMigrating(false);
+    }
+  };
+
+  const handleMigrationExecute = async () => {
+    setIsMigrating(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('migrate-suburb-pages', {
+        body: { dryRun: false }
+      });
+
+      if (error) throw error;
+
+      if (data.success) {
+        toast({
+          title: 'Migration Complete!',
+          description: `Successfully migrated ${data.results.migrated} suburb pages. ${data.results.skipped} already existed.`,
+        });
+        queryClient.invalidateQueries({ queryKey: ['admin-suburbs'] });
+        setShowMigrationDialog(false);
+        setMigrationPreview(null);
+      } else {
+        throw new Error('Migration failed');
+      }
+    } catch (error: any) {
+      toast({
+        title: 'Migration Failed',
+        description: error.message || 'Failed to migrate suburb pages',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsMigrating(false);
+    }
+  };
+
   const handleGenerateContent = async () => {
     if (!formData.name) {
       toast({
@@ -257,32 +323,137 @@ export default function Suburbs() {
 
   return (
     <div className="space-y-6 animate-fade-in">
+      {/* Migration Dialog */}
+      <AlertDialog open={showMigrationDialog} onOpenChange={setShowMigrationDialog}>
+        <AlertDialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <FileText className="h-5 w-5" />
+              Import Hardcoded Suburb Pages
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This will import {migrationPreview?.results?.total || 0} high-quality suburb pages from your codebase into the CMS database.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          
+          {migrationPreview && (
+            <div className="space-y-4 py-4">
+              <div className="grid grid-cols-3 gap-4">
+                <Card>
+                  <CardContent className="pt-4">
+                    <div className="text-2xl font-bold text-primary">{migrationPreview.results.migrated}</div>
+                    <div className="text-sm text-muted-foreground">Will Import</div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="pt-4">
+                    <div className="text-2xl font-bold text-muted-foreground">{migrationPreview.results.skipped}</div>
+                    <div className="text-sm text-muted-foreground">Already Exist</div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="pt-4">
+                    <div className="text-2xl font-bold text-destructive">{migrationPreview.results.errors.length}</div>
+                    <div className="text-sm text-muted-foreground">Errors</div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-semibold">Pages to Import:</h4>
+                <div className="space-y-1 max-h-60 overflow-y-auto">
+                  {migrationPreview.results.details.map((detail: any, idx: number) => (
+                    <div key={idx} className="flex items-center justify-between p-2 border rounded text-sm">
+                      <span className="font-medium">{detail.suburb}</span>
+                      <Badge variant={detail.status === 'would_migrate' ? 'default' : 'secondary'}>
+                        {detail.status === 'would_migrate' ? 'Ready to import' : 'Already exists'}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {migrationPreview.results.errors.length > 0 && (
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-destructive">Errors:</h4>
+                  <div className="space-y-1">
+                    {migrationPreview.results.errors.map((err: any, idx: number) => (
+                      <div key={idx} className="p-2 border border-destructive/50 rounded text-sm">
+                        <span className="font-medium">{err.suburb}:</span> {err.error}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isMigrating}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleMigrationExecute}
+              disabled={isMigrating || migrationPreview?.results?.migrated === 0}
+              className="bg-primary"
+            >
+              {isMigrating ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  Importing...
+                </>
+              ) : (
+                `Import ${migrationPreview?.results?.migrated || 0} Pages`
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <PremiumPageHeader
         icon={MapPin}
         title="Suburbs Management"
         description="Local SEO optimization and suburb-specific content"
         actions={
-          <Button 
-            onClick={() => {
-              setSelectedSuburb(null);
-              setFormData({
-                name: '',
-                slug: '',
-                postcode: '',
-                region: '',
-                description: '',
-                local_seo_content: '',
-                meta_title: '',
-                meta_description: '',
-                services_available: '',
-              });
-              setIsEditing(true);
-            }}
-            className="gap-2 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground shadow-lg"
-          >
-            <Plus className="h-4 w-4" />
-            New Suburb
-          </Button>
+          <div className="flex gap-2">
+            <Button 
+              onClick={handleMigrationPreview}
+              disabled={isMigrating}
+              variant="outline"
+              className="gap-2"
+            >
+              {isMigrating ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                <>
+                  <Download className="h-4 w-4" />
+                  Import Pages
+                </>
+              )}
+            </Button>
+            <Button 
+              onClick={() => {
+                setSelectedSuburb(null);
+                setFormData({
+                  name: '',
+                  slug: '',
+                  postcode: '',
+                  region: '',
+                  description: '',
+                  local_seo_content: '',
+                  meta_title: '',
+                  meta_description: '',
+                  services_available: '',
+                });
+                setIsEditing(true);
+              }}
+              className="gap-2 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground shadow-lg"
+            >
+              <Plus className="h-4 w-4" />
+              New Suburb
+            </Button>
+          </div>
         }
       />
 
