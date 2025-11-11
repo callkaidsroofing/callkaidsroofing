@@ -81,6 +81,7 @@ const navStructure: NavSection[] = [
       { title: 'Knowledge Base', path: '/admin/cms/knowledge', icon: FileText },
       { title: 'Services', path: '/admin/cms/services', icon: Wrench },
       { title: 'Suburbs', path: '/admin/cms/suburbs', icon: Home },
+      { title: 'Media Gallery', path: '/admin/cms/media-gallery', icon: Image },
       { title: 'Data Hub', path: '/admin/cms/data', icon: Database },
       { title: 'Documents', path: '/admin/cms/documents', icon: FileText },
     ],
