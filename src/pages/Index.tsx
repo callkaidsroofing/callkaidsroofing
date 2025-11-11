@@ -7,6 +7,7 @@ import { SEOHead } from "@/components/SEOHead";
 import { StickyMobileHeader } from "@/components/StickyMobileHeader";
 import { BeforeAfterCarousel } from "@/components/BeforeAfterCarousel";
 import GoogleBusinessProfile from "@/components/GoogleBusinessProfile";
+import ParallaxBackground from "@/components/ParallaxBackground";
 
 const Index = () => {
   const serviceAreas = [
@@ -25,16 +26,17 @@ const Index = () => {
       
       <div className="md:pt-0 pt-16">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-secondary via-charcoal to-secondary text-primary-foreground py-16 md:py-24 min-h-[60vh] md:min-h-[70vh] flex items-center overflow-hidden">
-          {/* Metallic shimmer overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-silver/5 to-transparent opacity-50 animate-pulse" />
-          
-          {/* Subtle pattern overlay */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] bg-[length:40px_40px]" />
-          </div>
-          
-          <div className="container mx-auto px-4 max-w-6xl relative z-10">
+        <ParallaxBackground variant="hero" density="high">
+          <section className="relative bg-gradient-to-br from-secondary via-charcoal to-secondary text-primary-foreground py-16 md:py-24 min-h-[60vh] md:min-h-[70vh] flex items-center overflow-hidden">
+            {/* Metallic shimmer overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-silver/5 to-transparent opacity-50 animate-pulse" />
+            
+            {/* Subtle pattern overlay */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] bg-[length:40px_40px]" />
+            </div>
+            
+            <div className="container mx-auto px-4 max-w-6xl relative z-10">
             <div className="max-w-3xl">
               <h1 className="text-4xl md:text-6xl font-bold mb-6 md:mb-8 leading-tight text-shadow-lg">
                 Roof Looking Tired? Leaking? Faded?
@@ -63,13 +65,15 @@ const Index = () => {
             </div>
           </div>
         </section>
+        </ParallaxBackground>
 
         {/* Before/After Proof Carousel */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-background via-steel/10 to-background relative overflow-hidden">
-          {/* Metallic accent */}
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
-          
-          <div className="container mx-auto px-4 max-w-6xl relative z-10">
+        <ParallaxBackground variant="testimonials" density="medium">
+          <section className="py-16 md:py-24 bg-gradient-to-b from-background via-steel/10 to-background relative overflow-hidden">
+            {/* Metallic accent */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
+            
+            <div className="container mx-auto px-4 max-w-6xl relative z-10">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-secondary via-primary to-accent bg-clip-text text-transparent drop-shadow-lg">
                 Real Results From Real Customers
@@ -79,6 +83,7 @@ const Index = () => {
             <BeforeAfterCarousel />
           </div>
         </section>
+        </ParallaxBackground>
 
         {/* Google Business Profile */}
         <section className="py-16 bg-gradient-to-br from-charcoal via-secondary to-charcoal relative overflow-hidden">
@@ -94,8 +99,9 @@ const Index = () => {
         </section>
 
         {/* Services Section */}
-        <section className="py-12 md:py-16 bg-gradient-to-br from-muted/30 via-background to-muted/30 relative">
-          <div className="container mx-auto px-4 max-w-6xl relative z-10">
+        <ParallaxBackground variant="services" density="low">
+          <section className="py-12 md:py-16 bg-gradient-to-br from-muted/30 via-background to-muted/30 relative">
+            <div className="container mx-auto px-4 max-w-6xl relative z-10">
             <div className="text-center mb-8">
               <h2 className="text-2xl md:text-3xl font-bold mb-2">Our Services</h2>
               <p className="text-muted-foreground">
@@ -141,6 +147,7 @@ const Index = () => {
             </div>
           </div>
         </section>
+        </ParallaxBackground>
 
         {/* Why Choose Us */}
         <section className="py-12 md:py-16 bg-gradient-to-b from-background to-steel/5 relative">
@@ -202,9 +209,10 @@ const Index = () => {
         </section>
 
         {/* Final CTA */}
-        <section className="py-16 md:py-24 bg-gradient-to-br from-primary via-accent to-secondary text-primary-foreground relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:30px_30px] opacity-30" />
-          <div className="container mx-auto px-4 max-w-6xl text-center relative z-10">
+        <ParallaxBackground variant="cta" density="medium">
+          <section className="py-16 md:py-24 bg-gradient-to-br from-primary via-accent to-secondary text-primary-foreground relative overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:30px_30px] opacity-30" />
+            <div className="container mx-auto px-4 max-w-6xl text-center relative z-10">
             <h2 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4">
               Book Your Free Roof Health Check This Week
             </h2>
@@ -227,6 +235,7 @@ const Index = () => {
             </div>
           </div>
         </section>
+        </ParallaxBackground>
 
         {/* Quick Capture Form */}
         <section className="py-16 bg-background">
