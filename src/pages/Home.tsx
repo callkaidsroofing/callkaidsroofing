@@ -1,179 +1,212 @@
-import { SEOHead } from '@/components/SEOHead';
-import { Button } from '@/components/ui/button';
-import { Phone, Shield, Award, CheckCircle, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { Card, CardContent } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Phone, Shield, MapPin, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import QuickCaptureForm from "@/components/QuickCaptureForm";
+import { SEOHead } from "@/components/SEOHead";
+import { StickyMobileHeader } from "@/components/StickyMobileHeader";
+import { BeforeAfterCarousel } from "@/components/BeforeAfterCarousel";
 
 const Home = () => {
+  const serviceAreas = [
+    "Berwick", "Narre Warren", "Cranbourne", "Pakenham", "Officer",
+    "Beaconsfield", "Clyde", "Hampton Park", "Lyndhurst", "Endeavour Hills"
+  ];
+
   return (
-    <div className="min-h-screen bg-background">
-      <SEOHead
-        title="Call Kaids Roofing | SE Melbourne's Trusted Roof Restoration Experts"
-        description="Professional roof restoration, repairs & painting in SE Melbourne. 15-year warranty, direct owner contact, 0435 900 709. Proof In Every Roof."
-        keywords="roof restoration Melbourne, roof repairs Berwick, roof painting Pakenham, roofing Cranbourne"
+    <div className="min-h-screen">
+      <SEOHead 
+        title="Call Kaids Roofing - SE Melbourne's Trusted Roofing Experts"
+        description="Professional roof restoration, repairs & painting in SE Melbourne. 15-year warranty, direct owner contact, 200+ happy customers. Call 0435 900 709 for a free quote."
       />
 
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary to-secondary text-white py-20 md:py-32">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="max-w-3xl">
-            <div className="inline-block mb-4 px-3 py-1 bg-white/20 rounded-full text-sm">
-              ABN 39475055075 • Fully Insured
-            </div>
-            
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              SE Melbourne's Most Trusted Roof Restoration
-            </h1>
-            
-            <p className="text-xl md:text-2xl mb-2 opacity-90">
-              15-year warranty • Direct owner contact • No pressure
-            </p>
-            <p className="text-lg mb-8 italic opacity-80">
-              "Proof In Every Roof"
-            </p>
+      <StickyMobileHeader />
+      
+      <div className="md:pt-0 pt-16">
+        {/* Hero Section */}
+        <section className="relative bg-gradient-to-br from-primary to-secondary text-primary-foreground py-12 md:py-20 min-h-[50vh] md:min-h-0 flex items-center">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <div className="max-w-3xl">
+              <h1 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6 leading-tight">
+                Roof Looking Tired? Leaking? Faded?
+              </h1>
+              
+              <p className="text-lg md:text-2xl mb-4 opacity-90">
+                15-Year Warranty • Direct Owner Contact • Local SE Melbourne
+              </p>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 text-lg">
-                <a href="tel:0435900709" className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-2 bg-background/20 px-4 py-2 rounded-full text-sm md:text-base mb-6">
+                <span>⭐ 4.9/5 Google Reviews</span>
+                <span>•</span>
+                <span>200+ Happy Customers</span>
+              </div>
+
+              <p className="text-base md:text-lg mb-8 italic opacity-80">
+                "Proof In Every Roof"
+              </p>
+
+              <Button asChild size="lg" className="bg-background text-primary hover:bg-background/90 text-lg w-full sm:w-auto">
+                <a href="tel:0435900709" className="flex items-center justify-center gap-2">
                   <Phone className="h-5 w-5" />
                   Call 0435 900 709
                 </a>
               </Button>
-              <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary text-lg">
-                <Link to="/quote">Get Free Quote</Link>
-              </Button>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Services */}
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
-            <p className="text-xl text-muted-foreground">
-              Professional roofing solutions for SE Melbourne homes
-            </p>
+        {/* Before/After Proof Carousel */}
+        <section className="py-12 md:py-16 bg-background">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold mb-2">Real Results From Real Customers</h2>
+              <p className="text-muted-foreground">See the transformation we deliver</p>
+            </div>
+            <BeforeAfterCarousel />
           </div>
+        </section>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                title: 'Roof Restoration',
-                desc: 'Complete restoration including cleaning, repairs, and protective coating',
-                price: 'From $4,500',
-                link: '/services/roof-restoration'
-              },
-              {
-                title: 'Roof Repairs',
-                desc: 'Fast, reliable repairs for ridge caps, valleys, leaks and storm damage',
-                price: 'From $350',
-                link: '/services/roof-repairs'
-              },
-              {
-                title: 'Roof Painting',
-                desc: 'Premium membrane coatings with color consultation and warranty',
-                price: 'From $3,800',
-                link: '/services/roof-painting'
-              }
-            ].map((service, idx) => (
-              <Card key={idx} className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-                  <p className="text-muted-foreground mb-4">{service.desc}</p>
-                  <div className="text-2xl font-bold text-primary mb-4">{service.price}</div>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link to={service.link}>Learn More</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+        {/* Services Section */}
+        <section className="py-12 md:py-16 bg-muted/50">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold mb-2">Our Services</h2>
+              <p className="text-muted-foreground">
+                Professional roofing solutions for SE Melbourne
+              </p>
+            </div>
 
-      {/* Why Choose Us */}
-      <section className="py-16 md:py-24 bg-muted/50">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Why Choose CKR?</h2>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                icon: Phone,
-                title: 'Direct Owner Contact',
-                desc: 'Talk to Kaidyn directly - no sales team, just honest advice'
-              },
-              {
-                icon: Shield,
-                title: '15-Year Warranty',
-                desc: 'Industry-leading workmanship guarantee plus $20M public liability'
-              },
-              {
-                icon: Award,
-                title: 'Local Experts',
-                desc: 'SE Melbourne specialists who understand your area'
-              },
-              {
-                icon: CheckCircle,
-                title: 'Zero Pressure',
-                desc: 'Transparent quotes, take your time, no obligation'
-              }
-            ].map((item, idx) => (
-              <div key={idx} className="text-center">
-                <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                  <item.icon className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-lg font-bold mb-2">{item.title}</h3>
-                <p className="text-muted-foreground text-sm">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Service Areas */}
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8">We Service SE Melbourne</h2>
-            <div className="flex flex-wrap justify-center gap-3 mb-6">
-              {['Berwick', 'Cranbourne', 'Pakenham', 'Officer', 'Narre Warren', 'Beaconsfield', 'Hallam', 'Clyde North', 'Hampton Park'].map((suburb) => (
-                <Link 
-                  key={suburb}
-                  to={`/suburbs/${suburb.toLowerCase().replace(' ', '-')}`}
-                  className="px-4 py-2 bg-muted hover:bg-primary hover:text-white rounded-md transition-colors text-sm font-medium"
-                >
-                  {suburb}
+            <div className="grid md:grid-cols-3 gap-4">
+              {[
+                {
+                  icon: '🏠',
+                  title: 'Roof Restoration',
+                  benefit: 'Add 15+ years to your roof\'s life',
+                  price: 'From $4,500',
+                  link: '/services/roof-restoration'
+                },
+                {
+                  icon: '🔧',
+                  title: 'Roof Repairs',
+                  benefit: 'Fast fixes for leaks & damage',
+                  price: 'From $350',
+                  link: '/services/roof-repairs'
+                },
+                {
+                  icon: '🎨',
+                  title: 'Roof Painting',
+                  benefit: 'Refresh & protect with premium coating',
+                  price: 'From $3,800',
+                  link: '/services/roof-painting'
+                }
+              ].map((service, idx) => (
+                <Link key={idx} to={service.link} className="block">
+                  <Card className="hover:shadow-lg hover:border-primary/30 transition-all h-full">
+                    <CardContent className="p-4 md:p-6 text-center">
+                      <div className="text-4xl mb-3">{service.icon}</div>
+                      <h3 className="text-lg md:text-xl font-bold mb-2">{service.title}</h3>
+                      <p className="text-sm text-muted-foreground mb-3">{service.benefit}</p>
+                      <div className="text-xl md:text-2xl font-bold text-primary">{service.price}</div>
+                    </CardContent>
+                  </Card>
                 </Link>
               ))}
             </div>
-            <p className="text-muted-foreground">And surrounding areas</p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CTA */}
-      <section className="py-16 md:py-24 bg-primary text-white">
-        <div className="container mx-auto px-4 max-w-6xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Restore Your Roof?</h2>
-          <p className="text-xl mb-8 opacity-90">
-            Free quotes • Honest advice • Zero pressure
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-              <a href="tel:0435900709" className="flex items-center gap-2">
-                <Phone className="h-5 w-5" />
-                0435 900 709
-              </a>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">
-              <Link to="/quote">Book Free Inspection</Link>
-            </Button>
+        {/* Why Choose Us */}
+        <section className="py-12 md:py-16 bg-background">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">Why Choose CKR?</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  icon: Shield,
+                  title: '15-Year Warranty',
+                  desc: 'Industry-leading workmanship guarantee'
+                },
+                {
+                  icon: Phone,
+                  title: 'Direct Owner Contact',
+                  desc: 'Talk to Kaidyn directly - no sales team'
+                },
+                {
+                  icon: MapPin,
+                  title: 'Local SE Melbourne',
+                  desc: 'Fast response times for your area'
+                }
+              ].map((item, idx) => (
+                <div key={idx} className="flex items-start gap-4 md:flex-col md:items-center md:text-center">
+                  <div className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0 bg-primary/10 rounded-full flex items-center justify-center">
+                    <item.icon className="h-6 w-6 md:h-8 md:w-8 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-base md:text-lg mb-1">{item.title}</h3>
+                    <p className="text-muted-foreground text-sm">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Service Areas */}
+        <section className="py-12 md:py-16 bg-muted/50">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
+              Proudly Serving SE Melbourne
+            </h2>
+            <div className="flex flex-wrap justify-center gap-3 mb-8">
+              {serviceAreas.map((area) => (
+                <span
+                  key={area}
+                  className="px-4 py-2 bg-background border border-primary/20 rounded-full text-sm hover:border-primary/40 transition-colors"
+                >
+                  {area}
+                </span>
+              ))}
+            </div>
+            <p className="text-center text-muted-foreground">
+              Don't see your suburb? <Link to="/quote" className="text-primary hover:underline">Contact us</Link> - we cover all of SE Melbourne
+            </p>
+          </div>
+        </section>
+
+        {/* Final CTA */}
+        <section className="py-16 md:py-24 bg-primary text-primary-foreground">
+          <div className="container mx-auto px-4 max-w-6xl text-center">
+            <h2 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4">
+              Book Your Free Roof Health Check This Week
+            </h2>
+            <p className="text-lg md:text-xl mb-8 opacity-90">
+              Free quotes • Honest advice • Zero pressure
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild size="lg" className="bg-background text-primary hover:bg-background/90">
+                <a href="tel:0435900709" className="flex items-center justify-center gap-2">
+                  <Phone className="h-5 w-5" />
+                  0435 900 709
+                </a>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-primary-foreground text-primary-foreground hover:bg-background hover:text-primary">
+                <Link to="/quote" className="flex items-center justify-center gap-2">
+                  Request Quote Online
+                  <ArrowRight className="h-5 w-5" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Quick Capture Form */}
+        <section className="py-16 bg-background">
+          <div className="container mx-auto px-4 max-w-2xl">
+            <QuickCaptureForm />
+          </div>
+        </section>
+      </div>
     </div>
   );
 };

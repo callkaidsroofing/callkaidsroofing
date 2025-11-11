@@ -46,7 +46,6 @@ const SUBURBS = [
 export default function Quote() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
 
   const form = useForm<QuoteRequestData>({
     resolver: zodResolver(quoteRequestSchema),
@@ -73,7 +72,16 @@ export default function Quote() {
 
       if (error) throw error;
 
-      setIsSuccess(true);
+      toast({
+        title: "Quote Request Submitted!",
+        description: "Redirecting to confirmation page...",
+      });
+
+      // Redirect to thank you page after 2 seconds
+      setTimeout(() => {
+        window.location.href = '/thank-you';
+      }, 2000);
+
       form.reset();
     } catch (error) {
       console.error('Error submitting quote request:', error);
@@ -86,102 +94,6 @@ export default function Quote() {
       setIsSubmitting(false);
     }
   };
-
-  if (isSuccess) {
-    return (
-      <>
-        <Helmet>
-          <title>Quote Request Received - Call Kaids Roofing</title>
-          <meta name="robots" content="noindex" />
-        </Helmet>
-        <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-4">
-          <Card className="max-w-2xl w-full glass-card border-2 border-primary/20">
-            <CardContent className="pt-12 pb-8 text-center space-y-6">
-              <div className="flex justify-center">
-                <div className="p-6 rounded-full bg-gradient-to-br from-green-500/20 to-green-600/20 border-4 border-green-500/30">
-                  <CheckCircle2 className="h-16 w-16 text-green-600" />
-                </div>
-              </div>
-              
-              <div className="space-y-3">
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Thank You!
-                </h1>
-                <p className="text-xl text-muted-foreground">
-                  We've received your quote request
-                </p>
-              </div>
-
-              <div className="bg-primary/5 rounded-xl p-6 space-y-4">
-                <h3 className="font-semibold text-lg flex items-center justify-center gap-2">
-                  <Clock className="h-5 w-5 text-primary" />
-                  What Happens Next?
-                </h3>
-                <ul className="text-left space-y-3 max-w-md mx-auto">
-                  <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs font-bold text-primary">1</span>
-                    </div>
-                    <span className="text-muted-foreground">We'll review your request within 24 hours</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs font-bold text-primary">2</span>
-                    </div>
-                    <span className="text-muted-foreground">We'll contact you to discuss your specific needs</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs font-bold text-primary">3</span>
-                    </div>
-                    <span className="text-muted-foreground">We'll provide a detailed quote for your roofing work</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="pt-6 space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  Need urgent assistance?
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Button
-                    asChild
-                    size="lg"
-                    variant="outline"
-                    className="border-2 border-primary/20"
-                  >
-                    <a href="tel:0435900709">
-                      <Phone className="mr-2 h-4 w-4" />
-                      Call 0435 900 709
-                    </a>
-                  </Button>
-                  <Button
-                    asChild
-                    size="lg"
-                    variant="outline"
-                    className="border-2 border-primary/20"
-                  >
-                    <a href="mailto:info@callkaidsroofing.com.au">
-                      <Mail className="mr-2 h-4 w-4" />
-                      Email Us
-                    </a>
-                  </Button>
-                </div>
-                
-                <Button
-                  onClick={() => setIsSuccess(false)}
-                  variant="ghost"
-                  className="mt-4"
-                >
-                  Submit Another Request
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </>
-    );
-  }
 
   return (
     <>

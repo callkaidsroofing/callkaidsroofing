@@ -17,6 +17,7 @@ export default function ThankYou() {
       />
       
       <Helmet>
+        <meta name="robots" content="noindex" />
         <script>
           {`gtag('event', 'conversion', {'send_to': 'AW-17540375809/x6HSCIrwsqobEIHK86tB'});`}
         </script>
