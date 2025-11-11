@@ -265,3 +265,10 @@ verify_jwt = true
 
 [functions.extract-and-embed-knowledge]
 verify_jwt = true
+
+# ============================================
+# AI IMAGE ANALYSIS FUNCTIONS
+# ============================================
+
+[functions.analyze-project-images]
+verify_jwt = false
