@@ -136,6 +136,7 @@ const Index = () => {
                 </h2>
               </div>
               <div className="backdrop-blur bg-card/50 border border-border/50 rounded-2xl p-4 shadow-lg">
+                {/* CMS-Managed: Edit featured projects at /admin/cms/homepage */}
                 <BeforeAfterCarousel />
               </div>
             </Container>
