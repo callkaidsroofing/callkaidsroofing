@@ -179,6 +179,39 @@ export type Database = {
         }
         Relationships: []
       }
+      brand_assets: {
+        Row: {
+          active: boolean | null
+          asset_type: string
+          created_at: string | null
+          id: string
+          key: string
+          metadata: Json | null
+          updated_at: string | null
+          value: Json
+        }
+        Insert: {
+          active?: boolean | null
+          asset_type: string
+          created_at?: string | null
+          id?: string
+          key: string
+          metadata?: Json | null
+          updated_at?: string | null
+          value: Json
+        }
+        Update: {
+          active?: boolean | null
+          asset_type?: string
+          created_at?: string | null
+          id?: string
+          key?: string
+          metadata?: Json | null
+          updated_at?: string | null
+          value?: Json
+        }
+        Relationships: []
+      }
       campaigns: {
         Row: {
           ad_creatives: Json | null
@@ -1767,6 +1800,48 @@ export type Database = {
         }
         Relationships: []
       }
+      knowledge_file_metadata: {
+        Row: {
+          created_at: string | null
+          dependencies: string[] | null
+          file_path: string | null
+          kf_id: string
+          last_updated: string | null
+          master_knowledge_ids: string[] | null
+          purpose: string | null
+          review_cadence: string | null
+          title: string
+          updated_at: string | null
+          version: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          dependencies?: string[] | null
+          file_path?: string | null
+          kf_id: string
+          last_updated?: string | null
+          master_knowledge_ids?: string[] | null
+          purpose?: string | null
+          review_cadence?: string | null
+          title: string
+          updated_at?: string | null
+          version?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          dependencies?: string[] | null
+          file_path?: string | null
+          kf_id?: string
+          last_updated?: string | null
+          master_knowledge_ids?: string[] | null
+          purpose?: string | null
+          review_cadence?: string | null
+          title?: string
+          updated_at?: string | null
+          version?: string | null
+        }
+        Relationships: []
+      }
       knowledge_file_versions: {
         Row: {
           change_summary: string | null
@@ -2080,10 +2155,12 @@ export type Database = {
           doc_type: string
           embedding: string | null
           id: string
+          kf_id: string | null
           last_synced_at: string | null
           metadata: Json | null
           migration_notes: string | null
           priority: number | null
+          section: string | null
           source: string
           subcategory: string | null
           supersedes: string[] | null
@@ -2102,10 +2179,12 @@ export type Database = {
           doc_type: string
           embedding?: string | null
           id?: string
+          kf_id?: string | null
           last_synced_at?: string | null
           metadata?: Json | null
           migration_notes?: string | null
           priority?: number | null
+          section?: string | null
           source: string
           subcategory?: string | null
           supersedes?: string[] | null
@@ -2124,10 +2203,12 @@ export type Database = {
           doc_type?: string
           embedding?: string | null
           id?: string
+          kf_id?: string | null
           last_synced_at?: string | null
           metadata?: Json | null
           migration_notes?: string | null
           priority?: number | null
+          section?: string | null
           source?: string
           subcategory?: string | null
           supersedes?: string[] | null
@@ -3442,6 +3523,54 @@ export type Database = {
           processed?: boolean | null
           received_at?: string
           source?: string
+        }
+        Relationships: []
+      }
+      workflow_automations: {
+        Row: {
+          created_at: string | null
+          dependencies: Json | null
+          gwa_id: string
+          id: string
+          name: string
+          objective: string | null
+          status: string | null
+          success_metrics: Json | null
+          trigger_criteria: Json | null
+          trigger_type: string | null
+          updated_at: string | null
+          version: string | null
+          workflow_steps: Json | null
+        }
+        Insert: {
+          created_at?: string | null
+          dependencies?: Json | null
+          gwa_id: string
+          id?: string
+          name: string
+          objective?: string | null
+          status?: string | null
+          success_metrics?: Json | null
+          trigger_criteria?: Json | null
+          trigger_type?: string | null
+          updated_at?: string | null
+          version?: string | null
+          workflow_steps?: Json | null
+        }
+        Update: {
+          created_at?: string | null
+          dependencies?: Json | null
+          gwa_id?: string
+          id?: string
+          name?: string
+          objective?: string | null
+          status?: string | null
+          success_metrics?: Json | null
+          trigger_criteria?: Json | null
+          trigger_type?: string | null
+          updated_at?: string | null
+          version?: string | null
+          workflow_steps?: Json | null
         }
         Relationships: []
       }

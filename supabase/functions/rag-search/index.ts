@@ -11,7 +11,8 @@ interface RagSearchRequest {
   matchThreshold?: number;
   matchCount?: number;
   filterCategory?: string;
-  sourceTypes?: string[]; // NEW: Allow filtering by source tables
+  sourceTypes?: string[];
+  enableKFRouting?: boolean; // NEW: Enable KF-aware routing
 }
 
 serve(async (req) => {
@@ -38,7 +39,8 @@ serve(async (req) => {
       matchThreshold = 0.7, 
       matchCount = 5, 
       filterCategory,
-      sourceTypes = ['all']
+      sourceTypes = ['all'],
+      enableKFRouting = true
     }: RagSearchRequest = await req.json();
 
     if (!query) {
@@ -73,7 +75,30 @@ serve(async (req) => {
 
     const allResults: any[] = [];
 
-    // Search master_knowledge if requested
+    // KF-Aware routing: detect query intent and prioritize specific KF sections
+    let kfFilter: string | null = null;
+    let priorityBoost: string[] = [];
+
+    if (enableKFRouting) {
+      const lowerQuery = query.toLowerCase();
+      
+      if (lowerQuery.match(/price|pricing|cost|quote|rate|charge|fee/)) {
+        kfFilter = 'KF_02';
+        priorityBoost = ['KF_02', 'KF_01'];
+      } else if (lowerQuery.match(/brand|voice|tone|slogan|color|style|identity/)) {
+        priorityBoost = ['KF_01', 'KF_07', 'KF_09'];
+      } else if (lowerQuery.match(/sop|procedure|safety|ppe|process|how to|step|inspection/)) {
+        priorityBoost = ['KF_03', 'KF_04', 'KF_05'];
+      } else if (lowerQuery.match(/marketing|seo|ad|campaign|content|copy/)) {
+        kfFilter = 'KF_06';
+      } else if (lowerQuery.match(/warranty|guarantee|coverage|term/)) {
+        priorityBoost = ['KF_06'];
+      } else if (lowerQuery.match(/workflow|automation|trigger|gwa/)) {
+        sourceTypes.push('workflows');
+      }
+    }
+
+    // Search master_knowledge with KF-aware enhancements
     if (sourceTypes.includes('all') || sourceTypes.includes('master_knowledge')) {
       const { data, error } = await supabase.rpc('search_master_knowledge', {
         query_embedding: queryEmbedding,
@@ -83,14 +108,95 @@ serve(async (req) => {
       });
 
       if (!error && data) {
-        allResults.push(...data.map((doc: any) => ({
-          id: doc.doc_id,
-          title: doc.title,
-          content: doc.content,
-          source_table: 'master_knowledge',
-          source_id: doc.doc_id,
-          similarity: doc.similarity,
-          metadata: doc.metadata
+        const enhancedResults = data.map((doc: any) => {
+          let similarity = doc.similarity;
+          
+          // Apply KF priority boost
+          if (doc.metadata?.kf_id) {
+            if (kfFilter && doc.metadata.kf_id === kfFilter) {
+              similarity += 0.15;
+            } else if (priorityBoost.includes(doc.metadata.kf_id)) {
+              similarity += 0.05;
+            }
+          }
+
+          return {
+            id: doc.doc_id,
+            title: doc.title,
+            content: doc.content,
+            source_table: 'master_knowledge',
+            source_id: doc.doc_id,
+            similarity,
+            metadata: {
+              ...doc.metadata,
+              kf_routing_applied: kfFilter || priorityBoost.join(',') || 'none'
+            }
+          };
+        });
+
+        allResults.push(...enhancedResults);
+
+        // Follow KF dependencies
+        const kfIds = new Set(enhancedResults.map((r: any) => r.metadata?.kf_id).filter(Boolean));
+        if (kfIds.size > 0) {
+          const { data: metaData } = await supabase
+            .from('knowledge_file_metadata')
+            .select('kf_id, dependencies')
+            .in('kf_id', Array.from(kfIds));
+
+          if (metaData) {
+            const depKfIds = metaData.flatMap((m: any) => m.dependencies || []);
+            if (depKfIds.length > 0) {
+              const { data: depData } = await supabase
+                .from('master_knowledge')
+                .select('*')
+                .in('kf_id', depKfIds)
+                .eq('active', true)
+                .limit(3);
+
+              if (depData) {
+                allResults.push(...depData.map((item: any) => ({
+                  id: item.doc_id,
+                  title: item.title,
+                  content: item.content,
+                  source_table: 'master_knowledge',
+                  source_id: item.doc_id,
+                  similarity: 0.65,
+                  metadata: { ...item.metadata, is_dependency: true }
+                })));
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Search workflows if requested
+    if (sourceTypes.includes('all') || sourceTypes.includes('workflows')) {
+      const { data: workflowData, error: workflowError } = await supabase
+        .from('workflow_automations')
+        .select('*')
+        .eq('status', 'active');
+
+      if (!workflowError && workflowData) {
+        const matchingWorkflows = workflowData.filter((wf: any) => {
+          const searchText = `${wf.name} ${wf.objective} ${wf.gwa_id}`.toLowerCase();
+          return searchText.includes(query.toLowerCase());
+        });
+
+        allResults.push(...matchingWorkflows.map((wf: any) => ({
+          id: wf.gwa_id,
+          title: wf.name,
+          content: wf.objective || '',
+          source_table: 'workflow_automations',
+          source_id: wf.gwa_id,
+          similarity: 0.8,
+          metadata: {
+            gwa_id: wf.gwa_id,
+            trigger_type: wf.trigger_type,
+            workflow_steps: wf.workflow_steps,
+            dependencies: wf.dependencies,
+          }
         })));
       }
     }

@@ -102,6 +102,8 @@ const CMSData = lazy(() => import("./pages/admin/cms/Data"));
 const CMSDocs = lazy(() => import("./pages/admin/cms/Documents"));
 const CMSQuoteDocs = lazy(() => import("./pages/admin/cms/QuoteDocuments"));
 const CMSDataSync = lazy(() => import("./pages/admin/cms/DataSync"));
+const CMSKnowledgeSystem = lazy(() => import("./pages/admin/cms/KnowledgeSystem"));
+const ToolsWorkflows = lazy(() => import("./pages/admin/tools/Workflows"));
 
 import { AdminLayout } from "@/components/AdminLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -227,12 +229,14 @@ function App() {
                       <Route path="cms/knowledge" element={<CMSKnowledge />} />
                       <Route path="cms/knowledge/upload" element={<CMSKnowledgeUpload />} />
                       <Route path="cms/knowledge/embeddings" element={<CMSEmbeddings />} />
+                      <Route path="cms/knowledge-system" element={<CMSKnowledgeSystem />} />
                       <Route path="cms/services" element={<CMSServices />} />
                       <Route path="cms/suburbs" element={<CMSSuburbs />} />
                       <Route path="cms/data" element={<CMSData />} />
                       <Route path="cms/documents" element={<CMSDocs />} />
                       <Route path="cms/documents/quotes" element={<CMSQuoteDocs />} />
                       <Route path="cms/sync" element={<CMSDataSync />} />
+                      <Route path="tools/workflows" element={<ToolsWorkflows />} />
                       
                       {/* Legacy redirects */}
                       <Route path="home" element={<Navigate to="/admin" replace />} />
