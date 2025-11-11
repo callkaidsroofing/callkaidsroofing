@@ -25,9 +25,12 @@ const Index = () => {
       
       <div className="md:pt-0 pt-16">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-primary via-primary to-secondary text-primary-foreground py-16 md:py-24 min-h-[60vh] md:min-h-[70vh] flex items-center overflow-hidden">
+        <section className="relative bg-gradient-to-br from-secondary via-charcoal to-secondary text-primary-foreground py-16 md:py-24 min-h-[60vh] md:min-h-[70vh] flex items-center overflow-hidden">
+          {/* Metallic shimmer overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-silver/5 to-transparent opacity-50 animate-pulse" />
+          
           {/* Subtle pattern overlay */}
-          <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] bg-[length:40px_40px]" />
           </div>
           
@@ -62,10 +65,13 @@ const Index = () => {
         </section>
 
         {/* Before/After Proof Carousel */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-background via-muted/30 to-background">
-          <div className="container mx-auto px-4 max-w-6xl">
+        <section className="py-16 md:py-24 bg-gradient-to-b from-background via-steel/10 to-background relative overflow-hidden">
+          {/* Metallic accent */}
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
+          
+          <div className="container mx-auto px-4 max-w-6xl relative z-10">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-secondary via-primary to-accent bg-clip-text text-transparent drop-shadow-lg">
                 Real Results From Real Customers
               </h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">See the transformation we deliver</p>
@@ -75,8 +81,12 @@ const Index = () => {
         </section>
 
         {/* Google Business Profile */}
-        <section className="py-16 bg-gradient-to-br from-accent/5 via-primary/5 to-secondary/5">
-          <div className="container mx-auto px-4 max-w-6xl">
+        <section className="py-16 bg-gradient-to-br from-charcoal via-secondary to-charcoal relative overflow-hidden">
+          {/* Electric blue accent lines */}
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent"></div>
+          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent"></div>
+          
+          <div className="container mx-auto px-4 max-w-6xl relative z-10">
             <div className="max-w-2xl mx-auto">
               <GoogleBusinessProfile />
             </div>
@@ -84,8 +94,8 @@ const Index = () => {
         </section>
 
         {/* Services Section */}
-        <section className="py-12 md:py-16 bg-muted/50">
-          <div className="container mx-auto px-4 max-w-6xl">
+        <section className="py-12 md:py-16 bg-gradient-to-br from-muted/30 via-background to-muted/30 relative">
+          <div className="container mx-auto px-4 max-w-6xl relative z-10">
             <div className="text-center mb-8">
               <h2 className="text-2xl md:text-3xl font-bold mb-2">Our Services</h2>
               <p className="text-muted-foreground">
@@ -133,8 +143,8 @@ const Index = () => {
         </section>
 
         {/* Why Choose Us */}
-        <section className="py-12 md:py-16 bg-background">
-          <div className="container mx-auto px-4 max-w-6xl">
+        <section className="py-12 md:py-16 bg-gradient-to-b from-background to-steel/5 relative">
+          <div className="container mx-auto px-4 max-w-6xl relative z-10">
             <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">Why Choose CKR?</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -156,8 +166,8 @@ const Index = () => {
                 }
               ].map((item, idx) => (
                 <div key={idx} className="flex items-start gap-4 md:flex-col md:items-center md:text-center group">
-                  <div className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg group-hover:shadow-primary/30">
-                    <item.icon className="h-6 w-6 md:h-8 md:w-8 text-primary group-hover:text-accent transition-colors" />
+                  <div className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0 bg-gradient-to-br from-primary via-accent to-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-blue border-2 border-primary/30">
+                    <item.icon className="h-6 w-6 md:h-8 md:w-8 text-white drop-shadow-lg" />
                   </div>
                   <div>
                     <h3 className="font-bold text-base md:text-lg mb-1">{item.title}</h3>
