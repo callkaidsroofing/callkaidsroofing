@@ -2,6 +2,7 @@ import { Shield, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEOHead } from "@/components/SEOHead";
 import { StickyMobileHeader } from "@/components/StickyMobileHeader";
+import { UtilityBar } from "@/components/UtilityBar";
 import { BeforeAfterCarousel } from "@/components/BeforeAfterCarousel";
 import GoogleBusinessProfile from "@/components/GoogleBusinessProfile";
 import QuickCaptureForm from "@/components/QuickCaptureForm";
@@ -10,6 +11,7 @@ import { SectionWrapper, Container } from "@/components/ui/section-wrapper";
 import { HeroSection } from "@/components/ui/hero-section";
 import { CTASection } from "@/components/ui/cta-section";
 import { FeatureCard } from "@/components/ui/feature-card";
+import { HeroConversionForm } from "@/components/HeroConversionForm";
 import {
   heroContent,
   servicesData,
@@ -26,10 +28,11 @@ const Index = () => {
         description="Professional roof restoration, repairs & painting in SE Melbourne. 15-year warranty, direct owner contact, 200+ happy customers. Call 0435 900 709 for a free quote."
       />
 
+      <UtilityBar />
       <StickyMobileHeader />
       
       <div className="md:pt-0 pt-16">
-        {/* Hero Section */}
+        {/* Hero Section with Conversion Form */}
         <ParallaxBackground variant="hero" density="high">
           <SectionWrapper
             variant="hero"
@@ -45,14 +48,52 @@ const Index = () => {
             </div>
             
             <Container>
-              <HeroSection
-                headline={heroContent.headline}
-                subheadline={heroContent.subheadline}
-                trustSignals={heroContent.trustSignals}
-                description={heroContent.slogan}
-                ctaPrimary={heroContent.ctaPrimary}
-                ctaSecondary={heroContent.ctaSecondary}
-              />
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                {/* Left: Hero Content (7 columns on desktop) */}
+                <div className="lg:col-span-7">
+                  <div className="mb-6 space-y-4">
+                    {/* Huge Phone CTA - Orange Accent */}
+                    <a 
+                      href="tel:0435900709"
+                      className="inline-flex items-center gap-3 bg-gradient-to-r from-conversion-orange to-conversion-gold hover:opacity-90 text-white px-6 py-4 rounded-xl text-2xl sm:text-3xl font-bold shadow-2xl transition-all animate-pulse"
+                    >
+                      <Phone className="h-8 w-8" />
+                      <span>0435 900 709</span>
+                    </a>
+                    
+                    {/* Google Rating Badge */}
+                    <div className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg lg:ml-4">
+                      <span className="text-2xl">⭐</span>
+                      <div className="text-left">
+                        <div className="font-bold text-roofing-navy text-sm">4.9/5 Google</div>
+                        <div className="text-xs text-muted-foreground">200+ Reviews</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <HeroSection
+                    headline={
+                      <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight text-shadow-lg">
+                        Roof Looking <span className="text-conversion-orange">Tired?</span> Leaking? Faded?
+                      </h1>
+                    }
+                    subheadline="Get it fixed properly with a 15-year warranty. Local owner, no sales teams."
+                    trustSignals={["Direct Owner Contact", "Same-Day Quotes", "SE Melbourne Local"]}
+                  />
+                  
+                  {/* Urgency Message */}
+                  <div className="mt-6 bg-conversion-gold/20 backdrop-blur-sm border-2 border-conversion-gold rounded-lg p-4 inline-block">
+                    <p className="text-white font-semibold">
+                      <span className="text-conversion-gold">⚡ This Week Only:</span> Free roof assessment worth $250 with every quote
+                    </p>
+                  </div>
+                </div>
+
+                {/* Right: Conversion Form (5 columns on desktop) */}
+                <div className="lg:col-span-5">
+                  <HeroConversionForm />
+                </div>
+              </div>
             </Container>
           </SectionWrapper>
         </ParallaxBackground>

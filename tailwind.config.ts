@@ -63,14 +63,18 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         roofing: {
-          charcoal: "hsl(var(--roofing-charcoal))", /* #111827 */
-          navy: "hsl(var(--roofing-navy))", /* #0B3B69 */
-          blue: "hsl(var(--roofing-blue))", /* #007ACC */
-          steel: "hsl(var(--roofing-steel))", /* #6B7280 */
-          slate: "hsl(var(--roofing-slate))", /* #334155 */
-          success: "hsl(var(--roofing-success))", /* #16A34A */
-          warning: "hsl(var(--roofing-warning))", /* #FACC15 */
-          emergency: "hsl(var(--roofing-emergency))", /* #DC2626 */
+          charcoal: "hsl(var(--roofing-charcoal))",
+          navy: "hsl(var(--roofing-navy))",
+          blue: "hsl(var(--roofing-blue))",
+          steel: "hsl(var(--roofing-steel))",
+          slate: "hsl(var(--roofing-slate))",
+          success: "hsl(var(--roofing-success))",
+          warning: "hsl(var(--roofing-warning))",
+          emergency: "hsl(var(--roofing-emergency))",
+        },
+        conversion: {
+          orange: "hsl(var(--conversion-orange))",
+          gold: "hsl(var(--conversion-gold))",
         },
         charcoal: "hsl(var(--charcoal))",
         electric: {
