@@ -6,6 +6,7 @@ import QuickCaptureForm from "@/components/QuickCaptureForm";
 import { SEOHead } from "@/components/SEOHead";
 import { StickyMobileHeader } from "@/components/StickyMobileHeader";
 import { BeforeAfterCarousel } from "@/components/BeforeAfterCarousel";
+import GoogleBusinessProfile from "@/components/GoogleBusinessProfile";
 
 const Index = () => {
   const serviceAreas = [
@@ -61,13 +62,24 @@ const Index = () => {
         </section>
 
         {/* Before/After Proof Carousel */}
-        <section className="py-16 md:py-24 bg-background">
+        <section className="py-16 md:py-24 bg-gradient-to-b from-background via-muted/30 to-background">
           <div className="container mx-auto px-4 max-w-6xl">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-3">Real Results From Real Customers</h2>
-              <p className="text-muted-foreground text-lg">See the transformation we deliver</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                Real Results From Real Customers
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">See the transformation we deliver</p>
             </div>
             <BeforeAfterCarousel />
+          </div>
+        </section>
+
+        {/* Google Business Profile */}
+        <section className="py-16 bg-gradient-to-br from-accent/5 via-primary/5 to-secondary/5">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <div className="max-w-2xl mx-auto">
+              <GoogleBusinessProfile />
+            </div>
           </div>
         </section>
 
@@ -105,13 +117,13 @@ const Index = () => {
                   link: '/services/roof-painting'
                 }
               ].map((service, idx) => (
-                <Link key={idx} to={service.link} className="block">
-                  <Card className="hover:shadow-lg hover:border-primary/30 transition-all h-full">
+                <Link key={idx} to={service.link} className="block group">
+                  <Card className="hover:shadow-2xl hover:shadow-primary/20 hover:border-primary/50 hover:scale-[1.02] transition-all duration-300 h-full border-2">
                     <CardContent className="p-4 md:p-6 text-center">
                       <div className="text-4xl mb-3">{service.icon}</div>
                       <h3 className="text-lg md:text-xl font-bold mb-2">{service.title}</h3>
                       <p className="text-sm text-muted-foreground mb-3">{service.benefit}</p>
-                      <div className="text-xl md:text-2xl font-bold text-primary">{service.price}</div>
+                      <div className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{service.price}</div>
                     </CardContent>
                   </Card>
                 </Link>
@@ -143,9 +155,9 @@ const Index = () => {
                   desc: 'Fast response times for your area'
                 }
               ].map((item, idx) => (
-                <div key={idx} className="flex items-start gap-4 md:flex-col md:items-center md:text-center">
-                  <div className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0 bg-primary/10 rounded-full flex items-center justify-center">
-                    <item.icon className="h-6 w-6 md:h-8 md:w-8 text-primary" />
+                <div key={idx} className="flex items-start gap-4 md:flex-col md:items-center md:text-center group">
+                  <div className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg group-hover:shadow-primary/30">
+                    <item.icon className="h-6 w-6 md:h-8 md:w-8 text-primary group-hover:text-accent transition-colors" />
                   </div>
                   <div>
                     <h3 className="font-bold text-base md:text-lg mb-1">{item.title}</h3>
@@ -180,8 +192,9 @@ const Index = () => {
         </section>
 
         {/* Final CTA */}
-        <section className="py-16 md:py-24 bg-primary text-primary-foreground">
-          <div className="container mx-auto px-4 max-w-6xl text-center">
+        <section className="py-16 md:py-24 bg-gradient-to-br from-primary via-accent to-secondary text-primary-foreground relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:30px_30px] opacity-30" />
+          <div className="container mx-auto px-4 max-w-6xl text-center relative z-10">
             <h2 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4">
               Book Your Free Roof Health Check This Week
             </h2>
