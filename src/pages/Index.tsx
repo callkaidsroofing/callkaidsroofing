@@ -1,5 +1,6 @@
 import { Shield, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { SEOHead } from "@/components/SEOHead";
 import { StickyMobileHeader } from "@/components/StickyMobileHeader";
 import { UtilityBar } from "@/components/UtilityBar";
@@ -37,60 +38,88 @@ const Index = () => {
           <SectionWrapper
             variant="hero"
             background="gradient-dark"
-            className="text-primary-foreground flex items-center"
+            className="text-primary-foreground relative"
           >
-            {/* Metallic shimmer overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-silver/5 to-transparent opacity-50 animate-pulse" />
+            {/* Multi-layer background depth */}
+            <div className="absolute inset-0 bg-gradient-to-br from-charcoal via-secondary to-charcoal" />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-conversion-orange/10" />
             
-            {/* Subtle pattern overlay */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] bg-[length:40px_40px]" />
+            {/* Animated metallic shimmer */}
+            <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:200%_100%] animate-shimmer" />
+            
+            {/* Dot pattern overlay */}
+            <div className="absolute inset-0 opacity-20">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(255,255,255,0.15)_1px,transparent_0)] bg-[length:50px_50px]" />
             </div>
             
-            <Container>
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            <Container className="relative z-10">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center min-h-[600px]">
                 {/* Left: Hero Content (7 columns on desktop) */}
-                <div className="lg:col-span-7">
-                  <div className="mb-6 space-y-4">
+                <div className="lg:col-span-7 py-8">
+                  <div className="mb-8 space-y-4">
                     {/* Huge Phone CTA - Orange Accent */}
-                    <a 
+                    <motion.a 
                       href="tel:0435900709"
-                      className="inline-flex items-center gap-3 bg-gradient-to-r from-conversion-orange to-conversion-gold hover:opacity-90 text-white px-6 py-4 rounded-xl text-2xl sm:text-3xl font-bold shadow-2xl transition-all animate-pulse"
+                      className="inline-flex items-center gap-3 bg-gradient-to-r from-conversion-orange to-conversion-gold hover:from-conversion-gold hover:to-conversion-orange text-white px-8 py-5 rounded-2xl text-3xl sm:text-4xl font-black shadow-[0_10px_40px_rgba(255,107,53,0.4)] hover:shadow-[0_15px_50px_rgba(255,107,53,0.6)] transition-all duration-300 hover:scale-105"
+                      whileHover={{ y: -2 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      <Phone className="h-8 w-8" />
+                      <Phone className="h-10 w-10 animate-pulse" />
                       <span>0435 900 709</span>
-                    </a>
+                    </motion.a>
                     
                     {/* Google Rating Badge */}
-                    <div className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg lg:ml-4">
-                      <span className="text-2xl">⭐</span>
+                    <motion.div 
+                      className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-md px-5 py-3 rounded-2xl shadow-2xl lg:ml-4 border-2 border-primary/20"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      <span className="text-3xl">⭐</span>
                       <div className="text-left">
-                        <div className="font-bold text-roofing-navy text-sm">4.9/5 Google</div>
-                        <div className="text-xs text-muted-foreground">200+ Reviews</div>
+                        <div className="font-black text-roofing-navy text-base">4.9/5 Google</div>
+                        <div className="text-xs text-muted-foreground font-semibold">200+ Reviews</div>
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
 
                   <HeroSection
                     headline={
-                      <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight text-shadow-lg">
-                        Roof Looking <span className="text-conversion-orange">Tired?</span> Leaking? Faded?
-                      </h1>
+                      <motion.h1 
+                        className="text-5xl md:text-7xl font-black mb-6 leading-tight"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                      >
+                        Roof Looking <span className="text-conversion-orange drop-shadow-[0_0_20px_rgba(255,107,53,0.5)]">Tired?</span> Leaking? Faded?
+                      </motion.h1>
                     }
-                    subheadline="15-year warranty. Local owner. No sales teams."
+                    subheadline={
+                      <motion.p 
+                        className="text-xl md:text-2xl font-semibold opacity-90"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                      >
+                        15-year warranty. Local owner. No sales teams.
+                      </motion.p>
+                    }
                   />
                   
                   {/* Urgency Message */}
-                  <div className="mt-6 bg-conversion-gold/20 backdrop-blur-sm border-2 border-conversion-gold rounded-lg p-3 inline-block">
-                    <p className="text-white font-semibold text-sm">
-                      <span className="text-conversion-gold">⚡ This Week:</span> Free $250 roof assessment
+                  <div className="mt-8 backdrop-blur-md bg-gradient-to-r from-conversion-gold/30 to-conversion-orange/30 border-2 border-conversion-gold/50 rounded-xl p-4 inline-block shadow-2xl">
+                    <p className="text-white font-bold text-base flex items-center gap-2">
+                      <span className="text-conversion-gold text-xl">⚡</span>
+                      <span><span className="text-conversion-gold">This Week:</span> Free $250 roof assessment with every quote</span>
                     </p>
                   </div>
                 </div>
 
                 {/* Right: Conversion Form (5 columns on desktop) */}
-                <div className="lg:col-span-5">
-                  <HeroConversionForm />
+                <div className="lg:col-span-5 py-8">
+                  <div className="sticky top-24">
+                    <HeroConversionForm />
+                  </div>
                 </div>
               </div>
             </Container>

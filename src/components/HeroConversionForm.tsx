@@ -95,29 +95,32 @@ export const HeroConversionForm = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-      className="backdrop-blur-md bg-white/95 rounded-2xl p-5 shadow-2xl border-2 border-conversion-orange/30"
-    >
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="backdrop-blur-xl bg-white rounded-3xl p-6 shadow-[0_20px_60px_rgba(0,122,204,0.2)] border-2 border-primary/10 hover:shadow-[0_25px_70px_rgba(0,122,204,0.3)] transition-all duration-300"
+      >
       {/* Urgency Header */}
-      <div className="bg-gradient-to-r from-conversion-orange to-conversion-gold text-white px-3 py-2 rounded-lg mb-3 text-center">
-        <p className="text-sm font-bold">🔥 3 Spots Left This Week</p>
+      <div className="bg-gradient-to-r from-conversion-orange via-conversion-gold to-conversion-orange bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_infinite] text-white px-4 py-3 rounded-2xl mb-4 text-center shadow-lg">
+        <p className="text-sm font-black flex items-center justify-center gap-2">
+          <span className="text-xl animate-pulse">🔥</span>
+          <span>3 Spots Left This Week</span>
+        </p>
       </div>
 
       {/* Headline */}
-      <div className="mb-4">
-        <h3 className="text-xl font-bold text-roofing-navy mb-1">
+      <div className="mb-5">
+        <h3 className="text-2xl font-black text-roofing-navy mb-2 bg-gradient-to-r from-roofing-navy to-primary bg-clip-text text-transparent">
           Get Your Free Quote
         </h3>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-sm text-muted-foreground font-semibold">
           Owner responds personally. No sales teams.
         </p>
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-2.5">
+      <form onSubmit={handleSubmit} className="space-y-3">
         <Input
           type="text"
           name="name"
@@ -125,7 +128,7 @@ export const HeroConversionForm = () => {
           value={formData.name}
           onChange={handleChange}
           required
-          className="h-10 border-2 focus:border-conversion-orange text-sm"
+          className="h-12 border-2 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl text-base font-medium transition-all"
         />
         
         <Input
@@ -135,7 +138,7 @@ export const HeroConversionForm = () => {
           value={formData.phone}
           onChange={handleChange}
           required
-          className="h-10 border-2 focus:border-conversion-orange text-sm"
+          className="h-12 border-2 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl text-base font-medium transition-all"
         />
         
         <Input
@@ -145,29 +148,29 @@ export const HeroConversionForm = () => {
           value={formData.suburb}
           onChange={handleChange}
           required
-          className="h-10 border-2 focus:border-conversion-orange text-sm"
+          className="h-12 border-2 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl text-base font-medium transition-all"
         />
 
         <Button
           type="submit"
-          className="w-full h-11 text-sm font-bold bg-gradient-to-r from-conversion-orange to-conversion-gold hover:opacity-90 transition-opacity shadow-lg"
+          className="w-full h-14 text-base font-black bg-gradient-to-r from-conversion-orange to-conversion-gold hover:from-conversion-gold hover:to-conversion-orange transition-all shadow-[0_8px_30px_rgba(255,107,53,0.4)] hover:shadow-[0_10px_40px_rgba(255,107,53,0.6)] hover:scale-[1.02] rounded-xl"
           disabled={isSubmitting}
         >
-          {isSubmitting ? 'Sending...' : 'Get My Free Quote'}
+          {isSubmitting ? 'Sending...' : 'Get My Free Quote →'}
         </Button>
       </form>
 
       {/* Alternative CTA */}
-      <div className="mt-3 pt-3 border-t border-border text-center">
+      <div className="mt-4 pt-4 border-t-2 border-dashed border-border text-center">
         <a 
           href="tel:0435900709" 
-          className="inline-flex items-center gap-1.5 text-conversion-orange hover:text-conversion-gold font-semibold text-sm transition-colors"
+          className="inline-flex items-center gap-2 text-conversion-orange hover:text-conversion-gold font-black text-base transition-colors hover:scale-105 transform"
         >
-          <Phone className="h-3.5 w-3.5" />
+          <Phone className="h-4 w-4" />
           0435 900 709
         </a>
-        <p className="text-xs text-muted-foreground mt-2">
-          200+ customers • Owner-operated • No obligation
+        <p className="text-xs text-muted-foreground mt-3 font-semibold">
+          ✓ 200+ customers • ✓ Owner-operated • ✓ No obligation
         </p>
       </div>
     </motion.div>

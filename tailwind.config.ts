@@ -128,6 +128,7 @@ export default {
         },
       },
       animation: {
+        shimmer: "shimmer 3s ease-in-out infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "metallic-shimmer": "metallic-shimmer 8s ease-in-out infinite",
