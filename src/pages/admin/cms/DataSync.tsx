@@ -266,49 +266,6 @@ export default function DataSync() {
     }
   };
 
-  const handleBlueprintUpload = async (file: File) => {
-    updateSyncStatus('blueprint', { loading: true, status: 'syncing', error: undefined });
-    
-    try {
-      const fileName = `blueprints/${Date.now()}_${file.name}`;
-      
-      const { error: uploadError } = await supabase.storage
-        .from('knowledge-uploads')
-        .upload(fileName, file);
-
-      if (uploadError) throw uploadError;
-
-      const { data, error } = await supabase.functions.invoke('parse-ckr-blueprint', {
-        body: { filePath: fileName }
-      });
-
-      if (error) throw error;
-
-      updateSyncStatus('blueprint', {
-        loading: false,
-        status: 'success',
-        lastSync: new Date(),
-        stats: [
-          { label: 'KF Files', value: String(data?.summary?.kf_files || 0) },
-          { label: 'Workflows', value: String(data?.summary?.workflows || 0) },
-          { label: 'Chunks', value: String(data?.summary?.processed_chunks || 0) }
-        ]
-      });
-      
-      toast.success('Blueprint uploaded and parsed successfully');
-      loadEmbeddingStats();
-    } catch (err: any) {
-      console.error('Blueprint upload error:', err);
-      updateSyncStatus('blueprint', {
-        loading: false,
-        status: 'error',
-        error: err.message || 'Failed to upload blueprint'
-      });
-      toast.error('Failed to upload blueprint', {
-        description: err.message
-      });
-    }
-  };
 
   const handleKnowledgeUpload = async (file: File) => {
     updateSyncStatus('knowledge', { loading: true, status: 'syncing', error: undefined });
