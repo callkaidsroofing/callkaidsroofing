@@ -111,6 +111,7 @@ const CMSKnowledgeSystem = lazy(() => import("./pages/admin/cms/KnowledgeSystem"
 const CMSMediaManager = lazy(() => import("./pages/admin/cms/MediaManager"));
 const CMSMediaVerification = lazy(() => import("./pages/admin/cms/MediaVerification"));
 const CMSHomepageEditor = lazy(() => import("./pages/admin/cms/HomepageEditor"));
+const CMSMediaGallery = lazy(() => import("./pages/admin/cms/MediaGallery"));
 const ToolsWorkflows = lazy(() => import("./pages/admin/tools/Workflows"));
 
 import { AdminLayout } from "@/components/AdminLayout";
@@ -251,6 +252,7 @@ function App() {
                       <Route path="cms/media-manager" element={<CMSMediaManager />} />
                       <Route path="cms/media-verification" element={<CMSMediaVerification />} />
                       <Route path="cms/homepage" element={<CMSHomepageEditor />} />
+                      <Route path="cms/media-gallery" element={<CMSMediaGallery />} />
                       <Route path="tools/workflows" element={<ToolsWorkflows />} />
                       
                       {/* Legacy redirects */}

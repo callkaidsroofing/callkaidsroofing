@@ -2366,6 +2366,60 @@ export type Database = {
         }
         Relationships: []
       }
+      media_gallery: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          description: string | null
+          display_order: number | null
+          id: string
+          image_url: string
+          is_active: boolean | null
+          show_on_about: boolean | null
+          show_on_homepage: boolean | null
+          show_on_portfolio: boolean | null
+          show_on_services: boolean | null
+          tags: string[] | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          image_url: string
+          is_active?: boolean | null
+          show_on_about?: boolean | null
+          show_on_homepage?: boolean | null
+          show_on_portfolio?: boolean | null
+          show_on_services?: boolean | null
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string
+          is_active?: boolean | null
+          show_on_about?: boolean | null
+          show_on_homepage?: boolean | null
+          show_on_portfolio?: boolean | null
+          show_on_services?: boolean | null
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       metrics_learning_log: {
         Row: {
           approved_for_training: boolean | null
