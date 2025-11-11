@@ -23,7 +23,7 @@ import {
 import { Menu, Phone, ChevronDown } from "lucide-react";
 import { OptimizedImage } from "@/components/OptimizedImage";
 import { cn } from "@/lib/utils";
-import callKaidsFullLogo from "@/assets/call-kaids-logo-slogan.png";
+import callKaidsFullLogo from "@/assets/brand/logo-metallic-blue.png";
 
 const topLevelLinks = [
   { href: "/", label: "Home" },
