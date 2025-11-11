@@ -64,13 +64,10 @@ const Index = () => {
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
             
             <Container>
-              <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-secondary via-primary to-accent bg-clip-text text-transparent drop-shadow-lg">
-                  Real Results From Real Customers
+              <div className="text-center mb-6 md:mb-12">
+                <h2 className="text-2xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-secondary via-primary to-accent bg-clip-text text-transparent drop-shadow-lg">
+                  Real Results
                 </h2>
-                <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                  See the transformation we deliver
-                </p>
               </div>
               <BeforeAfterCarousel />
             </Container>
@@ -92,11 +89,8 @@ const Index = () => {
         <ParallaxBackground variant="services" density="low">
           <SectionWrapper variant="compact" background="muted">
             <Container>
-              <div className="text-center mb-8">
-                <h2 className="text-2xl md:text-3xl font-bold mb-2">Our Services</h2>
-                <p className="text-muted-foreground">
-                  Professional roofing solutions for SE Melbourne
-                </p>
+              <div className="text-center mb-6">
+                <h2 className="text-2xl md:text-3xl font-bold">Services</h2>
               </div>
 
               <div className="grid md:grid-cols-3 gap-4">
@@ -118,8 +112,8 @@ const Index = () => {
         {/* Why Choose Us */}
         <SectionWrapper variant="compact" background="white">
           <Container>
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
-              Why Choose CKR?
+            <h2 className="text-xl md:text-2xl font-bold text-center mb-6">
+              Why CKR?
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -158,25 +152,23 @@ const Index = () => {
         {/* Service Areas */}
         <SectionWrapper variant="compact" background="muted">
           <Container>
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
-              Proudly Serving SE Melbourne
+            <h2 className="text-xl md:text-2xl font-bold text-center mb-4 md:mb-6">
+              SE Melbourne
             </h2>
-            <div className="flex flex-wrap justify-center gap-3 mb-8">
+            <div className="flex flex-wrap justify-center gap-2 mb-4">
               {serviceAreasData.map((area) => (
                 <span
                   key={area}
-                  className="px-4 py-2 bg-background border border-primary/20 rounded-full text-sm hover:border-primary/40 transition-colors"
+                  className="px-3 py-1 bg-background border border-primary/20 rounded-full text-xs md:text-sm hover:border-primary/40 transition-colors"
                 >
                   {area}
                 </span>
               ))}
             </div>
-            <p className="text-center text-muted-foreground">
-              Don't see your suburb?{' '}
+            <p className="text-center text-muted-foreground text-sm">
               <Link to="/quote" className="text-primary hover:underline">
-                Contact us
-              </Link>{' '}
-              - we cover all of SE Melbourne
+                Get quote
+              </Link>
             </p>
           </Container>
         </SectionWrapper>

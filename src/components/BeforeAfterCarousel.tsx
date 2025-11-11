@@ -66,37 +66,17 @@ export const BeforeAfterCarousel = () => {
           </div>
 
           {/* Content */}
-          <div className="p-6 space-y-4">
+          <div className="p-3 md:p-6 space-y-2 md:space-y-4">
             <div>
-              <h3 className="font-bold text-lg mb-1">{study.study_id}</h3>
-              <p className="text-sm text-muted-foreground">{study.suburb} • {study.job_type}</p>
-            </div>
-
-            <div className="space-y-2">
-              <div>
-                <span className="font-semibold text-destructive">Problem: </span>
-                <span className="text-sm">{study.client_problem}</span>
-              </div>
-              <div>
-                <span className="font-semibold text-primary">Outcome: </span>
-                <span className="text-sm">{study.key_outcome}</span>
-              </div>
+              <h3 className="font-bold text-base md:text-lg mb-0.5">{study.study_id}</h3>
+              <p className="text-xs md:text-sm text-muted-foreground">{study.suburb}</p>
             </div>
 
             {study.testimonial && (
-              <div className="bg-primary/5 p-4 rounded-lg border-l-4 border-primary">
-                <Quote className="h-4 w-4 text-primary mb-2" />
-                <p className="text-sm italic">"{study.testimonial}"</p>
+              <div className="bg-primary/5 p-2 md:p-4 rounded-lg border-l-2 md:border-l-4 border-primary">
+                <Quote className="h-3 w-3 md:h-4 md:w-4 text-primary mb-1" />
+                <p className="text-xs md:text-sm italic line-clamp-2 md:line-clamp-none">"{study.testimonial}"</p>
               </div>
-            )}
-
-            {study.slug && (
-              <Link
-                to={`/case-studies/${study.slug}`}
-                className="text-primary hover:underline text-sm font-semibold inline-block"
-              >
-                Read Full Case Study →
-              </Link>
             )}
           </div>
         </CardContent>

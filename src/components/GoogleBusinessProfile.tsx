@@ -49,70 +49,38 @@ const GoogleBusinessProfile = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-silver/10 to-transparent opacity-30 pointer-events-none"></div>
       
       <div className="relative z-10">
-        <div className="flex items-start justify-between mb-4">
+        <div className="flex items-start justify-between mb-3">
           <div>
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-silver via-white to-silver bg-clip-text text-transparent mb-2 drop-shadow-lg">
+            <h3 className="text-lg md:text-2xl font-bold bg-gradient-to-r from-silver via-white to-silver bg-clip-text text-transparent mb-2 drop-shadow-lg">
               {businessData.name}
             </h3>
             {businessData.rating && (
-              <div className="flex items-center gap-2 mb-3">
-                <div className="flex items-center bg-roofing-warning/30 backdrop-blur-sm px-3 py-1.5 rounded-full border border-roofing-warning/50">
-                  <Star className="w-4 h-4 fill-roofing-warning text-roofing-warning mr-1.5" />
-                  <span className="font-bold text-white">{businessData.rating}</span>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center bg-roofing-warning/30 backdrop-blur-sm px-2 md:px-3 py-1 md:py-1.5 rounded-full border border-roofing-warning/50">
+                  <Star className="w-3 h-3 md:w-4 md:h-4 fill-roofing-warning text-roofing-warning mr-1" />
+                  <span className="font-bold text-white text-sm md:text-base">{businessData.rating}</span>
                 </div>
-                <span className="text-sm text-silver/90 font-medium">
-                  {businessData.reviewCount}+ Google Reviews
+                <span className="text-xs md:text-sm text-silver/90 font-medium">
+                  {businessData.reviewCount}+ Reviews
                 </span>
               </div>
             )}
           </div>
-          <a
-            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(businessData.name + ' ' + businessData.address)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:text-accent transition-colors drop-shadow-lg"
-          >
-            <ExternalLink className="w-5 h-5" />
-          </a>
         </div>
 
-        <div className="space-y-3">
-          <div className="flex items-start gap-3 group">
+        <div className="space-y-2 md:space-y-3">
+          <a
+            href={`tel:${businessData.phoneNumber}`}
+            className="flex items-center gap-2 text-primary hover:text-accent transition-colors group"
+          >
+            <Phone className="w-4 h-4 md:w-5 md:h-5 group-hover:scale-110 transition-transform drop-shadow-md" />
+            <span className="font-bold text-white text-base md:text-lg">{businessData.phoneNumber}</span>
+          </a>
+
+          <div className="hidden md:flex items-start gap-3 group">
             <MapPin className="w-5 h-5 text-primary mt-0.5 group-hover:scale-110 transition-transform drop-shadow-md" />
             <p className="text-sm text-silver/90 flex-1 font-medium">{businessData.address}</p>
           </div>
-
-          <a
-            href={`tel:${businessData.phoneNumber}`}
-            className="flex items-center gap-3 text-primary hover:text-accent transition-colors group"
-          >
-            <Phone className="w-5 h-5 group-hover:scale-110 transition-transform drop-shadow-md" />
-            <span className="font-bold text-white text-lg">{businessData.phoneNumber}</span>
-          </a>
-
-          {businessData.websiteUrl !== 'N/A' && (
-            <a
-              href={businessData.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 text-primary hover:text-accent transition-colors group"
-            >
-              <Globe className="w-5 h-5 group-hover:scale-110 transition-transform drop-shadow-md" />
-              <span className="text-sm truncate text-silver/80 font-medium">{businessData.websiteUrl}</span>
-            </a>
-          )}
-        </div>
-
-        <div className="mt-6 pt-4 border-t border-primary/30">
-          <a
-            href={`https://search.google.com/local/writereview?placeid=${businessData.name}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-accent transition-colors group"
-          >
-            <Star className="w-4 h-4 group-hover:fill-roofing-warning group-hover:text-roofing-warning transition-all drop-shadow-md" />
-            <span className="text-silver/90">Leave us a review on Google</span>
-          </a>
         </div>
       </div>
     </div>

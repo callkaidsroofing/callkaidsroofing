@@ -4,16 +4,16 @@
  */
 
 export const heroContent = {
-  headline: 'Roof Looking Tired? Leaking? Faded?',
-  subheadline: '15-Year Warranty • Direct Owner Contact • Local SE Melbourne',
+  headline: 'Roof Problems? We Fix Them.',
+  subheadline: '15-Year Warranty • SE Melbourne',
   slogan: '"Proof In Every Roof"',
-  trustSignals: ['⭐ 4.9/5 Google Reviews', '200+ Happy Customers'],
+  trustSignals: ['⭐ 4.9/5', '200+ Customers'],
   ctaPrimary: {
-    text: 'Call 0435 900 709',
+    text: 'Call Now',
     href: 'tel:0435900709',
   },
   ctaSecondary: {
-    text: 'Get Free Quote',
+    text: 'Free Quote',
     href: '/quote',
   },
 };
@@ -52,17 +52,17 @@ export const whyChooseUsData = [
   {
     icon: 'Shield',
     title: '15-Year Warranty',
-    description: 'Industry-leading workmanship guarantee',
+    description: 'Workmanship guarantee',
   },
   {
     icon: 'Phone',
-    title: 'Direct Owner Contact',
-    description: 'Talk to Kaidyn directly - no sales team',
+    title: 'Owner Direct',
+    description: 'No sales team',
   },
   {
     icon: 'MapPin',
-    title: 'Local SE Melbourne',
-    description: 'Fast response times for your area',
+    title: 'SE Melbourne',
+    description: 'Fast response',
   },
 ];
 
@@ -84,6 +84,6 @@ export const serviceAreasData = [
 ];
 
 export const finalCTAContent = {
-  headline: 'Book Your Free Roof Health Check This Week',
-  description: 'Free quotes • Honest advice • Zero pressure',
+  headline: 'Free Roof Check This Week',
+  description: 'Free quotes • No pressure',
 };

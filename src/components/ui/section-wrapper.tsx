@@ -21,10 +21,10 @@ export const SectionWrapper = ({
   id,
 }: SectionWrapperProps) => {
   const spacingClasses = {
-    compact: 'py-12 md:py-16',
-    default: 'py-16 md:py-24',
-    spacious: 'py-24 md:py-32',
-    hero: 'py-16 md:py-24 min-h-[60vh] md:min-h-[70vh]',
+    compact: 'py-8 md:py-16',
+    default: 'py-12 md:py-24',
+    spacious: 'py-16 md:py-32',
+    hero: 'py-12 md:py-24 min-h-[50vh] md:min-h-[70vh]',
   };
 
   const backgroundClasses = {
