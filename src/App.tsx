@@ -76,6 +76,7 @@ const CRMQuotes = lazy(() => import("./pages/admin/crm/Quotes"));
 const CRMJobs = lazy(() => import("./pages/admin/crm/Jobs"));
 const CRMIntelligence = lazy(() => import("./pages/admin/crm/Intelligence"));
 const CRMReports = lazy(() => import("./pages/admin/crm/Reports"));
+const ToolsQuickQuote = lazy(() => import("./pages/admin/tools/QuickQuote"));
 const ToolsInspections = lazy(() => import("./pages/admin/tools/Inspections"));
 const ToolsMeasurements = lazy(() => import("./pages/admin/tools/Measurements"));
 const ToolsAI = lazy(() => import("./pages/admin/tools/AIAssistant"));
@@ -202,6 +203,7 @@ function App() {
                       <Route path="crm/reports" element={<CRMReports />} />
                       
                       {/* Tools Section */}
+                      <Route path="tools/quick-quote" element={<ToolsQuickQuote />} />
                       <Route path="tools/inspections" element={<ToolsInspections />} />
                       <Route path="tools/inspections/:id" element={<ToolsInspections />} />
                       <Route path="tools/measurements" element={<ToolsMeasurements />} />

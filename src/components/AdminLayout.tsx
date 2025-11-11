@@ -4,7 +4,7 @@ import {
   Home, FileText, FormInput, Database, Image, Megaphone, FileOutput, 
   Menu, Sparkles, Wrench, Phone, DollarSign, Calendar, BarChart3, 
   Brain, ClipboardList, Settings, Ruler, Users, FileStack,
-  ChevronDown, Shield, RefreshCw
+  ChevronDown, Shield, RefreshCw, Send
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -43,6 +43,7 @@ const navStructure: NavSection[] = [
     icon: Wrench,
     defaultOpen: true,
     items: [
+      { title: 'Quick Quote', path: '/admin/tools/quick-quote', icon: Send },
       { title: 'Inspections', path: '/admin/tools/inspections', icon: ClipboardList },
       { title: 'Measurements', path: '/admin/tools/measurements', icon: Ruler },
       { title: 'AI Assistant', path: '/admin/tools/ai', icon: Sparkles },

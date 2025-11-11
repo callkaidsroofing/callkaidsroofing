@@ -1752,6 +1752,42 @@ export type Database = {
           },
         ]
       }
+      jobs: {
+        Row: {
+          created_at: string | null
+          customer_email: string | null
+          customer_name: string
+          customer_phone: string
+          id: string
+          quote_amount: number
+          quote_sent_at: string | null
+          scope: string
+          site_address: string
+        }
+        Insert: {
+          created_at?: string | null
+          customer_email?: string | null
+          customer_name: string
+          customer_phone: string
+          id?: string
+          quote_amount: number
+          quote_sent_at?: string | null
+          scope: string
+          site_address: string
+        }
+        Update: {
+          created_at?: string | null
+          customer_email?: string | null
+          customer_name?: string
+          customer_phone?: string
+          id?: string
+          quote_amount?: number
+          quote_sent_at?: string | null
+          scope?: string
+          site_address?: string
+        }
+        Relationships: []
+      }
       knowledge_chunks: {
         Row: {
           active: boolean | null
