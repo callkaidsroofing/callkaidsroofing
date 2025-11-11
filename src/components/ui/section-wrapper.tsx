@@ -28,8 +28,8 @@ export const SectionWrapper = ({
   };
 
   const backgroundClasses = {
-    white: 'bg-background',
-    muted: 'bg-muted/50',
+    white: 'bg-gradient-to-br from-background via-background to-primary/5',
+    muted: 'bg-gradient-to-br from-muted/30 via-background to-muted/30',
     'gradient-primary': 'bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10',
     'gradient-dark': 'bg-gradient-to-br from-secondary via-charcoal to-secondary',
     'metallic-steel': 'metallic-steel',

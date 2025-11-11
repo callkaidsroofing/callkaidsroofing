@@ -29,39 +29,45 @@ export const FeatureCard = ({
   const content = (
     <Card
       className={cn(
-        'hover:shadow-2xl hover:shadow-primary/20 hover:border-primary/50 hover:scale-[1.02] transition-all duration-300 h-full border-2',
+        'border-border/50 bg-card/50 backdrop-blur hover:shadow-lg hover:border-primary/40 hover:scale-[1.02] transition-all duration-300 h-full group',
         link && 'cursor-pointer',
         className
       )}
     >
       <CardContent
         className={cn(
-          'p-4 md:p-6',
+          'p-5',
           variant === 'horizontal'
             ? 'flex items-start gap-4'
-            : 'text-center'
+            : 'flex flex-col items-center text-center'
         )}
       >
         {icon && (
           <div
             className={cn(
               variant === 'horizontal'
-                ? 'flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-primary to-accent rounded-lg'
-                : 'text-4xl mb-3'
+                ? 'flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-primary to-secondary rounded-lg'
+                : 'w-14 h-14 mb-4 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform'
             )}
           >
-            {typeof icon === 'string' ? icon : icon}
+            {typeof icon === 'string' ? (
+              <span className="text-2xl">{icon}</span>
+            ) : (
+              <div className="text-white">{icon}</div>
+            )}
           </div>
         )}
 
-        <div className={cn(variant === 'horizontal' && 'flex-1')}>
-          <h3 className="text-lg md:text-xl font-bold mb-2">{title}</h3>
-          <p className="text-sm text-muted-foreground mb-3">{description}</p>
+        <div className={cn(variant === 'horizontal' && 'flex-1', 'flex flex-col')}>
+          <h3 className="font-bold text-base mb-2 group-hover:text-primary transition-colors">{title}</h3>
+          
           {price && (
-            <div className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <p className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-3">
               {price}
-            </div>
+            </p>
           )}
+          
+          <p className="text-muted-foreground text-xs">{description}</p>
         </div>
       </CardContent>
     </Card>

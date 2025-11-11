@@ -99,38 +99,37 @@ const Index = () => {
 
         {/* Before/After Proof Carousel */}
         <ParallaxBackground variant="testimonials" density="medium">
-          <SectionWrapper background="gradient-primary">
-            {/* Metallic accent */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
-            
+          <SectionWrapper background="white">
             <Container>
-              <div className="text-center mb-6 md:mb-12">
-                <h2 className="text-2xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-secondary via-primary to-accent bg-clip-text text-transparent drop-shadow-lg">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                   Real Results
                 </h2>
               </div>
-              <BeforeAfterCarousel />
+              <div className="backdrop-blur bg-card/50 border border-border/50 rounded-2xl p-4 shadow-lg">
+                <BeforeAfterCarousel />
+              </div>
             </Container>
           </SectionWrapper>
         </ParallaxBackground>
 
         {/* Google Business Profile */}
-        <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
-          {/* Electric blue accent lines */}
-          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
-          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
-          
+        <SectionWrapper variant="compact" background="muted">
           <Container size="sm">
-            <GoogleBusinessProfile />
+            <div className="backdrop-blur bg-card/50 border border-primary/20 rounded-2xl p-6 shadow-lg">
+              <GoogleBusinessProfile />
+            </div>
           </Container>
         </SectionWrapper>
 
         {/* Services Section */}
         <ParallaxBackground variant="services" density="low">
-          <SectionWrapper variant="compact" background="muted">
+          <SectionWrapper variant="compact" background="white">
             <Container>
               <div className="text-center mb-6">
-                <h2 className="text-2xl md:text-3xl font-bold">Services</h2>
+                <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  Services
+                </h2>
               </div>
 
               <div className="grid md:grid-cols-3 gap-4">
@@ -150,13 +149,13 @@ const Index = () => {
         </ParallaxBackground>
 
         {/* Why Choose Us */}
-        <SectionWrapper variant="compact" background="white">
+        <SectionWrapper variant="compact" background="muted">
           <Container>
-            <h2 className="text-xl md:text-2xl font-bold text-center mb-6">
+            <h2 className="text-xl md:text-2xl font-bold text-center mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Why CKR?
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {whyChooseUsData.map((item, idx) => {
                 const IconComponent = {
                   Shield,
@@ -167,18 +166,18 @@ const Index = () => {
                 return (
                   <div
                     key={idx}
-                    className="flex items-start gap-4 md:flex-col md:items-center md:text-center group"
+                    className="backdrop-blur bg-card/50 border border-border/50 rounded-xl p-5 hover:shadow-lg hover:border-primary/40 transition-all group"
                   >
-                    <div className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0 bg-gradient-to-br from-primary via-accent to-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-blue border-2 border-primary/30">
-                      {IconComponent && (
-                        <IconComponent className="h-6 w-6 md:h-8 md:w-8 text-white drop-shadow-lg" />
-                      )}
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-base md:text-lg mb-1">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform mb-3">
+                        {IconComponent && (
+                          <IconComponent className="h-6 w-6 text-white" />
+                        )}
+                      </div>
+                      <h3 className="font-bold text-sm mb-2 group-hover:text-primary transition-colors">
                         {item.title}
                       </h3>
-                      <p className="text-muted-foreground text-sm">
+                      <p className="text-muted-foreground text-xs">
                         {item.description}
                       </p>
                     </div>
@@ -190,26 +189,28 @@ const Index = () => {
         </SectionWrapper>
 
         {/* Service Areas */}
-        <SectionWrapper variant="compact" background="muted">
+        <SectionWrapper variant="compact" background="white">
           <Container>
-            <h2 className="text-xl md:text-2xl font-bold text-center mb-4 md:mb-6">
-              SE Melbourne
-            </h2>
-            <div className="flex flex-wrap justify-center gap-2 mb-4">
-              {serviceAreasData.map((area) => (
-                <span
-                  key={area}
-                  className="px-3 py-1 bg-background border border-primary/20 rounded-full text-xs md:text-sm hover:border-primary/40 transition-colors"
-                >
-                  {area}
-                </span>
-              ))}
+            <div className="backdrop-blur bg-card/50 border border-border/50 rounded-2xl p-6 shadow-lg">
+              <h2 className="text-xl md:text-2xl font-bold text-center mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                SE Melbourne
+              </h2>
+              <div className="flex flex-wrap justify-center gap-2 mb-4">
+                {serviceAreasData.map((area) => (
+                  <span
+                    key={area}
+                    className="px-3 py-1.5 bg-background/80 border border-primary/20 rounded-full text-xs hover:border-primary/40 hover:bg-primary/5 transition-all"
+                  >
+                    {area}
+                  </span>
+                ))}
+              </div>
+              <p className="text-center text-muted-foreground text-sm">
+                <Link to="/quote" className="text-primary hover:underline font-semibold">
+                  Get quote →
+                </Link>
+              </p>
             </div>
-            <p className="text-center text-muted-foreground text-sm">
-              <Link to="/quote" className="text-primary hover:underline">
-                Get quote
-              </Link>
-            </p>
           </Container>
         </SectionWrapper>
 

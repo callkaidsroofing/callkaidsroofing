@@ -4,7 +4,6 @@ import { Phone, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
-import { MetallicShine } from '@/components/ui/metallic-shine';
 
 interface CTASectionProps {
   headline: string;
@@ -83,20 +82,14 @@ export const CTASection = ({
             <Button
               asChild
               size="lg"
-              className={cn(
-                'relative overflow-hidden',
-                variant === 'gradient'
-                  ? 'bg-background text-primary hover:bg-background/90 animate-electric-pulse'
-                  : 'bg-electric-bright text-white hover:bg-electric-bright/90'
-              )}
+              className="bg-gradient-to-r from-conversion-orange to-conversion-gold hover:opacity-90 text-white font-bold shadow-lg"
             >
               <a
                 href={ctaPrimary.href}
                 className="flex items-center justify-center gap-2"
               >
                 {ctaPrimary.icon}
-                <span className="relative z-10">{ctaPrimary.text}</span>
-                <MetallicShine className="absolute inset-0 opacity-20" />
+                <span>{ctaPrimary.text}</span>
               </a>
             </Button>
           </motion.div>
@@ -109,12 +102,7 @@ export const CTASection = ({
               asChild
               size="lg"
               variant="outline"
-              className={cn(
-                'backdrop-blur-md transition-all shadow-steel',
-                variant === 'gradient'
-                  ? 'bg-white/10 border-2 border-white/50 text-primary-foreground hover:bg-background hover:text-primary'
-                  : 'bg-transparent border-2 border-foreground text-foreground hover:bg-foreground hover:text-background'
-              )}
+              className="backdrop-blur bg-white/10 border-2 border-white/50 text-white hover:bg-white hover:text-primary transition-all"
             >
               <Link to={ctaSecondary.href} className="flex items-center justify-center gap-2">
                 {ctaSecondary.text}
