@@ -10,6 +10,7 @@ import ElegantLayout from "@/components/ElegantLayout";
 import { EnhancedCustomerChat } from "@/components/EnhancedCustomerChat";
 
 const Index = lazy(() => import("./pages/Index"));
+const Quote = lazy(() => import("./pages/Quote"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Gallery = lazy(() => import("./pages/Gallery"));
@@ -133,6 +134,7 @@ function App() {
                 {/* Main site routes - with elegant layout */}
                   <Route path="/*" element={<ElegantLayout />}>
                     <Route index element={<Index />} />
+                    <Route path="quote" element={<Quote />} />
                     <Route path="about" element={<About />} />
                     <Route path="contact" element={<Contact />} />
                     <Route path="book" element={<BookingPage />} />
