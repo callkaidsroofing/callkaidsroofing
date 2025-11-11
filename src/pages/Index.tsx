@@ -77,8 +77,8 @@ const Index = () => {
                     >
                       <span className="text-3xl">⭐</span>
                       <div className="text-left">
-                        <div className="font-black text-roofing-navy text-base">4.9/5 Google</div>
-                        <div className="text-xs text-muted-foreground font-semibold">200+ Reviews</div>
+                        <div className="font-black text-roofing-navy text-base">Google Reviews</div>
+                        <div className="text-xs text-muted-foreground font-semibold">Verified Customers</div>
                       </div>
                     </motion.div>
                   </div>

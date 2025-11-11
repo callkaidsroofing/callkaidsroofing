@@ -170,7 +170,7 @@ export const HeroConversionForm = () => {
           0435 900 709
         </a>
         <p className="text-xs text-muted-foreground mt-3 font-semibold">
-          ✓ 200+ customers • ✓ Owner-operated • ✓ No obligation
+          ✓ Owner-operated • ✓ SE Melbourne Local • ✓ 15-Year Warranty
         </p>
       </div>
     </motion.div>
