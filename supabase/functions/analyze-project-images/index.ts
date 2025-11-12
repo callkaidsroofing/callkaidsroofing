@@ -6,18 +6,107 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Helper function to strip markdown code fences from AI responses
+// Enhanced helper to strip markdown code fences and normalize AI JSON responses
 function stripMarkdownCodeFence(content: string): string {
-  content = content.trim();
-  if (content.startsWith('```json')) {
-    content = content.slice(7);
-  } else if (content.startsWith('```')) {
-    content = content.slice(3);
+  if (!content) return '{}';
+  
+  // Handle both \n and \r\n line endings
+  content = content.replace(/\r\n/g, '\n').trim();
+  
+  // Strip multiple consecutive code fences
+  while (content.startsWith('```json') || content.startsWith('```')) {
+    if (content.startsWith('```json')) {
+      content = content.slice(7);
+    } else if (content.startsWith('```')) {
+      content = content.slice(3);
+    }
+    content = content.trim();
   }
-  if (content.endsWith('```')) {
-    content = content.slice(0, -3);
+  
+  while (content.endsWith('```')) {
+    content = content.slice(0, -3).trim();
   }
+  
+  // Remove trailing commas before closing braces/brackets (common JSON error)
+  content = content.replace(/,(\s*[}\]])/g, '$1');
+  
   return content.trim();
+}
+
+// Helper to create fallback analysis structure when AI fails
+function createFallbackAnalysis(imageUrl: string) {
+  return {
+    url: imageUrl,
+    stage: 'unknown',
+    tags: {
+      roof_type: 'unknown',
+      materials: [],
+      condition_level: 'unknown',
+      visible_issues: ['Analysis failed - manual review required'],
+      work_completed: [],
+      weather_conditions: 'unknown',
+      angle_perspective: 'unknown',
+      suburb_indicators: []
+    },
+    authenticity: {
+      score: 0,
+      reasoning: 'Analysis failed - requires manual verification',
+      ckr_markers: [],
+      regional_fit: 'unknown'
+    },
+    technical: {
+      specific_damages: [],
+      repair_quality: 'unknown',
+      material_compatibility: 'unknown',
+      longevity_indicators: []
+    },
+    confidence: 0,
+    description: 'Automated analysis failed. Manual review required.'
+  };
+}
+
+// Helper to create fallback pairing when pairing analysis fails
+function createFallbackPairing(analyses: any[]) {
+  return analyses.map(analysis => ({
+    before: analysis.stage === 'before' ? analysis : analyses[0],
+    after: analysis.stage === 'after' ? analysis : analyses[analyses.length - 1],
+    location: 'Unknown',
+    workPerformed: 'Analysis failed - manual pairing required',
+    pairingConfidence: 0,
+    factCheck: {
+      roof_type_match: false,
+      angle_match: false,
+      logical_progression: false,
+      material_consistency: false,
+      verification_notes: 'Automated pairing failed - requires manual verification'
+    },
+    authenticityScore: 0,
+    tags: ['manual-review-required'],
+    needsReview: true
+  }));
+}
+
+// Safe JSON parser with comprehensive error handling
+function safeParseJSON(content: string, context: string): any | null {
+  try {
+    const normalized = stripMarkdownCodeFence(content);
+    console.log(`[${context}] Normalized content length: ${normalized.length} chars`);
+    
+    const parsed = JSON.parse(normalized);
+    
+    // Validate it's actually an object or array
+    if (typeof parsed !== 'object' || parsed === null) {
+      console.error(`[${context}] Parsed value is not an object:`, typeof parsed);
+      return null;
+    }
+    
+    return parsed;
+  } catch (error) {
+    console.error(`[${context}] JSON Parse Error:`, error);
+    console.error(`[${context}] Raw AI Response:`, content);
+    console.error(`[${context}] Normalized Content:`, stripMarkdownCodeFence(content));
+    return null;
+  }
 }
 
 serve(async (req) => {
@@ -178,8 +267,26 @@ Respond in JSON:
       });
 
       const data = await response.json();
-      const content = stripMarkdownCodeFence(data.choices[0].message.content);
-      const analysis = JSON.parse(content);
+      
+      // Safe parsing with fallback
+      const rawContent = data?.choices?.[0]?.message?.content;
+      if (!rawContent) {
+        console.error('[REANALYSIS] No content in AI response for:', imageUrl);
+        return createFallbackAnalysis(imageUrl);
+      }
+      
+      const analysis = safeParseJSON(rawContent, 'IMAGE_ANALYSIS');
+      
+      if (!analysis) {
+        console.error('[REANALYSIS] Failed to parse analysis for:', imageUrl);
+        return createFallbackAnalysis(imageUrl);
+      }
+      
+      // Validate expected structure exists
+      if (!analysis.stage || !analysis.tags) {
+        console.error('[REANALYSIS] Invalid analysis structure:', analysis);
+        return createFallbackAnalysis(imageUrl);
+      }
       
       return {
         url: imageUrl,
@@ -243,41 +350,72 @@ Return JSON array. Mark standalone images if no good pair.`
     });
 
     const pairingData = await pairingResponse.json();
-    const pairingContent = stripMarkdownCodeFence(pairingData.choices[0].message.content);
-    const pairs = JSON.parse(pairingContent);
-    console.log(`[REANALYSIS] Created ${pairs.length} verified pairs`);
+    
+    // Safe parsing with fallback
+    const rawPairingContent = pairingData?.choices?.[0]?.message?.content;
+    if (!rawPairingContent) {
+      console.error('[REANALYSIS] No content in pairing response');
+      const pairs = createFallbackPairing(analyses);
+      console.log(`[REANALYSIS] Using fallback pairing: ${pairs.length} pairs`);
+    } else {
+      var pairs = safeParseJSON(rawPairingContent, 'PAIRING');
+      
+      if (!pairs || !Array.isArray(pairs)) {
+        console.error('[REANALYSIS] Failed to parse pairing data or not an array');
+        pairs = createFallbackPairing(analyses);
+        console.log(`[REANALYSIS] Using fallback pairing: ${pairs.length} pairs`);
+      } else {
+        console.log(`[REANALYSIS] Created ${pairs.length} verified pairs`);
+      }
+    }
 
     // STEP 5: Save with Complete Metadata
     if (saveToDatabase) {
       const savedProjects = [];
       
       for (const pair of pairs) {
-        const verificationStatus = pair.needsReview ? 'needs_review' : 
-                                   pair.authenticityScore < 0.7 ? 'needs_review' :
-                                   pair.pairingConfidence < 0.8 ? 'needs_review' : 'pending';
+        // Safe property access with defaults
+        const needsReview = pair?.needsReview ?? true;
+        const authenticityScore = pair?.authenticityScore ?? 0;
+        const pairingConfidence = pair?.pairingConfidence ?? 0;
+        const location = pair?.location ?? 'Unknown';
+        const workPerformed = pair?.workPerformed ?? 'Analysis incomplete';
+        const tags = pair?.tags ?? ['manual-review-required'];
+        
+        const verificationStatus = needsReview ? 'needs_review' : 
+                                   authenticityScore < 0.7 ? 'needs_review' :
+                                   pairingConfidence < 0.8 ? 'needs_review' : 'pending';
+
+        // Safe access to nested properties
+        const beforeUrl = pair?.before?.url ?? '';
+        const afterUrl = pair?.after?.url ?? '';
+        const roofType = pair?.before?.tags?.roof_type ?? pair?.after?.tags?.roof_type ?? 'unknown';
+        const beforeAnalysis = pair?.before?.analysis ?? {};
+        const afterAnalysis = pair?.after?.analysis ?? {};
+        const factCheck = pair?.factCheck ?? {};
 
         const { data: caseStudy, error: insertError } = await supabase
           .from('content_case_studies')
           .insert({
             study_id: `AI-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-            suburb: pair.location,
-            before_image: pair.before.url,
-            after_image: pair.after.url,
-            testimonial: pair.workPerformed,
-            featured: pair.authenticityScore > 0.85 && pair.pairingConfidence > 0.85,
-            meta_title: `${pair.before.tags.roof_type} Restoration - ${pair.location}`,
-            meta_description: pair.workPerformed.substring(0, 160),
+            suburb: location,
+            before_image: beforeUrl,
+            after_image: afterUrl,
+            testimonial: workPerformed,
+            featured: authenticityScore > 0.85 && pairingConfidence > 0.85,
+            meta_title: `${roofType} Restoration - ${location}`,
+            meta_description: workPerformed.substring(0, 160),
             published_at: verificationStatus === 'pending' ? new Date().toISOString() : null,
-            tags: pair.tags,
+            tags: tags,
             ai_analysis: {
-              before: pair.before.analysis,
-              after: pair.after.analysis,
-              fact_check: pair.factCheck,
+              before: beforeAnalysis,
+              after: afterAnalysis,
+              fact_check: factCheck,
               analysis_timestamp: new Date().toISOString()
             },
             verification_status: verificationStatus,
-            authenticity_score: Math.round(pair.authenticityScore * 100) / 100,
-            pairing_confidence: Math.round(pair.pairingConfidence * 100) / 100
+            authenticity_score: Math.round(authenticityScore * 100) / 100,
+            pairing_confidence: Math.round(pairingConfidence * 100) / 100
           })
           .select()
           .single();
