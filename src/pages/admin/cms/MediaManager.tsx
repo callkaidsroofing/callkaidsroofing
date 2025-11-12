@@ -62,37 +62,47 @@ const MediaManager = () => {
   };
 
   useEffect(() => {
+    const blobUrls: string[] = [];
+    
     const run = async () => {
       if (!images || images.length === 0) return;
       const entries: Array<[string, string]> = [];
+      
       await Promise.all(
         images.map(async (img: any) => {
           const path = extractPath(img.image_url);
           try {
             if (path) {
-              const { data: signed } = await supabase.storage
+              // Download blob directly from storage
+              const { data: blob, error } = await supabase.storage
                 .from('media')
-                .createSignedUrl(path, 60 * 60);
-              if (signed?.signedUrl) {
-                entries.push([img.id, signed.signedUrl]);
+                .download(path);
+              
+              if (blob && !error) {
+                const blobUrl = URL.createObjectURL(blob);
+                blobUrls.push(blobUrl);
+                entries.push([img.id, blobUrl]);
                 return;
               }
-              const { data: pub } = await supabase.storage
-                .from('media')
-                .getPublicUrl(path);
-              entries.push([img.id, pub.publicUrl]);
-            } else {
-              entries.push([img.id, toRenderableUrl(img.image_url)]);
             }
+            // Fallback to public URL if download fails
+            entries.push([img.id, toRenderableUrl(img.image_url)]);
           } catch (e) {
-            console.warn('Signed URL generation failed', e);
+            console.warn('Blob download failed for', path, e);
             entries.push([img.id, toRenderableUrl(img.image_url)]);
           }
         })
       );
+      
       setResolvedUrls(Object.fromEntries(entries));
     };
+    
     run();
+    
+    // Cleanup blob URLs on unmount to prevent memory leaks
+    return () => {
+      blobUrls.forEach(url => URL.revokeObjectURL(url));
+    };
   }, [images]);
   const handleUpload = async () => {
     if (!selectedFiles) return;
