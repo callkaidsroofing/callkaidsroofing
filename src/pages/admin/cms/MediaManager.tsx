@@ -169,16 +169,19 @@ const MediaManager = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {images.map((img) => (
                 <div key={img.id} className="relative group">
-                  <img 
-                    src={toRenderableUrl(img.image_url)} 
-                    alt={img.title}
-                    className="w-full aspect-square object-cover rounded-lg"
-                    onError={(e) => {
-                      console.error('Image failed to load:', img.image_url, '→', toRenderableUrl(img.image_url));
-                      e.currentTarget.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><text x="50%" y="50%" text-anchor="middle" fill="red">Error</text></svg>';
-                    }}
-                    onLoad={() => console.log('Image loaded:', toRenderableUrl(img.image_url))}
-                  />
+                  {(() => {
+                    const renderUrl = toRenderableUrl(img.image_url);
+                    return (
+                      <img 
+                        src={renderUrl} 
+                        alt={img.title}
+                        className="w-full aspect-square object-cover rounded-lg"
+                        onError={(e) => {
+                          console.error('Image failed to load:', renderUrl);
+                        }}
+                      />
+                    );
+                  })()}
                   <Button
                     variant="destructive"
                     size="sm"
