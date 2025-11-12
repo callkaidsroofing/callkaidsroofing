@@ -10,6 +10,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 const MediaManager = () => {
   const [imageUrls, setImageUrls] = useState<string>('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -30,13 +32,70 @@ const MediaManager = () => {
     }
   });
 
+  const handleFileUpload = async () => {
+    if (!selectedFiles || selectedFiles.length === 0) {
+      toast({
+        title: "No Files Selected",
+        description: "Please select at least one image file",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsUploading(true);
+    const uploadedUrls: string[] = [];
+
+    try {
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+        const filePath = `project-images/${fileName}`;
+
+        const { error: uploadError, data } = await supabase.storage
+          .from('media')
+          .upload(filePath, file, {
+            cacheControl: '3600',
+            upsert: false
+          });
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('media')
+          .getPublicUrl(filePath);
+
+        uploadedUrls.push(publicUrl);
+      }
+
+      toast({
+        title: "Upload Complete",
+        description: `Uploaded ${uploadedUrls.length} image(s)`,
+      });
+
+      // Add uploaded URLs to the textarea
+      setImageUrls(prev => prev ? `${prev}\n${uploadedUrls.join('\n')}` : uploadedUrls.join('\n'));
+      setSelectedFiles(null);
+
+    } catch (error) {
+      console.error('Error uploading files:', error);
+      toast({
+        title: "Upload Failed",
+        description: error instanceof Error ? error.message : 'Failed to upload images',
+        variant: "destructive"
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   const handleAnalyzeImages = async () => {
     const urls = imageUrls.split('\n').map(url => url.trim()).filter(url => url.length > 0);
     
     if (urls.length === 0) {
       toast({
         title: "No Images",
-        description: "Please enter at least one image URL",
+        description: "Please upload files or enter image URLs",
         variant: "destructive"
       });
       return;
@@ -148,9 +207,48 @@ const MediaManager = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* File Upload Section */}
+          <div className="space-y-3">
+            <label className="text-sm font-medium block">
+              Upload Project Images
+            </label>
+            <div className="flex gap-2">
+              <Input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={(e) => setSelectedFiles(e.target.files)}
+                className="flex-1"
+              />
+              <Button 
+                onClick={handleFileUpload}
+                disabled={isUploading || !selectedFiles}
+                variant="outline"
+              >
+                {isUploading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Uploading...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="mr-2 h-4 w-4" />
+                    Upload
+                  </>
+                )}
+              </Button>
+            </div>
+            {selectedFiles && selectedFiles.length > 0 && (
+              <p className="text-sm text-muted-foreground">
+                {selectedFiles.length} file(s) selected
+              </p>
+            )}
+          </div>
+
+          {/* URL Input Section */}
           <div>
             <label className="text-sm font-medium mb-2 block">
-              Image URLs (one per line)
+              Or Enter Image URLs (one per line)
             </label>
             <textarea
               value={imageUrls}
@@ -158,7 +256,7 @@ const MediaManager = () => {
               placeholder="/images/projects/before-roof-1.jpg
 /images/projects/after-roof-1.jpg
 /images/projects/before-roof-2.jpg"
-              className="w-full min-h-[200px] p-3 border rounded-md font-mono text-sm"
+              className="w-full min-h-[150px] p-3 border rounded-md font-mono text-sm"
             />
           </div>
 
