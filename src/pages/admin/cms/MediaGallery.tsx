@@ -161,7 +161,7 @@ export default function MediaGallery() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {media?.map((item) => (
-              <Card key={item.id} className="overflow-hidden">
+              <Card key={item.id} className="overflow-visible">
                 <div className="aspect-video relative">
                   <img
                     src={item.image_url}
@@ -244,7 +244,7 @@ export default function MediaGallery() {
                     </div>
                   </div>
 
-                  <div className="flex gap-2 pt-2 border-t">
+                  <div className="flex flex-wrap gap-2 pt-2 border-t">
                     <Button
                       variant="outline"
                       size="sm"
