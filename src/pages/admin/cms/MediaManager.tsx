@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +10,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 const MediaManager = () => {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [resolvedUrls, setResolvedUrls] = useState<Record<string, string>>({});
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -52,6 +53,47 @@ const MediaManager = () => {
     }
   };
 
+  const extractPath = (url: string) => {
+    const marker = '/storage/v1/object/public/media/';
+    if (!url) return '';
+    if (url.includes(marker)) return url.split(marker)[1];
+    if (!url.startsWith('http')) return url.replace(/^\/+/, '');
+    return '';
+  };
+
+  useEffect(() => {
+    const run = async () => {
+      if (!images || images.length === 0) return;
+      const entries: Array<[string, string]> = [];
+      await Promise.all(
+        images.map(async (img: any) => {
+          const path = extractPath(img.image_url);
+          try {
+            if (path) {
+              const { data: signed } = await supabase.storage
+                .from('media')
+                .createSignedUrl(path, 60 * 60);
+              if (signed?.signedUrl) {
+                entries.push([img.id, signed.signedUrl]);
+                return;
+              }
+              const { data: pub } = await supabase.storage
+                .from('media')
+                .getPublicUrl(path);
+              entries.push([img.id, pub.publicUrl]);
+            } else {
+              entries.push([img.id, toRenderableUrl(img.image_url)]);
+            }
+          } catch (e) {
+            console.warn('Signed URL generation failed', e);
+            entries.push([img.id, toRenderableUrl(img.image_url)]);
+          }
+        })
+      );
+      setResolvedUrls(Object.fromEntries(entries));
+    };
+    run();
+  }, [images]);
   const handleUpload = async () => {
     if (!selectedFiles) return;
 
@@ -170,15 +212,13 @@ const MediaManager = () => {
               {images.map((img) => (
                 <div key={img.id} className="relative group">
                   {(() => {
-                    const renderUrl = toRenderableUrl(img.image_url);
+                    const renderUrl = resolvedUrls[img.id] ?? toRenderableUrl(img.image_url);
                     return (
                       <img 
                         src={renderUrl} 
                         alt={img.title}
                         className="w-full aspect-square object-cover rounded-lg"
-                        onError={(e) => {
-                          console.error('Image failed to load:', renderUrl);
-                        }}
+                        onError={() => console.error('Image failed to load:', renderUrl)}
                       />
                     );
                   })()}
