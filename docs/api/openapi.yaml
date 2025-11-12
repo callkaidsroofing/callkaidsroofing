@@ -1,0 +1,428 @@
+openapi: 3.0.0
+info:
+  title: CKR Digital Engine API
+  version: 1.0.0
+  description: |
+    # Call Kaids Roofing Digital Engine API
+    
+    Complete API documentation for all edge functions in the CKR Digital Engine.
+    
+    ## Business Information
+    - **Company:** Call Kaids Roofing
+    - **ABN:** 39475055075
+    - **Phone:** 0435 900 709
+    - **Email:** info@callkaidsroofing.com.au
+    - **Service Area:** SE Melbourne, Australia
+    
+    ## Authentication
+    Functions marked with 🔐 require JWT authentication via Supabase Auth.
+    Public functions can be called with just the anon key.
+    
+    ## Base URL
+    All endpoints are relative to: `https://vlnkzpyeppfdmresiaoh.supabase.co/functions/v1`
+    
+    ## Rate Limiting
+    Public endpoints (forms, lead capture) are rate-limited to 5 requests/minute per IP.
+  contact:
+    name: CKR Development Team
+    email: info@callkaidsroofing.com.au
+  license:
+    name: Proprietary
+
+servers:
+  - url: https://vlnkzpyeppfdmresiaoh.supabase.co/functions/v1
+    description: Production Supabase Edge Functions
+
+security:
+  - apiKey: []
+
+tags:
+  - name: CRM
+    description: Lead, quote, and job management endpoints
+  - name: AI & RAG
+    description: AI-powered search, chat, and knowledge retrieval
+  - name: Integrations
+    description: External service integrations (Notion, Google, Facebook)
+  - name: Admin
+    description: Administrative functions and user management
+  - name: Notifications
+    description: Email and notification delivery
+  - name: General
+    description: Utility and general-purpose functions
+
+paths:
+  /send-lead-notification:
+    post:
+      summary: Capture lead from public quote forms
+      description: |
+        Handles lead capture from website forms, sends notifications to business owner,
+        and stores lead in CRM database. Rate-limited to 5 requests/minute per IP.
+      operationId: send_lead_notification
+      tags:
+        - CRM
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - phone
+                - suburb
+                - service
+              properties:
+                name:
+                  type: string
+                  description: Customer full name
+                  example: John Smith
+                phone:
+                  type: string
+                  description: Australian mobile format
+                  example: '0435900709'
+                email:
+                  type: string
+                  format: email
+                  description: Optional email for follow-up
+                  example: john@example.com
+                suburb:
+                  type: string
+                  description: SE Melbourne suburb name
+                  example: Berwick
+                service:
+                  type: string
+                  description: Requested service type
+                  example: Roof Restoration
+                message:
+                  type: string
+                  description: Additional notes from customer
+                urgency:
+                  type: string
+                  enum: [low, medium, high, emergency]
+                  description: Lead urgency level
+                source:
+                  type: string
+                  description: Form source identifier
+                  example: homepage_hero_form
+      responses:
+        '200':
+          description: Lead captured successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  leadReference:
+                    type: string
+                    example: LEAD-1699999999-ABC123
+                  message:
+                    type: string
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /rag-search:
+    post:
+      summary: RAG-powered vector search
+      description: |
+        Performs semantic search across master knowledge base, pricing items, workflows,
+        and content using OpenAI embeddings. Supports KF-aware routing for intelligent
+        prioritization of relevant Knowledge Files.
+      operationId: rag_search
+      tags:
+        - AI & RAG
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query
+              properties:
+                query:
+                  type: string
+                  description: Search query text
+                  example: What is the pricing for tile roof restoration?
+                matchThreshold:
+                  type: number
+                  format: float
+                  description: Similarity threshold (0.0-1.0)
+                  default: 0.7
+                matchCount:
+                  type: integer
+                  description: Maximum number of results
+                  default: 5
+                filterCategory:
+                  type: string
+                  description: Filter by knowledge category
+                  example: pricing
+                sourceTypes:
+                  type: array
+                  items:
+                    type: string
+                  description: Source tables to search
+                  example: [master_knowledge, pricing_items]
+                enableKFRouting:
+                  type: boolean
+                  description: Enable Knowledge File priority routing
+                  default: true
+      responses:
+        '200':
+          description: Search results with context
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  query:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        title:
+                          type: string
+                        content:
+                          type: string
+                        source_table:
+                          type: string
+                        similarity:
+                          type: number
+                        metadata:
+                          type: object
+                  context:
+                    type: string
+                    description: Concatenated context for LLM
+                  metadata:
+                    type: object
+                    properties:
+                      totalMatches:
+                        type: integer
+                      threshold:
+                        type: number
+                      sources:
+                        type: array
+                        items:
+                          type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /chat-with-rag:
+    post:
+      summary: AI chat with RAG context
+      description: |
+        Provides AI-powered chat assistance using Gemini 2.0 Flash with RAG context retrieval.
+        Supports multiple conversation types: customer support, quote assistance, internal operations.
+      operationId: chat_with_rag
+      tags:
+        - AI & RAG
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - messages
+              properties:
+                messages:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      role:
+                        type: string
+                        enum: [system, user, assistant]
+                      content:
+                        type: string
+                conversationType:
+                  type: string
+                  enum: [customer_support, quote_assistant, internal]
+                  default: customer_support
+                useRag:
+                  type: boolean
+                  default: true
+                ragOptions:
+                  type: object
+                  properties:
+                    matchThreshold:
+                      type: number
+                    matchCount:
+                      type: integer
+                    filterCategory:
+                      type: string
+      responses:
+        '200':
+          description: AI response with metadata
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                    description: AI assistant response
+                  metadata:
+                    type: object
+                    properties:
+                      conversationType:
+                        type: string
+                      ragUsed:
+                        type: boolean
+                      contextsRetrieved:
+                        type: integer
+                      contexts:
+                        type: array
+                        items:
+                          type: object
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /send-quote:
+    post:
+      summary: Generate and send quote email
+      description: |
+        Generates a professional quote PDF and sends it to the customer via email.
+        Also creates records in CRM (leads, quotes, jobs tables).
+      operationId: send_quote
+      tags:
+        - CRM
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - customer_name
+                - customer_email
+                - customer_phone
+                - site_address
+                - scope
+                - quote_amount
+              properties:
+                customer_name:
+                  type: string
+                customer_email:
+                  type: string
+                  format: email
+                customer_phone:
+                  type: string
+                site_address:
+                  type: string
+                scope:
+                  type: string
+                  description: Work scope description
+                quote_amount:
+                  type: number
+                  format: decimal
+                  description: Total quote amount (AUD)
+                notes:
+                  type: string
+      responses:
+        '200':
+          description: Quote sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  quote_id:
+                    type: string
+                  lead_id:
+                    type: string
+                  job_id:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        details:
+          type: string
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+
+  responses:
+    BadRequest:
+      description: Bad request - validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Unauthorized - invalid or missing JWT token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Supabase JWT token from auth.session
+
+    apiKey:
+      type: apiKey
+      in: header
+      name: apikey
+      description: Supabase anon key
