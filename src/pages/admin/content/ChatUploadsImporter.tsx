@@ -19,26 +19,27 @@ export default function ChatUploadsImporter() {
     queryKey: ["chat-uploads"],
     queryFn: async () => {
       const { data, error } = await supabase.storage.from("media").list("", {
-        sortBy: { column: "created_at", order: "desc" },
+        sortBy: { column: "name", order: "desc" },
       });
 
       if (error) throw error;
 
-      // Get public URLs for each file
-      const filesWithUrls = data
-        .filter((file) => file.name !== ".emptyFolderPlaceholder")
-        .map((file) => {
-          const { data: urlData } = supabase.storage
-            .from("media")
-            .getPublicUrl(file.name);
-
-          return {
-            name: file.name,
-            url: urlData.publicUrl,
-            created_at: file.created_at,
-            size: file.metadata?.size,
-          };
-        });
+      // Build both signed and public URLs to maximize compatibility
+      const filesWithUrls = await Promise.all(
+        (data || [])
+          .filter((file) => file.name !== ".emptyFolderPlaceholder")
+          .map(async (file) => {
+            const publicUrl = supabase.storage.from("media").getPublicUrl(file.name).data.publicUrl;
+            const { data: signed } = await supabase.storage.from("media").createSignedUrl(file.name, 60 * 60); // 1h
+            return {
+              name: file.name,
+              url: publicUrl,
+              signedUrl: signed?.signedUrl || publicUrl,
+              created_at: (file as any).created_at || undefined,
+              size: (file as any).metadata?.size,
+            } as any;
+          })
+      );
 
       return filesWithUrls;
     },
@@ -167,24 +168,30 @@ export default function ChatUploadsImporter() {
         ) : uploadedFiles && uploadedFiles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {uploadedFiles.map((file) => {
-              const isSelected = selectedImages.has(file.url);
+              const isSelected = selectedImages.has(file.signedUrl || file.url);
+              const src = file.signedUrl || file.url;
               return (
                 <Card
-                  key={file.url}
+                  key={src}
                   className={`overflow-visible transition-all ${
                     isSelected ? "ring-2 ring-primary shadow-xl" : ""
                   }`}
                 >
                   <div className="relative aspect-video">
                     <img
-                      src={file.url}
+                      src={src}
                       alt={file.name}
+                      loading="lazy"
+                      onError={(e) => {
+                        const img = e.currentTarget as HTMLImageElement;
+                        if (img.src !== file.url) img.src = file.url; // fallback to public
+                      }}
                       className="w-full h-full object-cover rounded-t-lg"
                     />
                     <div className="absolute top-2 right-2">
                       <Checkbox
                         checked={isSelected}
-                        onCheckedChange={() => toggleImageSelection(file.url)}
+                        onCheckedChange={() => toggleImageSelection(src)}
                         className="bg-background border-2"
                       />
                     </div>

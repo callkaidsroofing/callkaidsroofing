@@ -120,6 +120,12 @@ export default function MediaLibrary() {
            asset.description?.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
+  const toSrc = (url: string) => {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return supabase.storage.from('media').getPublicUrl(url).data.publicUrl;
+  };
+
   return (
     <div className="container mx-auto p-6">
       <div className="flex items-center justify-between mb-6">
@@ -198,9 +204,14 @@ export default function MediaLibrary() {
                       onClick={() => setSelectedAsset(asset)}
                     >
                       <img 
-                        src={asset.image_url} 
+                        src={toSrc(asset.image_url)} 
                         alt={asset.title}
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const img = e.currentTarget as HTMLImageElement;
+                          const fallback = toSrc(asset.image_url);
+                          if (img.src !== fallback) img.src = fallback;
+                        }}
                       />
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <Eye className="h-6 w-6 text-white" />
@@ -221,7 +232,7 @@ export default function MediaLibrary() {
                     </DialogHeader>
                     <div className="space-y-4">
                       <img 
-                        src={asset.image_url} 
+                        src={toSrc(asset.image_url)} 
                         alt={asset.title}
                         className="w-full rounded-lg"
                       />
