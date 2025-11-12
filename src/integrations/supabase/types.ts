@@ -212,6 +212,48 @@ export type Database = {
         }
         Relationships: []
       }
+      business_profile_data: {
+        Row: {
+          address: string | null
+          created_at: string | null
+          id: string
+          last_synced_at: string | null
+          operating_hours: Json | null
+          phone: string | null
+          rating: number | null
+          raw_data: Json | null
+          review_count: number | null
+          source: string
+          website: string | null
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string | null
+          id?: string
+          last_synced_at?: string | null
+          operating_hours?: Json | null
+          phone?: string | null
+          rating?: number | null
+          raw_data?: Json | null
+          review_count?: number | null
+          source: string
+          website?: string | null
+        }
+        Update: {
+          address?: string | null
+          created_at?: string | null
+          id?: string
+          last_synced_at?: string | null
+          operating_hours?: Json | null
+          phone?: string | null
+          rating?: number | null
+          raw_data?: Json | null
+          review_count?: number | null
+          source?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       campaigns: {
         Row: {
           ad_creatives: Json | null

@@ -1,6 +1,28 @@
 import { Helmet } from "react-helmet-async";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 export const SchemaMarkup = () => {
+  const [rating, setRating] = useState<number>(4.9);
+  const [reviewCount, setReviewCount] = useState<number>(127);
+
+  useEffect(() => {
+    const fetchBusinessData = async () => {
+      const { data } = await supabase
+        .from('business_profile_data')
+        .select('rating, review_count')
+        .eq('source', 'google')
+        .single();
+
+      if (data) {
+        if (data.rating) setRating(data.rating);
+        if (data.review_count) setReviewCount(data.review_count);
+      }
+    };
+
+    fetchBusinessData();
+  }, []);
+
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "RoofingContractor",
@@ -50,8 +72,8 @@ export const SchemaMarkup = () => {
     ],
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "reviewCount": "127"
+      "ratingValue": rating.toString(),
+      "reviewCount": reviewCount.toString()
     },
     "sameAs": [
       "https://www.facebook.com/callkaidsroofing",

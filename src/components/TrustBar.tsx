@@ -1,4 +1,6 @@
 import { Shield, Users, Award, Star } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface TrustStat {
   icon: typeof Shield;
@@ -6,30 +8,48 @@ interface TrustStat {
   label: string;
 }
 
-const trustStats: TrustStat[] = [
-  {
-    icon: Users,
-    value: "500+",
-    label: "Roofs Restored",
-  },
-  {
-    icon: Star,
-    value: "4.9/5",
-    label: "Google Rating",
-  },
-  {
-    icon: Shield,
-    value: "15-Year",
-    label: "Warranty",
-  },
-  {
-    icon: Award,
-    value: "Licensed",
-    label: "& Insured",
-  },
-];
-
 export const TrustBar = () => {
+  const [rating, setRating] = useState<string>("4.9/5");
+
+  useEffect(() => {
+    const fetchRating = async () => {
+      const { data } = await supabase
+        .from('business_profile_data')
+        .select('rating')
+        .eq('source', 'google')
+        .single();
+
+      if (data?.rating) {
+        setRating(`${data.rating}/5`);
+      }
+    };
+
+    fetchRating();
+  }, []);
+
+  const trustStats: TrustStat[] = [
+    {
+      icon: Users,
+      value: "500+",
+      label: "Roofs Restored",
+    },
+    {
+      icon: Star,
+      value: rating,
+      label: "Google Rating",
+    },
+    {
+      icon: Shield,
+      value: "15-Year",
+      label: "Warranty",
+    },
+    {
+      icon: Award,
+      value: "Licensed",
+      label: "& Insured",
+    },
+  ];
+
   return (
     <div className="backdrop-blur-md bg-white/10 border-y border-white/20 py-6">
       <div className="container mx-auto px-4">

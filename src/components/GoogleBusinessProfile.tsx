@@ -16,16 +16,32 @@ const GoogleBusinessProfile = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Use hardcoded verified GBP data for consistency
-    setBusinessData({
-      name: "Call Kaids Roofing",
-      address: "8 Springleaf Ave, Clyde North, Victoria 3978",
-      phoneNumber: "0435 900 709",
-      websiteUrl: "https://callkaidsroofing.com.au/",
-      rating: 4.9,
-      reviewCount: 200
-    });
-    setLoading(false);
+    const fetchBusinessData = async () => {
+      try {
+        const { data } = await supabase
+          .from('business_profile_data')
+          .select('*')
+          .eq('source', 'google')
+          .single();
+
+        if (data) {
+          setBusinessData({
+            name: "Call Kaids Roofing",
+            address: data.address || "8 Springleaf Ave, Clyde North, Victoria 3978",
+            phoneNumber: data.phone || "0435 900 709",
+            websiteUrl: data.website || "https://callkaidsroofing.com.au/",
+            rating: data.rating || undefined,
+            reviewCount: data.review_count || undefined
+          });
+        }
+      } catch (error) {
+        console.error('Failed to fetch business data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBusinessData();
   }, []);
 
   if (loading) {
