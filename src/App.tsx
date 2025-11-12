@@ -17,6 +17,7 @@ const Gallery = lazy(() => import("./pages/Gallery"));
 const Emergency = lazy(() => import("./pages/Emergency"));
 const Warranty = lazy(() => import("./pages/Warranty"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const RoofRestoration = lazy(() => import("./pages/services/RoofRestoration"));
 const RoofPainting = lazy(() => import("./pages/services/RoofPainting"));
@@ -163,6 +164,7 @@ function App() {
                     <Route path="emergency" element={<Emergency />} />
                     <Route path="warranty" element={<Warranty />} />
                     <Route path="privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="terms-of-service" element={<TermsOfService />} />
                     <Route path="thank-you" element={<ThankYou />} />
                     <Route path="services" element={<Services />} />
                     <Route path="services/:slug" element={<ServiceDetail />} />
