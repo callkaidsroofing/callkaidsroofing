@@ -13,13 +13,16 @@ import { useNavigate } from 'react-router-dom';
 
 interface MediaAsset {
   id: string;
-  filename: string;
-  file_path: string;
-  kind: 'photo' | 'video' | 'document';
-  tags: string[];
-  meta: any;
+  title: string;
+  description?: string;
+  image_url: string;
+  category: string;
+  is_active: boolean;
   created_at: string;
-  job_id?: string;
+  show_on_homepage: boolean;
+  show_on_about: boolean;
+  show_on_services: boolean;
+  show_on_portfolio: boolean;
 }
 
 export default function MediaLibrary() {
@@ -39,18 +42,18 @@ export default function MediaLibrary() {
     setLoading(true);
     try {
       let query = supabase
-        .from('media_assets' as any)
+        .from('media_gallery')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (filterKind !== 'all') {
-        query = query.eq('kind', filterKind);
+        query = query.eq('category', filterKind);
       }
 
       const { data, error } = await query;
 
       if (error) throw error;
-      setAssets((data || []) as any);
+      setAssets((data || []) as MediaAsset[]);
     } catch (error) {
       console.error('Error loading assets:', error);
       toast.error('Failed to load media');
@@ -78,19 +81,25 @@ export default function MediaLibrary() {
 
       if (uploadError) throw uploadError;
 
-      // Create asset record
+      // Get public URL
+      const { data: urlData } = supabase.storage
+        .from('media')
+        .getPublicUrl(uploadData.path);
+
+      // Create asset record in media_gallery
       const { error: insertError } = await supabase
-        .from('media_assets' as any)
+        .from('media_gallery')
         .insert({
-          filename: file.name,
-          file_path: uploadData.path,
-          kind: file.type.startsWith('image/') ? 'photo' : file.type.startsWith('video/') ? 'video' : 'document',
-          tags: [],
-          meta: {
-            size: file.size,
-            type: file.type
-          }
-        } as any);
+          title: file.name,
+          description: `Uploaded ${new Date().toLocaleDateString()}`,
+          image_url: urlData.publicUrl,
+          category: 'general',
+          is_active: true,
+          show_on_homepage: false,
+          show_on_about: false,
+          show_on_services: false,
+          show_on_portfolio: true
+        });
 
       if (insertError) throw insertError;
 
@@ -106,13 +115,10 @@ export default function MediaLibrary() {
 
   const filteredAssets = assets.filter(asset => {
     if (!searchQuery) return true;
-    return asset.filename.toLowerCase().includes(searchQuery.toLowerCase()) ||
-           asset.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+    return asset.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+           asset.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+           asset.description?.toLowerCase().includes(searchQuery.toLowerCase());
   });
-
-  const getMediaUrl = (path: string) => {
-    return `${supabase.storage.from('media').getPublicUrl(path).data.publicUrl}`;
-  };
 
   return (
     <div className="container mx-auto p-6">
@@ -163,18 +169,11 @@ export default function MediaLibrary() {
             <Tabs value={filterKind} onValueChange={setFilterKind}>
               <TabsList>
                 <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="photo">
-                  <Image className="h-4 w-4 mr-2" />
-                  Photos
-                </TabsTrigger>
-                <TabsTrigger value="video">
-                  <Video className="h-4 w-4 mr-2" />
-                  Videos
-                </TabsTrigger>
-                <TabsTrigger value="document">
-                  <FileText className="h-4 w-4 mr-2" />
-                  Docs
-                </TabsTrigger>
+                <TabsTrigger value="general">General</TabsTrigger>
+                <TabsTrigger value="project">Projects</TabsTrigger>
+                <TabsTrigger value="team">Team</TabsTrigger>
+                <TabsTrigger value="equipment">Equipment</TabsTrigger>
+                <TabsTrigger value="testimonial">Testimonials</TabsTrigger>
               </TabsList>
             </Tabs>
           </div>
@@ -198,74 +197,67 @@ export default function MediaLibrary() {
                       className="relative aspect-square rounded-lg overflow-hidden border cursor-pointer hover:border-primary transition-colors group"
                       onClick={() => setSelectedAsset(asset)}
                     >
-                      {asset.kind === 'photo' ? (
-                        <img 
-                          src={getMediaUrl(asset.file_path)} 
-                          alt={asset.filename}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : asset.kind === 'video' ? (
-                        <div className="w-full h-full bg-muted flex items-center justify-center">
-                          <Video className="h-12 w-12 text-muted-foreground" />
-                        </div>
-                      ) : (
-                        <div className="w-full h-full bg-muted flex items-center justify-center">
-                          <FileText className="h-12 w-12 text-muted-foreground" />
-                        </div>
-                      )}
+                      <img 
+                        src={asset.image_url} 
+                        alt={asset.title}
+                        className="w-full h-full object-cover"
+                      />
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <Eye className="h-6 w-6 text-white" />
                       </div>
-                      {asset.tags && asset.tags.length > 0 && (
-                        <div className="absolute top-2 right-2">
-                          <Badge variant="secondary" className="text-xs">
-                            <Tag className="h-3 w-3 mr-1" />
-                            {asset.tags.length}
-                          </Badge>
-                        </div>
-                      )}
+                      <div className="absolute top-2 right-2">
+                        <Badge variant={asset.is_active ? "default" : "secondary"} className="text-xs">
+                          {asset.is_active ? 'Active' : 'Inactive'}
+                        </Badge>
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+                        <p className="text-white text-sm font-medium truncate">{asset.title}</p>
+                      </div>
                     </div>
                   </DialogTrigger>
                   <DialogContent className="max-w-3xl">
                     <DialogHeader>
-                      <DialogTitle>{asset.filename}</DialogTitle>
+                      <DialogTitle>{asset.title}</DialogTitle>
                     </DialogHeader>
                     <div className="space-y-4">
-                      {asset.kind === 'photo' && (
-                        <img 
-                          src={getMediaUrl(asset.file_path)} 
-                          alt={asset.filename}
-                          className="w-full rounded-lg"
-                        />
+                      <img 
+                        src={asset.image_url} 
+                        alt={asset.title}
+                        className="w-full rounded-lg"
+                      />
+                      {asset.description && (
+                        <p className="text-sm text-muted-foreground">{asset.description}</p>
                       )}
                       <div className="grid grid-cols-2 gap-4 text-sm">
                         <div>
-                          <span className="text-muted-foreground">Type:</span>
-                          <Badge className="ml-2">{asset.kind}</Badge>
+                          <span className="text-muted-foreground">Category:</span>
+                          <Badge className="ml-2">{asset.category}</Badge>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">Status:</span>
+                          <Badge variant={asset.is_active ? "default" : "secondary"} className="ml-2">
+                            {asset.is_active ? 'Active' : 'Inactive'}
+                          </Badge>
                         </div>
                         <div>
                           <span className="text-muted-foreground">Uploaded:</span>
                           <span className="ml-2">{format(new Date(asset.created_at), 'dd/MM/yyyy')}</span>
                         </div>
-                        <div>
-                          <span className="text-muted-foreground">Size:</span>
-                          <span className="ml-2">{asset.meta?.size ? `${(asset.meta.size / 1024).toFixed(1)} KB` : 'Unknown'}</span>
-                        </div>
-                        <div>
-                          <span className="text-muted-foreground">Tags:</span>
-                          <div className="ml-2 flex gap-1 flex-wrap">
-                            {asset.tags && asset.tags.length > 0 ? (
-                              asset.tags.map((tag, idx) => (
-                                <Badge key={idx} variant="outline" className="text-xs">{tag}</Badge>
-                              ))
-                            ) : (
-                              <span className="text-muted-foreground text-xs">None</span>
+                        <div className="col-span-2">
+                          <span className="text-muted-foreground">Display on:</span>
+                          <div className="ml-2 flex gap-2 flex-wrap mt-1">
+                            {asset.show_on_homepage && <Badge variant="outline">Homepage</Badge>}
+                            {asset.show_on_about && <Badge variant="outline">About</Badge>}
+                            {asset.show_on_services && <Badge variant="outline">Services</Badge>}
+                            {asset.show_on_portfolio && <Badge variant="outline">Portfolio</Badge>}
+                            {!asset.show_on_homepage && !asset.show_on_about && !asset.show_on_services && !asset.show_on_portfolio && (
+                              <span className="text-xs text-muted-foreground">Not displayed on any page</span>
                             )}
                           </div>
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        <Button variant="outline" onClick={() => window.open(getMediaUrl(asset.file_path), '_blank')}>
+                        <Button variant="outline" onClick={() => window.open(asset.image_url, '_blank')}>
                           <Download className="h-4 w-4 mr-2" />
                           Download
                         </Button>
