@@ -22,22 +22,35 @@ export function GalleryDisplay({ page, className = "" }: GalleryDisplayProps) {
     portfolio: "show_on_portfolio",
   };
 
-  const { data: images, isLoading } = useQuery<MediaItem[]>({
+  const { data: images, isLoading, error } = useQuery<MediaItem[]>({
     queryKey: ["gallery-display", page],
     queryFn: async () => {
       const field = fieldMap[page];
       
-      // Use simpler query to avoid type inference issues
+      if (!field) {
+        console.error(`Invalid page type: ${page}`);
+        return [];
+      }
+      
       const result = await supabase
         .from("media_gallery")
         .select("id, title, description, image_url, display_order")
         .match({ is_active: true, [field]: true })
         .order("display_order", { ascending: true });
       
-      if (result.error) throw result.error;
+      if (result.error) {
+        console.error("Gallery fetch error:", result.error);
+        throw result.error;
+      }
+      
       return (result.data || []) as MediaItem[];
     },
   });
+
+  if (error) {
+    console.error("GalleryDisplay error:", error);
+    return null;
+  }
 
   if (isLoading) {
     return (
