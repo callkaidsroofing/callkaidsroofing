@@ -73,10 +73,10 @@ serve(async (req) => {
 
 async function fetchGoogleBusinessData() {
   try {
-    const accountId = Deno.env.get('GOOGLE_BUSINESS_ACCOUNT_ID');
-    const clientId = Deno.env.get('GOOGLE_CLIENT_ID');
-    const clientSecret = Deno.env.get('GOOGLE_CLIENT_SECRET');
-    const refreshToken = Deno.env.get('GOOGLE_REFRESH_TOKEN');
+    const accountId = Deno.env.get('GOOGLE_MY_BUSINESS_ACCOUNT_ID');
+    const clientId = Deno.env.get('GOOGLE_MY_BUSINESS_CLIENT_ID');
+    const clientSecret = Deno.env.get('GOOGLE_MY_BUSINESS_CLIENT_SECRET');
+    const refreshToken = Deno.env.get('GOOGLE_MY_BUSINESS_REFRESH_TOKEN');
 
     if (!accountId || !clientId || !clientSecret || !refreshToken) {
       console.log('Missing Google credentials');
