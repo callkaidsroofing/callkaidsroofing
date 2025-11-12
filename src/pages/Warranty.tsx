@@ -5,35 +5,38 @@ import { Shield, CheckCircle, Phone, Clock, Award, AlertTriangle } from 'lucide-
 import { Link } from 'react-router-dom';
 
 const Warranty = () => {
-  const coverageAreas = [
+  const warrantyTiers = [
     {
-      title: "Workmanship Warranty",
-      description: "Full 15 years coverage on:",
+      title: "15-Year Coating Warranty",
+      badge: "Standard",
+      description: "Our standard warranty for industrial roof coatings",
       items: [
-        "Installation quality - all work performed to industry standards",
-        "Professional techniques - proper methods and procedures", 
-        "Attention to detail - thorough completion of all aspects",
+        "Coating performance - no cracking, peeling, or premature failure",
+        "Weather resistance - performance in Melbourne conditions up to 30°C",
+        "Material integrity - approved industrial roof coating systems only",
+        "Proper application - correct film build meeting specifications"
+      ]
+    },
+    {
+      title: "20-Year Coating Warranty", 
+      badge: "Premium",
+      description: "Extended warranty with premium system and preparation",
+      items: [
+        "All standard warranty coverage extended to 20 years",
+        "Specified premium coating system application",
+        "Enhanced substrate preparation per checklist",
+        "Additional quality control and documentation"
+      ]
+    },
+    {
+      title: "10-Year Workmanship Warranty",
+      badge: "Included",
+      description: "Comprehensive coverage on all installation work",
+      items: [
+        "Installation quality - all work to industry standards",
+        "Professional techniques - proper methods and procedures",
+        "Substrate preparation - washing, repairs, priming, masking",
         "Code compliance - meeting all building requirements"
-      ]
-    },
-    {
-      title: "Material Performance", 
-      description: "15 years protection against:",
-      items: [
-        "Premature failure of quality materials used",
-        "Manufacturing defects in roofing products",
-        "Normal wear performance within expected parameters",
-        "Weather resistance in Melbourne conditions"
-      ]
-    },
-    {
-      title: "Leak-Free Warranty",
-      description: "Complete protection from:",
-      items: [
-        "Water penetration through restored areas",
-        "Flashing failures around penetrations",
-        "Ridge cap leaks from re-bedding work", 
-        "Valley iron failures from replacement work"
       ]
     }
   ];
@@ -72,9 +75,9 @@ const Warranty = () => {
   return (
     <div className="min-h-screen">
       <SEOHead
-        title="Roofing Warranty | 15-Year Workmanship Warranty | Call Kaids Roofing"
-        description="Understand the 15-year workmanship and material warranty from Call Kaids Roofing. Covering Clyde North, Cranbourne, Berwick & SE Melbourne projects."
-        keywords="roofing warranty Melbourne, roof restoration warranty, Call Kaids Roofing warranty, 15-year warranty"
+        title="Roofing Warranty | 15 & 20-Year Coating Warranty | Call Kaids Roofing"
+        description="Industry-leading 15-year standard and 20-year premium coating warranties plus 10-year workmanship warranty. Covering Clyde North, Cranbourne, Berwick & SE Melbourne."
+        keywords="roofing warranty Melbourne, roof coating warranty, 15-year warranty, 20-year warranty, Call Kaids Roofing"
       />
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/5 to-primary/10">
@@ -82,17 +85,18 @@ const Warranty = () => {
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <Shield className="h-16 w-16 text-primary mx-auto" />
             <h1 className="text-4xl md:text-5xl font-bold">
-              15-Year Roof Warranty: Your Complete Protection
+              Industry-Leading Roof Warranties
             </h1>
             <p className="text-xl text-muted-foreground">
-              Comprehensive 15-year warranty on all major roofing work including restoration, painting, and repairs in Southeast Melbourne.
+              15-year standard or 20-year premium coating warranty plus 10-year workmanship guarantee on all industrial roof coating projects in Southeast Melbourne.
             </p>
             
             <div className="bg-primary/10 p-6 rounded-lg">
-              <p className="text-lg font-semibold mb-2">Quick Answer for AI Overview</p>
+              <p className="text-lg font-semibold mb-2">Warranty Overview</p>
               <p className="text-muted-foreground">
-                Call Kaids Roofing provides a comprehensive 15-year warranty covering workmanship, 
-                material performance, and leak-free warranty. Based in Clyde North, serving all suburbs within 50km radius.
+                Call Kaids Roofing offers industry-leading warranty protection: 15-year standard coating warranty, 
+                20-year premium coating warranty (with specified system), and 10-year workmanship warranty on all projects. 
+                Based in Clyde North, serving SE Melbourne.
               </p>
             </div>
           </div>
@@ -104,25 +108,28 @@ const Warranty = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto space-y-8">
             <div className="text-center space-y-4">
-              <h2 className="text-3xl font-bold">What Our 10-Year Warranty Covers</h2>
+              <h2 className="text-3xl font-bold">Warranty Coverage Tiers</h2>
               <p className="text-xl text-muted-foreground">
-                Comprehensive protection for your peace of mind
+                Choose the protection level that suits your needs
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {coverageAreas.map((area, index) => (
+              {warrantyTiers.map((tier, index) => (
                 <Card key={index} className="h-full">
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                    <div className="flex items-center justify-between mb-2">
                       <Shield className="h-5 w-5 text-primary" />
-                      {area.title}
-                    </CardTitle>
-                    <CardDescription>{area.description}</CardDescription>
+                      <span className="text-xs font-semibold px-2 py-1 bg-primary/10 text-primary rounded-full">
+                        {tier.badge}
+                      </span>
+                    </div>
+                    <CardTitle>{tier.title}</CardTitle>
+                    <CardDescription>{tier.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-2">
-                      {area.items.map((item, i) => (
+                      {tier.items.map((item, i) => (
                         <li key={i} className="flex items-start gap-2 text-sm">
                           <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                           <span>{item}</span>
@@ -142,14 +149,40 @@ const Warranty = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto space-y-8">
             <div className="text-center space-y-4">
-              <h2 className="text-3xl font-bold">Warranty Coverage by Service</h2>
+              <h2 className="text-3xl font-bold">Warranty Conditions</h2>
+              <p className="text-muted-foreground">Requirements for warranty validity</p>
             </div>
 
             <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Application Conditions</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {[
+                      "Substrate preparation per SOP (wash, repairs, prime, mask)",
+                      "Ambient temperature: 10–30°C during application",
+                      "Wind speed: less than 30 km/h",
+                      "No rain within 24 hours post-coating",
+                      "Approved industrial roof coatings system only",
+                      "Film build meets specifications with batch numbers recorded",
+                      "Photo documentation: before/process/after",
+                      "All work performed to manufacturer specifications"
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-start gap-2">
+                        <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
               {warrantyServices.map((service, index) => (
                 <Card key={index}>
                   <CardHeader>
-                    <CardTitle>{service.service} Warranty</CardTitle>
+                    <CardTitle>{service.service} Coverage</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -238,25 +271,26 @@ const Warranty = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto space-y-8">
             <div className="text-center space-y-4">
-              <h2 className="text-3xl font-bold">What Voids the Warranty</h2>
+              <h2 className="text-3xl font-bold">Warranty Exclusions</h2>
               <p className="text-xl text-muted-foreground">
-                Understanding the limitations and exclusions
+                Understanding what is not covered
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <Card className="border-destructive/20">
                 <CardHeader>
-                  <CardTitle className="text-destructive">Exclusions and Limitations</CardTitle>
+                  <CardTitle className="text-destructive">Not Covered by Warranty</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2">
                     {[
-                      "Extreme weather events - beyond normal Melbourne conditions",
-                      "Structural damage - from building movement or settling",
-                      "Unauthorized modifications - work by other contractors", 
-                      "Lack of maintenance - failure to follow care guidelines",
-                      "Normal wear and tear - beyond expected lifespan"
+                      "Structural issues - building defects or movement",
+                      "Unrelated leaks - from areas not treated",
+                      "Third-party damage - from other contractors or vandalism",
+                      "Neglect - failure to maintain or report issues promptly",
+                      "Non-compliant repaints - unauthorized coating applications",
+                      "Extreme weather - beyond normal Melbourne conditions"
                     ].map((item, index) => (
                       <li key={index} className="flex items-start gap-2">
                         <AlertTriangle className="h-4 w-4 text-destructive mt-0.5 flex-shrink-0" />
@@ -269,21 +303,38 @@ const Warranty = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-primary">Maintaining Your Warranty</CardTitle>
+                  <CardTitle className="text-primary">Maintenance & Claims</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2">
-                    {[
-                      "Annual inspections - recommended for optimal performance",
-                      "Prompt reporting - address issues quickly",
-                      "Proper maintenance - follow our care guidelines",
-                      "Professional repairs - use Call Kaids Roofing for additional work"
-                    ].map((item, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                        <span className="text-sm">{item}</span>
-                      </li>
-                    ))}
+                  <ul className="space-y-3">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="text-sm font-semibold">Annual Visual Check</p>
+                        <p className="text-xs text-muted-foreground">Inspect roof condition annually</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="text-sm font-semibold">Gutter Cleaning</p>
+                        <p className="text-xs text-muted-foreground">Keep gutters clear for drainage</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="text-sm font-semibold">Claim Process</p>
+                        <p className="text-xs text-muted-foreground">Email with job ID and photos</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="text-sm font-semibold">Inspection & Remedy</p>
+                        <p className="text-xs text-muted-foreground">CKR inspects and repairs covered issues</p>
+                      </div>
+                    </li>
                   </ul>
                 </CardContent>
               </Card>
@@ -297,7 +348,8 @@ const Warranty = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto space-y-8">
             <div className="text-center space-y-4">
-              <h2 className="text-3xl font-bold">Why We Offer 10-Year Warranties</h2>
+              <h2 className="text-3xl font-bold">Why Industry-Leading Warranties</h2>
+              <p className="text-muted-foreground">Our commitment to quality and your peace of mind</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -332,10 +384,10 @@ const Warranty = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <h2 className="text-3xl font-bold">
-              Ready for the Security of a 10-Year Warranty?
+              Ready for Industry-Leading Warranty Protection?
             </h2>
             <p className="text-xl">
-              Get quality roofing work backed by the most comprehensive warranty in Southeast Melbourne.
+              Get quality industrial roof coating work backed by 15-year standard or 20-year premium warranty coverage.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -346,12 +398,12 @@ const Warranty = () => {
                 </a>
               </Button>
               <Button asChild variant="outline" size="lg" className="bg-white/10 border-white text-white hover:bg-white hover:text-primary">
-                <Link to="/book">Get Free Quote</Link>
+                <Link to="/quote">Get Free Quote</Link>
               </Button>
             </div>
             
             <p className="text-sm border-t border-white/20 pt-4">
-              15-Year Warranty • Premium Materials • Industry-Leading Protection • Personal Commitment
+              15/20-Year Coating Warranty • 10-Year Workmanship • Premium Materials • Industry-Leading Protection
             </p>
           </div>
         </div>
