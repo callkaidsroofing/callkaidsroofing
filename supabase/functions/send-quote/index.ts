@@ -129,6 +129,58 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Quote email sent to customer:", customerEmailResponse);
 
+    // First, create or find lead in CRM
+    const { data: existingLead } = await supabase
+      .from('leads')
+      .select('id')
+      .eq('phone', sanitized.customer_phone)
+      .single();
+
+    let leadId = existingLead?.id;
+
+    if (!existingLead) {
+      const { data: newLead, error: leadError } = await supabase
+        .from('leads')
+        .insert({
+          name: sanitized.customer_name,
+          phone: sanitized.customer_phone,
+          email: sanitized.customer_email,
+          suburb: sanitized.site_address.split(',')[1]?.trim() || sanitized.site_address,
+          service: 'Quote Request',
+          status: 'contacted',
+          source: 'quick_quote_tool',
+        })
+        .select()
+        .single();
+
+      if (leadError) {
+        console.error("Error creating lead:", leadError);
+      } else {
+        leadId = newLead.id;
+        console.log("Lead created in CRM with ID:", leadId);
+      }
+    } else {
+      console.log("Using existing lead ID:", leadId);
+    }
+
+    // Create quote record in CRM
+    const { data: quote, error: quoteError } = await supabase
+      .from('quotes')
+      .insert({
+        lead_id: leadId,
+        total_amount: sanitized.quote_amount,
+        status: 'sent',
+        notes: sanitized.scope,
+      })
+      .select()
+      .single();
+
+    if (quoteError) {
+      console.error("Error creating quote:", quoteError);
+    } else {
+      console.log("Quote saved to CRM with ID:", quote.id);
+    }
+
     // Store in jobs table
     const { data: job, error: insertError } = await supabase
       .from('jobs')
