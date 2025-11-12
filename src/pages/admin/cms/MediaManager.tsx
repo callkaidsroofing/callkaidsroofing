@@ -13,7 +13,7 @@ const MediaManager = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: caseStudies, isLoading } = useQuery({
+  const { data: caseStudies, isLoading, error: queryError } = useQuery({
     queryKey: ['admin-case-studies'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -22,8 +22,11 @@ const MediaManager = () => {
         .order('created_at', { ascending: false })
         .limit(20);
 
-      if (error) throw error;
-      return data;
+      if (error) {
+        console.error('Case studies fetch error:', error);
+        throw error;
+      }
+      return data || [];
     }
   });
 
@@ -104,6 +107,18 @@ const MediaManager = () => {
       });
     }
   };
+
+  if (queryError) {
+    return (
+      <div className="container mx-auto p-6">
+        <Card>
+          <CardContent className="p-6 text-center">
+            <p className="text-destructive">Error loading case studies: {queryError instanceof Error ? queryError.message : 'Unknown error'}</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto p-6 space-y-6">
