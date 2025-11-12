@@ -308,10 +308,17 @@ Return JSON array. Mark standalone images if no good pair.`
 
   } catch (error) {
     console.error('[REANALYSIS] Error:', error);
+    
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    const errorDetails = error instanceof Error ? error.stack : String(error);
+    
+    console.error('[REANALYSIS] Error details:', errorDetails);
+    
     return new Response(
       JSON.stringify({ 
         success: false,
-        error: error.message 
+        error: errorMessage,
+        details: errorDetails
       }),
       {
         status: 500,

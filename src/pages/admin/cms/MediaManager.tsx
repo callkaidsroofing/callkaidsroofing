@@ -113,22 +113,34 @@ const MediaManager = () => {
         }
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Function invocation error:', error);
+        throw error;
+      }
 
-      if (data?.success) {
+      if (!data) {
+        throw new Error('No response from analysis function');
+      }
+
+      if (data.success === false) {
+        throw new Error(data.error || 'Analysis failed');
+      }
+
+      if (data.success) {
+        const summary = data.summary || {};
         toast({
           title: "Analysis Complete",
-          description: data.message || `Analyzed and saved ${data.savedProjects?.length || 0} projects`,
+          description: `Analyzed ${summary.total_analyzed || 0} images, created ${summary.pairs_created || 0} projects. ${summary.needs_review || 0} need review.`,
           duration: 5000,
         });
         
         // Refresh the list
         queryClient.invalidateQueries({ queryKey: ['admin-case-studies'] });
-        queryClient.invalidateQueries({ queryKey: ['ai-analyzed-projects'] });
         
         setImageUrls('');
+        setSelectedFiles(null);
       } else {
-        throw new Error(data?.error || 'Analysis failed');
+        throw new Error('Unexpected response format');
       }
     } catch (error) {
       console.error('Error analyzing images:', error);
@@ -277,7 +289,7 @@ const MediaManager = () => {
           <Button 
             onClick={handleAnalyzeImages}
             disabled={isAnalyzing || !imageUrls.trim()}
-            className="w-full"
+            className="w-full mb-4"
             size="lg"
           >
             {isAnalyzing ? (
