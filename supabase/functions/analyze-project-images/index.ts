@@ -164,7 +164,21 @@ Respond in JSON:
       });
 
       const data = await response.json();
-      const analysis = JSON.parse(data.choices[0].message.content);
+      let content = data.choices[0].message.content;
+      
+      // Strip markdown code fences if present
+      content = content.trim();
+      if (content.startsWith('```json')) {
+        content = content.slice(7); // Remove ```json
+      } else if (content.startsWith('```')) {
+        content = content.slice(3); // Remove ```
+      }
+      if (content.endsWith('```')) {
+        content = content.slice(0, -3); // Remove closing ```
+      }
+      content = content.trim();
+      
+      const analysis = JSON.parse(content);
       
       return {
         url: imageUrl,
