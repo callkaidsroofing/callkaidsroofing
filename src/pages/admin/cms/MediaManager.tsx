@@ -44,13 +44,15 @@ const MediaManager = () => {
 
         if (uploadError) throw uploadError;
 
-        // Get public URL
+        // Get public URL - use the full path
         const { data: { publicUrl } } = supabase.storage
           .from('media')
           .getPublicUrl(filePath);
 
+        console.log('Upload successful:', { filePath, publicUrl });
+
         // Save to database
-        await supabase
+        const { error: dbError } = await supabase
           .from('media_gallery')
           .insert({
             title: file.name,
@@ -58,6 +60,11 @@ const MediaManager = () => {
             is_active: true,
             display_order: 0
           });
+
+        if (dbError) {
+          console.error('Database insert error:', dbError);
+          throw dbError;
+        }
       }
 
       toast({ title: "Success", description: `Uploaded ${selectedFiles.length} image(s)` });
