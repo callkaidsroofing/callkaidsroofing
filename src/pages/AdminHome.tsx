@@ -28,6 +28,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { RAGSearchBar } from '@/components/admin/RAGSearchBar';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface KPI {
   label: string;
@@ -120,8 +121,39 @@ export default function AdminHome() {
     }
   ];
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     loadDashboardData();
+    
+    // Prefetch top admin routes after 2 seconds
+    const prefetchTimer = setTimeout(() => {
+      queryClient.prefetchQuery({
+        queryKey: ['leads-pipeline'],
+        queryFn: async () => {
+          const { data } = await supabase
+            .from('leads')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .limit(50);
+          return data;
+        },
+      });
+      
+      queryClient.prefetchQuery({
+        queryKey: ['quotes-list'],
+        queryFn: async () => {
+          const { data } = await supabase
+            .from('quotes')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .limit(50);
+          return data;
+        },
+      });
+    }, 2000);
+
+    return () => clearTimeout(prefetchTimer);
   }, []);
 
   const loadDashboardData = async () => {

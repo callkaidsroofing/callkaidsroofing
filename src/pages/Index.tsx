@@ -58,52 +58,43 @@ const Index = () => {
                 {/* Left: Hero Content (7 columns on desktop) */}
                 <div className="lg:col-span-7 py-8">
                   <div className="mb-8 space-y-4">
-                    {/* Huge Phone CTA - Bright Blue/Cyan Gradient */}
-                    <motion.a 
+                    {/* Huge Phone CTA - CSS Animation */}
+                    <a 
                       href="tel:0435900709"
-                      className="inline-flex items-center gap-3 bg-gradient-to-r from-conversion-blue via-conversion-cyan to-conversion-blue hover:from-conversion-cyan hover:to-conversion-deep text-white px-8 py-5 rounded-2xl text-3xl sm:text-4xl font-black shadow-[0_10px_40px_rgba(41,179,255,0.5)] hover:shadow-[0_15px_50px_rgba(0,212,255,0.7)] transition-all duration-300 hover:scale-105 border-2 border-conversion-black/20"
-                      whileHover={{ y: -2 }}
-                      whileTap={{ scale: 0.98 }}
+                      className="inline-flex items-center gap-3 bg-gradient-to-r from-conversion-blue via-conversion-cyan to-conversion-blue hover:from-conversion-cyan hover:to-conversion-deep text-white px-8 py-5 rounded-2xl text-3xl sm:text-4xl font-black shadow-[0_10px_40px_rgba(41,179,255,0.5)] hover:shadow-[0_15px_50px_rgba(0,212,255,0.7)] transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 border-2 border-conversion-black/20 animate-fade-in"
                     >
                       <Phone className="h-10 w-10 animate-pulse" />
                       <span>0435 900 709</span>
-                    </motion.a>
+                    </a>
                     
-                    {/* Google Rating Badge */}
-                    <motion.div 
-                      className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-md px-5 py-3 rounded-2xl shadow-2xl lg:ml-4 border-2 border-primary/20"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 }}
+                    {/* Google Rating Badge - CSS Animation */}
+                    <div 
+                      className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-md px-5 py-3 rounded-2xl shadow-2xl lg:ml-4 border-2 border-primary/20 animate-fade-in"
+                      style={{ animationDelay: '300ms' }}
                     >
                       <span className="text-3xl">⭐</span>
                       <div className="text-left">
                         <div className="font-black text-roofing-navy text-base">Google Reviews</div>
                         <div className="text-xs text-muted-foreground font-semibold">Verified Customers</div>
                       </div>
-                    </motion.div>
+                    </div>
                   </div>
 
                   <HeroSection
                     headline={
-                      <motion.h1 
-                        className="text-5xl md:text-7xl font-black mb-6 leading-tight"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                      <h1 
+                        className="text-5xl md:text-7xl font-black mb-6 leading-tight animate-fade-in"
                       >
                         Roof Looking <span className="text-conversion-cyan drop-shadow-[0_0_20px_rgba(0,212,255,0.6)]">Tired?</span> Leaking? Faded?
-                      </motion.h1>
+                      </h1>
                     }
                     subheadline={
-                      <motion.p 
-                        className="text-xl md:text-2xl font-semibold opacity-90"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2 }}
+                      <p 
+                        className="text-xl md:text-2xl font-semibold opacity-90 animate-fade-in"
+                        style={{ animationDelay: '200ms' }}
                       >
                         15-year warranty. Local owner. No sales teams.
-                      </motion.p>
+                      </p>
                     }
                   />
                   

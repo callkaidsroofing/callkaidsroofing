@@ -43,6 +43,12 @@ export default defineConfig(({ mode }) => ({
           forms: ['react-hook-form', '@hookform/resolvers', 'zod'],
           supabase: ['@supabase/supabase-js'],
           charts: ['recharts'],
+          // Phase 2: Admin CRM bundle for prefetching
+          'admin-crm': [
+            './src/pages/admin/crm/Leads.tsx',
+            './src/pages/admin/crm/Quotes.tsx',
+            './src/pages/admin/crm/JobsList.tsx',
+          ].filter(Boolean),
         },
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name?.split('.') || [];

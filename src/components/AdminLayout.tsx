@@ -11,6 +11,8 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useAuth } from '@/hooks/useAuth';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import { useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 
 interface NavItem {
   title: string;
@@ -91,6 +93,7 @@ const navStructure: NavSection[] = [
 function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
   const { user, signOut, isAdmin } = useAuth();
   const location = useLocation();
+  const queryClient = useQueryClient();
 
   // Determine which sections should be open by default based on current route
   const getDefaultOpenSections = () => {
@@ -196,6 +199,34 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
                         key={item.path}
                         to={item.path}
                         onClick={onLinkClick}
+                        onMouseEnter={() => {
+                          // Prefetch route data on hover
+                          if (item.path.includes('/admin/crm/leads')) {
+                            queryClient.prefetchQuery({
+                              queryKey: ['leads-pipeline'],
+                              queryFn: async () => {
+                                const { data } = await supabase.from('leads').select('*').order('created_at', { ascending: false }).limit(50);
+                                return data;
+                              },
+                            });
+                          } else if (item.path.includes('/admin/crm/quotes')) {
+                            queryClient.prefetchQuery({
+                              queryKey: ['quotes-list'],
+                              queryFn: async () => {
+                                const { data } = await supabase.from('quotes').select('*').order('created_at', { ascending: false }).limit(50);
+                                return data;
+                              },
+                            });
+                          } else if (item.path.includes('/admin/content/media')) {
+                            queryClient.prefetchQuery({
+                              queryKey: ['media-gallery'],
+                              queryFn: async () => {
+                                const { data } = await supabase.from('content_gallery').select('*').order('created_at', { ascending: false }).limit(50);
+                                return data;
+                              },
+                            });
+                          }
+                        }}
                         className={({ isActive }) =>
                           `flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all duration-300 group relative overflow-hidden ${
                             isActive
