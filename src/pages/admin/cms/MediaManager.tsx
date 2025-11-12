@@ -148,6 +148,11 @@ const MediaManager = () => {
                     src={img.image_url} 
                     alt={img.title}
                     className="w-full aspect-square object-cover rounded-lg"
+                    onError={(e) => {
+                      console.error('Image failed to load:', img.image_url);
+                      e.currentTarget.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><text x="50%" y="50%" text-anchor="middle" fill="red">Error</text></svg>';
+                    }}
+                    onLoad={() => console.log('Image loaded:', img.image_url)}
                   />
                   <Button
                     variant="destructive"
@@ -157,6 +162,7 @@ const MediaManager = () => {
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
+                  <p className="text-xs text-muted-foreground mt-1 truncate">{img.title}</p>
                 </div>
               ))}
             </div>
