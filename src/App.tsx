@@ -58,6 +58,7 @@ const FormSubmissions = lazy(() => import("./pages/FormSubmissions"));
 const FormView = lazy(() => import("./pages/FormView"));
 const DataHub = lazy(() => import("./pages/DataHub"));
 const MediaLibrary = lazy(() => import("./pages/MediaLibrary"));
+const ChatUploadsImporter = lazy(() => import("./pages/admin/content/ChatUploadsImporter"));
 const MarketingStudio = lazy(() => import("./pages/MarketingStudio"));
 const LeadsPipeline = lazy(() => import("./pages/LeadsPipeline"));
 const LeadDetail = lazy(() => import("./pages/LeadDetail"));
@@ -225,6 +226,7 @@ function App() {
                       {/* Content Engine Section */}
                       <Route path="content/generate" element={<ContentGenerator />} />
                       <Route path="content/media" element={<ContentMedia />} />
+                      <Route path="content/media/imports" element={<ChatUploadsImporter />} />
                       <Route path="content/media/generate" element={<ContentImageGen />} />
                       <Route path="content/marketing" element={<ContentMarketing />} />
                       <Route path="content/blog" element={<ContentBlog />} />

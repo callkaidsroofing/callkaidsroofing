@@ -5,10 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Upload, Search, Image, Video, FileText, Tag, Eye, Download } from 'lucide-react';
+import { Upload, Search, Image, Video, FileText, Tag, Eye, Download, ArrowRight } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 interface MediaAsset {
   id: string;
@@ -22,6 +23,7 @@ interface MediaAsset {
 }
 
 export default function MediaLibrary() {
+  const navigate = useNavigate();
   const [assets, setAssets] = useState<MediaAsset[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -120,6 +122,14 @@ export default function MediaLibrary() {
           <p className="text-muted-foreground">Manage photos, videos, and documents</p>
         </div>
         <div className="flex gap-2">
+          <Button 
+            onClick={() => navigate('/admin/content/media/imports')}
+            variant="outline"
+          >
+            <Download className="h-4 w-4 mr-2" />
+            Import Chat Uploads
+            <ArrowRight className="h-4 w-4 ml-2" />
+          </Button>
           <label htmlFor="file-upload">
             <Button disabled={uploading} asChild>
               <span>
