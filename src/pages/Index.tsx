@@ -33,7 +33,7 @@ const Index = () => {
       <UtilityBar />
       <StickyMobileHeader />
       
-      <div className="md:pt-0 pt-16">
+      <div>
         {/* Hero Section with Conversion Form */}
         <ParallaxBackground variant="hero" density="high">
           <SectionWrapper
@@ -129,14 +129,14 @@ const Index = () => {
 
         {/* Before/After Proof Carousel */}
         <ParallaxBackground variant="testimonials" density="medium">
-          <SectionWrapper background="white">
+          <SectionWrapper background="gradient-dark" className="text-primary-foreground">
             <Container>
               <div className="text-center mb-6">
-                <h2 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                <h2 className="text-2xl md:text-3xl font-bold mb-2 text-white">
                   Real Results
                 </h2>
               </div>
-              <div className="backdrop-blur bg-card/50 border border-border/50 rounded-2xl p-4 shadow-lg">
+              <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-4 shadow-lg">
                 {/* CMS-Managed: Edit featured projects at /admin/cms/homepage */}
                 <BeforeAfterCarousel />
               </div>
@@ -145,9 +145,9 @@ const Index = () => {
         </ParallaxBackground>
 
         {/* Google Business Profile */}
-        <SectionWrapper variant="compact" background="muted">
+        <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
           <Container size="sm">
-            <div className="backdrop-blur bg-card/50 border border-primary/20 rounded-2xl p-6 shadow-lg">
+            <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-6 shadow-lg">
               <GoogleBusinessProfile />
             </div>
           </Container>
@@ -155,10 +155,10 @@ const Index = () => {
 
         {/* Services Section */}
         <ParallaxBackground variant="services" density="low">
-          <SectionWrapper variant="compact" background="white">
+          <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
             <Container>
               <div className="text-center mb-6">
-                <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                <h2 className="text-2xl md:text-3xl font-bold text-white">
                   Services
                 </h2>
               </div>
@@ -180,10 +180,10 @@ const Index = () => {
         </ParallaxBackground>
 
         {/* Project Gallery */}
-        <SectionWrapper variant="compact" background="muted">
+        <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
           <Container>
             <div className="text-center mb-6">
-              <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              <h2 className="text-2xl md:text-3xl font-bold text-white">
                 Our Work
               </h2>
             </div>
@@ -192,9 +192,9 @@ const Index = () => {
         </SectionWrapper>
 
         {/* Why Choose Us */}
-        <SectionWrapper variant="compact" background="muted">
+        <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
           <Container>
-            <h2 className="text-xl md:text-2xl font-bold text-center mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <h2 className="text-xl md:text-2xl font-bold text-center mb-6 text-white">
               Why CKR?
             </h2>
             
@@ -209,7 +209,7 @@ const Index = () => {
                 return (
                   <div
                     key={idx}
-                    className="backdrop-blur bg-card/50 border border-border/50 rounded-xl p-5 hover:shadow-lg hover:border-primary/40 transition-all group"
+                    className="backdrop-blur bg-white/10 border border-white/20 rounded-xl p-5 hover:shadow-lg hover:border-conversion-cyan/60 transition-all group"
                   >
                     <div className="flex flex-col items-center text-center">
                       <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform mb-3">
@@ -217,10 +217,10 @@ const Index = () => {
                           <IconComponent className="h-6 w-6 text-white" />
                         )}
                       </div>
-                      <h3 className="font-bold text-sm mb-2 group-hover:text-primary transition-colors">
+                      <h3 className="font-bold text-sm mb-2 text-white group-hover:text-conversion-cyan transition-colors">
                         {item.title}
                       </h3>
-                      <p className="text-muted-foreground text-xs">
+                      <p className="text-white/70 text-xs">
                         {item.description}
                       </p>
                     </div>
@@ -232,24 +232,24 @@ const Index = () => {
         </SectionWrapper>
 
         {/* Service Areas */}
-        <SectionWrapper variant="compact" background="white">
+        <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
           <Container>
-            <div className="backdrop-blur bg-card/50 border border-border/50 rounded-2xl p-6 shadow-lg">
-              <h2 className="text-xl md:text-2xl font-bold text-center mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-6 shadow-lg">
+              <h2 className="text-xl md:text-2xl font-bold text-center mb-4 text-white">
                 SE Melbourne
               </h2>
               <div className="flex flex-wrap justify-center gap-2 mb-4">
                 {serviceAreasData.map((area) => (
                   <span
                     key={area}
-                    className="px-3 py-1.5 bg-background/80 border border-primary/20 rounded-full text-xs hover:border-primary/40 hover:bg-primary/5 transition-all"
+                    className="px-3 py-1.5 bg-white/10 border border-white/20 rounded-full text-xs text-white hover:border-conversion-cyan/60 hover:bg-white/20 transition-all"
                   >
                     {area}
                   </span>
                 ))}
               </div>
-              <p className="text-center text-muted-foreground text-sm">
-                <Link to="/quote" className="text-primary hover:underline font-semibold">
+              <p className="text-center text-white/70 text-sm">
+                <Link to="/quote" className="text-conversion-cyan hover:underline font-semibold">
                   Get quote →
                 </Link>
               </p>
