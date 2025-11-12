@@ -27,6 +27,31 @@ const MediaManager = () => {
     }
   });
 
+  const toRenderableUrl = (url: string) => {
+    try {
+      if (!url) return url;
+      // If already a full public URL, normalize via storage to avoid encoding issues
+      const marker = '/storage/v1/object/public/media/';
+      if (url.includes(marker)) {
+        const path = url.split(marker)[1];
+        if (path) {
+          const { data } = supabase.storage.from('media').getPublicUrl(path);
+          return data.publicUrl;
+        }
+      }
+      // If a raw path was stored
+      if (!url.startsWith('http')) {
+        const clean = url.replace(/^\/+/, '');
+        const { data } = supabase.storage.from('media').getPublicUrl(clean);
+        return data.publicUrl;
+      }
+      return url;
+    } catch (e) {
+      console.warn('URL normalize failed, using original', url, e);
+      return url;
+    }
+  };
+
   const handleUpload = async () => {
     if (!selectedFiles) return;
 
@@ -145,14 +170,14 @@ const MediaManager = () => {
               {images.map((img) => (
                 <div key={img.id} className="relative group">
                   <img 
-                    src={img.image_url} 
+                    src={toRenderableUrl(img.image_url)} 
                     alt={img.title}
                     className="w-full aspect-square object-cover rounded-lg"
                     onError={(e) => {
-                      console.error('Image failed to load:', img.image_url);
+                      console.error('Image failed to load:', img.image_url, '→', toRenderableUrl(img.image_url));
                       e.currentTarget.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><text x="50%" y="50%" text-anchor="middle" fill="red">Error</text></svg>';
                     }}
-                    onLoad={() => console.log('Image loaded:', img.image_url)}
+                    onLoad={() => console.log('Image loaded:', toRenderableUrl(img.image_url))}
                   />
                   <Button
                     variant="destructive"
@@ -163,6 +188,9 @@ const MediaManager = () => {
                     <Trash2 className="h-4 w-4" />
                   </Button>
                   <p className="text-xs text-muted-foreground mt-1 truncate">{img.title}</p>
+                  <a href={toRenderableUrl(img.image_url)} target="_blank" rel="noreferrer" className="block text-[10px] text-muted-foreground truncate">
+                    {toRenderableUrl(img.image_url)}
+                  </a>
                 </div>
               ))}
             </div>
