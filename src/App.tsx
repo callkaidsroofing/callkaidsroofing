@@ -119,7 +119,16 @@ import { AdminLayout } from "@/components/AdminLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import ProtectedLayout from "@/components/ProtectedLayout";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      gcTime: 10 * 60 * 1000,
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const LoadingScreen = () => (
   <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-background">

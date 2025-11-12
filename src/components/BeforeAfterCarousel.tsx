@@ -5,6 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 export const BeforeAfterCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -64,7 +65,9 @@ export const BeforeAfterCarousel = () => {
         };
       });
     },
-    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const nextSlide = () => {
@@ -131,11 +134,11 @@ export const BeforeAfterCarousel = () => {
           <div className="grid grid-cols-2 gap-1">
             {/* Before Image */}
             <div className="relative aspect-[4/3]">
-              <img
+              <OptimizedImage
                 src={currentProject.before.url}
                 alt="Before restoration"
-                className="w-full h-full object-cover"
-                loading="lazy"
+                className="w-full h-full"
+                priority={currentSlide === 0}
               />
               <div className="absolute top-2 left-2 bg-destructive/90 text-destructive-foreground px-3 py-1 rounded-md text-sm font-semibold shadow-lg">
                 BEFORE
@@ -149,11 +152,11 @@ export const BeforeAfterCarousel = () => {
 
             {/* After Image */}
             <div className="relative aspect-[4/3]">
-              <img
+              <OptimizedImage
                 src={currentProject.after.url}
                 alt="After restoration"
-                className="w-full h-full object-cover"
-                loading="lazy"
+                className="w-full h-full"
+                priority={currentSlide === 0}
               />
               <div className="absolute top-2 right-2 bg-conversion-cyan/90 text-white px-3 py-1 rounded-md text-sm font-semibold shadow-lg">
                 AFTER

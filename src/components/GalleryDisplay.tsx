@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { OptimizedImage } from "@/components/OptimizedImage";
 
 interface MediaItem {
   id: string;
@@ -45,6 +46,9 @@ export function GalleryDisplay({ page, className = "" }: GalleryDisplayProps) {
       
       return (result.data || []) as MediaItem[];
     },
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   if (error) {
@@ -68,12 +72,13 @@ export function GalleryDisplay({ page, className = "" }: GalleryDisplayProps) {
 
   return (
     <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${className}`}>
-      {images.map((image) => (
+      {images.map((image, index) => (
         <div key={image.id} className="group relative overflow-hidden rounded-lg shadow-lg">
-          <img
+          <OptimizedImage
             src={image.image_url}
             alt={image.title}
-            className="w-full h-full object-cover aspect-video transition-transform group-hover:scale-105"
+            className="w-full h-full aspect-video transition-transform group-hover:scale-105"
+            priority={index < 3}
           />
           {image.description && (
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">

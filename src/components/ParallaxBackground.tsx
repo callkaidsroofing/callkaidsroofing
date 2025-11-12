@@ -16,20 +16,24 @@ const ParallaxBackground = ({ variant, density = 'medium', children }: ParallaxB
   useEffect(() => {
     if (isMobile) return;
 
+    let ticking = false;
     const handleScroll = () => {
-      requestAnimationFrame(() => {
-        setScrollY(window.scrollY);
-      });
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobile]);
 
-  // Calculate transforms for each layer at different speeds
+  // Calculate transforms for 2 layers only (reduced complexity)
   const layer1Transform = `translateY(${scrollY * 0.3}px)`;
-  const layer2Transform = `translateY(${scrollY * 0.6}px)`;
-  const layer3Transform = `translateY(${scrollY * 0.9}px)`;
+  const layer2Transform = `translateY(${scrollY * 0.7}px)`;
 
   // Density settings - DRAMATICALLY INCREASED for visibility
   const opacityMap = {
@@ -221,42 +225,6 @@ const ParallaxBackground = ({ variant, density = 'medium', children }: ParallaxB
           )}
         </div>
 
-        {/* Layer 3: Fastest (Foreground) */}
-        <div
-          className="absolute inset-0 will-change-transform"
-          style={{ transform: layer3Transform, transformStyle: 'preserve-3d', backfaceVisibility: 'hidden' }}
-        >
-          {variant === 'hero' && (
-            <>
-              <div className="absolute top-1/2 left-10 w-[180px] h-[180px]" style={{ opacity: baseOpacity * 1.5 }}>
-                <GeometricGrid color="hsl(var(--primary))" />
-              </div>
-              <div className="absolute top-20 right-1/4 w-[200px] h-[200px]" style={{ opacity: baseOpacity * 1.4 }}>
-                <FloatingShapes color="hsl(var(--silver))" />
-              </div>
-            </>
-          )}
-          {variant === 'services' && (
-            <>
-              <div className="absolute top-10 left-1/3 w-[150px] h-[150px]" style={{ opacity: baseOpacity * 1.6 }}>
-                <RoofSilhouette color="hsl(var(--primary))" />
-              </div>
-              <div className="absolute bottom-10 right-1/4 w-[180px] h-[180px]" style={{ opacity: baseOpacity * 1.4 }}>
-                <FloatingShapes color="hsl(var(--silver))" />
-              </div>
-            </>
-          )}
-          {variant === 'cta' && (
-            <div className="absolute bottom-10 left-1/3 w-[200px] h-[200px]" style={{ opacity: baseOpacity * 1.6 }}>
-              <RoofSilhouette color="hsl(var(--secondary))" />
-            </div>
-          )}
-          {variant === 'testimonials' && (
-            <div className="absolute top-1/3 right-20 w-[160px] h-[160px]" style={{ opacity: baseOpacity * 1.5 }}>
-              <GeometricGrid color="hsl(var(--primary))" />
-            </div>
-          )}
-        </div>
 
         {/* Gradient overlay for depth - reduced to let graphics show */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/5 to-background/0 pointer-events-none" />
