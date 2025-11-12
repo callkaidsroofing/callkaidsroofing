@@ -1,21 +1,23 @@
 import { Shield, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { SEOHead } from "@/components/SEOHead";
 import { StickyMobileHeader } from "@/components/StickyMobileHeader";
 import { UtilityBar } from "@/components/UtilityBar";
 import { BeforeAfterCarousel } from "@/components/BeforeAfterCarousel";
 import GoogleBusinessProfile from "@/components/GoogleBusinessProfile";
-import QuickCaptureForm from "@/components/QuickCaptureForm";
 import ParallaxBackground from "@/components/ParallaxBackground";
 import { SectionWrapper, Container } from "@/components/ui/section-wrapper";
 import { HeroSection } from "@/components/ui/hero-section";
 import { CTASection } from "@/components/ui/cta-section";
 import { FeatureCard } from "@/components/ui/feature-card";
 import { HeroConversionForm } from "@/components/HeroConversionForm";
-import { GalleryDisplay } from "@/components/GalleryDisplay";
+import { TrustBar } from "@/components/TrustBar";
+import { HowItWorks } from "@/components/HowItWorks";
+import { TestimonialsSection } from "@/components/TestimonialsSection";
+import { GuaranteeSection } from "@/components/GuaranteeSection";
+import { FAQSection } from "@/components/FAQSection";
+import { SchemaMarkup } from "@/components/SchemaMarkup";
 import {
-  heroContent,
   servicesData,
   whyChooseUsData,
   serviceAreasData,
@@ -27,8 +29,9 @@ const Index = () => {
     <div className="min-h-screen">
       <SEOHead 
         title="Call Kaids Roofing - SE Melbourne's Trusted Roofing Experts"
-        description="Professional roof restoration, repairs & painting in SE Melbourne. 15-year warranty, direct owner contact, 200+ happy customers. Call 0435 900 709 for a free quote."
+        description="Professional roof restoration, repairs & painting in SE Melbourne. 15-year warranty, direct owner contact, 500+ roofs restored. Call 0435 900 709 for a free quote."
       />
+      <SchemaMarkup />
 
       <UtilityBar />
       <StickyMobileHeader />
@@ -118,28 +121,45 @@ const Index = () => {
           </SectionWrapper>
         </ParallaxBackground>
 
-        {/* Before/After Proof Carousel */}
-        <ParallaxBackground variant="testimonials" density="medium">
-          <SectionWrapper background="gradient-dark" className="text-primary-foreground">
-            <Container>
-              <div className="text-center mb-6">
-                <h2 className="text-2xl md:text-3xl font-bold mb-2 text-white">
-                  Real Results
-                </h2>
-              </div>
-              <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-4 shadow-lg">
-                {/* CMS-Managed: Edit featured projects at /admin/cms/homepage */}
-                <BeforeAfterCarousel />
-              </div>
-            </Container>
-          </SectionWrapper>
-        </ParallaxBackground>
+        {/* Trust Bar - Stats Section */}
+        <TrustBar />
 
-        {/* Google Business Profile */}
+        {/* Why Choose Us - Moved up for better conversion */}
         <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
-          <Container size="sm">
-            <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-6 shadow-lg">
-              <GoogleBusinessProfile />
+          <Container>
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-white">
+              Why Choose CKR?
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {whyChooseUsData.map((item, idx) => {
+                const IconComponent = {
+                  Shield,
+                  Phone,
+                  MapPin,
+                }[item.icon];
+
+                return (
+                  <div
+                    key={idx}
+                    className="backdrop-blur bg-white/10 border border-white/20 rounded-xl p-6 hover:shadow-lg hover:border-conversion-cyan/60 transition-all group"
+                  >
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform mb-4">
+                        {IconComponent && (
+                          <IconComponent className="h-8 w-8 text-white" />
+                        )}
+                      </div>
+                      <h3 className="font-bold text-lg mb-2 text-white group-hover:text-conversion-cyan transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-white/70 text-sm">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </Container>
         </SectionWrapper>
@@ -170,56 +190,51 @@ const Index = () => {
           </SectionWrapper>
         </ParallaxBackground>
 
-        {/* Project Gallery */}
+        {/* How It Works - Process Section */}
+        <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+          <HowItWorks />
+        </SectionWrapper>
+
+        {/* Before/After Proof Carousel */}
+        <ParallaxBackground variant="testimonials" density="medium">
+          <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+            <Container>
+              <div className="text-center mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white">
+                  Real Results
+                </h2>
+                <p className="text-white/70 text-lg">See the transformation</p>
+              </div>
+              <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-6 shadow-lg">
+                {/* CMS-Managed: Edit featured projects at /admin/cms/homepage */}
+                <BeforeAfterCarousel />
+              </div>
+            </Container>
+          </SectionWrapper>
+        </ParallaxBackground>
+
+        {/* Testimonials - Customer Reviews */}
+        <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+          <TestimonialsSection />
+        </SectionWrapper>
+
+        {/* Google Business Profile */}
         <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
-          <Container>
-            <div className="text-center mb-6">
-              <h2 className="text-2xl md:text-3xl font-bold text-white">
-                Our Work
-              </h2>
+          <Container size="sm">
+            <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-6 shadow-lg">
+              <GoogleBusinessProfile />
             </div>
-            <GalleryDisplay page="homepage" />
           </Container>
         </SectionWrapper>
 
-        {/* Why Choose Us */}
-        <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
-          <Container>
-            <h2 className="text-xl md:text-2xl font-bold text-center mb-6 text-white">
-              Why CKR?
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {whyChooseUsData.map((item, idx) => {
-                const IconComponent = {
-                  Shield,
-                  Phone,
-                  MapPin,
-                }[item.icon];
+        {/* Guarantee Section */}
+        <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+          <GuaranteeSection />
+        </SectionWrapper>
 
-                return (
-                  <div
-                    key={idx}
-                    className="backdrop-blur bg-white/10 border border-white/20 rounded-xl p-5 hover:shadow-lg hover:border-conversion-cyan/60 transition-all group"
-                  >
-                    <div className="flex flex-col items-center text-center">
-                      <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform mb-3">
-                        {IconComponent && (
-                          <IconComponent className="h-6 w-6 text-white" />
-                        )}
-                      </div>
-                      <h3 className="font-bold text-sm mb-2 text-white group-hover:text-conversion-cyan transition-colors">
-                        {item.title}
-                      </h3>
-                      <p className="text-white/70 text-xs">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </Container>
+        {/* FAQ Section */}
+        <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+          <FAQSection />
         </SectionWrapper>
 
         {/* Service Areas */}
@@ -255,9 +270,6 @@ const Index = () => {
             description={finalCTAContent.description}
           />
         </ParallaxBackground>
-
-        {/* Quick Capture Form */}
-        <QuickCaptureForm />
       </div>
     </div>
   );
