@@ -6,6 +6,20 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Helper function to strip markdown code fences from AI responses
+function stripMarkdownCodeFence(content: string): string {
+  content = content.trim();
+  if (content.startsWith('```json')) {
+    content = content.slice(7);
+  } else if (content.startsWith('```')) {
+    content = content.slice(3);
+  }
+  if (content.endsWith('```')) {
+    content = content.slice(0, -3);
+  }
+  return content.trim();
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -164,20 +178,7 @@ Respond in JSON:
       });
 
       const data = await response.json();
-      let content = data.choices[0].message.content;
-      
-      // Strip markdown code fences if present
-      content = content.trim();
-      if (content.startsWith('```json')) {
-        content = content.slice(7); // Remove ```json
-      } else if (content.startsWith('```')) {
-        content = content.slice(3); // Remove ```
-      }
-      if (content.endsWith('```')) {
-        content = content.slice(0, -3); // Remove closing ```
-      }
-      content = content.trim();
-      
+      const content = stripMarkdownCodeFence(data.choices[0].message.content);
       const analysis = JSON.parse(content);
       
       return {
@@ -242,7 +243,8 @@ Return JSON array. Mark standalone images if no good pair.`
     });
 
     const pairingData = await pairingResponse.json();
-    const pairs = JSON.parse(pairingData.choices[0].message.content);
+    const pairingContent = stripMarkdownCodeFence(pairingData.choices[0].message.content);
+    const pairs = JSON.parse(pairingContent);
     console.log(`[REANALYSIS] Created ${pairs.length} verified pairs`);
 
     // STEP 5: Save with Complete Metadata
