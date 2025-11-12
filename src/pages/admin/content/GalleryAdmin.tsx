@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -31,6 +31,7 @@ export default function GalleryAdmin() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingImage, setEditingImage] = useState<GalleryImage | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [resolvedUrls, setResolvedUrls] = useState<Record<string, string>>({});
   const { handleError, showSuccess } = useErrorHandler();
   const queryClient = useQueryClient();
 
@@ -46,6 +47,55 @@ export default function GalleryAdmin() {
       return data as GalleryImage[];
     }
   });
+
+  const extractPath = (url: string) => {
+    const marker = '/storage/v1/object/public/media/';
+    if (!url) return '';
+    if (url.includes(marker)) return url.split(marker)[1];
+    if (!url.startsWith('http')) return url.replace(/^\/+/, '');
+    return '';
+  };
+
+  useEffect(() => {
+    const blobUrls: string[] = [];
+    
+    const run = async () => {
+      if (!images || images.length === 0) return;
+      const entries: Array<[string, string]> = [];
+      
+      await Promise.all(
+        images.map(async (img) => {
+          const path = extractPath(img.image_url);
+          try {
+            if (path) {
+              const { data: blob, error } = await supabase.storage
+                .from('media')
+                .download(path);
+              
+              if (blob && !error) {
+                const blobUrl = URL.createObjectURL(blob);
+                blobUrls.push(blobUrl);
+                entries.push([img.id, blobUrl]);
+                return;
+              }
+            }
+            entries.push([img.id, img.image_url]);
+          } catch (e) {
+            console.warn('Blob download failed for', path, e);
+            entries.push([img.id, img.image_url]);
+          }
+        })
+      );
+      
+      setResolvedUrls(Object.fromEntries(entries));
+    };
+    
+    run();
+    
+    return () => {
+      blobUrls.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [images]);
 
   const createMutation = useMutation({
     mutationFn: async (data: Partial<GalleryImage>) => {
@@ -223,7 +273,7 @@ export default function GalleryAdmin() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredImages.map((image) => (
             <div key={image.id} className="border rounded-lg overflow-hidden">
-              <img src={image.image_url} alt={image.title} className="w-full h-48 object-cover" />
+              <img src={resolvedUrls[image.id] ?? image.image_url} alt={image.title} className="w-full h-48 object-cover" />
               <div className="p-4">
                 <h3 className="font-semibold">{image.title}</h3>
                 <div className="flex gap-2 mt-2 flex-wrap">

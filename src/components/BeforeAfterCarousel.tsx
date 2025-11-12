@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ChevronLeft, ChevronRight, Sparkles, AlertCircle, Database } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -9,6 +9,7 @@ import { OptimizedImage } from '@/components/OptimizedImage';
 
 export const BeforeAfterCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [resolvedImages, setResolvedImages] = useState<Record<string, string>>({});
   const { toast } = useToast();
 
   // Query database for AI-analyzed case studies
@@ -69,6 +70,60 @@ export const BeforeAfterCarousel = () => {
     gcTime: 10 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
+
+  const extractPath = (url: string) => {
+    const marker = '/storage/v1/object/public/media/';
+    if (!url) return '';
+    if (url.includes(marker)) return url.split(marker)[1];
+    if (!url.startsWith('http')) return url.replace(/^\/+/, '');
+    return '';
+  };
+
+  useEffect(() => {
+    const blobUrls: string[] = [];
+    
+    const run = async () => {
+      if (!projects || projects.length === 0) return;
+      const entries: Array<[string, string]> = [];
+      
+      const allUrls = projects.flatMap(p => [
+        { key: p.before.url, url: p.before.url },
+        { key: p.after.url, url: p.after.url }
+      ]);
+      
+      await Promise.all(
+        allUrls.map(async ({ key, url }) => {
+          const path = extractPath(url);
+          try {
+            if (path) {
+              const { data: blob, error } = await supabase.storage
+                .from('media')
+                .download(path);
+              
+              if (blob && !error) {
+                const blobUrl = URL.createObjectURL(blob);
+                blobUrls.push(blobUrl);
+                entries.push([key, blobUrl]);
+                return;
+              }
+            }
+            entries.push([key, url]);
+          } catch (e) {
+            console.warn('Blob download failed for', path, e);
+            entries.push([key, url]);
+          }
+        })
+      );
+      
+      setResolvedImages(Object.fromEntries(entries));
+    };
+    
+    run();
+    
+    return () => {
+      blobUrls.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [projects]);
 
   const nextSlide = () => {
     if (projects) {
@@ -135,7 +190,7 @@ export const BeforeAfterCarousel = () => {
             {/* Before Image */}
             <div className="relative aspect-[4/3]">
               <OptimizedImage
-                src={currentProject.before.url}
+                src={resolvedImages[currentProject.before.url] ?? currentProject.before.url}
                 alt="Before restoration"
                 className="w-full h-full"
                 priority={currentSlide === 0}
@@ -153,7 +208,7 @@ export const BeforeAfterCarousel = () => {
             {/* After Image */}
             <div className="relative aspect-[4/3]">
               <OptimizedImage
-                src={currentProject.after.url}
+                src={resolvedImages[currentProject.after.url] ?? currentProject.after.url}
                 alt="After restoration"
                 className="w-full h-full"
                 priority={currentSlide === 0}

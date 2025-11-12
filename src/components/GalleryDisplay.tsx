@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { OptimizedImage } from "@/components/OptimizedImage";
+import { useState, useEffect } from "react";
 
 interface MediaItem {
   id: string;
@@ -16,6 +17,8 @@ interface GalleryDisplayProps {
 }
 
 export function GalleryDisplay({ page, className = "" }: GalleryDisplayProps) {
+  const [resolvedUrls, setResolvedUrls] = useState<Record<string, string>>({});
+  
   const fieldMap: Record<string, string> = {
     homepage: "show_on_homepage",
     about: "show_on_about",
@@ -51,6 +54,55 @@ export function GalleryDisplay({ page, className = "" }: GalleryDisplayProps) {
     refetchOnWindowFocus: false,
   });
 
+  const extractPath = (url: string) => {
+    const marker = '/storage/v1/object/public/media/';
+    if (!url) return '';
+    if (url.includes(marker)) return url.split(marker)[1];
+    if (!url.startsWith('http')) return url.replace(/^\/+/, '');
+    return '';
+  };
+
+  useEffect(() => {
+    const blobUrls: string[] = [];
+    
+    const run = async () => {
+      if (!images || images.length === 0) return;
+      const entries: Array<[string, string]> = [];
+      
+      await Promise.all(
+        images.map(async (img) => {
+          const path = extractPath(img.image_url);
+          try {
+            if (path) {
+              const { data: blob, error } = await supabase.storage
+                .from('media')
+                .download(path);
+              
+              if (blob && !error) {
+                const blobUrl = URL.createObjectURL(blob);
+                blobUrls.push(blobUrl);
+                entries.push([img.id, blobUrl]);
+                return;
+              }
+            }
+            entries.push([img.id, img.image_url]);
+          } catch (e) {
+            console.warn('Blob download failed for', path, e);
+            entries.push([img.id, img.image_url]);
+          }
+        })
+      );
+      
+      setResolvedUrls(Object.fromEntries(entries));
+    };
+    
+    run();
+    
+    return () => {
+      blobUrls.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [images]);
+
   if (error) {
     console.error("GalleryDisplay error:", error);
     return null;
@@ -75,7 +127,7 @@ export function GalleryDisplay({ page, className = "" }: GalleryDisplayProps) {
       {images.map((image, index) => (
         <div key={image.id} className="group relative overflow-hidden rounded-lg shadow-lg">
           <OptimizedImage
-            src={image.image_url}
+            src={resolvedUrls[image.id] ?? image.image_url}
             alt={image.title}
             className="w-full h-full aspect-video transition-transform group-hover:scale-105"
             priority={index < 3}

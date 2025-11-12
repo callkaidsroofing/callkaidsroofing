@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ export default function MediaGallery() {
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [category, setCategory] = useState("general");
+  const [resolvedUrls, setResolvedUrls] = useState<Record<string, string>>({});
   const queryClient = useQueryClient();
 
   const { data: media, isLoading } = useQuery({
@@ -36,6 +37,55 @@ export default function MediaGallery() {
       return data;
     },
   });
+
+  const extractPath = (url: string) => {
+    const marker = '/storage/v1/object/public/media/';
+    if (!url) return '';
+    if (url.includes(marker)) return url.split(marker)[1];
+    if (!url.startsWith('http')) return url.replace(/^\/+/, '');
+    return '';
+  };
+
+  useEffect(() => {
+    const blobUrls: string[] = [];
+    
+    const run = async () => {
+      if (!media || media.length === 0) return;
+      const entries: Array<[string, string]> = [];
+      
+      await Promise.all(
+        media.map(async (item: any) => {
+          const path = extractPath(item.image_url);
+          try {
+            if (path) {
+              const { data: blob, error } = await supabase.storage
+                .from('media')
+                .download(path);
+              
+              if (blob && !error) {
+                const blobUrl = URL.createObjectURL(blob);
+                blobUrls.push(blobUrl);
+                entries.push([item.id, blobUrl]);
+                return;
+              }
+            }
+            entries.push([item.id, item.image_url]);
+          } catch (e) {
+            console.warn('Blob download failed for', path, e);
+            entries.push([item.id, item.image_url]);
+          }
+        })
+      );
+      
+      setResolvedUrls(Object.fromEntries(entries));
+    };
+    
+    run();
+    
+    return () => {
+      blobUrls.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [media]);
 
   const uploadMutation = useMutation({
     mutationFn: async () => {
@@ -164,7 +214,7 @@ export default function MediaGallery() {
               <Card key={item.id} className="overflow-visible">
                 <div className="aspect-video relative">
                   <img
-                    src={item.image_url}
+                    src={resolvedUrls[item.id] ?? item.image_url}
                     alt={item.title}
                     className="w-full h-full object-cover"
                   />

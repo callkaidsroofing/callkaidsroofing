@@ -112,11 +112,56 @@ export default function MediaLibrary() {
            asset.description?.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
-  const toSrc = (url: string) => {
+  const [resolvedUrls, setResolvedUrls] = useState<Record<string, string>>({});
+
+  const extractPath = (url: string) => {
+    const marker = '/storage/v1/object/public/media/';
     if (!url) return '';
-    if (url.startsWith('http')) return url;
-    return supabase.storage.from('media').getPublicUrl(url).data.publicUrl;
+    if (url.includes(marker)) return url.split(marker)[1];
+    if (!url.startsWith('http')) return url.replace(/^\/+/, '');
+    return '';
   };
+
+  useEffect(() => {
+    const blobUrls: string[] = [];
+    
+    const run = async () => {
+      if (!assets || assets.length === 0) return;
+      const entries: Array<[string, string]> = [];
+      
+      await Promise.all(
+        assets.map(async (asset) => {
+          const path = extractPath(asset.image_url);
+          try {
+            if (path) {
+              const { data: blob, error } = await supabase.storage
+                .from('media')
+                .download(path);
+              
+              if (blob && !error) {
+                const blobUrl = URL.createObjectURL(blob);
+                blobUrls.push(blobUrl);
+                entries.push([asset.id, blobUrl]);
+                return;
+              }
+            }
+            entries.push([asset.id, asset.image_url]);
+          } catch (e) {
+            console.warn('Blob download failed for', path, e);
+            entries.push([asset.id, asset.image_url]);
+          }
+        })
+      );
+      
+      setResolvedUrls(Object.fromEntries(entries));
+    };
+    
+    run();
+    
+    return () => {
+      blobUrls.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [assets]);
 
   return (
     <div className="container mx-auto p-6">
@@ -196,14 +241,9 @@ export default function MediaLibrary() {
                       onClick={() => setSelectedAsset(asset)}
                     >
                       <img 
-                        src={toSrc(asset.image_url)} 
+                        src={resolvedUrls[asset.id] ?? asset.image_url} 
                         alt={asset.title}
                         className="w-full h-full object-cover"
-                        onError={(e) => {
-                          const img = e.currentTarget as HTMLImageElement;
-                          const fallback = toSrc(asset.image_url);
-                          if (img.src !== fallback) img.src = fallback;
-                        }}
                       />
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <Eye className="h-6 w-6 text-white" />
@@ -224,7 +264,7 @@ export default function MediaLibrary() {
                     </DialogHeader>
                     <div className="space-y-4">
                       <img 
-                        src={toSrc(asset.image_url)} 
+                        src={resolvedUrls[asset.id] ?? asset.image_url} 
                         alt={asset.title}
                         className="w-full rounded-lg"
                       />
@@ -242,7 +282,7 @@ export default function MediaLibrary() {
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        <Button variant="outline" onClick={() => window.open(toSrc(asset.image_url), '_blank')}>
+                        <Button variant="outline" onClick={() => window.open(resolvedUrls[asset.id] ?? asset.image_url, '_blank')}>
                           <Download className="h-4 w-4 mr-2" />
                           Download
                         </Button>
