@@ -14,15 +14,11 @@ import { useNavigate } from 'react-router-dom';
 interface MediaAsset {
   id: string;
   title: string;
-  description?: string;
+  description?: string | null;
   image_url: string;
   category: string;
-  is_active: boolean;
+  featured?: boolean | null;
   created_at: string;
-  show_on_homepage: boolean;
-  show_on_about: boolean;
-  show_on_services: boolean;
-  show_on_portfolio: boolean;
 }
 
 export default function MediaLibrary() {
@@ -86,19 +82,15 @@ export default function MediaLibrary() {
         .from('media')
         .getPublicUrl(uploadData.path);
 
-      // Create asset record in media_gallery
+      // Create asset record in content_gallery
       const { error: insertError } = await supabase
-        .from('media_gallery')
+        .from('content_gallery')
         .insert({
           title: file.name,
           description: `Uploaded ${new Date().toLocaleDateString()}`,
           image_url: urlData.publicUrl,
           category: 'general',
-          is_active: true,
-          show_on_homepage: false,
-          show_on_about: false,
-          show_on_services: false,
-          show_on_portfolio: true
+          featured: false
         });
 
       if (insertError) throw insertError;
@@ -217,8 +209,8 @@ export default function MediaLibrary() {
                         <Eye className="h-6 w-6 text-white" />
                       </div>
                       <div className="absolute top-2 right-2">
-                        <Badge variant={asset.is_active ? "default" : "secondary"} className="text-xs">
-                          {asset.is_active ? 'Active' : 'Inactive'}
+                        <Badge variant={asset.featured ? "default" : "secondary"} className="text-xs">
+                          {asset.featured ? 'Featured' : 'Standard'}
                         </Badge>
                       </div>
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
@@ -245,30 +237,12 @@ export default function MediaLibrary() {
                           <Badge className="ml-2">{asset.category}</Badge>
                         </div>
                         <div>
-                          <span className="text-muted-foreground">Status:</span>
-                          <Badge variant={asset.is_active ? "default" : "secondary"} className="ml-2">
-                            {asset.is_active ? 'Active' : 'Inactive'}
-                          </Badge>
-                        </div>
-                        <div>
                           <span className="text-muted-foreground">Uploaded:</span>
                           <span className="ml-2">{format(new Date(asset.created_at), 'dd/MM/yyyy')}</span>
                         </div>
-                        <div className="col-span-2">
-                          <span className="text-muted-foreground">Display on:</span>
-                          <div className="ml-2 flex gap-2 flex-wrap mt-1">
-                            {asset.show_on_homepage && <Badge variant="outline">Homepage</Badge>}
-                            {asset.show_on_about && <Badge variant="outline">About</Badge>}
-                            {asset.show_on_services && <Badge variant="outline">Services</Badge>}
-                            {asset.show_on_portfolio && <Badge variant="outline">Portfolio</Badge>}
-                            {!asset.show_on_homepage && !asset.show_on_about && !asset.show_on_services && !asset.show_on_portfolio && (
-                              <span className="text-xs text-muted-foreground">Not displayed on any page</span>
-                            )}
-                          </div>
-                        </div>
                       </div>
                       <div className="flex gap-2">
-                        <Button variant="outline" onClick={() => window.open(asset.image_url, '_blank')}>
+                        <Button variant="outline" onClick={() => window.open(toSrc(asset.image_url), '_blank')}>
                           <Download className="h-4 w-4 mr-2" />
                           Download
                         </Button>

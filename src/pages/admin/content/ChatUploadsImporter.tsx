@@ -53,24 +53,22 @@ export default function ChatUploadsImporter() {
         throw new Error("No images selected");
       }
 
-      const inserts = imagesToImport.map((imageUrl) => {
-        const fileName = imageUrl.split("/").pop() || "Untitled";
-        const customTitle = customTitles[imageUrl] || fileName;
+      const inserts = imagesToImport.map((src) => {
+        const file = uploadedFiles?.find((f: any) => f.signedUrl === src || f.url === src);
+        const imageUrl = file?.url || src; // persist public URL in DB
+        const fileName = (file?.name || imageUrl.split("/").pop() || "Untitled").toString();
+        const customTitle = customTitles[src] || fileName;
 
         return {
           title: customTitle,
           description: "Imported from chat uploads",
           image_url: imageUrl,
           category: "project",
-          is_active: true,
-          show_on_homepage: false,
-          show_on_about: false,
-          show_on_services: false,
-          show_on_portfolio: true,
+          featured: false,
         };
       });
 
-      const { error } = await supabase.from("media_gallery").insert(inserts);
+      const { error } = await supabase.from("content_gallery").insert(inserts);
 
       if (error) throw error;
 
