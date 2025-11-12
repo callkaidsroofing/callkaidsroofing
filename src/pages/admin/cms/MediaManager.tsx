@@ -218,7 +218,7 @@ const MediaManager = () => {
             AI-Powered Image Analysis
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 pb-8">
           {/* File Upload Section */}
           <div className="space-y-3">
             <label className="text-sm font-medium block">
@@ -289,7 +289,7 @@ const MediaManager = () => {
           <Button 
             onClick={handleAnalyzeImages}
             disabled={isAnalyzing || !imageUrls.trim()}
-            className="w-full mb-4"
+            className="w-full"
             size="lg"
           >
             {isAnalyzing ? (
