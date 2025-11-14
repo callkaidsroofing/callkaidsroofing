@@ -9,33 +9,15 @@ interface TrustStat {
 }
 
 export const TrustBar = () => {
-  const [rating, setRating] = useState<string>("4.9/5");
-
-  useEffect(() => {
-    const fetchRating = async () => {
-      const { data } = await supabase
-        .from('business_profile_data')
-        .select('rating')
-        .eq('source', 'google')
-        .single();
-
-      if (data?.rating) {
-        setRating(`${data.rating}/5`);
-      }
-    };
-
-    fetchRating();
-  }, []);
-
   const trustStats: TrustStat[] = [
     {
       icon: Users,
-      value: "500+",
+      value: "200+",
       label: "Roofs Restored",
     },
     {
       icon: Star,
-      value: rating,
+      value: "5/5",
       label: "Google Rating",
     },
     {
