@@ -59,7 +59,7 @@ export const FeatureCard = ({
         )}
 
         <div className={cn(variant === 'horizontal' && 'flex-1', 'flex flex-col')}>
-          <h3 className="font-bold text-base mb-2 group-hover:text-primary transition-colors">{title}</h3>
+          <h3 className="font-bold text-base mb-2 text-card-foreground group-hover:text-primary transition-colors">{title}</h3>
           
           {price && (
             <p className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-3">
@@ -67,7 +67,7 @@ export const FeatureCard = ({
             </p>
           )}
           
-          <p className="text-muted-foreground text-xs">{description}</p>
+          <p className="text-card-foreground/70 text-xs">{description}</p>
         </div>
       </CardContent>
     </Card>
