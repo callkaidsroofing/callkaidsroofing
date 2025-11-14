@@ -34,7 +34,7 @@ export const MetaPixelTracker = () => {
         script.src = 'https://connect.facebook.net/en_US/fbevents.js';
         document.head.appendChild(script);
 
-        window.fbq('init', 'YOUR_PIXEL_ID_HERE');
+        window.fbq('init', '2205976916537050');
         window.fbq('track', 'PageView');
         window.fbq.loaded = true;
       }
