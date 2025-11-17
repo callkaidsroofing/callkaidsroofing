@@ -88,9 +88,6 @@
       fbq('init', '2205976916537050');
       fbq('track', 'PageView');
     </script>
-    <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=2205976916537050&ev=PageView&noscript=1"
-    /></noscript>
     <!-- End Meta Pixel Code -->
 
     <!-- Open Graph Meta Tags -->
@@ -158,6 +155,11 @@
   </head>
 
   <body>
+    <!-- Meta Pixel Noscript Fallback -->
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=2205976916537050&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Noscript -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
