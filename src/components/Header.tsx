@@ -77,10 +77,13 @@ const serviceComponents: { title: string; href: string; description: string }[] 
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full max-w-full border-b border-white/10 bg-roofing-navy/90 backdrop-blur-lg overflow-hidden">
-      <div className="container mx-auto flex h-20 items-center justify-between px-4 lg:px-6 max-w-full">
+    <header className="sticky top-0 z-50 w-full max-w-full border-b-2 border-conversion-black/30 bg-gradient-to-r from-charcoal via-secondary to-charcoal backdrop-blur-xl overflow-hidden shadow-2xl">
+      {/* Metallic shimmer overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:200%_100%] animate-shimmer pointer-events-none" />
+      
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 lg:px-6 max-w-full relative z-10">
         {/* Logo */}
-        <NavLink to="/" className="flex items-center z-10">
+        <NavLink to="/" className="flex items-center">
           <OptimizedImage
             src={callKaidsFullLogo}
             alt="Call Kaids Roofing - Professional Roofing, Melbourne Style"
@@ -136,7 +139,7 @@ export function Header() {
 
           <Button
             asChild
-            className="ml-2 bg-roofing-blue hover:bg-roofing-blue/90"
+            className="ml-2 bg-gradient-to-r from-conversion-blue to-conversion-cyan hover:from-conversion-cyan hover:to-conversion-deep text-white font-bold shadow-lg shadow-conversion-blue/30"
           >
             <NavLink to="/book">
               <Phone className="mr-2 h-4 w-4" />
@@ -150,22 +153,22 @@ export function Header() {
           <Sheet>
             <SheetTrigger asChild>
               <Button
-                variant="outline"
+                variant="ghost"
                 size="icon"
-                className="text-white bg-transparent border-white/50 hover:bg-white/10"
+                className="text-white hover:bg-conversion-blue/20"
               >
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-roofing-navy text-white border-l-white/20">
+            <SheetContent side="right" className="bg-gradient-to-br from-charcoal via-secondary to-charcoal text-white border-l-2 border-conversion-black/30">
               <nav className="flex flex-col gap-y-4 pt-10">
-                <NavLink to="/" className="text-lg font-medium hover:text-roofing-blue">
+                <NavLink to="/" className="text-lg font-medium hover:text-conversion-cyan">
                   Home
                 </NavLink>
 
                 {/* Collapsible Services Menu for Mobile */}
                 <Collapsible>
-                  <CollapsibleTrigger className="flex items-center justify-between w-full text-lg font-medium hover:text-roofing-blue">
+                  <CollapsibleTrigger className="flex items-center justify-between w-full text-lg font-medium hover:text-conversion-cyan">
                     <NavLink to="/services">Services</NavLink>
                     <ChevronDown className="h-5 w-5 ml-1" />
                   </CollapsibleTrigger>
@@ -174,7 +177,7 @@ export function Header() {
                       <NavLink
                         key={s.href}
                         to={s.href}
-                        className="text-gray-300 text-base hover:text-roofing-blue"
+                        className="text-white/80 text-base hover:text-conversion-cyan"
                       >
                         {s.title}
                       </NavLink>
@@ -186,7 +189,7 @@ export function Header() {
                   <NavLink
                     key={link.href}
                     to={link.href}
-                    className="text-lg font-medium hover:text-roofing-blue"
+                    className="text-lg font-medium hover:text-conversion-cyan"
                   >
                     {link.label}
                   </NavLink>
@@ -195,14 +198,16 @@ export function Header() {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-roofing-blue hover:bg-roofing-blue/90 text-lg mt-4"
+                  className="bg-gradient-to-r from-conversion-blue to-conversion-cyan hover:from-conversion-cyan hover:to-conversion-deep text-lg mt-4 font-bold shadow-lg"
                 >
                   <NavLink to="/book">
                     <Phone className="mr-2 h-5 w-5" />
                     Get a Free Quote
                   </NavLink>
                 </Button>
-                <p className="text-sm text-white/70">0435 900 709</p>
+                <a href="tel:0435900709" className="text-sm text-conversion-cyan font-medium hover:text-conversion-blue transition-colors">
+                  📞 0435 900 709
+                </a>
               </nav>
             </SheetContent>
           </Sheet>

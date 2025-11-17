@@ -28,12 +28,15 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-br from-muted/50 to-muted/80 border-t">
+    <footer className="bg-gradient-to-br from-charcoal via-secondary to-charcoal border-t-2 border-conversion-black/30 relative overflow-hidden">
+      {/* Metallic shimmer overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:200%_100%] animate-shimmer pointer-events-none" />
+      
       {/* Hero Call to Action Section with Banner */}
       <OptimizedBackgroundSection
         backgroundImage="/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png"
-        gradient="linear-gradient(130deg, rgba(12,74,110,0.92), rgba(2,132,199,0.88))"
-        className="py-16 text-white"
+        gradient="linear-gradient(130deg, rgba(11,15,25,0.92), rgba(11,59,105,0.88))"
+        className="py-16 text-white relative z-10"
         imageAlt="White roof tiles background"
         sizes="(max-width: 1024px) 100vw, 1440px"
       >
@@ -47,12 +50,12 @@ const Footer = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <a
               href="tel:0435900709"
-              className="flex items-center gap-3 bg-primary text-white px-8 py-4 rounded-lg font-bold text-xl hover:bg-primary/90 transition-colors shadow-lg"
+              className="flex items-center gap-3 bg-gradient-to-r from-conversion-blue via-conversion-cyan to-conversion-blue hover:from-conversion-cyan hover:to-conversion-deep text-white px-8 py-4 rounded-xl font-black text-xl transition-all duration-300 shadow-[0_10px_40px_rgba(41,179,255,0.5)] hover:shadow-[0_15px_50px_rgba(0,212,255,0.7)] hover:scale-105 border-2 border-conversion-black/20"
             >
               <Phone className="h-6 w-6" />
               Call 0435 900 709 Now
             </a>
-            <Button asChild variant="outline" size="lg" className="bg-white/20 border-white text-white hover:bg-white hover:text-primary backdrop-blur-sm">
+            <Button asChild variant="outline" size="lg" className="bg-gradient-to-r from-conversion-cyan/20 to-conversion-blue/20 border-2 border-conversion-cyan text-white hover:bg-gradient-to-r hover:from-conversion-cyan hover:to-conversion-blue backdrop-blur-sm font-bold shadow-lg">
               <Link to="/book">Get Free Roof Health Check</Link>
             </Button>
           </div>
@@ -75,14 +78,14 @@ const Footer = () => {
         </div>
       </OptimizedBackgroundSection>
 
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12 relative z-10">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-white/90">
           {/* Company Info */}
           <div className="space-y-4">
             <div className="mb-4">
-              <h3 className="text-lg font-bold text-primary">Call Kaids Roofing</h3>
-              <p className="text-sm text-muted-foreground italic">*Proof In Every Roof*</p>
+              <h3 className="text-lg font-bold text-conversion-cyan">Call Kaids Roofing</h3>
+              <p className="text-sm text-white/70 italic tracking-[0.15em]">*Proof In Every Roof*</p>
             </div>
             <p className="text-muted-foreground text-sm">
               Owner-operated roofing business serving Southeast Melbourne. Quality workmanship, 
@@ -106,43 +109,43 @@ const Footer = () => {
             </div>
             
             {/* ABN - Critical compliance requirement */}
-            <div className="text-xs text-muted-foreground border-t pt-3 mt-3">
+            <div className="text-xs text-white/50 border-t border-conversion-black/30 pt-3 mt-3">
               <div className="font-medium">ABN: 39475055075</div>
             </div>
           </div>
 
           {/* Popular Services & Areas */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Popular Areas</h3>
+            <h3 className="text-lg font-semibold text-conversion-cyan">Popular Areas</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/services/roof-restoration-clyde-north" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/services/roof-restoration-clyde-north" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
                   Clyde North Roofing
                 </Link>
               </li>
               <li>
-                <Link to="/services/roof-restoration-berwick" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/services/roof-restoration-berwick" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
                   Berwick Roof Restoration
                 </Link>
               </li>
               <li>
-                <Link to="/services/roof-painting-cranbourne" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/services/roof-painting-cranbourne" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
                   Cranbourne Roof Painting
                 </Link>
               </li>
               <li>
-                <Link to="/services/roof-restoration-pakenham" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/services/roof-restoration-pakenham" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
                   Pakenham Roofing Expert
                 </Link>
               </li>
               <li>
-                <Link to="/gallery" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/gallery" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
                   Before & After Gallery
                 </Link>
               </li>
             </ul>
             <div className="pt-2">
-              <span className="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+              <span className="inline-block bg-conversion-cyan/20 text-conversion-cyan text-xs px-2 py-1 rounded border border-conversion-cyan/30">
                 15-Year Warranty
               </span>
             </div>
@@ -150,35 +153,35 @@ const Footer = () => {
 
           {/* Emergency & Specialist Services */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Emergency & Specialist</h3>
+            <h3 className="text-lg font-semibold text-conversion-cyan">Emergency & Specialist</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/emergency" className="text-sm text-roofing-emergency hover:text-roofing-emergency/80 font-semibold transition-colors">
+                <Link to="/emergency" className="text-sm text-conversion-blue hover:text-conversion-cyan font-semibold transition-colors">
                   🚨 Emergency Repairs
                 </Link>
               </li>
               <li>
-                <Link to="/services/leak-detection" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/services/leak-detection" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
                   Leak Detection & Repair
                 </Link>
               </li>
               <li>
-                <Link to="/services/valley-iron-replacement" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/services/valley-iron-replacement" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
                   Valley Iron Replacement
                 </Link>
               </li>
               <li>
-                <Link to="/services/tile-replacement" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/services/tile-replacement" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
                   Tile Replacement
                 </Link>
               </li>
               <li>
-                <Link to="/warranty" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/warranty" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
                   15-Year Warranty Info
                 </Link>
               </li>
               <li>
-                <Link to="/book" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/book" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
                   Book Free Quote
                 </Link>
               </li>
