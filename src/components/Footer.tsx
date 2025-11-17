@@ -79,206 +79,86 @@ const Footer = () => {
       </OptimizedBackgroundSection>
 
       <div className="container mx-auto px-4 py-12 relative z-10">
-        {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-white/90">
-          {/* Company Info */}
-          <div className="space-y-4">
-            <div className="mb-4">
-              <h3 className="text-lg font-bold text-conversion-cyan">Call Kaids Roofing</h3>
-              <p className="text-sm text-white/70 italic tracking-[0.15em]">*Proof In Every Roof*</p>
-            </div>
-            <p className="text-muted-foreground text-sm">
-              Owner-operated roofing business serving Southeast Melbourne. Quality workmanship, 
-              honest service, and 15-year warranties on all major work.
-            </p>
-            
-            {/* Trust Badges */}
-            <div className="space-y-2">
-              <div className="flex items-center space-x-2 text-sm">
-                <Award className="h-4 w-4 text-primary" />
-                <span className="font-semibold">Premium Materials Only</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm">
-                <Shield className="h-4 w-4 text-primary" />
-                <span className="font-semibold">15-Year Warranty</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm">
-                <Star className="h-4 w-4 text-primary" />
-                <span className="font-semibold">500+ Happy Customers</span>
-              </div>
-            </div>
-            
-            {/* ABN - Critical compliance requirement */}
-            <div className="text-xs text-white/50 border-t border-conversion-black/30 pt-3 mt-3">
-              <div className="font-medium">ABN: 39475055075</div>
-            </div>
-          </div>
+        {/* Quick Links Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-12">
+          <Link to="/services" className="group bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-6 hover:border-conversion-cyan transition-all duration-300 hover:scale-105">
+            <h3 className="text-lg font-bold text-conversion-cyan mb-2">Services</h3>
+            <p className="text-white/70 text-sm">View all roofing services</p>
+          </Link>
+          
+          <Link to="/portfolio" className="group bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-6 hover:border-conversion-cyan transition-all duration-300 hover:scale-105">
+            <h3 className="text-lg font-bold text-conversion-cyan mb-2">Our Work</h3>
+            <p className="text-white/70 text-sm">See completed projects</p>
+          </Link>
+          
+          <Link to="/faq" className="group bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-6 hover:border-conversion-cyan transition-all duration-300 hover:scale-105">
+            <h3 className="text-lg font-bold text-conversion-cyan mb-2">FAQs</h3>
+            <p className="text-white/70 text-sm">Common questions</p>
+          </Link>
+          
+          <Link to="/about" className="group bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-6 hover:border-conversion-cyan transition-all duration-300 hover:scale-105">
+            <h3 className="text-lg font-bold text-conversion-cyan mb-2">About</h3>
+            <p className="text-white/70 text-sm">Meet the team</p>
+          </Link>
+          
+          <Link to="/services/roof-restoration-clyde-north" className="group bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-6 hover:border-conversion-cyan transition-all duration-300 hover:scale-105">
+            <h3 className="text-lg font-bold text-conversion-cyan mb-2">Clyde North</h3>
+            <p className="text-white/70 text-sm">Local roofing experts</p>
+          </Link>
+          
+          <Link to="/services/roof-restoration-berwick" className="group bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-6 hover:border-conversion-cyan transition-all duration-300 hover:scale-105">
+            <h3 className="text-lg font-bold text-conversion-cyan mb-2">Berwick</h3>
+            <p className="text-white/70 text-sm">Roof restoration</p>
+          </Link>
+          
+          <Link to="/emergency" className="group bg-gradient-to-br from-destructive/20 to-destructive/10 backdrop-blur-sm border border-destructive/30 rounded-lg p-6 hover:border-destructive transition-all duration-300 hover:scale-105">
+            <h3 className="text-lg font-bold text-destructive mb-2">Emergency</h3>
+            <p className="text-white/70 text-sm">Same day service</p>
+          </Link>
+          
+          <Link to="/warranty" className="group bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-6 hover:border-conversion-cyan transition-all duration-300 hover:scale-105">
+            <h3 className="text-lg font-bold text-conversion-cyan mb-2">Warranty</h3>
+            <p className="text-white/70 text-sm">15-year guarantee</p>
+          </Link>
+        </div>
 
-          {/* Popular Services & Areas */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-conversion-cyan">Popular Areas</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/services/roof-restoration-clyde-north" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
-                  Clyde North Roofing
-                </Link>
-              </li>
-              <li>
-                <Link to="/services/roof-restoration-berwick" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
-                  Berwick Roof Restoration
-                </Link>
-              </li>
-              <li>
-                <Link to="/services/roof-painting-cranbourne" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
-                  Cranbourne Roof Painting
-                </Link>
-              </li>
-              <li>
-                <Link to="/services/roof-restoration-pakenham" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
-                  Pakenham Roofing Expert
-                </Link>
-              </li>
-              <li>
-                <Link to="/gallery" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
-                  Before & After Gallery
-                </Link>
-              </li>
-            </ul>
-            <div className="pt-2">
-              <span className="inline-block bg-conversion-cyan/20 text-conversion-cyan text-xs px-2 py-1 rounded border border-conversion-cyan/30">
-                15-Year Warranty
-              </span>
-            </div>
-          </div>
-
-          {/* Emergency & Specialist Services */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-conversion-cyan">Emergency & Specialist</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/emergency" className="text-sm text-conversion-blue hover:text-conversion-cyan font-semibold transition-colors">
-                  🚨 Emergency Repairs
-                </Link>
-              </li>
-              <li>
-                <Link to="/services/leak-detection" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
-                  Leak Detection & Repair
-                </Link>
-              </li>
-              <li>
-                <Link to="/services/valley-iron-replacement" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
-                  Valley Iron Replacement
-                </Link>
-              </li>
-              <li>
-                <Link to="/services/tile-replacement" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
-                  Tile Replacement
-                </Link>
-              </li>
-              <li>
-                <Link to="/warranty" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
-                  15-Year Warranty Info
-                </Link>
-              </li>
-              <li>
-                <Link to="/book" className="text-sm text-white/80 hover:text-conversion-cyan transition-colors">
-                  Book Free Quote
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Contact Kaidyn Directly</h3>
-            <div className="space-y-3">
-              <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
-                <div className="text-xs text-muted-foreground mb-1">Owner's Direct Line</div>
-                <a 
-                  href="tel:0435900709"
-                  className="flex items-center space-x-2 text-primary font-bold hover:text-primary/80 transition-colors group"
-                >
-                  <Phone className="h-5 w-5 group-hover:scale-110 transition-transform" />
-                  <span className="text-lg">0435 900 709</span>
-                </a>
-                <div className="text-xs text-muted-foreground mt-1">
-                  Text or call - I'll respond within 12 hours
-                </div>
-              </div>
-              
-              <a 
-                href="mailto:info@callkaidsroofing.com.au"
-                className="flex items-center space-x-2 text-sm hover:text-primary transition-colors group"
-              >
-                <Mail className="h-4 w-4 group-hover:text-primary" />
-                <span>info@callkaidsroofing.com.au</span>
+        {/* Contact Section */}
+        <div className="bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-8 mb-8">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-2">Contact Kaidyn Directly</h3>
+              <p className="text-white/70 mb-4">Owner's direct line - no call centers</p>
+              <a href="tel:0435900709" className="flex items-center gap-2 text-conversion-cyan hover:text-conversion-blue font-bold text-xl mb-2 transition-colors">
+                <Phone className="h-6 w-6" />
+                0435 900 709
+              </a>
+              <a href="mailto:info@callkaidsroofing.com.au" className="flex items-center gap-2 text-white/80 hover:text-conversion-cyan transition-colors">
+                <Mail className="h-4 w-4" />
+                info@callkaidsroofing.com.au
               </a>
             </div>
-            
-            <div className="space-y-2">
-              <Button asChild variant="emergency" size="sm" className="w-full">
+            <div className="space-y-3">
+              <Button asChild variant="default" size="lg" className="w-full bg-gradient-to-r from-conversion-blue to-conversion-cyan hover:from-conversion-cyan hover:to-conversion-deep text-white font-bold shadow-lg">
+                <Link to="/book">Get Free Quote</Link>
+              </Button>
+              <Button asChild variant="emergency" size="lg" className="w-full">
                 <Link to="/emergency">Emergency: Same Day</Link>
               </Button>
-              <Button asChild variant="outline" size="sm" className="w-full">
-                <Link to="/book">Book Free Roof Health Check</Link>
-              </Button>
-            </div>
-            
-            <div className="text-center pt-2">
-              <Badge variant="secondary" className="text-xs">
-                Usually 2-3 weeks out
-              </Badge>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t mt-8 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-sm text-muted-foreground text-center md:text-left">
-              <div className="font-semibold">© 2024 Call Kaids Roofing - SE Melbourne's No-BS Roofing Expert</div>
-              <div className="text-xs mt-1">
-                ABN: 39475055075 • Owner-operated • 15-Year Warranty • Premium Materials • Clyde North Based
-              </div>
+        <div className="border-t border-conversion-black/30 pt-8">
+          <div className="text-center space-y-3">
+            <div className="text-sm text-white/80">
+              <span className="font-semibold">© 2024 Call Kaids Roofing</span> • ABN: 39475055075
             </div>
-            <div className="flex flex-wrap justify-center md:justify-end gap-4 text-sm">
-              <Link to="/warranty" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
-                <Shield className="h-3 w-3" />
-                Warranty Info
-              </Link>
-              <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">
-                About Kaidyn
-              </Link>
-              <Link to="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">
-                Privacy Policy
-              </Link>
-              <Link to="/terms-of-service" className="text-muted-foreground hover:text-primary transition-colors">
-                Terms of Service
-              </Link>
-              <Link to="/emergency" className="text-destructive hover:text-destructive/80 font-semibold transition-colors">
-                Emergency
-              </Link>
+            <div className="flex flex-wrap justify-center gap-4 text-sm">
+              <Link to="/privacy-policy" className="text-white/60 hover:text-conversion-cyan transition-colors">Privacy</Link>
+              <Link to="/terms-of-service" className="text-white/60 hover:text-conversion-cyan transition-colors">Terms</Link>
+              <Link to="/internal/v2/home" className="text-white/30 hover:text-conversion-cyan transition-colors">Internal</Link>
             </div>
-          </div>
-          
-          {/* Final CTA */}
-          <div className="text-center mt-6 p-4 bg-primary/5 rounded-lg border border-primary/20">
-            <div className="text-sm font-semibold text-primary">
-              Next Available Booking: 2-3 weeks out • Emergency response: Same day
-            </div>
-            <div className="text-xs text-muted-foreground mt-1">
-              Quality work takes time - book early to secure your slot
-            </div>
-          </div>
-
-          {/* Admin Access Link - Discreet */}
-          <div className="text-center mt-4">
-            <Link 
-              to="/internal/v2/home" 
-              className="text-xs text-muted-foreground/40 hover:text-primary transition-colors"
-            >
-              Internal System
-            </Link>
           </div>
         </div>
       </div>
