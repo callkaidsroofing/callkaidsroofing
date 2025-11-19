@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { InspectionData, QuoteData, ScopeItem, COMPANY_CONFIG } from './types';
+import { validateEmailSend } from './validation';
 import { formatCurrency, formatDate, calculateTotalPricing } from './utils';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -80,10 +81,12 @@ export function ExportStep({
   };
 
   const handleSendEmail = async () => {
-    if (!inspectionData.email) {
+    // Validate email before sending
+    const validation = validateEmailSend(inspectionData.email, inspectionData.clientName);
+    if (!validation.valid) {
       toast({
-        title: 'Error',
-        description: 'Client email is required',
+        title: 'Validation Error',
+        description: validation.error || 'Invalid email',
         variant: 'destructive',
       });
       return;

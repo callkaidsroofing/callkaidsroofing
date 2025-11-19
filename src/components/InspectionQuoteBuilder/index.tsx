@@ -20,9 +20,9 @@ import {
   transformInspectionToSupabase,
   transformSupabaseToInspection,
   transformQuoteToSupabase,
-  validateInspection,
-  validateQuote,
 } from './utils';
+import { validateInspection, validateQuote } from './validation';
+import { parseLineItems, DatabaseLineItem } from './database-types';
 
 const STAGES = [
   { id: 1, name: 'Inspection', description: 'Property inspection details' },
@@ -125,7 +125,8 @@ export function InspectionQuoteBuilder() {
           setQuoteId(quote.id!);
           // Load scope items from quote
           if (quote.line_items) {
-            const items = (quote.line_items as any[]).map((item, index) => ({
+            const parsedItems = parseLineItems(quote.line_items);
+            const items = parsedItems.map((item: DatabaseLineItem, index: number) => ({
               id: `item-${index}`,
               category: item.description || '',
               area: item.area || '',
