@@ -672,3 +672,234 @@
     width: 6px;
   }
 }
+
+/* ===================================
+   MOBILE-FIRST UI/UX IMPROVEMENTS
+   Added: November 19, 2025
+   =================================== */
+
+@layer utilities {
+  /* Mobile-First Touch Targets */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+  
+  .touch-target-comfortable {
+    @apply min-h-[48px] min-w-[48px];
+  }
+  
+  .touch-target-large {
+    @apply min-h-[56px] min-w-[56px];
+  }
+  
+  /* Mobile-First Spacing */
+  .mobile-spacing {
+    @apply space-y-3 sm:space-y-4 lg:space-y-6;
+  }
+  
+  .mobile-gap {
+    @apply gap-3 sm:gap-4 lg:gap-6;
+  }
+  
+  .mobile-padding {
+    @apply p-4 sm:p-6 lg:p-8;
+  }
+  
+  /* Mobile-First Container */
+  .mobile-container {
+    @apply px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto;
+  }
+  
+  /* Accessible Focus States */
+  .focus-accessible {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#007ACC] focus-visible:ring-offset-2;
+  }
+  
+  /* High Contrast Text (WCAG AAA) */
+  .text-high-contrast {
+    @apply text-[#1A1A1A];
+  }
+  
+  .text-high-contrast-inverse {
+    @apply text-white;
+  }
+  
+  /* Mobile-Optimized Shadows */
+  .shadow-mobile {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .shadow-mobile-lg {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Prevent iOS Zoom on Input Focus */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+  
+  /* Mobile-First Typography */
+  .heading-mobile {
+    @apply text-2xl sm:text-3xl lg:text-4xl font-bold;
+  }
+  
+  .subheading-mobile {
+    @apply text-xl sm:text-2xl lg:text-3xl font-semibold;
+  }
+  
+  .body-mobile {
+    @apply text-base leading-relaxed;
+  }
+  
+  /* Tap Highlight (Mobile) */
+  .tap-highlight-none {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Safe Area (iOS Notch) */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* Mobile-Optimized Cards */
+  .card-mobile {
+    @apply bg-white rounded-lg shadow-mobile p-4 sm:p-6;
+  }
+  
+  /* Button Group Spacing (Mobile) */
+  .button-group-mobile {
+    @apply flex flex-col sm:flex-row gap-3 sm:gap-4;
+  }
+  
+  /* Mobile Navigation */
+  .nav-mobile {
+    @apply fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area-bottom;
+    height: calc(64px + env(safe-area-inset-bottom));
+  }
+  
+  /* Responsive Grid (Mobile-First) */
+  .grid-mobile {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6;
+  }
+  
+  /* Mobile-Optimized Form */
+  .form-mobile {
+    @apply space-y-4 sm:space-y-6;
+  }
+  
+  .form-input-mobile {
+    @apply w-full h-11 min-h-[44px] px-4 text-base rounded-md border-2 border-gray-300 focus:border-[#007ACC] focus:ring-2 focus:ring-[#007ACC]/20 transition-colors;
+  }
+  
+  .form-label-mobile {
+    @apply block text-sm font-medium text-gray-700 mb-2;
+  }
+  
+  /* Mobile-Friendly Tables */
+  .table-mobile {
+    @apply block overflow-x-auto -mx-4 sm:mx-0;
+  }
+  
+  .table-mobile table {
+    @apply min-w-full;
+  }
+  
+  /* Sticky Header (Mobile) */
+  .header-sticky-mobile {
+    @apply sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 safe-area-top;
+  }
+  
+  /* Mobile Menu Toggle */
+  .menu-toggle-mobile {
+    @apply h-11 w-11 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md hover:bg-gray-100 transition-colors;
+  }
+  
+  /* Accessibility - Screen Reader Only */
+  .sr-only-mobile {
+    @apply sr-only;
+  }
+  
+  /* High Contrast Mode Support */
+  @media (prefers-contrast: high) {
+    .button-high-contrast {
+      @apply border-2 border-current;
+    }
+  }
+  
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  /* Dark Mode Optimizations */
+  @media (prefers-color-scheme: dark) {
+    .card-mobile {
+      @apply bg-gray-900 text-white;
+    }
+    
+    .form-input-mobile {
+      @apply bg-gray-800 border-gray-700 text-white;
+    }
+  }
+}
+
+/* ===================================
+   MOBILE-FIRST COMPONENT OVERRIDES
+   =================================== */
+
+@layer components {
+  /* Improved Button Spacing */
+  .btn-spacing {
+    @apply gap-2 sm:gap-3;
+  }
+  
+  /* Mobile-Optimized Modal */
+  .modal-mobile {
+    @apply fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4;
+  }
+  
+  .modal-content-mobile {
+    @apply w-full sm:max-w-lg bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto;
+  }
+  
+  /* Mobile-Friendly Dropdown */
+  .dropdown-mobile {
+    @apply absolute right-0 mt-2 w-56 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none;
+  }
+  
+  .dropdown-item-mobile {
+    @apply block w-full text-left px-4 py-3 text-base hover:bg-gray-100 transition-colors touch-target;
+  }
+}
+
+/* ===================================
+   PRINT STYLES (Bonus)
+   =================================== */
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+}
