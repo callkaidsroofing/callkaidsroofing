@@ -45,8 +45,7 @@ const navStructure: NavSection[] = [
     icon: Wrench,
     defaultOpen: true,
     items: [
-      { title: 'Quick Quote', path: '/admin/tools/quick-quote', icon: Send },
-      { title: 'Inspections', path: '/admin/tools/inspections', icon: ClipboardList },
+      { title: 'Inspection & Quote', path: '/admin/tools/inspection-quote', icon: ClipboardList },
       { title: 'Measurements', path: '/admin/tools/measurements', icon: Ruler },
       { title: 'AI Assistant', path: '/admin/tools/ai', icon: Sparkles },
       { title: 'Calculator', path: '/admin/tools/calculator', icon: DollarSign },

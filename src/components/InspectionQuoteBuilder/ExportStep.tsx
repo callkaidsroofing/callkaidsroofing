@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { FileDown, Mail, CheckCircle } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface ExportStepProps {
   inspectionData: InspectionData;
@@ -91,10 +92,22 @@ export function ExportStep({
     try {
       setIsSending(true);
 
-      // TODO: Implement email sending via Supabase Edge Function
+      // Send email via Supabase Edge Function
+      const { data, error } = await supabase.functions.invoke('send-quote-email', {
+        body: {
+          quoteId: quoteId,
+          inspectionId: inspectionId,
+          recipientEmail: inspectionData.email,
+          recipientName: inspectionData.clientName,
+          includeAttachment: true,
+        },
+      });
+
+      if (error) throw error;
+
       toast({
-        title: 'Coming Soon',
-        description: 'Email sending will be implemented in the next update',
+        title: 'Email Sent',
+        description: `Quote sent successfully to ${inspectionData.email}`,
       });
     } catch (error) {
       console.error('Email send error:', error);

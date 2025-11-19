@@ -81,8 +81,8 @@ const CRMQuotes = lazy(() => import("./pages/admin/crm/Quotes"));
 const CRMJobs = lazy(() => import("./pages/admin/crm/JobsList"));
 const CRMIntelligence = lazy(() => import("./pages/admin/crm/Intelligence"));
 const CRMReports = lazy(() => import("./pages/admin/crm/Reports"));
-const ToolsQuickQuote = lazy(() => import("./pages/admin/tools/QuickQuote"));
-const ToolsInspections = lazy(() => import("./pages/admin/tools/Inspections"));
+// Archived: const ToolsQuickQuote = lazy(() => import("./pages/admin/tools/QuickQuote"));
+// Archived: const ToolsInspections = lazy(() => import("./pages/admin/tools/Inspections"));
 const ToolsMeasurements = lazy(() => import("./pages/admin/tools/Measurements"));
 const ToolsAI = lazy(() => import("./pages/admin/tools/AIAssistant"));
 const ToolsCalculator = lazy(() => import("./pages/admin/tools/Calculator"));
@@ -227,7 +227,7 @@ function App() {
                       {/* Unified Inspection & Quote Builder */}
                       <Route path="tools/inspection-quote" element={<InspectionQuoteBuilderPage />} />
                       <Route path="tools/inspection-quote/:id" element={<InspectionQuoteBuilderPage />} />
-                      <Route path="tools/quick-quote" element={<ToolsQuickQuote />} />
+                      <Route path="tools/quick-quote" element={<Navigate to="/admin/tools/inspection-quote" replace />} />
                       <Route path="tools/measurements" element={<ToolsMeasurements />} />
                       <Route path="tools/ai" element={<ToolsAI />} />
                       <Route path="tools/calculator" element={<ToolsCalculator />} />
