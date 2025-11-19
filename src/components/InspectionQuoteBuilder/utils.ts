@@ -134,7 +134,7 @@ export function transformQuoteToSupabase(
 ): Omit<QuoteRow, 'id'> {
   const pricing = calculateTotalPricing(scopeItems);
   const now = new Date().toISOString();
-  const quoteNumber = `Q-${Date.now()}`;
+  const quoteNumber = generateQuoteNumber();
 
   // Transform scope items to line_items format
   const line_items = scopeItems.map(item => ({
@@ -154,17 +154,17 @@ export function transformQuoteToSupabase(
 
   return {
     quote_number: quoteNumber,
-    client_name: inspectionData.client_name,
-    phone: inspectionData.phone,
+    client_name: inspectionData.client_name || 'Unknown',
+    phone: inspectionData.phone || 'Not Provided',
     email: inspectionData.email || null,
-    site_address: inspectionData.address,
-    suburb_postcode: inspectionData.suburb,
+    site_address: inspectionData.address || 'Not Provided',
+    suburb_postcode: inspectionData.suburb || 'Not Provided',
     inspection_report_id: inspectionReportId || null,
     line_items,
     scope: {
-      primary_service: quoteData.primary_service,
-      document_type: quoteData.document_type,
-      roof_type: inspectionData.roof_type,
+      primary_service: quoteData.primary_service || 'Roof Restoration',
+      document_type: quoteData.document_type || 'Multi-Option Quote',
+      roof_type: inspectionData.roof_type || 'Not Specified',
     },
     pricing: {
       markup_default: 30,
