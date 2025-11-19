@@ -118,6 +118,10 @@ export interface InspectionReportRow {
   accessNotes?: string | null;
   status?: string | null;
   priority?: string | null;
+  roofArea?: number | null;
+  ridgeCaps?: number | null;
+  gutterPerimeter?: number | null;
+  roofPitch?: string | null;
   created_at?: string;
   updated_at?: string;
 }
