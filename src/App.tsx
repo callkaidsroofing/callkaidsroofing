@@ -62,8 +62,8 @@ const ChatUploadsImporter = lazy(() => import("./pages/admin/content/ChatUploads
 const MarketingStudio = lazy(() => import("./pages/MarketingStudio"));
 const LeadsPipeline = lazy(() => import("./pages/LeadsPipeline"));
 const LeadDetail = lazy(() => import("./pages/LeadDetail"));
-const QuoteBuilderNew = lazy(() => import("./pages/QuoteBuilderNew"));
-const InspectionBuilderNew = lazy(() => import("./pages/InspectionBuilderNew"));
+// Legacy pages archived - now using unified InspectionQuoteBuilder
+const InspectionQuoteBuilderPage = lazy(() => import("./pages/InspectionQuoteBuilder"));
 const JobsCalendar = lazy(() => import("./pages/JobsCalendar"));
 const LeadIntelligence = lazy(() => import("./pages/LeadIntelligence"));
 const ReportsAnalytics = lazy(() => import("./pages/ReportsAnalytics"));
@@ -224,9 +224,10 @@ function App() {
                       <Route path="crm/reports" element={<CRMReports />} />
                       
                       {/* Tools Section */}
+                      {/* Unified Inspection & Quote Builder */}
+                      <Route path="tools/inspection-quote" element={<InspectionQuoteBuilderPage />} />
+                      <Route path="tools/inspection-quote/:id" element={<InspectionQuoteBuilderPage />} />
                       <Route path="tools/quick-quote" element={<ToolsQuickQuote />} />
-                      <Route path="tools/inspections" element={<ToolsInspections />} />
-                      <Route path="tools/inspections/:id" element={<ToolsInspections />} />
                       <Route path="tools/measurements" element={<ToolsMeasurements />} />
                       <Route path="tools/ai" element={<ToolsAI />} />
                       <Route path="tools/calculator" element={<ToolsCalculator />} />
@@ -274,8 +275,10 @@ function App() {
                       <Route path="quotes/new" element={<Navigate to="/admin/crm/quotes" replace />} />
                       <Route path="jobs" element={<Navigate to="/admin/crm/jobs" replace />} />
                       <Route path="reports" element={<Navigate to="/admin/crm/reports" replace />} />
-                      <Route path="inspections/new" element={<Navigate to="/admin/tools/inspections" replace />} />
-                      <Route path="inspections/:id" element={<Navigate to="/admin/tools/inspections/:id" replace />} />
+                      <Route path="inspections/new" element={<Navigate to="/admin/tools/inspection-quote" replace />} />
+                      <Route path="inspections/:id" element={<Navigate to="/admin/tools/inspection-quote/:id" replace />} />
+                      <Route path="tools/inspections" element={<Navigate to="/admin/tools/inspection-quote" replace />} />
+                      <Route path="tools/inspections/:id" element={<Navigate to="/admin/tools/inspection-quote/:id" replace />} />
                       <Route path="ai-assistant" element={<Navigate to="/admin/tools/ai" replace />} />
                       <Route path="media" element={<Navigate to="/admin/content/media" replace />} />
                       <Route path="media/generator" element={<Navigate to="/admin/content/media/generate" replace />} />

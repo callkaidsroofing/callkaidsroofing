@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://callkaidsroofing.com.au/" />
     
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://vlnkzpyeppfdmresiaoh.supabase.co https://www.google-analytics.com https://analytics.google.com https://connect.facebook.net; frame-src 'self' https://js.stripe.com; object-src 'none'; base-uri 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://js.stripe.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://vlnkzpyeppfdmresiaoh.supabase.co https://www.google-analytics.com https://analytics.google.com https://connect.facebook.net; frame-src 'self' https://js.stripe.com; object-src 'none'; base-uri 'self';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
@@ -161,6 +161,11 @@
     /></noscript>
     <!-- End Meta Pixel Noscript -->
     <div id="root"></div>
+    <!-- html2pdf.js for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" 
+            integrity="sha512-YcsIPGdhZzVYvIfln6t8FG1n8HPtQ2r2MNwG5aKpTF+tKbn1q1DfR2IfU9wQpV3p7RbB8qk2aIHP3pO4ITyvwQ==" 
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
