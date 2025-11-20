@@ -13,7 +13,6 @@ import {
   InspectionData,
   QuoteData,
   ScopeItem,
-  InspectionReportRow,
   QuoteRow,
 } from './types';
 import {

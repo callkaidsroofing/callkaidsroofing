@@ -20,7 +20,7 @@ export function isValidEmail(email: string): boolean {
 export function validateInspection(data: InspectionData): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
 
-  if (!data.clientName?.trim()) {
+  if (!data.client_name?.trim()) {
     errors.push('Client name is required');
   }
 
