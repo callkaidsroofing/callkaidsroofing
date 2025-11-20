@@ -82,7 +82,7 @@ export function ExportStep({
 
   const handleSendEmail = async () => {
     // Validate email before sending
-    const validation = validateEmailSend(inspectionData.email, inspectionData.clientName);
+    const validation = validateEmailSend(inspectionData.email, inspectionData.client_name);
     if (!validation.valid) {
       toast({
         title: 'Validation Error',
@@ -101,7 +101,7 @@ export function ExportStep({
           quoteId: quoteId,
           inspectionId: inspectionId,
           recipientEmail: inspectionData.email,
-          recipientName: inspectionData.clientName,
+          recipientName: inspectionData.client_name,
           includeAttachment: true,
         },
       });
