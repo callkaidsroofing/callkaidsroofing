@@ -1,4 +1,5 @@
 // TypeScript types for Inspection & Quote Builder
+import type { Database } from '@/integrations/supabase/types';
 
 export interface InspectionData {
   client_name: string;
@@ -95,36 +96,8 @@ export const COMPANY_CONFIG = {
 };
 
 // Supabase table mappings
-export interface InspectionReportRow {
-  id?: string;
-  clientName: string;
-  phone: string;
-  email?: string | null;
-  siteAddress: string;
-  suburbPostcode: string;
-  date: string;
-  time: string;
-  inspector: string;
-  claddingType: string;
-  heightStoreys?: string | null;
-  accessnotes?: string | null;
-  pointing?: string | null;
-  valleyIrons?: string | null;
-  brokenTiles?: number | null;
-  guttersDownpipes?: string | null;
-  flashings?: string | null;
-  internalLeaks?: string | null;
-  overallConditionNotes?: string | null;
-  accessNotes?: string | null;
-  status?: string | null;
-  priority?: string | null;
-  roofArea?: number | null;
-  ridgeCaps?: number | null;
-  gutterPerimeter?: number | null;
-  roofPitch?: string | null;
-  created_at?: string;
-  updated_at?: string;
-}
+export type InspectionReportInsert = Database['public']['Tables']['inspection_reports']['Insert'];
+export type InspectionReportRow = Database['public']['Tables']['inspection_reports']['Row'];
 
 export interface QuoteRow {
   id?: string;
@@ -149,3 +122,6 @@ export interface QuoteRow {
   updated_at?: string;
   sent_at?: string | null;
 }
+
+export type QuoteInsert = Database['public']['Tables']['quotes']['Insert'];
+export type QuoteRowGenerated = Database['public']['Tables']['quotes']['Row'];

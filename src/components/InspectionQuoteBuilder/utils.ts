@@ -1,41 +1,49 @@
 // Utility functions for Inspection & Quote Builder
 
-import { InspectionData, InspectionReportRow, QuoteRow, ScopeItem, GST_RATE } from './types';
+import {
+  InspectionData,
+  InspectionReportInsert,
+  InspectionReportRow,
+  QuoteInsert,
+  QuoteRowGenerated,
+  ScopeItem,
+  GST_RATE,
+} from './types';
 
 /**
  * Transform inspection form data to Supabase inspection_reports format
  */
-export function transformInspectionToSupabase(data: InspectionData): InspectionReportRow {
+export function transformInspectionToSupabase(data: InspectionData): InspectionReportInsert {
   const now = new Date().toISOString();
   const today = new Date().toISOString().split('T')[0];
   const currentTime = new Date().toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' });
 
   return {
-    clientName: data.client_name,
-    phone: data.phone,
-    email: data.email || null,
-    siteAddress: data.address,
-    suburbPostcode: data.suburb,
+    clientName: data.client_name.trim(),
+    phone: data.phone.trim(),
+    email: data.email?.trim() || null,
+    siteAddress: data.address.trim(),
+    suburbPostcode: data.suburb.trim(),
+    claddingType: data.roof_type || 'Unknown',
+    heightStoreys: data.storey_count || null,
+    accessnotes: data.access_difficulty || null,
+    pointing: data.ridge_condition || null,
+    valleyIrons: data.valley_condition || null,
+    brokenTiles: data.tile_condition ? parseInt(data.tile_condition, 10) || 0 : 0,
+    guttersDownpipes: data.gutter_condition || null,
+    flashings: data.flashing_condition || null,
+    internalLeaks: data.leak_status || null,
+    overallConditionNotes: data.inspector_notes || null,
+    accessNotes: data.safety_notes || null,
+    status: 'draft',
+    priority: data.urgency_level?.toLowerCase() || 'standard',
     date: data.date || today,
     time: data.time || currentTime,
     inspector: data.inspector || 'System User',
-    claddingType: data.roof_type,
-    heightStoreys: data.storey_count,
-    accessnotes: data.access_difficulty,
-    pointing: data.ridge_condition,
-    valleyIrons: data.valley_condition,
-    brokenTiles: data.tile_condition ? parseInt(data.tile_condition) || 0 : 0,
-    guttersDownpipes: data.gutter_condition,
-    flashings: data.flashing_condition,
-    internalLeaks: data.leak_status,
-    overallConditionNotes: data.inspector_notes,
-    accessNotes: data.safety_notes,
-    status: 'draft',
-    priority: data.urgency_level?.toLowerCase() || 'standard',
-    // Measurements
-    roofArea: data.roof_area_m2 || null,
-    ridgeCaps: data.ridge_length_lm || null,
-    gutterPerimeter: data.gutter_length_lm || null,
+    roofArea: data.roof_area_m2 ?? null,
+    ridgeCaps: data.ridge_length_lm ?? null,
+    valleyLength: data.valley_length_lm ?? null,
+    gutterPerimeter: data.gutter_length_lm ?? null,
     roofPitch: data.roof_pitch || null,
     created_at: now,
     updated_at: now,
@@ -46,35 +54,51 @@ export function transformInspectionToSupabase(data: InspectionData): InspectionR
  * Transform Supabase inspection_reports to form data
  */
 export function transformSupabaseToInspection(row: InspectionReportRow): InspectionData {
+  const legacyRow = row as Record<string, any>;
+  const clientName = legacyRow.client_name ?? row.clientName ?? '';
+  const clientPhone = legacyRow.client_phone ?? row.phone ?? '';
+  const email = legacyRow.client_email ?? row.email ?? '';
+  const siteAddress = legacyRow.site_address ?? row.siteAddress ?? '';
+  const suburb = legacyRow.suburb ?? row.suburbPostcode ?? '';
+  const roofType = legacyRow.roof_type ?? row.claddingType ?? '';
+  const storeys = legacyRow.property_type ?? row.heightStoreys ?? 'Single Storey';
+  const access = legacyRow.access_difficulty ?? legacyRow.accessnotes ?? 'Standard';
+  const ridge = legacyRow.condition_ridge ?? row.pointing ?? '';
+  const valleys = legacyRow.condition_valleys ?? row.valleyIrons ?? '';
+  const tileCondition = legacyRow.condition_tiles ?? row.brokenTiles?.toString() ?? '';
+  const gutters = legacyRow.condition_gutters ?? row.guttersDownpipes ?? '';
+  const flashing = legacyRow.condition_flashing ?? row.flashings ?? '';
+  const leakRaw = legacyRow.condition_leaks ?? row.internalLeaks;
+  const leakStatus = typeof leakRaw === 'boolean' ? (leakRaw ? 'Yes' : 'No') : leakRaw || '';
+
   return {
-    client_name: row.clientName,
-    phone: row.phone,
-    email: row.email || '',
-    address: row.siteAddress,
-    suburb: row.suburbPostcode,
-    roof_type: row.claddingType,
-    storey_count: row.heightStoreys || 'Single Storey',
-    access_difficulty: row.accessnotes || 'Standard',
+    client_name: clientName,
+    phone: clientPhone,
+    email,
+    address: siteAddress,
+    suburb,
+    roof_type: roofType,
+    storey_count: storeys,
+    access_difficulty: access,
     photos_taken: 'Yes',
-    urgency_level: row.priority || 'Standard',
-    ridge_condition: row.pointing || '',
-    valley_condition: row.valleyIrons || '',
-    tile_condition: row.brokenTiles?.toString() || '',
-    gutter_condition: row.guttersDownpipes || '',
-    flashing_condition: row.flashings || '',
-    leak_status: row.internalLeaks || '',
-    inspector_notes: row.overallConditionNotes || '',
-    safety_notes: row.accessNotes || '',
-    date: row.date,
-    time: row.time,
-    inspector: row.inspector,
-    // Measurements
-    roof_area_m2: row.roofArea || undefined,
-    ridge_length_lm: row.ridgeCaps || undefined,
-    valley_length_lm: undefined, // Not stored separately in old schema
-    gutter_length_lm: row.gutterPerimeter || undefined,
-    tile_count: row.brokenTiles || undefined,
-    roof_pitch: row.roofPitch || '',
+    urgency_level: 'Standard',
+    ridge_condition: ridge,
+    valley_condition: valleys,
+    tile_condition: tileCondition,
+    gutter_condition: gutters,
+    flashing_condition: flashing,
+    leak_status: leakStatus,
+    inspector_notes: legacyRow.inspector_notes ?? row.overallConditionNotes ?? '',
+    safety_notes: legacyRow.safety_notes ?? row.accessNotes ?? '',
+    date: legacyRow.inspection_date ?? row.date,
+    time: legacyRow.inspection_time ?? row.time,
+    inspector: legacyRow.inspector ?? row.inspector,
+    roof_area_m2: legacyRow.roof_area_sqm ?? row.roofArea ?? undefined,
+    ridge_length_lm: legacyRow.ridge_length_lm ?? row.ridgeCaps ?? undefined,
+    valley_length_lm: legacyRow.valley_length_lm ?? row.valleyLength ?? undefined,
+    gutter_length_lm: legacyRow.gutter_length_lm ?? row.gutterPerimeter ?? undefined,
+    tile_count: legacyRow.tile_count ?? row.brokenTiles ?? undefined,
+    roof_pitch: legacyRow.roof_pitch ?? row.roofPitch ?? '',
   };
 }
 
@@ -130,11 +154,12 @@ export function transformQuoteToSupabase(
   inspectionData: InspectionData,
   scopeItems: ScopeItem[],
   quoteData: any,
-  inspectionReportId?: string
-): Omit<QuoteRow, 'id'> {
+  inspectionReportId?: string,
+  existingQuote?: QuoteRowGenerated | null
+): QuoteInsert {
   const pricing = calculateTotalPricing(scopeItems);
   const now = new Date().toISOString();
-  const quoteNumber = generateQuoteNumber();
+  const quoteNumber = existingQuote?.quote_number || generateQuoteNumber();
 
   // Transform scope items to line_items format
   const line_items = scopeItems.map(item => ({
@@ -154,11 +179,11 @@ export function transformQuoteToSupabase(
 
   return {
     quote_number: quoteNumber,
-    client_name: inspectionData.client_name || 'Unknown',
-    phone: inspectionData.phone || 'Not Provided',
-    email: inspectionData.email || null,
-    site_address: inspectionData.address || 'Not Provided',
-    suburb_postcode: inspectionData.suburb || 'Not Provided',
+    client_name: inspectionData.client_name.trim() || 'Unknown',
+    phone: inspectionData.phone.trim() || 'Not Provided',
+    email: inspectionData.email?.trim() || null,
+    site_address: inspectionData.address.trim() || 'Not Provided',
+    suburb_postcode: inspectionData.suburb.trim() || 'Not Provided',
     inspection_report_id: inspectionReportId || null,
     line_items,
     scope: {
@@ -173,13 +198,13 @@ export function transformQuoteToSupabase(
     subtotal: pricing.subtotal,
     gst: pricing.gst,
     total: pricing.total,
-    tier_level: 'standard',
-    tier_profile: null,
-    status: 'draft',
-    draft: true,
-    created_at: now,
+    tier_level: existingQuote?.tier_level || 'standard',
+    tier_profile: existingQuote?.tier_profile || null,
+    status: existingQuote?.status || 'draft',
+    draft: existingQuote?.draft ?? true,
+    created_at: existingQuote?.created_at ?? now,
     updated_at: now,
-    sent_at: null,
+    sent_at: existingQuote?.sent_at ?? null,
   };
 }
 

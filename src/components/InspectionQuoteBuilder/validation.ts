@@ -20,7 +20,7 @@ export function isValidEmail(email: string): boolean {
 export function validateInspection(data: InspectionData): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
 
-  if (!data.clientName?.trim()) {
+  if (!data.client_name?.trim()) {
     errors.push('Client name is required');
   }
 
@@ -28,12 +28,20 @@ export function validateInspection(data: InspectionData): { valid: boolean; erro
     errors.push('Site address is required');
   }
 
-  if (data.email && !isValidEmail(data.email)) {
-    errors.push('Invalid email address format');
+  if (!data.suburb?.trim()) {
+    errors.push('Suburb or postcode is required');
   }
 
-  if (data.phone && !/^[\d\s\-\+\(\)]+$/.test(data.phone)) {
-    errors.push('Invalid phone number format');
+  if (!data.phone?.trim()) {
+    errors.push('Phone number is required');
+  } else {
+    if (!/^[\d\s\-\+\(\)]+$/.test(data.phone)) {
+      errors.push('Invalid phone number format');
+    }
+  }
+
+  if (data.email && !isValidEmail(data.email)) {
+    errors.push('Invalid email address format');
   }
 
   return {

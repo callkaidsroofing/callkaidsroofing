@@ -13,8 +13,7 @@ import {
   InspectionData,
   QuoteData,
   ScopeItem,
-  InspectionReportRow,
-  QuoteRow,
+  QuoteRowGenerated,
 } from './types';
 import {
   transformInspectionToSupabase,
@@ -77,6 +76,7 @@ export function InspectionQuoteBuilder() {
   const [scopeItems, setScopeItems] = useState<ScopeItem[]>([]);
   const [inspectionId, setInspectionId] = useState<string | null>(id || null);
   const [quoteId, setQuoteId] = useState<string | null>(null);
+  const [existingQuote, setExistingQuote] = useState<QuoteRowGenerated | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [isLoading, setIsLoading] = useState(!!id);
@@ -123,6 +123,14 @@ export function InspectionQuoteBuilder() {
 
         if (quote) {
           setQuoteId(quote.id!);
+          setExistingQuote(quote);
+          const scope = (quote.scope as Record<string, string>) || {};
+          setQuoteData(current => ({
+            ...current,
+            primary_service: scope.primary_service || current.primary_service,
+            document_type: (scope.document_type as QuoteData['document_type']) ||
+              current.document_type,
+          }));
           // Load scope items from quote
           if (quote.line_items) {
             const parsedItems = parseLineItems(quote.line_items);
@@ -249,7 +257,8 @@ export function InspectionQuoteBuilder() {
         inspectionData,
         scopeItems,
         quoteData,
-        inspectionId || undefined
+        inspectionId || undefined,
+        existingQuote
       );
 
       if (quoteId) {
@@ -260,6 +269,11 @@ export function InspectionQuoteBuilder() {
           .eq('id', quoteId);
 
         if (error) throw error;
+        setExistingQuote(prev => ({
+          ...(prev || {}),
+          ...(quoteDataForSupabase as QuoteRowGenerated),
+          id: quoteId,
+        }));
       } else {
         // Create new
         const { data, error } = await supabase
@@ -270,6 +284,7 @@ export function InspectionQuoteBuilder() {
 
         if (error) throw error;
         setQuoteId(data.id!);
+        setExistingQuote(data);
       }
 
       setLastSaved(new Date());
@@ -280,9 +295,10 @@ export function InspectionQuoteBuilder() {
       return true;
     } catch (error) {
       console.error('Save error:', error);
+      const message = (error as { message?: string }).message || 'Failed to save quote';
       toast({
         title: 'Error',
-        description: 'Failed to save quote',
+        description: message,
         variant: 'destructive',
       });
       return false;
