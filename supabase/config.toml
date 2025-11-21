@@ -147,6 +147,9 @@ verify_jwt = false
 [functions.send-quote-email]
 verify_jwt = true
 
+[functions.send-quote]
+verify_jwt = true
+
 [functions.analyze-image]
 verify_jwt = false
 
@@ -186,3 +189,86 @@ verify_jwt = true
 
 [functions.docs-writer-assistant]
 verify_jwt = true
+
+# ============================================
+# AUTOMATION FUNCTIONS (Per MKF Requirements)
+# ============================================
+
+[functions.api-healthz]
+verify_jwt = false
+
+[functions.automation-quote-followup]
+verify_jwt = false
+
+[functions.automation-warranty-creation]
+verify_jwt = false
+
+[functions.admin-user-management]
+verify_jwt = true
+
+# ============================================
+# RAG SYSTEM FUNCTIONS (Phase 2)
+# ============================================
+
+[functions.rag-search]
+verify_jwt = false
+
+[functions.embed-knowledge-base]
+verify_jwt = true
+
+[functions.chat-with-rag]
+verify_jwt = false
+
+# ============================================
+# STORAGE ADMIN FUNCTIONS (Phase 3)
+# ============================================
+
+[functions.file-manager]
+verify_jwt = true
+
+[functions.conflict-detector]
+verify_jwt = true
+
+[functions.conflict-resolver-chat]
+verify_jwt = true
+
+[functions.category-summarizer]
+verify_jwt = true
+
+[functions.sync-engine]
+verify_jwt = true
+
+[functions.generate-embeddings]
+verify_jwt = true
+
+[functions.process-knowledge-upload]
+verify_jwt = true
+
+[functions.parse-ckr-blueprint]
+verify_jwt = true
+
+# ============================================
+# KNOWLEDGE PACK V1.1 FUNCTIONS
+# ============================================
+
+[functions.rag-indexer]
+verify_jwt = false
+
+[functions.embed-knowledge-docs]
+verify_jwt = true
+
+[functions.sync-pricing-data]
+verify_jwt = true
+
+[functions.polish-form]
+verify_jwt = true
+
+[functions.extract-and-embed-knowledge]
+verify_jwt = true
+
+# ============================================
+# AI IMAGE ANALYSIS FUNCTIONS
+# ============================================
+
+[functions.analyze-project-images]
+verify_jwt = false

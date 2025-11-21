@@ -146,6 +146,11 @@ const ServiceSpecificForm: React.FC<ServiceSpecificFormProps> = ({
         honeypot: ''
       });
 
+      // Redirect to thank you page after successful submission
+      setTimeout(() => {
+        window.location.href = '/thank-you';
+      }, 2000);
+
     } catch (error) {
       console.error('Error submitting form:', error);
       toast({

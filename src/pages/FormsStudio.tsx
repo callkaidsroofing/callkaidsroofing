@@ -11,6 +11,7 @@ import { Plus, FormInput, Eye, Save, CheckCircle, Sparkles, FileText } from 'luc
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { AIAssistantPanel } from '@/components/shared/AIAssistantPanel';
+import { FormPolishDialog } from '@/components/FormPolishDialog';
 
 interface FormDefinition {
   id: string;
@@ -33,6 +34,8 @@ export default function FormsStudio() {
   const [formName, setFormName] = useState('');
   const [formDescription, setFormDescription] = useState('');
   const [formSchema, setFormSchema] = useState('');
+  const [showPolishDialog, setShowPolishDialog] = useState(false);
+  const [formToPublish, setFormToPublish] = useState<string | null>(null);
 
   useEffect(() => {
     loadForms();
@@ -141,24 +144,38 @@ export default function FormsStudio() {
     }
   };
 
-  const handlePublishForm = async (formId: string) => {
+  const handleInitiatePublish = (formId: string) => {
+    setFormToPublish(formId);
+    setShowPolishDialog(true);
+  };
+
+  const handlePublishForm = async () => {
+    if (!formToPublish) return;
+    
     try {
       const { error } = await supabase
         .from('form_definitions' as any)
         .update({ is_published: true } as any)
-        .eq('id', formId);
+        .eq('id', formToPublish);
 
       if (error) throw error;
 
       toast.success('Form published successfully');
       loadForms();
-      if (selectedForm?.id === formId) {
+      if (selectedForm?.id === formToPublish) {
         setSelectedForm({ ...selectedForm, is_published: true });
       }
+      setFormToPublish(null);
     } catch (error) {
       console.error('Error publishing form:', error);
       toast.error('Failed to publish form');
     }
+  };
+
+  const handleApplyOptimization = (optimizedSchema: any) => {
+    setFormSchema(JSON.stringify(optimizedSchema, null, 2));
+    setIsEditing(true);
+    toast.info('Optimized schema applied. Review and save when ready.');
   };
 
   const handleSelectForm = (form: FormDefinition) => {
@@ -258,9 +275,9 @@ export default function FormsStudio() {
                     Submissions
                   </Button>
                   {!selectedForm.is_published && (
-                    <Button size="sm" onClick={() => handlePublishForm(selectedForm.id)}>
-                      <CheckCircle className="h-4 w-4 mr-2" />
-                      Publish
+                    <Button size="sm" onClick={() => handleInitiatePublish(selectedForm.id)}>
+                      <Sparkles className="h-4 w-4 mr-2" />
+                      Polish & Publish
                     </Button>
                   )}
                 </div>
@@ -382,6 +399,19 @@ export default function FormsStudio() {
           </CardContent>
         </Card>
       </div>
+
+      {selectedForm && (
+        <FormPolishDialog
+          open={showPolishDialog}
+          onOpenChange={setShowPolishDialog}
+          formId={selectedForm.id}
+          formName={selectedForm.name}
+          formDescription={selectedForm.description || ''}
+          formSchema={selectedForm.schema}
+          onPublish={handlePublishForm}
+          onApplyOptimization={handleApplyOptimization}
+        />
+      )}
     </div>
   );
 }

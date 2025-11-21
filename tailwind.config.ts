@@ -63,15 +63,32 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         roofing: {
-          charcoal: "hsl(var(--roofing-charcoal))", /* #111827 */
-          navy: "hsl(var(--roofing-navy))", /* #0B3B69 */
-          blue: "hsl(var(--roofing-blue))", /* #007ACC */
-          steel: "hsl(var(--roofing-steel))", /* #6B7280 */
-          slate: "hsl(var(--roofing-slate))", /* #334155 */
-          success: "hsl(var(--roofing-success))", /* #16A34A */
-          warning: "hsl(var(--roofing-warning))", /* #FACC15 */
-          emergency: "hsl(var(--roofing-emergency))", /* #DC2626 */
+          charcoal: "hsl(var(--roofing-charcoal))",
+          navy: "hsl(var(--roofing-navy))",
+          blue: "hsl(var(--roofing-blue))",
+          steel: "hsl(var(--roofing-steel))",
+          slate: "hsl(var(--roofing-slate))",
+          success: "hsl(var(--roofing-success))",
+          warning: "hsl(var(--roofing-warning))",
+          emergency: "hsl(var(--roofing-emergency))",
         },
+        conversion: {
+          blue: "hsl(var(--conversion-blue))",
+          cyan: "hsl(var(--conversion-cyan))",
+          deep: "hsl(var(--conversion-deep))",
+          black: "hsl(var(--conversion-black))",
+        },
+        charcoal: "hsl(var(--charcoal))",
+        electric: {
+          bright: "hsl(var(--electric-bright))",
+          light: "hsl(var(--electric-light))",
+          glow: "hsl(var(--electric-glow))",
+        },
+        steel: {
+          light: "hsl(var(--steel-light))",
+          dark: "hsl(var(--steel-dark))",
+        },
+        chrome: "hsl(var(--chrome))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -95,10 +112,29 @@ export default {
             height: "0",
           },
         },
+        "metallic-shimmer": {
+          "0%": {
+            backgroundPosition: "-200% center",
+          },
+          "100%": {
+            backgroundPosition: "200% center",
+          },
+        },
+        "electric-pulse": {
+          "0%, 100%": {
+            boxShadow: "0 0 20px hsla(199, 100%, 55%, 0.4)",
+          },
+          "50%": {
+            boxShadow: "0 0 40px hsla(199, 100%, 55%, 0.8)",
+          },
+        },
       },
       animation: {
+        shimmer: "shimmer 3s ease-in-out infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "metallic-shimmer": "metallic-shimmer 8s ease-in-out infinite",
+        "electric-pulse": "electric-pulse 2s ease-in-out infinite",
       },
     },
   },

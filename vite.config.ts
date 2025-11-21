@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+import viteCompression from "vite-plugin-compression";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -9,7 +10,23 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
+  plugins: [
+    react(),
+    mode === "development" && componentTagger(),
+    // Per MKF_05: Brotli + Gzip compression for production
+    mode === "production" &&
+      viteCompression({
+        algorithm: "brotliCompress",
+        ext: ".br",
+        threshold: 1024, // Only compress files > 1KB
+      }),
+    mode === "production" &&
+      viteCompression({
+        algorithm: "gzip",
+        ext: ".gz",
+        threshold: 1024,
+      }),
+  ].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -20,8 +37,18 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'],
+          // Per MKF_05: Route-level code splitting
+          vendor: ['react', 'react-dom', 'react-router-dom'],
           ui: ['@radix-ui/react-dialog', '@radix-ui/react-toast', '@radix-ui/react-accordion'],
+          forms: ['react-hook-form', '@hookform/resolvers', 'zod'],
+          supabase: ['@supabase/supabase-js'],
+          charts: ['recharts'],
+          // Phase 2: Admin CRM bundle for prefetching
+          'admin-crm': [
+            './src/pages/admin/crm/Leads.tsx',
+            './src/pages/admin/crm/Quotes.tsx',
+            './src/pages/admin/crm/JobsList.tsx',
+          ].filter(Boolean),
         },
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name?.split('.') || [];

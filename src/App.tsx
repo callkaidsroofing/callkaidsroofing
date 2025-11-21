@@ -8,14 +8,17 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import ElegantLayout from "@/components/ElegantLayout";
 import { EnhancedCustomerChat } from "@/components/EnhancedCustomerChat";
+import { adminRoutes, adminRedirects } from '@/admin/routes/config';
 
 const Index = lazy(() => import("./pages/Index"));
+const Quote = lazy(() => import("./pages/Quote"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Gallery = lazy(() => import("./pages/Gallery"));
 const Emergency = lazy(() => import("./pages/Emergency"));
 const Warranty = lazy(() => import("./pages/Warranty"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const RoofRestoration = lazy(() => import("./pages/services/RoofRestoration"));
 const RoofPainting = lazy(() => import("./pages/services/RoofPainting"));
@@ -31,8 +34,10 @@ const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const ThankYou = lazy(() => import("./pages/ThankYou"));
 const Services = lazy(() => import("./pages/Services"));
+const Portfolio = lazy(() => import("./pages/Portfolio"));
 const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
 const SuburbDetail = lazy(() => import("./pages/SuburbDetail"));
+const SuburbPage = lazy(() => import("./pages/SuburbPage"));
 const RestorationLanding = lazy(() => import("./pages/RestorationLanding"));
 const RoofRestorationClydeNorth = lazy(() => import("./pages/services/suburbs/RoofRestorationClydeNorth"));
 const RoofRestorationCranbourne = lazy(() => import("./pages/services/suburbs/RoofRestorationCranbourne"));
@@ -46,7 +51,6 @@ const Auth = lazy(() => import("./pages/Auth"));
 const MFASetup = lazy(() => import("./pages/MFASetup"));
 const MFAVerify = lazy(() => import("./pages/MFAVerify"));
 const QuoteDocumentViewer = lazy(() => import("./pages/QuoteDocumentViewer"));
-const InternalHomeNew = lazy(() => import("./pages/InternalHomeNew"));
 const ImageGenerator = lazy(() => import("./pages/ImageGenerator"));
 const DocsHub = lazy(() => import("./pages/DocsHub"));
 const FormsStudio = lazy(() => import("./pages/FormsStudio"));
@@ -54,21 +58,26 @@ const FormSubmissions = lazy(() => import("./pages/FormSubmissions"));
 const FormView = lazy(() => import("./pages/FormView"));
 const DataHub = lazy(() => import("./pages/DataHub"));
 const MediaLibrary = lazy(() => import("./pages/MediaLibrary"));
-const MarketingStudio = lazy(() => import("./pages/MarketingStudio"));
-const LeadsPipeline = lazy(() => import("./pages/LeadsPipeline"));
-const LeadDetail = lazy(() => import("./pages/LeadDetail"));
-const QuoteBuilderNew = lazy(() => import("./pages/QuoteBuilderNew"));
-const InspectionBuilderNew = lazy(() => import("./pages/InspectionBuilderNew"));
-const JobsCalendar = lazy(() => import("./pages/JobsCalendar"));
-const LeadIntelligence = lazy(() => import("./pages/LeadIntelligence"));
-const ReportsAnalytics = lazy(() => import("./pages/ReportsAnalytics"));
-const AdminUserManagement = lazy(() => import("./pages/AdminUserManagement"));
-const KnowledgeManagement = lazy(() => import("./pages/KnowledgeManagement"));
-import { InternalLayoutNew } from "@/components/InternalLayoutNew";
+const AIAssistant = lazy(() => import("./pages/internal/v2/AIAssistant"));
+const StorageAdmin = lazy(() => import("./pages/internal/v2/admin/StorageAdmin"));
+const EmbeddingGenerator = lazy(() => import("./pages/internal/v2/admin/EmbeddingGenerator"));
+const KnowledgeUploader = lazy(() => import("./pages/internal/v2/admin/KnowledgeUploader"));
+const AdminHub = lazy(() => import("./pages/internal/v2/admin/AdminHub"));
+
+import { AdminLayout } from "@/components/AdminLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import ProtectedLayout from "@/components/ProtectedLayout";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      gcTime: 10 * 60 * 1000,
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const LoadingScreen = () => (
   <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-background">
@@ -91,6 +100,7 @@ function App() {
                 {/* Main site routes - with elegant layout */}
                   <Route path="/*" element={<ElegantLayout />}>
                     <Route index element={<Index />} />
+                    <Route path="quote" element={<Quote />} />
                     <Route path="about" element={<About />} />
                     <Route path="contact" element={<Contact />} />
                     <Route path="book" element={<BookingPage />} />
@@ -102,10 +112,12 @@ function App() {
                     <Route path="emergency" element={<Emergency />} />
                     <Route path="warranty" element={<Warranty />} />
                     <Route path="privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="terms-of-service" element={<TermsOfService />} />
                     <Route path="thank-you" element={<ThankYou />} />
                     <Route path="services" element={<Services />} />
                     <Route path="services/:slug" element={<ServiceDetail />} />
-                    <Route path="suburbs/:slug" element={<SuburbDetail />} />
+                    <Route path="portfolio" element={<Portfolio />} />
+                    <Route path="suburbs/:slug" element={<SuburbPage />} />
                     <Route path="services/roof-restoration" element={<RoofRestoration />} />
                     <Route path="services/roof-painting" element={<RoofPainting />} />
                     <Route path="services/roof-restoration-clyde-north" element={<RoofRestorationClydeNorth />} />
@@ -147,36 +159,30 @@ function App() {
                   } />
                   <Route path="/mfa-verify" element={<MFAVerify />} />
                   
-                  {/* NEW INTERNAL SYSTEM - with unified sidebar layout */}
-                  <Route path="/internal/v2" element={<ProtectedLayout />}>
-                    <Route element={<InternalLayoutNew />}>
-                      <Route index element={<Navigate to="/internal/v2/home" replace />} />
-                      <Route path="home" element={<InternalHomeNew />} />
-                      <Route path="docs" element={<DocsHub />} />
-                      <Route path="forms" element={<FormsStudio />} />
-                      <Route path="forms/:formId/submissions" element={<FormSubmissions />} />
-                      <Route path="data" element={<DataHub />} />
-                      <Route path="quote-documents" element={<QuoteDocumentViewer />} />
-                      <Route path="media" element={<MediaLibrary />} />
-                      <Route path="media/generator" element={<ImageGenerator />} />
-                      <Route path="marketing" element={<MarketingStudio />} />
-                      <Route path="leads" element={<LeadsPipeline />} />
-                      <Route path="leads/:id" element={<LeadDetail />} />
-                      <Route path="quotes/new" element={<QuoteBuilderNew />} />
-                      <Route path="inspections/new" element={<InspectionBuilderNew />} />
-                      <Route path="inspections/:id" element={<InspectionBuilderNew />} />
-                      <Route path="jobs" element={<JobsCalendar />} />
-                      <Route path="intelligence" element={<LeadIntelligence />} />
-                      <Route path="reports" element={<ReportsAnalytics />} />
-                      <Route path="admin/users" element={<AdminUserManagement />} />
-                      <Route path="admin/knowledge" element={<KnowledgeManagement />} />
+                  {/* CKR Admin Hub - Unified business management system */}
+                  <Route path="/admin" element={<ProtectedLayout />}>
+                    <Route element={<AdminLayout />}>
+                      {adminRoutes.map((route) =>
+                        route.path === '' ? (
+                          <Route key="admin-index" index element={route.element} />
+                        ) : (
+                          <Route key={route.path} path={route.path} element={route.element} />
+                        )
+                      )}
+
+                      {adminRedirects.map((redirect) => (
+                        <Route
+                          key={`redirect-${redirect.from}`}
+                          path={redirect.from}
+                          element={<Navigate to={`/admin/${redirect.to}`} replace />}
+                        />
+                      ))}
                     </Route>
                   </Route>
                   
-                  {/* Redirect old /internal routes to new v2 system */}
-                  <Route path="/internal/dashboard" element={<Navigate to="/internal/v2/home" replace />} />
-                  <Route path="/internal/home" element={<Navigate to="/internal/v2/home" replace />} />
-                  <Route path="/internal/*" element={<Navigate to="/internal/v2/home" replace />} />
+                  {/* Legacy redirects - old internal/v2 routes */}
+                  <Route path="/internal/v2/*" element={<Navigate to="/admin" replace />} />
+                  <Route path="/internal/*" element={<Navigate to="/admin" replace />} />
               </Routes>
             </Suspense>
           </BrowserRouter>

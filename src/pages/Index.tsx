@@ -1,427 +1,277 @@
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Phone, ArrowRight, CheckCircle, AlertTriangle, Star, Calendar } from 'lucide-react';
-import { SEOHead } from '@/components/SEOHead';
-import { StructuredData } from '@/components/StructuredData';
-import TrustIndicators from '@/components/TrustIndicators';
-import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
-import FeaturedGallery from '@/components/FeaturedGallery';
-import { OptimizedImage } from '@/components/OptimizedImage';
-import { FloatingIcons, SectionDivider, AccentPattern } from '@/components/DecorativeIcons';
-import { EnhancedServiceSection } from '@/components/EnhancedServiceSection';
-import QuickCaptureForm from '@/components/QuickCaptureForm';
-import NavigationFlowOptimizer from '@/components/NavigationFlowOptimizer';
-import StrategicCTAManager from '@/components/StrategicCTAManager';
-import PremiumCTASection from '@/components/PremiumCTASection';
-import { CaseStudyShowcase } from '@/components/CaseStudyShowcase';
-import CompactTestimonials from '@/components/CompactTestimonials';
-import CompactServiceAreas from '@/components/CompactServiceAreas';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import waterFlowAbstract from '/src/assets/water-flow-abstract.jpg';
+import { Shield, MapPin, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
+import { SEOHead } from "@/components/SEOHead";
+import { StickyMobileHeader } from "@/components/StickyMobileHeader";
+import { UtilityBar } from "@/components/UtilityBar";
+import { BeforeAfterCarousel } from "@/components/BeforeAfterCarousel";
+import GoogleBusinessProfile from "@/components/GoogleBusinessProfile";
+import ParallaxBackground from "@/components/ParallaxBackground";
+import { SectionWrapper, Container } from "@/components/ui/section-wrapper";
+import { HeroSection } from "@/components/ui/hero-section";
+import { CTASection } from "@/components/ui/cta-section";
+import { FeatureCard } from "@/components/ui/feature-card";
+import { HeroConversionForm } from "@/components/HeroConversionForm";
+import { TrustBar } from "@/components/TrustBar";
+import { HowItWorks } from "@/components/HowItWorks";
+import { TestimonialsSection } from "@/components/TestimonialsSection";
+import { GuaranteeSection } from "@/components/GuaranteeSection";
+import { FAQSection } from "@/components/FAQSection";
+import { SchemaMarkup } from "@/components/SchemaMarkup";
+import {
+  servicesData,
+  whyChooseUsData,
+  serviceAreasData,
+  finalCTAContent,
+} from "@/data/homepage-content";
 
 const Index = () => {
-  // Fetch featured services from Supabase
-  const { data: featuredServices } = useQuery({
-    queryKey: ['featured-services'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('content_services')
-        .select('*')
-        .eq('featured', true)
-        .order('display_order');
-      
-      if (error) throw error;
-      return data;
-    },
-    staleTime: 15 * 60 * 1000, // 15 minutes (matches Notion sync)
-  });
-
-  // Fallback services if DB query fails
-  const services = featuredServices?.length ? featuredServices.map(service => ({
-    title: service.name,
-    description: service.short_description || '',
-    benefits: service.features || [],
-    perfectFor: service.full_description?.split('\n')[0] || '',
-    href: `/services/${service.slug}`,
-  })) : [
-    {
-      title: "Roof Restoration",
-      description: "Stop leaks before they wreck your house. Complete overhaul with 15-year warranty.",
-      benefits: [
-        "Complete overhaul with 15-year warranty",
-        "Premium membrane that lasts 15+ years", 
-        "Looks like a brand new roof"
-      ],
-      perfectFor: "Berwick, Narre Warren, Clyde North - established suburbs where roofs are 15+ years old",
-      href: "/services/roof-restoration"
-    },
-    {
-      title: "Roof Painting", 
-      description: "Transform your home's look in 3 days with professional grade paints.",
-      benefits: [
-        "Dramatic transformation in 2-3 days",
-        "Energy savings through reflective coating",
-        "Premium paints designed for Melbourne weather"
-      ],
-      perfectFor: "Cranbourne, Point Cook, anywhere you want your house to stand out",
-      href: "/services/roof-painting"
-    },
-    {
-      title: "Emergency Repairs",
-      description: "Storm damage? I'll be there same day when Melbourne weather hits hard.",
-      benefits: [
-        "Same-day response for urgent issues",
-        "Temporary protection then permanent repair",
-        "Available 24/7 for genuine emergencies"
-      ],
-      perfectFor: "Anyone with active leaks, storm damage, or urgent situations",
-      href: "/services/roof-repairs",
-      isEmergency: true
-    }
-  ];
-
-  // Testimonials moved to compact component
-  // Service areas moved to compact component
-
   return (
-    <>
-      <SEOHead
-        title="Call Kaids Roofing | Roof Restorations Clyde North & SE Melbourne"
-        description="Local roofing experts in Clyde North. Roof restorations, painting, repairs & gutter cleaning with 15-year warranty. Call 0435 900 709 today."
-        keywords="roof restorations Clyde North, roof painting southeast Melbourne, gutter cleaning Clyde North, roof repairs Berwick"
-        ogImage="https://callkaidsroofing.com.au/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d-1200.jpg"
+    <div className="min-h-screen">
+      <SEOHead 
+        title="Call Kaids Roofing - SE Melbourne's Trusted Roofing Experts"
+        description="Professional roof restoration, repairs & painting in SE Melbourne. 15-year warranty, direct owner contact, 500+ roofs restored. Call 0435 900 709 for a free quote."
       />
-      <StructuredData type="homepage" />
-      <div className="page-transition">
-      {/* Hero Section - Professional & Proof-Driven */}
-      <section className="relative w-full min-h-screen flex items-center overflow-hidden bg-roofing-navy">
-        {/* Background Image */}
-        <OptimizedBackgroundSection
-          backgroundImage="/lovable-uploads/5eea137e-7ec4-407d-8452-faeea24c872f.png"
-          className="absolute inset-0 w-full h-full"
-          imageAlt="Professional roof restoration completed project"
-          priority
-          sizes="100vw"
-        >
-          {/* Gradient Overlay - vertical to avoid visual offset */}
-          <div className="absolute inset-0 bg-gradient-to-b from-roofing-navy/95 via-roofing-navy/90 to-roofing-navy/85" />
-        </OptimizedBackgroundSection>
+      <SchemaMarkup />
 
-        {/* Content */}
-        <div className="relative z-20 w-full px-4 py-28 sm:py-32">
-          <div className="mx-auto max-w-screen-md md:max-w-3xl lg:max-w-4xl text-center">
-            {/* Top Badge - KF_11 Trust Signal */}
-            <div className="flex justify-center mb-6">
-              <Badge className="bg-primary/20 border border-primary/40 text-primary-foreground backdrop-blur-sm px-6 py-2 text-sm font-semibold animate-pulse">
-                ⚡ Same-Day Emergency Response • 15-Year Warranty
-              </Badge>
+      <UtilityBar />
+      <StickyMobileHeader />
+      
+      <div>
+        {/* Hero Section with Conversion Form */}
+        <ParallaxBackground variant="hero" density="high">
+          <SectionWrapper
+            variant="hero"
+            background="gradient-dark"
+            className="text-primary-foreground relative"
+          >
+            {/* Multi-layer background depth */}
+            <div className="absolute inset-0 bg-gradient-to-br from-charcoal via-secondary to-charcoal" />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-conversion-orange/10" />
+            
+            {/* Animated metallic shimmer */}
+            <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:200%_100%] animate-shimmer" />
+            
+            {/* Dot pattern overlay */}
+            <div className="absolute inset-0 opacity-20">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(255,255,255,0.15)_1px,transparent_0)] bg-[length:50px_50px]" />
             </div>
+            
+            <Container className="relative z-10">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center min-h-[600px]">
+                {/* Left: Hero Content (7 columns on desktop) */}
+                <div className="lg:col-span-7 py-8">
+                  <div className="mb-8 space-y-4">
+                    {/* Huge Phone CTA - CSS Animation */}
+                    <a 
+                      href="tel:0435900709"
+                      className="inline-flex items-center gap-3 bg-gradient-to-r from-conversion-blue via-conversion-cyan to-conversion-blue hover:from-conversion-cyan hover:to-conversion-deep text-white px-8 py-5 rounded-2xl text-3xl sm:text-4xl font-black shadow-[0_10px_40px_rgba(41,179,255,0.5)] hover:shadow-[0_15px_50px_rgba(0,212,255,0.7)] transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 border-2 border-conversion-black/20 animate-fade-in"
+                    >
+                      <Phone className="h-10 w-10 animate-pulse" />
+                      <span>0435 900 709</span>
+                    </a>
+                    
+                    {/* Google Rating Badge - CSS Animation */}
+                    <div 
+                      className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-md px-5 py-3 rounded-2xl shadow-2xl lg:ml-4 border-2 border-primary/20 animate-fade-in"
+                      style={{ animationDelay: '300ms' }}
+                    >
+                      <span className="text-3xl">⭐</span>
+                      <div className="text-left">
+                        <div className="font-black text-roofing-navy text-base">Google Reviews</div>
+                        <div className="text-xs text-muted-foreground font-semibold">Verified Customers</div>
+                      </div>
+                    </div>
+                  </div>
 
-            {/* Main Headline - KF_11 3-Second Rule Optimized */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground text-center mb-6 leading-tight">
-              The Best Roof<br />
-              <span className="text-primary">Under the Sun</span>
-            </h1>
-
-            {/* Core Slogan - CKR Mandate */}
-            <p className="text-2xl md:text-3xl italic text-primary-foreground/95 text-center mb-4 font-serif">
-              *Proof In Every Roof*
-            </p>
-
-            {/* Subheadline - KF_11 David Persona Focus */}
-            <p className="text-lg md:text-xl text-primary-foreground/90 text-center max-w-2xl mx-auto mb-8 font-medium">
-              Professional roofing for Southeast Melbourne. No leaks. No lifting. Just quality backed by a <strong className="text-primary-foreground">15-year warranty</strong>.
-            </p>
-
-            {/* CTA Buttons - KF_11 Section 4.2: CTA Perfection */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button 
-                size="xl" 
-                variant="phone"
-                onClick={() => window.location.href = 'tel:0435900709'}
-                aria-label="Call Kaidyn directly for immediate assistance"
-              >
-                <Phone className="mr-2 h-5 w-5" />
-                Call Kaidyn: 0435 900 709
-              </Button>
-              <Button 
-                asChild
-                size="xl" 
-                variant="outline"
-              >
-                <Link to="/book">Get Free Roof Health Check</Link>
-              </Button>
-            </div>
-
-            {/* Trust Stats - KF_11 Section 5.2: Social Proof Integration */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-              <div className="bg-background/10 backdrop-blur-sm border border-primary/20 rounded-lg p-4 text-center hover:bg-background/20 transition-all">
-                <div className="flex justify-center mb-2">
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    ))}
+                  <HeroSection
+                    headline={
+                      <h1 
+                        className="text-5xl md:text-7xl font-black mb-6 leading-tight animate-fade-in"
+                      >
+                        Roof Looking <span className="text-conversion-cyan drop-shadow-[0_0_20px_rgba(0,212,255,0.6)]">Tired?</span> Leaking? Faded?
+                      </h1>
+                    }
+                    subheadline={
+                      <p 
+                        className="text-xl md:text-2xl font-semibold opacity-90 animate-fade-in"
+                        style={{ animationDelay: '200ms' }}
+                      >
+                        15-year warranty. Local owner. No sales teams.
+                      </p>
+                    }
+                  />
+                  
+                  {/* Urgency Message */}
+                  <div className="mt-8 backdrop-blur-md bg-gradient-to-r from-conversion-deep/40 via-conversion-blue/30 to-conversion-cyan/30 border-2 border-conversion-cyan/50 rounded-xl p-4 inline-block shadow-[0_0_30px_rgba(0,212,255,0.3)]">
+                    <p className="text-white font-bold text-base flex items-center gap-2">
+                      <span className="text-conversion-cyan text-xl animate-pulse">⚡</span>
+                      <span><span className="text-conversion-cyan">This Week:</span> Free $250 roof assessment with every quote</span>
+                    </p>
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-primary-foreground">4.9/5</div>
-                <div className="text-xs text-primary-foreground/80">200+ Reviews</div>
-              </div>
 
-              <div className="bg-background/10 backdrop-blur-sm border border-primary/20 rounded-lg p-4 text-center hover:bg-background/20 transition-all">
-                <CheckCircle className="h-8 w-8 text-primary mx-auto mb-2" />
-                <div className="text-2xl font-bold text-primary-foreground">15 Years</div>
-                <div className="text-xs text-primary-foreground/80">Warranty</div>
+                {/* Right: Conversion Form (5 columns on desktop) */}
+                <div className="lg:col-span-5 py-8">
+                  <div className="sticky top-24">
+                    <HeroConversionForm />
+                  </div>
+                </div>
               </div>
+            </Container>
+          </SectionWrapper>
+        </ParallaxBackground>
 
-              <div className="bg-background/10 backdrop-blur-sm border border-primary/20 rounded-lg p-4 text-center hover:bg-background/20 transition-all">
-                <CheckCircle className="h-8 w-8 text-primary mx-auto mb-2" />
-                <div className="text-2xl font-bold text-primary-foreground">500+</div>
-                <div className="text-xs text-primary-foreground/80">Happy Homes</div>
-              </div>
+        {/* Trust Bar - Stats Section */}
+        <TrustBar />
 
-              <div className="bg-background/10 backdrop-blur-sm border border-primary/20 rounded-lg p-4 text-center hover:bg-background/20 transition-all">
-                <CheckCircle className="h-8 w-8 text-primary mx-auto mb-2" />
-                <div className="text-2xl font-bold text-primary-foreground">100%</div>
-                <div className="text-xs text-primary-foreground/80">Insured</div>
-              </div>
+        {/* Why Choose Us - Moved up for better conversion */}
+        <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
+          <Container>
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-white">
+              Why Choose CKR?
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {whyChooseUsData.map((item, idx) => {
+                const IconComponent = {
+                  Shield,
+                  Phone,
+                  MapPin,
+                }[item.icon];
+
+                return (
+                  <div
+                    key={idx}
+                    className="backdrop-blur bg-white/10 border border-white/20 rounded-xl p-6 hover:shadow-lg hover:border-conversion-cyan/60 transition-all group"
+                  >
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform mb-4">
+                        {IconComponent && (
+                          <IconComponent className="h-8 w-8 text-white" />
+                        )}
+                      </div>
+                      <h3 className="font-bold text-lg mb-2 text-white group-hover:text-conversion-cyan transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-white/70 text-sm">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
+          </Container>
+        </SectionWrapper>
 
-            {/* Service Area Tag - KF_11 Transparency */}
-            <div className="text-center mt-8">
-              <p className="text-primary-foreground/70 text-sm">
-                📍 Proudly serving Clyde North, Berwick, Cranbourne, Pakenham & SE Melbourne • 50km radius
+        {/* Services Section */}
+        <ParallaxBackground variant="services" density="low">
+          <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
+            <Container>
+              <div className="text-center mb-6">
+                <h2 className="text-2xl md:text-3xl font-bold text-white">
+                  Services
+                </h2>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-4">
+                {servicesData.map((service) => (
+                  <FeatureCard
+                    key={service.id}
+                    icon={service.icon}
+                    title={service.title}
+                    description={service.benefit}
+                    price={service.price}
+                    link={service.link}
+                  />
+                ))}
+              </div>
+            </Container>
+          </SectionWrapper>
+        </ParallaxBackground>
+
+        {/* How It Works - Process Section */}
+        <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+          <HowItWorks />
+        </SectionWrapper>
+
+        {/* Before/After Proof Carousel */}
+        <ParallaxBackground variant="testimonials" density="medium">
+          <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+            <Container>
+              <div className="text-center mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white">
+                  Real Results
+                </h2>
+                <p className="text-white/70 text-lg">See the transformation</p>
+              </div>
+              <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-6 shadow-lg">
+                {/* CMS-Managed: Edit featured projects at /admin/cms/homepage */}
+                <BeforeAfterCarousel />
+              </div>
+            </Container>
+          </SectionWrapper>
+        </ParallaxBackground>
+
+        {/* Testimonials - Customer Reviews */}
+        <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+          <TestimonialsSection />
+        </SectionWrapper>
+
+        {/* Google Business Profile */}
+        <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
+          <Container size="sm">
+            <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-6 shadow-lg">
+              <GoogleBusinessProfile />
+            </div>
+          </Container>
+        </SectionWrapper>
+
+        {/* Guarantee Section */}
+        <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+          <GuaranteeSection />
+        </SectionWrapper>
+
+        {/* FAQ Section */}
+        <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+          <FAQSection />
+        </SectionWrapper>
+
+        {/* Service Areas */}
+        <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
+          <Container>
+            <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-6 shadow-lg">
+              <h2 className="text-xl md:text-2xl font-bold text-center mb-4 text-white">
+                SE Melbourne
+              </h2>
+              <div className="flex flex-wrap justify-center gap-2 mb-4">
+                {serviceAreasData.map((area) => (
+                  <span
+                    key={area}
+                    className="px-3 py-1.5 bg-white/10 border border-white/20 rounded-full text-xs text-white hover:border-conversion-cyan/60 hover:bg-white/20 transition-all"
+                  >
+                    {area}
+                  </span>
+                ))}
+              </div>
+              <p className="text-center text-white/70 text-sm">
+                <Link to="/quote" className="text-conversion-cyan hover:underline font-semibold">
+                  Get quote →
+                </Link>
               </p>
             </div>
-          </div>
-        </div>
-      </section>
+          </Container>
+        </SectionWrapper>
 
-      {/* Premium CTA Section - High Priority Placement */}
-      <PremiumCTASection variant="primary" showFullDetails={true} />
-
-      {/* Trust Indicators with Enhanced Blue Gradient */}
-      <div className="section-gradient py-16">
-        <TrustIndicators />
+        {/* Final CTA */}
+        <ParallaxBackground variant="cta" density="medium">
+          <CTASection
+            headline={finalCTAContent.headline}
+            description={finalCTAContent.description}
+          />
+        </ParallaxBackground>
       </div>
-
-      {/* Strategic Navigation Flow */}
-      <div className="container mx-auto px-4 py-8">
-        <NavigationFlowOptimizer showLocalNavigation={true} />
-      </div>
-
-      {/* Image Gallery with Blue Gradient Background */}
-      <div className="relative py-16 overflow-hidden card-gradient">
-        <div
-          className="absolute inset-0 opacity-30 mix-blend-overlay pointer-events-none"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 20% 20%, rgba(59,130,246,0.35), transparent 55%),' +
-              'radial-gradient(circle at 80% 5%, rgba(14,116,144,0.3), transparent 50%),' +
-              'radial-gradient(circle at 50% 85%, rgba(37,99,235,0.25), transparent 55%)',
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-[0.12] pointer-events-none"
-          style={{
-            backgroundImage:
-              'linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px),' +
-              'linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)',
-            backgroundSize: '120px 120px',
-          }}
-        />
-        <div className="relative z-10">
-          <FeaturedGallery />
-        </div>
-      </div>
-
-      {/* Quick Capture Form with Blue Gradient */}
-      <div className="section-gradient">
-        <QuickCaptureForm />
-      </div>
-
-      {/* Enhanced Services Section */}
-      <section className="relative py-16 overflow-hidden card-gradient">
-        <AccentPattern className="opacity-3" />
-        <div className="container mx-auto px-4">
-          <EnhancedServiceSection services={services} />
-          
-          {/* Strategic Links to Hidden Pages - Local SEO Optimized */}
-          <div className="mt-16 text-center">
-            <h3 className="text-2xl font-bold mb-8 text-primary">Complete Roofing Solutions for Southeast Melbourne</h3>
-            
-            {/* Suburb-Specific Service Links */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              <div className="bg-background/60 backdrop-blur-sm rounded-lg p-6 border border-primary/20">
-                <h4 className="text-lg font-semibold mb-4 text-primary">Popular Service Areas</h4>
-                <div className="space-y-2 text-left">
-                  <Link to="/services/roof-restoration-clyde-north" className="block text-sm hover:text-primary transition-colors">
-                    🏠 Roof Restoration Clyde North
-                  </Link>
-                  <Link to="/services/roof-restoration-berwick" className="block text-sm hover:text-primary transition-colors">
-                    🏠 Professional Roofing Berwick
-                  </Link>
-                  <Link to="/services/roof-painting-cranbourne" className="block text-sm hover:text-primary transition-colors">
-                    🎨 Roof Painting Cranbourne
-                  </Link>
-                  <Link to="/services/roof-restoration-pakenham" className="block text-sm hover:text-primary transition-colors">
-                    ⭐ Trusted Roofer Pakenham
-                  </Link>
-                  <Link to="/services/roof-painting-pakenham" className="block text-sm hover:text-primary transition-colors">
-                    🎨 Quality Roof Painting Pakenham
-                  </Link>
-                </div>
-              </div>
-              
-              <div className="bg-background/60 backdrop-blur-sm rounded-lg p-6 border border-primary/20">
-                <h4 className="text-lg font-semibold mb-4 text-primary">Specialist Services</h4>
-                <div className="space-y-2 text-left">
-                  <Link to="/services/leak-detection" className="block text-sm hover:text-primary transition-colors">
-                    🔍 Emergency Leak Detection
-                  </Link>
-                  <Link to="/services/valley-iron-replacement" className="block text-sm hover:text-primary transition-colors">
-                    🔧 Valley Iron Replacement
-                  </Link>
-                  <Link to="/services/tile-replacement" className="block text-sm hover:text-primary transition-colors">
-                    🧱 Broken Tile Replacement
-                  </Link>
-                  <Link to="/services/roof-repointing" className="block text-sm hover:text-primary transition-colors">
-                    🛠️ Ridge Cap Repointing
-                  </Link>
-                  <Link to="/services/gutter-cleaning" className="block text-sm hover:text-primary transition-colors">
-                    💧 Professional Gutter Cleaning
-                  </Link>
-                </div>
-              </div>
-              
-              <div className="bg-background/60 backdrop-blur-sm rounded-lg p-6 border border-primary/20">
-                <h4 className="text-lg font-semibold mb-4 text-primary">Customer Resources</h4>
-                <div className="space-y-2 text-left">
-                  <Link to="/warranty" className="block text-sm hover:text-primary transition-colors">
-                    🛡️ 15-Year Workmanship Warranty
-                  </Link>
-                  <Link to="/gallery" className="block text-sm hover:text-primary transition-colors">
-                    📸 Before & After Gallery
-                  </Link>
-                  <Link to="/blog" className="block text-sm hover:text-primary transition-colors">
-                    📚 Expert Roofing Guides
-                  </Link>
-                  <Link to="/emergency" className="block text-sm hover:text-primary transition-colors">
-                    🚨 Same-Day Emergency Repairs
-                  </Link>
-                  <Link to="/about" className="block text-sm hover:text-primary transition-colors">
-                    👨‍💼 Meet Kaidyn - Local Owner
-                  </Link>
-                </div>
-              </div>
-            </div>
-            
-            {/* Quick Action CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-                <Link to="/book">Book Free Roof Health Check</Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link to="/gallery">View Our Work Gallery</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Strategic CTA Management */}
-      <div className="container mx-auto px-4">
-        <StrategicCTAManager />
-      </div>
-
-      {/* Final CTA with Enhanced Blue Gradient */}
-      <section className="relative py-16 overflow-hidden cta-gradient text-primary-foreground">
-        <OptimizedImage
-          src={waterFlowAbstract}
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-overlay"
-          width={1920}
-          height={600}
-          sizes="100vw"
-        />
-        <div className="container mx-auto px-4 text-center space-y-6 relative z-10">
-          <div className="flex justify-center items-center gap-4 mb-4">
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-              ))}
-            </div>
-            <span className="text-lg font-semibold text-primary-foreground">Rated #1 in Southeast Melbourne</span>
-          </div>
-          
-          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground">
-            Ready to Get Your Roof Done Right?
-          </h2>
-          <p className="text-xl max-w-3xl mx-auto text-primary-foreground/90">
-            I'm booked 2-3 weeks out because quality spreads by word of mouth. 
-            Don't wait for a small leak to become a big expensive problem.
-          </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="text-center space-y-2">
-              <div className="text-3xl font-bold text-primary-foreground">2-3 Weeks</div>
-              <div className="text-sm text-primary-foreground/80">Next Available Slot</div>
-            </div>
-            <div className="text-center space-y-2">
-              <div className="text-3xl font-bold text-primary-foreground">Same Day</div>
-              <div className="text-sm text-primary-foreground/80">Emergency Response</div>
-            </div>
-            <div className="text-center space-y-2">
-              <div className="text-3xl font-bold text-primary-foreground">This Week</div>
-              <div className="text-sm text-primary-foreground/80">Free Inspections</div>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <p className="text-2xl font-semibold text-primary-foreground">
-              Get your free inspection before summer storms hit
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
-              <Button asChild variant="phone" size="xl" className="w-full sm:w-auto">
-                <a href="tel:0435900709" aria-label="Call Kaidyn directly">
-                  <Phone className="mr-2 h-5 w-5" />
-                  Call Kaidyn: 0435 900 709
-                </a>
-              </Button>
-              <Button asChild variant="outline" size="xl" className="w-full sm:w-auto">
-                <Link to="/book">Book Free Roof Health Check</Link>
-              </Button>
-            </div>
-
-            <p className="text-sm text-primary-foreground/80">
-              Direct line to the owner • No call centers • Text or call, I'll respond within 12 hours
-            </p>
-            
-            <div className="border-t border-primary-foreground/20 pt-4 mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-              <div className="text-sm text-primary-foreground">
-                <div className="font-semibold">15-Year</div>
-                <div className="text-primary-foreground/80">Warranty</div>
-              </div>
-              <div className="text-sm text-primary-foreground">
-                <div className="font-semibold">Premium</div>
-                <div className="text-primary-foreground/80">Materials</div>
-              </div>
-              <div className="text-sm text-primary-foreground">
-                <div className="font-semibold">Local</div>
-                <div className="text-primary-foreground/80">Owner</div>
-              </div>
-              <div className="text-sm text-primary-foreground">
-                <div className="font-semibold">200+</div>
-                <div className="text-primary-foreground/80">Happy Customers</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      </div>
-    </>
+    </div>
   );
 };
 

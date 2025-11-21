@@ -1,0 +1,37 @@
+{
+  "roles": {
+    "admin": [
+      "BRAND_GUIDE.md",
+      "GOVERNANCE.md",
+      "WARRANTY_POLICY.md"
+    ],
+    "inspector": [
+      "WARRANTY_POLICY.md",
+      "BRAND_GUIDE.md"
+    ],
+    "sales": [
+      "BRAND_GUIDE.md",
+      "WARRANTY_POLICY.md"
+    ]
+  },
+  "gwa_links": {
+    "GWA-03": [
+      "WARRANTY_POLICY.md"
+    ],
+    "GWA-07": [
+      "BRAND_GUIDE.md"
+    ],
+    "GWA-09": [
+      "BRAND_GUIDE.md"
+    ],
+    "GWA-11": [
+      "GOVERNANCE.md"
+    ],
+    "GWA-12": [
+      "GOVERNANCE.md"
+    ],
+    "GWA-13": [
+      "BRAND_GUIDE.md"
+    ]
+  }
+}

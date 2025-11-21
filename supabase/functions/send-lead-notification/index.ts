@@ -1,8 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { Resend } from "npm:resend@2.0.0";
-
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -189,7 +186,31 @@ const handler = async (req: Request): Promise<Response> => {
     const leadReference = `LEAD-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
     const submittedAt = new Date().toISOString();
 
-    console.log("Processing lead (not storing in database):", { leadReference, name: sanitizedData.name, service: sanitizedData.service });
+    console.log("Storing lead in CRM database:", { leadReference, name: sanitizedData.name, service: sanitizedData.service });
+
+    // Save lead to CRM database
+    const { data: lead, error: leadInsertError } = await supabase
+      .from('leads')
+      .insert({
+        name: sanitizedData.name,
+        phone: sanitizedData.phone,
+        email: sanitizedData.email || null,
+        suburb: sanitizedData.suburb,
+        service: sanitizedData.service,
+        message: sanitizedData.message || null,
+        status: 'new',
+        source: sanitizedData.source,
+        urgency: sanitizedData.urgency || null,
+      })
+      .select()
+      .single();
+
+    if (leadInsertError) {
+      console.error("Error inserting lead into CRM:", leadInsertError);
+      // Continue anyway - email notification is still valuable
+    } else {
+      console.log("Lead saved to CRM with ID:", lead.id);
+    }
 
     // Send notification email to business owner (using sanitized data)
     const ownerEmailResponse = await resend.emails.send({

@@ -39,8 +39,8 @@ export const ElegantLayout = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 w-full max-w-full overflow-x-hidden">
-        {/* Page Content - Reduced top spacing on mobile */}
-        <main className="pt-16 md:pt-20 min-h-screen w-full max-w-full">
+        {/* Page Content - No top padding, sections control their own spacing */}
+        <main className="min-h-screen w-full max-w-full">
           <Outlet />
         </main>
 

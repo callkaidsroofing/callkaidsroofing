@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,6 +11,12 @@ import { formatDistanceToNow } from 'date-fns';
 import { LeadDetailDrawer } from '@/components/LeadDetailDrawer';
 import { LeadBulkActions } from '@/components/LeadBulkActions';
 import { LeadFilters, LeadFilterState } from '@/components/LeadFilters';
+import {
+  PIPELINE_STAGES,
+  buildQuoteBuilderPath,
+  fetchPipelineLeads,
+  updateLeadStage,
+} from '@/admin/services/pipeline';
 
 interface Lead {
   id: string;
@@ -28,15 +33,6 @@ interface Lead {
   created_at: string;
   updated_at: string;
 }
-
-const stages = [
-  { id: 'new', title: 'New', color: 'bg-blue-500/10 text-blue-500' },
-  { id: 'contacted', title: 'Contacted', color: 'bg-purple-500/10 text-purple-500' },
-  { id: 'qualified', title: 'Qualified', color: 'bg-green-500/10 text-green-500' },
-  { id: 'quoted', title: 'Quoted', color: 'bg-yellow-500/10 text-yellow-500' },
-  { id: 'won', title: 'Won', color: 'bg-emerald-500/10 text-emerald-500' },
-  { id: 'lost', title: 'Lost', color: 'bg-red-500/10 text-red-500' },
-];
 
 export default function LeadsPipeline() {
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -64,49 +60,8 @@ export default function LeadsPipeline() {
   const fetchLeads = async () => {
     try {
       setLoading(true);
-      console.log('🔍 Fetching leads with filters:', filters);
-      
-      let query = supabase
-        .from('leads')
-        .select('*')
-        .eq('merge_status', 'active')
-        .order('created_at', { ascending: false });
-
-      // Apply filters only if they have non-empty values
-      if (filters.status && filters.status !== '' && filters.status !== 'all') {
-        console.log('Applying status filter:', filters.status);
-        query = query.eq('status', filters.status);
-      }
-      if (filters.service && filters.service !== '' && filters.service !== 'all') {
-        console.log('Applying service filter:', filters.service);
-        query = query.eq('service', filters.service);
-      }
-      if (filters.source && filters.source !== '' && filters.source !== 'all') {
-        console.log('Applying source filter:', filters.source);
-        query = query.eq('source', filters.source);
-      }
-      if (filters.suburb && filters.suburb !== '') {
-        console.log('Applying suburb filter:', filters.suburb);
-        query = query.ilike('suburb', `%${filters.suburb}%`);
-      }
-      if (filters.dateFrom && filters.dateFrom !== '') {
-        console.log('Applying dateFrom filter:', filters.dateFrom);
-        query = query.gte('created_at', filters.dateFrom);
-      }
-      if (filters.dateTo && filters.dateTo !== '') {
-        console.log('Applying dateTo filter:', filters.dateTo);
-        query = query.lte('created_at', filters.dateTo);
-      }
-
-      const { data, error } = await query;
-
-      if (error) {
-        console.error('❌ Supabase error:', error);
-        throw error;
-      }
-
-      console.log('✅ Fetched leads:', data?.length || 0, 'leads');
-      setLeads((data || []) as Lead[]);
+      const results = await fetchPipelineLeads(filters);
+      setLeads(results as Lead[]);
     } catch (error: any) {
       console.error('❌ Error fetching leads:', error);
       toast({
@@ -132,25 +87,13 @@ export default function LeadsPipeline() {
     if (!draggedLead) return;
 
     try {
-      const { error } = await supabase
-        .from('leads')
-        .update({ status: newStage, updated_at: new Date().toISOString() })
-        .eq('id', draggedLead.id);
-
-      if (error) throw error;
+      await updateLeadStage(draggedLead.id, newStage);
 
       setLeads((prevLeads) =>
         prevLeads.map((lead) =>
           lead.id === draggedLead.id ? { ...lead, status: newStage } : lead
         )
       );
-
-      // Log activity
-      await supabase.from('lead_notes').insert({
-        lead_id: draggedLead.id,
-        note_type: 'status_change',
-        content: `Status changed to ${newStage}`,
-      });
 
       toast({
         title: 'Success',
@@ -175,18 +118,11 @@ export default function LeadsPipeline() {
 
   const handleConvertToQuote = (lead: Lead, e: React.MouseEvent) => {
     e.stopPropagation();
-    navigate('/internal/v2/quotes/new', {
-      state: {
-        fromLead: true,
-        leadData: {
-          clientName: lead.name,
-          phone: lead.phone,
-          email: lead.email || '',
-          suburb: lead.suburb,
-          service: lead.service,
-          message: lead.message || '',
-        },
-      },
+    navigate(buildQuoteBuilderPath(lead.id));
+
+    toast({
+      title: 'Opening quote builder',
+      description: 'Pipeline will update after the quote is saved.',
     });
   };
 
@@ -272,7 +208,7 @@ export default function LeadsPipeline() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-            {stages.map((stage) => {
+            {PIPELINE_STAGES.map((stage) => {
               const stageLeads = getLeadsByStage(stage.id);
               const allStageSelected =
                 stageLeads.length > 0 && stageLeads.every((l) => selectedLeads.includes(l.id));
@@ -286,7 +222,7 @@ export default function LeadsPipeline() {
                 >
                   {/* Stage Header */}
                   <div
-                    className={`p-3 rounded-lg ${stage.color} font-semibold flex items-center justify-between border`}
+                    className={`p-3 rounded-lg ${stage.badgeClass} font-semibold flex items-center justify-between border`}
                   >
                     <div className="flex items-center gap-2">
                       <Checkbox
@@ -294,7 +230,14 @@ export default function LeadsPipeline() {
                         onCheckedChange={(e) => handleSelectAll(stage.id, e as any)}
                         onClick={(e) => e.stopPropagation()}
                       />
-                      <span>{stage.title}</span>
+                      <div className="flex flex-col">
+                        <span>{stage.title}</span>
+                        {stage.description && (
+                          <span className="text-xs font-normal text-muted-foreground">
+                            {stage.description}
+                          </span>
+                        )}
+                      </div>
                     </div>
                     <Badge variant="secondary" className="bg-background/50">
                       {stageLeads.length}

@@ -1,15 +1,21 @@
-import React from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { CheckCircle, Phone, Mail, Clock, Shield } from "lucide-react";
 import { SEOHead } from "@/components/SEOHead";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { trackLead } from "@/lib/meta-pixel-events";
 
 export default function ThankYou() {
+  // Track Meta Pixel Lead conversion on page load
+  useEffect(() => {
+    trackLead(1, 'AUD');
+  }, []);
+
   return (
     <>
-      <SEOHead 
+      <SEOHead
         title="Thank You For Your Enquiry | Call Kaids Roofing"
         description="Thank you for contacting Call Kaids Roofing. We'll respond within 12 hours with your free roofing quote for Southeast Melbourne. Kaidyn Brownlie will personally review your request."
         keywords="Call Kaids Roofing, roofing quote Melbourne, thank you, Clyde North roofer, Southeast Melbourne roofing"
@@ -17,6 +23,7 @@ export default function ThankYou() {
       />
       
       <Helmet>
+        <meta name="robots" content="noindex" />
         <script>
           {`gtag('event', 'conversion', {'send_to': 'AW-17540375809/x6HSCIrwsqobEIHK86tB'});`}
         </script>

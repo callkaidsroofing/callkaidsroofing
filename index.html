@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://callkaidsroofing.com.au/" />
     
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://vlnkzpyeppfdmresiaoh.supabase.co https://www.google-analytics.com https://analytics.google.com https://connect.facebook.net; frame-src 'self' https://js.stripe.com; object-src 'none'; base-uri 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://js.stripe.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://vlnkzpyeppfdmresiaoh.supabase.co https://www.google-analytics.com https://analytics.google.com https://connect.facebook.net; frame-src 'self' https://js.stripe.com; object-src 'none'; base-uri 'self';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
@@ -75,6 +75,21 @@
       gtag('config', 'G-LRGSL4C9YL');
     </script>
 
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '2205976916537050');
+      fbq('track', 'PageView');
+    </script>
+    <!-- End Meta Pixel Code -->
+
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Call Kaids Roofing | Professional Roof Services Melbourne" />
     <meta property="og:description" content="Professional roofing services in Melbourne. Roof restoration, painting, emergency repairs with 10-year warranty. Call 0435 900 709." />
@@ -140,7 +155,17 @@
   </head>
 
   <body>
+    <!-- Meta Pixel Noscript Fallback -->
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=2205976916537050&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Noscript -->
     <div id="root"></div>
+    <!-- html2pdf.js for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" 
+            integrity="sha512-YcsIPGdhZzVYvIfln6t8FG1n8HPtQ2r2MNwG5aKpTF+tKbn1q1DfR2IfU9wQpV3p7RbB8qk2aIHP3pO4ITyvwQ==" 
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

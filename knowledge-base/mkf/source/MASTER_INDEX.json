@@ -1,0 +1,162 @@
+{
+  "version": "1.0.0",
+  "updated": "2025-11-10",
+  "docs": [
+    {
+      "id": "MKF_00",
+      "title": "System Meta & Governance Doctrine",
+      "path": "01_System_Governance/MKF_00.md",
+      "type": "policy"
+    },
+    {
+      "id": "CKR_GEM_PERSONA",
+      "title": "CKR-GEM Persona Extract",
+      "path": "01_System_Governance/CKR_GEM_Persona_Extract.md",
+      "type": "policy"
+    },
+    {
+      "id": "CKR_SYSTEM_RULES",
+      "title": "CKR System Rules (Agentic Workers)",
+      "path": "01_System_Governance/CKR_System_Rules.md",
+      "type": "policy"
+    },
+    {
+      "id": "MKF_01",
+      "title": "Brand & Voice Mandate",
+      "path": "02_Brand_Voice/MKF_01.md",
+      "type": "style"
+    },
+    {
+      "id": "MKF_02",
+      "title": "Web Design System (Lovable-native)",
+      "path": "03_Operations_SOPs/MKF_02.md",
+      "type": "dev"
+    },
+    {
+      "id": "MKF_03",
+      "title": "SEO Keyword Matrix",
+      "path": "03_Operations_SOPs/MKF_03.md",
+      "type": "seo"
+    },
+    {
+      "id": "MKF_04",
+      "title": "Service Catalog & SOPs",
+      "path": "03_Operations_SOPs/MKF_04.md",
+      "type": "ops"
+    },
+    {
+      "id": "MKF_05",
+      "title": "Pricing Rate Cards & Formulas",
+      "path": "03_Operations_SOPs/MKF_05.md",
+      "type": "ops"
+    },
+    {
+      "id": "MKF_06",
+      "title": "Sales Templates & Email Scripts",
+      "path": "03_Operations_SOPs/MKF_06.md",
+      "type": "content"
+    },
+    {
+      "id": "MKF_07",
+      "title": "System Integration Map",
+      "path": "04_Marketing_Content/MKF_07.md",
+      "type": "ops"
+    },
+    {
+      "id": "MKF_08",
+      "title": "Suburb Coverage Areas",
+      "path": "05_Service_Areas/MKF_08.md",
+      "type": "data"
+    },
+    {
+      "id": "GWA_01",
+      "title": "Workflow: Lead Intake",
+      "path": "06_Workflows/GWA_01_Lead_Intake.md",
+      "type": "gwa"
+    },
+    {
+      "id": "GWA_02",
+      "title": "Workflow: Job Activation",
+      "path": "06_Workflows/GWA_02_Job_Activation.md",
+      "type": "gwa"
+    },
+    {
+      "id": "GWA_03",
+      "title": "Workflow: Project Closeout",
+      "path": "06_Workflows/GWA_03_Project_Closeout.md",
+      "type": "gwa"
+    },
+    {
+      "id": "GWA_04",
+      "title": "Workflow: Warranty Intake",
+      "path": "06_Workflows/GWA_04_Warranty_Intake.md",
+      "type": "gwa"
+    },
+    {
+      "id": "GWA_05",
+      "title": "Workflow: Reputation Alert",
+      "path": "06_Workflows/GWA_05_Reputation_Alert.md",
+      "type": "gwa"
+    },
+    {
+      "id": "GWA_06",
+      "title": "Workflow: Quote Followup",
+      "path": "06_Workflows/GWA_06_Quote_Followup.md",
+      "type": "gwa"
+    },
+    {
+      "id": "GWA_07",
+      "title": "Workflow: Case Study Drafting",
+      "path": "06_Workflows/GWA_07_Case_Study_Drafting.md",
+      "type": "gwa"
+    },
+    {
+      "id": "GWA_08",
+      "title": "Workflow: Subcontractor Briefing",
+      "path": "06_Workflows/GWA_08_Subcontractor_Briefing.md",
+      "type": "gwa"
+    },
+    {
+      "id": "GWA_09",
+      "title": "Workflow: Marketing Generation",
+      "path": "06_Workflows/GWA_09_Marketing_Generation.md",
+      "type": "gwa"
+    },
+    {
+      "id": "GWA_10",
+      "title": "Workflow: Financial Reporting",
+      "path": "06_Workflows/GWA_10_Financial_Reporting.md",
+      "type": "gwa"
+    },
+    {
+      "id": "GWA_11",
+      "title": "Workflow: SOP Risk Assessment",
+      "path": "06_Workflows/GWA_11_SOP_Risk_Assessment.md",
+      "type": "gwa"
+    },
+    {
+      "id": "GWA_12",
+      "title": "Workflow: Intelligent Triage",
+      "path": "06_Workflows/GWA_12_Intelligent_Triage.md",
+      "type": "gwa"
+    },
+    {
+      "id": "GWA_13",
+      "title": "Workflow: Lead Nurture",
+      "path": "06_Workflows/GWA_13_Lead_Nurture.md",
+      "type": "gwa"
+    },
+    {
+      "id": "GWA_14",
+      "title": "Workflow: Systems Orchestrator",
+      "path": "06_Workflows/GWA_14_Systems_Orchestrator.md",
+      "type": "gwa"
+    }
+  ],
+  "embedding": {
+    "chunk_size_chars": 1200,
+    "chunk_overlap_chars": 150,
+    "metadata_fields": ["doc_id", "title", "category", "section"],
+    "stop_sections": ["References", "Changelog", "Appendix"]
+  }
+}
