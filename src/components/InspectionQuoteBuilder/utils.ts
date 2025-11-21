@@ -196,6 +196,8 @@ export function transformQuoteToSupabase(
       lead_name: leadContext?.name,
       lead_suburb: leadContext?.suburb,
       lead_service: leadContext?.service,
+      lead_phone: leadContext?.phone,
+      lead_email: leadContext?.email,
     },
     pricing: {
       markup_default: 30,
@@ -211,12 +213,6 @@ export function transformQuoteToSupabase(
     created_at: existingQuote?.created_at ?? now,
     updated_at: now,
     sent_at: existingQuote?.sent_at ?? null,
-    export_metadata: {
-      ...(existingQuote as Record<string, any>)?.export_metadata,
-      lead_id: leadContext?.id,
-      lead_name: leadContext?.name,
-      last_saved_at: now,
-    },
   };
 }
 

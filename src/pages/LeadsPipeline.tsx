@@ -15,7 +15,6 @@ import {
   PIPELINE_STAGES,
   buildQuoteBuilderPath,
   fetchPipelineLeads,
-  noteLeadQuoteLink,
   updateLeadStage,
 } from '@/admin/services/pipeline';
 
@@ -121,12 +120,10 @@ export default function LeadsPipeline() {
     e.stopPropagation();
     navigate(buildQuoteBuilderPath(lead.id));
 
-    // Optimistically mark as quoted and log linkage for downstream traceability
-    updateLeadStage(lead.id, 'quoted')
-      .then(() => noteLeadQuoteLink(lead.id, { inspectionId: null, quoteId: null }))
-      .catch((error) => {
-        console.error('Failed to mark lead as quoted:', error);
-      });
+    toast({
+      title: 'Opening quote builder',
+      description: 'Pipeline will update after the quote is saved.',
+    });
   };
 
   const handleToggleSelectLead = (leadId: string, e: React.MouseEvent) => {

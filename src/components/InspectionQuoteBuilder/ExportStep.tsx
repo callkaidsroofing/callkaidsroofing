@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 import { InspectionData, QuoteData, ScopeItem, COMPANY_CONFIG, LeadContext } from './types';
 import { validateEmailSend } from './validation';
 import { formatCurrency, formatDate, calculateTotalPricing } from './utils';
@@ -31,6 +32,41 @@ export function ExportStep({
 
   const totals = calculateTotalPricing(scopeItems);
   const recipientEmail = inspectionData.email || leadContext?.email || '';
+  const recipientName = inspectionData.client_name || leadContext?.name || '';
+  const canSendClient = Boolean(recipientEmail);
+
+  const recordSendAttempt = async (
+    recipients: string[],
+    status: 'sent' | 'failed',
+    error?: string
+  ) => {
+    if (!quoteId) return;
+
+    try {
+      const { data: existing } = await supabase
+        .from('quotes')
+        .select('scope')
+        .eq('id', quoteId)
+        .single();
+
+      const scopeMeta = ((existing?.scope as Record<string, any>) || {}) as Record<string, any>;
+      const sendLog = Array.isArray(scopeMeta.send_log) ? scopeMeta.send_log : [];
+
+      sendLog.push({
+        at: new Date().toISOString(),
+        recipients,
+        status,
+        error,
+      });
+
+      await supabase
+        .from('quotes')
+        .update({ scope: { ...scopeMeta, send_log: sendLog } })
+        .eq('id', quoteId);
+    } catch (logError) {
+      console.error('Failed to record email send attempt', logError);
+    }
+  };
 
   const handleExportPDF = async () => {
     try {
@@ -83,11 +119,11 @@ export function ExportStep({
     }
   };
 
-  const handleSendEmail = async () => {
-    const recipientName = inspectionData.client_name || leadContext?.name || '';
+  const handleSendEmail = async (sendOwnerOnly = false) => {
+    const validation = sendOwnerOnly
+      ? { valid: true }
+      : validateEmailSend(recipientEmail, recipientName);
 
-    // Validate email before sending
-    const validation = validateEmailSend(recipientEmail, recipientName);
     if (!validation.valid) {
       toast({
         title: 'Validation Error',
@@ -97,13 +133,17 @@ export function ExportStep({
       return;
     }
 
+    const recipients = sendOwnerOnly
+      ? ['owner']
+      : [recipientEmail].filter(Boolean) as string[];
+
     try {
       setIsSending(true);
 
       await sendQuoteExportEmails({
         quoteId,
         inspectionId,
-        clientEmail: recipientEmail,
+        clientEmail: sendOwnerOnly ? null : recipientEmail,
         clientName: recipientName,
         ccOwner: true,
         leadContext: leadContext
@@ -116,12 +156,16 @@ export function ExportStep({
               service: leadContext.service,
             }
           : undefined,
+        sendOwnerOnly,
       });
 
       toast({
         title: 'Email Sent',
-        description: `Quote sent successfully to ${recipientEmail}`,
+        description: sendOwnerOnly
+          ? 'Internal copy sent'
+          : `Quote sent successfully to ${recipientEmail}`,
       });
+      await recordSendAttempt(recipients, 'sent');
     } catch (error) {
       console.error('Email send error:', error);
       toast({
@@ -129,6 +173,11 @@ export function ExportStep({
         description: 'Failed to send email',
         variant: 'destructive',
       });
+      await recordSendAttempt(
+        recipients.length ? recipients : ['owner'],
+        'failed',
+        (error as { message?: string })?.message
+      );
     } finally {
       setIsSending(false);
     }
@@ -151,18 +200,46 @@ export function ExportStep({
             <FileDown className="w-4 h-4 mr-2" />
             {isExporting ? 'Exporting...' : 'Export as PDF'}
           </Button>
-          {recipientEmail && (
+          <Button
+            variant="outline"
+            onClick={() => handleSendEmail(false)}
+            disabled={isSending || !canSendClient}
+          >
+            <Mail className="w-4 h-4 mr-2" />
+            {isSending
+              ? 'Sending...'
+              : canSendClient
+              ? `Send to ${recipientEmail}`
+              : 'Add client email to send'}
+          </Button>
+          {!canSendClient && (
             <Button
-              variant="outline"
-              onClick={handleSendEmail}
+              variant="secondary"
+              onClick={() => handleSendEmail(true)}
               disabled={isSending}
             >
               <Mail className="w-4 h-4 mr-2" />
-              {isSending ? 'Sending...' : `Send to ${recipientEmail}`}
+              {isSending ? 'Sending...' : 'Send internal copy'}
             </Button>
           )}
         </div>
       </Card>
+
+      {leadContext && (
+        <Card className="p-4 bg-muted">
+          <div className="flex flex-col gap-1 text-sm">
+            <div className="font-semibold">Linked lead</div>
+            <div>{leadContext.name}</div>
+            <div className="text-muted-foreground">
+              {leadContext.phone || 'Phone not provided'} • {leadContext.email || 'Email not provided'}
+            </div>
+            <div className="text-muted-foreground">
+              {leadContext.suburb || 'Suburb unknown'}
+              {leadContext.service ? ` • ${leadContext.service}` : ''}
+            </div>
+          </div>
+        </Card>
+      )}
 
       {/* Status */}
       <Card className="p-4 bg-green-50 border-green-200">

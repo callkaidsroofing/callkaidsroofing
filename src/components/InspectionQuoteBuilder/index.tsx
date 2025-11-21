@@ -135,6 +135,11 @@ export function InspectionQuoteBuilder() {
         email: current.email || data.email || '',
         suburb: current.suburb || data.suburb || '',
       }));
+
+      setQuoteData((current) => ({
+        ...current,
+        primary_service: current.primary_service || data.service || '',
+      }));
     } catch (error) {
       console.error('Error loading lead context:', error);
       toast({
@@ -182,13 +187,17 @@ export function InspectionQuoteBuilder() {
           setQuoteId(quote.id!);
           setExistingQuote(quote);
           const scope = (quote.scope as Record<string, string>) || {};
-          if (scope.lead_id || scope.lead_name) {
+          const leadIdFromMeta = scope.lead_id;
+          const leadNameFromMeta = scope.lead_name;
+
+          if (leadIdFromMeta || leadNameFromMeta) {
             setLeadContext({
-              id: scope.lead_id,
-              name: scope.lead_name,
+              id: leadIdFromMeta,
+              name: leadNameFromMeta,
               suburb: scope.lead_suburb,
               service: scope.lead_service,
-              email: quote.email || inspectionData.email,
+              email: quote.email || scope.lead_email || inspectionData.email,
+              phone: scope.lead_phone,
             });
           }
           setQuoteData(current => ({

@@ -16,6 +16,7 @@ export interface QuoteEmailPayload {
   clientName?: string | null;
   ccOwner?: boolean;
   leadContext?: LeadNotificationPayload;
+  sendOwnerOnly?: boolean;
 }
 
 export async function sendLeadNotification(payload: LeadNotificationPayload) {
@@ -37,6 +38,7 @@ export async function sendQuoteExportEmails({
   clientName,
   ccOwner = true,
   leadContext,
+  sendOwnerOnly = false,
 }: QuoteEmailPayload) {
   const { data, error } = await supabase.functions.invoke('send-quote-email', {
     body: {
@@ -47,6 +49,7 @@ export async function sendQuoteExportEmails({
       includeAttachment: true,
       ccOwner,
       leadContext,
+      sendOwnerOnly,
     },
   });
 

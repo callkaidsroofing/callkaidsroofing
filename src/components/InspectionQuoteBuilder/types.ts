@@ -135,6 +135,4 @@ export interface QuoteRow {
 
 export type QuoteInsert = Database['public']['Tables']['quotes']['Insert'];
 export type QuoteRowGenerated = Database['public']['Tables']['quotes']['Row'];
-export type QuoteInsertWithMeta = QuoteInsert & {
-  export_metadata?: Record<string, unknown> | null;
-};
+export type QuoteInsertWithMeta = QuoteInsert;
