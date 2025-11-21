@@ -1,12 +1,22 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { InspectionData, QuoteData, ScopeItem, COMPANY_CONFIG } from './types';
 import { validateEmailSend } from './validation';
 import { formatCurrency, formatDate, calculateTotalPricing } from './utils';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { FileDown, Mail, CheckCircle } from 'lucide-react';
+import { FileDown, Mail, CheckCircle, Eye, Send } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 interface ExportStepProps {
   inspectionData: InspectionData;
@@ -28,6 +38,15 @@ export function ExportStep({
   const { toast } = useToast();
   const [isExporting, setIsExporting] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [showEmailDialog, setShowEmailDialog] = useState(false);
+  const [showPdfPreview, setShowPdfPreview] = useState(false);
+  const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
+  const [emailForm, setEmailForm] = useState({
+    to: inspectionData.email || '',
+    subject: '',
+    message: '',
+  });
+  const pdfContentRef = useRef<HTMLDivElement>(null);
 
   const ownerEmail =
     import.meta.env.VITE_OWNER_EMAIL || 'callkaidsroofing@outlook.com';
@@ -42,10 +61,8 @@ export function ExportStep({
 
   const totals = calculateTotalPricing(scopeItems);
 
-  const handleExportPDF = async () => {
+  const generatePDFBlob = async (): Promise<Blob | null> => {
     try {
-      setIsExporting(true);
-
       // Check if html2pdf is available
       if (typeof window === 'undefined' || !(window as any).html2pdf) {
         toast({
@@ -53,18 +70,17 @@ export function ExportStep({
           description: 'PDF library not loaded. Please refresh the page.',
           variant: 'destructive',
         });
-        return;
+        return null;
       }
 
-      // Create PDF content
-      const element = document.getElementById('pdf-content');
+      const element = pdfContentRef.current;
       if (!element) {
         toast({
           title: 'Error',
           description: 'PDF content not found',
           variant: 'destructive',
         });
-        return;
+        return null;
       }
 
       const opt = {
@@ -75,7 +91,35 @@ export function ExportStep({
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       };
 
-      await (window as any).html2pdf().set(opt).from(element).save();
+      const pdf = await (window as any).html2pdf().set(opt).from(element).output('blob');
+      return pdf;
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      return null;
+    }
+  };
+
+  const handleExportPDF = async () => {
+    try {
+      setIsExporting(true);
+      const blob = await generatePDFBlob();
+      
+      if (!blob) {
+        toast({
+          title: 'Error',
+          description: 'Failed to generate PDF',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      // Download PDF
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `CKR-Quote-${inspectionData.client_name.replace(/\s+/g, '-')}.pdf`;
+      link.click();
+      URL.revokeObjectURL(url);
 
       toast({
         title: 'Success',
@@ -93,12 +137,45 @@ export function ExportStep({
     }
   };
 
-  const handleSendEmail = async (sendOwnerOnly = false) => {
-    const recipientEmail = sendOwnerOnly
-      ? ownerEmail
-      : (inspectionData.email || '').trim();
-    const recipientName = sendOwnerOnly ? 'Kaidyn Brownlie' : inspectionData.client_name;
+  const handlePreviewPDF = async () => {
+    try {
+      setIsExporting(true);
+      const blob = await generatePDFBlob();
+      
+      if (!blob) {
+        toast({
+          title: 'Error',
+          description: 'Failed to generate PDF preview',
+          variant: 'destructive',
+        });
+        return;
+      }
 
+      setPdfBlob(blob);
+      setShowPdfPreview(true);
+    } catch (error) {
+      console.error('PDF preview error:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to preview PDF',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleOpenEmailDialog = () => {
+    const { subject, message } = buildEmailCopy(inspectionData.client_name);
+    setEmailForm({
+      to: inspectionData.email || '',
+      subject,
+      message,
+    });
+    setShowEmailDialog(true);
+  };
+
+  const handleSendEmailWithPDF = async () => {
     if (!quoteId) {
       toast({
         title: 'Save required',
@@ -108,22 +185,11 @@ export function ExportStep({
       return;
     }
 
-    if (!sendOwnerOnly) {
-      const validation = validateEmailSend(recipientEmail, recipientName);
-      if (!validation.valid) {
-        toast({
-          title: 'Validation Error',
-          description:
-            validation.error ||
-            'Client email is missing. Add an email or use owner-only send.',
-          variant: 'destructive',
-        });
-        return;
-      }
-    } else if (!recipientEmail) {
+    const validation = validateEmailSend(emailForm.to, inspectionData.client_name);
+    if (!validation.valid) {
       toast({
-        title: 'Missing owner email',
-        description: 'Owner email is not configured.',
+        title: 'Validation Error',
+        description: validation.error || 'Please enter a valid email address.',
         variant: 'destructive',
       });
       return;
@@ -131,33 +197,57 @@ export function ExportStep({
 
     try {
       setIsSending(true);
-      const { subject, message } = buildEmailCopy(recipientName);
 
-      const { error } = await supabase.functions.invoke('send-quote-email', {
+      // Generate PDF blob
+      const blob = await generatePDFBlob();
+      if (!blob) {
+        toast({
+          title: 'Error',
+          description: 'Failed to generate PDF attachment',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      // Convert blob to base64
+      const reader = new FileReader();
+      const base64Promise = new Promise<string>((resolve, reject) => {
+        reader.onload = () => {
+          const base64 = (reader.result as string).split(',')[1];
+          resolve(base64);
+        };
+        reader.onerror = reject;
+      });
+      reader.readAsDataURL(blob);
+      const pdfBase64 = await base64Promise;
+
+      // Send email with PDF attachment
+      const { error } = await supabase.functions.invoke('send-inspection-quote-email', {
         body: {
-          quoteId,
-          recipientEmail,
-          subject,
-          message,
-          reminderDays: sendOwnerOnly ? 0 : 7,
+          to: emailForm.to,
+          subject: emailForm.subject,
+          message: emailForm.message,
+          pdfBase64,
+          pdfFilename: `CKR-Quote-${quoteNumber || quoteId}.pdf`,
+          clientName: inspectionData.client_name,
+          quoteNumber: quoteNumber || quoteId,
         },
       });
 
       if (error) throw error;
 
-      if (!sendOwnerOnly) {
-        await supabase
-          .from('quotes')
-          .update({ status: 'sent', sent_at: new Date().toISOString() })
-          .eq('id', quoteId);
-      }
+      // Update quote status
+      await supabase
+        .from('quotes')
+        .update({ status: 'sent', sent_at: new Date().toISOString() })
+        .eq('id', quoteId);
 
       toast({
         title: 'Email Sent',
-        description: sendOwnerOnly
-          ? `Quote copy sent to owner (${recipientEmail}).`
-          : `Quote sent successfully to ${recipientEmail}`,
+        description: `Quote sent successfully to ${emailForm.to}`,
       });
+
+      setShowEmailDialog(false);
     } catch (error) {
       console.error('Email send error:', error);
       toast({
@@ -183,37 +273,23 @@ export function ExportStep({
       <Card className="p-4">
         <h3 className="font-semibold mb-4 text-lg">Actions</h3>
         <div className="flex flex-wrap gap-3">
-          <Button onClick={handleExportPDF} disabled={isExporting}>
+          <Button onClick={handlePreviewPDF} disabled={isExporting}>
+            <Eye className="w-4 h-4 mr-2" />
+            {isExporting ? 'Loading...' : 'Preview PDF'}
+          </Button>
+          <Button onClick={handleExportPDF} disabled={isExporting} variant="outline">
             <FileDown className="w-4 h-4 mr-2" />
-            {isExporting ? 'Exporting...' : 'Export as PDF'}
+            {isExporting ? 'Exporting...' : 'Download PDF'}
           </Button>
           <Button
-            variant="outline"
-            onClick={() => handleSendEmail(false)}
-            disabled={isSending || !inspectionData.email}
-          >
-            <Mail className="w-4 h-4 mr-2" />
-            {isSending
-              ? 'Sending...'
-              : inspectionData.email
-              ? `Send to ${inspectionData.email}`
-              : 'Client email required'}
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => handleSendEmail(true)}
+            onClick={handleOpenEmailDialog}
             disabled={isSending}
+            className="bg-gradient-to-r from-primary to-secondary"
           >
-            <Mail className="w-4 h-4 mr-2" />
-            {isSending ? 'Sending...' : 'Send to owner only'}
+            <Send className="w-4 h-4 mr-2" />
+            Email Quote
           </Button>
         </div>
-        {!inspectionData.email && (
-          <p className="text-sm text-muted-foreground mt-2">
-            No client email recorded. Add an email in the Inspection step or
-            send an owner copy to follow up manually.
-          </p>
-        )}
       </Card>
 
       {/* Status */}
@@ -238,7 +314,7 @@ export function ExportStep({
       <Card className="p-6">
         <h3 className="font-semibold mb-4 text-lg">Document Preview</h3>
         <div
-          id="pdf-content"
+          ref={pdfContentRef}
           className="bg-white p-8 border rounded-lg"
           style={{ fontFamily: 'Arial, sans-serif' }}
         >
@@ -447,6 +523,87 @@ export function ExportStep({
           </div>
         </div>
       </Card>
+
+      {/* PDF Preview Dialog */}
+      <Dialog open={showPdfPreview} onOpenChange={setShowPdfPreview}>
+        <DialogContent className="max-w-4xl max-h-[90vh]">
+          <DialogHeader>
+            <DialogTitle>PDF Preview</DialogTitle>
+            <DialogDescription>
+              Preview of your inspection report and quote
+            </DialogDescription>
+          </DialogHeader>
+          <div className="h-[70vh] overflow-auto">
+            {pdfBlob && (
+              <iframe
+                src={URL.createObjectURL(pdfBlob)}
+                className="w-full h-full border rounded"
+                title="PDF Preview"
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Email Dialog */}
+      <Dialog open={showEmailDialog} onOpenChange={setShowEmailDialog}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Send Quote via Email</DialogTitle>
+            <DialogDescription>
+              The PDF will be attached automatically
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="email-to">To</Label>
+              <Input
+                id="email-to"
+                type="email"
+                value={emailForm.to}
+                onChange={(e) => setEmailForm({ ...emailForm, to: e.target.value })}
+                placeholder="client@example.com"
+              />
+            </div>
+            <div>
+              <Label htmlFor="email-subject">Subject</Label>
+              <Input
+                id="email-subject"
+                value={emailForm.subject}
+                onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
+                placeholder="Quote from Call Kaids Roofing"
+              />
+            </div>
+            <div>
+              <Label htmlFor="email-message">Message</Label>
+              <Textarea
+                id="email-message"
+                value={emailForm.message}
+                onChange={(e) => setEmailForm({ ...emailForm, message: e.target.value })}
+                placeholder="Email message to client..."
+                rows={6}
+              />
+            </div>
+            <div className="flex justify-end gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setShowEmailDialog(false)}
+                disabled={isSending}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSendEmailWithPDF}
+                disabled={isSending}
+                className="bg-gradient-to-r from-primary to-secondary"
+              >
+                <Send className="w-4 h-4 mr-2" />
+                {isSending ? 'Sending...' : 'Send Email'}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
