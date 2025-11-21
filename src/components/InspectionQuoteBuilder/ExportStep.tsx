@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { InspectionData, QuoteData, ScopeItem, COMPANY_CONFIG } from './types';
 import { validateEmailSend } from './validation';
-import { formatCurrency, formatDate, calculateTotalPricing } from './utils';
+import { formatCurrency, formatDate, calculateTotalPricing, buildPricingSnapshot, PricingSnapshot } from './utils';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -17,6 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { sendInspectionQuoteEmail } from '@/services/email';
 
 interface ExportStepProps {
   inspectionData: InspectionData;
@@ -25,6 +26,7 @@ interface ExportStepProps {
   inspectionId: string | null;
   quoteId: string | null;
   quoteNumber?: string;
+  leadId?: string | null;
 }
 
 export function ExportStep({
@@ -34,6 +36,7 @@ export function ExportStep({
   inspectionId,
   quoteId,
   quoteNumber,
+  leadId,
 }: ExportStepProps) {
   const { toast } = useToast();
   const [isExporting, setIsExporting] = useState(false);
@@ -221,26 +224,43 @@ export function ExportStep({
       reader.readAsDataURL(blob);
       const pdfBase64 = await base64Promise;
 
-      // Send email with PDF attachment
-      const { error } = await supabase.functions.invoke('send-inspection-quote-email', {
-        body: {
-          to: emailForm.to,
-          subject: emailForm.subject,
-          message: emailForm.message,
-          pdfBase64,
-          pdfFilename: `CKR-Quote-${quoteNumber || quoteId}.pdf`,
-          clientName: inspectionData.client_name,
-          quoteNumber: quoteNumber || quoteId,
-        },
+      const pricingSnapshot: PricingSnapshot = buildPricingSnapshot({
+        inspectionData,
+        quoteData,
+        scopeItems,
+        totals,
+        quoteNumber: quoteNumber || quoteId || '',
+        leadId: leadId || undefined,
+      });
+
+      const { error } = await sendInspectionQuoteEmail({
+        to: emailForm.to,
+        subject: emailForm.subject,
+        message: emailForm.message,
+        pdfBase64,
+        pdfFilename: `CKR-Quote-${quoteNumber || quoteId}.pdf`,
+        clientName: inspectionData.client_name,
+        quoteNumber: quoteNumber || quoteId,
       });
 
       if (error) throw error;
 
-      // Update quote status
       await supabase
         .from('quotes')
-        .update({ status: 'sent', sent_at: new Date().toISOString() })
+        .update({
+          status: 'sent',
+          sent_at: new Date().toISOString(),
+          pricing_snapshot: pricingSnapshot,
+        })
         .eq('id', quoteId);
+
+      if (leadId) {
+        await supabase.from('lead_notes').insert({
+          lead_id: leadId,
+          note_type: 'status_change',
+          content: `Quote ${quoteNumber || quoteId} sent via builder`,
+        });
+      }
 
       toast({
         title: 'Email Sent',

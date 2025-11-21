@@ -6,13 +6,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuth } from '@/hooks/useAuth';
-import { 
-  Search, 
-  FileText, 
-  Users, 
-  DollarSign, 
-  TrendingUp, 
-  Clock, 
+import {
+  Search,
+  FileText,
+  Users,
+  DollarSign,
+  TrendingUp,
+  Clock,
   AlertCircle,
   ArrowRight,
   Sparkles,
@@ -22,7 +22,8 @@ import {
   BarChart3,
   Settings,
   Loader2,
-  Shield
+  Shield,
+  Plus,
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
@@ -73,52 +74,52 @@ export default function AdminHome() {
     {
       title: 'Leads',
       description: 'Pipeline management',
-      route: '/admin/leads',
+      route: '/admin/crm/leads',
       icon: Users,
-      badge: queueData.new_leads > 0 ? String(queueData.new_leads) : undefined
+      badge: queueData.new_leads > 0 ? String(queueData.new_leads) : undefined,
     },
     {
-      title: 'Quote',
-      description: 'Create new',
-      route: '/admin/quotes/new',
-      icon: DollarSign
+      title: 'Inspection & Quote',
+      description: 'Start unified builder',
+      route: '/admin/tools/inspection-quote',
+      icon: FileText,
     },
     {
-      title: 'Inspection',
-      description: 'New report',
-      route: '/admin/inspections/new',
-      icon: FileText
+      title: 'Quotes',
+      description: 'Track drafts & sent',
+      route: '/admin/crm/quotes',
+      icon: DollarSign,
     },
     {
       title: 'Jobs',
-      description: 'Schedule',
-      route: '/admin/jobs',
-      icon: Calendar
+      description: 'Schedule & crews',
+      route: '/admin/crm/jobs',
+      icon: Calendar,
     },
     {
       title: 'Marketing',
       description: 'Campaigns',
-      route: '/admin/marketing',
-      icon: TrendingUp
+      route: '/admin/content/marketing',
+      icon: TrendingUp,
     },
     {
       title: 'Media',
       description: 'Assets',
-      route: '/admin/media',
-      icon: Image
+      route: '/admin/content/media',
+      icon: Image,
     },
     {
       title: 'Reports',
       description: 'Analytics',
-      route: '/admin/reports',
-      icon: BarChart3
+      route: '/admin/crm/reports',
+      icon: BarChart3,
     },
     {
       title: 'Data',
       description: 'Database',
-      route: '/admin/data',
-      icon: Settings
-    }
+      route: '/admin/cms/data',
+      icon: Settings,
+    },
   ];
 
   const queryClient = useQueryClient();
@@ -351,6 +352,25 @@ export default function AdminHome() {
           
           {/* Action buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
+            <Button
+              onClick={() => navigate('/admin/crm/leads')}
+              className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground shadow-xl shadow-primary/30 hover-lift transition-all duration-300 border-0"
+              size="lg"
+            >
+              <Plus className="h-5 w-5 mr-2" />
+              <span className="font-semibold">New Lead</span>
+            </Button>
+
+            <Button
+              onClick={() => navigate('/admin/tools/inspection-quote')}
+              variant="outline"
+              className="bg-background/80 hover:bg-primary/10 border-primary/30 shadow-lg"
+              size="lg"
+            >
+              <FileText className="h-5 w-5 mr-2 text-primary" />
+              <span className="font-semibold">Start Inspection & Quote</span>
+            </Button>
+
             {isAdmin && (
               <Button
                 onClick={() => navigate('/mfa-setup')}
@@ -611,7 +631,7 @@ export default function AdminHome() {
             </CardHeader>
             <CardContent className="space-y-3 relative z-10">
               <button
-                onClick={() => navigate('/admin/quotes/new')}
+                onClick={() => navigate('/admin/crm/quotes')}
                 className="w-full flex items-center justify-between p-4 rounded-xl border border-primary/10 hover:border-primary/30 hover:bg-primary/5 transition-all group hover-lift"
               >
                 <span className="text-sm font-semibold group-hover:text-primary transition-colors">Pending Quotes</span>
@@ -623,7 +643,7 @@ export default function AdminHome() {
                 </Badge>
               </button>
               <button
-                onClick={() => navigate('/admin/leads')}
+                onClick={() => navigate('/admin/crm/leads')}
                 className="w-full flex items-center justify-between p-4 rounded-xl border border-primary/10 hover:border-primary/30 hover:bg-primary/5 transition-all group hover-lift"
               >
                 <span className="text-sm font-semibold group-hover:text-primary transition-colors">New Leads</span>
@@ -635,7 +655,7 @@ export default function AdminHome() {
                 </Badge>
               </button>
               <button
-                onClick={() => navigate('/admin/marketing')}
+                onClick={() => navigate('/admin/content/marketing')}
                 className="w-full flex items-center justify-between p-4 rounded-xl border border-primary/10 hover:border-primary/30 hover:bg-primary/5 transition-all group hover-lift"
               >
                 <span className="text-sm font-semibold group-hover:text-primary transition-colors">Scheduled Posts</span>
