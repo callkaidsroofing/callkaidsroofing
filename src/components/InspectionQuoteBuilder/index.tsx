@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ import {
   QuoteData,
   ScopeItem,
   QuoteRowGenerated,
+  LeadContext,
 } from './types';
 import {
   transformInspectionToSupabase,
@@ -67,6 +68,7 @@ const emptyQuote: QuoteData = {
 
 export function InspectionQuoteBuilder() {
   const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -77,6 +79,7 @@ export function InspectionQuoteBuilder() {
   const [inspectionId, setInspectionId] = useState<string | null>(id || null);
   const [quoteId, setQuoteId] = useState<string | null>(null);
   const [existingQuote, setExistingQuote] = useState<QuoteRowGenerated | null>(null);
+  const [leadContext, setLeadContext] = useState<LeadContext | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [isLoading, setIsLoading] = useState(!!id);
@@ -87,6 +90,50 @@ export function InspectionQuoteBuilder() {
       loadExistingData(id);
     }
   }, [id]);
+
+  useEffect(() => {
+    const leadId = searchParams.get('leadId');
+    if (leadId) {
+      loadLeadContext(leadId);
+    }
+  }, [searchParams]);
+
+  async function loadLeadContext(leadId: string) {
+    try {
+      const { data, error } = await supabase
+        .from('leads')
+        .select('id, name, email, phone, suburb, service')
+        .eq('id', leadId)
+        .single();
+
+      if (error) throw error;
+
+      setLeadContext({
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        suburb: data.suburb,
+        service: data.service,
+      });
+
+      setInspectionData((current) => ({
+        ...current,
+        lead_id: data.id,
+        client_name: current.client_name || data.name || '',
+        phone: current.phone || data.phone || '',
+        email: current.email || data.email || '',
+        suburb: current.suburb || data.suburb || '',
+      }));
+    } catch (error) {
+      console.error('Error loading lead context:', error);
+      toast({
+        title: 'Lead link failed',
+        description: 'Could not load linked lead details for this quote.',
+        variant: 'destructive',
+      });
+    }
+  }
 
   // Auto-save every 30 seconds
   useEffect(() => {
@@ -125,6 +172,15 @@ export function InspectionQuoteBuilder() {
           setQuoteId(quote.id!);
           setExistingQuote(quote);
           const scope = (quote.scope as Record<string, string>) || {};
+          if (scope.lead_id || scope.lead_name) {
+            setLeadContext({
+              id: scope.lead_id,
+              name: scope.lead_name,
+              suburb: scope.lead_suburb,
+              service: scope.lead_service,
+              email: quote.email || inspectionData.email,
+            });
+          }
           setQuoteData(current => ({
             ...current,
             primary_service: scope.primary_service || current.primary_service,
@@ -258,7 +314,8 @@ export function InspectionQuoteBuilder() {
         scopeItems,
         quoteData,
         inspectionId || undefined,
-        existingQuote
+        existingQuote,
+        leadContext
       );
 
       if (quoteId) {
@@ -426,6 +483,7 @@ export function InspectionQuoteBuilder() {
             scopeItems={scopeItems}
             inspectionId={inspectionId}
             quoteId={quoteId}
+            leadContext={leadContext}
           />
         )}
       </Card>

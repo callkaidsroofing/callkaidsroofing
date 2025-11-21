@@ -4,10 +4,11 @@ import {
   InspectionData,
   InspectionReportInsert,
   InspectionReportRow,
-  QuoteInsert,
+  QuoteInsertWithMeta,
   QuoteRowGenerated,
   ScopeItem,
   GST_RATE,
+  LeadContext,
 } from './types';
 
 /**
@@ -155,8 +156,9 @@ export function transformQuoteToSupabase(
   scopeItems: ScopeItem[],
   quoteData: any,
   inspectionReportId?: string,
-  existingQuote?: QuoteRowGenerated | null
-): QuoteInsert {
+  existingQuote?: QuoteRowGenerated | null,
+  leadContext?: LeadContext | null
+): QuoteInsertWithMeta {
   const pricing = calculateTotalPricing(scopeItems);
   const now = new Date().toISOString();
   const quoteNumber = existingQuote?.quote_number || generateQuoteNumber();
@@ -190,6 +192,10 @@ export function transformQuoteToSupabase(
       primary_service: quoteData.primary_service || 'Roof Restoration',
       document_type: quoteData.document_type || 'Multi-Option Quote',
       roof_type: inspectionData.roof_type || 'Not Specified',
+      lead_id: leadContext?.id,
+      lead_name: leadContext?.name,
+      lead_suburb: leadContext?.suburb,
+      lead_service: leadContext?.service,
     },
     pricing: {
       markup_default: 30,
@@ -205,6 +211,12 @@ export function transformQuoteToSupabase(
     created_at: existingQuote?.created_at ?? now,
     updated_at: now,
     sent_at: existingQuote?.sent_at ?? null,
+    export_metadata: {
+      ...(existingQuote as Record<string, any>)?.export_metadata,
+      lead_id: leadContext?.id,
+      lead_name: leadContext?.name,
+      last_saved_at: now,
+    },
   };
 }
 

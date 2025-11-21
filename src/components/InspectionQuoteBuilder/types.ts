@@ -5,6 +5,7 @@ export interface InspectionData {
   client_name: string;
   phone: string;
   email?: string;
+  lead_id?: string;
   address: string;
   suburb: string;
   roof_type: string;
@@ -55,6 +56,15 @@ export interface QuoteData {
   include_findings: boolean;
   include_warranty: boolean;
   include_terms: boolean;
+}
+
+export interface LeadContext {
+  id?: string;
+  name?: string;
+  email?: string | null;
+  phone?: string | null;
+  suburb?: string | null;
+  service?: string | null;
 }
 
 export interface PricingPreset {
@@ -125,3 +135,6 @@ export interface QuoteRow {
 
 export type QuoteInsert = Database['public']['Tables']['quotes']['Insert'];
 export type QuoteRowGenerated = Database['public']['Tables']['quotes']['Row'];
+export type QuoteInsertWithMeta = QuoteInsert & {
+  export_metadata?: Record<string, unknown> | null;
+};

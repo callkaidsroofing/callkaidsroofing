@@ -1,11 +1,6 @@
 import { useState } from 'react';
-import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { 
-  Home, FileText, FormInput, Database, Image, Megaphone, FileOutput, 
-  Menu, Sparkles, Wrench, Phone, DollarSign, Calendar, BarChart3, 
-  Brain, ClipboardList, Settings, Ruler, Users, FileStack,
-  ChevronDown, Shield, RefreshCw, Send
-} from 'lucide-react';
+import { Outlet, NavLink, useNavigate } from 'react-router-dom';
+import { Menu, ChevronDown, Shield, Send, Home, Sparkles, Database } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -13,100 +8,12 @@ import { useAuth } from '@/hooks/useAuth';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-
-interface NavItem {
-  title: string;
-  path: string;
-  icon: any;
-}
-
-interface NavSection {
-  title: string;
-  icon: any;
-  items: NavItem[];
-  defaultOpen?: boolean;
-}
-
-const navStructure: NavSection[] = [
-  {
-    title: 'CRM',
-    icon: Users,
-    defaultOpen: true,
-    items: [
-      { title: 'Leads', path: '/admin/crm/leads', icon: Phone },
-      { title: 'Quotes', path: '/admin/crm/quotes', icon: DollarSign },
-      { title: 'Jobs', path: '/admin/crm/jobs', icon: Calendar },
-      { title: 'Intelligence', path: '/admin/crm/intelligence', icon: Brain },
-      { title: 'Reports', path: '/admin/crm/reports', icon: BarChart3 },
-    ],
-  },
-  {
-    title: 'Tools',
-    icon: Wrench,
-    defaultOpen: true,
-    items: [
-      { title: 'Inspection & Quote', path: '/admin/tools/inspection-quote', icon: ClipboardList },
-      { title: 'Measurements', path: '/admin/tools/measurements', icon: Ruler },
-      { title: 'AI Assistant', path: '/admin/tools/ai', icon: Sparkles },
-      { title: 'Calculator', path: '/admin/tools/calculator', icon: DollarSign },
-      { title: 'Forms', path: '/admin/tools/forms', icon: FileText },
-    ],
-  },
-  {
-    title: 'Content Engine',
-    icon: Sparkles,
-    items: [
-      { title: 'Generator', path: '/admin/content/generate', icon: Wrench },
-      { title: 'Media Library', path: '/admin/content/media', icon: Image },
-      { title: 'Marketing', path: '/admin/content/marketing', icon: Megaphone },
-      { title: 'Blog', path: '/admin/content/blog', icon: FileText },
-      { title: 'SEO', path: '/admin/content/seo', icon: BarChart3 },
-    ],
-  },
-  {
-    title: 'Settings',
-    icon: Settings,
-    items: [
-      { title: 'Business', path: '/admin/settings/business', icon: Home },
-      // { title: 'Users', path: '/admin/settings/users', icon: Users }, // Hidden - single-user admin, infrastructure preserved
-      { title: 'Pricing', path: '/admin/settings/pricing', icon: DollarSign },
-      { title: 'Forms', path: '/admin/settings/forms', icon: FormInput },
-      { title: 'Integrations', path: '/admin/settings/integrations', icon: FileStack },
-    ],
-  },
-  {
-    title: 'CMS',
-    icon: Database,
-    items: [
-      { title: 'Data Sync', path: '/admin/cms/sync', icon: RefreshCw },
-      { title: 'Knowledge Base', path: '/admin/cms/knowledge', icon: FileText },
-      { title: 'Services', path: '/admin/cms/services', icon: Wrench },
-      { title: 'Suburbs', path: '/admin/cms/suburbs', icon: Home },
-      { title: 'Media Gallery', path: '/admin/cms/media-gallery', icon: Image },
-      { title: 'Data Hub', path: '/admin/cms/data', icon: Database },
-      { title: 'Documents', path: '/admin/cms/documents', icon: FileText },
-    ],
-  },
-];
+import { useAdminNavSections } from '@/admin/hooks/useAdminNav';
 
 function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
   const { user, signOut, isAdmin } = useAuth();
-  const location = useLocation();
   const queryClient = useQueryClient();
-
-  // Determine which sections should be open by default based on current route
-  const getDefaultOpenSections = () => {
-    const currentPath = location.pathname;
-    const openSections: string[] = [];
-    
-    navStructure.forEach((section, index) => {
-      if (section.defaultOpen || section.items.some(item => currentPath.includes(item.path))) {
-        openSections.push(`section-${index}`);
-      }
-    });
-    
-    return openSections;
-  };
+  const { sections, defaultOpenSections } = useAdminNavSections();
 
   return (
     <div className="flex flex-col h-full bg-gradient-to-b from-background via-background to-primary/5 backdrop-blur-xl">
@@ -165,15 +72,15 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
 
       {/* Main Navigation with Enhanced Animations */}
       <nav className="flex-1 overflow-y-auto custom-scrollbar">
-        <Accordion 
-          type="multiple" 
-          defaultValue={getDefaultOpenSections()}
+        <Accordion
+          type="multiple"
+          defaultValue={defaultOpenSections}
           className="w-full"
         >
-          {navStructure.map((section, sectionIndex) => {
+          {sections.map((section, sectionIndex) => {
             return (
-              <AccordionItem 
-                key={`section-${sectionIndex}`} 
+              <AccordionItem
+                key={`section-${sectionIndex}`}
                 value={`section-${sectionIndex}`}
                 className="border-none"
               >

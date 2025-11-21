@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { InspectionData, QuoteData, ScopeItem, COMPANY_CONFIG } from './types';
+import { InspectionData, QuoteData, ScopeItem, COMPANY_CONFIG, LeadContext } from './types';
 import { validateEmailSend } from './validation';
 import { formatCurrency, formatDate, calculateTotalPricing } from './utils';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { FileDown, Mail, CheckCircle } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
+import { sendQuoteExportEmails } from '@/admin/services/email';
 
 interface ExportStepProps {
   inspectionData: InspectionData;
@@ -14,6 +14,7 @@ interface ExportStepProps {
   scopeItems: ScopeItem[];
   inspectionId: string | null;
   quoteId: string | null;
+  leadContext?: LeadContext | null;
 }
 
 export function ExportStep({
@@ -22,12 +23,14 @@ export function ExportStep({
   scopeItems,
   inspectionId,
   quoteId,
+  leadContext,
 }: ExportStepProps) {
   const { toast } = useToast();
   const [isExporting, setIsExporting] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
   const totals = calculateTotalPricing(scopeItems);
+  const recipientEmail = inspectionData.email || leadContext?.email || '';
 
   const handleExportPDF = async () => {
     try {
@@ -81,8 +84,10 @@ export function ExportStep({
   };
 
   const handleSendEmail = async () => {
+    const recipientName = inspectionData.client_name || leadContext?.name || '';
+
     // Validate email before sending
-    const validation = validateEmailSend(inspectionData.email, inspectionData.client_name);
+    const validation = validateEmailSend(recipientEmail, recipientName);
     if (!validation.valid) {
       toast({
         title: 'Validation Error',
@@ -95,22 +100,27 @@ export function ExportStep({
     try {
       setIsSending(true);
 
-      // Send email via Supabase Edge Function
-      const { data, error } = await supabase.functions.invoke('send-quote-email', {
-        body: {
-          quoteId: quoteId,
-          inspectionId: inspectionId,
-          recipientEmail: inspectionData.email,
-          recipientName: inspectionData.client_name,
-          includeAttachment: true,
-        },
+      await sendQuoteExportEmails({
+        quoteId,
+        inspectionId,
+        clientEmail: recipientEmail,
+        clientName: recipientName,
+        ccOwner: true,
+        leadContext: leadContext
+          ? {
+              leadId: leadContext.id,
+              name: leadContext.name || inspectionData.client_name,
+              email: recipientEmail,
+              phone: leadContext.phone,
+              suburb: leadContext.suburb,
+              service: leadContext.service,
+            }
+          : undefined,
       });
-
-      if (error) throw error;
 
       toast({
         title: 'Email Sent',
-        description: `Quote sent successfully to ${inspectionData.email}`,
+        description: `Quote sent successfully to ${recipientEmail}`,
       });
     } catch (error) {
       console.error('Email send error:', error);
@@ -141,14 +151,14 @@ export function ExportStep({
             <FileDown className="w-4 h-4 mr-2" />
             {isExporting ? 'Exporting...' : 'Export as PDF'}
           </Button>
-          {inspectionData.email && (
+          {recipientEmail && (
             <Button
               variant="outline"
               onClick={handleSendEmail}
               disabled={isSending}
             >
               <Mail className="w-4 h-4 mr-2" />
-              {isSending ? 'Sending...' : `Send to ${inspectionData.email}`}
+              {isSending ? 'Sending...' : `Send to ${recipientEmail}`}
             </Button>
           )}
         </div>
