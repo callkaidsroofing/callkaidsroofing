@@ -27,6 +27,15 @@ export function ExportStep({
   const [isExporting, setIsExporting] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
+  const ownerEmail =
+    import.meta.env.VITE_OWNER_EMAIL || 'callkaidsroofing@outlook.com';
+  const buildEmailCopy = (recipientName: string) => ({
+    subject: quoteId
+      ? `Quote ${quoteId} - Call Kaids Roofing`
+      : 'Your quote from Call Kaids Roofing',
+    message: `Dear ${recipientName || 'client'},\n\nThank you for the opportunity to assist with your roof. Your quote is attached for review. If you have any questions, please reply to this email or call 0435 900 709.\n\nNo Leaks. No Lifting. Just Quality.\n\nRegards,\nKaidyn Brownlie\nCall Kaids Roofing`,
+  });
+
   const totals = calculateTotalPricing(scopeItems);
 
   const handleExportPDF = async () => {
@@ -80,13 +89,35 @@ export function ExportStep({
     }
   };
 
-  const handleSendEmail = async () => {
-    // Validate email before sending
-    const validation = validateEmailSend(inspectionData.email, inspectionData.client_name);
-    if (!validation.valid) {
+  const handleSendEmail = async (sendOwnerOnly = false) => {
+    const recipientEmail = sendOwnerOnly
+      ? ownerEmail
+      : (inspectionData.email || '').trim();
+    const recipientName = sendOwnerOnly ? 'Kaidyn Brownlie' : inspectionData.client_name;
+
+    if (!quoteId) {
       toast({
-        title: 'Validation Error',
-        description: validation.error || 'Invalid email',
+        title: 'Save required',
+        description: 'Please save the quote before sending email.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!sendOwnerOnly) {
+      const validation = validateEmailSend(recipientEmail, recipientName);
+      if (!validation.valid) {
+        toast({
+          title: 'Validation Error',
+          description: validation.error || 'Invalid email',
+          variant: 'destructive',
+        });
+        return;
+      }
+    } else if (!recipientEmail) {
+      toast({
+        title: 'Missing owner email',
+        description: 'Owner email is not configured.',
         variant: 'destructive',
       });
       return;
@@ -94,23 +125,32 @@ export function ExportStep({
 
     try {
       setIsSending(true);
+      const { subject, message } = buildEmailCopy(recipientName);
 
-      // Send email via Supabase Edge Function
-      const { data, error } = await supabase.functions.invoke('send-quote-email', {
+      const { error } = await supabase.functions.invoke('send-quote-email', {
         body: {
-          quoteId: quoteId,
-          inspectionId: inspectionId,
-          recipientEmail: inspectionData.email,
-          recipientName: inspectionData.client_name,
-          includeAttachment: true,
+          quoteId,
+          recipientEmail,
+          subject,
+          message,
+          reminderDays: sendOwnerOnly ? 0 : 7,
         },
       });
 
       if (error) throw error;
 
+      if (!sendOwnerOnly) {
+        await supabase
+          .from('quotes')
+          .update({ status: 'sent', sent_at: new Date().toISOString() })
+          .eq('id', quoteId);
+      }
+
       toast({
         title: 'Email Sent',
-        description: `Quote sent successfully to ${inspectionData.email}`,
+        description: sendOwnerOnly
+          ? `Quote copy sent to owner (${recipientEmail}).`
+          : `Quote sent successfully to ${recipientEmail}`,
       });
     } catch (error) {
       console.error('Email send error:', error);
@@ -141,16 +181,26 @@ export function ExportStep({
             <FileDown className="w-4 h-4 mr-2" />
             {isExporting ? 'Exporting...' : 'Export as PDF'}
           </Button>
-          {inspectionData.email && (
-            <Button
-              variant="outline"
-              onClick={handleSendEmail}
-              disabled={isSending}
-            >
-              <Mail className="w-4 h-4 mr-2" />
-              {isSending ? 'Sending...' : `Send to ${inspectionData.email}`}
-            </Button>
-          )}
+          <Button
+            variant="outline"
+            onClick={() => handleSendEmail(false)}
+            disabled={isSending || !inspectionData.email}
+          >
+            <Mail className="w-4 h-4 mr-2" />
+            {isSending
+              ? 'Sending...'
+              : inspectionData.email
+              ? `Send to ${inspectionData.email}`
+              : 'Client email required'}
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => handleSendEmail(true)}
+            disabled={isSending}
+          >
+            <Mail className="w-4 h-4 mr-2" />
+            {isSending ? 'Sending...' : 'Send to owner only'}
+          </Button>
         </div>
       </Card>
 

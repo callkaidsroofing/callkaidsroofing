@@ -1,5 +1,6 @@
 // Utility functions for Inspection & Quote Builder
 
+import type { Database } from '@/integrations/supabase/types';
 import {
   InspectionData,
   InspectionReportInsert,
@@ -8,6 +9,10 @@ import {
   ScopeItem,
   GST_RATE,
 } from './types';
+
+type QuoteRowGenerated = Database['public']['Tables']['quotes']['Row'];
+type QuoteInsertWithMeta = Database['public']['Tables']['quotes']['Insert'];
+type QuotePayload = QuoteInsertWithMeta & Partial<QuoteRow> & Partial<QuoteRowGenerated>;
 
 /**
  * Transform inspection form data to Supabase inspection_reports format
@@ -154,7 +159,7 @@ export function transformQuoteToSupabase(
   scopeItems: ScopeItem[],
   quoteData: any,
   inspectionReportId?: string
-): Omit<QuoteRow, 'id'> {
+): QuotePayload {
   const pricing = calculateTotalPricing(scopeItems);
   const now = new Date().toISOString();
   const quoteNumber = generateQuoteNumber();
