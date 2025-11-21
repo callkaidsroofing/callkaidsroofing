@@ -24,8 +24,20 @@ export function validateInspection(data: InspectionData): { valid: boolean; erro
     errors.push('Client name is required');
   }
 
+  if (!data.phone?.trim()) {
+    errors.push('Phone number is required');
+  }
+
   if (!data.address?.trim()) {
     errors.push('Site address is required');
+  }
+
+  if (!data.suburb?.trim()) {
+    errors.push('Suburb is required');
+  }
+
+  if (!data.roof_type?.trim()) {
+    errors.push('Roof type is required');
   }
 
   if (data.email && !isValidEmail(data.email)) {

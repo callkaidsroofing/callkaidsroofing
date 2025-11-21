@@ -14,6 +14,7 @@ interface ExportStepProps {
   scopeItems: ScopeItem[];
   inspectionId: string | null;
   quoteId: string | null;
+  quoteNumber?: string;
 }
 
 export function ExportStep({
@@ -22,6 +23,7 @@ export function ExportStep({
   scopeItems,
   inspectionId,
   quoteId,
+  quoteNumber,
 }: ExportStepProps) {
   const { toast } = useToast();
   const [isExporting, setIsExporting] = useState(false);
@@ -30,7 +32,9 @@ export function ExportStep({
   const ownerEmail =
     import.meta.env.VITE_OWNER_EMAIL || 'callkaidsroofing@outlook.com';
   const buildEmailCopy = (recipientName: string) => ({
-    subject: quoteId
+    subject: quoteNumber
+      ? `Quote ${quoteNumber} - Call Kaids Roofing`
+      : quoteId
       ? `Quote ${quoteId} - Call Kaids Roofing`
       : 'Your quote from Call Kaids Roofing',
     message: `Dear ${recipientName || 'client'},\n\nThank you for the opportunity to assist with your roof. Your quote is attached for review. If you have any questions, please reply to this email or call 0435 900 709.\n\nNo Leaks. No Lifting. Just Quality.\n\nRegards,\nKaidyn Brownlie\nCall Kaids Roofing`,
@@ -109,7 +113,9 @@ export function ExportStep({
       if (!validation.valid) {
         toast({
           title: 'Validation Error',
-          description: validation.error || 'Invalid email',
+          description:
+            validation.error ||
+            'Client email is missing. Add an email or use owner-only send.',
           variant: 'destructive',
         });
         return;
@@ -202,6 +208,12 @@ export function ExportStep({
             {isSending ? 'Sending...' : 'Send to owner only'}
           </Button>
         </div>
+        {!inspectionData.email && (
+          <p className="text-sm text-muted-foreground mt-2">
+            No client email recorded. Add an email in the Inspection step or
+            send an owner copy to follow up manually.
+          </p>
+        )}
       </Card>
 
       {/* Status */}
@@ -215,6 +227,7 @@ export function ExportStep({
             <div className="text-sm text-green-800 space-y-1">
               {inspectionId && <p>Inspection ID: {inspectionId}</p>}
               {quoteId && <p>Quote ID: {quoteId}</p>}
+              {quoteNumber && <p>Quote Number: {quoteNumber}</p>}
               <p>All data has been saved to your database.</p>
             </div>
           </div>

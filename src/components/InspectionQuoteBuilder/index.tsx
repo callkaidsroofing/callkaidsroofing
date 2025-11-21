@@ -75,6 +75,7 @@ export function InspectionQuoteBuilder() {
   const [scopeItems, setScopeItems] = useState<ScopeItem[]>([]);
   const [inspectionId, setInspectionId] = useState<string | null>(id || null);
   const [quoteId, setQuoteId] = useState<string | null>(null);
+  const [quoteNumber, setQuoteNumber] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [isLoading, setIsLoading] = useState(!!id);
@@ -121,6 +122,7 @@ export function InspectionQuoteBuilder() {
 
         if (quote) {
           setQuoteId(quote.id!);
+          setQuoteNumber(quote.quote_number || '');
           const scope = (quote.scope || {}) as any;
           const documentType =
             scope.document_type === 'Simple Quote' || scope.document_type === 'Multi-Option Quote'
@@ -291,7 +293,8 @@ export function InspectionQuoteBuilder() {
         inspectionData,
         scopeItems,
         quoteData,
-        resolvedInspectionId
+        resolvedInspectionId,
+        quoteNumber
       );
 
       if (quoteId) {
@@ -302,6 +305,7 @@ export function InspectionQuoteBuilder() {
           .eq('id', quoteId);
 
         if (error) throw error;
+        setQuoteNumber(quoteNumber || quoteDataForSupabase.quote_number);
       } else {
         // Create new
         const { data, error } = await supabase
@@ -312,6 +316,7 @@ export function InspectionQuoteBuilder() {
 
         if (error) throw error;
         setQuoteId(data.id!);
+        setQuoteNumber(data.quote_number || quoteDataForSupabase.quote_number || '');
       }
 
       setLastSaved(new Date());
@@ -457,6 +462,7 @@ export function InspectionQuoteBuilder() {
             scopeItems={scopeItems}
             inspectionId={inspectionId}
             quoteId={quoteId}
+            quoteNumber={quoteNumber}
           />
         )}
       </Card>
