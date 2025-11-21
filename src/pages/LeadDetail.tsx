@@ -117,7 +117,7 @@ export default function LeadDetail() {
         description: 'Lead deleted successfully',
       });
 
-      navigate('/internal/v2/leads');
+      navigate('/admin/crm/leads');
     } catch (error) {
       console.error('Error deleting lead:', error);
       toast({
@@ -132,11 +132,11 @@ export default function LeadDetail() {
     if (!lead) return;
     
     // Navigate to quote builder with pre-filled data
-    navigate('/internal/v2/quotes/new', {
+    navigate('/admin/tools/inspection-quote', {
       state: {
-        fromLead: true,
+        leadId: lead.id,
         leadData: {
-          clientName: lead.name,
+          name: lead.name,
           phone: lead.phone,
           email: lead.email || '',
           suburb: lead.suburb,
@@ -205,7 +205,7 @@ export default function LeadDetail() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
         <p className="text-muted-foreground">Lead not found</p>
-        <Button onClick={() => navigate('/internal/v2/leads')}>
+        <Button onClick={() => navigate('/admin/crm/leads')}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Leads
         </Button>
@@ -218,7 +218,7 @@ export default function LeadDetail() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => navigate('/internal/v2/leads')}>
+          <Button variant="ghost" size="icon" onClick={() => navigate('/admin/crm/leads')}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>

@@ -248,7 +248,7 @@ const QuoteDocumentViewer = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => navigate('/internal/v2/data')}
+                onClick={() => navigate('/admin/cms/data')}
                 className="shrink-0"
               >
                 <ArrowLeft className="w-4 h-4 mr-1 md:mr-2" />

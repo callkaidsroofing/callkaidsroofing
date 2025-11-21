@@ -91,10 +91,10 @@ export default function JobsCalendar() {
               Schedule and manage your roofing jobs
             </p>
           </div>
-          <Button onClick={() => navigate('/internal/v2/jobs/new')} className="w-full sm:w-auto">
-            <Plus className="mr-2 h-4 w-4" />
-            New Job
-          </Button>
+            <Button onClick={() => navigate('/admin/crm/jobs')} className="w-full sm:w-auto">
+              <Plus className="mr-2 h-4 w-4" />
+              New Job
+            </Button>
         </div>
 
         {/* Calendar Controls */}
@@ -183,7 +183,7 @@ export default function JobsCalendar() {
                       {dayJobs.slice(0, 3).map((job) => (
                         <div
                           key={job.id}
-                          onClick={() => navigate(`/internal/v2/jobs/${job.id}`)}
+                          onClick={() => navigate('/admin/crm/jobs')}
                           className="text-[10px] md:text-xs p-0.5 md:p-1 rounded bg-card border cursor-pointer hover:shadow-sm transition-shadow"
                         >
                           <div className="flex items-center gap-1">

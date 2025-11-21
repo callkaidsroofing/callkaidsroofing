@@ -270,10 +270,14 @@ export default function FormsStudio() {
                       Preview
                     </Button>
                   )}
-                  <Button variant="outline" size="sm" onClick={() => navigate(`/internal/v2/forms/${selectedForm.id}/submissions`)}>
-                    <FileText className="h-4 w-4 mr-2" />
-                    Submissions
-                  </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => navigate(`/admin/settings/forms/${selectedForm.id}/submissions`)}
+                    >
+                      <FileText className="h-4 w-4 mr-2" />
+                      Submissions
+                    </Button>
                   {!selectedForm.is_published && (
                     <Button size="sm" onClick={() => handleInitiatePublish(selectedForm.id)}>
                       <Sparkles className="h-4 w-4 mr-2" />

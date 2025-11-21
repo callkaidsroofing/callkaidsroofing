@@ -74,7 +74,7 @@ export default function MFASetup() {
         description: 'Your phone number has been verified for multi-factor authentication.',
       });
 
-      navigate('/internal/v2/home');
+      navigate('/admin');
     } catch (error: any) {
       toast({
         title: 'Verification Failed',

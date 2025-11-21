@@ -193,7 +193,7 @@ function App() {
                     <Route path="emergency-landing" element={<LandingPage />} />
                     <Route path="landing/:source" element={<LandingPage />} />
                     <Route path="restoration-landing" element={<RestorationLanding />} />
-                    <Route path="measurement-tool" element={<Navigate to="/internal/v2/tools" replace />} />
+                    <Route path="measurement-tool" element={<Navigate to="/admin/tools/measurements" replace />} />
                     <Route path="*" element={<NotFound />} />
                   </Route>
                   

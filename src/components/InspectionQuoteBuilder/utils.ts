@@ -5,6 +5,7 @@ import {
   InspectionData,
   InspectionReportInsert,
   InspectionReportRow,
+  QuoteData,
   QuoteRow,
   ScopeItem,
   GST_RATE,
@@ -150,6 +151,55 @@ export function calculateTotalPricing(items: ScopeItem[]): {
     total: Math.round(total * 100) / 100,
   };
 }
+
+export function buildPricingSnapshot(params: {
+  inspectionData: InspectionData;
+  quoteData: QuoteData;
+  scopeItems: ScopeItem[];
+  totals: { subtotal: number; gst: number; total: number };
+  quoteNumber: string;
+  leadId?: string;
+}) {
+  const { inspectionData, quoteData, scopeItems, totals, quoteNumber, leadId } = params;
+
+  return {
+    quote_number: quoteNumber,
+    lead_id: leadId || null,
+    totals,
+    scope_items: scopeItems.map((item) => ({
+      category: item.category,
+      area: item.area,
+      qty: item.qty,
+      unit: item.unit,
+      priority: item.priority,
+      labour: item.labour,
+      material: item.material,
+      markup: item.markup,
+      notes: item.notes,
+      subtotal_ex_gst: item.subtotal_ex_gst,
+      gst_amount: item.gst_amount,
+      total_inc_gst: item.total_inc_gst,
+    })),
+    inspection: {
+      client_name: inspectionData.client_name,
+      phone: inspectionData.phone,
+      email: inspectionData.email || null,
+      address: inspectionData.address,
+      suburb: inspectionData.suburb,
+      roof_type: inspectionData.roof_type,
+    },
+    quote: {
+      primary_service: quoteData.primary_service,
+      document_type: quoteData.document_type,
+      include_findings: quoteData.include_findings,
+      include_warranty: quoteData.include_warranty,
+      include_terms: quoteData.include_terms,
+    },
+    generated_at: new Date().toISOString(),
+  };
+}
+
+export type PricingSnapshot = ReturnType<typeof buildPricingSnapshot>;
 
 /**
  * Transform scope items to Supabase quotes format

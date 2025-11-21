@@ -83,7 +83,7 @@ export default function MFAVerify() {
         description: 'Redirecting to dashboard...',
       });
 
-      navigate('/internal/v2/home');
+      navigate('/admin');
     } catch (error: any) {
       toast({
         title: 'Verification Failed',

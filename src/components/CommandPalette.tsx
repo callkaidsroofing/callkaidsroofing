@@ -30,10 +30,10 @@ interface SearchResult {
 }
 
 const quickActions = [
-  { id: 'new-quote', title: 'New Quote', path: '/internal/v2/quotes/new', icon: Plus },
-  { id: 'new-inspection', title: 'New Inspection', path: '/internal/v2/inspections/new', icon: Plus },
-  { id: 'data-hub', title: 'Data Hub', path: '/internal/v2/data', icon: Settings },
-  { id: 'media-library', title: 'Media Library', path: '/internal/v2/media', icon: Image },
+  { id: 'new-quote', title: 'New Quote', path: '/admin/tools/inspection-quote', icon: Plus },
+  { id: 'new-inspection', title: 'New Inspection', path: '/admin/tools/inspection-quote', icon: Plus },
+  { id: 'data-hub', title: 'Data Hub', path: '/admin/cms/data', icon: Settings },
+  { id: 'media-library', title: 'Media Library', path: '/admin/content/media', icon: Image },
 ];
 
 export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
@@ -90,7 +90,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
             type: 'lead' as const,
             title: l.name,
             subtitle: `${l.service} • ${l.suburb}`,
-            path: `/internal/v2/leads/${l.id}`,
+            path: `/admin/crm/leads/${l.id}`,
             icon: Users,
           })),
           ...(quotes || []).map(q => ({
@@ -98,7 +98,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
             type: 'quote' as const,
             title: q.quote_number,
             subtitle: `${q.client_name} • ${q.site_address}`,
-            path: `/internal/v2/quotes/${q.id}`,
+            path: '/admin/crm/quotes',
             icon: FileText,
           })),
           ...((jobs as any[]) || []).map((j: any) => ({
@@ -106,7 +106,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
             type: 'job' as const,
             title: j.job_number,
             subtitle: `${j.client_name} • ${j.site_address}`,
-            path: `/internal/v2/jobs/${j.id}`,
+            path: '/admin/crm/jobs',
             icon: Calendar,
           })),
         ];

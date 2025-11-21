@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
@@ -64,9 +64,20 @@ const emptyQuote: QuoteData = {
   include_terms: true,
 };
 
+type LeadPrefill = {
+  id?: string;
+  name?: string;
+  phone?: string;
+  email?: string;
+  suburb?: string;
+  service?: string;
+  message?: string;
+};
+
 export function InspectionQuoteBuilder() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
 
   const [currentStage, setCurrentStage] = useState(1);
@@ -79,6 +90,22 @@ export function InspectionQuoteBuilder() {
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [isLoading, setIsLoading] = useState(!!id);
+  const [leadContext, setLeadContext] = useState<LeadPrefill | null>(null);
+
+  useEffect(() => {
+    const state = location.state as { leadId?: string; leadData?: LeadPrefill } | null;
+
+    if (state?.leadData || state?.leadId) {
+      const context = { id: state.leadId, ...state.leadData } as LeadPrefill;
+      setLeadContext(context);
+    }
+  }, [location.state]);
+
+  useEffect(() => {
+    if (leadContext) {
+      applyLeadPrefill(leadContext);
+    }
+  }, [leadContext]);
 
   // Load existing inspection/quote if ID provided
   useEffect(() => {
@@ -87,16 +114,110 @@ export function InspectionQuoteBuilder() {
     }
   }, [id]);
 
+  function applyLeadPrefill(lead: LeadPrefill) {
+    setInspectionData((prev) => ({
+      ...prev,
+      client_name: prev.client_name || lead.name || '',
+      phone: prev.phone || lead.phone || '',
+      email: prev.email || lead.email || '',
+      suburb: prev.suburb || lead.suburb || '',
+      inspector_notes: prev.inspector_notes || lead.message || '',
+    }));
+
+    setQuoteData((prev) => ({
+      ...prev,
+      primary_service: prev.primary_service || lead.service || prev.primary_service,
+    }));
+  }
+
+  async function loadLeadPrefill(leadId: string) {
+    try {
+      const { data, error } = await supabase
+        .from('leads')
+        .select('*')
+        .eq('id', leadId)
+        .single();
+
+      if (error) throw error;
+
+      if (data) {
+        const context: LeadPrefill = {
+          id: data.id,
+          name: (data as any).name,
+          phone: (data as any).phone,
+          email: (data as any).email || undefined,
+          suburb: (data as any).suburb,
+          service: (data as any).service,
+          message: (data as any).message || undefined,
+        };
+
+        setLeadContext(context);
+        applyLeadPrefill(context);
+      }
+    } catch (error) {
+      console.error('Lead prefill error:', error);
+      toast({
+        title: 'Lead data unavailable',
+        description: 'Could not load lead details for prefill.',
+        variant: 'destructive',
+      });
+    }
+  }
+
+  async function ensureQuoteStub(resolvedInspectionId: string) {
+    if (quoteId) return;
+
+    const stubItems = scopeItems.length
+      ? scopeItems
+      : [
+          {
+            id: 'stub-item',
+            category: quoteData.primary_service || 'Roof works',
+            area: '',
+            qty: 1,
+            unit: 'item',
+            priority: 'Must Do' as const,
+            labour: 0,
+            material: 0,
+            markup: 0,
+            notes: '',
+            subtotal_ex_gst: 0,
+            gst_amount: 0,
+            total_inc_gst: 0,
+          },
+        ];
+
+    const payload = transformQuoteToSupabase(
+      inspectionData,
+      stubItems,
+      quoteData,
+      resolvedInspectionId,
+      quoteNumber
+    );
+
+    const { data, error } = await supabase
+      .from('quotes')
+      .insert(payload)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    setQuoteId(data.id!);
+    setQuoteNumber(data.quote_number || payload.quote_number || '');
+  }
+
   // Auto-save every 30 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      if (inspectionId && currentStage >= 1) {
+      // Guard: autosave only when both records exist to avoid orphan rows
+      if (inspectionId && quoteId && currentStage >= 1) {
         handleAutoSave();
       }
     }, 30000);
 
     return () => clearInterval(interval);
-  }, [inspectionId, inspectionData, scopeItems, currentStage]);
+  }, [inspectionId, inspectionData, scopeItems, currentStage, quoteId]);
 
   async function loadExistingData(recordId: string) {
     try {
@@ -109,16 +230,32 @@ export function InspectionQuoteBuilder() {
         .eq('id', recordId)
         .single();
 
-      if (inspection && !inspError) {
+      if (inspError?.code === 'PGRST116') {
+        setInspectionId(null);
+        setQuoteId(null);
+        setQuoteNumber('');
+        await loadLeadPrefill(recordId);
+        return;
+      }
+
+      if (inspError) {
+        throw inspError;
+      }
+
+      if (inspection) {
         setInspectionData(transformSupabaseToInspection(inspection));
         setInspectionId(inspection.id!);
 
         // Check if there's a linked quote
-        const { data: quote } = await supabase
+        const { data: quote, error: quoteError } = await supabase
           .from('quotes')
           .select('*')
           .eq('inspection_report_id', inspection.id)
-          .single();
+          .maybeSingle();
+
+        if (quoteError) {
+          throw quoteError;
+        }
 
         if (quote) {
           setQuoteId(quote.id!);
@@ -168,18 +305,23 @@ export function InspectionQuoteBuilder() {
             }));
             setScopeItems(items);
           }
+        } else if (inspection.id) {
+          await ensureQuoteStub(inspection.id);
         }
 
         toast({
           title: 'Loaded successfully',
           description: 'Inspection data loaded',
         });
+      } else {
+        throw new Error('Inspection not found');
       }
     } catch (error) {
       console.error('Error loading data:', error);
       toast({
         title: 'Error',
-        description: 'Failed to load data',
+        description:
+          error instanceof Error ? error.message : 'Failed to load data',
         variant: 'destructive',
       });
     } finally {
@@ -188,7 +330,7 @@ export function InspectionQuoteBuilder() {
   }
 
   async function handleAutoSave() {
-    if (!inspectionId) return;
+    if (!inspectionId || !quoteId) return;
 
     try {
       const supabaseData = transformInspectionToSupabase(inspectionData);
@@ -238,6 +380,10 @@ export function InspectionQuoteBuilder() {
         if (error) throw error;
         setInspectionId(data.id!);
         savedInspectionId = data.id!;
+      }
+
+      if (savedInspectionId && !quoteId) {
+        await ensureQuoteStub(savedInspectionId);
       }
 
       setLastSaved(new Date());
@@ -463,6 +609,7 @@ export function InspectionQuoteBuilder() {
             inspectionId={inspectionId}
             quoteId={quoteId}
             quoteNumber={quoteNumber}
+            leadId={leadContext?.id || null}
           />
         )}
       </Card>
