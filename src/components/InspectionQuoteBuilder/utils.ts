@@ -71,6 +71,14 @@ export function transformSupabaseToInspection(row: InspectionReportRow): Inspect
   const flashing = legacyRow.condition_flashing ?? row.flashings ?? '';
   const leakRaw = legacyRow.condition_leaks ?? row.internalLeaks;
   const leakStatus = typeof leakRaw === 'boolean' ? (leakRaw ? 'Yes' : 'No') : leakRaw || '';
+  const rawPriority = (legacyRow.priority ?? row.priority ?? '').toString();
+  const priorityNormalized = rawPriority.trim().toLowerCase();
+  const urgencyLevel =
+    priorityNormalized === 'priority'
+      ? 'Priority'
+      : priorityNormalized === 'emergency'
+        ? 'Emergency'
+        : 'Standard';
 
   return {
     client_name: clientName,
@@ -82,7 +90,7 @@ export function transformSupabaseToInspection(row: InspectionReportRow): Inspect
     storey_count: storeys,
     access_difficulty: access,
     photos_taken: 'Yes',
-    urgency_level: 'Standard',
+    urgency_level: urgencyLevel,
     ridge_condition: ridge,
     valley_condition: valleys,
     tile_condition: tileCondition,
