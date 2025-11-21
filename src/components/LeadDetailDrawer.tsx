@@ -72,11 +72,11 @@ export function LeadDetailDrawer({ leadId, open, onOpenChange }: LeadDetailDrawe
   const handleConvertToQuote = () => {
     if (!lead) return;
 
-    navigate('/internal/v2/quotes/new', {
+    navigate('/admin/tools/inspection-quote', {
       state: {
-        fromLead: true,
+        leadId: lead.id,
         leadData: {
-          clientName: lead.name,
+          name: lead.name,
           phone: lead.phone,
           email: lead.email || '',
           suburb: lead.suburb,
@@ -229,7 +229,7 @@ export function LeadDetailDrawer({ leadId, open, onOpenChange }: LeadDetailDrawe
                   variant="ghost"
                   size="sm"
                   onClick={() => {
-                    navigate(`/internal/v2/leads/${lead.id}`);
+                    navigate(`/admin/crm/leads/${lead.id}`);
                     onOpenChange(false);
                   }}
                   className="col-span-2"

@@ -175,11 +175,11 @@ export default function LeadsPipeline() {
 
   const handleConvertToQuote = (lead: Lead, e: React.MouseEvent) => {
     e.stopPropagation();
-    navigate('/internal/v2/quotes/new', {
+    navigate('/admin/tools/inspection-quote', {
       state: {
-        fromLead: true,
+        leadId: lead.id,
         leadData: {
-          clientName: lead.name,
+          name: lead.name,
           phone: lead.phone,
           email: lead.email || '',
           suburb: lead.suburb,
@@ -233,7 +233,7 @@ export default function LeadsPipeline() {
               Drag and drop leads between stages or click to view details
             </p>
           </div>
-          <Button>
+          <Button onClick={() => navigate('/admin/crm/leads')}>
             <Plus className="mr-2 h-4 w-4" />
             New Lead
           </Button>
