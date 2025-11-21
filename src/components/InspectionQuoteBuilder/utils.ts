@@ -202,7 +202,7 @@ export function transformQuoteToSupabase(
     subtotal: pricing.subtotal,
     gst: pricing.gst,
     total: pricing.total,
-    tier_level: 'standard',
+    tier_level: 'essential',
     tier_profile: null,
     status: 'draft',
     draft: true,
