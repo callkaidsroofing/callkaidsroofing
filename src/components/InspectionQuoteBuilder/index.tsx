@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { noteLeadQuoteLink, updateLeadStage } from '@/admin/services/pipeline';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -97,6 +98,15 @@ export function InspectionQuoteBuilder() {
       loadLeadContext(leadId);
     }
   }, [searchParams]);
+
+  async function syncLeadPipeline(leadId: string, savedQuoteId: string | null) {
+    try {
+      await updateLeadStage(leadId, 'quoted');
+      await noteLeadQuoteLink(leadId, { inspectionId, quoteId: savedQuoteId });
+    } catch (error) {
+      console.error('Failed to sync lead pipeline', error);
+    }
+  }
 
   async function loadLeadContext(leadId: string) {
     try {
@@ -318,6 +328,8 @@ export function InspectionQuoteBuilder() {
         leadContext
       );
 
+      let savedQuoteId = quoteId || null;
+
       if (quoteId) {
         // Update existing
         const { error } = await supabase
@@ -326,6 +338,7 @@ export function InspectionQuoteBuilder() {
           .eq('id', quoteId);
 
         if (error) throw error;
+        savedQuoteId = quoteId;
         setExistingQuote(prev => ({
           ...(prev || {}),
           ...(quoteDataForSupabase as QuoteRowGenerated),
@@ -340,8 +353,13 @@ export function InspectionQuoteBuilder() {
           .single();
 
         if (error) throw error;
+        savedQuoteId = data.id || null;
         setQuoteId(data.id!);
         setExistingQuote(data);
+      }
+
+      if (leadContext?.id) {
+        syncLeadPipeline(leadContext.id, savedQuoteId);
       }
 
       setLastSaved(new Date());

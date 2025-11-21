@@ -1,6 +1,41 @@
 import { supabase } from '@/integrations/supabase/client';
 import type { LeadFilterState } from '@/components/LeadFilters';
 
+export interface PipelineStage {
+  id: string;
+  title: string;
+  badgeClass: string;
+  description?: string;
+}
+
+export const PIPELINE_STAGES: PipelineStage[] = [
+  { id: 'new', title: 'New', badgeClass: 'bg-blue-500/10 text-blue-500' },
+  {
+    id: 'contacted',
+    title: 'Contacted',
+    badgeClass: 'bg-purple-500/10 text-purple-500',
+    description: 'Initial outreach made',
+  },
+  {
+    id: 'qualified',
+    title: 'Qualified',
+    badgeClass: 'bg-green-500/10 text-green-500',
+    description: 'Fit confirmed, awaiting quote',
+  },
+  {
+    id: 'quoted',
+    title: 'Quoted',
+    badgeClass: 'bg-yellow-500/10 text-yellow-500',
+    description: 'Quote delivered to client',
+  },
+  {
+    id: 'won',
+    title: 'Won',
+    badgeClass: 'bg-emerald-500/10 text-emerald-500',
+  },
+  { id: 'lost', title: 'Lost', badgeClass: 'bg-red-500/10 text-red-500' },
+];
+
 export interface LeadRecord {
   id: string;
   name: string;
@@ -61,6 +96,26 @@ export async function updateLeadStage(leadId: string, newStage: string) {
     lead_id: leadId,
     note_type: 'status_change',
     content: `Status changed to ${newStage}`,
+    created_at: timestamp,
+  });
+}
+
+export async function noteLeadQuoteLink(
+  leadId: string,
+  details: { inspectionId?: string | null; quoteId?: string | null }
+) {
+  const timestamp = new Date().toISOString();
+  const summary = [
+    details.inspectionId ? `inspection ${details.inspectionId}` : null,
+    details.quoteId ? `quote ${details.quoteId}` : null,
+  ]
+    .filter(Boolean)
+    .join(' / ');
+
+  await supabase.from('lead_notes').insert({
+    lead_id: leadId,
+    note_type: 'pipeline_link',
+    content: `Linked to ${summary}`,
     created_at: timestamp,
   });
 }

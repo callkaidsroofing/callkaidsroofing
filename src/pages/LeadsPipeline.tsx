@@ -11,7 +11,13 @@ import { formatDistanceToNow } from 'date-fns';
 import { LeadDetailDrawer } from '@/components/LeadDetailDrawer';
 import { LeadBulkActions } from '@/components/LeadBulkActions';
 import { LeadFilters, LeadFilterState } from '@/components/LeadFilters';
-import { buildQuoteBuilderPath, fetchPipelineLeads, updateLeadStage } from '@/admin/services/pipeline';
+import {
+  PIPELINE_STAGES,
+  buildQuoteBuilderPath,
+  fetchPipelineLeads,
+  noteLeadQuoteLink,
+  updateLeadStage,
+} from '@/admin/services/pipeline';
 
 interface Lead {
   id: string;
@@ -28,15 +34,6 @@ interface Lead {
   created_at: string;
   updated_at: string;
 }
-
-const stages = [
-  { id: 'new', title: 'New', color: 'bg-blue-500/10 text-blue-500' },
-  { id: 'contacted', title: 'Contacted', color: 'bg-purple-500/10 text-purple-500' },
-  { id: 'qualified', title: 'Qualified', color: 'bg-green-500/10 text-green-500' },
-  { id: 'quoted', title: 'Quoted', color: 'bg-yellow-500/10 text-yellow-500' },
-  { id: 'won', title: 'Won', color: 'bg-emerald-500/10 text-emerald-500' },
-  { id: 'lost', title: 'Lost', color: 'bg-red-500/10 text-red-500' },
-];
 
 export default function LeadsPipeline() {
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -123,6 +120,13 @@ export default function LeadsPipeline() {
   const handleConvertToQuote = (lead: Lead, e: React.MouseEvent) => {
     e.stopPropagation();
     navigate(buildQuoteBuilderPath(lead.id));
+
+    // Optimistically mark as quoted and log linkage for downstream traceability
+    updateLeadStage(lead.id, 'quoted')
+      .then(() => noteLeadQuoteLink(lead.id, { inspectionId: null, quoteId: null }))
+      .catch((error) => {
+        console.error('Failed to mark lead as quoted:', error);
+      });
   };
 
   const handleToggleSelectLead = (leadId: string, e: React.MouseEvent) => {
@@ -207,7 +211,7 @@ export default function LeadsPipeline() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-            {stages.map((stage) => {
+            {PIPELINE_STAGES.map((stage) => {
               const stageLeads = getLeadsByStage(stage.id);
               const allStageSelected =
                 stageLeads.length > 0 && stageLeads.every((l) => selectedLeads.includes(l.id));
@@ -221,7 +225,7 @@ export default function LeadsPipeline() {
                 >
                   {/* Stage Header */}
                   <div
-                    className={`p-3 rounded-lg ${stage.color} font-semibold flex items-center justify-between border`}
+                    className={`p-3 rounded-lg ${stage.badgeClass} font-semibold flex items-center justify-between border`}
                   >
                     <div className="flex items-center gap-2">
                       <Checkbox
@@ -229,7 +233,14 @@ export default function LeadsPipeline() {
                         onCheckedChange={(e) => handleSelectAll(stage.id, e as any)}
                         onClick={(e) => e.stopPropagation()}
                       />
-                      <span>{stage.title}</span>
+                      <div className="flex flex-col">
+                        <span>{stage.title}</span>
+                        {stage.description && (
+                          <span className="text-xs font-normal text-muted-foreground">
+                            {stage.description}
+                          </span>
+                        )}
+                      </div>
                     </div>
                     <Badge variant="secondary" className="bg-background/50">
                       {stageLeads.length}
