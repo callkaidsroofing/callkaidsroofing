@@ -13,7 +13,6 @@ import {
   InspectionData,
   QuoteData,
   ScopeItem,
-  QuoteRow,
 } from './types';
 import {
   transformInspectionToSupabase,
@@ -122,6 +121,31 @@ export function InspectionQuoteBuilder() {
 
         if (quote) {
           setQuoteId(quote.id!);
+          const scope = (quote.scope || {}) as any;
+          const documentType =
+            scope.document_type === 'Simple Quote' || scope.document_type === 'Multi-Option Quote'
+              ? scope.document_type
+              : scope.document_type === 'simple'
+              ? 'Simple Quote'
+              : 'Multi-Option Quote';
+
+          const resolvedDocumentType = documentType as QuoteData['document_type'];
+
+          setQuoteData((prev) => ({
+            ...prev,
+            primary_service: scope.primary_service || prev.primary_service,
+            document_type: resolvedDocumentType,
+            include_findings:
+              typeof scope.include_findings === 'boolean'
+                ? scope.include_findings
+                : prev.include_findings,
+            include_warranty:
+              typeof scope.include_warranty === 'boolean'
+                ? scope.include_warranty
+                : prev.include_warranty,
+            include_terms:
+              typeof scope.include_terms === 'boolean' ? scope.include_terms : prev.include_terms,
+          }));
           // Load scope items from quote
           if (quote.line_items) {
             const parsedItems = parseLineItems(quote.line_items);
@@ -177,7 +201,7 @@ export function InspectionQuoteBuilder() {
     }
   }
 
-  async function handleSaveInspection() {
+  async function handleSaveInspection(): Promise<string | null> {
     const validation = validateInspection(inspectionData);
     if (!validation.valid) {
       toast({
@@ -185,12 +209,13 @@ export function InspectionQuoteBuilder() {
         description: validation.errors.join(', '),
         variant: 'destructive',
       });
-      return false;
+      return null;
     }
 
     try {
       setIsSaving(true);
       const supabaseData = transformInspectionToSupabase(inspectionData);
+      let savedInspectionId = inspectionId;
 
       if (inspectionId) {
         // Update existing
@@ -210,6 +235,7 @@ export function InspectionQuoteBuilder() {
 
         if (error) throw error;
         setInspectionId(data.id!);
+        savedInspectionId = data.id!;
       }
 
       setLastSaved(new Date());
@@ -217,7 +243,7 @@ export function InspectionQuoteBuilder() {
         title: 'Saved',
         description: 'Inspection saved successfully',
       });
-      return true;
+      return savedInspectionId || inspectionId || null;
     } catch (error) {
       console.error('Save error:', error);
       toast({
@@ -225,7 +251,7 @@ export function InspectionQuoteBuilder() {
         description: 'Failed to save inspection',
         variant: 'destructive',
       });
-      return false;
+      return null;
     } finally {
       setIsSaving(false);
     }
@@ -242,13 +268,30 @@ export function InspectionQuoteBuilder() {
       return false;
     }
 
+    let resolvedInspectionId = inspectionId;
+    let quoteDataForSupabase: ReturnType<typeof transformQuoteToSupabase> | null = null;
+
     try {
       setIsSaving(true);
-      const quoteDataForSupabase = transformQuoteToSupabase(
+
+      if (!resolvedInspectionId) {
+        resolvedInspectionId = await handleSaveInspection();
+      }
+
+      if (!resolvedInspectionId) {
+        toast({
+          title: 'Inspection required',
+          description: 'Please save inspection details before saving a quote.',
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      quoteDataForSupabase = transformQuoteToSupabase(
         inspectionData,
         scopeItems,
         quoteData,
-        inspectionId || undefined
+        resolvedInspectionId
       );
 
       if (quoteId) {
@@ -278,7 +321,12 @@ export function InspectionQuoteBuilder() {
       });
       return true;
     } catch (error) {
-      console.error('Save error:', error);
+      console.error('Save error:', {
+        error,
+        inspectionId: resolvedInspectionId,
+        quoteId,
+        payload: quoteDataForSupabase,
+      });
       toast({
         title: 'Error',
         description: 'Failed to save quote',
