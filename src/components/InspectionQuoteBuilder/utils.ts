@@ -158,11 +158,12 @@ export function transformQuoteToSupabase(
   inspectionData: InspectionData,
   scopeItems: ScopeItem[],
   quoteData: any,
-  inspectionReportId?: string
+  inspectionReportId?: string,
+  existingQuoteNumber?: string
 ): QuotePayload {
   const pricing = calculateTotalPricing(scopeItems);
   const now = new Date().toISOString();
-  const quoteNumber = generateQuoteNumber();
+  const quoteNumber = existingQuoteNumber?.trim() || generateQuoteNumber();
 
   // Transform scope items to line_items format
   const line_items = scopeItems.map(item => ({
@@ -243,45 +244,3 @@ export function formatDate(date: string | Date): string {
   }).format(new Date(date));
 }
 
-/**
- * Validate inspection data
- */
-export function validateInspection(data: InspectionData): { valid: boolean; errors: string[] } {
-  const errors: string[] = [];
-
-  if (!data.client_name?.trim()) errors.push('Client name is required');
-  if (!data.phone?.trim()) errors.push('Phone number is required');
-  if (!data.address?.trim()) errors.push('Property address is required');
-  if (!data.suburb?.trim()) errors.push('Suburb is required');
-  if (!data.roof_type?.trim()) errors.push('Roof type is required');
-
-  return {
-    valid: errors.length === 0,
-    errors,
-  };
-}
-
-/**
- * Validate quote data
- */
-export function validateQuote(scopeItems: ScopeItem[]): { valid: boolean; errors: string[] } {
-  const errors: string[] = [];
-
-  if (scopeItems.length === 0) {
-    errors.push('At least one scope item is required');
-  }
-
-  scopeItems.forEach((item, index) => {
-    if (!item.category?.trim()) {
-      errors.push(`Scope item ${index + 1}: Category is required`);
-    }
-    if (!item.qty || item.qty <= 0) {
-      errors.push(`Scope item ${index + 1}: Quantity must be greater than 0`);
-    }
-  });
-
-  return {
-    valid: errors.length === 0,
-    errors,
-  };
-}
