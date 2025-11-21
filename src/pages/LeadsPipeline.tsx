@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,6 +11,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { LeadDetailDrawer } from '@/components/LeadDetailDrawer';
 import { LeadBulkActions } from '@/components/LeadBulkActions';
 import { LeadFilters, LeadFilterState } from '@/components/LeadFilters';
+import { buildQuoteBuilderPath, fetchPipelineLeads, updateLeadStage } from '@/admin/services/pipeline';
 
 interface Lead {
   id: string;
@@ -64,49 +64,8 @@ export default function LeadsPipeline() {
   const fetchLeads = async () => {
     try {
       setLoading(true);
-      console.log('🔍 Fetching leads with filters:', filters);
-      
-      let query = supabase
-        .from('leads')
-        .select('*')
-        .eq('merge_status', 'active')
-        .order('created_at', { ascending: false });
-
-      // Apply filters only if they have non-empty values
-      if (filters.status && filters.status !== '' && filters.status !== 'all') {
-        console.log('Applying status filter:', filters.status);
-        query = query.eq('status', filters.status);
-      }
-      if (filters.service && filters.service !== '' && filters.service !== 'all') {
-        console.log('Applying service filter:', filters.service);
-        query = query.eq('service', filters.service);
-      }
-      if (filters.source && filters.source !== '' && filters.source !== 'all') {
-        console.log('Applying source filter:', filters.source);
-        query = query.eq('source', filters.source);
-      }
-      if (filters.suburb && filters.suburb !== '') {
-        console.log('Applying suburb filter:', filters.suburb);
-        query = query.ilike('suburb', `%${filters.suburb}%`);
-      }
-      if (filters.dateFrom && filters.dateFrom !== '') {
-        console.log('Applying dateFrom filter:', filters.dateFrom);
-        query = query.gte('created_at', filters.dateFrom);
-      }
-      if (filters.dateTo && filters.dateTo !== '') {
-        console.log('Applying dateTo filter:', filters.dateTo);
-        query = query.lte('created_at', filters.dateTo);
-      }
-
-      const { data, error } = await query;
-
-      if (error) {
-        console.error('❌ Supabase error:', error);
-        throw error;
-      }
-
-      console.log('✅ Fetched leads:', data?.length || 0, 'leads');
-      setLeads((data || []) as Lead[]);
+      const results = await fetchPipelineLeads(filters);
+      setLeads(results as Lead[]);
     } catch (error: any) {
       console.error('❌ Error fetching leads:', error);
       toast({
@@ -132,25 +91,13 @@ export default function LeadsPipeline() {
     if (!draggedLead) return;
 
     try {
-      const { error } = await supabase
-        .from('leads')
-        .update({ status: newStage, updated_at: new Date().toISOString() })
-        .eq('id', draggedLead.id);
-
-      if (error) throw error;
+      await updateLeadStage(draggedLead.id, newStage);
 
       setLeads((prevLeads) =>
         prevLeads.map((lead) =>
           lead.id === draggedLead.id ? { ...lead, status: newStage } : lead
         )
       );
-
-      // Log activity
-      await supabase.from('lead_notes').insert({
-        lead_id: draggedLead.id,
-        note_type: 'status_change',
-        content: `Status changed to ${newStage}`,
-      });
 
       toast({
         title: 'Success',
@@ -175,19 +122,7 @@ export default function LeadsPipeline() {
 
   const handleConvertToQuote = (lead: Lead, e: React.MouseEvent) => {
     e.stopPropagation();
-    navigate('/internal/v2/quotes/new', {
-      state: {
-        fromLead: true,
-        leadData: {
-          clientName: lead.name,
-          phone: lead.phone,
-          email: lead.email || '',
-          suburb: lead.suburb,
-          service: lead.service,
-          message: lead.message || '',
-        },
-      },
-    });
+    navigate(buildQuoteBuilderPath(lead.id));
   };
 
   const handleToggleSelectLead = (leadId: string, e: React.MouseEvent) => {
