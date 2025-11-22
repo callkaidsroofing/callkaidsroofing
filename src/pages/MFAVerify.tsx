@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,6 +15,9 @@ export default function MFAVerify() {
   const [challengeId, setChallengeId] = useState<string | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const redirectTo = params.get('redirect') || '/admin';
 
   useEffect(() => {
     const initiateChallenge = async () => {
@@ -32,7 +35,7 @@ export default function MFAVerify() {
             description: 'Please set up MFA first',
             variant: 'destructive',
           });
-          navigate('/mfa-setup');
+          navigate(`/mfa-setup?redirect=${encodeURIComponent(redirectTo)}`);
           return;
         }
 
@@ -83,7 +86,7 @@ export default function MFAVerify() {
         description: 'Redirecting to dashboard...',
       });
 
-      navigate('/internal/v2/home');
+      navigate(redirectTo, { replace: true });
     } catch (error: any) {
       toast({
         title: 'Verification Failed',

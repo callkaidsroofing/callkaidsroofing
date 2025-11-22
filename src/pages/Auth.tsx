@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Home } from 'lucide-react';
@@ -18,13 +18,16 @@ export default function Auth() {
   const { signIn, user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const redirectTo = params.get('redirect') || '/admin';
 
   useEffect(() => {
     // Redirect if already authenticated
     if (user) {
-      navigate('/internal/v2/home');
+      navigate(redirectTo, { replace: true });
     }
-  }, [user, navigate]);
+  }, [user, navigate, redirectTo]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,13 +57,13 @@ export default function Auth() {
             title: 'MFA Setup Required',
             description: 'Please set up multi-factor authentication',
           });
-          navigate('/mfa-setup');
+          navigate(`/mfa-setup?redirect=${encodeURIComponent(redirectTo)}`);
         } else {
           toast({
             title: 'Welcome back!',
             description: 'Redirecting to dashboard...',
           });
-          navigate('/internal/v2/home');
+          navigate(redirectTo, { replace: true });
         }
       }
     } catch (error) {

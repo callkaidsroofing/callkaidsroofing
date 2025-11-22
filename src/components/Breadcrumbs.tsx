@@ -35,14 +35,14 @@ export default function Breadcrumbs() {
   }).filter(crumb => crumb.name); // Remove empty names (internal, v2)
 
   // Don't show breadcrumbs on home page
-  if (location.pathname === '/internal/v2/home' || location.pathname === '/internal/v2') {
+  if (location.pathname === '/admin' || location.pathname === '/admin/') {
     return null;
   }
 
   return (
     <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-      <Link 
-        to="/internal/v2/home" 
+      <Link
+        to="/admin"
         className="flex items-center gap-1 hover:text-foreground transition-colors"
       >
         <Home className="h-4 w-4" />

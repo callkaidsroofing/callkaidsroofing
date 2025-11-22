@@ -157,7 +157,7 @@ const Footer = () => {
             <div className="flex flex-wrap justify-center gap-4 text-sm">
               <Link to="/privacy-policy" className="text-white/60 hover:text-conversion-cyan transition-colors">Privacy</Link>
               <Link to="/terms-of-service" className="text-white/60 hover:text-conversion-cyan transition-colors">Terms</Link>
-              <Link to="/internal/v2/home" className="text-white/30 hover:text-conversion-cyan transition-colors">Internal</Link>
+              <Link to="/admin" className="text-white/30 hover:text-conversion-cyan transition-colors">Internal</Link>
             </div>
           </div>
         </div>
