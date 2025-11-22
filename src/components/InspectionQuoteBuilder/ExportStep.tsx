@@ -18,6 +18,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { sendInspectionQuoteEmail } from '@/services/email';
+import { generateBrandedPDFBlob } from '@/lib/pdfGenerator';
 
 interface ExportStepProps {
   inspectionData: InspectionData;
@@ -66,16 +67,6 @@ export function ExportStep({
 
   const generatePDFBlob = async (): Promise<Blob | null> => {
     try {
-      // Check if html2pdf is available
-      if (typeof window === 'undefined' || !(window as any).html2pdf) {
-        toast({
-          title: 'Error',
-          description: 'PDF library not loaded. Please refresh the page.',
-          variant: 'destructive',
-        });
-        return null;
-      }
-
       const element = pdfContentRef.current;
       if (!element) {
         toast({
@@ -85,19 +76,20 @@ export function ExportStep({
         });
         return null;
       }
-
-      const opt = {
-        margin: 10,
+      const pdf = await generateBrandedPDFBlob(element, {
+        title: `Inspection Report & ${quoteData.document_type}`,
         filename: `CKR-Quote-${inspectionData.client_name.replace(/\s+/g, '-')}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      };
+        orientation: 'portrait',
+      });
 
-      const pdf = await (window as any).html2pdf().set(opt).from(element).output('blob');
       return pdf;
     } catch (error) {
       console.error('PDF generation error:', error);
+      toast({
+        title: 'Error',
+        description: 'PDF library failed to render the document.',
+        variant: 'destructive',
+      });
       return null;
     }
   };
