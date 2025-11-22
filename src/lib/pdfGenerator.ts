@@ -21,138 +21,158 @@ const BRAND_INFO = {
   slogan: 'No Leaks. No Lifting. Just Quality.',
 };
 
+const buildBrandedPDF = async (
+  contentElement: HTMLElement,
+  options: PDFOptions
+) => {
+  // Create canvas from content
+  const canvas = await html2canvas(contentElement, {
+    scale: 2,
+    useCORS: true,
+    logging: false,
+    backgroundColor: '#ffffff',
+  });
+
+  const imgData = canvas.toDataURL('image/png');
+  const pdf = new jsPDF({
+    orientation: options.orientation || 'portrait',
+    unit: 'mm',
+    format: 'a4',
+  });
+
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+
+  // Add branded header
+  pdf.setFillColor(BRAND_COLORS.primary);
+  pdf.rect(0, 0, pageWidth, 30, 'F');
+
+  // Company name
+  pdf.setTextColor(255, 255, 255);
+  pdf.setFontSize(18);
+  pdf.setFont('helvetica', 'bold');
+  pdf.text(BRAND_INFO.name, 15, 12);
+
+  // Slogan
+  pdf.setFontSize(10);
+  pdf.setFont('helvetica', 'normal');
+  pdf.text(BRAND_INFO.slogan, 15, 20);
+
+  // Contact info (right aligned)
+  pdf.setFontSize(9);
+  const contactInfo = [
+    BRAND_INFO.abn,
+    BRAND_INFO.phone,
+    BRAND_INFO.email,
+  ];
+
+  contactInfo.forEach((info, index) => {
+    const textWidth = pdf.getTextWidth(info);
+    pdf.text(info, pageWidth - textWidth - 15, 10 + (index * 5));
+  });
+
+  // Add title
+  pdf.setTextColor(BRAND_COLORS.dark);
+  pdf.setFontSize(14);
+  pdf.setFont('helvetica', 'bold');
+  pdf.text(options.title, 15, 40);
+
+  // Add content image
+  const imgWidth = pageWidth - 30;
+  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+  let position = 50;
+
+  if (imgHeight > pageHeight - 80) {
+    // Content spans multiple pages
+    const pageCount = Math.ceil(imgHeight / (pageHeight - 80));
+
+    for (let i = 0; i < pageCount; i++) {
+      if (i > 0) {
+        pdf.addPage();
+        // Add header to subsequent pages
+        pdf.setFillColor(BRAND_COLORS.primary);
+        pdf.rect(0, 0, pageWidth, 20, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(12);
+        pdf.text(BRAND_INFO.name, 15, 12);
+        position = 25;
+      }
+
+      const sourceY = i * (pageHeight - 80) * (canvas.height / imgHeight);
+      const sourceHeight = (pageHeight - 80) * (canvas.height / imgHeight);
+
+      const pageCanvas = document.createElement('canvas');
+      pageCanvas.width = canvas.width;
+      pageCanvas.height = sourceHeight;
+      const ctx = pageCanvas.getContext('2d');
+
+      if (ctx) {
+        ctx.drawImage(
+          canvas,
+          0,
+          sourceY,
+          canvas.width,
+          sourceHeight,
+          0,
+          0,
+          canvas.width,
+          sourceHeight
+        );
+
+        const pageImgData = pageCanvas.toDataURL('image/png');
+        pdf.addImage(pageImgData, 'PNG', 15, position, imgWidth, pageHeight - 80);
+      }
+    }
+  } else {
+    pdf.addImage(imgData, 'PNG', 15, position, imgWidth, imgHeight);
+  }
+
+  // Add footer to all pages
+  const totalPages = pdf.internal.pages.length - 1;
+  for (let i = 1; i <= totalPages; i++) {
+    pdf.setPage(i);
+    pdf.setFontSize(8);
+    pdf.setTextColor(BRAND_COLORS.gray);
+    pdf.text(
+      `Page ${i} of ${totalPages}`,
+      pageWidth / 2,
+      pageHeight - 10,
+      { align: 'center' }
+    );
+    pdf.text(
+      `Generated: ${new Date().toLocaleDateString()}`,
+      pageWidth - 15,
+      pageHeight - 10,
+      { align: 'right' }
+    );
+  }
+
+  return pdf;
+};
+
 export const generateBrandedPDF = async (
   contentElement: HTMLElement,
   options: PDFOptions
 ): Promise<void> => {
   try {
-    // Create canvas from content
-    const canvas = await html2canvas(contentElement, {
-      scale: 2,
-      useCORS: true,
-      logging: false,
-      backgroundColor: '#ffffff',
-    });
-
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF({
-      orientation: options.orientation || 'portrait',
-      unit: 'mm',
-      format: 'a4',
-    });
-
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    
-    // Add branded header
-    pdf.setFillColor(BRAND_COLORS.primary);
-    pdf.rect(0, 0, pageWidth, 30, 'F');
-    
-    // Company name
-    pdf.setTextColor(255, 255, 255);
-    pdf.setFontSize(18);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text(BRAND_INFO.name, 15, 12);
-    
-    // Slogan
-    pdf.setFontSize(10);
-    pdf.setFont('helvetica', 'normal');
-    pdf.text(BRAND_INFO.slogan, 15, 20);
-    
-    // Contact info (right aligned)
-    pdf.setFontSize(9);
-    const contactInfo = [
-      BRAND_INFO.abn,
-      BRAND_INFO.phone,
-      BRAND_INFO.email,
-    ];
-    
-    contactInfo.forEach((info, index) => {
-      const textWidth = pdf.getTextWidth(info);
-      pdf.text(info, pageWidth - textWidth - 15, 10 + (index * 5));
-    });
-
-    // Add title
-    pdf.setTextColor(BRAND_COLORS.dark);
-    pdf.setFontSize(14);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text(options.title, 15, 40);
-
-    // Add content image
-    const imgWidth = pageWidth - 30;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-    
-    let position = 50;
-    
-    if (imgHeight > pageHeight - 80) {
-      // Content spans multiple pages
-      const pageCount = Math.ceil(imgHeight / (pageHeight - 80));
-      
-      for (let i = 0; i < pageCount; i++) {
-        if (i > 0) {
-          pdf.addPage();
-          // Add header to subsequent pages
-          pdf.setFillColor(BRAND_COLORS.primary);
-          pdf.rect(0, 0, pageWidth, 20, 'F');
-          pdf.setTextColor(255, 255, 255);
-          pdf.setFontSize(12);
-          pdf.text(BRAND_INFO.name, 15, 12);
-          position = 25;
-        }
-        
-        const sourceY = i * (pageHeight - 80) * (canvas.height / imgHeight);
-        const sourceHeight = (pageHeight - 80) * (canvas.height / imgHeight);
-        
-        const pageCanvas = document.createElement('canvas');
-        pageCanvas.width = canvas.width;
-        pageCanvas.height = sourceHeight;
-        const ctx = pageCanvas.getContext('2d');
-        
-        if (ctx) {
-          ctx.drawImage(
-            canvas,
-            0,
-            sourceY,
-            canvas.width,
-            sourceHeight,
-            0,
-            0,
-            canvas.width,
-            sourceHeight
-          );
-          
-          const pageImgData = pageCanvas.toDataURL('image/png');
-          pdf.addImage(pageImgData, 'PNG', 15, position, imgWidth, pageHeight - 80);
-        }
-      }
-    } else {
-      pdf.addImage(imgData, 'PNG', 15, position, imgWidth, imgHeight);
-    }
-
-    // Add footer to all pages
-    const totalPages = pdf.internal.pages.length - 1;
-    for (let i = 1; i <= totalPages; i++) {
-      pdf.setPage(i);
-      pdf.setFontSize(8);
-      pdf.setTextColor(BRAND_COLORS.gray);
-      pdf.text(
-        `Page ${i} of ${totalPages}`,
-        pageWidth / 2,
-        pageHeight - 10,
-        { align: 'center' }
-      );
-      pdf.text(
-        `Generated: ${new Date().toLocaleDateString()}`,
-        pageWidth - 15,
-        pageHeight - 10,
-        { align: 'right' }
-      );
-    }
-
-    // Save the PDF
+    const pdf = await buildBrandedPDF(contentElement, options);
     pdf.save(options.filename);
   } catch (error) {
     console.error('PDF generation error:', error);
+    throw new Error('Failed to generate PDF');
+  }
+};
+
+export const generateBrandedPDFBlob = async (
+  contentElement: HTMLElement,
+  options: PDFOptions
+): Promise<Blob> => {
+  try {
+    const pdf = await buildBrandedPDF(contentElement, options);
+    return pdf.output('blob');
+  } catch (error) {
+    console.error('PDF blob generation error:', error);
     throw new Error('Failed to generate PDF');
   }
 };

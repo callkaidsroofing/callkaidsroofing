@@ -59,7 +59,14 @@ const QuoteDocumentViewer = () => {
 
   const handleExportPDF = async () => {
     const element = document.getElementById('quote-print-view');
-    if (!element) return;
+    if (!element) {
+      toast({
+        title: "Print view unavailable",
+        description: "Open the Print PDF tab to render the document.",
+        variant: "destructive"
+      });
+      return;
+    }
 
     try {
       await generateBrandedPDF(element, {
