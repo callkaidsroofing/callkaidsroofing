@@ -14,13 +14,15 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const redirectTo = params.get('redirect') || '/admin';
 
   useEffect(() => {
     // If user is authenticated and on auth page, redirect to internal home
     if (!loading && user && location.pathname === '/auth') {
-      navigate('/internal/v2/home', { replace: true });
+      navigate(redirectTo, { replace: true });
     }
-  }, [user, loading, navigate, location]);
+  }, [user, loading, navigate, location, redirectTo]);
 
   if (loading) {
     return (

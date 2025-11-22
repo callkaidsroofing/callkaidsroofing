@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,9 @@ export default function MFASetup() {
   const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const redirectTo = params.get('redirect') || '/admin';
 
   const handleEnrollPhone = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,7 +77,7 @@ export default function MFASetup() {
         description: 'Your phone number has been verified for multi-factor authentication.',
       });
 
-      navigate('/internal/v2/home');
+      navigate(redirectTo, { replace: true });
     } catch (error: any) {
       toast({
         title: 'Verification Failed',

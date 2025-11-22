@@ -42,7 +42,8 @@ export default function ProtectedLayout() {
   }
 
   if (!session) {
-    return <Navigate to={`/auth?redirect=${encodeURIComponent(pathname + search || "/internal/v2/home")}`} replace />;
+    const fallbackPath = pathname + search || "/admin";
+    return <Navigate to={`/auth?redirect=${encodeURIComponent(fallbackPath)}`} replace />;
   }
 
   return <Outlet />;
