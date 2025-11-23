@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { corsHeaders } from "../_shared/cors.ts";
+import { loadMKF, auditMKFAction } from "../_shared/mkf-loader.ts";
 
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
@@ -44,7 +45,7 @@ serve(async (req) => {
     let conversation;
     if (conversationId) {
       const { data, error } = await supabase
-// [AUTO-PURGE]         .from("chat_conversations")
+        .from("chat_conversations")
         .select("*")
         .eq("id", conversationId)
         .single();
@@ -58,10 +59,10 @@ serve(async (req) => {
       conversation = data;
     } else {
       const { data, error } = await supabase
-// [AUTO-PURGE]         .from("chat_conversations")
+        .from("chat_conversations")
         .insert({
           user_id: user.id,
-          conversation_type: "inspection_form",
+          conversation_type: "lead_capture",
           context_data: context,
         })
         .select()
@@ -77,97 +78,118 @@ serve(async (req) => {
       conversation = data;
     }
 
-// [AUTO-PURGE]     await supabase.from("chat_messages").insert({
+    await supabase.from("chat_messages").insert({
       conversation_id: conversation.id,
       role: "user",
       content: message,
     });
 
     const { data: history } = await supabase
-// [AUTO-PURGE]       .from("chat_messages")
+      .from("chat_messages")
       .select("role, content")
       .eq("conversation_id", conversation.id)
       .order("created_at", { ascending: true });
 
-    const systemPrompt = `You are an expert roofing inspector assistant for Call Kaids Roofing (ABN 39475055075) in South East Melbourne, Victoria.
+    // Load MKF knowledge dynamically
+    const mkfPrompt = await loadMKF('lead-capture-assistant', supabase, {
+      customPrompt: `You parse natural language inputs to extract lead information and apply intelligent triage.
 
-Parse natural language observations into structured inspection data.
+YOUR ROLE:
+- Extract: name, phone, email, suburb, service interest, message
+- Validate suburb is within SE Melbourne service area (MKF_00)
+- Apply intelligent triage based on urgency and service type
+- Format data for CRM insertion
 
-CAPABILITIES:
-- Extract client details (name, phone, email, address)
-- Parse roof measurements and specifications
-- Identify defects and damage (broken tiles, ridge caps, pointing issues, valley irons)
-- Suggest quantities for repairs
-- Recommend materials and services based on observations
-- Classify roof condition and urgency
+TRIAGE RULES:
+- Emergency leaks = HIGH priority
+- Restoration quotes = MEDIUM priority
+- General maintenance = NORMAL priority
+`
+    });
 
-ROOF TYPES:
-- Concrete Tile
-- Terracotta Tile
-- Metal (Colorbond)
+    // Log MKF usage
+    await auditMKFAction(supabase, 'load_mkf', {
+      function: 'lead-capture-assistant',
+      conversation_id: conversation.id
+    });
 
-SERVICES:
-- Pressure washing
-- Flexible repointing (gables)
-- Ridge cap rebedding
-- Valley iron replacement
-- Broken tile replacement
-- Full restoration
+    const systemPrompt = `${mkfPrompt}
 
-OUTPUT FORMAT (when generating inspection data):
+EXTRACT:
+- Name (required)
+- Phone (required, Australian format: 04XX XXX XXX or 03 XXXX XXXX)
+- Email (optional)
+- Suburb (required, SE Melbourne)
+- Service type (required, match to KF_03_05 services)
+- Urgency level (use GWA_12 triage logic)
+- Additional notes/context
+
+SERVICE TYPES (KF_03_05):
+- Roof Restoration (full service: wash, rebed, repoint, paint)
+- Roof Painting (Premcoat membrane coating)
+- Roof Repairs (broken tiles, leaks, valley iron)
+- Ridge Capping & Gable Rebedding/Repointing
+- Gutter Cleaning & Maintenance
+- Leak Detection (diagnostic + repair)
+- Valley Iron Replacement
+- Tile Replacement (broken/damaged tiles)
+- Re-sarking & Rebattening
+- Full Rebedding & Pointing
+
+SE MELBOURNE SUBURBS (50km radius from Clyde North):
+Berwick, Clyde North, Cranbourne, Pakenham, Officer, Dandenong, Rowville, Narre Warren, Hampton Park, Frankston, Mount Eliza, Mornington, Carrum Downs, Endeavour Hills, Lyndhurst, etc.
+
+INTELLIGENT TRIAGE (GWA_12):
+- HIGH URGENCY: Active leaks, storm damage, safety hazards
+- MEDIUM URGENCY: Visible wear, upcoming rain forecast, proactive maintenance
+- LOW URGENCY: Cosmetic improvements, long-term planning
+
+LEAD INTAKE WORKFLOW (GWA_01):
+1. Capture complete contact details
+2. Identify service type and urgency
+3. Confirm suburb is within service area (50km of Clyde North)
+4. Note any special requirements or access issues
+5. Set initial lead score based on completeness and urgency
+
+OUTPUT FORMAT (when capturing lead):
 {
-  "clientName": string,
+  "name": string,
   "phone": string,
   "email": string | null,
-  "siteAddress": string,
-  "claddingType": "Concrete Tile" | "Terracotta Tile" | "Metal",
-  "roofArea": number (sqm),
-  "ridgeCaps": number,
-  "gableLengthLM": number,
-  "valleyIronsLM": number,
-  "brokenTiles": number,
-  "observations": {
-    "brokenTilesNotes": string,
-    "pointingNotes": string,
-    "valleyIronsNotes": string,
-    "generalCondition": string
-  },
-  "recommendations": string[],
-  "priority": "low" | "medium" | "high" | "urgent",
-  "estimatedCost": { min: number, max: number }
+  "suburb": string,
+  "service": string,
+  "urgency": "low" | "medium" | "high" | "urgent",
+  "message": string,
+  "source": "manual_ai_capture"
 }
 
-When user provides observations, parse them intelligently and return both:
-1. A conversational response explaining what you understood
+When user provides lead information, extract it intelligently and return both:
+1. A conversational confirmation
 2. Structured JSON data (wrap in <GENERATED_DATA> tags)
 
+If information is missing, ask clarifying questions naturally.
+
 Example:
-User: "Inspected 3 bedroom house in Berwick, concrete tile roof, 15 broken ridge caps on north side, valley iron rusted through, no leaks inside"
+User: "Sarah called about roof painting in Cranbourne, 0412 345 678"
 
 Response:
-I've captured the inspection details for the Berwick property. Here's what I extracted:
+Great! I've captured Sarah's details:
+- Service: Roof Painting
+- Location: Cranbourne
+- Phone: 0412 345 678
 
-- Roof type: Concrete tile
-- Defects: 15 broken ridge caps (north side), rusted valley iron
-- Condition: No active leaks (good sign)
-- Recommended work: Ridge cap rebedding (~15 caps), valley iron replacement
+Do you have her email address or any specific requirements she mentioned?
 
 <GENERATED_DATA>
 {
-  "siteAddress": "Berwick, VIC",
-  "claddingType": "Concrete Tile",
-  "ridgeCaps": 15,
-  "brokenTiles": 0,
-  "valleyIronsLM": 0,
-  "observations": {
-    "brokenTilesNotes": "",
-    "pointingNotes": "15 broken ridge caps on north side",
-    "valleyIronsNotes": "Valley iron rusted through, requires replacement",
-    "generalCondition": "No active leaks detected inside property"
-  },
-  "recommendations": ["Ridge cap rebedding - 15 caps", "Valley iron replacement"],
-  "priority": "medium",
-  "estimatedCost": { "min": 1500, "max": 3000 }
+  "name": "Sarah",
+  "phone": "0412345678",
+  "email": null,
+  "suburb": "Cranbourne",
+  "service": "Roof Painting",
+  "urgency": "medium",
+  "message": "Interested in roof painting services",
+  "source": "manual_ai_capture"
 }
 </GENERATED_DATA>`;
 
@@ -205,7 +227,7 @@ I've captured the inspection details for the Berwick property. Here's what I ext
     const aiData = await response.json();
     const assistantMessage = aiData.choices[0].message.content;
 
-// [AUTO-PURGE]     await supabase.from("chat_messages").insert({
+    await supabase.from("chat_messages").insert({
       conversation_id: conversation.id,
       role: "assistant",
       content: assistantMessage,
@@ -217,9 +239,9 @@ I've captured the inspection details for the Berwick property. Here's what I ext
       try {
         generatedData = JSON.parse(dataMatch[1].trim());
         
-// [AUTO-PURGE]         await supabase.from("ai_generation_history").insert({
+        await supabase.from("ai_generation_history").insert({
           user_id: user.id,
-          generator_type: "inspection",
+          generator_type: "lead",
           input_prompt: message,
           output_data: generatedData,
           applied: false,
@@ -238,7 +260,7 @@ I've captured the inspection details for the Berwick property. Here's what I ext
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error: any) {
-    console.error("Inspection Form Assistant Error:", error);
+    console.error("Lead Capture Assistant Error:", error);
     return new Response(
       JSON.stringify({ error: error.message }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }

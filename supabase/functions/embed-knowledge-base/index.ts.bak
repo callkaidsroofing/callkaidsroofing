@@ -120,7 +120,7 @@ serve(async (req) => {
 
           // Deactivate existing chunks for this document
           const { error: deactivateError } = await supabase
-// [AUTO-PURGE]             .from('knowledge_chunks')
+            .from('knowledge_chunks')
             .update({ active: false })
             .eq('doc_id', doc.docId)
             .eq('active', true);
@@ -146,7 +146,7 @@ serve(async (req) => {
 
             // Insert into database
             const { error: insertError } = await supabase
-// [AUTO-PURGE]               .from('knowledge_chunks')
+              .from('knowledge_chunks')
               .insert({
                 doc_id: doc.docId,
                 title: doc.title,

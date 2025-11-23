@@ -87,7 +87,7 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     await supabase
-// [AUTO-PURGE]       .from('voice_transcriptions')
+      .from('voice_transcriptions')
       .insert({
         conversation_id: conversationId,
         audio_url: '', // Could upload to storage if needed
@@ -97,7 +97,7 @@ serve(async (req) => {
 
     // Track analytics
     await supabase
-// [AUTO-PURGE]       .from('chat_analytics')
+      .from('chat_analytics')
       .insert({
         conversation_id: conversationId,
         event_type: 'voice_transcribed',

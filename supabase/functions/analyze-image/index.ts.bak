@@ -111,7 +111,7 @@ Return as JSON with keys: damageType, severity, affectedArea, urgency, requiredR
 
     // Track analytics
     await supabase
-// [AUTO-PURGE]       .from('chat_analytics')
+      .from('chat_analytics')
       .insert({
         conversation_id: conversationId,
         event_type: 'image_analyzed',

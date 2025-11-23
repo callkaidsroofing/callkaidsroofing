@@ -695,7 +695,7 @@ async function syncTasks(databaseId: string): Promise<SyncResult> {
 }
 
 async function logSyncResult(result: SyncResult) {
-// [AUTO-PURGE]   await supabase.from('content_sync_log').insert({
+  await supabase.from('content_sync_log').insert({
     sync_type: 'notion_api',
     table_name: result.table_name,
     sync_status: result.sync_status,

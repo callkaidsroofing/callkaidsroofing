@@ -34,7 +34,7 @@ serve(async (req) => {
     let conversation;
     if (conversationId) {
       const { data, error } = await supabase
-// [AUTO-PURGE]         .from('chat_conversations')
+        .from('chat_conversations')
         .select('*')
         .eq('id', conversationId)
         .single();
@@ -43,7 +43,7 @@ serve(async (req) => {
       conversation = data;
     } else {
       const { data, error } = await supabase
-// [AUTO-PURGE]         .from('chat_conversations')
+        .from('chat_conversations')
         .insert({
           conversation_type: 'internal_assistant',
           user_id: userId,
@@ -75,14 +75,14 @@ serve(async (req) => {
 
     // Get conversation history
     const { data: messages } = await supabase
-// [AUTO-PURGE]       .from('chat_messages')
+      .from('chat_messages')
       .select('*')
       .eq('conversation_id', conversation.id)
       .order('created_at', { ascending: true });
 
     // Save user message
     await supabase
-// [AUTO-PURGE]       .from('chat_messages')
+      .from('chat_messages')
       .insert({
         conversation_id: conversation.id,
         role: 'user',
@@ -162,7 +162,7 @@ Respond conversationally but stay focused on helping staff complete tasks effici
 
     // Save assistant message
     await supabase
-// [AUTO-PURGE]       .from('chat_messages')
+      .from('chat_messages')
       .insert({
         conversation_id: conversation.id,
         role: 'assistant',

@@ -135,7 +135,7 @@ export function prepareDocumentsFromFiles(
  */
 export async function getKnowledgeBaseStats() {
   const { data: chunks, error: chunksError } = await supabase
-// [AUTO-PURGE]     .from('knowledge_chunks')
+    .from('knowledge_chunks')
     .select('category, active')
     .eq('active', true);
 

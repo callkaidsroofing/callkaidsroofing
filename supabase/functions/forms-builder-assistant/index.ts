@@ -44,7 +44,7 @@ serve(async (req) => {
     let conversation;
     if (conversationId) {
       const { data, error } = await supabase
-        .from("chat_conversations")
+// [AUTO-PURGE]         .from("chat_conversations")
         .select("*")
         .eq("id", conversationId)
         .single();
@@ -58,7 +58,7 @@ serve(async (req) => {
       conversation = data;
     } else {
       const { data, error } = await supabase
-        .from("chat_conversations")
+// [AUTO-PURGE]         .from("chat_conversations")
         .insert({
           user_id: user.id,
           conversation_type: "form_builder",
@@ -77,14 +77,14 @@ serve(async (req) => {
       conversation = data;
     }
 
-    await supabase.from("chat_messages").insert({
+// [AUTO-PURGE]     await supabase.from("chat_messages").insert({
       conversation_id: conversation.id,
       role: "user",
       content: message,
     });
 
     const { data: history } = await supabase
-      .from("chat_messages")
+// [AUTO-PURGE]       .from("chat_messages")
       .select("role, content")
       .eq("conversation_id", conversation.id)
       .order("created_at", { ascending: true });
@@ -220,7 +220,7 @@ I'll create a warranty claim form with the following fields:
     const aiData = await response.json();
     const assistantMessage = aiData.choices[0].message.content;
 
-    await supabase.from("chat_messages").insert({
+// [AUTO-PURGE]     await supabase.from("chat_messages").insert({
       conversation_id: conversation.id,
       role: "assistant",
       content: assistantMessage,
@@ -232,7 +232,7 @@ I'll create a warranty claim form with the following fields:
       try {
         generatedData = JSON.parse(dataMatch[1].trim());
         
-        await supabase.from("ai_generation_history").insert({
+// [AUTO-PURGE]         await supabase.from("ai_generation_history").insert({
           user_id: user.id,
           generator_type: "form",
           input_prompt: message,

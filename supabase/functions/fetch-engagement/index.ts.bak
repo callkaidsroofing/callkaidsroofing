@@ -20,7 +20,7 @@ serve(async (req) => {
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
     const { data: posts, error: fetchError } = await supabase
-// [AUTO-PURGE]       .from('social_posts')
+      .from('social_posts')
       .select('id, platform, post_id, published_at')
       .eq('status', 'published')
       .not('post_id', 'is', null)

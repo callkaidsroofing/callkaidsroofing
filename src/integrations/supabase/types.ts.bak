@@ -356,7 +356,7 @@ export type Database = {
             foreignKeyName: "chat_analytics_conversation_id_fkey"
             columns: ["conversation_id"]
             isOneToOne: false
-// [AUTO-PURGE]             referencedRelation: "chat_conversations"
+            referencedRelation: "chat_conversations"
             referencedColumns: ["id"]
           },
         ]
@@ -468,7 +468,7 @@ export type Database = {
             foreignKeyName: "chat_messages_conversation_id_fkey"
             columns: ["conversation_id"]
             isOneToOne: false
-// [AUTO-PURGE]             referencedRelation: "chat_conversations"
+            referencedRelation: "chat_conversations"
             referencedColumns: ["id"]
           },
         ]
@@ -1404,7 +1404,7 @@ export type Database = {
             foreignKeyName: "image_analyses_conversation_id_fkey"
             columns: ["conversation_id"]
             isOneToOne: false
-// [AUTO-PURGE]             referencedRelation: "chat_conversations"
+            referencedRelation: "chat_conversations"
             referencedColumns: ["id"]
           },
         ]
@@ -2644,7 +2644,7 @@ export type Database = {
             foreignKeyName: "post_engagement_post_id_fkey"
             columns: ["post_id"]
             isOneToOne: false
-// [AUTO-PURGE]             referencedRelation: "social_posts"
+            referencedRelation: "social_posts"
             referencedColumns: ["id"]
           },
         ]
@@ -3644,7 +3644,7 @@ export type Database = {
             foreignKeyName: "voice_transcriptions_conversation_id_fkey"
             columns: ["conversation_id"]
             isOneToOne: false
-// [AUTO-PURGE]             referencedRelation: "chat_conversations"
+            referencedRelation: "chat_conversations"
             referencedColumns: ["id"]
           },
         ]

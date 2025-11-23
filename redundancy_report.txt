@@ -1,0 +1,264 @@
+==================================================
+🚩 DUPLICATE TOOL DEFINITIONS (Merge These!)
+==================================================
+
+⚠️  Date Formatter defined in 106 places:
+   - ./scripts/analyze-dependencies.ts
+   - ./src/components/ActivityTimeline.tsx
+   - ./src/components/AutosaveIndicator.tsx
+   - ./src/components/ClientsDataTable.tsx
+   - ./src/components/ContentCalendar.tsx
+   - ./src/components/FormRenderer.tsx
+   - ./src/components/InspectionQuoteBuilder/ExportStep.tsx
+   - ./src/components/InspectionQuoteBuilder/index.tsx
+   - ./src/components/InspectionQuoteBuilder/utils.ts
+   - ./src/components/InvoicesDataTable.tsx
+   - ./src/components/LeadActivityTimeline.tsx
+   - ./src/components/LeadBulkActions.tsx
+   - ./src/components/LeadDetailDrawer.tsx
+   - ./src/components/LeadTaskDialog.tsx
+   - ./src/components/QuoteDocumentDigital.tsx
+   - ./src/components/QuoteDocumentTemplate.tsx
+   - ./src/components/QuotesDataTable.tsx
+   - ./src/components/ReportCard.tsx
+   - ./src/components/ReportsDataTable.tsx
+   - ./src/components/SocialMediaManager.tsx
+   - ./src/components/_archived/ProfessionalQuoteBuilder.tsx
+   - ./src/components/_archived/QuoteBuilderDialog.tsx
+   - ./src/components/_archived/SimpleInspectionForm.tsx
+   - ./src/components/_archived/inspection-builder/ClientSiteStep.tsx
+   - ./src/components/admin/CategoryView.tsx
+   - ./src/components/admin/FileBrowser.tsx
+   - ./src/components/admin/FileEditor.tsx
+   - ./src/data/blogPosts.ts
+   - ./src/hooks/useDocumentAI.ts
+   - ./src/hooks/useManualRoofMeasurement.ts
+   - ./src/lib/audit.ts
+   - ./src/lib/pdfGenerator.ts
+   - ./src/pages/AdminHome.tsx
+   - ./src/pages/AdminUserManagement.tsx
+   - ./src/pages/Blog.tsx
+   - ./src/pages/BlogPost.tsx
+   - ./src/pages/DocsHub.tsx
+   - ./src/pages/FormSubmissions.tsx
+   - ./src/pages/ImageGenerator.tsx
+   - ./src/pages/JobsCalendar.tsx
+   - ./src/pages/LeadDetail.tsx
+   - ./src/pages/LeadIntelligence.tsx
+   - ./src/pages/LeadsPipeline.tsx
+   - ./src/pages/MarketingStudio.tsx
+   - ./src/pages/MediaLibrary.tsx
+   - ./src/pages/PrivacyPolicy.tsx
+   - ./src/pages/TermsOfService.tsx
+   - ./src/pages/_archived/admin/tools/QuickQuote.tsx
+   - ./src/pages/admin/analytics/ContentAnalytics.tsx
+   - ./src/pages/admin/cms/DataSync.tsx
+   - ./src/pages/admin/cms/KnowledgeSystem.tsx
+   - ./src/pages/admin/cms/MediaVerification.tsx
+   - ./src/pages/admin/cms/ServicesAdmin.tsx
+   - ./src/pages/admin/cms/StaticPagesAdmin.tsx
+   - ./src/pages/admin/cms/Suburbs.tsx
+   - ./src/pages/admin/content/BlogAdmin.tsx
+   - ./src/pages/admin/content/ChatUploadsImporter.tsx
+   - ./src/pages/admin/crm/JobsList.tsx
+   - ./src/pages/admin/crm/Quotes.tsx
+   - ./src/pages/admin/settings/Pricing.tsx
+   - ./src/pages/admin/tools/Forms.tsx
+   - ./src/pages/admin/tools/Measurements.tsx
+   - ./src/pages/internal/v2/admin/KnowledgeDocs.tsx
+   - ./src/pages/internal/v2/admin/KnowledgeUploader.tsx
+   - ./supabase/functions/_shared/mkf-loader.ts
+   - ./supabase/functions/admin-tools/index.ts
+   - ./supabase/functions/agent-content-generator/index.ts
+   - ./supabase/functions/agent-lead-intelligence/index.ts
+   - ./supabase/functions/agent-quote-followup/index.ts
+   - ./supabase/functions/ai-agent-scheduler/index.ts
+   - ./supabase/functions/analyze-project-images/index.ts
+   - ./supabase/functions/api-healthz/index.ts
+   - ./supabase/functions/auto-publisher/index.ts
+   - ./supabase/functions/automation-quote-followup/index.ts
+   - ./supabase/functions/automation-warranty-creation/index.ts
+   - ./supabase/functions/category-summarizer/index.ts
+   - ./supabase/functions/chat-quote-assistant/index.ts
+   - ./supabase/functions/ckr-gem-api/handlers/crm-advanced.ts
+   - ./supabase/functions/ckr-gem-api/handlers/crm-automation.ts
+   - ./supabase/functions/ckr-gem-api/handlers/crm.ts
+   - ./supabase/functions/ckr-gem-api/index.ts
+   - ./supabase/functions/ckr-gem-api/utils/audit.ts
+   - ./supabase/functions/ckr-gem-api/utils/export.ts
+   - ./supabase/functions/ckr-gem-api/utils/merge.ts
+   - ./supabase/functions/ckr-gem-api/utils/rateLimit.ts
+   - ./supabase/functions/ckr-gem-api/utils/scheduling.ts
+   - ./supabase/functions/conflict-resolver-chat/index.ts
+   - ./supabase/functions/crm-api/index.ts
+   - ./supabase/functions/fetch-engagement/index.ts
+   - ./supabase/functions/file-manager/index.ts
+   - ./supabase/functions/generate-embeddings/index.ts
+   - ./supabase/functions/generate-quote/index.ts
+   - ./supabase/functions/generate-suburb-content/index.ts
+   - ./supabase/functions/media-tools/index.ts
+   - ./supabase/functions/nexus-ai-hub/index.ts
+   - ./supabase/functions/notion-push-data/index.ts
+   - ./supabase/functions/notion-sync/index.ts
+   - ./supabase/functions/parse-ckr-blueprint/index.ts
+   - ./supabase/functions/process-knowledge-upload/index.ts
+   - ./supabase/functions/send-lead-notification/index.ts
+   - ./supabase/functions/send-quote-email/index.ts
+   - ./supabase/functions/send-quote/index.ts
+   - ./supabase/functions/social-manager/index.ts
+   - ./supabase/functions/supabase-to-notion-push/index.ts
+   - ./supabase/functions/sync-business-profiles/index.ts
+   - ./supabase/functions/sync-engine/index.ts
+
+⚠️  Supabase Client defined in 60 places:
+   - ./scripts/load-knowledge-base.ts
+   - ./supabase/functions/admin-tools/index.ts
+   - ./supabase/functions/admin-user-management/index.ts
+   - ./supabase/functions/agent-content-generator/index.ts
+   - ./supabase/functions/agent-lead-intelligence/index.ts
+   - ./supabase/functions/agent-quote-followup/index.ts
+   - ./supabase/functions/ai-agent-scheduler/index.ts
+   - ./supabase/functions/ai-quote-helper/index.ts
+   - ./supabase/functions/ai-repo-analyzer/index.ts
+   - ./supabase/functions/analyze-image/index.ts
+   - ./supabase/functions/analyze-project-images/index.ts
+   - ./supabase/functions/api-healthz/index.ts
+   - ./supabase/functions/auto-publisher/index.ts
+   - ./supabase/functions/automation-quote-followup/index.ts
+   - ./supabase/functions/automation-warranty-creation/index.ts
+   - ./supabase/functions/category-summarizer/index.ts
+   - ./supabase/functions/chat-customer-support/index.ts
+   - ./supabase/functions/chat-quote-assistant/index.ts
+   - ./supabase/functions/chat-with-rag/index.ts
+   - ./supabase/functions/ckr-gem-api/index.ts
+   - ./supabase/functions/ckr-gem-api/utils/audit.ts
+   - ./supabase/functions/ckr-gem-api/utils/rateLimit.ts
+   - ./supabase/functions/ckr-gem-api/utils/security.ts
+   - ./supabase/functions/configure-storage-cache/index.ts
+   - ./supabase/functions/conflict-detector/index.ts
+   - ./supabase/functions/conflict-resolver-chat/index.ts
+   - ./supabase/functions/crm-api/index.ts
+   - ./supabase/functions/docs-writer-assistant/index.ts
+   - ./supabase/functions/embed-knowledge-base/index.ts
+   - ./supabase/functions/embed-knowledge-docs/index.ts
+   - ./supabase/functions/extract-and-embed-knowledge/index.ts
+   - ./supabase/functions/fetch-engagement/index.ts
+   - ./supabase/functions/file-manager/index.ts
+   - ./supabase/functions/forms-builder-assistant/index.ts
+   - ./supabase/functions/generate-embeddings/index.ts
+   - ./supabase/functions/generate-quote/index.ts
+   - ./supabase/functions/generate-suburb-content/index.ts
+   - ./supabase/functions/inspection-form-assistant/index.ts
+   - ./supabase/functions/internal-assistant/index.ts
+   - ./supabase/functions/internal-search/index.ts
+   - ./supabase/functions/lead-capture-assistant/index.ts
+   - ./supabase/functions/media-tools/index.ts
+   - ./supabase/functions/migrate-suburb-pages/index.ts
+   - ./supabase/functions/nexus-ai-hub/index.ts
+   - ./supabase/functions/notification-service/index.ts
+   - ./supabase/functions/notion-sync/index.ts
+   - ./supabase/functions/parse-ckr-blueprint/index.ts
+   - ./supabase/functions/process-knowledge-upload/index.ts
+   - ./supabase/functions/quote-engine/index.ts
+   - ./supabase/functions/rag-indexer/index.ts
+   - ./supabase/functions/rag-search/index.ts
+   - ./supabase/functions/send-lead-notification/index.ts
+   - ./supabase/functions/send-quote-email/index.ts
+   - ./supabase/functions/send-quote/index.ts
+   - ./supabase/functions/social-manager/index.ts
+   - ./supabase/functions/supabase-to-notion-push/index.ts
+   - ./supabase/functions/sync-business-profiles/index.ts
+   - ./supabase/functions/sync-engine/index.ts
+   - ./supabase/functions/sync-pricing-data/index.ts
+   - ./supabase/functions/transcribe-voice/index.ts
+
+⚠️  Currency Formatter defined in 7 places:
+   - ./src/components/InspectionQuoteBuilder/utils.ts
+   - ./src/components/QuoteDocumentDigital.tsx
+   - ./src/components/QuoteDocumentTemplate.tsx
+   - ./src/pages/_archived/admin/tools/QuickQuote.tsx
+   - ./src/pages/admin/crm/JobsList.tsx
+   - ./src/pages/admin/crm/Quotes.tsx
+   - ./supabase/functions/send-quote/index.ts
+
+⚠️  Email Sender defined in 4 places:
+   - ./supabase/functions/send-inspection-quote-email/index.ts
+   - ./supabase/functions/send-lead-notification/index.ts
+   - ./supabase/functions/send-quote-email/index.ts
+   - ./supabase/functions/send-quote/index.ts
+
+==================================================
+🚩 DUPLICATE FILE NAMES (Confusing Imports)
+==================================================
+
+⚠️  ImageUploadField.tsx exists in 2 places:
+   - ./src/components/ImageUploadField.tsx
+   - ./src/components/_archived/ImageUploadField.tsx
+
+⚠️  QuoteChatPanel.tsx exists in 2 places:
+   - ./src/components/QuoteChatPanel.tsx
+   - ./src/components/_archived/QuoteChatPanel.tsx
+
+⚠️  QuotePreferencesForm.tsx exists in 2 places:
+   - ./src/components/QuotePreferencesForm.tsx
+   - ./src/components/_archived/QuotePreferencesForm.tsx
+
+⚠️  QuoteTierCard.tsx exists in 2 places:
+   - ./src/components/QuoteTierCard.tsx
+   - ./src/components/_archived/QuoteTierCard.tsx
+
+⚠️  types.ts exists in 2 places:
+   - ./src/components/InspectionQuoteBuilder/types.ts
+   - ./src/integrations/supabase/types.ts
+
+⚠️  utils.ts exists in 2 places:
+   - ./src/components/InspectionQuoteBuilder/utils.ts
+   - ./src/lib/utils.ts
+
+⚠️  use-toast.ts exists in 2 places:
+   - ./src/components/ui/use-toast.ts
+   - ./src/hooks/use-toast.ts
+
+⚠️  audit.ts exists in 2 places:
+   - ./src/lib/audit.ts
+   - ./supabase/functions/ckr-gem-api/utils/audit.ts
+
+⚠️  Blog.tsx exists in 2 places:
+   - ./src/pages/Blog.tsx
+   - ./src/pages/admin/content/Blog.tsx
+
+⚠️  FormSubmissions.tsx exists in 2 places:
+   - ./src/pages/FormSubmissions.tsx
+   - ./src/pages/admin/settings/FormSubmissions.tsx
+
+⚠️  ImageGenerator.tsx exists in 2 places:
+   - ./src/pages/ImageGenerator.tsx
+   - ./src/pages/admin/content/ImageGenerator.tsx
+
+⚠️  LeadDetail.tsx exists in 2 places:
+   - ./src/pages/LeadDetail.tsx
+   - ./src/pages/admin/crm/LeadDetail.tsx
+
+⚠️  Services.tsx exists in 2 places:
+   - ./src/pages/Services.tsx
+   - ./src/pages/admin/cms/Services.tsx
+
+⚠️  EmbeddingGenerator.tsx exists in 2 places:
+   - ./src/pages/admin/cms/EmbeddingGenerator.tsx
+   - ./src/pages/internal/v2/admin/EmbeddingGenerator.tsx
+
+⚠️  KnowledgeDocs.tsx exists in 2 places:
+   - ./src/pages/admin/cms/KnowledgeDocs.tsx
+   - ./src/pages/internal/v2/admin/KnowledgeDocs.tsx
+
+⚠️  KnowledgeUploader.tsx exists in 2 places:
+   - ./src/pages/admin/cms/KnowledgeUploader.tsx
+   - ./src/pages/internal/v2/admin/KnowledgeUploader.tsx
+
+⚠️  Forms.tsx exists in 2 places:
+   - ./src/pages/admin/settings/Forms.tsx
+   - ./src/pages/admin/tools/Forms.tsx
+
+⚠️  AIAssistant.tsx exists in 2 places:
+   - ./src/pages/admin/tools/AIAssistant.tsx
+   - ./src/pages/internal/v2/AIAssistant.tsx

@@ -192,7 +192,7 @@ async function clearKnowledgeBase() {
   console.log('\n🗑️  Clearing existing knowledge base...\n');
   
   const { error } = await supabase
-// [AUTO-PURGE]     .from('knowledge_chunks')
+    .from('knowledge_chunks')
     .delete()
     .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
 

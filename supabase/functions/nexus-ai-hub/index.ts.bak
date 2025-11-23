@@ -311,7 +311,7 @@ Provide a helpful response:`
     const executionTime = Date.now() - startTime;
 
     // Log action
-// [AUTO-PURGE]     await supabase.from('ai_action_log').insert({
+    await supabase.from('ai_action_log').insert({
       user_id: user.id,
       action_type: classification.intent,
       intent: classification.intent,

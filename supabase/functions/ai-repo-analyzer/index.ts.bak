@@ -176,7 +176,7 @@ serve(async (req) => {
     } as Record<string, unknown>;
 
     const { error: scanErr } = await supabase
-// [AUTO-PURGE]       .from('security_scan_results')
+      .from('security_scan_results')
       .insert({
         repo_owner: repoOwner,
         repo_name: repoName,
@@ -187,7 +187,7 @@ serve(async (req) => {
     if (scanErr) console.error('security_scan_results insert error', scanErr);
 
     const { error: cacheErr } = await supabase
-// [AUTO-PURGE]       .from('ai_analysis_cache')
+      .from('ai_analysis_cache')
       .upsert({
         repo_owner: repoOwner,
         repo_name: repoName,

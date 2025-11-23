@@ -22,7 +22,7 @@ serve(async (req) => {
     const fiveMinutesLater = new Date(now.getTime() + 5 * 60 * 1000);
 
     const { data: scheduledPosts, error: fetchError } = await supabase
-// [AUTO-PURGE]       .from('social_posts')
+      .from('social_posts')
       .select('*')
       .eq('status', 'scheduled')
       .gte('scheduled_for', fiveMinutesAgo.toISOString())
@@ -52,7 +52,7 @@ serve(async (req) => {
 
         // Update post status to published
         await supabase
-// [AUTO-PURGE]           .from('social_posts')
+          .from('social_posts')
           .update({
             status: 'published',
             published_at: now.toISOString(),
@@ -66,7 +66,7 @@ serve(async (req) => {
 
         // Update post status to failed
         await supabase
-// [AUTO-PURGE]           .from('social_posts')
+          .from('social_posts')
           .update({
             status: 'failed',
             error_message: error.message,
