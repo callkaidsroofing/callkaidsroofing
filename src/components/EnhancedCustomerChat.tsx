@@ -121,7 +121,7 @@ Would you like a free quote for these services? Fill out our contact form and we
       ]);
 
       // Track analytics
-// [AUTO-PURGE]       await supabase.from('chat_analytics').insert({
+      await supabase.from('chat_analytics').insert({
         conversation_id: data.conversationId,
         event_type: 'message_sent',
         event_data: { userMessage: messageText },

@@ -98,76 +98,47 @@ serve(async (req) => {
       }
     }
 
-    // Search master_knowledge with KF-aware enhancements
+    // Search ckr_knowledge_sections (header-based storage)
     if (sourceTypes.includes('all') || sourceTypes.includes('master_knowledge')) {
-      const { data, error } = await supabase.rpc('search_master_knowledge', {
+      const { data, error } = await supabase.rpc('search_ckr_sections', {
         query_embedding: queryEmbedding,
         match_threshold: matchThreshold,
         match_count: matchCount,
-        filter_category: filterCategory || null,
+        filter_domain: filterCategory || null,
       });
 
       if (!error && data) {
-        const enhancedResults = data.map((doc: any) => {
-          let similarity = doc.similarity;
+        const enhancedResults = data.map((section: any) => {
+          let similarity = section.similarity;
           
-          // Apply KF priority boost
-          if (doc.metadata?.kf_id) {
-            if (kfFilter && doc.metadata.kf_id === kfFilter) {
-              similarity += 0.15;
-            } else if (priorityBoost.includes(doc.metadata.kf_id)) {
-              similarity += 0.05;
-            }
+          // Apply KF priority boost based on doc_id
+          if (kfFilter && section.doc_id.startsWith(kfFilter)) {
+            similarity += 0.15;
+          } else if (priorityBoost.some(kf => section.doc_id.startsWith(kf))) {
+            similarity += 0.05;
           }
 
           return {
-            id: doc.doc_id,
-            title: doc.title,
-            content: doc.content,
-            source_table: 'master_knowledge',
-            source_id: doc.doc_id,
+            id: section.doc_id + '_' + section.section_path,
+            citation: `[${section.doc_id} § ${section.heading}]`,
+            doc_id: section.doc_id,
+            doc_title: section.doc_title,
+            title: section.heading,
+            section_path: section.section_path,
+            content: section.content,
+            source_table: 'ckr_knowledge_sections',
             similarity,
+            keywords: section.keywords,
+            related_sections: section.related_sections,
             metadata: {
-              ...doc.metadata,
+              doc_id: section.doc_id,
+              section_level: section.section_path.split(' > ').length,
               kf_routing_applied: kfFilter || priorityBoost.join(',') || 'none'
             }
           };
         });
 
         allResults.push(...enhancedResults);
-
-        // Follow KF dependencies
-        const kfIds = new Set(enhancedResults.map((r: any) => r.metadata?.kf_id).filter(Boolean));
-        if (kfIds.size > 0) {
-          const { data: metaData } = await supabase
-            .from('knowledge_file_metadata')
-            .select('kf_id, dependencies')
-            .in('kf_id', Array.from(kfIds));
-
-          if (metaData) {
-            const depKfIds = metaData.flatMap((m: any) => m.dependencies || []);
-            if (depKfIds.length > 0) {
-              const { data: depData } = await supabase
-                .from('master_knowledge')
-                .select('*')
-                .in('kf_id', depKfIds)
-                .eq('active', true)
-                .limit(3);
-
-              if (depData) {
-                allResults.push(...depData.map((item: any) => ({
-                  id: item.doc_id,
-                  title: item.title,
-                  content: item.content,
-                  source_table: 'master_knowledge',
-                  source_id: item.doc_id,
-                  similarity: 0.65,
-                  metadata: { ...item.metadata, is_dependency: true }
-                })));
-              }
-            }
-          }
-        }
       }
     }
 
