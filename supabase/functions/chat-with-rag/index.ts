@@ -69,46 +69,66 @@ serve(async (req) => {
         });
 
         if (ragResponse.data?.success) {
-          retrievedContext = ragResponse.data.chunks;
-          const contextString = ragResponse.data.context;
+          retrievedContext = ragResponse.data.results || [];
+          
+          // Build context string with MKF-style citations
+          let contextString = '';
+          if (retrievedContext.length > 0) {
+            contextString = '\n\n--- KNOWLEDGE BASE CONTEXT ---\n';
+            retrievedContext.forEach((section: any, i: number) => {
+              contextString += `\n${section.citation || `[Section ${i + 1}]`}\n`;
+              contextString += `Path: ${section.section_path || section.title}\n`;
+              contextString += `Content: ${section.content}\n`;
+              if (section.keywords?.length > 0) {
+                contextString += `Keywords: ${section.keywords.join(', ')}\n`;
+              }
+              if (section.related_sections?.length > 0) {
+                contextString += `Related: ${section.related_sections.join(', ')}\n`;
+              }
+              contextString += '\n';
+            });
+          }
 
-          console.log(`Retrieved ${retrievedContext.length} relevant chunks`);
+          console.log(`Retrieved ${retrievedContext.length} relevant sections`);
 
-          // Enhanced system message with admin assistant prompt
+          // Enhanced system message with CKR-GEM governance
           const systemMessage: Message = {
             role: 'system',
-            content: `System: CKR Admin Assistant. Use RAG; cite table/file. Obey BRAND_GUIDE.md and WARRANTY_POLICY.md.
+            content: `You are the CKR Digital Engine Admin Assistant, powered by the CKR-GEM Knowledge Framework.
 
-**Business Identity:**
-- Name: Call Kaids Roofing
-- ABN: 39475055075
-- Phone: 0435 900 709
-- Email: callkaidsroofing@outlook.com
-- Slogan: *Proof In Every Roof* (always italicized)
-- Colors: #007ACC (Primary), #0B3B69 (Dark), #111827 (Charcoal) - NO ORANGE
+**CRITICAL CITATION RULES:**
+1. ALWAYS cite using [MKF_XX § Section Heading] or [KF_XX § Section Heading] format
+2. Use the exact citation provided in the context (e.g., [MKF_02 § Pricing Adjustments])
+3. When referencing related documents, use their cross-references
+4. NEVER make up citations - only use what's in the context
+
+**Business Identity (IMMUTABLE - KF_01):**
+- ABN: 39475055075 (MUST include in quotes/invoices)
+- Phone: 0435 900 709 (MUST include in all communications)
+- Slogan: *Proof In Every Roof* (ALWAYS italicized, asterisks mandatory)
+- Colors: #007ACC (Primary Blue) - ORANGE IS STRICTLY FORBIDDEN
 - Voice: Intelligent, Relaxed, Direct, Warm, Proof-Driven
-- Area: SE Melbourne, Australia
 
 **Your Role:**
 ${conversationType === 'customer_support' 
-  ? 'Provide helpful, professional customer support. Answer questions about services, pricing, and scheduling. Always offer to book a free roof inspection.'
+  ? 'Provide professional customer support. Answer questions about services, pricing, and scheduling. Always cite [KF_02 § Service Pricing] for pricing queries.'
   : conversationType === 'quote_assistant'
-  ? 'Assist inspectors with quote generation, pricing calculations, and technical specifications. Use the Master Knowledge Framework for accurate information.'
-  : 'Provide internal business intelligence and process guidance to CKR team members. Reference knowledge base sources in format [MKF_00] or [BRAND_GUIDE] or [WARRANTY_POLICY].'
+  ? 'Assist with quote generation using [KF_02 § Pricing Model]. Ensure all line items match pricing_items table. Apply markups per [MKF_10 § Financial Logic].'
+  : 'Provide admin guidance. Reference MKF sources. Follow governance hierarchy: MKF > KF > SOP.'
 }
 
-**Knowledge Base Context (from RAG search):**
+**Knowledge Base Context:**
 ${contextString}
 
-**Instructions:**
-- When using knowledge, cite sources: [MKF_00], [BRAND_GUIDE], [WARRANTY_POLICY], [GWA-XX]
-- If inputs missing, ask specific questions
-- For pricing: give ranges + list assumptions (never claim "cheapest", use "best value" or "cost-effective")
-- Use Australian English and date format (DD MMM YYYY)
-- Be professional, friendly, and solution-oriented
-- If information is not in context, acknowledge limitations
-- Always include contact details when suggesting next steps
-- Follow brand guidelines strictly: correct colors, voice, slogan formatting`,
+**Response Guidelines:**
+- Prioritize MKF sources (governance) over KF sources (operations)
+- For pricing: cite [KF_02 § relevant section] and list all assumptions
+- For brand rules: cite [KF_01 § Brand Core Mandate]
+- For procedures: cite [KF_03 § SOPs]
+- For warranties: cite [KF_06 § Warranty Terms]
+- If context lacks info, say "I don't have specific guidance on this in the current knowledge base"
+- Use Australian English and date format (DD/MM/YYYY)
+- Never claim "cheapest" - use "best value" or "cost-effective"`,
           };
 
           // Replace or prepend system message
@@ -158,8 +178,9 @@ ${contextString}
           ragUsed: useRag,
           contextsRetrieved: retrievedContext.length,
           contexts: retrievedContext.map(c => ({
-            title: c.title,
-            category: c.category,
+            citation: c.citation,
+            doc_id: c.doc_id,
+            section_path: c.section_path,
             similarity: c.similarity,
           })),
         },

@@ -329,6 +329,50 @@ export type Database = {
         }
         Relationships: []
       }
+      case_studies: {
+        Row: {
+          after_photo_url: string | null
+          before_photo_url: string | null
+          id: string
+          is_published: boolean | null
+          job_id: string | null
+          outcome_text: string | null
+          problem_text: string | null
+          solution_text: string | null
+          title: string | null
+        }
+        Insert: {
+          after_photo_url?: string | null
+          before_photo_url?: string | null
+          id?: string
+          is_published?: boolean | null
+          job_id?: string | null
+          outcome_text?: string | null
+          problem_text?: string | null
+          solution_text?: string | null
+          title?: string | null
+        }
+        Update: {
+          after_photo_url?: string | null
+          before_photo_url?: string | null
+          id?: string
+          is_published?: boolean | null
+          job_id?: string | null
+          outcome_text?: string | null
+          problem_text?: string | null
+          solution_text?: string | null
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_studies_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       chat_analytics: {
         Row: {
           conversation_id: string | null
@@ -356,7 +400,7 @@ export type Database = {
             foreignKeyName: "chat_analytics_conversation_id_fkey"
             columns: ["conversation_id"]
             isOneToOne: false
-// [AUTO-PURGE]             referencedRelation: "chat_conversations"
+            referencedRelation: "chat_conversations"
             referencedColumns: ["id"]
           },
         ]
@@ -468,10 +512,127 @@ export type Database = {
             foreignKeyName: "chat_messages_conversation_id_fkey"
             columns: ["conversation_id"]
             isOneToOne: false
-// [AUTO-PURGE]             referencedRelation: "chat_conversations"
+            referencedRelation: "chat_conversations"
             referencedColumns: ["id"]
           },
         ]
+      }
+      ckr_document_registry: {
+        Row: {
+          active: boolean | null
+          doc_id: string
+          domain: string
+          file_path: string
+          id: string
+          last_updated: string | null
+          section_count: number | null
+          supersedes: string[] | null
+          title: string
+          version: string
+        }
+        Insert: {
+          active?: boolean | null
+          doc_id: string
+          domain: string
+          file_path: string
+          id?: string
+          last_updated?: string | null
+          section_count?: number | null
+          supersedes?: string[] | null
+          title: string
+          version: string
+        }
+        Update: {
+          active?: boolean | null
+          doc_id?: string
+          domain?: string
+          file_path?: string
+          id?: string
+          last_updated?: string | null
+          section_count?: number | null
+          supersedes?: string[] | null
+          title?: string
+          version?: string
+        }
+        Relationships: []
+      }
+      ckr_knowledge: {
+        Row: {
+          chunk_id: string
+          content: string
+          embedding: string | null
+          id: string
+          metadata: Json | null
+        }
+        Insert: {
+          chunk_id: string
+          content: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json | null
+        }
+        Update: {
+          chunk_id?: string
+          content?: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json | null
+        }
+        Relationships: []
+      }
+      ckr_knowledge_sections: {
+        Row: {
+          active: boolean | null
+          content: string
+          created_at: string | null
+          doc_id: string
+          doc_title: string
+          domain: string
+          embedding: string | null
+          heading: string
+          id: string
+          keywords: string[] | null
+          metadata: Json | null
+          related_sections: string[] | null
+          section_level: number
+          section_path: string
+          updated_at: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          content: string
+          created_at?: string | null
+          doc_id: string
+          doc_title: string
+          domain: string
+          embedding?: string | null
+          heading: string
+          id?: string
+          keywords?: string[] | null
+          metadata?: Json | null
+          related_sections?: string[] | null
+          section_level: number
+          section_path: string
+          updated_at?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          content?: string
+          created_at?: string | null
+          doc_id?: string
+          doc_title?: string
+          domain?: string
+          embedding?: string | null
+          heading?: string
+          id?: string
+          keywords?: string[] | null
+          metadata?: Json | null
+          related_sections?: string[] | null
+          section_level?: number
+          section_path?: string
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       conflict_resolutions: {
         Row: {
@@ -1222,6 +1383,41 @@ export type Database = {
         }
         Relationships: []
       }
+      expenses: {
+        Row: {
+          amount: number
+          category: string | null
+          date_incurred: string | null
+          description: string
+          id: string
+          job_id: string | null
+        }
+        Insert: {
+          amount: number
+          category?: string | null
+          date_incurred?: string | null
+          description: string
+          id?: string
+          job_id?: string | null
+        }
+        Update: {
+          amount?: number
+          category?: string | null
+          date_incurred?: string | null
+          description?: string
+          id?: string
+          job_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       form_definitions: {
         Row: {
           created_at: string
@@ -1404,7 +1600,7 @@ export type Database = {
             foreignKeyName: "image_analyses_conversation_id_fkey"
             columns: ["conversation_id"]
             isOneToOne: false
-// [AUTO-PURGE]             referencedRelation: "chat_conversations"
+            referencedRelation: "chat_conversations"
             referencedColumns: ["id"]
           },
         ]
@@ -2644,7 +2840,7 @@ export type Database = {
             foreignKeyName: "post_engagement_post_id_fkey"
             columns: ["post_id"]
             isOneToOne: false
-// [AUTO-PURGE]             referencedRelation: "social_posts"
+            referencedRelation: "social_posts"
             referencedColumns: ["id"]
           },
         ]
@@ -3644,7 +3840,7 @@ export type Database = {
             foreignKeyName: "voice_transcriptions_conversation_id_fkey"
             columns: ["conversation_id"]
             isOneToOne: false
-// [AUTO-PURGE]             referencedRelation: "chat_conversations"
+            referencedRelation: "chat_conversations"
             referencedColumns: ["id"]
           },
         ]
@@ -3948,6 +4144,37 @@ export type Database = {
       }
       is_admin_user: { Args: { user_id?: string }; Returns: boolean }
       is_inspector: { Args: { _user_id?: string }; Returns: boolean }
+      match_ckr_knowledge: {
+        Args: {
+          match_count: number
+          match_threshold: number
+          query_embedding: string
+        }
+        Returns: {
+          content: string
+          id: string
+          metadata: Json
+          similarity: number
+        }[]
+      }
+      search_ckr_sections: {
+        Args: {
+          filter_domain?: string
+          match_count?: number
+          match_threshold?: number
+          query_embedding: string
+        }
+        Returns: {
+          content: string
+          doc_id: string
+          doc_title: string
+          heading: string
+          keywords: string[]
+          related_sections: string[]
+          section_path: string
+          similarity: number
+        }[]
+      }
       search_knowledge_chunks: {
         Args: {
           filter_category?: string
