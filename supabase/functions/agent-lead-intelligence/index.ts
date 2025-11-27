@@ -143,7 +143,7 @@ Email: ${lead.email || 'N/A'}`
     }
 
     // Log optimization data
-// [AUTO-PURGE]     await supabase.from('ai_optimization_history').insert({
+    await supabase.from('ai_optimization_history').insert({
       agent_name: 'agent-lead-intelligence',
       version: '1.0',
       optimization_type: 'lead_scoring',
