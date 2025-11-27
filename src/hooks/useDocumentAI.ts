@@ -75,7 +75,7 @@ export function useDocumentAI({
   const loadHistory = async (generatorType: string) => {
     try {
       const { data, error } = await supabase
-// [AUTO-PURGE]         .from("ai_generation_history")
+        .from("ai_generation_history")
         .select("*")
         .eq("generator_type", generatorType)
         .order("created_at", { ascending: false })
@@ -102,7 +102,7 @@ export function useDocumentAI({
   const markAsApplied = async (historyId: string) => {
     try {
       const { error } = await supabase
-// [AUTO-PURGE]         .from("ai_generation_history")
+        .from("ai_generation_history")
         .update({ applied: true, applied_at: new Date().toISOString() })
         .eq("id", historyId);
 

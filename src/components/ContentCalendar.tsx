@@ -48,7 +48,7 @@ export function ContentCalendar() {
     const weekEnd = addDays(weekStart, 7);
 
     const { data, error } = await supabase
-// [AUTO-PURGE]       .from('social_posts')
+      .from('social_posts')
       .select('*')
       .in('status', ['scheduled', 'draft'])
       .gte('scheduled_for', weekStart.toISOString())

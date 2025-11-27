@@ -247,7 +247,7 @@ export default function AdminHome() {
         .eq('status', 'new');
 
       const { count: scheduledPosts } = await supabase
-// [AUTO-PURGE]         .from('social_posts')
+        .from('social_posts')
         .select('*', { count: 'exact', head: true })
         .eq('status', 'scheduled');
 
