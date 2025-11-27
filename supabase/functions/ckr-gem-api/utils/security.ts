@@ -14,7 +14,7 @@ export async function authenticate(req: Request): Promise<{
   const apiKey = req.headers.get('x-api-key');
   
   // Log authentication attempt
-// [AUTO-PURGE]   await supabase.from('security_events').insert({
+  await supabase.from('security_events').insert({
     event_type: 'auth_attempt',
     ip_address: req.headers.get('x-forwarded-for'),
     user_agent: req.headers.get('user-agent'),
@@ -24,7 +24,7 @@ export async function authenticate(req: Request): Promise<{
   
   if (!apiKey || apiKey !== GPT_PROXY_KEY) {
     // Log failed authentication
-// [AUTO-PURGE]     await supabase.from('security_events').insert({
+    await supabase.from('security_events').insert({
       event_type: 'auth_failed',
       ip_address: req.headers.get('x-forwarded-for'),
       user_agent: req.headers.get('user-agent'),
