@@ -69,7 +69,7 @@ export const SocialMediaManager = () => {
 
   const fetchPosts = useCallback(async () => {
     const { data, error } = await supabase
-// [AUTO-PURGE]       .from('social_posts')
+      .from('social_posts')
       .select('*')
       .order('created_at', { ascending: false });
 
@@ -88,7 +88,7 @@ export const SocialMediaManager = () => {
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
     const { data: publishedPosts } = await supabase
-// [AUTO-PURGE]       .from('social_posts')
+      .from('social_posts')
       .select('id, platform, content, published_at, post_engagement(*)')
       .eq('status', 'published')
       .gte('published_at', thirtyDaysAgo.toISOString());
@@ -217,7 +217,7 @@ export const SocialMediaManager = () => {
       }
 
       const { error } = await supabase
-// [AUTO-PURGE]         .from('social_posts')
+        .from('social_posts')
         .insert([postData]);
 
       if (error) throw error;
@@ -272,7 +272,7 @@ export const SocialMediaManager = () => {
           const fbResponse = response as FBPostResponse;
           if (fbResponse.error) {
             await supabase
-// [AUTO-PURGE]               .from('social_posts')
+              .from('social_posts')
               .update({
                 status: 'failed',
                 error_message: fbResponse.error.message
@@ -286,7 +286,7 @@ export const SocialMediaManager = () => {
             });
           } else {
             await supabase
-// [AUTO-PURGE]               .from('social_posts')
+              .from('social_posts')
               .update({
                 status: 'published',
                 published_at: new Date().toISOString(),
@@ -306,7 +306,7 @@ export const SocialMediaManager = () => {
       }
     } catch (error) {
       await supabase
-// [AUTO-PURGE]         .from('social_posts')
+        .from('social_posts')
         .update({
           status: 'failed',
           error_message: error instanceof Error ? error.message : 'Unknown error'

@@ -100,12 +100,7 @@ serve(async (req) => {
 
       if (roleError) throw roleError;
 
-// [AUTO-PURGE]       await supabaseClient.from('security_logs').insert({
-        event_type: 'USER_CREATED',
-        user_id: user.id,
-        user_email: user.email,
-        event_details: { created_user: email, roles },
-      });
+      // Security logging disabled (security_logs table not in schema)
 
       return new Response(JSON.stringify({
         success: true,
@@ -134,12 +129,7 @@ serve(async (req) => {
 
       if (roleError) throw roleError;
 
-// [AUTO-PURGE]       await supabaseClient.from('security_logs').insert({
-        event_type: 'USER_ROLES_UPDATED',
-        user_id: user.id,
-        user_email: user.email,
-        event_details: { target_user: userId, new_roles: roles },
-      });
+      // Security logging disabled (security_logs table not in schema)
 
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -153,12 +143,7 @@ serve(async (req) => {
       const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(userId);
       if (deleteError) throw deleteError;
 
-// [AUTO-PURGE]       await supabaseClient.from('security_logs').insert({
-        event_type: 'USER_DELETED',
-        user_id: user.id,
-        user_email: user.email,
-        event_details: { deleted_user: userId },
-      });
+      // Security logging disabled (security_logs table not in schema)
 
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
