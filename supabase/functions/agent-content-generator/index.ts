@@ -168,7 +168,7 @@ Service: ${topIssue[0].replace('_', ' ')} repairs`
 
     // Save social posts
     for (const post of (socialPosts.posts || [])) {
-// [AUTO-PURGE]       await supabase.from('social_posts').insert({
+      await supabase.from('social_posts').insert({
         platform: 'facebook',
         content: post.text + '\n\n' + post.hashtags.join(' '),
         status: 'draft',
