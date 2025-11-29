@@ -77,14 +77,14 @@ serve(async (req) => {
       conversation = data;
     }
 
-// [AUTO-PURGE]     await supabase.from("chat_messages").insert({
+    await supabase.from("chat_messages").insert({
       conversation_id: conversation.id,
       role: "user",
       content: message,
     });
 
     const { data: history } = await supabase
-// [AUTO-PURGE]       .from("chat_messages")
+      .from("chat_messages")
       .select("role, content")
       .eq("conversation_id", conversation.id)
       .order("created_at", { ascending: true });
