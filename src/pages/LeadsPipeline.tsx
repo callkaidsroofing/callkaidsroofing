@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Plus, Search, Phone, Mail, MapPin, DollarSign, FileText, Loader2 } from 'lucide-react';
+import { Plus, Search, Phone, Mail, MapPin, FileText, Loader2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { LeadDetailDrawer } from '@/components/LeadDetailDrawer';
 import { LeadBulkActions } from '@/components/LeadBulkActions';
 import { LeadFilters, LeadFilterState } from '@/components/LeadFilters';
+import { CreateLeadDialog } from '@/components/CreateLeadDialog';
 
 interface Lead {
   id: string;
@@ -54,6 +55,7 @@ export default function LeadsPipeline() {
     dateFrom: '',
     dateTo: '',
   });
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -233,7 +235,7 @@ export default function LeadsPipeline() {
               Drag and drop leads between stages or click to view details
             </p>
           </div>
-          <Button onClick={() => navigate('/admin/crm/leads')}>
+          <Button onClick={() => setCreateDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             New Lead
           </Button>
@@ -388,6 +390,13 @@ export default function LeadsPipeline() {
         open={drawerOpen}
         onOpenChange={setDrawerOpen}
       />
-      </div>
-    );
-  }
+
+      {/* Create Lead Dialog */}
+      <CreateLeadDialog
+        open={createDialogOpen}
+        onOpenChange={setCreateDialogOpen}
+        onLeadCreated={fetchLeads}
+      />
+    </div>
+  );
+}
