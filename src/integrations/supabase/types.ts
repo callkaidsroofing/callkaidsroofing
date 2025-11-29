@@ -556,6 +556,48 @@ export type Database = {
         }
         Relationships: []
       }
+      ckr_jobs: {
+        Row: {
+          assigned_agent_uid: string | null
+          created_at: string | null
+          details: Json | null
+          lead_uid: string | null
+          name: string | null
+          scheduled_date: string | null
+          service_uids: string | null
+          status: string | null
+          suburb_uid: string | null
+          uid: string
+          updated_at: string | null
+        }
+        Insert: {
+          assigned_agent_uid?: string | null
+          created_at?: string | null
+          details?: Json | null
+          lead_uid?: string | null
+          name?: string | null
+          scheduled_date?: string | null
+          service_uids?: string | null
+          status?: string | null
+          suburb_uid?: string | null
+          uid: string
+          updated_at?: string | null
+        }
+        Update: {
+          assigned_agent_uid?: string | null
+          created_at?: string | null
+          details?: Json | null
+          lead_uid?: string | null
+          name?: string | null
+          scheduled_date?: string | null
+          service_uids?: string | null
+          status?: string | null
+          suburb_uid?: string | null
+          uid?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       ckr_knowledge: {
         Row: {
           chunk_id: string
@@ -630,6 +672,159 @@ export type Database = {
           related_sections?: string[] | null
           section_level?: number
           section_path?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      ckr_leads: {
+        Row: {
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string | null
+          details: Json | null
+          name: string | null
+          source: string | null
+          status: string | null
+          suburb_uid: string | null
+          uid: string
+          updated_at: string | null
+        }
+        Insert: {
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          details?: Json | null
+          name?: string | null
+          source?: string | null
+          status?: string | null
+          suburb_uid?: string | null
+          uid: string
+          updated_at?: string | null
+        }
+        Update: {
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          details?: Json | null
+          name?: string | null
+          source?: string | null
+          status?: string | null
+          suburb_uid?: string | null
+          uid?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      ckr_quotes: {
+        Row: {
+          created_at: string | null
+          details: Json | null
+          job_uid: string | null
+          name: string | null
+          pricing_item_uids: string | null
+          status: string | null
+          subtotal_aud: number | null
+          uid: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          details?: Json | null
+          job_uid?: string | null
+          name?: string | null
+          pricing_item_uids?: string | null
+          status?: string | null
+          subtotal_aud?: number | null
+          uid: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          details?: Json | null
+          job_uid?: string | null
+          name?: string | null
+          pricing_item_uids?: string | null
+          status?: string | null
+          subtotal_aud?: number | null
+          uid?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      ckr_tasks: {
+        Row: {
+          assigned_agent_uid: string | null
+          created_at: string | null
+          details: Json | null
+          due_date: string | null
+          job_uid: string | null
+          name: string | null
+          status: string | null
+          uid: string
+          updated_at: string | null
+        }
+        Insert: {
+          assigned_agent_uid?: string | null
+          created_at?: string | null
+          details?: Json | null
+          due_date?: string | null
+          job_uid?: string | null
+          name?: string | null
+          status?: string | null
+          uid: string
+          updated_at?: string | null
+        }
+        Update: {
+          assigned_agent_uid?: string | null
+          created_at?: string | null
+          details?: Json | null
+          due_date?: string | null
+          job_uid?: string | null
+          name?: string | null
+          status?: string | null
+          uid?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      ckr_warranty: {
+        Row: {
+          created_at: string | null
+          date_filed: string | null
+          details: Json | null
+          job_uid: string | null
+          lead_uid: string | null
+          name: string | null
+          resolution: string | null
+          status: string | null
+          uid: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          date_filed?: string | null
+          details?: Json | null
+          job_uid?: string | null
+          lead_uid?: string | null
+          name?: string | null
+          resolution?: string | null
+          status?: string | null
+          uid: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          date_filed?: string | null
+          details?: Json | null
+          job_uid?: string | null
+          lead_uid?: string | null
+          name?: string | null
+          resolution?: string | null
+          status?: string | null
+          uid?: string
           updated_at?: string | null
         }
         Relationships: []
@@ -1497,6 +1692,60 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      gem_knowledge: {
+        Row: {
+          content: string | null
+          created_at: string | null
+          domain: string
+          filename: string
+          id: number
+          metadata: Json | null
+          updated_at: string | null
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string | null
+          domain: string
+          filename: string
+          id?: number
+          metadata?: Json | null
+          updated_at?: string | null
+        }
+        Update: {
+          content?: string | null
+          created_at?: string | null
+          domain?: string
+          filename?: string
+          id?: number
+          metadata?: Json | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      gem_system: {
+        Row: {
+          content: string | null
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          updated_at: string | null
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string | null
+          id: string
+          metadata?: Json | null
+          updated_at?: string | null
+        }
+        Update: {
+          content?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       generated_reports: {
         Row: {

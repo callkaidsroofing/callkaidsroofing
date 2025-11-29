@@ -43,7 +43,7 @@ export async function enforceRateLimit(action: string, identifier: string = 'sys
   
   if (count && count >= limit.maxCalls) {
     // Log rate limit exceeded
-// [AUTO-PURGE]     await supabase.from('security_events').insert({
+    await supabase.from('security_events').insert({
       event_type: 'rate_limit_exceeded',
       ip_address: identifier,
       details: {
