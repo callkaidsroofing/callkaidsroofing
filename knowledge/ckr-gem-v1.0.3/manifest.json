@@ -1,0 +1,98 @@
+{
+  "name": "CKR-GEM Master Knowledge Package",
+  "version": "1.0.3",
+  "updated": "2025-12-01",
+  "description": "Complete CKR-GEM system knowledge including governance, brand, operations, and AI directives",
+  "documents": [
+    {
+      "id": "CH01_GENESIS",
+      "title": "Chapter 1 - Genesis Philosophy",
+      "category": "system",
+      "description": "Prime directive and purpose of CKR-GEM"
+    },
+    {
+      "id": "CH02_PERSONA",
+      "title": "Chapter 2 - Identity & Persona",
+      "category": "brand",
+      "description": "Core persona and communication doctrine"
+    },
+    {
+      "id": "CH03_GOVERNANCE",
+      "title": "Chapter 3 - Governance Doctrine",
+      "category": "system",
+      "description": "Governance pyramid and security gates"
+    },
+    {
+      "id": "CH04_KNOWLEDGE_FRAMEWORK",
+      "title": "Chapter 4 - Brand Knowledge Framework",
+      "category": "brand",
+      "description": "KF_01-KF_10 master embedded doctrine"
+    },
+    {
+      "id": "CH09_SAFETY",
+      "title": "Chapter 9 - Safety & Risk",
+      "category": "compliance",
+      "description": "Safety, compliance & risk boundaries"
+    },
+    {
+      "id": "CH11_OUTPUT",
+      "title": "Chapter 11 - Output Formatting",
+      "category": "operations",
+      "description": "Response formatting rules"
+    },
+    {
+      "id": "MKF_00_GOVERNANCE",
+      "title": "MKF_00 - Master Governance",
+      "category": "system",
+      "description": "Business invariants and contacts"
+    },
+    {
+      "id": "MKF_01_BRAND",
+      "title": "MKF_01 - Brand Identity",
+      "category": "brand",
+      "description": "Voice pillars and brand mandate"
+    },
+    {
+      "id": "CKR_GEM_V4_PROMPT",
+      "title": "CKR-GEM v4.0 System Prompt",
+      "category": "system",
+      "description": "Full system prompt for AI operations"
+    }
+  ],
+  "brand_assets": [
+    "primary_color",
+    "secondary_color",
+    "charcoal_color",
+    "grey_color",
+    "offwhite_color",
+    "slogan_primary",
+    "slogan_secondary",
+    "slogan_tertiary",
+    "phone",
+    "email",
+    "abn",
+    "warranty_standard",
+    "service_area",
+    "cta_primary",
+    "cta_secondary",
+    "cta_tertiary"
+  ],
+  "invariants": {
+    "business_name": "Call Kaids Roofing",
+    "abn": "39475055075",
+    "phone": "0435 900 709",
+    "email": "info@callkaidsroofing.com.au",
+    "location": "Clyde North, SE Melbourne",
+    "service_radius_km": 50,
+    "colors": {
+      "primary": "#007ACC",
+      "secondary": "#0B3B69",
+      "charcoal": "#111827",
+      "grey": "#6B7280",
+      "offwhite": "#F7F8FA",
+      "forbidden": "orange"
+    },
+    "slogan": "Proof In Every Roof",
+    "warranty": "7-10 year workmanship"
+  }
+}
