@@ -44,7 +44,7 @@ serve(async (req) => {
     let conversation;
     if (conversationId) {
       const { data, error } = await supabase
-// [AUTO-PURGE]         .from("chat_conversations")
+        .from("chat_conversations")
         .select("*")
         .eq("id", conversationId)
         .single();
@@ -58,7 +58,7 @@ serve(async (req) => {
       conversation = data;
     } else {
       const { data, error } = await supabase
-// [AUTO-PURGE]         .from("chat_conversations")
+        .from("chat_conversations")
         .insert({
           user_id: user.id,
           conversation_type: "document_writer",
@@ -112,7 +112,7 @@ BUSINESS DETAILS:
 - Location: Clyde North, South East Melbourne, Victoria
 - Service Area: 50km radius (Berwick, Cranbourne, Dandenong, Pakenham, Officer, Frankston, etc.)
 - Phone: 0435 900 709
-- Email: callkaidsroofing@outlook.com
+- Email: info@callkaidsroofing.com.au
 
 SERVICES:
 - Roof Restoration
@@ -164,7 +164,7 @@ This aligns with industry standards and protects both the business and customers
 {
   "title": "Call Kaids Roofing - 7 Year Workmanship Warranty",
   "category": "policy",
-  "content": "# Call Kaids Roofing\\n## 7 Year Workmanship Warranty\\n\\n**ABN:** 39475055075\\n**Issued by:** Kaidyn Brownlie\\n**Contact:** 0435 900 709 | callkaidsroofing@outlook.com\\n\\n---\\n\\n### Warranty Coverage\\n\\nCall Kaids Roofing guarantees all workmanship for a period of **7 years** from the date of job completion...\\n\\n[Full markdown content here]",
+  "content": "# Call Kaids Roofing\\n## 7 Year Workmanship Warranty\\n\\n**ABN:** 39475055075\\n**Issued by:** Kaidyn Brownlie\\n**Contact:** 0435 900 709 | info@callkaidsroofing.com.au\\n\\n---\\n\\n### Warranty Coverage\\n\\nCall Kaids Roofing guarantees all workmanship for a period of **7 years** from the date of job completion...\\n\\n[Full markdown content here]",
   "metadata": {
     "version": "1.0",
     "lastUpdated": "2025-01-15",
@@ -207,7 +207,7 @@ This aligns with industry standards and protects both the business and customers
     const aiData = await response.json();
     const assistantMessage = aiData.choices[0].message.content;
 
-// [AUTO-PURGE]     await supabase.from("chat_messages").insert({
+    await supabase.from("chat_messages").insert({
       conversation_id: conversation.id,
       role: "assistant",
       content: assistantMessage,
@@ -219,7 +219,7 @@ This aligns with industry standards and protects both the business and customers
       try {
         generatedData = JSON.parse(dataMatch[1].trim());
         
-// [AUTO-PURGE]         await supabase.from("ai_generation_history").insert({
+        await supabase.from("ai_generation_history").insert({
           user_id: user.id,
           generator_type: "document",
           input_prompt: message,
