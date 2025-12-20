@@ -1530,39 +1530,6 @@ export type Database = {
           },
         ]
       }
-      document_versions: {
-        Row: {
-          created_at: string
-          created_by: string | null
-          document_type: string
-          entity_id: string
-          file_hash: string
-          file_path: string
-          id: string
-          version: number
-        }
-        Insert: {
-          created_at?: string
-          created_by?: string | null
-          document_type: string
-          entity_id: string
-          file_hash: string
-          file_path: string
-          id?: string
-          version?: number
-        }
-        Update: {
-          created_at?: string
-          created_by?: string | null
-          document_type?: string
-          entity_id?: string
-          file_hash?: string
-          file_path?: string
-          id?: string
-          version?: number
-        }
-        Relationships: []
-      }
       embedding_jobs: {
         Row: {
           completed_at: string | null
@@ -4306,19 +4273,6 @@ export type Database = {
         }
         Relationships: []
       }
-      latest_document_versions: {
-        Row: {
-          created_at: string | null
-          created_by: string | null
-          document_type: string | null
-          entity_id: string | null
-          file_hash: string | null
-          file_path: string | null
-          id: string | null
-          version: number | null
-        }
-        Relationships: []
-      }
       master_knowledge_overview: {
         Row: {
           category: string | null
@@ -4406,16 +4360,6 @@ export type Database = {
         Returns: number
       }
       cleanup_rate_limits: { Args: never; Returns: undefined }
-      create_document_version: {
-        Args: {
-          p_created_by?: string
-          p_document_type: string
-          p_entity_id: string
-          p_file_hash: string
-          p_file_path: string
-        }
-        Returns: string
-      }
       generate_invoice_number: { Args: never; Returns: string }
       generate_quote_number: { Args: never; Returns: string }
       get_embedding_stats: {
@@ -4439,10 +4383,6 @@ export type Database = {
           title: string
           updated_at: string
         }[]
-      }
-      get_latest_document_version: {
-        Args: { p_document_type: string; p_entity_id: string }
-        Returns: number
       }
       has_role: {
         Args: {
