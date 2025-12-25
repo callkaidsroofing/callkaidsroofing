@@ -28,8 +28,9 @@ import callKaidsFullLogo from "@/assets/brand/logo-metallic-blue.png";
 const topLevelLinks = [
   { href: "/", label: "Home" },
   { href: "/portfolio", label: "Our Work" },
-  { href: "/faq", label: "FAQs" },
+  { href: "/warranty", label: "Warranty" },
   { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 const serviceComponents: { title: string; href: string; description: string }[] = [
@@ -42,6 +43,11 @@ const serviceComponents: { title: string; href: string; description: string }[] 
     title: "Roof Painting",
     href: "/services/roof-painting",
     description: "Premium coating to restore and protect your roof with lasting durability.",
+  },
+  {
+    title: "High-Pressure Roof Cleaning",
+    href: "/services/roof-cleaning",
+    description: "Remove moss, lichen and dirt buildup to extend your roof life.",
   },
   {
     title: "Rebedding & Repointing",
@@ -77,9 +83,9 @@ const serviceComponents: { title: string; href: string; description: string }[] 
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full max-w-full border-b-2 border-conversion-black/30 bg-gradient-to-r from-charcoal via-secondary to-charcoal backdrop-blur-xl overflow-hidden shadow-2xl">
-      {/* Metallic shimmer overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:200%_100%] animate-shimmer pointer-events-none" />
+    <header className="sticky top-0 z-50 w-full max-w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-sm">
+      {/* Subtle metallic shimmer overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_30%,rgba(255,255,255,0.02)_50%,transparent_70%)] bg-[length:200%_100%] animate-shimmer pointer-events-none" />
       
       <div className="container mx-auto flex h-20 items-center justify-between px-4 lg:px-6 max-w-full relative z-10">
         {/* Logo */}
@@ -139,11 +145,11 @@ export function Header() {
 
           <Button
             asChild
-            className="ml-2 bg-gradient-to-r from-conversion-blue to-conversion-cyan hover:from-conversion-cyan hover:to-conversion-deep text-white font-bold shadow-lg shadow-conversion-blue/30"
+            className="ml-2 font-semibold shadow-sm"
           >
             <NavLink to="/book">
               <Phone className="mr-2 h-4 w-4" />
-              Get a Free Quote
+              Get Free Quote
             </NavLink>
           </Button>
         </div>
@@ -160,24 +166,24 @@ export function Header() {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-gradient-to-br from-charcoal via-secondary to-charcoal text-white border-l-2 border-conversion-black/30">
-              <nav className="flex flex-col gap-y-4 pt-10">
-                <NavLink to="/" className="text-lg font-medium hover:text-conversion-cyan">
+            <SheetContent side="right" className="bg-background/98 border-l border-border/40 w-[300px] sm:w-[350px]">
+              <nav className="flex flex-col gap-y-3 pt-8">
+                <NavLink to="/" className="text-base font-medium hover:text-primary py-2 transition-colors">
                   Home
                 </NavLink>
 
                 {/* Collapsible Services Menu for Mobile */}
                 <Collapsible>
-                  <CollapsibleTrigger className="flex items-center justify-between w-full text-lg font-medium hover:text-conversion-cyan">
+                  <CollapsibleTrigger className="flex items-center justify-between w-full text-base font-medium hover:text-primary py-2 transition-colors">
                     <NavLink to="/services">Services</NavLink>
-                    <ChevronDown className="h-5 w-5 ml-1" />
+                    <ChevronDown className="h-4 w-4 ml-1" />
                   </CollapsibleTrigger>
-                  <CollapsibleContent className="pl-4 pt-2 flex flex-col gap-y-2">
+                  <CollapsibleContent className="pl-3 pt-2 pb-1 flex flex-col gap-y-1.5 border-l-2 border-muted ml-2">
                     {serviceComponents.map((s) => (
                       <NavLink
                         key={s.href}
                         to={s.href}
-                        className="text-white/80 text-base hover:text-conversion-cyan"
+                        className="text-sm text-muted-foreground hover:text-foreground py-1.5 transition-colors"
                       >
                         {s.title}
                       </NavLink>
@@ -189,25 +195,31 @@ export function Header() {
                   <NavLink
                     key={link.href}
                     to={link.href}
-                    className="text-lg font-medium hover:text-conversion-cyan"
+                    className="text-base font-medium hover:text-primary py-2 transition-colors"
                   >
                     {link.label}
                   </NavLink>
                 ))}
 
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-gradient-to-r from-conversion-blue to-conversion-cyan hover:from-conversion-cyan hover:to-conversion-deep text-lg mt-4 font-bold shadow-lg"
-                >
-                  <NavLink to="/book">
-                    <Phone className="mr-2 h-5 w-5" />
-                    Get a Free Quote
-                  </NavLink>
-                </Button>
-                <a href="tel:0435900709" className="text-sm text-conversion-cyan font-medium hover:text-conversion-blue transition-colors">
-                  📞 0435 900 709
-                </a>
+                <div className="border-t border-border/40 mt-4 pt-4 space-y-3">
+                  <Button
+                    asChild
+                    size="default"
+                    className="w-full font-semibold"
+                  >
+                    <NavLink to="/book">
+                      <Phone className="mr-2 h-4 w-4" />
+                      Get Free Quote
+                    </NavLink>
+                  </Button>
+                  <a
+                    href="tel:0435900709"
+                    className="flex items-center justify-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                  >
+                    <Phone className="mr-1.5 h-3.5 w-3.5" />
+                    0435 900 709
+                  </a>
+                </div>
               </nav>
             </SheetContent>
           </Sheet>
