@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Phone, CheckCircle, Clock, Shield, MapPin, DollarSign, Home, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
-import ServiceSpecificForm from '@/components/ServiceSpecificForm';
+import { LeadCaptureForm } from '@/public/components/LeadCaptureForm';
 import { SEOHead } from '@/components/SEOHead';
 import { StructuredData } from '@/components/StructuredData';
 
@@ -140,10 +140,15 @@ const RoofRestoration = () => {
       </OptimizedBackgroundSection>
 
       {/* Service Form */}
-      <ServiceSpecificForm 
+      <LeadCaptureForm
+        variant="full"
+        title="Get Free Quote - Roof Restoration"
+        description="Fill out this form and Kaidyn will call you within 4 hours to discuss your roof restoration needs."
         serviceName="Roof Restoration"
-        serviceDescription="Complete roof overhaul with high-pressure clean, repairs, and premium membrane coating system"
         ctaText="Get Free Restoration Quote"
+        showEmail={true}
+        showUrgency={true}
+        showMessage={true}
       />
 
       {/* Process Section */}

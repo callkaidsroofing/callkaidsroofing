@@ -10,7 +10,7 @@ import { SectionWrapper, Container } from "@/components/ui/section-wrapper";
 import { HeroSection } from "@/components/ui/hero-section";
 import { CTASection } from "@/components/ui/cta-section";
 import { FeatureCard } from "@/components/ui/feature-card";
-import { HeroConversionForm } from "@/components/HeroConversionForm";
+import { LeadCaptureForm } from "@/public/components/LeadCaptureForm";
 import { TrustBar } from "@/components/TrustBar";
 import { HowItWorks } from "@/components/HowItWorks";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
@@ -113,7 +113,16 @@ const Index = () => {
                 {/* Right: Conversion Form (5 columns on desktop) */}
                 <div className="lg:col-span-5 py-8">
                   <div className="sticky top-24">
-                    <HeroConversionForm />
+                    <LeadCaptureForm
+                      variant="compact"
+                      title="Get Your Free Quote"
+                      description="Owner responds personally. No sales teams."
+                      serviceName="Free Quote Request"
+                      ctaText="Get My Free Quote →"
+                      source="hero_conversion_form"
+                      showUrgencyBadge={true}
+                      urgencyBadgeText="3 Spots Left This Week"
+                    />
                   </div>
                 </div>
               </div>

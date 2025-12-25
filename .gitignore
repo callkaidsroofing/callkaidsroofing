@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Environment files
+.env
+.env.*
+!.env.example
+
 # Generated image variants
 public/lovable-uploads/*-[0-9]*.avif
 public/lovable-uploads/*-[0-9]*.webp

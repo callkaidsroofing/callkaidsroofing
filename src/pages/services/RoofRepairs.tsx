@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Phone, CheckCircle, Clock, Shield, MapPin, AlertTriangle, Wrench, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import ServiceSpecificForm from '@/components/ServiceSpecificForm';
+import { LeadCaptureForm } from '@/public/components/LeadCaptureForm';
 import { SEOHead } from '@/components/SEOHead';
 import { StructuredData } from '@/components/StructuredData';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
@@ -114,10 +114,15 @@ const RoofRepairs = () => {
       </OptimizedBackgroundSection>
 
       {/* Service Form */}
-      <ServiceSpecificForm 
+      <LeadCaptureForm
+        variant="full"
+        title="Get Free Quote - Emergency Roof Repairs"
+        description="Fill out this form and Kaidyn will call you immediately for emergency repairs."
         serviceName="Emergency Roof Repairs"
-        serviceDescription="Same-day emergency response for active leaks, storm damage, and urgent roof repairs"
         ctaText="Get Emergency Quote"
+        showEmail={true}
+        showUrgency={true}
+        showMessage={true}
         emergencyService={true}
       />
 
