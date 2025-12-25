@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Shield, Award, Star, Phone, ArrowRight } from 'lucide-react';
+import { Shield, Award, Star, Phone, ArrowRight, Home } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
 import { PublicPageHero } from '@/public/components/PublicPageHero';
 import { SectionWrapper, Container } from '@/components/ui/section-wrapper';
@@ -78,6 +79,58 @@ export default function Services() {
         keywords="roofing services Melbourne, roof restoration, roof painting, roof repairs, gutter cleaning, Melbourne roofer"
       />
 
+      {/* Service JSON-LD Schema */}
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Roofing Services Melbourne",
+            "description": "Professional roofing services in Southeast Melbourne including roof restoration, painting, repairs, and maintenance",
+            "url": "https://callkaidsroofing.com.au/services",
+            "provider": {
+              "@type": "RoofingContractor",
+              "name": "Call Kaids Roofing",
+              "telephone": "+61435900709",
+              "areaServed": "Southeast Melbourne, VIC"
+            },
+            "mainEntity": {
+              "@type": "ItemList",
+              "numberOfItems": 9,
+              "itemListElement": services.map((service, index) => ({
+                "@type": "ListItem",
+                "position": index + 1,
+                "item": {
+                  "@type": "Service",
+                  "name": service.title,
+                  "description": service.summary,
+                  "provider": {
+                    "@type": "RoofingContractor",
+                    "name": "Call Kaids Roofing"
+                  },
+                  "areaServed": "Southeast Melbourne, VIC",
+                  "url": `https://callkaidsroofing.com.au${service.href}`
+                }
+              }))
+            }
+          })}
+        </script>
+      </Helmet>
+
+      {/* Breadcrumb Navigation */}
+      <div className="bg-secondary/50 border-b border-border/40">
+        <Container>
+          <div className="py-3 flex items-center gap-2 text-sm text-muted-foreground">
+            <Link to="/" className="hover:text-foreground flex items-center gap-1 transition-colors">
+              <Home className="h-3.5 w-3.5" />
+              Home
+            </Link>
+            <span>/</span>
+            <span className="text-foreground font-medium">Services</span>
+          </div>
+        </Container>
+      </div>
+
       {/* Hero Section */}
       <PublicPageHero
         h1="Our Roofing Services"
@@ -89,14 +142,13 @@ export default function Services() {
         ]}
         cta={
           <>
-            <a
-              href="tel:0435900709"
-              className="flex items-center gap-3 bg-gradient-to-r from-conversion-blue via-conversion-cyan to-conversion-blue hover:from-conversion-cyan hover:to-conversion-deep text-white px-8 py-4 rounded-lg font-bold text-lg shadow-[0_10px_40px_rgba(41,179,255,0.5)] hover:shadow-[0_15px_50px_rgba(0,212,255,0.7)] transition-all"
-            >
-              <Phone className="h-5 w-5" />
-              Call 0435 900 709
-            </a>
-            <Button asChild variant="outline" size="lg" className="bg-white/20 border-white text-white hover:bg-white hover:text-primary">
+            <Button asChild size="lg" className="font-semibold shadow-sm">
+              <a href="tel:0435900709">
+                <Phone className="h-5 w-5 mr-2" />
+                Call 0435 900 709
+              </a>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="border-2 font-semibold shadow-sm">
               <Link to="/book">Get Free Quote</Link>
             </Button>
           </>
@@ -118,7 +170,7 @@ export default function Services() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {services.map((service) => (
-                <div
+                <article
                   key={service.title}
                   className="backdrop-blur bg-white/10 border border-white/20 rounded-xl p-6 hover:shadow-lg hover:border-conversion-cyan/60 transition-all group h-full flex flex-col"
                 >
@@ -139,17 +191,96 @@ export default function Services() {
                     {service.description}
                   </p>
                   <Link to={service.href}>
-                    <Button className="w-full bg-conversion-blue hover:bg-conversion-cyan text-white group-hover:scale-105 transition-transform">
+                    <Button className="w-full font-semibold shadow-sm group-hover:scale-105 transition-transform">
                       Learn More
                       <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </Link>
-                </div>
+                </article>
               ))}
             </div>
           </Container>
         </SectionWrapper>
       </ParallaxBackground>
+
+      {/* Proof Section - Real Work Examples */}
+      <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+        <Container>
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Proof in Every Service
+            </h2>
+            <p className="text-white/70 text-lg max-w-3xl mx-auto">
+              Real work, real results. Every project documented before and after.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Proof Block 1 - Roof Restoration */}
+            <figure className="backdrop-blur bg-white/10 border border-white/20 rounded-xl overflow-hidden hover:border-conversion-cyan/60 transition-all">
+              <div className="aspect-[4/3] bg-secondary/50 flex items-center justify-center relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
+                <div className="relative z-10 text-center p-6">
+                  <p className="text-white/90 text-sm font-medium mb-2">
+                    Before/After photos from real jobs in Clyde North, Berwick, and Pakenham
+                  </p>
+                  <p className="text-white/60 text-xs">
+                    All work documented · <Link to="/portfolio" className="text-conversion-cyan hover:underline">View full portfolio →</Link>
+                  </p>
+                </div>
+              </div>
+              <figcaption className="p-4 text-sm">
+                <p className="text-white font-semibold mb-1">Roof Restoration Work</p>
+                <p className="text-white/70">Complete restoration including rebedding, repointing, and membrane coating</p>
+              </figcaption>
+            </figure>
+
+            {/* Proof Block 2 - Roof Painting */}
+            <figure className="backdrop-blur bg-white/10 border border-white/20 rounded-xl overflow-hidden hover:border-conversion-cyan/60 transition-all">
+              <div className="aspect-[4/3] bg-secondary/50 flex items-center justify-center relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-conversion-blue/20 to-conversion-cyan/20" />
+                <div className="relative z-10 text-center p-6">
+                  <p className="text-white/90 text-sm font-medium mb-2">
+                    Roof painting transformations across SE Melbourne
+                  </p>
+                  <p className="text-white/60 text-xs">
+                    Premium paints · 2-3 day turnaround
+                  </p>
+                </div>
+              </div>
+              <figcaption className="p-4 text-sm">
+                <p className="text-white font-semibold mb-1">Roof Painting Projects</p>
+                <p className="text-white/70">Colour refresh using premium Dulux AcraTex membrane systems</p>
+              </figcaption>
+            </figure>
+
+            {/* Proof Block 3 - Emergency Repairs */}
+            <figure className="backdrop-blur bg-white/10 border border-white/20 rounded-xl overflow-hidden hover:border-conversion-cyan/60 transition-all">
+              <div className="aspect-[4/3] bg-secondary/50 flex items-center justify-center relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-destructive/20 to-conversion-orange/20" />
+                <div className="relative z-10 text-center p-6">
+                  <p className="text-white/90 text-sm font-medium mb-2">
+                    Emergency leak repairs and tile replacements
+                  </p>
+                  <p className="text-white/60 text-xs">
+                    Same-day service available
+                  </p>
+                </div>
+              </div>
+              <figcaption className="p-4 text-sm">
+                <p className="text-white font-semibold mb-1">Repair Work Examples</p>
+                <p className="text-white/70">Fast fixes for leaks, broken tiles, and valley iron issues</p>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div className="text-center mt-8">
+            <p className="text-white/70 text-sm">
+              Every job photographed before and after. <Link to="/warranty" className="text-conversion-cyan hover:underline font-semibold">15-year warranty on restoration work →</Link>
+            </p>
+          </div>
+        </Container>
+      </SectionWrapper>
 
       {/* Suburb-Specific Services */}
       <SectionWrapper background="gradient-dark" className="text-primary-foreground">
