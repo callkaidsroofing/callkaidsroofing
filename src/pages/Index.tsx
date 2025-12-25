@@ -44,17 +44,11 @@ const Index = () => {
             background="gradient-dark"
             className="text-primary-foreground relative"
           >
-            {/* Multi-layer background depth */}
-            <div className="absolute inset-0 bg-gradient-to-br from-charcoal via-secondary to-charcoal" />
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-conversion-orange/10" />
-            
-            {/* Animated metallic shimmer */}
-            <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:200%_100%] animate-shimmer" />
-            
-            {/* Dot pattern overlay */}
-            <div className="absolute inset-0 opacity-20">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(255,255,255,0.15)_1px,transparent_0)] bg-[length:50px_50px]" />
-            </div>
+            {/* Subtle background depth - matches pilot pattern */}
+            <div className="absolute inset-0 bg-secondary/95" />
+
+            {/* Subtle metallic shimmer - calm professional tone */}
+            <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_30%,rgba(255,255,255,0.02)_50%,transparent_70%)] bg-[length:200%_100%] animate-shimmer" />
             
             <Container className="relative z-10">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center min-h-[600px]">
@@ -64,7 +58,7 @@ const Index = () => {
                     {/* Phone CTA */}
                     <a
                       href="tel:0435900709"
-                      className="inline-flex items-center gap-3 bg-gradient-to-r from-conversion-blue to-conversion-cyan hover:from-conversion-cyan hover:to-conversion-deep text-white px-8 py-5 rounded-2xl text-3xl sm:text-4xl font-bold shadow-[0_10px_40px_rgba(41,179,255,0.5)] hover:shadow-[0_15px_50px_rgba(0,212,255,0.7)] transition-all duration-300 border-2 border-conversion-black/20 animate-fade-in"
+                      className="inline-flex items-center gap-3 bg-primary hover:bg-primary/90 text-white px-8 py-5 rounded-2xl text-3xl sm:text-4xl font-bold shadow-lg transition-all duration-300 animate-fade-in"
                     >
                       <Phone className="h-10 w-10" />
                       <span>0435 900 709</span>
@@ -96,7 +90,7 @@ const Index = () => {
                         className="text-xl md:text-2xl font-semibold opacity-90 animate-fade-in"
                         style={{ animationDelay: '200ms' }}
                       >
-                        15-year warranty. Local owner. No sales teams.
+                        <Link to="/warranty" className="hover:text-conversion-cyan transition-colors">15-year warranty</Link>. Local owner. No sales teams.
                       </p>
                     }
                   />
@@ -182,7 +176,7 @@ const Index = () => {
                 </h2>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-3 gap-6 mb-6">
                 {servicesData.map((service) => (
                   <FeatureCard
                     key={service.id}
@@ -193,6 +187,15 @@ const Index = () => {
                     link={service.link}
                   />
                 ))}
+              </div>
+
+              <div className="text-center mt-8">
+                <Link
+                  to="/services"
+                  className="inline-flex items-center gap-2 text-conversion-cyan hover:text-white font-semibold text-lg transition-colors"
+                >
+                  View All 9 Services →
+                </Link>
               </div>
             </Container>
           </SectionWrapper>
@@ -211,7 +214,9 @@ const Index = () => {
                 <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
                   Real Results
                 </h2>
-                <p className="text-white/70 text-lg">See the transformation</p>
+                <p className="text-white/70 text-lg">
+                  See the transformation · <Link to="/portfolio" className="text-conversion-cyan hover:text-white font-semibold transition-colors">View full portfolio →</Link>
+                </p>
               </div>
               <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-8 shadow-lg">
                 {/* CMS-Managed: Edit featured projects at /admin/cms/homepage */}
