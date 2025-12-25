@@ -12,8 +12,7 @@ export async function getBlogPosts() {
     const { data, error } = await supabase
       .from('content_blog_posts')
       .select('*')
-      .eq('is_published', true)
-      .order('published_at', { ascending: false });
+      .order('publish_date', { ascending: false });
 
     if (error) throw error;
     return data || [];
@@ -29,7 +28,6 @@ export async function getBlogPostBySlug(slug: string) {
       .from('content_blog_posts')
       .select('*')
       .eq('slug', slug)
-      .eq('is_published', true)
       .single();
 
     if (error) throw error;
@@ -46,7 +44,6 @@ export async function getServices() {
     const { data, error } = await supabase
       .from('content_services')
       .select('*')
-      .eq('is_active', true)
       .order('display_order', { ascending: true });
 
     if (error) throw error;
@@ -63,7 +60,6 @@ export async function getServiceBySlug(slug: string) {
       .from('content_services')
       .select('*')
       .eq('slug', slug)
-      .eq('is_active', true)
       .single();
 
     if (error) throw error;
@@ -80,7 +76,6 @@ export async function getSuburbs() {
     const { data, error } = await supabase
       .from('content_suburbs')
       .select('*')
-      .eq('is_active', true)
       .order('name', { ascending: true });
 
     if (error) throw error;
@@ -97,7 +92,6 @@ export async function getSuburbBySlug(slug: string) {
       .from('content_suburbs')
       .select('*')
       .eq('slug', slug)
-      .eq('is_active', true)
       .single();
 
     if (error) throw error;
@@ -114,8 +108,7 @@ export async function getCaseStudies(limit?: number) {
     let query = supabase
       .from('content_case_studies')
       .select('*')
-      .eq('is_published', true)
-      .order('completed_date', { ascending: false });
+      .order('project_date', { ascending: false });
 
     if (limit) {
       query = query.limit(limit);
@@ -136,9 +129,8 @@ export async function getCaseStudiesByService(serviceName: string, limit?: numbe
     let query = supabase
       .from('content_case_studies')
       .select('*')
-      .eq('is_published', true)
-      .eq('service_type', serviceName)
-      .order('completed_date', { ascending: false });
+      .eq('job_type', serviceName)
+      .order('project_date', { ascending: false });
 
     if (limit) {
       query = query.limit(limit);
@@ -159,9 +151,8 @@ export async function getCaseStudiesBySuburb(suburbName: string, limit?: number)
     let query = supabase
       .from('content_case_studies')
       .select('*')
-      .eq('is_published', true)
       .eq('suburb', suburbName)
-      .order('completed_date', { ascending: false });
+      .order('project_date', { ascending: false });
 
     if (limit) {
       query = query.limit(limit);
@@ -181,7 +172,7 @@ export async function getCaseStudiesBySuburb(suburbName: string, limit?: number)
 export async function getMediaByIds(ids: string[]) {
   try {
     const { data, error } = await supabase
-      .from('media')
+      .from('media_gallery')
       .select('*')
       .in('id', ids);
 
