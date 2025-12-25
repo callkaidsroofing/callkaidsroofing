@@ -1,0 +1,91 @@
+import { ReactNode } from 'react';
+import { SectionWrapper, Container } from '@/components/ui/section-wrapper';
+import ParallaxBackground from '@/components/ParallaxBackground';
+
+interface PublicPageHeroProps {
+  h1: string;
+  subtitle?: string;
+  description?: string;
+  badges?: Array<{ icon: ReactNode; text: string }>;
+  cta?: ReactNode;
+  useParallax?: boolean;
+  parallaxVariant?: 'hero' | 'services' | 'testimonials' | 'cta';
+}
+
+/**
+ * Standardized hero section for all public pages
+ * Based on Home page canonical structure
+ */
+export const PublicPageHero = ({
+  h1,
+  subtitle,
+  description,
+  badges,
+  cta,
+  useParallax = false,
+  parallaxVariant = 'hero'
+}: PublicPageHeroProps) => {
+  const heroContent = (
+    <SectionWrapper variant="hero" background="gradient-dark" className="text-primary-foreground">
+      {/* Multi-layer background depth */}
+      <div className="absolute inset-0 bg-gradient-to-br from-charcoal via-secondary to-charcoal" />
+      <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-conversion-orange/10" />
+
+      {/* Animated metallic shimmer */}
+      <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:200%_100%] animate-shimmer" />
+
+      {/* Dot pattern overlay */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(255,255,255,0.15)_1px,transparent_0)] bg-[length:50px_50px]" />
+      </div>
+
+      <Container className="relative z-10">
+        <div className="text-center max-w-4xl mx-auto py-8 space-y-6">
+          {subtitle && (
+            <p className="text-lg italic text-conversion-cyan">{subtitle}</p>
+          )}
+
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white">
+            {h1}
+          </h1>
+
+          {description && (
+            <p className="text-xl md:text-2xl text-white/90 font-semibold max-w-3xl mx-auto">
+              {description}
+            </p>
+          )}
+
+          {badges && badges.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-4 pt-4">
+              {badges.map((badge, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white"
+                >
+                  {badge.icon}
+                  <span>{badge.text}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {cta && (
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+              {cta}
+            </div>
+          )}
+        </div>
+      </Container>
+    </SectionWrapper>
+  );
+
+  if (useParallax) {
+    return (
+      <ParallaxBackground variant={parallaxVariant} density="high">
+        {heroContent}
+      </ParallaxBackground>
+    );
+  }
+
+  return heroContent;
+};
