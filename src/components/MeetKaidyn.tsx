@@ -15,7 +15,7 @@ const MeetKaidyn = () => {
               <img
                 src="/lovable-uploads/fca54c4d-7c0b-497d-8ed8-670d978cfb7c.png"
                 alt="Kaidyn Brownlie - Owner and Lead Roofer at Call Kaids Roofing"
-                className="w-80 h-80 object-cover rounded-2xl shadow-2xl border-4 border-primary/20"
+                className="w-80 h-80 object-cover rounded-2xl shadow-lg border-4 border-primary/20"
               />
               <div className="absolute -bottom-4 -right-4 bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-lg">
                 25+ Years Experience

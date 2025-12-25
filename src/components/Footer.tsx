@@ -28,9 +28,9 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-br from-charcoal via-secondary to-charcoal border-t-2 border-conversion-black/30 relative overflow-hidden">
-      {/* Metallic shimmer overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:200%_100%] animate-shimmer pointer-events-none" />
+    <footer className="bg-secondary/95 border-t border-border/40 relative overflow-hidden">
+      {/* Subtle metallic shimmer overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_30%,rgba(255,255,255,0.02)_50%,transparent_70%)] bg-[length:200%_100%] animate-shimmer pointer-events-none" />
       
       {/* Hero Call to Action Section with Banner */}
       <OptimizedBackgroundSection
@@ -48,14 +48,13 @@ const Footer = () => {
             Call Kaidyn directly - no call centers, no waiting, just honest advice from a local expert with 15-year warranty
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <a
-              href="tel:0435900709"
-              className="flex items-center gap-3 bg-gradient-to-r from-conversion-blue via-conversion-cyan to-conversion-blue hover:from-conversion-cyan hover:to-conversion-deep text-white px-8 py-4 rounded-xl font-black text-xl transition-all duration-300 shadow-[0_10px_40px_rgba(41,179,255,0.5)] hover:shadow-[0_15px_50px_rgba(0,212,255,0.7)] hover:scale-105 border-2 border-conversion-black/20"
-            >
-              <Phone className="h-6 w-6" />
-              Call 0435 900 709 Now
-            </a>
-            <Button asChild variant="outline" size="lg" className="bg-gradient-to-r from-conversion-cyan/20 to-conversion-blue/20 border-2 border-conversion-cyan text-white hover:bg-gradient-to-r hover:from-conversion-cyan hover:to-conversion-blue backdrop-blur-sm font-bold shadow-lg">
+            <Button asChild size="lg" className="font-semibold shadow-sm">
+              <a href="tel:0435900709">
+                <Phone className="h-5 w-5 mr-2" />
+                Call 0435 900 709 Now
+              </a>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="border-2 text-white hover:bg-white/10 backdrop-blur-sm font-semibold shadow-sm">
               <Link to="/book">Get Free Roof Health Check</Link>
             </Button>
           </div>
@@ -91,9 +90,9 @@ const Footer = () => {
             <p className="text-white/70 text-sm">See completed projects</p>
           </Link>
           
-          <Link to="/faq" className="group bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-6 hover:border-conversion-cyan transition-all duration-300 hover:scale-105">
-            <h3 className="text-lg font-bold text-conversion-cyan mb-2">FAQs</h3>
-            <p className="text-white/70 text-sm">Common questions</p>
+          <Link to="/warranty" className="group bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-6 hover:border-conversion-cyan transition-all duration-300 hover:scale-105">
+            <h3 className="text-lg font-bold text-conversion-cyan mb-2">Warranty</h3>
+            <p className="text-white/70 text-sm">15-year guarantee</p>
           </Link>
           
           <Link to="/about" className="group bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-6 hover:border-conversion-cyan transition-all duration-300 hover:scale-105">
@@ -115,10 +114,10 @@ const Footer = () => {
             <h3 className="text-lg font-bold text-destructive mb-2">Emergency</h3>
             <p className="text-white/70 text-sm">Same day service</p>
           </Link>
-          
-          <Link to="/warranty" className="group bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-6 hover:border-conversion-cyan transition-all duration-300 hover:scale-105">
-            <h3 className="text-lg font-bold text-conversion-cyan mb-2">Warranty</h3>
-            <p className="text-white/70 text-sm">15-year guarantee</p>
+
+          <Link to="/contact" className="group bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-6 hover:border-conversion-cyan transition-all duration-300 hover:scale-105">
+            <h3 className="text-lg font-bold text-conversion-cyan mb-2">Contact</h3>
+            <p className="text-white/70 text-sm">Get in touch</p>
           </Link>
         </div>
 
@@ -138,7 +137,7 @@ const Footer = () => {
               </a>
             </div>
             <div className="space-y-3">
-              <Button asChild variant="default" size="lg" className="w-full bg-gradient-to-r from-conversion-blue to-conversion-cyan hover:from-conversion-cyan hover:to-conversion-deep text-white font-bold shadow-lg">
+              <Button asChild variant="default" size="lg" className="w-full font-semibold shadow-sm">
                 <Link to="/book">Get Free Quote</Link>
               </Button>
               <Button asChild variant="emergency" size="lg" className="w-full">
