@@ -189,7 +189,7 @@ export default function SuburbDetail() {
         showBenefits={true}
         showImageUpload={true}
         showUrgencyBadge={true}
-        urgencyBadgeText="Usually $250 • Save 100% when you book before Sunday"
+        urgencyBadgeText="Free assessment - limited availability"
         benefits={[
           { title: "Complete Inspection", description: "25-point roof assessment with photo documentation" },
           { title: "Honest Written Report", description: "What needs fixing now vs. what can wait" },
