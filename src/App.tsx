@@ -21,6 +21,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const RoofRestoration = lazy(() => import("./pages/services/RoofRestoration"));
 const RoofPainting = lazy(() => import("./pages/services/RoofPainting"));
 const RoofRepairs = lazy(() => import("./pages/services/RoofRepairs"));
+const RoofCleaning = lazy(() => import("./pages/services/RoofCleaning"));
 const GutterCleaning = lazy(() => import("./pages/services/GutterCleaning"));
 const ValleyIronReplacement = lazy(() => import("./pages/services/ValleyIronReplacement"));
 const RoofRepointing = lazy(() => import("./pages/services/RoofRepointing"));
@@ -176,6 +177,7 @@ function App() {
                     <Route path="services/roof-painting-cranbourne" element={<RoofPaintingCranbourne />} />
                     <Route path="services/roof-painting-clyde-north" element={<RoofPaintingClydeNorth />} />
                     <Route path="services/roof-repairs" element={<RoofRepairs />} />
+                    <Route path="services/roof-cleaning" element={<RoofCleaning />} />
                     <Route path="services/gutter-cleaning" element={<GutterCleaning />} />
                     <Route path="services/valley-iron-replacement" element={<ValleyIronReplacement />} />
                     <Route path="services/roof-repointing" element={<RoofRepointing />} />

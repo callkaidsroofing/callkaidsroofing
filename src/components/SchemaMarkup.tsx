@@ -106,17 +106,36 @@ export const SchemaMarkup = () => {
         "offers": {
           "@type": "Offer",
           "priceCurrency": "AUD",
-          "price": "4500",
+          "price": "9000",
           "priceSpecification": {
             "@type": "PriceSpecification",
-            "minPrice": "4500"
+            "minPrice": "6000"
+          }
+        }
+      },
+      {
+        "@type": "Service",
+        "name": "Roof Painting",
+        "description": "Professional roof painting with premium weather-resistant paint systems and 10-year workmanship warranty",
+        "provider": {
+          "@type": "RoofingContractor",
+          "name": "Call Kaids Roofing"
+        },
+        "areaServed": "SE Melbourne, VIC",
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "AUD",
+          "price": "6000",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "minPrice": "4000"
           }
         }
       },
       {
         "@type": "Service",
         "name": "Roof Repairs",
-        "description": "Emergency leak repairs, tile replacement, valley repairs, and gutter maintenance",
+        "description": "Emergency leak repairs, tile replacement, valley repairs, and structural fixes with same-day service available",
         "provider": {
           "@type": "RoofingContractor",
           "name": "Call Kaids Roofing"
@@ -134,8 +153,8 @@ export const SchemaMarkup = () => {
       },
       {
         "@type": "Service",
-        "name": "Roof Painting",
-        "description": "Professional roof painting with Dulux AcraTex membrane for maximum UV protection",
+        "name": "High-Pressure Roof Cleaning",
+        "description": "Controlled roof washing service removing moss, lichen, and organic growth with anti-fungal treatment",
         "provider": {
           "@type": "RoofingContractor",
           "name": "Call Kaids Roofing"
@@ -144,10 +163,105 @@ export const SchemaMarkup = () => {
         "offers": {
           "@type": "Offer",
           "priceCurrency": "AUD",
-          "price": "3800",
+          "price": "500",
           "priceSpecification": {
             "@type": "PriceSpecification",
-            "minPrice": "3800"
+            "minPrice": "350"
+          }
+        }
+      },
+      {
+        "@type": "Service",
+        "name": "Gutter Cleaning",
+        "description": "Professional gutter and downpipe cleaning with inspection and photo documentation",
+        "provider": {
+          "@type": "RoofingContractor",
+          "name": "Call Kaids Roofing"
+        },
+        "areaServed": "SE Melbourne, VIC",
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "AUD",
+          "price": "250",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "minPrice": "180"
+          }
+        }
+      },
+      {
+        "@type": "Service",
+        "name": "Ridge Capping Rebedding and Repointing",
+        "description": "Professional rebedding and repointing using premium SupaPoint mortar for long-lasting protection",
+        "provider": {
+          "@type": "RoofingContractor",
+          "name": "Call Kaids Roofing"
+        },
+        "areaServed": "SE Melbourne, VIC",
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "AUD",
+          "price": "2500",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "minPrice": "1500"
+          }
+        }
+      },
+      {
+        "@type": "Service",
+        "name": "Tile Replacement",
+        "description": "Professional roof tile replacement with colour matching and quality materials",
+        "provider": {
+          "@type": "RoofingContractor",
+          "name": "Call Kaids Roofing"
+        },
+        "areaServed": "SE Melbourne, VIC",
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "AUD",
+          "price": "400",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "minPrice": "250"
+          }
+        }
+      },
+      {
+        "@type": "Service",
+        "name": "Valley Iron Replacement",
+        "description": "Complete valley iron replacement with proper sealing and weatherproofing to prevent leaks",
+        "provider": {
+          "@type": "RoofingContractor",
+          "name": "Call Kaids Roofing"
+        },
+        "areaServed": "SE Melbourne, VIC",
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "AUD",
+          "price": "1200",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "minPrice": "800"
+          }
+        }
+      },
+      {
+        "@type": "Service",
+        "name": "Leak Detection and Repair",
+        "description": "Professional leak detection and repair service with guaranteed results and warranty",
+        "provider": {
+          "@type": "RoofingContractor",
+          "name": "Call Kaids Roofing"
+        },
+        "areaServed": "SE Melbourne, VIC",
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "AUD",
+          "price": "450",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "minPrice": "350"
           }
         }
       }

@@ -33,6 +33,12 @@ export default function Services() {
       badge: 'Emergency Available'
     },
     {
+      title: 'High-Pressure Roof Cleaning',
+      summary: 'Remove moss, lichen and dirt buildup to extend your roof life.',
+      description: 'Controlled high-pressure washing with preventative treatment and gutter clearance included.',
+      href: '/services/roof-cleaning'
+    },
+    {
       title: 'Gutter Cleaning',
       summary: 'Professional gutter cleaning and maintenance to protect your property.',
       description: 'Thorough cleaning and inspection with photo evidence of work completed.',
