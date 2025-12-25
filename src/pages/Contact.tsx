@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { SEOHead } from '@/components/SEOHead';
 import PremiumCTASection from '@/components/PremiumCTASection';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { PublicPageHero } from '@/public/components/PublicPageHero';
+import { SectionWrapper, Container } from '@/components/ui/section-wrapper';
 
 const Contact = () => {
   return (
@@ -13,43 +15,37 @@ const Contact = () => {
         description="Talk direct to Kaidyn Brownlie, owner of Call Kaids Roofing. No call centres, no BS. Phone 0435 900 709 for immediate response. Free quotes, emergency repairs."
         keywords="contact roofer Melbourne, Clyde North roofing, emergency roof repairs, free roof quote, direct contact roofer"
       />
-      <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary/5 to-primary/10">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center space-y-6">
-            <p className="text-lg italic text-primary">*Proof In Every Roof*</p>
-            <h1 className="text-4xl md:text-5xl font-bold">
-              Talk to Me Direct—No Call Centre, No BS
-            </h1>
-            <p className="text-xl text-muted-foreground">
-              When you call Call Kaids Roofing, you're talking to me—Kaidyn Brownlie, the owner.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild variant="premium" size="xl">
-                <a href="tel:0435900709">
-                  <Phone className="mr-2 h-5 w-5" />
-                  Call 0435 900 709
-                </a>
-              </Button>
-              <Button asChild variant="outline" size="xl">
-                <a href="mailto:info@callkaidsroofing.com.au">
-                  <Mail className="mr-2 h-5 w-5" />
-                  Email Me Direct
-                </a>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="min-h-screen bg-background">
+      {/* Hero Section - Pure White, Maximum Clarity */}
+      <PublicPageHero
+        variant="light"
+        h1="Talk to Me Direct—No Call Centre, No BS"
+        subtitle="*Proof In Every Roof*"
+        description="When you call Call Kaids Roofing, you're talking to me—Kaidyn Brownlie, the owner."
+        cta={
+          <>
+            <Button asChild variant="default" size="xl">
+              <a href="tel:0435900709">
+                <Phone className="mr-2 h-5 w-5" />
+                Call 0435 900 709
+              </a>
+            </Button>
+            <Button asChild variant="outline" size="xl">
+              <a href="mailto:info@callkaidsroofing.com.au">
+                <Mail className="mr-2 h-5 w-5" />
+                Email Me Direct
+              </a>
+            </Button>
+          </>
+        }
+      />
 
       {/* Premium CTA Section */}
       <PremiumCTASection variant="primary" showFullDetails={true} />
 
-      {/* Contact Methods */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
+      {/* Contact Methods - Pure White for Maximum Clarity */}
+      <SectionWrapper variant="default" className="bg-white">
+        <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Info */}
             <div className="space-y-8">
@@ -161,11 +157,11 @@ const Contact = () => {
               </Card>
             </div>
           </div>
-        </div>
-      </section>
+        </Container>
+      </SectionWrapper>
 
-      {/* Emergency Section */}
-      <section className="py-16 bg-destructive/5 border-y border-destructive/20">
+      {/* Emergency Section - Urgency Design */}
+      <SectionWrapper variant="default" className="bg-destructive/5 border-y-4 border-destructive/30">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <h2 className="text-3xl font-bold text-destructive">Emergency Roof Repairs?</h2>
@@ -183,12 +179,12 @@ const Contact = () => {
                 <Link to="/emergency">Emergency Info</Link>
               </Button>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-foreground/70">
               Available 24/7 for genuine emergencies • Usually on-site within 4 hours
             </p>
           </div>
         </div>
-      </section>
+      </SectionWrapper>
     </div>
     </>
   );
