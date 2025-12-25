@@ -45,7 +45,7 @@ const About = () => {
                   <li>• I show up when I say I will</li>
                   <li>• I do what I quote, nothing more, nothing less</li>
                   <li>• I use materials that actually last</li>
-                  <li>• I back my work with a proper 15-year warranty</li>
+                  <li>• I back roof restorations with a 15–20 year workmanship warranty</li>
                 </ul>
               </div>
             </div>
@@ -76,8 +76,8 @@ const About = () => {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-conversion-cyan/20 rounded-full">
                   <Shield className="h-8 w-8 text-conversion-cyan" />
                 </div>
-                <h3 className="font-bold text-white">15-Year Warranty</h3>
-                <p className="text-sm text-white/70">Comprehensive coverage on all major work</p>
+                <h3 className="font-bold text-white">15–20 Year Warranty</h3>
+                <p className="text-sm text-white/70">Workmanship coverage on roof restorations</p>
               </div>
             </div>
           </div>

@@ -22,7 +22,7 @@ export const TrustBar = () => {
     },
     {
       icon: Shield,
-      value: "15-Year",
+      value: "15-20 Year",
       label: "Warranty",
     },
     {

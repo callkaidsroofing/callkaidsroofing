@@ -33,9 +33,10 @@ export const SchemaMarkup = () => {
     "telephone": "+61435900709",
     "email": "info@callkaidsroofing.com.au",
     "priceRange": "$$",
+    "taxID": "39475055075",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Berwick",
+      "addressLocality": "Clyde North",
       "addressRegion": "VIC",
       "addressCountry": "AU"
     },
@@ -45,6 +46,10 @@ export const SchemaMarkup = () => {
       "longitude": 145.3503
     },
     "areaServed": [
+      {
+        "@type": "City",
+        "name": "Clyde North"
+      },
       {
         "@type": "City",
         "name": "Berwick"
@@ -60,6 +65,10 @@ export const SchemaMarkup = () => {
       {
         "@type": "City",
         "name": "Pakenham"
+      },
+      {
+        "@type": "City",
+        "name": "Officer"
       }
     ],
     "openingHoursSpecification": [

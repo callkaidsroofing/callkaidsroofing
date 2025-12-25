@@ -21,7 +21,7 @@ export default function Services() {
     {
       title: 'Roof Painting',
       summary: 'Refresh your roof colour in 2-3 days using premium paints designed for Melbourne weather.',
-      description: 'Professional roof painting with high-quality paints and 10-year warranty.',
+      description: 'Professional roof painting with high-quality paints and workmanship warranty.',
       href: '/services/roof-painting',
       badge: 'Quick Turnaround'
     },
@@ -68,17 +68,17 @@ export default function Services() {
     <div className="min-h-screen">
       <SEOHead
         title="Roofing Services Melbourne | Call Kaids Roofing"
-        description="Professional roofing services in Melbourne. Roof restoration, painting, repairs & more. 10-year warranty. Owner-operated business serving SE Melbourne."
+        description="Professional roofing services in Melbourne. Roof restoration, painting, repairs & more. Up to 20-year warranty on restorations. Owner-operated business serving SE Melbourne."
         keywords="roofing services Melbourne, roof restoration, roof painting, roof repairs, gutter cleaning, Melbourne roofer"
       />
 
       {/* Hero Section */}
       <PublicPageHero
         h1="Our Roofing Services"
-        description="Professional roofing solutions for Southeast Melbourne. Quality workmanship, premium materials, and 10-year warranties on all major work."
+        description="Professional roofing solutions for Southeast Melbourne. Quality workmanship, premium materials, and comprehensive warranties on all work."
         badges={[
           { icon: <Shield className="h-5 w-5" />, text: "Fully Insured" },
-          { icon: <Award className="h-5 w-5" />, text: "10 Year Warranty" },
+          { icon: <Award className="h-5 w-5" />, text: "15–20 Year Warranty" },
           { icon: <Star className="h-5 w-5" />, text: "200+ Happy Customers" }
         ]}
         cta={
