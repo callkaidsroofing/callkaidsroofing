@@ -5,7 +5,7 @@ import { SEOHead } from '@/components/SEOHead';
 import { Button } from '@/components/ui/button';
 import { Phone, ArrowRight, CheckCircle } from 'lucide-react';
 import { OptimizedImage } from '@/components/OptimizedImage';
-import QuickCaptureForm from '@/components/QuickCaptureForm';
+import { LeadCaptureForm } from '@/public/components/LeadCaptureForm';
 import { CaseStudyShowcase } from '@/components/CaseStudyShowcase';
 
 export default function ServiceDetail() {
@@ -180,7 +180,23 @@ export default function ServiceDetail() {
       )}
 
       {/* Lead Capture Form */}
-      <QuickCaptureForm />
+      <LeadCaptureForm
+        variant="split"
+        title="FREE Roof Health Check"
+        description="Get your roof assessed by Kaidyn personally. No junior staff, no sales pressure."
+        serviceName="Free Roof Health Check"
+        ctaText="Book My Free Assessment"
+        source="quick_capture_form"
+        showBenefits={true}
+        showImageUpload={true}
+        showUrgencyBadge={true}
+        urgencyBadgeText="Usually $250 • Save 100% when you book before Sunday"
+        benefits={[
+          { title: "Complete Inspection", description: "25-point roof assessment with photo documentation" },
+          { title: "Honest Written Report", description: "What needs fixing now vs. what can wait" },
+          { title: "No Obligation Quote", description: "Transparent pricing with 15-year warranty options" }
+        ]}
+      />
     </>
   );
 }

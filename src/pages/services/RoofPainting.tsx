@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Phone, CheckCircle, Clock, Shield, MapPin, Calendar, Palette, Home, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import ServiceSpecificForm from '@/components/ServiceSpecificForm';
+import { LeadCaptureForm } from '@/public/components/LeadCaptureForm';
 import { SEOHead } from '@/components/SEOHead';
 import { StructuredData } from '@/components/StructuredData';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
@@ -134,10 +134,15 @@ const RoofPainting = () => {
       </OptimizedBackgroundSection>
 
       {/* Service Form */}
-      <ServiceSpecificForm 
+      <LeadCaptureForm
+        variant="full"
+        title="Get Free Quote - Roof Painting"
+        description="Fill out this form and Kaidyn will call you within 4 hours to discuss your roof painting needs."
         serviceName="Roof Painting"
-        serviceDescription="Professional 3-day roof painting service with premium weather-resistant paint systems and thorough preparation"
         ctaText="Get Free Painting Quote"
+        showEmail={true}
+        showUrgency={true}
+        showMessage={true}
       />
 
       {/* Process Section */}

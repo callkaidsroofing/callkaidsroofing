@@ -7,7 +7,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import ElegantLayout from "@/components/ElegantLayout";
-import { EnhancedCustomerChat } from "@/components/EnhancedCustomerChat";
 
 const Index = lazy(() => import("./pages/Index"));
 const Quote = lazy(() => import("./pages/Quote"));
@@ -55,7 +54,6 @@ const ImageGenerator = lazy(() => import("./pages/ImageGenerator"));
 const DocsHub = lazy(() => import("./pages/DocsHub"));
 const FormsStudio = lazy(() => import("./pages/FormsStudio"));
 const FormSubmissions = lazy(() => import("./pages/FormSubmissions"));
-const FormView = lazy(() => import("./pages/FormView"));
 const DataHub = lazy(() => import("./pages/DataHub"));
 const MediaLibrary = lazy(() => import("./pages/MediaLibrary"));
 const ChatUploadsImporter = lazy(() => import("./pages/admin/content/ChatUploadsImporter"));
@@ -144,7 +142,6 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <EnhancedCustomerChat />
           <BrowserRouter>
             <Suspense fallback={<LoadingScreen />}>
               <Routes>
@@ -156,7 +153,6 @@ function App() {
                     <Route path="contact" element={<Contact />} />
                     <Route path="book" element={<BookingPage />} />
                     <Route path="booking" element={<BookingPage />} />
-                    <Route path="forms/:formId" element={<FormView />} />
                     <Route path="blog" element={<Blog />} />
                     <Route path="blog/:slug" element={<BlogPost />} />
                     <Route path="gallery" element={<Gallery />} />
