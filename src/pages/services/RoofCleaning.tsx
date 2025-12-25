@@ -7,6 +7,7 @@ import { LeadCaptureForm } from '@/public/components/LeadCaptureForm';
 import { SEOHead } from '@/components/SEOHead';
 import { StructuredData } from '@/components/StructuredData';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
+import { FAQJsonLd } from '@/components/schema/FAQJsonLd';
 
 const RoofCleaning = () => {
   const cleaningBenefits = [
@@ -131,6 +132,7 @@ const RoofCleaning = () => {
         serviceDescription="Professional controlled roof washing service that removes moss, lichen, and organic growth safely without damaging tiles"
         pageUrl="https://callkaidsroofing.com.au/services/roof-cleaning"
       />
+      <FAQJsonLd faqs={faqs} />
 
       {/* Hero Section */}
       <OptimizedBackgroundSection
