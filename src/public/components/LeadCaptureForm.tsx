@@ -81,7 +81,7 @@ export const LeadCaptureForm = ({
   showBenefits = false,
   benefits = [],
   showUrgencyBadge = false,
-  urgencyBadgeText = "3 Spots Left This Week"
+  urgencyBadgeText = "Limited availability this week"
 }: LeadCaptureFormProps) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -199,34 +199,33 @@ export const LeadCaptureForm = ({
     { value: "planning", label: "Planning ahead - Next few months" }
   ];
 
-  // Compact variant (like HeroConversionForm)
+  // Compact variant - calm professional feel
   if (variant === 'compact') {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="backdrop-blur-xl bg-white rounded-3xl p-6 shadow-[0_20px_60px_rgba(0,122,204,0.2)] border-2 border-primary/10 hover:shadow-[0_25px_70px_rgba(0,122,204,0.3)] transition-all duration-300"
+        transition={{ duration: 0.4 }}
+        className="backdrop-blur-xl bg-white rounded-2xl p-8 shadow-lg border border-border/50"
       >
         {showUrgencyBadge && (
-          <div className="bg-gradient-to-r from-conversion-blue via-conversion-cyan to-conversion-blue bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_infinite] text-white px-4 py-3 rounded-2xl mb-4 text-center shadow-[0_8px_30px_rgba(0,212,255,0.4)] border border-conversion-black/30">
-            <p className="text-sm font-black flex items-center justify-center gap-2">
-              <span className="text-xl animate-pulse">🔥</span>
-              <span>{urgencyBadgeText}</span>
+          <div className="bg-primary/10 text-primary px-4 py-2.5 rounded-lg mb-6 text-center border border-primary/20">
+            <p className="text-sm font-semibold">
+              {urgencyBadgeText}
             </p>
           </div>
         )}
 
-        <div className="mb-5">
-          <h3 className="text-2xl font-black text-roofing-navy mb-2 bg-gradient-to-r from-roofing-navy to-primary bg-clip-text text-transparent">
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-foreground mb-2">
             {title}
           </h3>
-          <p className="text-sm text-muted-foreground font-semibold">
+          <p className="text-base text-muted-foreground">
             {description}
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-3">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
             name="honeypot"
@@ -237,79 +236,92 @@ export const LeadCaptureForm = ({
             autoComplete="off"
           />
 
-          <Input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="h-12 border-2 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl text-base font-medium transition-all"
-          />
+          <div>
+            <Input
+              type="text"
+              name="name"
+              placeholder="Your Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="h-12 text-base transition-colors"
+            />
+          </div>
 
-          <Input
-            type="tel"
-            name="phone"
-            placeholder="Phone Number"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-            className="h-12 border-2 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl text-base font-medium transition-all"
-          />
+          <div>
+            <Input
+              type="tel"
+              name="phone"
+              placeholder="Phone Number"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+              className="h-12 text-base transition-colors"
+            />
+          </div>
 
-          <Input
-            type="text"
-            name="suburb"
-            placeholder="Your Suburb"
-            value={formData.suburb}
-            onChange={handleChange}
-            required
-            className="h-12 border-2 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl text-base font-medium transition-all"
-          />
+          <div>
+            <Input
+              type="text"
+              name="suburb"
+              placeholder="Your Suburb"
+              value={formData.suburb}
+              onChange={handleChange}
+              required
+              className="h-12 text-base transition-colors"
+            />
+          </div>
 
           <Button
             type="submit"
-            className="w-full h-14 text-base font-black bg-gradient-to-r from-conversion-blue via-conversion-cyan to-conversion-blue hover:from-conversion-cyan hover:to-conversion-deep transition-all shadow-[0_8px_30px_rgba(41,179,255,0.5)] hover:shadow-[0_10px_40px_rgba(0,212,255,0.7)] hover:scale-[1.02] rounded-xl border-2 border-conversion-black/20"
+            className="w-full h-12 text-base font-semibold mt-6"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Sending...' : ctaText}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Sending...
+              </>
+            ) : (
+              ctaText
+            )}
           </Button>
         </form>
 
-        <div className="mt-4 pt-4 border-t-2 border-dashed border-border text-center">
+        <div className="mt-6 pt-6 border-t border-border text-center space-y-3">
           <a
             href="tel:0435900709"
-            className="inline-flex items-center gap-2 text-conversion-blue hover:text-conversion-cyan font-black text-base transition-colors hover:scale-105 transform"
+            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold text-base transition-colors"
           >
             <Phone className="h-4 w-4" />
             0435 900 709
           </a>
-          <p className="text-xs text-muted-foreground mt-3 font-semibold">
-            ✓ Owner-operated • ✓ SE Melbourne Local • ✓ 15-Year Warranty
+          <p className="text-xs text-muted-foreground">
+            Owner-operated • SE Melbourne • 15-Year Warranty
           </p>
         </div>
       </motion.div>
     );
   }
 
-  // Split variant (like QuickCaptureForm)
+  // Split variant - with benefits sidebar
   if (variant === 'split' && showBenefits) {
     return (
-      <section className="py-12 bg-gradient-to-br from-primary/10 to-secondary/15 relative overflow-hidden">
+      <section className="py-16 bg-gradient-to-br from-primary/10 to-secondary/15 relative overflow-hidden">
         <div className="absolute inset-0 pattern-overlay opacity-5"></div>
 
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto">
-            <Card className="overflow-hidden shadow-2xl border-0">
+          <div className="max-w-5xl mx-auto">
+            <Card className="overflow-hidden shadow-xl border-0">
               <CardContent className="p-0">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
                   {/* Left Side - Benefits */}
-                  <div className="bg-gradient-to-br from-primary to-secondary text-white p-8 lg:p-12">
-                    <div className="space-y-6">
+                  <div className="bg-gradient-to-br from-primary to-secondary text-white p-10 lg:p-12">
+                    <div className="space-y-8">
                       <div className="flex items-center gap-2">
                         <Gift className="h-6 w-6" />
                         <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-                          Limited Time Offer
+                          Limited Time
                         </Badge>
                       </div>
 
@@ -317,20 +329,20 @@ export const LeadCaptureForm = ({
                         {title}
                       </h3>
 
-                      <div className="space-y-4">
+                      <div className="space-y-5">
                         {benefits.map((benefit, index) => (
                           <div key={index} className="flex items-start gap-3">
-                            <CheckCircle className="h-5 w-5 mt-1 text-green-300" />
+                            <CheckCircle className="h-5 w-5 mt-0.5 text-green-300 flex-shrink-0" />
                             <div>
-                              <div className="font-semibold">{benefit.title}</div>
-                              <div className="text-white/90 text-sm">{benefit.description}</div>
+                              <div className="font-semibold mb-1">{benefit.title}</div>
+                              <div className="text-white/90 text-sm leading-relaxed">{benefit.description}</div>
                             </div>
                           </div>
                         ))}
                       </div>
 
                       {showUrgencyBadge && (
-                        <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+                        <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm border border-white/20">
                           <div className="flex items-center gap-2 mb-2">
                             <Clock className="h-5 w-5 text-yellow-300" />
                             <span className="font-semibold">This Week Only</span>
@@ -344,14 +356,14 @@ export const LeadCaptureForm = ({
                   </div>
 
                   {/* Right Side - Form */}
-                  <div className="p-8 lg:p-12 bg-white">
+                  <div className="p-10 lg:p-12 bg-white">
                     <div className="space-y-6">
                       <div>
                         <h4 className="text-2xl font-bold mb-2">{ctaText}</h4>
                         <p className="text-muted-foreground">{description}</p>
                       </div>
 
-                      <form onSubmit={handleSubmit} className="space-y-4">
+                      <form onSubmit={handleSubmit} className="space-y-5">
                         <input
                           type="text"
                           name="honeypot"
@@ -369,7 +381,7 @@ export const LeadCaptureForm = ({
                           value={formData.name}
                           onChange={handleChange}
                           required
-                          className="h-12"
+                          className="h-12 text-base"
                         />
 
                         <Input
@@ -379,7 +391,7 @@ export const LeadCaptureForm = ({
                           value={formData.phone}
                           onChange={handleChange}
                           required
-                          className="h-12"
+                          className="h-12 text-base"
                         />
 
                         <Input
@@ -389,7 +401,7 @@ export const LeadCaptureForm = ({
                           value={formData.suburb}
                           onChange={handleChange}
                           required
-                          className="h-12"
+                          className="h-12 text-base"
                         />
 
                         {showImageUpload && (
@@ -405,14 +417,14 @@ export const LeadCaptureForm = ({
                         <Button
                           type="submit"
                           size="lg"
-                          className="w-full h-12 text-lg font-semibold"
+                          className="w-full h-12 text-base font-semibold mt-2"
                           disabled={isSubmitting}
                         >
                           {isSubmitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Sending...</> : ctaText}
                         </Button>
                       </form>
 
-                      <div className="text-center space-y-2">
+                      <div className="text-center space-y-2 pt-4 border-t">
                         <p className="text-sm text-muted-foreground">
                           Or call Kaidyn directly:
                         </p>
@@ -425,7 +437,7 @@ export const LeadCaptureForm = ({
                       </div>
 
                       <div className="text-xs text-muted-foreground text-center">
-                        ✓ No spam calls ✓ Owner responds within 12 hours ✓ Free assessment
+                        No spam calls • Owner responds within 12 hours
                       </div>
                     </div>
                   </div>
@@ -438,17 +450,17 @@ export const LeadCaptureForm = ({
     );
   }
 
-  // Full variant (like ServiceSpecificForm)
+  // Full variant - for service pages
   return (
     <section className="py-16 card-gradient">
       <div className="container mx-auto px-4">
         <Card className="max-w-2xl mx-auto shadow-lg">
-          <CardHeader className="text-center">
+          <CardHeader className="text-center pb-6">
             <CardTitle className="text-2xl font-bold">{title}</CardTitle>
-            <p className="text-muted-foreground">{description}</p>
+            <p className="text-muted-foreground mt-2">{description}</p>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <input
                 type="text"
                 name="honeypot"
@@ -459,9 +471,11 @@ export const LeadCaptureForm = ({
                 autoComplete="off"
               />
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-5">
                 <div>
-                  <Label htmlFor="name">Your Name *</Label>
+                  <Label htmlFor="name" className="text-sm font-medium mb-1.5 block">
+                    Your Name *
+                  </Label>
                   <Input
                     id="name"
                     name="name"
@@ -469,10 +483,13 @@ export const LeadCaptureForm = ({
                     onChange={handleChange}
                     placeholder="John Smith"
                     required
+                    className="h-11"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="phone">Phone Number *</Label>
+                  <Label htmlFor="phone" className="text-sm font-medium mb-1.5 block">
+                    Phone Number *
+                  </Label>
                   <Input
                     id="phone"
                     name="phone"
@@ -481,14 +498,17 @@ export const LeadCaptureForm = ({
                     onChange={handleChange}
                     placeholder="0435 900 709"
                     required
+                    className="h-11"
                   />
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-5">
                 {showEmail && (
                   <div>
-                    <Label htmlFor="email">Email (Optional)</Label>
+                    <Label htmlFor="email" className="text-sm font-medium mb-1.5 block">
+                      Email (Optional)
+                    </Label>
                     <Input
                       id="email"
                       name="email"
@@ -496,11 +516,14 @@ export const LeadCaptureForm = ({
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="john@example.com"
+                      className="h-11"
                     />
                   </div>
                 )}
                 <div className={showEmail ? '' : 'md:col-span-2'}>
-                  <Label htmlFor="suburb">Suburb *</Label>
+                  <Label htmlFor="suburb" className="text-sm font-medium mb-1.5 block">
+                    Suburb *
+                  </Label>
                   <Input
                     id="suburb"
                     name="suburb"
@@ -508,15 +531,18 @@ export const LeadCaptureForm = ({
                     onChange={handleChange}
                     placeholder="Clyde North"
                     required
+                    className="h-11"
                   />
                 </div>
               </div>
 
               {showUrgency && (
                 <div>
-                  <Label htmlFor="urgency">How urgent is this? *</Label>
+                  <Label htmlFor="urgency" className="text-sm font-medium mb-1.5 block">
+                    How urgent is this? *
+                  </Label>
                   <Select onValueChange={handleSelectChange} required>
-                    <SelectTrigger>
+                    <SelectTrigger className="h-11">
                       <SelectValue placeholder="Select urgency level" />
                     </SelectTrigger>
                     <SelectContent>
@@ -532,7 +558,9 @@ export const LeadCaptureForm = ({
 
               {showMessage && (
                 <div>
-                  <Label htmlFor="message">Additional Details (Optional)</Label>
+                  <Label htmlFor="message" className="text-sm font-medium mb-1.5 block">
+                    Additional Details (Optional)
+                  </Label>
                   <Textarea
                     id="message"
                     name="message"
@@ -540,6 +568,7 @@ export const LeadCaptureForm = ({
                     onChange={handleChange}
                     placeholder="Describe your roof issue, when you'd like the work done, or any specific requirements..."
                     rows={4}
+                    className="resize-none"
                   />
                 </div>
               )}
@@ -556,33 +585,28 @@ export const LeadCaptureForm = ({
 
               <Button
                 type="submit"
-                className="w-full"
-                size="lg"
+                className="w-full h-12 text-base font-semibold mt-6"
                 disabled={isSubmitting}
                 variant={emergencyService ? "destructive" : "default"}
               >
                 {isSubmitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Sending...</> : ctaText}
               </Button>
 
-              <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground border-t pt-4">
-                <div className="flex items-center gap-1">
+              <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground border-t pt-5 mt-5">
+                <div className="flex items-center gap-1.5">
                   <Phone className="h-4 w-4" />
                   <span>0435 900 709</span>
                 </div>
               </div>
 
               <div className="text-center space-y-2">
-                <div className="flex items-center justify-center gap-2 text-sm text-primary">
-                  <CheckCircle className="h-4 w-4" />
+                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                  <CheckCircle className="h-4 w-4 text-primary" />
                   <span>15-Year Warranty</span>
                 </div>
-                <div className="flex items-center justify-center gap-2 text-sm text-primary">
-                  <CheckCircle className="h-4 w-4" />
+                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                  <CheckCircle className="h-4 w-4 text-primary" />
                   <span>Fully Insured & Licensed</span>
-                </div>
-                <div className="flex items-center justify-center gap-2 text-sm text-primary">
-                  <CheckCircle className="h-4 w-4" />
-                  <span>ABN: 39475055075</span>
                 </div>
               </div>
             </form>

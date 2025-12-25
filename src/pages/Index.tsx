@@ -60,24 +60,24 @@ const Index = () => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center min-h-[600px]">
                 {/* Left: Hero Content (7 columns on desktop) */}
                 <div className="lg:col-span-7 py-8">
-                  <div className="mb-8 space-y-4">
-                    {/* Huge Phone CTA - CSS Animation */}
-                    <a 
+                  <div className="mb-10 space-y-5">
+                    {/* Phone CTA */}
+                    <a
                       href="tel:0435900709"
-                      className="inline-flex items-center gap-3 bg-gradient-to-r from-conversion-blue via-conversion-cyan to-conversion-blue hover:from-conversion-cyan hover:to-conversion-deep text-white px-8 py-5 rounded-2xl text-3xl sm:text-4xl font-black shadow-[0_10px_40px_rgba(41,179,255,0.5)] hover:shadow-[0_15px_50px_rgba(0,212,255,0.7)] transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 border-2 border-conversion-black/20 animate-fade-in"
+                      className="inline-flex items-center gap-3 bg-gradient-to-r from-conversion-blue to-conversion-cyan hover:from-conversion-cyan hover:to-conversion-deep text-white px-8 py-5 rounded-2xl text-3xl sm:text-4xl font-bold shadow-[0_10px_40px_rgba(41,179,255,0.5)] hover:shadow-[0_15px_50px_rgba(0,212,255,0.7)] transition-all duration-300 border-2 border-conversion-black/20 animate-fade-in"
                     >
-                      <Phone className="h-10 w-10 animate-pulse" />
+                      <Phone className="h-10 w-10" />
                       <span>0435 900 709</span>
                     </a>
-                    
-                    {/* Google Rating Badge - CSS Animation */}
-                    <div 
+
+                    {/* Google Rating Badge */}
+                    <div
                       className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-md px-5 py-3 rounded-2xl shadow-2xl lg:ml-4 border-2 border-primary/20 animate-fade-in"
                       style={{ animationDelay: '300ms' }}
                     >
                       <span className="text-3xl">⭐</span>
                       <div className="text-left">
-                        <div className="font-black text-roofing-navy text-base">Google Reviews</div>
+                        <div className="font-bold text-roofing-navy text-base">Google Reviews</div>
                         <div className="text-xs text-muted-foreground font-semibold">Verified Customers</div>
                       </div>
                     </div>
@@ -85,14 +85,14 @@ const Index = () => {
 
                   <HeroSection
                     headline={
-                      <h1 
-                        className="text-5xl md:text-7xl font-black mb-6 leading-tight animate-fade-in"
+                      <h1
+                        className="text-5xl md:text-7xl font-bold mb-8 leading-tight animate-fade-in"
                       >
-                        Roof Looking <span className="text-conversion-cyan drop-shadow-[0_0_20px_rgba(0,212,255,0.6)]">Tired?</span> Leaking? Faded?
+                        Roof Looking <span className="text-conversion-cyan">Tired?</span> Leaking? Faded?
                       </h1>
                     }
                     subheadline={
-                      <p 
+                      <p
                         className="text-xl md:text-2xl font-semibold opacity-90 animate-fade-in"
                         style={{ animationDelay: '200ms' }}
                       >
@@ -100,12 +100,12 @@ const Index = () => {
                       </p>
                     }
                   />
-                  
-                  {/* Urgency Message */}
-                  <div className="mt-8 backdrop-blur-md bg-gradient-to-r from-conversion-deep/40 via-conversion-blue/30 to-conversion-cyan/30 border-2 border-conversion-cyan/50 rounded-xl p-4 inline-block shadow-[0_0_30px_rgba(0,212,255,0.3)]">
-                    <p className="text-white font-bold text-base flex items-center gap-2">
-                      <span className="text-conversion-cyan text-xl animate-pulse">⚡</span>
-                      <span><span className="text-conversion-cyan">This Week:</span> Free $250 roof assessment with every quote</span>
+
+                  {/* Offer Message */}
+                  <div className="mt-8 backdrop-blur-md bg-white/10 border border-conversion-cyan/40 rounded-xl p-5 inline-block">
+                    <p className="text-white font-semibold text-base flex items-center gap-2">
+                      <span className="text-conversion-cyan text-xl">✓</span>
+                      <span>Free $250 roof assessment with every quote</span>
                     </p>
                   </div>
                 </div>
@@ -121,7 +121,6 @@ const Index = () => {
                       ctaText="Get My Free Quote →"
                       source="hero_conversion_form"
                       showUrgencyBadge={true}
-                      urgencyBadgeText="3 Spots Left This Week"
                     />
                   </div>
                 </div>
@@ -136,11 +135,11 @@ const Index = () => {
         {/* Why Choose Us - Moved up for better conversion */}
         <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
           <Container>
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-white">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-white">
               Why Choose CKR?
             </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {whyChooseUsData.map((item, idx) => {
                 const IconComponent = {
                   Shield,
@@ -177,13 +176,13 @@ const Index = () => {
         <ParallaxBackground variant="services" density="low">
           <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
             <Container>
-              <div className="text-center mb-6">
+              <div className="text-center mb-10">
                 <h2 className="text-2xl md:text-3xl font-bold text-white">
                   Services
                 </h2>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-4">
+              <div className="grid md:grid-cols-3 gap-6">
                 {servicesData.map((service) => (
                   <FeatureCard
                     key={service.id}
@@ -208,13 +207,13 @@ const Index = () => {
         <ParallaxBackground variant="testimonials" density="medium">
           <SectionWrapper background="gradient-dark" className="text-primary-foreground">
             <Container>
-              <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white">
+              <div className="text-center mb-10">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
                   Real Results
                 </h2>
                 <p className="text-white/70 text-lg">See the transformation</p>
               </div>
-              <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-6 shadow-lg">
+              <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-8 shadow-lg">
                 {/* CMS-Managed: Edit featured projects at /admin/cms/homepage */}
                 <BeforeAfterCarousel />
               </div>
@@ -230,7 +229,7 @@ const Index = () => {
         {/* Google Business Profile */}
         <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
           <Container size="sm">
-            <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-6 shadow-lg">
+            <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-8 shadow-lg">
               <GoogleBusinessProfile />
             </div>
           </Container>
@@ -249,11 +248,11 @@ const Index = () => {
         {/* Service Areas */}
         <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
           <Container>
-            <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-6 shadow-lg">
-              <h2 className="text-xl md:text-2xl font-bold text-center mb-4 text-white">
+            <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-8 shadow-lg">
+              <h2 className="text-xl md:text-2xl font-bold text-center mb-6 text-white">
                 SE Melbourne
               </h2>
-              <div className="flex flex-wrap justify-center gap-2 mb-4">
+              <div className="flex flex-wrap justify-center gap-3 mb-6">
                 {serviceAreasData.map((area) => (
                   <span
                     key={area}

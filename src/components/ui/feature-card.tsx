@@ -29,14 +29,14 @@ export const FeatureCard = ({
   const content = (
     <Card
       className={cn(
-        'border-border/50 bg-card/50 backdrop-blur hover:shadow-lg hover:border-primary/40 hover:scale-[1.02] transition-all duration-300 h-full group',
+        'border-border/50 bg-card/50 backdrop-blur hover:shadow-lg hover:border-primary/40 transition-all duration-300 h-full group',
         link && 'cursor-pointer',
         className
       )}
     >
       <CardContent
         className={cn(
-          'p-5',
+          'p-6',
           variant === 'horizontal'
             ? 'flex items-start gap-4'
             : 'flex flex-col items-center text-center'
@@ -47,7 +47,7 @@ export const FeatureCard = ({
             className={cn(
               variant === 'horizontal'
                 ? 'flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-primary to-secondary rounded-lg'
-                : 'w-14 h-14 mb-4 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform'
+                : 'w-14 h-14 mb-4 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center transition-transform'
             )}
           >
             {typeof icon === 'string' ? (
@@ -59,15 +59,15 @@ export const FeatureCard = ({
         )}
 
         <div className={cn(variant === 'horizontal' && 'flex-1', 'flex flex-col')}>
-          <h3 className="font-bold text-base mb-2 text-card-foreground group-hover:text-primary transition-colors">{title}</h3>
-          
+          <h3 className="font-bold text-base mb-3 text-card-foreground group-hover:text-primary transition-colors">{title}</h3>
+
           {price && (
-            <p className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-3">
+            <p className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-4">
               {price}
             </p>
           )}
-          
-          <p className="text-card-foreground/70 text-xs">{description}</p>
+
+          <p className="text-card-foreground/70 text-sm leading-relaxed">{description}</p>
         </div>
       </CardContent>
     </Card>
