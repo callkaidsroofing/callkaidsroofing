@@ -131,8 +131,9 @@ export default function Services() {
         </Container>
       </div>
 
-      {/* Hero Section */}
+      {/* Hero Section - LIGHT VARIANT for high readability */}
       <PublicPageHero
+        variant="light"
         h1="Our Roofing Services"
         description="Professional roofing solutions for Southeast Melbourne. Quality workmanship, premium materials, and comprehensive warranties on all work."
         badges={[
@@ -142,66 +143,77 @@ export default function Services() {
         ]}
         cta={
           <>
-            <Button asChild size="lg" className="font-semibold shadow-sm">
+            <Button asChild size="lg" className="font-semibold shadow-lg">
               <a href="tel:0435900709">
                 <Phone className="h-5 w-5 mr-2" />
                 Call 0435 900 709
               </a>
             </Button>
-            <Button asChild variant="outline" size="lg" className="border-2 font-semibold shadow-sm">
+            <Button asChild variant="outline" size="lg" className="border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold shadow-sm">
               <Link to="/book">Get Free Quote</Link>
             </Button>
           </>
         }
       />
 
-      {/* Main Services Grid */}
-      <ParallaxBackground variant="services" density="low">
-        <SectionWrapper background="gradient-dark" className="text-primary-foreground">
-          <Container>
-            <div className="text-center mb-8">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Complete Roofing Solutions
-              </h2>
-              <p className="text-white/70 text-lg max-w-3xl mx-auto">
-                From minor repairs to complete restorations, we've got your roof covered
-              </p>
-            </div>
+      {/* Main Services Grid - LIGHT & SCANNABLE */}
+      <SectionWrapper className="bg-background">
+        <Container>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Complete Roofing Solutions
+            </h2>
+            <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
+              From minor repairs to complete restorations, we've got your roof covered
+            </p>
+          </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {services.map((service) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((service) => {
+              // Service-type color coding (prevents monotony while maintaining brand)
+              const serviceColors = {
+                'Roof Restoration': 'border-primary hover:border-primary hover:shadow-primary/20',
+                'Roof Painting': 'border-conversion-cyan/30 hover:border-conversion-cyan hover:shadow-conversion-cyan/20',
+                'Roof Repairs': 'border-destructive/30 hover:border-destructive hover:shadow-destructive/20',
+                'High-Pressure Roof Cleaning': 'border-primary/30 hover:border-primary hover:shadow-primary/20',
+                'Gutter Cleaning': 'border-roofing-success/30 hover:border-roofing-success hover:shadow-roofing-success/20',
+              };
+
+              const colorClass = serviceColors[service.title as keyof typeof serviceColors] || 'border-muted hover:border-primary hover:shadow-primary/20';
+
+              return (
                 <article
                   key={service.title}
-                  className="backdrop-blur bg-white/10 border border-white/20 rounded-xl p-6 hover:shadow-lg hover:border-conversion-cyan/60 transition-all group h-full flex flex-col"
+                  className={`bg-white border-2 ${colorClass} rounded-xl p-6 hover:shadow-xl transition-all duration-300 group h-full flex flex-col`}
                 >
                   <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-xl font-bold text-white group-hover:text-conversion-cyan transition-colors">
+                    <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
                       {service.title}
                     </h3>
                     {service.badge && (
-                      <Badge variant="secondary" className="text-xs bg-conversion-cyan text-conversion-black">
+                      <Badge className="text-xs bg-primary text-white">
                         {service.badge}
                       </Badge>
                     )}
                   </div>
-                  <p className="text-white text-base font-medium mb-3">
+                  <p className="text-foreground text-base font-medium mb-3">
                     {service.summary}
                   </p>
-                  <p className="text-white/70 text-sm mb-6 flex-1">
+                  <p className="text-muted-foreground text-sm mb-6 flex-1">
                     {service.description}
                   </p>
                   <Link to={service.href}>
-                    <Button className="w-full font-semibold shadow-sm group-hover:scale-105 transition-transform">
+                    <Button className="w-full font-semibold shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all">
                       Learn More
                       <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </Link>
                 </article>
-              ))}
-            </div>
-          </Container>
-        </SectionWrapper>
-      </ParallaxBackground>
+              );
+            })}
+          </div>
+        </Container>
+      </SectionWrapper>
 
       {/* Proof Section - Real Work Examples */}
       <SectionWrapper background="gradient-dark" className="text-primary-foreground">
