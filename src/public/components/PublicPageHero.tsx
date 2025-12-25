@@ -27,17 +27,11 @@ export const PublicPageHero = ({
 }: PublicPageHeroProps) => {
   const heroContent = (
     <SectionWrapper variant="hero" background="gradient-dark" className="text-primary-foreground">
-      {/* Multi-layer background depth */}
-      <div className="absolute inset-0 bg-gradient-to-br from-charcoal via-secondary to-charcoal" />
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-conversion-orange/10" />
+      {/* Subtle background depth */}
+      <div className="absolute inset-0 bg-secondary/95" />
 
-      {/* Animated metallic shimmer */}
-      <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:200%_100%] animate-shimmer" />
-
-      {/* Dot pattern overlay */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(255,255,255,0.15)_1px,transparent_0)] bg-[length:50px_50px]" />
-      </div>
+      {/* Subtle metallic shimmer */}
+      <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_30%,rgba(255,255,255,0.02)_50%,transparent_70%)] bg-[length:200%_100%] animate-shimmer" />
 
       <Container className="relative z-10">
         <div className="text-center max-w-4xl mx-auto py-8 space-y-6">
