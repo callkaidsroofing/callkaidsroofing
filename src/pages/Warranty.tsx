@@ -75,9 +75,9 @@ const Warranty = () => {
   return (
     <div className="min-h-screen">
       <SEOHead
-        title="Roofing Warranty | 15 & 20-Year Coating Warranty | Call Kaids Roofing"
-        description="Industry-leading 15-year standard and 20-year premium coating warranties plus 10-year workmanship warranty. Covering Clyde North, Cranbourne, Berwick & SE Melbourne."
-        keywords="roofing warranty Melbourne, roof coating warranty, 15-year warranty, 20-year warranty, Call Kaids Roofing"
+        title="Roofing Warranty | 15-20 Year Workmanship Warranty | Call Kaids Roofing"
+        description="15–20 year workmanship / roof restoration warranty on all major restoration projects. Industry-leading coverage for SE Melbourne homeowners."
+        keywords="roofing warranty Melbourne, roof restoration warranty, 15-year warranty, 20-year warranty, Call Kaids Roofing"
       />
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/5 to-primary/10">
@@ -85,18 +85,16 @@ const Warranty = () => {
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <Shield className="h-16 w-16 text-primary mx-auto" />
             <h1 className="text-4xl md:text-5xl font-bold">
-              Industry-Leading Roof Warranties
+              15–20 Year Workmanship / Roof Restoration Warranty
             </h1>
             <p className="text-xl text-muted-foreground">
-              15-year standard or 20-year premium coating warranty plus 10-year workmanship guarantee on all industrial roof coating projects in Southeast Melbourne.
+              Comprehensive warranty coverage on all roof restoration projects in Southeast Melbourne.
             </p>
-            
+
             <div className="bg-primary/10 p-6 rounded-lg">
-              <p className="text-lg font-semibold mb-2">Warranty Overview</p>
+              <p className="text-lg font-semibold mb-2">Warranty Coverage Explained</p>
               <p className="text-muted-foreground">
-                Call Kaids Roofing offers industry-leading warranty protection: 15-year standard coating warranty, 
-                20-year premium coating warranty (with specified system), and 10-year workmanship warranty on all projects. 
-                Based in Clyde North, serving SE Melbourne.
+                Call Kaids Roofing offers up to 20-year coverage on roof restoration projects, combining coating performance warranties (15 or 20 years depending on system) with workmanship guarantees. All work is backed by our commitment to quality and proper installation. Based in Clyde North, serving SE Melbourne.
               </p>
             </div>
           </div>
@@ -384,10 +382,10 @@ const Warranty = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <h2 className="text-3xl font-bold">
-              Ready for Industry-Leading Warranty Protection?
+              Ready for Comprehensive Warranty Protection?
             </h2>
             <p className="text-xl">
-              Get quality industrial roof coating work backed by 15-year standard or 20-year premium warranty coverage.
+              Get quality roof restoration work backed by our 15–20 year workmanship / roof restoration warranty.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -403,7 +401,7 @@ const Warranty = () => {
             </div>
             
             <p className="text-sm border-t border-white/20 pt-4">
-              15/20-Year Coating Warranty • 10-Year Workmanship • Premium Materials • Industry-Leading Protection
+              15–20 Year Workmanship / Roof Restoration Warranty • Premium Materials • Comprehensive Protection
             </p>
           </div>
         </div>

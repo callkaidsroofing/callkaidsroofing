@@ -51,7 +51,7 @@ export const servicesData = [
 export const whyChooseUsData = [
   {
     icon: 'Shield',
-    title: '15-Year Warranty',
+    title: '15–20 Year Warranty',
     description: 'Workmanship guarantee',
   },
   {
