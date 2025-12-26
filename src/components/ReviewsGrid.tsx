@@ -1,14 +1,36 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Star } from 'lucide-react';
-import { CustomerReview } from '@/data/case-studies';
+import { Star, Loader2 } from 'lucide-react';
+import { useAdditionalReviews, CustomerReview } from '@/hooks/use-case-studies';
 
 interface ReviewsGridProps {
-  reviews: CustomerReview[];
+  reviews?: CustomerReview[]; // Optional: defaults to fetching from database
   title?: string;
   description?: string;
 }
 
-export function ReviewsGrid({ reviews, title, description }: ReviewsGridProps) {
+export function ReviewsGrid({ reviews: propReviews, title, description }: ReviewsGridProps) {
+  // Fetch from database if no prop provided
+  const { data: dbReviews, isLoading, error } = useAdditionalReviews();
+  const reviews = propReviews ?? dbReviews ?? [];
+
+  // Loading state
+  if (isLoading && !propReviews) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  // No reviews available
+  if (reviews.length === 0) {
+    return (
+      <div className="text-center py-12 text-white/70">
+        <p>No customer reviews available yet.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       {(title || description) && (

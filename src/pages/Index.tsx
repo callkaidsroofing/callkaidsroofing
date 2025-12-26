@@ -28,7 +28,6 @@ import {
   serviceAreasData,
   finalCTAContent,
 } from "@/data/homepage-content";
-import { berwickRestorationCaseStudy, additionalReviews } from "@/data/case-studies";
 
 const Index = () => {
   return (
@@ -211,7 +210,7 @@ const Index = () => {
                   Complete project story: Before & after photos + customer review from the same job
                 </p>
               </div>
-              <FeaturedCaseStudy caseStudy={berwickRestorationCaseStudy} />
+              <FeaturedCaseStudy />
             </Container>
           </SectionWrapper>
         </ParallaxBackground>
@@ -225,7 +224,6 @@ const Index = () => {
         <SectionWrapper background="gradient-dark" className="text-primary-foreground">
           <Container>
             <ReviewsGrid
-              reviews={additionalReviews}
               title="More Happy Customers"
               description="Real reviews from Southeast Melbourne homeowners"
             />
