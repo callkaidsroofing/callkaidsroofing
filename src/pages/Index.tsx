@@ -7,6 +7,8 @@ import { SEOHead } from "@/components/SEOHead";
 import { StickyMobileHeader } from "@/components/StickyMobileHeader";
 import { UtilityBar } from "@/components/UtilityBar";
 import { BeforeAfterCarousel } from "@/components/BeforeAfterCarousel";
+import { FeaturedCaseStudy } from "@/components/FeaturedCaseStudy";
+import { ReviewsGrid } from "@/components/ReviewsGrid";
 import GoogleBusinessProfile from "@/components/GoogleBusinessProfile";
 import ParallaxBackground from "@/components/ParallaxBackground";
 import { SectionWrapper, Container } from "@/components/ui/section-wrapper";
@@ -26,6 +28,7 @@ import {
   serviceAreasData,
   finalCTAContent,
 } from "@/data/homepage-content";
+import { berwickRestorationCaseStudy, additionalReviews } from "@/data/case-studies";
 
 const Index = () => {
   return (
@@ -196,20 +199,19 @@ const Index = () => {
           <HowItWorks />
         </SectionWrapper>
 
-        {/* Before/After Proof Carousel */}
+        {/* Featured Case Study - Berwick Restoration */}
         <ParallaxBackground variant="testimonials" density="medium">
           <SectionWrapper background="gradient-dark" className="text-primary-foreground">
             <Container>
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white">
-                  Real Results
+                  Real Work, Real Results
                 </h2>
                 <p className="text-white/90 text-lg">
-                  Before & after photos from every job · <Link to="/portfolio" className="text-primary hover:text-primary/80 font-semibold transition-colors">View full portfolio →</Link>
+                  Complete project story: Before & after photos + customer review from the same job
                 </p>
               </div>
-              {/* CMS-Managed: Edit featured projects at /admin/cms/homepage */}
-              <BeforeAfterCarousel />
+              <FeaturedCaseStudy caseStudy={berwickRestorationCaseStudy} />
             </Container>
           </SectionWrapper>
         </ParallaxBackground>
@@ -217,6 +219,17 @@ const Index = () => {
         {/* Testimonials - Customer Reviews */}
         <SectionWrapper className="bg-background py-20">
           <TestimonialsSection />
+        </SectionWrapper>
+
+        {/* Additional Customer Reviews - Screenshots */}
+        <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+          <Container>
+            <ReviewsGrid
+              reviews={additionalReviews}
+              title="More Happy Customers"
+              description="Real reviews from Southeast Melbourne homeowners"
+            />
+          </Container>
         </SectionWrapper>
 
         {/* Google Business Profile */}
