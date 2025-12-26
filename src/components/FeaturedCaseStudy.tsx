@@ -1,16 +1,48 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Star, MapPin, Quote } from 'lucide-react';
-import { CaseStudy } from '@/data/case-studies';
+import { Star, MapPin, Quote, Loader2 } from 'lucide-react';
+import { useFeaturedCaseStudy, CaseStudy } from '@/hooks/use-case-studies';
 
 interface FeaturedCaseStudyProps {
-  caseStudy: CaseStudy;
+  caseStudy?: CaseStudy | null; // Optional: defaults to fetching from database
 }
 
-export function FeaturedCaseStudy({ caseStudy }: FeaturedCaseStudyProps) {
+export function FeaturedCaseStudy({ caseStudy: propCaseStudy }: FeaturedCaseStudyProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [showBefore, setShowBefore] = useState(true);
+
+  // Fetch from database if no prop provided
+  const { data: dbCaseStudy, isLoading, error } = useFeaturedCaseStudy();
+  const caseStudy = propCaseStudy ?? dbCaseStudy;
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="text-center py-20 text-white/70">
+        <p>Unable to load case study. Please try again later.</p>
+      </div>
+    );
+  }
+
+  // No case study found
+  if (!caseStudy || !caseStudy.images || caseStudy.images.length === 0) {
+    return (
+      <div className="text-center py-20 text-white/70">
+        <p>No featured case study available yet.</p>
+        <p className="text-sm mt-2">Check back soon for real project stories!</p>
+      </div>
+    );
+  }
 
   const currentImage = caseStudy.images[selectedImage];
 

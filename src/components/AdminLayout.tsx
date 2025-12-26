@@ -83,6 +83,7 @@ const navStructure: NavSection[] = [
       { title: 'Services', path: '/admin/cms/services', icon: Wrench },
       { title: 'Suburbs', path: '/admin/cms/suburbs', icon: Home },
       { title: 'Media Gallery', path: '/admin/cms/media-gallery', icon: Image },
+      { title: 'Case Studies', path: '/admin/cms/case-studies', icon: FileStack },
       { title: 'Data Hub', path: '/admin/cms/data', icon: Database },
       { title: 'Documents', path: '/admin/cms/documents', icon: FileText },
     ],
