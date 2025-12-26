@@ -65,7 +65,6 @@ const LeadDetail = lazy(() => import("./pages/LeadDetail"));
 const InspectionQuoteBuilderPage = lazy(() => import("./pages/InspectionQuoteBuilder"));
 const JobsCalendar = lazy(() => import("./pages/JobsCalendar"));
 const LeadIntelligence = lazy(() => import("./pages/LeadIntelligence"));
-const ReportsAnalytics = lazy(() => import("./pages/ReportsAnalytics"));
 const AdminUserManagement = lazy(() => import("./pages/AdminUserManagement"));
 const AIAssistant = lazy(() => import("./pages/internal/v2/AIAssistant"));
 const StorageAdmin = lazy(() => import("./pages/internal/v2/admin/StorageAdmin"));
@@ -78,8 +77,8 @@ const CRMLeads = lazy(() => import("./pages/admin/crm/Leads"));
 const CRMLeadDetail = lazy(() => import("./pages/admin/crm/LeadDetail"));
 const CRMQuotes = lazy(() => import("./pages/admin/crm/Quotes"));
 const CRMJobs = lazy(() => import("./pages/admin/crm/JobsList"));
+const CRMJobDetail = lazy(() => import("./pages/admin/crm/JobDetail"));
 const CRMIntelligence = lazy(() => import("./pages/admin/crm/Intelligence"));
-const CRMReports = lazy(() => import("./pages/admin/crm/Reports"));
 // Archived: const ToolsQuickQuote = lazy(() => import("./pages/admin/tools/QuickQuote"));
 // Archived: const ToolsInspections = lazy(() => import("./pages/admin/tools/Inspections"));
 const ToolsMeasurements = lazy(() => import("./pages/admin/tools/Measurements"));
@@ -218,8 +217,8 @@ function App() {
                       <Route path="crm/leads/:id" element={<CRMLeadDetail />} />
                       <Route path="crm/quotes" element={<CRMQuotes />} />
                       <Route path="crm/jobs" element={<CRMJobs />} />
+                      <Route path="crm/jobs/:id" element={<CRMJobDetail />} />
                       <Route path="crm/intelligence" element={<CRMIntelligence />} />
-                      <Route path="crm/reports" element={<CRMReports />} />
                       
                       {/* Tools Section */}
                       {/* Unified Inspection & Quote Builder */}

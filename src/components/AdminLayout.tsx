@@ -37,7 +37,6 @@ const navStructure: NavSection[] = [
       { title: 'Quotes', path: '/admin/crm/quotes', icon: DollarSign },
       { title: 'Jobs', path: '/admin/crm/jobs', icon: Calendar },
       { title: 'Intelligence', path: '/admin/crm/intelligence', icon: Brain },
-      { title: 'Reports', path: '/admin/crm/reports', icon: BarChart3 },
     ],
   },
   {
@@ -64,6 +63,35 @@ const navStructure: NavSection[] = [
     ],
   },
   {
+    title: 'Content',
+    icon: FileText,
+    items: [
+      { title: 'Services', path: '/admin/cms/services', icon: Wrench },
+      { title: 'Suburbs', path: '/admin/cms/suburbs', icon: Home },
+      { title: 'Case Studies', path: '/admin/cms/case-studies', icon: FileStack },
+      { title: 'Homepage Editor', path: '/admin/cms/homepage', icon: Sparkles },
+    ],
+  },
+  {
+    title: 'Media',
+    icon: Image,
+    items: [
+      { title: 'Media Gallery', path: '/admin/cms/media-gallery', icon: Image },
+      { title: 'Verification', path: '/admin/cms/media-verification', icon: Shield },
+    ],
+  },
+  {
+    title: 'Knowledge',
+    icon: Brain,
+    items: [
+      { title: 'Knowledge Base', path: '/admin/cms/knowledge', icon: FileText },
+      { title: 'Knowledge System', path: '/admin/cms/knowledge-system', icon: Brain },
+      { title: 'Data Hub', path: '/admin/cms/data', icon: Database },
+      { title: 'Documents', path: '/admin/cms/documents', icon: FileText },
+      { title: 'Data Sync', path: '/admin/cms/sync', icon: RefreshCw },
+    ],
+  },
+  {
     title: 'Settings',
     icon: Settings,
     items: [
@@ -72,23 +100,6 @@ const navStructure: NavSection[] = [
       { title: 'Pricing', path: '/admin/settings/pricing', icon: DollarSign },
       { title: 'Forms', path: '/admin/settings/forms', icon: FormInput },
       { title: 'Integrations', path: '/admin/settings/integrations', icon: FileStack },
-    ],
-  },
-  {
-    title: 'CMS',
-    icon: Database,
-    items: [
-      { title: 'Data Sync', path: '/admin/cms/sync', icon: RefreshCw },
-      { title: 'Knowledge Base', path: '/admin/cms/knowledge', icon: FileText },
-      { title: 'Knowledge System', path: '/admin/cms/knowledge-system', icon: Brain },
-      { title: 'Services', path: '/admin/cms/services', icon: Wrench },
-      { title: 'Suburbs', path: '/admin/cms/suburbs', icon: Home },
-      { title: 'Media Gallery', path: '/admin/cms/media-gallery', icon: Image },
-      { title: 'Media Verification', path: '/admin/cms/media-verification', icon: Shield },
-      { title: 'Case Studies', path: '/admin/cms/case-studies', icon: FileStack },
-      { title: 'Homepage Editor', path: '/admin/cms/homepage', icon: Sparkles },
-      { title: 'Data Hub', path: '/admin/cms/data', icon: Database },
-      { title: 'Documents', path: '/admin/cms/documents', icon: FileText },
     ],
   },
 ];

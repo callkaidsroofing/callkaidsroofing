@@ -21,9 +21,13 @@ export default function Business() {
   const [tagline, setTagline] = useState('');
 
   const handleSave = () => {
+    // TODO: Connect to database table for persistence
+    // Currently stores in local state only - changes are lost on page refresh
+    console.warn('Business settings not persisted - no database table configured');
     toast({
-      title: "Settings saved",
-      description: "Business information has been updated successfully.",
+      title: "⚠️ Not Saved to Database",
+      description: "Business settings are currently stored in local state only. Changes will be lost on page refresh.",
+      variant: "destructive",
     });
   };
 
