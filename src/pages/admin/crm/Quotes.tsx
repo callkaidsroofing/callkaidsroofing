@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
+import { handleAPIError } from '@/lib/api-error-handler';
 import { 
   Search, 
   Plus, 
@@ -98,12 +99,7 @@ export default function QuotesPage() {
       setQuotes(quotesData || []);
 
     } catch (error) {
-      console.error('Error fetching data:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to load data',
-        variant: 'destructive',
-      });
+      handleAPIError(error, 'Failed to load inspections and quotes');
     } finally {
       setLoading(false);
     }

@@ -114,6 +114,7 @@ const CMSCaseStudyManager = lazy(() => import("./pages/admin/cms/CaseStudyManage
 const ToolsWorkflows = lazy(() => import("./pages/admin/tools/Workflows"));
 
 import { AdminLayout } from "@/components/AdminLayout";
+import { AdminErrorBoundary } from "@/components/AdminErrorBoundary";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import ProtectedLayout from "@/components/ProtectedLayout";
 
@@ -209,7 +210,7 @@ function App() {
                   
                   {/* CKR Admin Hub - Unified business management system */}
                   <Route path="/admin" element={<ProtectedLayout />}>
-                    <Route element={<AdminLayout />}>
+                    <Route element={<AdminErrorBoundary><AdminLayout /></AdminErrorBoundary>}>
                       <Route index element={<AdminHome />} />
                       
                       {/* CRM Section */}
