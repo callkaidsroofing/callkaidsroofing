@@ -143,7 +143,7 @@ export default function Services() {
         ]}
         cta={
           <>
-            <Button asChild size="lg" className="font-semibold shadow-lg">
+            <Button asChild size="lg" className="font-semibold">
               <a href="tel:0435900709">
                 <Phone className="h-5 w-5 mr-2" />
                 Call 0435 900 709
@@ -225,74 +225,41 @@ export default function Services() {
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Proof in Every Service
             </h2>
-            <p className="text-white/70 text-lg max-w-3xl mx-auto">
+            <p className="text-white/90 text-lg max-w-3xl mx-auto">
               Real work, real results. Every project documented before and after.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Proof Block 1 - Roof Restoration */}
-            <Card className="backdrop-blur bg-white/10 border-white/20 hover:border-primary/60 transition-all overflow-hidden">
-              <div className="aspect-[4/3] bg-secondary/50 flex items-center justify-center relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
-                <div className="relative z-10 text-center p-6">
-                  <p className="text-white/90 text-sm font-medium mb-2">
-                    Before/After photos from real jobs in Clyde North, Berwick, and Pakenham
-                  </p>
-                  <p className="text-white/60 text-xs">
-                    All work documented · <Link to="/portfolio" className="text-primary hover:underline">View full portfolio →</Link>
-                  </p>
-                </div>
-              </div>
-              <CardContent className="p-4">
-                <p className="text-white font-semibold mb-1 text-sm">Roof Restoration Work</p>
-                <p className="text-white/70 text-sm">Complete restoration including rebedding, repointing, and membrane coating</p>
-              </CardContent>
-            </Card>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="text-center">
+              <h3 className="text-lg font-bold text-white mb-2">Roof Restoration</h3>
+              <p className="text-white/90 text-sm leading-relaxed">
+                Complete restoration including rebedding, repointing, and membrane coating
+              </p>
+            </div>
 
-            {/* Proof Block 2 - Roof Painting */}
-            <Card className="backdrop-blur bg-white/10 border-white/20 hover:border-primary/60 transition-all overflow-hidden">
-              <div className="aspect-[4/3] bg-secondary/50 flex items-center justify-center relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
-                <div className="relative z-10 text-center p-6">
-                  <p className="text-white/90 text-sm font-medium mb-2">
-                    Roof painting transformations across SE Melbourne
-                  </p>
-                  <p className="text-white/60 text-xs">
-                    Premium paints · 2-3 day turnaround
-                  </p>
-                </div>
-              </div>
-              <CardContent className="p-4">
-                <p className="text-white font-semibold mb-1 text-sm">Roof Painting Projects</p>
-                <p className="text-white/70 text-sm">Colour refresh using premium Dulux AcraTex membrane systems</p>
-              </CardContent>
-            </Card>
+            <div className="text-center">
+              <h3 className="text-lg font-bold text-white mb-2">Roof Painting</h3>
+              <p className="text-white/90 text-sm leading-relaxed">
+                Colour refresh using premium Dulux AcraTex membrane systems
+              </p>
+            </div>
 
-            {/* Proof Block 3 - Emergency Repairs */}
-            <Card className="backdrop-blur bg-white/10 border-white/20 hover:border-primary/60 transition-all overflow-hidden">
-              <div className="aspect-[4/3] bg-secondary/50 flex items-center justify-center relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-destructive/20 to-roofing-warning/20" />
-                <div className="relative z-10 text-center p-6">
-                  <p className="text-white/90 text-sm font-medium mb-2">
-                    Emergency leak repairs and tile replacements
-                  </p>
-                  <p className="text-white/60 text-xs">
-                    Same-day service available
-                  </p>
-                </div>
-              </div>
-              <CardContent className="p-4">
-                <p className="text-white font-semibold mb-1 text-sm">Repair Work Examples</p>
-                <p className="text-white/70 text-sm">Fast fixes for leaks, broken tiles, and valley iron issues</p>
-              </CardContent>
-            </Card>
+            <div className="text-center">
+              <h3 className="text-lg font-bold text-white mb-2">Emergency Repairs</h3>
+              <p className="text-white/90 text-sm leading-relaxed">
+                Fast fixes for leaks, broken tiles, and valley iron issues
+              </p>
+            </div>
           </div>
 
-          <div className="text-center mt-8">
-            <p className="text-white/70 text-sm">
-              Every job photographed before and after. <Link to="/warranty" className="text-primary hover:underline font-semibold">15-year warranty on restoration work →</Link>
+          <div className="text-center mt-10">
+            <p className="text-white/90 text-sm mb-4">
+              Before & after photos from every job
             </p>
+            <Link to="/portfolio" className="text-primary hover:text-primary/80 font-semibold text-sm transition-colors">
+              View full portfolio →
+            </Link>
           </div>
         </Container>
       </SectionWrapper>
@@ -300,69 +267,57 @@ export default function Services() {
       {/* Suburb-Specific Services */}
       <SectionWrapper background="gradient-dark" className="text-primary-foreground">
         <Container>
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Local Roofing Experts Across Southeast Melbourne
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white mb-3">
+              Servicing Southeast Melbourne
             </h2>
-            <p className="text-lg text-white/70 max-w-3xl mx-auto">
-              Kaidyn knows every suburb personally. Get specialised service tailored to your area's specific roofing needs and regulations.
+            <p className="text-lg text-white/90 max-w-3xl mx-auto">
+              Local expertise across Clyde North, Berwick, Pakenham, Cranbourne, and surrounding suburbs
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="backdrop-blur bg-white/10 border-white/20 hover:border-primary/60 transition-all">
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">Clyde North & Officer</h3>
-                <p className="text-white/70 text-sm mb-4">Home base - know every street and building style</p>
-                <div className="space-y-2">
-                  <Link to="/services/roof-restoration-clyde-north" className="block text-primary hover:underline">
-                    • Roof Restoration Clyde North
-                  </Link>
-                  <Link to="/services/roof-painting-clyde-north" className="block text-primary hover:underline">
-                    • Roof Painting Clyde North
-                  </Link>
-                  <p className="text-sm text-white/60 mt-2">New estates, modern materials, quality finishes</p>
-                </div>
-              </CardContent>
-            </Card>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div>
+              <h3 className="text-lg font-bold text-white mb-3">Clyde North & Officer</h3>
+              <div className="space-y-2">
+                <Link to="/services/roof-restoration-clyde-north" className="block text-primary hover:text-primary/80 text-sm transition-colors">
+                  Roof Restoration →
+                </Link>
+                <Link to="/services/roof-painting-clyde-north" className="block text-primary hover:text-primary/80 text-sm transition-colors">
+                  Roof Painting →
+                </Link>
+              </div>
+            </div>
 
-            <Card className="backdrop-blur bg-white/10 border-white/20 hover:border-primary/60 transition-all">
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">Berwick & Pakenham</h3>
-                <p className="text-white/70 text-sm mb-4">Major service areas - family-focused communities</p>
-                <div className="space-y-2">
-                  <Link to="/services/roof-restoration-berwick" className="block text-primary hover:underline">
-                    • Berwick Roof Specialist
-                  </Link>
-                  <Link to="/services/roof-restoration-pakenham" className="block text-primary hover:underline">
-                    • Pakenham Roof Restoration
-                  </Link>
-                  <Link to="/services/roof-painting-pakenham" className="block text-primary hover:underline">
-                    • Pakenham Roof Painting
-                  </Link>
-                  <p className="text-sm text-white/60 mt-2">Established homes, renovation projects, quality upgrades</p>
-                </div>
-              </CardContent>
-            </Card>
+            <div>
+              <h3 className="text-lg font-bold text-white mb-3">Berwick & Pakenham</h3>
+              <div className="space-y-2">
+                <Link to="/services/roof-restoration-berwick" className="block text-primary hover:text-primary/80 text-sm transition-colors">
+                  Berwick Services →
+                </Link>
+                <Link to="/services/roof-restoration-pakenham" className="block text-primary hover:text-primary/80 text-sm transition-colors">
+                  Pakenham Restoration →
+                </Link>
+                <Link to="/services/roof-painting-pakenham" className="block text-primary hover:text-primary/80 text-sm transition-colors">
+                  Pakenham Painting →
+                </Link>
+              </div>
+            </div>
 
-            <Card className="backdrop-blur bg-white/10 border-white/20 hover:border-primary/60 transition-all">
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">Cranbourne & Beyond</h3>
-                <p className="text-white/70 text-sm mb-4">High-volume service area - growing rapidly</p>
-                <div className="space-y-2">
-                  <Link to="/services/roof-restoration-cranbourne" className="block text-primary hover:underline">
-                    • Cranbourne Roof Restoration
-                  </Link>
-                  <Link to="/services/roof-painting-cranbourne" className="block text-primary hover:underline">
-                    • Cranbourne Roof Painting
-                  </Link>
-                  <Link to="/services/roof-restoration-mount-eliza" className="block text-primary hover:underline">
-                    • Mount Eliza Premium Service
-                  </Link>
-                  <p className="text-sm text-white/60 mt-2">Mix of new and established, diverse roof types</p>
-                </div>
-              </CardContent>
-            </Card>
+            <div>
+              <h3 className="text-lg font-bold text-white mb-3">Cranbourne & Beyond</h3>
+              <div className="space-y-2">
+                <Link to="/services/roof-restoration-cranbourne" className="block text-primary hover:text-primary/80 text-sm transition-colors">
+                  Cranbourne Restoration →
+                </Link>
+                <Link to="/services/roof-painting-cranbourne" className="block text-primary hover:text-primary/80 text-sm transition-colors">
+                  Cranbourne Painting →
+                </Link>
+                <Link to="/services/roof-restoration-mount-eliza" className="block text-primary hover:text-primary/80 text-sm transition-colors">
+                  Mount Eliza Services →
+                </Link>
+              </div>
+            </div>
           </div>
         </Container>
       </SectionWrapper>

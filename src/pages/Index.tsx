@@ -7,6 +7,8 @@ import { SEOHead } from "@/components/SEOHead";
 import { StickyMobileHeader } from "@/components/StickyMobileHeader";
 import { UtilityBar } from "@/components/UtilityBar";
 import { BeforeAfterCarousel } from "@/components/BeforeAfterCarousel";
+import { FeaturedCaseStudy } from "@/components/FeaturedCaseStudy";
+import { ReviewsGrid } from "@/components/ReviewsGrid";
 import GoogleBusinessProfile from "@/components/GoogleBusinessProfile";
 import ParallaxBackground from "@/components/ParallaxBackground";
 import { SectionWrapper, Container } from "@/components/ui/section-wrapper";
@@ -26,6 +28,7 @@ import {
   serviceAreasData,
   finalCTAContent,
 } from "@/data/homepage-content";
+import { berwickRestorationCaseStudy, additionalReviews } from "@/data/case-studies";
 
 const Index = () => {
   return (
@@ -47,12 +50,9 @@ const Index = () => {
             background="gradient-dark"
             className="text-primary-foreground relative"
           >
-            {/* Subtle background depth - matches pilot pattern */}
+            {/* Clean dark background */}
             <div className="absolute inset-0 bg-secondary/95" />
 
-            {/* Subtle metallic shimmer - calm professional tone */}
-            <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_30%,rgba(255,255,255,0.02)_50%,transparent_70%)] bg-[length:200%_100%] animate-shimmer" />
-            
             <Container className="relative z-10">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center min-h-[600px]">
                 {/* Left: Hero Content (7 columns on desktop) */}
@@ -71,7 +71,7 @@ const Index = () => {
                     <Button
                       asChild
                       size="xl"
-                      className="text-2xl sm:text-3xl h-auto py-6 px-10 rounded-xl shadow-brand"
+                      className="text-2xl sm:text-3xl h-auto py-6 px-10 rounded-xl"
                     >
                       <a href="tel:0435900709" className="inline-flex items-center gap-3">
                         <Phone className="h-8 w-8" />
@@ -139,26 +139,19 @@ const Index = () => {
                 }[item.icon];
 
                 return (
-                  <Card
-                    key={idx}
-                    className="backdrop-blur bg-white/10 border-white/20 hover:border-primary/60 transition-all group"
-                  >
-                    <CardContent className="p-6">
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mb-4">
-                          {IconComponent && (
-                            <IconComponent className="h-8 w-8 text-white" />
-                          )}
-                        </div>
-                        <h3 className="font-bold text-lg mb-2 text-white group-hover:text-primary transition-colors">
-                          {item.title}
-                        </h3>
-                        <p className="text-white/70 text-sm">
-                          {item.description}
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <div key={idx} className="flex flex-col items-center text-center group">
+                    <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-4">
+                      {IconComponent && (
+                        <IconComponent className="h-8 w-8 text-white" />
+                      )}
+                    </div>
+                    <h3 className="font-bold text-lg mb-2 text-white">
+                      {item.title}
+                    </h3>
+                    <p className="text-white/90 text-sm leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
                 );
               })}
             </div>
@@ -206,22 +199,19 @@ const Index = () => {
           <HowItWorks />
         </SectionWrapper>
 
-        {/* Before/After Proof Carousel */}
+        {/* Featured Case Study - Berwick Restoration */}
         <ParallaxBackground variant="testimonials" density="medium">
           <SectionWrapper background="gradient-dark" className="text-primary-foreground">
             <Container>
-              <div className="text-center mb-10">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-                  Real Results
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white">
+                  Real Work, Real Results
                 </h2>
-                <p className="text-white/70 text-lg">
-                  See the transformation · <Link to="/portfolio" className="text-primary hover:text-white font-semibold transition-colors">View full portfolio →</Link>
+                <p className="text-white/90 text-lg">
+                  Complete project story: Before & after photos + customer review from the same job
                 </p>
               </div>
-              <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-8 shadow-lg">
-                {/* CMS-Managed: Edit featured projects at /admin/cms/homepage */}
-                <BeforeAfterCarousel />
-              </div>
+              <FeaturedCaseStudy caseStudy={berwickRestorationCaseStudy} />
             </Container>
           </SectionWrapper>
         </ParallaxBackground>
@@ -229,6 +219,17 @@ const Index = () => {
         {/* Testimonials - Customer Reviews */}
         <SectionWrapper className="bg-background py-20">
           <TestimonialsSection />
+        </SectionWrapper>
+
+        {/* Additional Customer Reviews - Screenshots */}
+        <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+          <Container>
+            <ReviewsGrid
+              reviews={additionalReviews}
+              title="More Happy Customers"
+              description="Real reviews from Southeast Melbourne homeowners"
+            />
+          </Container>
         </SectionWrapper>
 
         {/* Google Business Profile */}
@@ -255,27 +256,24 @@ const Index = () => {
         {/* Service Areas */}
         <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
           <Container>
-            <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-8 shadow-lg">
-              <h2 className="text-xl md:text-2xl font-bold text-center mb-6 text-white">
-                SE Melbourne
-              </h2>
-              <div className="flex flex-wrap justify-center gap-3 mb-6">
-                {serviceAreasData.map((area) => (
-                  <Badge
-                    key={area}
-                    variant="outline"
-                    className="bg-white/10 border-white/20 text-white hover:border-primary/60 hover:bg-white/20"
-                  >
-                    {area}
-                  </Badge>
-                ))}
-              </div>
-              <p className="text-center text-white/70 text-sm">
-                <Link to="/quote" className="text-primary hover:underline font-semibold">
-                  Get quote →
-                </Link>
-              </p>
+            <h2 className="text-xl md:text-2xl font-bold text-center mb-8 text-white">
+              Servicing Southeast Melbourne
+            </h2>
+            <div className="flex flex-wrap justify-center gap-3 mb-6 max-w-3xl mx-auto">
+              {serviceAreasData.map((area) => (
+                <span
+                  key={area}
+                  className="px-3 py-1.5 text-sm text-white/90 hover:text-white transition-colors"
+                >
+                  {area}
+                </span>
+              ))}
             </div>
+            <p className="text-center text-white/90 text-sm">
+              <Link to="/quote" className="text-primary hover:text-primary/80 font-semibold transition-colors">
+                Get your free quote →
+              </Link>
+            </p>
           </Container>
         </SectionWrapper>
 
