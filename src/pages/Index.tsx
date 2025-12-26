@@ -1,5 +1,8 @@
 import { Shield, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { SEOHead } from "@/components/SEOHead";
 import { StickyMobileHeader } from "@/components/StickyMobileHeader";
 import { UtilityBar } from "@/components/UtilityBar";
@@ -56,13 +59,16 @@ const Index = () => {
                 <div className="lg:col-span-7 py-8">
                   <div className="mb-10 space-y-5">
                     {/* Phone CTA */}
-                    <a
-                      href="tel:0435900709"
-                      className="inline-flex items-center gap-3 bg-primary hover:bg-primary/90 text-white px-8 py-5 rounded-2xl text-3xl sm:text-4xl font-bold shadow-lg transition-all duration-300 animate-fade-in"
+                    <Button
+                      asChild
+                      size="xl"
+                      className="text-3xl sm:text-4xl h-auto py-5 px-8 rounded-2xl animate-fade-in"
                     >
-                      <Phone className="h-10 w-10" />
-                      <span>0435 900 709</span>
-                    </a>
+                      <a href="tel:0435900709">
+                        <Phone className="h-10 w-10" />
+                        <span>0435 900 709</span>
+                      </a>
+                    </Button>
 
                     {/* Google Rating Badge */}
                     <div
@@ -82,7 +88,7 @@ const Index = () => {
                       <h1
                         className="text-5xl md:text-7xl font-bold mb-8 leading-tight animate-fade-in"
                       >
-                        Roof Looking <span className="text-conversion-cyan">Tired?</span> Leaking? Faded?
+                        Roof Looking <span className="text-primary">Tired?</span> Leaking? Faded?
                       </h1>
                     }
                     subheadline={
@@ -90,15 +96,15 @@ const Index = () => {
                         className="text-xl md:text-2xl font-semibold opacity-90 animate-fade-in"
                         style={{ animationDelay: '200ms' }}
                       >
-                        <Link to="/warranty" className="hover:text-conversion-cyan transition-colors">15-year warranty</Link>. Local owner. No sales teams.
+                        <Link to="/warranty" className="hover:text-primary transition-colors">15-year warranty</Link>. Local owner. No sales teams.
                       </p>
                     }
                   />
 
                   {/* Offer Message */}
-                  <div className="mt-8 backdrop-blur-md bg-white/10 border border-conversion-cyan/40 rounded-xl p-5 inline-block">
+                  <div className="mt-8 backdrop-blur-md bg-white/10 border border-primary/40 rounded-xl p-5 inline-block">
                     <p className="text-white font-semibold text-base flex items-center gap-2">
-                      <span className="text-conversion-cyan text-xl">✓</span>
+                      <span className="text-primary text-xl">✓</span>
                       <span>Free $250 roof assessment with every quote</span>
                     </p>
                   </div>
@@ -142,24 +148,26 @@ const Index = () => {
                 }[item.icon];
 
                 return (
-                  <div
+                  <Card
                     key={idx}
-                    className="backdrop-blur bg-white/10 border border-white/20 rounded-xl p-6 hover:shadow-lg hover:border-conversion-cyan/60 transition-all group"
+                    className="backdrop-blur bg-white/10 border-white/20 hover:border-primary/60 transition-all group"
                   >
-                    <div className="flex flex-col items-center text-center">
-                      <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform mb-4">
-                        {IconComponent && (
-                          <IconComponent className="h-8 w-8 text-white" />
-                        )}
+                    <CardContent className="p-6">
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mb-4">
+                          {IconComponent && (
+                            <IconComponent className="h-8 w-8 text-white" />
+                          )}
+                        </div>
+                        <h3 className="font-bold text-lg mb-2 text-white group-hover:text-primary transition-colors">
+                          {item.title}
+                        </h3>
+                        <p className="text-white/70 text-sm">
+                          {item.description}
+                        </p>
                       </div>
-                      <h3 className="font-bold text-lg mb-2 text-white group-hover:text-conversion-cyan transition-colors">
-                        {item.title}
-                      </h3>
-                      <p className="text-white/70 text-sm">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
+                    </CardContent>
+                  </Card>
                 );
               })}
             </div>
@@ -192,7 +200,7 @@ const Index = () => {
               <div className="text-center mt-8">
                 <Link
                   to="/services"
-                  className="inline-flex items-center gap-2 text-conversion-cyan hover:text-white font-semibold text-lg transition-colors"
+                  className="inline-flex items-center gap-2 text-primary hover:text-white font-semibold text-lg transition-colors"
                 >
                   View All 9 Services →
                 </Link>
@@ -215,7 +223,7 @@ const Index = () => {
                   Real Results
                 </h2>
                 <p className="text-white/70 text-lg">
-                  See the transformation · <Link to="/portfolio" className="text-conversion-cyan hover:text-white font-semibold transition-colors">View full portfolio →</Link>
+                  See the transformation · <Link to="/portfolio" className="text-primary hover:text-white font-semibold transition-colors">View full portfolio →</Link>
                 </p>
               </div>
               <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-8 shadow-lg">
@@ -259,16 +267,17 @@ const Index = () => {
               </h2>
               <div className="flex flex-wrap justify-center gap-3 mb-6">
                 {serviceAreasData.map((area) => (
-                  <span
+                  <Badge
                     key={area}
-                    className="px-3 py-1.5 bg-white/10 border border-white/20 rounded-full text-xs text-white hover:border-conversion-cyan/60 hover:bg-white/20 transition-all"
+                    variant="outline"
+                    className="bg-white/10 border-white/20 text-white hover:border-primary/60 hover:bg-white/20"
                   >
                     {area}
-                  </span>
+                  </Badge>
                 ))}
               </div>
               <p className="text-center text-white/70 text-sm">
-                <Link to="/quote" className="text-conversion-cyan hover:underline font-semibold">
+                <Link to="/quote" className="text-primary hover:underline font-semibold">
                   Get quote →
                 </Link>
               </p>

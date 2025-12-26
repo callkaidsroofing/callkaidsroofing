@@ -224,7 +224,7 @@ const BookingPage = () => {
             <div className="grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
               
               {/* Form */}
-              <Card className="shadow-xl border-2 border-primary/10 bg-white">
+              <Card className="bg-white">
                 <CardHeader className="text-center pb-8">
                   <CardTitle className="text-2xl font-bold text-primary">
                     Book Your Free Quote
@@ -391,7 +391,7 @@ const BookingPage = () => {
               <div className="space-y-8">
                 
                 {/* Why Choose Us */}
-                <Card className="bg-primary/5 border-primary/20">
+                <Card className="border-primary/20">
                   <CardHeader>
                     <CardTitle className="text-xl text-primary">Why 200+ Customers Choose Us</CardTitle>
                   </CardHeader>
@@ -428,7 +428,7 @@ const BookingPage = () => {
                 </Card>
 
                 {/* Process */}
-                <Card className="bg-secondary/5 border-secondary/20">
+                <Card className="border-secondary/20">
                   <CardHeader>
                     <CardTitle className="text-xl text-primary">What Happens Next?</CardTitle>
                   </CardHeader>
@@ -465,7 +465,7 @@ const BookingPage = () => {
                 </Card>
 
                 {/* Contact Info */}
-                <Card className="bg-white border-primary/30">
+                <Card className="border-primary/30">
                   <CardContent className="pt-6">
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
