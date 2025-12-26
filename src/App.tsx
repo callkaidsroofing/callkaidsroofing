@@ -77,6 +77,7 @@ const CRMLeads = lazy(() => import("./pages/admin/crm/Leads"));
 const CRMLeadDetail = lazy(() => import("./pages/admin/crm/LeadDetail"));
 const CRMQuotes = lazy(() => import("./pages/admin/crm/Quotes"));
 const CRMJobs = lazy(() => import("./pages/admin/crm/JobsList"));
+const CRMJobDetail = lazy(() => import("./pages/admin/crm/JobDetail"));
 const CRMIntelligence = lazy(() => import("./pages/admin/crm/Intelligence"));
 // Archived: const ToolsQuickQuote = lazy(() => import("./pages/admin/tools/QuickQuote"));
 // Archived: const ToolsInspections = lazy(() => import("./pages/admin/tools/Inspections"));
@@ -216,6 +217,7 @@ function App() {
                       <Route path="crm/leads/:id" element={<CRMLeadDetail />} />
                       <Route path="crm/quotes" element={<CRMQuotes />} />
                       <Route path="crm/jobs" element={<CRMJobs />} />
+                      <Route path="crm/jobs/:id" element={<CRMJobDetail />} />
                       <Route path="crm/intelligence" element={<CRMIntelligence />} />
                       
                       {/* Tools Section */}
