@@ -51,18 +51,18 @@ export const servicesData = [
 export const whyChooseUsData = [
   {
     icon: 'Shield',
-    title: '15–20 Year Warranty',
-    description: 'Workmanship guarantee',
+    title: 'Fully Insured',
+    description: 'Public liability & WorkCover',
   },
   {
     icon: 'Phone',
-    title: 'Owner Direct',
-    description: 'No sales team',
+    title: 'Owner-Operator',
+    description: 'Direct contact—no sales teams',
   },
   {
     icon: 'MapPin',
-    title: 'SE Melbourne',
-    description: 'Fast response',
+    title: 'Photo-Backed Reports',
+    description: 'Before/after proof with every job',
   },
 ];
 
