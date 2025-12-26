@@ -57,56 +57,47 @@ const Index = () => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center min-h-[600px]">
                 {/* Left: Hero Content (7 columns on desktop) */}
                 <div className="lg:col-span-7 py-8">
-                  <div className="mb-10 space-y-5">
-                    {/* Phone CTA */}
+                  {/* Headline First - Clear Hierarchy */}
+                  <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-[1.1] text-white">
+                    Roof Looking <span className="text-primary">Tired?</span> Leaking? Faded?
+                  </h1>
+
+                  <p className="text-xl md:text-2xl font-medium mb-10 text-white/90 leading-relaxed">
+                    SE Melbourne's owner-operator roofing specialist. No sales teams—just honest work.
+                  </p>
+
+                  {/* Single Primary CTA */}
+                  <div className="mb-8">
                     <Button
                       asChild
                       size="xl"
-                      className="text-3xl sm:text-4xl h-auto py-5 px-8 rounded-2xl animate-fade-in"
+                      className="text-2xl sm:text-3xl h-auto py-6 px-10 rounded-xl shadow-brand"
                     >
-                      <a href="tel:0435900709">
-                        <Phone className="h-10 w-10" />
-                        <span>0435 900 709</span>
+                      <a href="tel:0435900709" className="inline-flex items-center gap-3">
+                        <Phone className="h-8 w-8" />
+                        <span>Call 0435 900 709</span>
                       </a>
                     </Button>
-
-                    {/* Google Rating Badge */}
-                    <div
-                      className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-md px-5 py-3 rounded-2xl shadow-2xl lg:ml-4 border-2 border-primary/20 animate-fade-in"
-                      style={{ animationDelay: '300ms' }}
-                    >
-                      <span className="text-3xl">⭐</span>
-                      <div className="text-left">
-                        <div className="font-bold text-roofing-navy text-base">Google Reviews</div>
-                        <div className="text-xs text-muted-foreground font-semibold">Verified Customers</div>
-                      </div>
-                    </div>
                   </div>
 
-                  <HeroSection
-                    headline={
-                      <h1
-                        className="text-5xl md:text-7xl font-bold mb-8 leading-tight animate-fade-in"
-                      >
-                        Roof Looking <span className="text-primary">Tired?</span> Leaking? Faded?
-                      </h1>
-                    }
-                    subheadline={
-                      <p
-                        className="text-xl md:text-2xl font-semibold opacity-90 animate-fade-in"
-                        style={{ animationDelay: '200ms' }}
-                      >
-                        <Link to="/warranty" className="hover:text-primary transition-colors">15-year warranty</Link>. Local owner. No sales teams.
-                      </p>
-                    }
-                  />
-
-                  {/* Offer Message */}
-                  <div className="mt-8 backdrop-blur-md bg-white/10 border border-primary/40 rounded-xl p-5 inline-block">
-                    <p className="text-white font-semibold text-base flex items-center gap-2">
-                      <span className="text-primary text-xl">✓</span>
-                      <span>Free $250 roof assessment with every quote</span>
-                    </p>
+                  {/* Tight Trust Row - Directly Under CTA */}
+                  <div className="flex flex-wrap gap-6 text-white/90 text-sm">
+                    <div className="flex items-center gap-2">
+                      <Shield className="h-5 w-5 text-primary" />
+                      <span className="font-medium">Fully Insured</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <svg className="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      <span className="font-medium">Photo-Backed Roof Report</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <svg className="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="font-medium">15–20 Year Warranty</span>
+                    </div>
                   </div>
                 </div>
 
@@ -175,39 +166,40 @@ const Index = () => {
         </SectionWrapper>
 
         {/* Services Section */}
-        <ParallaxBackground variant="services" density="low">
-          <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
-            <Container>
-              <div className="text-center mb-10">
-                <h2 className="text-2xl md:text-3xl font-bold text-white">
-                  Services
-                </h2>
-              </div>
+        <SectionWrapper variant="default" className="bg-background py-20">
+          <Container>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
+                Our Services
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                Professional roofing solutions for Southeast Melbourne homes
+              </p>
+            </div>
 
-              <div className="grid md:grid-cols-3 gap-6 mb-6">
-                {servicesData.map((service) => (
-                  <FeatureCard
-                    key={service.id}
-                    icon={service.icon}
-                    title={service.title}
-                    description={service.benefit}
-                    price={service.price}
-                    link={service.link}
-                  />
-                ))}
-              </div>
+            <div className="grid md:grid-cols-3 gap-6 mb-8">
+              {servicesData.map((service) => (
+                <FeatureCard
+                  key={service.id}
+                  icon={service.icon}
+                  title={service.title}
+                  description={service.benefit}
+                  price={service.price}
+                  link={service.link}
+                />
+              ))}
+            </div>
 
-              <div className="text-center mt-8">
-                <Link
-                  to="/services"
-                  className="inline-flex items-center gap-2 text-primary hover:text-white font-semibold text-lg transition-colors"
-                >
-                  View All 9 Services →
-                </Link>
-              </div>
-            </Container>
-          </SectionWrapper>
-        </ParallaxBackground>
+            <div className="text-center mt-8">
+              <Link
+                to="/services"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold text-base transition-colors"
+              >
+                View All 9 Services →
+              </Link>
+            </div>
+          </Container>
+        </SectionWrapper>
 
         {/* How It Works - Process Section */}
         <SectionWrapper background="gradient-dark" className="text-primary-foreground">
@@ -235,16 +227,18 @@ const Index = () => {
         </ParallaxBackground>
 
         {/* Testimonials - Customer Reviews */}
-        <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+        <SectionWrapper className="bg-background py-20">
           <TestimonialsSection />
         </SectionWrapper>
 
         {/* Google Business Profile */}
-        <SectionWrapper variant="compact" background="gradient-dark" className="text-primary-foreground">
+        <SectionWrapper variant="compact" className="bg-muted/30 py-16">
           <Container size="sm">
-            <div className="backdrop-blur bg-white/10 border border-white/20 rounded-2xl p-8 shadow-lg">
-              <GoogleBusinessProfile />
-            </div>
+            <Card className="border-primary/20">
+              <CardContent className="p-8">
+                <GoogleBusinessProfile />
+              </CardContent>
+            </Card>
           </Container>
         </SectionWrapper>
 
@@ -254,7 +248,7 @@ const Index = () => {
         </SectionWrapper>
 
         {/* FAQ Section */}
-        <SectionWrapper background="gradient-dark" className="text-primary-foreground">
+        <SectionWrapper className="bg-background py-20">
           <FAQSection />
         </SectionWrapper>
 

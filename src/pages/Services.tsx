@@ -197,17 +197,18 @@ export default function Services() {
                         </Badge>
                       )}
                     </div>
-                    <p className="text-foreground text-base font-medium mb-3">
+                    <p className="text-foreground font-medium mb-2 leading-snug">
                       {service.summary}
                     </p>
-                    <p className="text-muted-foreground text-sm mb-6 flex-1">
+                    <p className="text-muted-foreground text-sm mb-auto leading-relaxed">
                       {service.description}
                     </p>
-                    <Link to={service.href}>
-                      <Button className="w-full font-semibold">
-                        Learn More
-                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                      </Button>
+                    <Link
+                      to={service.href}
+                      className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold text-sm mt-4 transition-colors"
+                    >
+                      View details
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </CardContent>
                 </Card>
