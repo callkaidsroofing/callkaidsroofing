@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { handleAPIError } from '@/lib/api-error-handler';
 import {
   ArrowLeft, Calendar, DollarSign, Mail, MapPin, Phone,
   FileText, User, Loader2, Edit, Send, CheckCircle
@@ -50,12 +51,7 @@ export default function JobDetail() {
 
       setJob(data);
     } catch (error) {
-      console.error('Error loading job:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to load job details. Please try again.',
-        variant: 'destructive',
-      });
+      handleAPIError(error, 'Failed to load job details');
     } finally {
       setIsLoading(false);
     }

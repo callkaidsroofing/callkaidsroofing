@@ -7,13 +7,13 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
-import { 
-  RefreshCw, 
-  Database, 
-  Sparkles, 
-  DollarSign, 
-  FileText, 
-  CheckCircle2, 
+import {
+  RefreshCw,
+  Database,
+  Sparkles,
+  DollarSign,
+  FileText,
+  CheckCircle2,
   AlertCircle,
   TrendingUp,
   Clock,
@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
+import { handleAPIError } from "@/lib/api-error-handler";
 
 interface SyncStatus {
   name: string;
@@ -89,13 +90,12 @@ export default function DataSync() {
     setLoadingStats(true);
     try {
       const { data, error } = await supabase.rpc('get_embedding_stats');
-      
+
       if (error) throw error;
-      
+
       setEmbeddingStats(data || []);
     } catch (err: any) {
-      console.error('Error loading embedding stats:', err);
-      toast.error('Failed to load embedding statistics');
+      handleAPIError(err, 'Failed to load embedding statistics');
     } finally {
       setLoadingStats(false);
     }
@@ -131,14 +131,11 @@ export default function DataSync() {
       toast.success('RAG index synchronized successfully');
       loadEmbeddingStats();
     } catch (err: any) {
-      console.error('RAG sync error:', err);
+      const apiError = handleAPIError(err, 'Failed to sync RAG index');
       updateSyncStatus('rag', {
         loading: false,
         status: 'error',
-        error: err.message || 'Failed to sync RAG index'
-      });
-      toast.error('Failed to sync RAG index', {
-        description: err.message
+        error: apiError.message
       });
     }
   };
@@ -175,14 +172,11 @@ export default function DataSync() {
       toast.success('Pricing database synchronized successfully');
       loadEmbeddingStats();
     } catch (err: any) {
-      console.error('Pricing sync error:', err);
+      const apiError = handleAPIError(err, 'Failed to sync pricing data');
       updateSyncStatus('pricing', {
         loading: false,
         status: 'error',
-        error: err.message || 'Failed to sync pricing data'
-      });
-      toast.error('Failed to sync pricing data', {
-        description: err.message
+        error: apiError.message
       });
     }
   };
@@ -210,14 +204,11 @@ export default function DataSync() {
       toast.success('Knowledge base synchronized successfully');
       loadEmbeddingStats();
     } catch (err: any) {
-      console.error('Knowledge sync error:', err);
+      const apiError = handleAPIError(err, 'Failed to sync knowledge base');
       updateSyncStatus('knowledge', {
         loading: false,
         status: 'error',
-        error: err.message || 'Failed to sync knowledge base'
-      });
-      toast.error('Failed to sync knowledge base', {
-        description: err.message
+        error: apiError.message
       });
     }
   };
@@ -254,14 +245,11 @@ export default function DataSync() {
       toast.success('Blueprint uploaded and parsed successfully');
       loadEmbeddingStats();
     } catch (err: any) {
-      console.error('Blueprint upload error:', err);
+      const apiError = handleAPIError(err, 'Failed to upload blueprint');
       updateSyncStatus('blueprint', {
         loading: false,
         status: 'error',
-        error: err.message || 'Failed to upload blueprint'
-      });
-      toast.error('Failed to upload blueprint', {
-        description: err.message
+        error: apiError.message
       });
     }
   };
@@ -309,14 +297,11 @@ export default function DataSync() {
       });
       loadEmbeddingStats();
     } catch (err: any) {
-      console.error('Knowledge upload error:', err);
+      const apiError = handleAPIError(err, 'Failed to upload knowledge system');
       updateSyncStatus('knowledge', {
         loading: false,
         status: 'error',
-        error: err.message || 'Failed to upload knowledge system'
-      });
-      toast.error('Failed to upload knowledge system', {
-        description: err.message
+        error: apiError.message
       });
     }
   };

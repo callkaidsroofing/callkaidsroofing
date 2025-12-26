@@ -4,8 +4,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FileText, GitBranch, RefreshCw, Calendar, AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { FileText, GitBranch, RefreshCw, Calendar, AlertCircle, Upload, Database } from "lucide-react";
 import { toast } from "sonner";
+import { handleAPIError } from "@/lib/api-error-handler";
 
 interface KFMetadata {
   kf_id: string;
@@ -20,16 +22,21 @@ interface KFMetadata {
 export default function KnowledgeSystem() {
   const [selectedKF, setSelectedKF] = useState<string | null>(null);
 
-  const { data: kfMetadata, isLoading, refetch } = useQuery({
+  const { data: kfMetadata, isLoading, refetch, error: queryError } = useQuery({
     queryKey: ['knowledge-file-metadata'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('knowledge_file_metadata')
-        .select('*')
-        .order('kf_id');
-      
-      if (error) throw error;
-      return data as KFMetadata[];
+      try {
+        const { data, error } = await supabase
+          .from('knowledge_file_metadata')
+          .select('*')
+          .order('kf_id');
+
+        if (error) throw error;
+        return data as KFMetadata[];
+      } catch (error) {
+        handleAPIError(error, 'Failed to load knowledge file metadata', { silent: true });
+        throw error;
+      }
     }
   });
 
@@ -114,8 +121,41 @@ export default function KnowledgeSystem() {
         </Card>
       </div>
 
+      {/* Empty State Alert */}
+      {!isLoading && (!kfMetadata || kfMetadata.length === 0) && (
+        <Alert className="border-amber-500/50 bg-amber-500/10">
+          <Database className="h-5 w-5 text-amber-500" />
+          <AlertTitle className="text-amber-700">Knowledge System Not Initialized</AlertTitle>
+          <AlertDescription className="text-amber-600 space-y-2">
+            <p>
+              No knowledge files found in the database. This system requires CKR-GEM blueprint data to be uploaded and parsed.
+            </p>
+            <div className="flex gap-2 mt-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => window.location.href = '/admin/cms/sync'}
+                className="border-amber-500 text-amber-700 hover:bg-amber-500/10"
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                Go to Data Sync
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => refetch()}
+                className="border-amber-500 text-amber-700 hover:bg-amber-500/10"
+              >
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Refresh
+              </Button>
+            </div>
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* KF Files by Category */}
-      {Object.entries(kfCategories).map(([category, kfIds]) => (
+      {kfMetadata && kfMetadata.length > 0 && Object.entries(kfCategories).map(([category, kfIds]) => (
         <div key={category} className="space-y-3">
           <h2 className="text-xl font-semibold text-foreground">{category}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

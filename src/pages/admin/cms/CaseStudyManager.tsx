@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Upload, Loader2, Trash2, Star, CheckCircle2, X } from 'lucide-react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { handleAPIError } from '@/lib/api-error-handler';
 
 interface PhotoPair {
   before: File | null;
@@ -251,12 +252,7 @@ const CaseStudyManager = () => {
       queryClient.invalidateQueries({ queryKey: ['case-studies'] });
 
     } catch (error) {
-      console.error('Upload error:', error);
-      toast({
-        title: "Upload Failed",
-        description: error instanceof Error ? error.message : 'Failed to upload case study',
-        variant: "destructive"
-      });
+      handleAPIError(error, 'Failed to upload case study');
     } finally {
       setIsUploading(false);
     }
@@ -272,7 +268,7 @@ const CaseStudyManager = () => {
       toast({ title: "Deleted", description: "Case study removed" });
       queryClient.invalidateQueries({ queryKey: ['case-studies'] });
     } catch (error) {
-      toast({ title: "Delete Failed", variant: "destructive" });
+      handleAPIError(error, 'Failed to delete case study');
     }
   };
 
