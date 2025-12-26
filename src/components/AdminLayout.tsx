@@ -37,7 +37,6 @@ const navStructure: NavSection[] = [
       { title: 'Quotes', path: '/admin/crm/quotes', icon: DollarSign },
       { title: 'Jobs', path: '/admin/crm/jobs', icon: Calendar },
       { title: 'Intelligence', path: '/admin/crm/intelligence', icon: Brain },
-      { title: 'Reports', path: '/admin/crm/reports', icon: BarChart3 },
     ],
   },
   {

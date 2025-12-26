@@ -241,6 +241,7 @@ export default function JobsList() {
                           variant="ghost"
                           size="sm"
                           className="opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={() => navigate(`/admin/crm/jobs/${job.id}`)}
                         >
                           View Details
                         </Button>

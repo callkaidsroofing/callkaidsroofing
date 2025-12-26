@@ -65,14 +65,39 @@ export default function LeadIntelligence() {
         setHotLeads(hot as LeadInsight[]);
         setColdLeads(cold as LeadInsight[]);
 
-        // Calculate metrics (mock for now)
+        // Calculate real metrics from database
+        // Get conversion rate (leads with stage = 'Won' / total leads)
+        const wonLeads = leads.filter(l => l.stage?.toLowerCase() === 'won' || l.stage?.toLowerCase() === 'converted');
+        const conversionRate = leads.length > 0 ? Math.round((wonLeads.length / leads.length) * 100) : 0;
+
+        // Calculate average response time (mock for now - requires tracking first contact time)
+        // TODO: Add first_contact_at field to leads table to calculate real response time
+        const avgResponseTime = 2.4;
+
+        // Determine trend (compare with last period - simplified)
+        const recentLeads = leads.filter(l => {
+          const createdDate = new Date(l.created_at);
+          const thirtyDaysAgo = new Date();
+          thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+          return createdDate >= thirtyDaysAgo;
+        });
+        const olderLeads = leads.filter(l => {
+          const createdDate = new Date(l.created_at);
+          const thirtyDaysAgo = new Date();
+          thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+          const sixtyDaysAgo = new Date();
+          sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
+          return createdDate < thirtyDaysAgo && createdDate >= sixtyDaysAgo;
+        });
+        const trend = recentLeads.length >= olderLeads.length ? 'up' : 'down';
+
         setMetrics({
           total_leads: leads.length,
-          conversion_rate: 32,
-          avg_response_time: 2.4,
+          conversion_rate: conversionRate,
+          avg_response_time: avgResponseTime,
           hot_leads: hot.length,
           cold_leads: cold.length,
-          trend: 'up',
+          trend,
         });
       }
     } catch (error) {
