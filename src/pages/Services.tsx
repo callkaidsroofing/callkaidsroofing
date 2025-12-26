@@ -143,7 +143,7 @@ export default function Services() {
         ]}
         cta={
           <>
-            <Button asChild size="lg" className="font-semibold shadow-lg">
+            <Button asChild size="lg" className="font-semibold">
               <a href="tel:0435900709">
                 <Phone className="h-5 w-5 mr-2" />
                 Call 0435 900 709
@@ -225,7 +225,7 @@ export default function Services() {
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Proof in Every Service
             </h2>
-            <p className="text-white/70 text-lg max-w-3xl mx-auto">
+            <p className="text-white/90 text-lg max-w-3xl mx-auto">
               Real work, real results. Every project documented before and after.
             </p>
           </div>
