@@ -12,9 +12,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { SEOHead } from '@/components/SEOHead';
 import { StructuredData } from '@/components/StructuredData';
-import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
-import { OptimizedImage } from '@/components/OptimizedImage';
-import geometricPattern from '/src/assets/geometric-roofing-pattern.jpg';
+import { PublicPageHero } from '@/public/components/PublicPageHero';
+import { SectionWrapper, Container } from '@/components/ui/section-wrapper';
 
 // Australian phone number regex: accepts 04XX XXX XXX, 0X XXXX XXXX, or +61 formats
 const australianPhoneRegex = /^(\+61|0)[2-9][0-9]{8}$|^04[0-9]{8}$/;
@@ -204,71 +203,28 @@ const BookingPage = () => {
         keywords="book roof quote Melbourne, free roof inspection, roof quote Clyde North, emergency roof repairs booking"
       />
       <StructuredData type="contact" />
-      
-      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-secondary/10 to-primary/15">
-        
-        {/* Hero Section */}
-        <OptimizedBackgroundSection
-          backgroundImage="/lovable-uploads/80e5f731-db09-4c90-8350-01fcb1fe353d.png"
-          className="py-16 text-white relative overflow-hidden"
-          gradient="linear-gradient(135deg, rgba(0,122,204,0.9), rgba(11,59,105,0.95))"
-        >
-          <OptimizedImage
-            src={geometricPattern}
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-overlay"
-            width={1600}
-            height={900}
-            sizes="100vw"
-          />
-          
-          <div className="container mx-auto px-4 text-center relative z-10">
-            <div className="inline-flex items-center gap-2 bg-green-500/20 text-green-100 px-4 py-2 rounded-full mb-6 border border-green-400/30">
-              <Zap className="h-4 w-4" />
-              <span className="text-sm font-medium">Same-Day Response Warranty</span>
-            </div>
-            
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Get Your Free Roof Quote
-            </h1>
-            <h2 className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
-              Book in 2 minutes • Kaidyn calls within 4 hours • Free inspection & quote
-            </h2>
 
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20">
-                <CheckCircle className="h-5 w-5 text-green-300" />
-                <span>No obligation quote</span>
-              </div>
-              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20">
-                <Shield className="h-5 w-5 text-blue-300" />
-                <span>15-year warranty</span>
-              </div>
-              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20">
-                <Award className="h-5 w-5 text-yellow-300" />
-                <span>200+ happy customers</span>
-              </div>
-            </div>
+      <div className="min-h-screen bg-background">
 
-            <div className="flex items-center justify-center gap-2 text-lg">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 fill-current text-yellow-300" />
-                ))}
-              </div>
-              <span className="font-semibold">4.9/5 from 47 reviews</span>
-            </div>
-          </div>
-        </OptimizedBackgroundSection>
+        {/* Hero Section - Zero Friction White Design */}
+        <PublicPageHero
+          variant="light"
+          h1="Get Your Free Roof Quote"
+          description="Book in 2 minutes • Kaidyn calls within 4 hours • Free inspection & quote"
+          badges={[
+            { icon: <CheckCircle className="h-5 w-5" />, text: "No obligation quote" },
+            { icon: <Shield className="h-5 w-5" />, text: "15-year warranty" },
+            { icon: <Award className="h-5 w-5" />, text: "200+ happy customers" }
+          ]}
+        />
 
-        {/* Main Form Section */}
-        <section className="py-16 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-secondary/5"></div>
-          <div className="container mx-auto px-4 relative z-10">
+        {/* Main Form Section - Pure White, Zero Friction */}
+        <SectionWrapper variant="default" className="bg-white">
+          <Container>
             <div className="grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
               
               {/* Form */}
-              <Card className="shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+              <Card className="bg-white">
                 <CardHeader className="text-center pb-8">
                   <CardTitle className="text-2xl font-bold text-primary">
                     Book Your Free Quote
@@ -435,7 +391,7 @@ const BookingPage = () => {
               <div className="space-y-8">
                 
                 {/* Why Choose Us */}
-                <Card className="bg-gradient-to-br from-primary/10 to-secondary/20 border-primary/20">
+                <Card className="border-primary/20">
                   <CardHeader>
                     <CardTitle className="text-xl text-primary">Why 200+ Customers Choose Us</CardTitle>
                   </CardHeader>
@@ -472,7 +428,7 @@ const BookingPage = () => {
                 </Card>
 
                 {/* Process */}
-                <Card className="bg-gradient-to-br from-secondary/10 to-primary/20 border-secondary/20">
+                <Card className="border-secondary/20">
                   <CardHeader>
                     <CardTitle className="text-xl text-primary">What Happens Next?</CardTitle>
                   </CardHeader>
@@ -509,7 +465,7 @@ const BookingPage = () => {
                 </Card>
 
                 {/* Contact Info */}
-                <Card className="bg-gradient-to-br from-primary/15 via-secondary/10 to-primary/5 border-primary/30">
+                <Card className="border-primary/30">
                   <CardContent className="pt-6">
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
@@ -553,8 +509,8 @@ const BookingPage = () => {
                 </Card>
               </div>
             </div>
-          </div>
-        </section>
+          </Container>
+        </SectionWrapper>
       </div>
     </>
   );
