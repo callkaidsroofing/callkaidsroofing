@@ -101,14 +101,13 @@ const SettingsIntegrations = lazy(() => import("./pages/admin/settings/Integrati
 const CMSKnowledge = lazy(() => import("./pages/admin/cms/Knowledge"));
 const CMSKnowledgeUpload = lazy(() => import("./pages/admin/cms/KnowledgeUploader"));
 const CMSEmbeddings = lazy(() => import("./pages/admin/cms/EmbeddingGenerator"));
-const CMSServices = lazy(() => import("./pages/admin/cms/Services"));
+const CMSServicesAdmin = lazy(() => import("./pages/admin/cms/ServicesAdmin"));
 const CMSSuburbs = lazy(() => import("./pages/admin/cms/Suburbs"));
 const CMSData = lazy(() => import("./pages/admin/cms/Data"));
 const CMSDocs = lazy(() => import("./pages/admin/cms/Documents"));
 const CMSQuoteDocs = lazy(() => import("./pages/admin/cms/QuoteDocuments"));
 const CMSDataSync = lazy(() => import("./pages/admin/cms/DataSync"));
 const CMSKnowledgeSystem = lazy(() => import("./pages/admin/cms/KnowledgeSystem"));
-const CMSMediaManager = lazy(() => import("./pages/admin/cms/MediaManager"));
 const CMSMediaVerification = lazy(() => import("./pages/admin/cms/MediaVerification"));
 const CMSHomepageEditor = lazy(() => import("./pages/admin/cms/HomepageEditor"));
 const CMSMediaGallery = lazy(() => import("./pages/admin/cms/MediaGallery"));
@@ -254,13 +253,12 @@ function App() {
                       <Route path="cms/knowledge/upload" element={<CMSKnowledgeUpload />} />
                       <Route path="cms/knowledge/embeddings" element={<CMSEmbeddings />} />
                       <Route path="cms/knowledge-system" element={<CMSKnowledgeSystem />} />
-                      <Route path="cms/services" element={<CMSServices />} />
+                      <Route path="cms/services" element={<CMSServicesAdmin />} />
                       <Route path="cms/suburbs" element={<CMSSuburbs />} />
                       <Route path="cms/data" element={<CMSData />} />
                       <Route path="cms/documents" element={<CMSDocs />} />
                       <Route path="cms/documents/quotes" element={<CMSQuoteDocs />} />
                       <Route path="cms/sync" element={<CMSDataSync />} />
-                      <Route path="cms/media-manager" element={<CMSMediaManager />} />
                       <Route path="cms/media-verification" element={<CMSMediaVerification />} />
                       <Route path="cms/homepage" element={<CMSHomepageEditor />} />
                       <Route path="cms/media-gallery" element={<CMSMediaGallery />} />

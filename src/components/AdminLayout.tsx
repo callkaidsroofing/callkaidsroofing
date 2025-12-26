@@ -80,10 +80,13 @@ const navStructure: NavSection[] = [
     items: [
       { title: 'Data Sync', path: '/admin/cms/sync', icon: RefreshCw },
       { title: 'Knowledge Base', path: '/admin/cms/knowledge', icon: FileText },
+      { title: 'Knowledge System', path: '/admin/cms/knowledge-system', icon: Brain },
       { title: 'Services', path: '/admin/cms/services', icon: Wrench },
       { title: 'Suburbs', path: '/admin/cms/suburbs', icon: Home },
       { title: 'Media Gallery', path: '/admin/cms/media-gallery', icon: Image },
+      { title: 'Media Verification', path: '/admin/cms/media-verification', icon: Shield },
       { title: 'Case Studies', path: '/admin/cms/case-studies', icon: FileStack },
+      { title: 'Homepage Editor', path: '/admin/cms/homepage', icon: Sparkles },
       { title: 'Data Hub', path: '/admin/cms/data', icon: Database },
       { title: 'Documents', path: '/admin/cms/documents', icon: FileText },
     ],
