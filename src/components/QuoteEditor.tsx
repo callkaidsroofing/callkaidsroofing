@@ -22,31 +22,29 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
+// Interface matching actual quote_line_items schema
 interface QuoteLineItem {
   id?: string;
-  service_item: string;
+  quote_id: string;
   description: string;
   quantity: number;
-  unit: string;
-  unit_rate: number;
-  line_total: number;
+  unit_price_cents: number;
+  line_total_cents: number;
   sort_order: number;
+  item_type?: string;
 }
 
+// Interface matching actual quotes schema
 interface Quote {
   id: string;
-  quote_number: string;
-  client_name: string;
-  site_address: string;
-  suburb_postcode: string;
-  email: string;
-  phone: string;
-  tier_level: string;
-  notes: string;
-  subtotal: number;
-  gst: number;
-  total: number;
-  valid_until: string;
+  lead_id: string | null;
+  inspection_id: string | null;
+  status: string;
+  total_cents: number;
+  labour_cents: number;
+  materials_cents: number;
+  notes: string | null;
+  valid_until: string | null;
 }
 
 interface QuoteEditorProps {
@@ -89,8 +87,8 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
 
       if (lineItemsError) throw lineItemsError;
 
-      setQuote(quoteData);
-      setLineItems(lineItemsData || []);
+      setQuote(quoteData as unknown as Quote);
+      setLineItems((lineItemsData || []) as QuoteLineItem[]);
     } catch (error) {
       console.error('Error fetching quote:', error);
       toast({
@@ -107,11 +105,11 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
     const updated = [...lineItems];
     updated[index] = { ...updated[index], [field]: value };
 
-    // Recalculate line total if quantity or unit rate changes
-    if (field === 'quantity' || field === 'unit_rate') {
+    // Recalculate line total if quantity or unit price changes
+    if (field === 'quantity' || field === 'unit_price_cents') {
       const qty = field === 'quantity' ? parseFloat(value) : updated[index].quantity;
-      const rate = field === 'unit_rate' ? parseFloat(value) : updated[index].unit_rate;
-      updated[index].line_total = qty * rate;
+      const rate = field === 'unit_price_cents' ? parseFloat(value) : updated[index].unit_price_cents;
+      updated[index].line_total_cents = Math.round(qty * rate);
     }
 
     setLineItems(updated);
@@ -121,12 +119,11 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
     setLineItems([
       ...lineItems,
       {
-        service_item: '',
+        quote_id: quoteId,
         description: '',
         quantity: 1,
-        unit: 'item',
-        unit_rate: 0,
-        line_total: 0,
+        unit_price_cents: 0,
+        line_total_cents: 0,
         sort_order: lineItems.length,
       },
     ]);
@@ -137,14 +134,14 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
   };
 
   const calculateTotals = () => {
-    const subtotal = lineItems.reduce((sum, item) => sum + item.line_total, 0);
-    const gst = subtotal * 0.1;
+    const subtotal = lineItems.reduce((sum, item) => sum + item.line_total_cents, 0);
+    const gst = Math.round(subtotal * 0.1);
     const total = subtotal + gst;
     return { subtotal, gst, total };
   };
 
   const handleSave = async () => {
-    if (saving) return; // Prevent double-submit
+    if (saving) return;
     try {
       setSaving(true);
       const { subtotal, gst, total } = calculateTotals();
@@ -153,16 +150,14 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
       const { error: quoteError } = await supabase
         .from('quotes')
         .update({
-          subtotal,
-          gst,
-          total,
+          total_cents: total,
           notes: quote?.notes,
         })
         .eq('id', quoteId);
 
       if (quoteError) throw quoteError;
 
-      // Delete existing line items first to remove removed rows
+      // Delete existing line items first
       const { error: deleteError } = await supabase
         .from('quote_line_items')
         .delete()
@@ -170,27 +165,25 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
 
       if (deleteError) throw deleteError;
 
-      // Upsert updated line items (only if there are items to insert)
+      // Insert updated line items
       if (lineItems.length > 0) {
         const itemsToInsert = lineItems
-          .filter(item => item.service_item.trim()) // Only insert items with service names
+          .filter(item => item.description.trim())
           .map((item, index) => ({
             quote_id: quoteId,
-            service_item: item.service_item.trim(),
-            description: item.description?.trim() || '',
+            description: item.description.trim(),
             quantity: parseFloat(String(item.quantity)) || 0,
-            unit: item.unit?.trim() || 'ea',
-            unit_rate: parseFloat(String(item.unit_rate)) || 0,
-            line_total: parseFloat(String(item.line_total)) || 0,
+            unit_price_cents: Math.round(parseFloat(String(item.unit_price_cents)) || 0),
+            line_total_cents: Math.round(parseFloat(String(item.line_total_cents)) || 0),
             sort_order: index,
           }));
 
         if (itemsToInsert.length > 0) {
-          const { error: upsertError } = await supabase
+          const { error: insertError } = await supabase
             .from('quote_line_items')
-            .upsert(itemsToInsert, { onConflict: 'quote_id,sort_order' });
+            .insert(itemsToInsert);
 
-          if (upsertError) throw upsertError;
+          if (insertError) throw insertError;
         }
       }
 
@@ -220,7 +213,7 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
       <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            Edit Quote - {quote?.quote_number}
+            Edit Quote - {quote?.id.slice(0, 8)}
           </DialogTitle>
         </DialogHeader>
 
@@ -230,16 +223,16 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
           </div>
         ) : (
           <div className="space-y-6">
-            {/* Client Info */}
+            {/* Quote Info */}
             <div className="grid grid-cols-2 gap-4 p-4 bg-muted/50 rounded-lg">
               <div>
-                <p className="text-sm text-muted-foreground">Client</p>
-                <p className="font-medium">{quote?.client_name}</p>
+                <p className="text-sm text-muted-foreground">Status</p>
+                <p className="font-medium capitalize">{quote?.status}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Address</p>
+                <p className="text-sm text-muted-foreground">Valid Until</p>
                 <p className="font-medium">
-                  {quote?.site_address}, {quote?.suburb_postcode}
+                  {quote?.valid_until ? new Date(quote.valid_until).toLocaleDateString() : 'Not set'}
                 </p>
               </div>
             </div>
@@ -258,27 +251,16 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[200px]">Service</TableHead>
                       <TableHead>Description</TableHead>
                       <TableHead className="w-[100px]">Qty</TableHead>
-                      <TableHead className="w-[100px]">Unit</TableHead>
-                      <TableHead className="w-[120px]">Rate</TableHead>
-                      <TableHead className="w-[120px]">Total</TableHead>
+                      <TableHead className="w-[120px]">Unit Rate ($)</TableHead>
+                      <TableHead className="w-[120px]">Total ($)</TableHead>
                       <TableHead className="w-[50px]"></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {lineItems.map((item, index) => (
                       <TableRow key={index}>
-                        <TableCell>
-                          <Input
-                            value={item.service_item}
-                            onChange={(e) =>
-                              handleLineItemChange(index, 'service_item', e.target.value)
-                            }
-                            placeholder="Service name"
-                          />
-                        </TableCell>
                         <TableCell>
                           <Input
                             value={item.description}
@@ -301,19 +283,10 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
                         </TableCell>
                         <TableCell>
                           <Input
-                            value={item.unit}
-                            onChange={(e) =>
-                              handleLineItemChange(index, 'unit', e.target.value)
-                            }
-                            placeholder="m², LM, etc."
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <Input
                             type="number"
-                            value={item.unit_rate}
+                            value={(item.unit_price_cents / 100).toFixed(2)}
                             onChange={(e) =>
-                              handleLineItemChange(index, 'unit_rate', e.target.value)
+                              handleLineItemChange(index, 'unit_price_cents', parseFloat(e.target.value) * 100)
                             }
                             min="0"
                             step="0.01"
@@ -321,7 +294,7 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
                         </TableCell>
                         <TableCell>
                           <div className="font-medium">
-                            ${item.line_total.toFixed(2)}
+                            ${(item.line_total_cents / 100).toFixed(2)}
                           </div>
                         </TableCell>
                         <TableCell>
@@ -356,15 +329,15 @@ export const QuoteEditor = ({ open, onOpenChange, quoteId, onSaved }: QuoteEdito
             <div className="bg-muted/50 p-4 rounded-lg space-y-2">
               <div className="flex justify-between">
                 <span>Subtotal:</span>
-                <span className="font-medium">${totals.subtotal.toFixed(2)}</span>
+                <span className="font-medium">${(totals.subtotal / 100).toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span>GST (10%):</span>
-                <span className="font-medium">${totals.gst.toFixed(2)}</span>
+                <span className="font-medium">${(totals.gst / 100).toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-lg font-bold pt-2 border-t">
                 <span>Total:</span>
-                <span className="text-primary">${totals.total.toFixed(2)}</span>
+                <span className="text-primary">${(totals.total / 100).toFixed(2)}</span>
               </div>
             </div>
           </div>

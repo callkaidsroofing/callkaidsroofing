@@ -63,18 +63,17 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
       try {
         const searchTerm = `%${search}%`;
         
-        // Search leads
+        // Search leads - use actual schema columns
         const { data: leads } = await supabase
           .from('leads')
-          .select('id, name, suburb, service')
+          .select('id, name, suburb, source')
           .or(`name.ilike.${searchTerm},suburb.ilike.${searchTerm},phone.ilike.${searchTerm}`)
           .limit(5);
 
-        // Search quotes
+        // Search quotes - use actual schema columns
         const { data: quotes } = await supabase
           .from('quotes')
-          .select('id, quote_number, client_name, site_address')
-          .or(`quote_number.ilike.${searchTerm},client_name.ilike.${searchTerm},site_address.ilike.${searchTerm}`)
+          .select('id, lead_id, status, total_cents')
           .limit(5);
 
         // Search jobs
@@ -88,24 +87,24 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
           ...(leads || []).map(l => ({
             id: l.id,
             type: 'lead' as const,
-            title: l.name,
-            subtitle: `${l.service} • ${l.suburb}`,
+            title: l.name || 'Unknown',
+            subtitle: `${l.source || 'Lead'} • ${l.suburb || ''}`,
             path: `/admin/crm/leads/${l.id}`,
             icon: Users,
           })),
           ...(quotes || []).map(q => ({
             id: q.id,
             type: 'quote' as const,
-            title: q.quote_number,
-            subtitle: `${q.client_name} • ${q.site_address}`,
+            title: `Quote ${q.id.slice(0, 8)}`,
+            subtitle: `${q.status || 'draft'} • $${((q.total_cents || 0) / 100).toFixed(2)}`,
             path: '/admin/crm/quotes',
             icon: FileText,
           })),
           ...((jobs as any[]) || []).map((j: any) => ({
             id: j.id,
             type: 'job' as const,
-            title: j.job_number,
-            subtitle: `${j.client_name} • ${j.site_address}`,
+            title: j.job_number || 'Job',
+            subtitle: `${j.client_name || ''} • ${j.site_address || ''}`,
             path: '/admin/crm/jobs',
             icon: Calendar,
           })),

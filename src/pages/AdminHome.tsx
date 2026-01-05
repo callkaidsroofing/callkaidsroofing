@@ -244,7 +244,7 @@ export default function AdminHome() {
       const { count: newLeads } = await supabase
         .from('leads')
         .select('*', { count: 'exact', head: true })
-        .eq('status', 'new');
+        .eq('stage', 'new');
 
       const { count: scheduledPosts } = await supabase
         .from('social_posts')

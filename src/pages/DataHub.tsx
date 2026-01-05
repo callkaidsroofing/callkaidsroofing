@@ -267,7 +267,7 @@ export default function DataHub() {
                 </div>
               ) : (
                 <QuotesDataTable
-                  quotes={quotes || []}
+                  quotes={(quotes || []) as any}
                   onSendQuote={handleSendQuote}
                   onExportPDF={handleExportPDF}
                 />

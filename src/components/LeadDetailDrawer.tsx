@@ -11,19 +11,19 @@ import { LeadActivityTimeline } from '@/components/LeadActivityTimeline';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
+// Interface matching actual Supabase schema
 interface Lead {
   id: string;
   name: string;
   phone: string;
   email: string | null;
   suburb: string;
-  service: string;
-  message: string | null;
-  status: string;
   source: string;
-  urgency: string | null;
-  ai_score: number | null;
+  stage: string;
+  notes: string | null;
+  lost_reason: string | null;
   created_at: string;
+  updated_at: string;
 }
 
 interface LeadDetailDrawerProps {
@@ -56,7 +56,7 @@ export function LeadDetailDrawer({ leadId, open, onOpenChange }: LeadDetailDrawe
         .single();
 
       if (error) throw error;
-      setLead(data);
+      setLead(data as Lead);
     } catch (error) {
       console.error('Error fetching lead:', error);
       toast({
@@ -80,8 +80,8 @@ export function LeadDetailDrawer({ leadId, open, onOpenChange }: LeadDetailDrawe
           phone: lead.phone,
           email: lead.email || '',
           suburb: lead.suburb,
-          service: lead.service,
-          message: lead.message || '',
+          service: '', // Not in schema
+          message: lead.notes || '',
         },
       },
     });
@@ -89,8 +89,8 @@ export function LeadDetailDrawer({ leadId, open, onOpenChange }: LeadDetailDrawe
     onOpenChange(false);
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
+  const getStatusColor = (stage: string) => {
+    switch (stage) {
       case 'new':
         return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
       case 'contacted':
@@ -126,7 +126,7 @@ export function LeadDetailDrawer({ leadId, open, onOpenChange }: LeadDetailDrawe
               )}
             </div>
             {lead && (
-              <Badge className={getStatusColor(lead.status)}>{lead.status}</Badge>
+              <Badge className={getStatusColor(lead.stage)}>{lead.stage}</Badge>
             )}
           </div>
         </SheetHeader>
@@ -167,38 +167,20 @@ export function LeadDetailDrawer({ leadId, open, onOpenChange }: LeadDetailDrawe
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <Briefcase className="h-4 w-4 text-muted-foreground" />
-                  <div>
-                    <p className="text-sm text-muted-foreground">Service</p>
-                    <p className="font-medium">{lead.service}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
                   <Tag className="h-4 w-4 text-muted-foreground" />
                   <div>
                     <p className="text-sm text-muted-foreground">Source</p>
                     <p className="font-medium">{lead.source}</p>
                   </div>
                 </div>
-
-                {lead.urgency && (
-                  <div className="flex items-center gap-3">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Urgency</p>
-                      <p className="font-medium capitalize">{lead.urgency}</p>
-                    </div>
-                  </div>
-                )}
               </div>
 
-              {lead.message && (
+              {lead.notes && (
                 <>
                   <Separator />
                   <div>
-                    <p className="text-sm text-muted-foreground mb-2">Message</p>
-                    <p className="text-sm bg-muted/50 p-3 rounded-lg">{lead.message}</p>
+                    <p className="text-sm text-muted-foreground mb-2">Notes</p>
+                    <p className="text-sm bg-muted/50 p-3 rounded-lg">{lead.notes}</p>
                   </div>
                 </>
               )}
