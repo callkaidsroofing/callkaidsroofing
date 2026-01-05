@@ -86,7 +86,7 @@ export default function ServiceDetail() {
               {service.short_description}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="phone" onClick={() => window.location.href = 'tel:0435900709'}>
+              <Button size="lg" variant="default" onClick={() => window.location.href = 'tel:0435900709'}>
                 <Phone className="mr-2 h-5 w-5" />
                 Call 0435 900 709
               </Button>

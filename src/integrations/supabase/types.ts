@@ -179,6 +179,63 @@ export type Database = {
         }
         Relationships: []
       }
+      brain_runs: {
+        Row: {
+          assistant_message: string | null
+          context: Json
+          conversation_id: string | null
+          created_at: string
+          decision: Json
+          enqueued_call_ids: string[]
+          error: Json | null
+          id: string
+          limits: Json
+          message: string
+          mode: string
+          next_actions: Json
+          planned_tool_calls: Json
+          receipts: Json
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          assistant_message?: string | null
+          context?: Json
+          conversation_id?: string | null
+          created_at?: string
+          decision?: Json
+          enqueued_call_ids?: string[]
+          error?: Json | null
+          id?: string
+          limits?: Json
+          message: string
+          mode: string
+          next_actions?: Json
+          planned_tool_calls?: Json
+          receipts?: Json
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          assistant_message?: string | null
+          context?: Json
+          conversation_id?: string | null
+          created_at?: string
+          decision?: Json
+          enqueued_call_ids?: string[]
+          error?: Json | null
+          id?: string
+          limits?: Json
+          message?: string
+          mode?: string
+          next_actions?: Json
+          planned_tool_calls?: Json
+          receipts?: Json
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       brand_assets: {
         Row: {
           active: boolean | null
@@ -472,15 +529,7 @@ export type Database = {
           uploaded_files?: Json | null
           user_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "chat_conversations_lead_id_fkey"
-            columns: ["lead_id"]
-            isOneToOne: false
-            referencedRelation: "leads"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       chat_messages: {
         Row: {
@@ -826,6 +875,33 @@ export type Database = {
           status?: string | null
           uid?: string
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      comms_log: {
+        Row: {
+          body: string
+          channel: string
+          created_at: string | null
+          id: string
+          recipient: string
+          related_entity: Json | null
+        }
+        Insert: {
+          body: string
+          channel: string
+          created_at?: string | null
+          id?: string
+          recipient: string
+          related_entity?: Json | null
+        }
+        Update: {
+          body?: string
+          channel?: string
+          created_at?: string | null
+          id?: string
+          recipient?: string
+          related_entity?: Json | null
         }
         Relationships: []
       }
@@ -1530,6 +1606,119 @@ export type Database = {
           },
         ]
       }
+      core_tool_calls: {
+        Row: {
+          claimed_at: string | null
+          claimed_by: string | null
+          created_at: string
+          error: Json | null
+          id: string
+          idempotency_key: string | null
+          input: Json
+          status: string
+          tool_name: string
+          updated_at: string
+          worker_id: string | null
+        }
+        Insert: {
+          claimed_at?: string | null
+          claimed_by?: string | null
+          created_at?: string
+          error?: Json | null
+          id?: string
+          idempotency_key?: string | null
+          input?: Json
+          status?: string
+          tool_name: string
+          updated_at?: string
+          worker_id?: string | null
+        }
+        Update: {
+          claimed_at?: string | null
+          claimed_by?: string | null
+          created_at?: string
+          error?: Json | null
+          id?: string
+          idempotency_key?: string | null
+          input?: Json
+          status?: string
+          tool_name?: string
+          updated_at?: string
+          worker_id?: string | null
+        }
+        Relationships: []
+      }
+      core_tool_receipts: {
+        Row: {
+          call_id: string
+          created_at: string
+          effects: Json
+          id: string
+          result: Json
+          status: string
+          tool_name: string
+        }
+        Insert: {
+          call_id: string
+          created_at?: string
+          effects?: Json
+          id?: string
+          result?: Json
+          status: string
+          tool_name: string
+        }
+        Update: {
+          call_id?: string
+          created_at?: string
+          effects?: Json
+          id?: string
+          result?: Json
+          status?: string
+          tool_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "core_tool_receipts_call_id_fkey"
+            columns: ["call_id"]
+            isOneToOne: false
+            referencedRelation: "core_tool_calls"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      core_tool_registry_enabled: {
+        Row: {
+          enabled: boolean
+          environment: string
+          notes: string | null
+          requires_confirmation: boolean
+          risk_level: string
+          rollout_stage: number
+          tool_name: string
+          updated_at: string
+        }
+        Insert: {
+          enabled?: boolean
+          environment?: string
+          notes?: string | null
+          requires_confirmation?: boolean
+          risk_level?: string
+          rollout_stage?: number
+          tool_name: string
+          updated_at?: string
+        }
+        Update: {
+          enabled?: boolean
+          environment?: string
+          notes?: string | null
+          requires_confirmation?: boolean
+          risk_level?: string
+          rollout_stage?: number
+          tool_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       document_versions: {
         Row: {
           created_at: string
@@ -1608,6 +1797,33 @@ export type Database = {
           status?: string
           total_chunks?: number | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      entities: {
+        Row: {
+          created_at: string | null
+          id: string
+          metadata: Json
+          name: string
+          type: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          metadata?: Json
+          name: string
+          type: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          metadata?: Json
+          name?: string
+          type?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -2233,6 +2449,7 @@ export type Database = {
           status: string | null
           subtotal: number
           total: number
+          total_cents: number
           updated_at: string | null
         }
         Insert: {
@@ -2255,6 +2472,7 @@ export type Database = {
           status?: string | null
           subtotal: number
           total: number
+          total_cents?: number
           updated_at?: string | null
         }
         Update: {
@@ -2277,6 +2495,7 @@ export type Database = {
           status?: string | null
           subtotal?: number
           total?: number
+          total_cents?: number
           updated_at?: string | null
         }
         Relationships: [
@@ -2285,13 +2504,6 @@ export type Database = {
             columns: ["job_id"]
             isOneToOne: false
             referencedRelation: "inspection_reports"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "invoices_quote_id_fkey"
-            columns: ["quote_id"]
-            isOneToOne: false
-            referencedRelation: "quotes"
             referencedColumns: ["id"]
           },
         ]
@@ -2303,10 +2515,15 @@ export type Database = {
           customer_name: string
           customer_phone: string
           id: string
+          lead_id: string | null
+          notes: string | null
           quote_amount: number
           quote_sent_at: string | null
+          scheduled_at: string | null
           scope: string
           site_address: string
+          status: string
+          updated_at: string | null
         }
         Insert: {
           created_at?: string | null
@@ -2314,10 +2531,15 @@ export type Database = {
           customer_name: string
           customer_phone: string
           id?: string
+          lead_id?: string | null
+          notes?: string | null
           quote_amount: number
           quote_sent_at?: string | null
+          scheduled_at?: string | null
           scope: string
           site_address: string
+          status?: string
+          updated_at?: string | null
         }
         Update: {
           created_at?: string | null
@@ -2325,10 +2547,15 @@ export type Database = {
           customer_name?: string
           customer_phone?: string
           id?: string
+          lead_id?: string | null
+          notes?: string | null
           quote_amount?: number
           quote_sent_at?: string | null
+          scheduled_at?: string | null
           scope?: string
           site_address?: string
+          status?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -2587,15 +2814,7 @@ export type Database = {
           lead_id?: string
           note_type?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "lead_notes_lead_id_fkey"
-            columns: ["lead_id"]
-            isOneToOne: false
-            referencedRelation: "leads"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       lead_tasks: {
         Row: {
@@ -2637,92 +2856,52 @@ export type Database = {
           title?: string
           updated_at?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "lead_tasks_lead_id_fkey"
-            columns: ["lead_id"]
-            isOneToOne: false
-            referencedRelation: "leads"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       leads: {
         Row: {
-          ai_score: number | null
-          ai_tags: Json | null
-          auto_enriched_at: string | null
           created_at: string
           email: string | null
           id: string
-          merge_history: Json | null
-          merge_status: string | null
-          merged_into_lead_id: string | null
-          message: string | null
+          lost_reason: string | null
           name: string
-          notion_sync_id: string | null
+          notes: string | null
           phone: string
-          service: string
-          service_area_match: boolean | null
+          photo_links: Json | null
           source: string | null
-          status: string | null
+          stage: string
           suburb: string
           updated_at: string
-          urgency: string | null
         }
         Insert: {
-          ai_score?: number | null
-          ai_tags?: Json | null
-          auto_enriched_at?: string | null
           created_at?: string
           email?: string | null
           id?: string
-          merge_history?: Json | null
-          merge_status?: string | null
-          merged_into_lead_id?: string | null
-          message?: string | null
+          lost_reason?: string | null
           name: string
-          notion_sync_id?: string | null
+          notes?: string | null
           phone: string
-          service: string
-          service_area_match?: boolean | null
+          photo_links?: Json | null
           source?: string | null
-          status?: string | null
+          stage?: string
           suburb: string
           updated_at?: string
-          urgency?: string | null
         }
         Update: {
-          ai_score?: number | null
-          ai_tags?: Json | null
-          auto_enriched_at?: string | null
           created_at?: string
           email?: string | null
           id?: string
-          merge_history?: Json | null
-          merge_status?: string | null
-          merged_into_lead_id?: string | null
-          message?: string | null
+          lost_reason?: string | null
           name?: string
-          notion_sync_id?: string | null
+          notes?: string | null
           phone?: string
-          service?: string
-          service_area_match?: boolean | null
+          photo_links?: Json | null
           source?: string | null
-          status?: string | null
+          stage?: string
           suburb?: string
           updated_at?: string
-          urgency?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "leads_merged_into_lead_id_fkey"
-            columns: ["merged_into_lead_id"]
-            isOneToOne: false
-            referencedRelation: "leads"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       master_knowledge: {
         Row: {
@@ -2997,6 +3176,36 @@ export type Database = {
           log_type?: string
           message?: string
           severity?: string
+        }
+        Relationships: []
+      }
+      notes: {
+        Row: {
+          content: string
+          created_at: string
+          domain: string
+          entity_refs: Json | null
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          domain: string
+          entity_refs?: Json | null
+          id?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          domain?: string
+          entity_refs?: Json | null
+          id?: string
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -3386,15 +3595,7 @@ export type Database = {
           status?: string
           viewed_at?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "quote_emails_quote_id_fkey"
-            columns: ["quote_id"]
-            isOneToOne: false
-            referencedRelation: "quotes"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       quote_history: {
         Row: {
@@ -3421,76 +3622,46 @@ export type Database = {
           quote_id?: string
           version_number?: number
         }
-        Relationships: [
-          {
-            foreignKeyName: "quote_history_quote_id_fkey"
-            columns: ["quote_id"]
-            isOneToOne: false
-            referencedRelation: "quotes"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       quote_line_items: {
         Row: {
-          composition: Json | null
-          created_at: string | null
-          description: string | null
+          created_at: string
+          description: string
           id: string
-          line_total: number
-          material_spec: string | null
-          material_spec_id: string | null
+          item_type: string | null
+          line_total_cents: number
           quantity: number
           quote_id: string
-          service_code: string | null
-          service_item: string
-          sort_order: number | null
-          unit: string
-          unit_rate: number
-          warranty_years: number[] | null
+          sort_order: number
+          unit_price_cents: number
+          updated_at: string
         }
         Insert: {
-          composition?: Json | null
-          created_at?: string | null
-          description?: string | null
+          created_at?: string
+          description: string
           id?: string
-          line_total: number
-          material_spec?: string | null
-          material_spec_id?: string | null
-          quantity: number
+          item_type?: string | null
+          line_total_cents: number
+          quantity?: number
           quote_id: string
-          service_code?: string | null
-          service_item: string
-          sort_order?: number | null
-          unit: string
-          unit_rate: number
-          warranty_years?: number[] | null
+          sort_order?: number
+          unit_price_cents: number
+          updated_at?: string
         }
         Update: {
-          composition?: Json | null
-          created_at?: string | null
-          description?: string | null
+          created_at?: string
+          description?: string
           id?: string
-          line_total?: number
-          material_spec?: string | null
-          material_spec_id?: string | null
+          item_type?: string | null
+          line_total_cents?: number
           quantity?: number
           quote_id?: string
-          service_code?: string | null
-          service_item?: string
-          sort_order?: number | null
-          unit?: string
-          unit_rate?: number
-          warranty_years?: number[] | null
+          sort_order?: number
+          unit_price_cents?: number
+          updated_at?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "quote_line_items_material_spec_id_fkey"
-            columns: ["material_spec_id"]
-            isOneToOne: false
-            referencedRelation: "material_specs"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "quote_line_items_quote_id_fkey"
             columns: ["quote_id"]
@@ -3503,131 +3674,61 @@ export type Database = {
       quotes: {
         Row: {
           accepted_at: string | null
-          client_name: string
-          created_at: string | null
-          created_by: string | null
-          discount_amount: number | null
-          discount_reason: string | null
-          draft: boolean | null
-          email: string | null
-          gst: number
+          created_at: string
+          declined_at: string | null
+          declined_reason: string | null
           id: string
-          inspection_report_id: string | null
-          line_items: Json | null
+          inspection_id: string | null
+          labour_cents: number
+          lead_id: string | null
+          materials_cents: number
           notes: string | null
-          notion_sync_id: string | null
-          parent_quote_id: string | null
-          phone: string
-          photo_ids: string[] | null
-          pricing: Json | null
-          pricing_hash: string | null
-          pricing_snapshot: Json | null
-          pricing_version: string | null
-          quote_number: string
-          regional_modifier: number | null
-          scope: Json | null
-          sent_at: string | null
-          site_address: string
-          status: string | null
-          subtotal: number
-          suburb_postcode: string
-          terms: Json | null
-          tier_level: string
-          tier_profile: string | null
-          total: number
-          updated_at: string | null
-          valid_until: string | null
-          version: number | null
+          status: string
+          subtotal_cents: number
+          tax_cents: number
+          total_cents: number
+          updated_at: string
         }
         Insert: {
           accepted_at?: string | null
-          client_name: string
-          created_at?: string | null
-          created_by?: string | null
-          discount_amount?: number | null
-          discount_reason?: string | null
-          draft?: boolean | null
-          email?: string | null
-          gst: number
+          created_at?: string
+          declined_at?: string | null
+          declined_reason?: string | null
           id?: string
-          inspection_report_id?: string | null
-          line_items?: Json | null
+          inspection_id?: string | null
+          labour_cents?: number
+          lead_id?: string | null
+          materials_cents?: number
           notes?: string | null
-          notion_sync_id?: string | null
-          parent_quote_id?: string | null
-          phone: string
-          photo_ids?: string[] | null
-          pricing?: Json | null
-          pricing_hash?: string | null
-          pricing_snapshot?: Json | null
-          pricing_version?: string | null
-          quote_number: string
-          regional_modifier?: number | null
-          scope?: Json | null
-          sent_at?: string | null
-          site_address: string
-          status?: string | null
-          subtotal: number
-          suburb_postcode: string
-          terms?: Json | null
-          tier_level: string
-          tier_profile?: string | null
-          total: number
-          updated_at?: string | null
-          valid_until?: string | null
-          version?: number | null
+          status?: string
+          subtotal_cents?: number
+          tax_cents?: number
+          total_cents?: number
+          updated_at?: string
         }
         Update: {
           accepted_at?: string | null
-          client_name?: string
-          created_at?: string | null
-          created_by?: string | null
-          discount_amount?: number | null
-          discount_reason?: string | null
-          draft?: boolean | null
-          email?: string | null
-          gst?: number
+          created_at?: string
+          declined_at?: string | null
+          declined_reason?: string | null
           id?: string
-          inspection_report_id?: string | null
-          line_items?: Json | null
+          inspection_id?: string | null
+          labour_cents?: number
+          lead_id?: string | null
+          materials_cents?: number
           notes?: string | null
-          notion_sync_id?: string | null
-          parent_quote_id?: string | null
-          phone?: string
-          photo_ids?: string[] | null
-          pricing?: Json | null
-          pricing_hash?: string | null
-          pricing_snapshot?: Json | null
-          pricing_version?: string | null
-          quote_number?: string
-          regional_modifier?: number | null
-          scope?: Json | null
-          sent_at?: string | null
-          site_address?: string
-          status?: string | null
-          subtotal?: number
-          suburb_postcode?: string
-          terms?: Json | null
-          tier_level?: string
-          tier_profile?: string | null
-          total?: number
-          updated_at?: string | null
-          valid_until?: string | null
-          version?: number | null
+          status?: string
+          subtotal_cents?: number
+          tax_cents?: number
+          total_cents?: number
+          updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "quotes_inspection_report_id_fkey"
-            columns: ["inspection_report_id"]
+            foreignKeyName: "quotes_lead_id_fkey"
+            columns: ["lead_id"]
             isOneToOne: false
-            referencedRelation: "inspection_reports"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "quotes_parent_quote_id_fkey"
-            columns: ["parent_quote_id"]
-            isOneToOne: false
-            referencedRelation: "quotes"
+            referencedRelation: "leads"
             referencedColumns: ["id"]
           },
         ]
@@ -3729,20 +3830,6 @@ export type Database = {
             columns: ["linked_inspection_id"]
             isOneToOne: false
             referencedRelation: "inspection_reports"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "roof_measurements_linked_lead_id_fkey"
-            columns: ["linked_lead_id"]
-            isOneToOne: false
-            referencedRelation: "leads"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "roof_measurements_linked_quote_id_fkey"
-            columns: ["linked_quote_id"]
-            isOneToOne: false
-            referencedRelation: "quotes"
             referencedColumns: ["id"]
           },
         ]
@@ -4041,6 +4128,51 @@ export type Database = {
           status?: string | null
           timestamp?: string | null
           user_agent?: string | null
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          completed_at: string | null
+          completion_note: string | null
+          context_ref: Json | null
+          created_at: string
+          description: string | null
+          domain: string
+          due_at: string | null
+          id: string
+          priority: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          completion_note?: string | null
+          context_ref?: Json | null
+          created_at?: string
+          description?: string | null
+          domain: string
+          due_at?: string | null
+          id?: string
+          priority?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          completion_note?: string | null
+          context_ref?: Json | null
+          created_at?: string
+          description?: string | null
+          domain?: string
+          due_at?: string | null
+          id?: string
+          priority?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -4356,15 +4488,6 @@ export type Database = {
         }
         Relationships: []
       }
-      sync_status: {
-        Row: {
-          last_update: string | null
-          synced_records: number | null
-          table_name: string | null
-          unsynced_records: number | null
-        }
-        Relationships: []
-      }
       v_pricing_latest: {
         Row: {
           approved_at: string | null
@@ -4404,6 +4527,37 @@ export type Database = {
       calculate_final_price: {
         Args: { base_cost: number; constant_id?: string }
         Returns: number
+      }
+      claim_next_core_tool_call: {
+        Args: { p_worker_id: string }
+        Returns: {
+          claimed_at: string | null
+          claimed_by: string | null
+          created_at: string
+          error: Json | null
+          id: string
+          idempotency_key: string | null
+          input: Json
+          status: string
+          tool_name: string
+          updated_at: string
+          worker_id: string | null
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "core_tool_calls"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      claim_next_tool_call: {
+        Args: { p_worker_id: string }
+        Returns: {
+          id: string
+          idempotency_key: string
+          input: Json
+          tool_name: string
+        }[]
       }
       cleanup_rate_limits: { Args: never; Returns: undefined }
       create_document_version: {

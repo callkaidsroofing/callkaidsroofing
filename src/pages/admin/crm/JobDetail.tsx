@@ -22,7 +22,6 @@ interface Job {
   quote_amount: number;
   created_at: string;
   quote_sent_at: string | null;
-  updated_at: string;
 }
 
 export default function JobDetail() {
@@ -49,7 +48,7 @@ export default function JobDetail() {
 
       if (error) throw error;
 
-      setJob(data);
+      setJob(data as Job);
     } catch (error) {
       handleAPIError(error, 'Failed to load job details');
     } finally {

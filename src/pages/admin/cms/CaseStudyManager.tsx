@@ -214,11 +214,12 @@ const CaseStudyManager = () => {
       }
 
       // 5. Update case study with review data
+      // Note: case_studies table doesn't have customer_review/additional_reviews columns
+      // Reviews are stored separately or handled by ReputationHub widget
       const { error: updateError } = await supabase
         .from('case_studies')
         .update({
-          customer_review: mainReviewData,
-          additional_reviews: additionalReviewsData,
+          is_published: true,
         })
         .eq('id', caseStudy.id);
 

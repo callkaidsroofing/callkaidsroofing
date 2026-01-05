@@ -67,7 +67,7 @@ export default function LeadIntelligence() {
 
         // Calculate real metrics from database
         // Get conversion rate (leads with stage = 'Won' / total leads)
-        const wonLeads = leads.filter(l => l.stage?.toLowerCase() === 'won' || l.stage?.toLowerCase() === 'converted');
+        const wonLeads = leads.filter(l => (l.status?.toLowerCase() === 'won' || l.status?.toLowerCase() === 'converted'));
         const conversionRate = leads.length > 0 ? Math.round((wonLeads.length / leads.length) * 100) : 0;
 
         // Calculate average response time (mock for now - requires tracking first contact time)

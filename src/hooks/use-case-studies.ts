@@ -23,7 +23,7 @@ export interface CaseStudy {
   service: string;
   description: string;
   images: CaseStudyImage[];
-  customerReview: CustomerReview;
+  customerReview: CustomerReview | null;
   additionalReviews: CustomerReview[];
   featured: boolean;
   published: boolean;
@@ -31,23 +31,21 @@ export interface CaseStudy {
 }
 
 /**
- * Hook to fetch featured case study
+ * Hook to fetch featured case study from content_case_studies table
  */
 export function useFeaturedCaseStudy() {
   return useQuery({
     queryKey: ['case-study', 'featured'],
     queryFn: async (): Promise<CaseStudy | null> => {
-      // Get featured case study
+      // Get featured case study from content_case_studies
       const { data: caseStudy, error: caseStudyError } = await supabase
-        .from('case_studies')
+        .from('content_case_studies')
         .select('*')
         .eq('featured', true)
-        .eq('published', true)
         .single();
 
       if (caseStudyError) {
         if (caseStudyError.code === 'PGRST116') {
-          // No featured case study found
           return null;
         }
         throw caseStudyError;
@@ -55,7 +53,7 @@ export function useFeaturedCaseStudy() {
 
       if (!caseStudy) return null;
 
-      // Get associated before/after photos from content_gallery
+      // Get associated photos from content_gallery
       const { data: photos, error: photosError } = await supabase
         .from('content_gallery')
         .select('*')
@@ -64,112 +62,103 @@ export function useFeaturedCaseStudy() {
 
       if (photosError) throw photosError;
 
-      // Group photos into before/after pairs
       const beforePhotos = photos?.filter(p => p.category === 'before') || [];
       const afterPhotos = photos?.filter(p => p.category === 'after') || [];
 
       const images: CaseStudyImage[] = beforePhotos.map((before, index) => ({
         before: before.image_url,
         after: afterPhotos[index]?.image_url || '',
-        alt: before.title || `${caseStudy.title} - Photo ${index + 1}`,
+        alt: before.title || `${caseStudy.job_type} - Photo ${index + 1}`,
       }));
+
+      // If no gallery photos, use before/after from case study itself
+      if (images.length === 0 && caseStudy.before_image && caseStudy.after_image) {
+        images.push({
+          before: caseStudy.before_image,
+          after: caseStudy.after_image,
+          alt: caseStudy.job_type,
+        });
+      }
 
       return {
         id: caseStudy.id,
-        title: caseStudy.title,
-        location: caseStudy.location,
-        service: caseStudy.service,
-        description: caseStudy.description,
+        title: caseStudy.job_type,
+        location: caseStudy.suburb,
+        service: caseStudy.job_type,
+        description: caseStudy.solution_provided,
         images,
-        customerReview: caseStudy.customer_review as CustomerReview,
-        additionalReviews: (caseStudy.additional_reviews || []) as CustomerReview[],
-        featured: caseStudy.featured,
-        published: caseStudy.published,
-        slug: caseStudy.slug,
+        customerReview: caseStudy.testimonial ? {
+          customerName: 'Customer',
+          rating: 5,
+          platform: 'Google',
+          date: caseStudy.project_date || '',
+          text: caseStudy.testimonial,
+          imageUrl: '',
+        } : null,
+        additionalReviews: [],
+        featured: caseStudy.featured ?? false,
+        published: true,
+        slug: caseStudy.slug || caseStudy.study_id,
       };
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 }
 
 /**
- * Hook to fetch all published case studies
+ * Hook to fetch all published case studies from content_case_studies
  */
 export function useCaseStudies() {
   return useQuery({
     queryKey: ['case-studies', 'published'],
     queryFn: async (): Promise<CaseStudy[]> => {
       const { data: caseStudies, error: caseStudiesError } = await supabase
-        .from('case_studies')
+        .from('content_case_studies')
         .select('*')
-        .eq('published', true)
-        .order('display_order', { ascending: true });
+        .order('created_at', { ascending: false });
 
       if (caseStudiesError) throw caseStudiesError;
-
       if (!caseStudies || caseStudies.length === 0) return [];
 
-      // Fetch photos for all case studies
-      const caseStudiesWithPhotos = await Promise.all(
-        caseStudies.map(async (caseStudy) => {
-          const { data: photos } = await supabase
-            .from('content_gallery')
-            .select('*')
-            .eq('case_study_id', caseStudy.id)
-            .order('display_order', { ascending: true });
-
-          const beforePhotos = photos?.filter(p => p.category === 'before') || [];
-          const afterPhotos = photos?.filter(p => p.category === 'after') || [];
-
-          const images: CaseStudyImage[] = beforePhotos.map((before, index) => ({
-            before: before.image_url,
-            after: afterPhotos[index]?.image_url || '',
-            alt: before.title || `${caseStudy.title} - Photo ${index + 1}`,
-          }));
-
-          return {
-            id: caseStudy.id,
-            title: caseStudy.title,
-            location: caseStudy.location,
-            service: caseStudy.service,
-            description: caseStudy.description,
-            images,
-            customerReview: caseStudy.customer_review as CustomerReview,
-            additionalReviews: (caseStudy.additional_reviews || []) as CustomerReview[],
-            featured: caseStudy.featured,
-            published: caseStudy.published,
-            slug: caseStudy.slug,
-          };
-        })
-      );
-
-      return caseStudiesWithPhotos;
+      return caseStudies.map(cs => ({
+        id: cs.id,
+        title: cs.job_type,
+        location: cs.suburb,
+        service: cs.job_type,
+        description: cs.solution_provided,
+        images: cs.before_image && cs.after_image ? [{
+          before: cs.before_image,
+          after: cs.after_image,
+          alt: cs.job_type,
+        }] : [],
+        customerReview: cs.testimonial ? {
+          customerName: 'Customer',
+          rating: 5,
+          platform: 'Google' as const,
+          date: cs.project_date || '',
+          text: cs.testimonial,
+          imageUrl: '',
+        } : null,
+        additionalReviews: [],
+        featured: cs.featured ?? false,
+        published: true,
+        slug: cs.slug || cs.study_id,
+      }));
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 }
 
 /**
- * Hook to fetch additional reviews from all case studies
+ * Hook to fetch additional reviews - now returns empty as we use ReputationHub widget
  */
 export function useAdditionalReviews() {
   return useQuery({
     queryKey: ['reviews', 'additional'],
     queryFn: async (): Promise<CustomerReview[]> => {
-      const { data: caseStudies, error } = await supabase
-        .from('case_studies')
-        .select('additional_reviews')
-        .eq('published', true);
-
-      if (error) throw error;
-
-      // Flatten all additional reviews from all case studies
-      const allReviews = caseStudies
-        ?.flatMap(cs => (cs.additional_reviews || []) as CustomerReview[])
-        .filter(review => review && review.imageUrl) || [];
-
-      return allReviews;
+      // Reviews are now handled by ReputationHub widget
+      return [];
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 }
