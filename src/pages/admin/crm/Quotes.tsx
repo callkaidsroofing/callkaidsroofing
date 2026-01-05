@@ -46,22 +46,23 @@ interface InspectionReport {
   date: string;
 }
 
+// Interface matching actual quotes schema
 interface Quote {
   id: string;
-  quote_number: string;
-  client_name: string;
-  phone: string;
-  email: string | null;
-  site_address: string;
-  suburb_postcode: string;
-  inspection_report_id: string | null;
-  subtotal: number;
-  gst: number;
-  total: number;
+  lead_id: string | null;
+  inspection_id: string | null;
   status: string;
-  tier_level: string;
-  created_at: string;
+  total_cents: number;
+  labour_cents: number;
+  materials_cents: number;
+  notes: string | null;
+  valid_until: string | null;
+  accepted_at: string | null;
+  declined_at: string | null;
+  declined_reason: string | null;
   sent_at: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 export default function QuotesPage() {
@@ -96,7 +97,7 @@ export default function QuotesPage() {
         .order('created_at', { ascending: false });
 
       if (quotesError) throw quotesError;
-      setQuotes(quotesData || []);
+      setQuotes((quotesData || []) as unknown as Quote[]);
 
     } catch (error) {
       handleAPIError(error, 'Failed to load inspections and quotes');
@@ -134,10 +135,8 @@ export default function QuotesPage() {
   );
 
   const filteredQuotes = quotes.filter(quote => 
-    quote.client_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    quote.site_address.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    quote.quote_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    quote.phone.includes(searchTerm)
+    quote.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    quote.status.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const formatCurrency = (amount: number) => {
@@ -217,7 +216,7 @@ export default function QuotesPage() {
           <CardHeader className="pb-3">
             <CardDescription>Total Value</CardDescription>
             <CardTitle className="text-3xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              {formatCurrency(quotes.reduce((sum, q) => sum + Number(q.total), 0))}
+              {formatCurrency(quotes.reduce((sum, q) => sum + (q.total_cents / 100), 0))}
             </CardTitle>
           </CardHeader>
         </Card>
@@ -363,10 +362,7 @@ export default function QuotesPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Quote #</TableHead>
-                      <TableHead>Client</TableHead>
-                      <TableHead>Property</TableHead>
-                      <TableHead>Tier</TableHead>
+                      <TableHead>Quote ID</TableHead>
                       <TableHead>Total</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Date</TableHead>
@@ -377,33 +373,12 @@ export default function QuotesPage() {
                     {filteredQuotes.map((quote) => (
                       <TableRow key={quote.id}>
                         <TableCell>
-                          <p className="font-mono font-medium">{quote.quote_number}</p>
-                        </TableCell>
-                        <TableCell>
-                          <div>
-                            <p className="font-medium">{quote.client_name}</p>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-                              <Phone className="h-3 w-3" />
-                              {quote.phone}
-                            </div>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div>
-                            <p className="text-sm">{quote.site_address}</p>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-                              <MapPin className="h-3 w-3" />
-                              {quote.suburb_postcode}
-                            </div>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant="outline" className="capitalize">{quote.tier_level}</Badge>
+                          <p className="font-mono font-medium">{quote.id.slice(0, 8)}</p>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
                             <DollarSign className="h-4 w-4 text-green-600" />
-                            <span className="font-semibold">{formatCurrency(Number(quote.total))}</span>
+                            <span className="font-semibold">{formatCurrency(quote.total_cents / 100)}</span>
                           </div>
                         </TableCell>
                         <TableCell>
@@ -421,7 +396,7 @@ export default function QuotesPage() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => navigate(`/admin/tools/inspection-quote/${quote.inspection_report_id || quote.id}`)}
+                            onClick={() => navigate(`/admin/tools/inspection-quote/${quote.inspection_id || quote.id}`)}
                           >
                             <Edit className="h-4 w-4 mr-2" />
                             Edit

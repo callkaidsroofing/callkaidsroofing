@@ -34,19 +34,17 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
+// Interface matching actual Supabase schema
 interface Lead {
   id: string;
   name: string;
   phone: string;
   email: string | null;
   suburb: string;
-  service: string;
-  message: string | null;
-  status: string;
   source: string;
-  urgency: string | null;
-  ai_score: number | null;
-  ai_tags: any;
+  stage: string;
+  notes: string | null;
+  lost_reason: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -91,7 +89,7 @@ export default function LeadDetail() {
       }
 
       console.log('✅ Lead loaded successfully:', data);
-      setLead(data);
+      setLead(data as Lead);
     } catch (error: any) {
       console.error('❌ Error fetching lead:', error);
       toast({
@@ -131,7 +129,6 @@ export default function LeadDetail() {
   const handleConvertToQuote = () => {
     if (!lead) return;
     
-    // Navigate to quote builder with pre-filled data
     navigate('/admin/tools/inspection-quote', {
       state: {
         leadId: lead.id,
@@ -140,42 +137,42 @@ export default function LeadDetail() {
           phone: lead.phone,
           email: lead.email || '',
           suburb: lead.suburb,
-          service: lead.service,
-          message: lead.message || '',
+          service: '',
+          message: lead.notes || '',
         },
       },
     });
   };
 
-  const handleUpdateStatus = async (newStatus: string) => {
+  const handleUpdateStage = async (newStage: string) => {
     if (!id) return;
 
     try {
       const { error } = await supabase
         .from('leads')
-        .update({ status: newStatus, updated_at: new Date().toISOString() })
+        .update({ stage: newStage, updated_at: new Date().toISOString() })
         .eq('id', id);
 
       if (error) throw error;
 
-      setLead((prev) => (prev ? { ...prev, status: newStatus } : null));
+      setLead((prev) => (prev ? { ...prev, stage: newStage } : null));
 
       toast({
         title: 'Success',
-        description: `Lead status updated to ${newStatus}`,
+        description: `Lead stage updated to ${newStage}`,
       });
     } catch (error) {
-      console.error('Error updating status:', error);
+      console.error('Error updating stage:', error);
       toast({
         title: 'Error',
-        description: 'Failed to update lead status',
+        description: 'Failed to update lead stage',
         variant: 'destructive',
       });
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
+  const getStatusColor = (stage: string) => {
+    switch (stage) {
       case 'new':
         return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
       case 'contacted':
@@ -266,7 +263,7 @@ export default function LeadDetail() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>Lead Details</CardTitle>
-                <Badge className={getStatusColor(lead.status)}>{lead.status}</Badge>
+                <Badge className={getStatusColor(lead.stage)}>{lead.stage}</Badge>
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -298,48 +295,30 @@ export default function LeadDetail() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <Briefcase className="h-4 w-4 text-muted-foreground" />
-                  <div>
-                    <p className="text-sm text-muted-foreground">Service</p>
-                    <p className="font-medium">{lead.service}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
                   <Tag className="h-4 w-4 text-muted-foreground" />
                   <div>
                     <p className="text-sm text-muted-foreground">Source</p>
                     <p className="font-medium">{lead.source}</p>
                   </div>
                 </div>
-
-                {lead.urgency && (
-                  <div className="flex items-center gap-3">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Urgency</p>
-                      <p className="font-medium capitalize">{lead.urgency}</p>
-                    </div>
-                  </div>
-                )}
               </div>
 
-              {lead.message && (
+              {lead.notes && (
                 <>
                   <Separator />
                   <div>
-                    <p className="text-sm text-muted-foreground mb-2">Message</p>
-                    <p className="text-sm bg-muted/50 p-3 rounded-lg">{lead.message}</p>
+                    <p className="text-sm text-muted-foreground mb-2">Notes</p>
+                    <p className="text-sm bg-muted/50 p-3 rounded-lg">{lead.notes}</p>
                   </div>
                 </>
               )}
 
-              {lead.ai_score && (
+              {lead.lost_reason && (
                 <>
                   <Separator />
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm text-muted-foreground">AI Lead Score</p>
-                    <Badge variant="secondary">{lead.ai_score}/100</Badge>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-2">Lost Reason</p>
+                    <p className="text-sm bg-red-500/10 text-red-500 p-3 rounded-lg">{lead.lost_reason}</p>
                   </div>
                 </>
               )}
@@ -370,8 +349,8 @@ export default function LeadDetail() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => handleUpdateStatus('qualified')}
-                  disabled={lead.status === 'qualified'}
+                  onClick={() => handleUpdateStage('qualified')}
+                  disabled={lead.stage === 'qualified'}
                 >
                   <CheckCircle className="mr-2 h-4 w-4" />
                   Qualify
@@ -379,8 +358,8 @@ export default function LeadDetail() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => handleUpdateStatus('lost')}
-                  disabled={lead.status === 'lost'}
+                  onClick={() => handleUpdateStage('lost')}
+                  disabled={lead.stage === 'lost'}
                 >
                   <XCircle className="mr-2 h-4 w-4" />
                   Mark Lost

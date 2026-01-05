@@ -199,7 +199,9 @@ export function InspectionQuoteBuilder() {
     if (error) throw error;
 
     setQuoteId(data.id!);
-    setQuoteNumber(data.quote_number || payload.quote_number || '');
+    // Cast to access custom fields that may exist on the payload
+    const savedQuoteData = data as any;
+    setQuoteNumber(savedQuoteData.quote_number || payload.quote_number || '');
   }
 
   // Auto-save every 30 seconds
@@ -239,13 +241,15 @@ export function InspectionQuoteBuilder() {
         setInspectionId(inspection.id!);
 
         // Check if there's a linked quote
-        const { data: quote } = await supabase
+        const { data: quoteResult } = await supabase
           .from('quotes')
           .select('*')
-          .eq('inspection_report_id', inspection.id)
+          .eq('inspection_id', inspection.id)
           .single();
 
-        if (quote) {
+        if (quoteResult) {
+          // Cast to access custom fields
+          const quote = quoteResult as any;
           setQuoteId(quote.id!);
           setQuoteNumber(quote.quote_number || '');
           const scope = (quote.scope || {}) as any;
@@ -450,7 +454,9 @@ export function InspectionQuoteBuilder() {
 
         if (error) throw error;
         setQuoteId(data.id!);
-        setQuoteNumber(data.quote_number || quoteDataForSupabase.quote_number || '');
+        // Cast to access custom fields
+        const savedQuoteResult = data as any;
+        setQuoteNumber(savedQuoteResult.quote_number || quoteDataForSupabase.quote_number || '');
       }
 
       setLastSaved(new Date());

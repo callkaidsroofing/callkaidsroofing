@@ -14,18 +14,17 @@ import { LeadBulkActions } from '@/components/LeadBulkActions';
 import { LeadFilters, LeadFilterState } from '@/components/LeadFilters';
 import { CreateLeadDialog } from '@/components/CreateLeadDialog';
 
+// Interface matching actual Supabase schema
 interface Lead {
   id: string;
   name: string;
   phone: string;
   email: string | null;
   suburb: string;
-  service: string;
-  status: string;
-  message: string | null;
   source: string;
-  urgency: string | null;
-  ai_score: number | null;
+  stage: string;
+  notes: string | null;
+  lost_reason: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -71,17 +70,12 @@ export default function LeadsPipeline() {
       let query = supabase
         .from('leads')
         .select('*')
-        .eq('merge_status', 'active')
         .order('created_at', { ascending: false });
 
       // Apply filters only if they have non-empty values
       if (filters.status && filters.status !== '' && filters.status !== 'all') {
-        console.log('Applying status filter:', filters.status);
-        query = query.eq('status', filters.status);
-      }
-      if (filters.service && filters.service !== '' && filters.service !== 'all') {
-        console.log('Applying service filter:', filters.service);
-        query = query.eq('service', filters.service);
+        console.log('Applying stage filter:', filters.status);
+        query = query.eq('stage', filters.status);
       }
       if (filters.source && filters.source !== '' && filters.source !== 'all') {
         console.log('Applying source filter:', filters.source);
@@ -136,14 +130,14 @@ export default function LeadsPipeline() {
     try {
       const { error } = await supabase
         .from('leads')
-        .update({ status: newStage, updated_at: new Date().toISOString() })
+        .update({ stage: newStage, updated_at: new Date().toISOString() })
         .eq('id', draggedLead.id);
 
       if (error) throw error;
 
       setLeads((prevLeads) =>
         prevLeads.map((lead) =>
-          lead.id === draggedLead.id ? { ...lead, status: newStage } : lead
+          lead.id === draggedLead.id ? { ...lead, stage: newStage } : lead
         )
       );
 
@@ -185,8 +179,8 @@ export default function LeadsPipeline() {
           phone: lead.phone,
           email: lead.email || '',
           suburb: lead.suburb,
-          service: lead.service,
-          message: lead.message || '',
+          service: '',
+          message: lead.notes || '',
         },
       },
     });
@@ -215,7 +209,7 @@ export default function LeadsPipeline() {
   const getLeadsByStage = (stageId: string) => {
     return leads.filter(
       (lead) =>
-        lead.status === stageId &&
+        lead.stage === stageId &&
         (searchTerm === '' ||
           lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           lead.suburb.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -358,16 +352,9 @@ export default function LeadsPipeline() {
                               </div>
                             </div>
 
-                            <Badge variant="outline" className="text-xs">
-                              {lead.service}
+                            <Badge variant="outline" className="text-xs capitalize">
+                              {lead.source}
                             </Badge>
-
-                            {lead.ai_score && (
-                              <div className="flex items-center justify-between text-xs">
-                                <span className="text-muted-foreground">AI Score</span>
-                                <Badge variant="secondary">{lead.ai_score}/100</Badge>
-                              </div>
-                            )}
 
                             <div className="text-xs text-muted-foreground">
                               {formatDistanceToNow(new Date(lead.created_at), { addSuffix: true })}

@@ -67,20 +67,20 @@ export function LeadBulkActions({
     }
   };
 
-  const handleBulkStatusUpdate = async (newStatus: string) => {
+  const handleBulkStatusUpdate = async (newStage: string) => {
     try {
       setProcessing(true);
 
       const { error } = await supabase
         .from('leads')
-        .update({ status: newStatus, updated_at: new Date().toISOString() })
+        .update({ stage: newStage, updated_at: new Date().toISOString() })
         .in('id', selectedLeads);
 
       if (error) throw error;
 
       toast({
         title: 'Success',
-        description: `Updated ${selectedLeads.length} lead(s) to ${newStatus}`,
+        description: `Updated ${selectedLeads.length} lead(s) to ${newStage}`,
       });
 
       onActionComplete();
@@ -108,15 +108,15 @@ export function LeadBulkActions({
 
       if (error) throw error;
 
-      // Create CSV content
-      const headers = ['Name', 'Phone', 'Email', 'Suburb', 'Service', 'Status', 'Created At'];
-      const rows = data.map((lead) => [
-        lead.name,
-        lead.phone,
+      // Create CSV content - use actual schema columns
+      const headers = ['Name', 'Phone', 'Email', 'Suburb', 'Source', 'Stage', 'Created At'];
+      const rows = (data || []).map((lead) => [
+        lead.name || '',
+        lead.phone || '',
         lead.email || '',
-        lead.suburb,
-        lead.service,
-        lead.status,
+        lead.suburb || '',
+        lead.source || '',
+        lead.stage || '',
         new Date(lead.created_at).toLocaleDateString(),
       ]);
 
@@ -170,7 +170,7 @@ export function LeadBulkActions({
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" disabled={processing}>
                 <Tag className="mr-2 h-4 w-4" />
-                Change Status
+                Change Stage
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>

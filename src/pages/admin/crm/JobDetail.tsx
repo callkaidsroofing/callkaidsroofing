@@ -22,6 +22,7 @@ interface Job {
   quote_amount: number;
   created_at: string;
   quote_sent_at: string | null;
+  updated_at: string;
 }
 
 export default function JobDetail() {
