@@ -1,13 +1,14 @@
 import { useQuery, useMutation, useQueryClient, UseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast';
 import { PostgrestError } from '@supabase/supabase-js';
+import { useEffect } from 'react';
 
 /**
  * Standard admin query hook with built-in error handling and loading states
  * Wraps React Query's useQuery with consistent patterns across all admin pages
  */
 export function useAdminQuery<TData = unknown, TError = PostgrestError>(
-  options: UseQueryOptions<TData, TError> & {
+  options: Omit<UseQueryOptions<TData, TError>, 'onSuccess' | 'onError'> & {
     errorMessage?: string;
     successMessage?: string;
   }
@@ -15,29 +16,35 @@ export function useAdminQuery<TData = unknown, TError = PostgrestError>(
   const { toast } = useToast();
   const { errorMessage, successMessage, ...queryOptions } = options;
 
-  return useQuery<TData, TError>({
+  const query = useQuery<TData, TError>({
     ...queryOptions,
     retry: 1,
     staleTime: 1000 * 60 * 5, // 5 minutes
-    onError: (error) => {
-      console.error('Query error:', error);
+  });
+
+  // Handle error with useEffect (TanStack Query v5 pattern)
+  useEffect(() => {
+    if (query.error) {
+      console.error('Query error:', query.error);
       toast({
         title: 'Error',
         description: errorMessage || 'Failed to load data. Please try again.',
         variant: 'destructive',
       });
-      options.onError?.(error);
-    },
-    onSuccess: (data) => {
-      if (successMessage) {
-        toast({
-          title: 'Success',
-          description: successMessage,
-        });
-      }
-      options.onSuccess?.(data);
-    },
-  });
+    }
+  }, [query.error, errorMessage, toast]);
+
+  // Handle success with useEffect
+  useEffect(() => {
+    if (query.isSuccess && successMessage) {
+      toast({
+        title: 'Success',
+        description: successMessage,
+      });
+    }
+  }, [query.isSuccess, successMessage, toast]);
+
+  return query;
 }
 
 /**
