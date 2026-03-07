@@ -32,12 +32,12 @@ export function ReputationHubWidget({
       {(title || description) && (
         <div className="text-center mb-6">
           {title && (
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
               {title}
             </h2>
           )}
           {description && (
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-white/70 max-w-2xl mx-auto">
               {description}
             </p>
           )}

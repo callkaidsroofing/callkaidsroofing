@@ -31,7 +31,6 @@ const Index = () => {
 
             <Container className="relative z-10">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center min-h-[600px]">
-                {/* Left: Hero Content */}
                 <div className="lg:col-span-7 py-8">
                   <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-[1.1] text-white">
                     Roof Looking <span className="text-primary">Tired?</span> Leaking? Faded?
@@ -68,7 +67,6 @@ const Index = () => {
                   </div>
                 </div>
 
-                {/* Right: Conversion Form */}
                 <div className="lg:col-span-5 py-8">
                   <div className="sticky top-24">
                     <LeadCaptureForm
@@ -88,24 +86,24 @@ const Index = () => {
         </ParallaxBackground>
 
         {/* Before & After Photos */}
-        <SectionWrapper background="gradient-dark" className="text-primary-foreground py-16">
+        <section className="bg-secondary py-16">
           <Container>
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-white">
               Real Work, Real Results
             </h2>
             <BeforeAfterCarousel />
           </Container>
-        </SectionWrapper>
+        </section>
 
-        {/* Customer Reviews */}
-        <SectionWrapper className="bg-background py-16">
+        {/* Customer Reviews - dark bg so widget cards pop */}
+        <section className="bg-gradient-to-br from-secondary via-charcoal to-secondary py-16">
           <Container>
             <ReviewsGrid
               title="What Our Customers Say"
               description="Verified reviews from Southeast Melbourne homeowners"
             />
           </Container>
-        </SectionWrapper>
+        </section>
 
         {/* Final CTA */}
         <ParallaxBackground variant="cta" density="medium">
