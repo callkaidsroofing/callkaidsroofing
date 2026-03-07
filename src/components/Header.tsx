@@ -166,7 +166,7 @@ export function Header() {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-background/98 border-l border-border/40 w-[300px] sm:w-[350px]">
+            <SheetContent side="right" className="bg-secondary border-l border-border/40 w-[300px] sm:w-[350px]">
               <nav className="flex flex-col gap-y-3 pt-8">
                 <NavLink to="/" className="text-base font-medium hover:text-primary py-2 transition-colors">
                   Home
