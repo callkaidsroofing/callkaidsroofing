@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock, Shield, Star, Award } from 'lucide-react';
+import { ReputationHubWidget } from '@/components/ReputationHubWidget';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { OptimizedImage } from '@/components/OptimizedImage';
@@ -145,6 +146,11 @@ const Footer = () => {
               </Button>
             </div>
           </div>
+        </div>
+
+        {/* Reviews Widget */}
+        <div className="mb-8">
+          <ReputationHubWidget title="What Our Customers Say" />
         </div>
 
         {/* Bottom Bar */}
