@@ -148,6 +148,11 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* Reviews Widget */}
+        <div className="mb-8">
+          <ReputationHubWidget title="What Our Customers Say" />
+        </div>
+
         {/* Bottom Bar */}
         <div className="border-t border-conversion-black/30 pt-8">
           <div className="text-center space-y-3">
