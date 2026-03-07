@@ -44,12 +44,15 @@ export function ReputationHubWidget({
         </div>
       )}
       <iframe
-        className="lc_reviews_widget w-full min-h-[400px] rounded-lg"
+        className="lc_reviews_widget w-full rounded-lg"
         src="https://reputationhub.site/reputation/widgets/review_widget/g9ue9OBQ12B8KgPIszOo"
         frameBorder="0"
         scrolling="no"
-        style={{ minWidth: '100%', width: '100%' }}
+        style={{ minWidth: '100%', width: '100%', minHeight: '600px' }}
         title="Customer Reviews"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+        referrerPolicy="no-referrer-when-downgrade"
       />
     </div>
   );
