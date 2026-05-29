@@ -9,6 +9,7 @@ import {
   Phone, ArrowRight, MapPin, CheckCircle, Star, Clock, 
   Shield, Award, TrendingUp, Zap, MessageCircle 
 } from 'lucide-react';
+import { BUSINESS, CLAIMS } from '@/config/business';
 
 interface Suburb {
   id: string;
@@ -72,9 +73,9 @@ const SuburbPage = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="xl" className="bg-gradient-to-r from-primary to-secondary">
-                <a href="tel:0435900709">
+                <a href={BUSINESS.phone.href}>
                   <Phone className="mr-2 h-5 w-5" />
-                  Call: 0435 900 709
+                  Call: {BUSINESS.phone.display}
                 </a>
               </Button>
               <Button asChild size="xl" variant="outline">
@@ -98,8 +99,8 @@ const SuburbPage = () => {
   const localSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": `Call Kaids Roofing - ${suburb.name}`,
-    "image": "https://callkaidsroofing.com.au/logo.png",
+    "name": `${BUSINESS.name} - ${suburb.name}`,
+    "image": `${BUSINESS.website}/logo.png`,
     "address": {
       "@type": "PostalAddress",
       "addressLocality": suburb.name,
@@ -112,7 +113,7 @@ const SuburbPage = () => {
       "latitude": "",
       "longitude": ""
     },
-    "telephone": "0435900709",
+    "telephone": BUSINESS.phone.e164,
     "priceRange": "$$",
     "areaServed": {
       "@type": "City",
@@ -130,7 +131,7 @@ const SuburbPage = () => {
 
   const pageTitle = suburb.meta_title || `Roof Repairs ${suburb.name} | Call Kaids Roofing - Trusted Local Roofer`;
   const pageDescription = suburb.meta_description || 
-    `Professional roofing services in ${suburb.name}, VIC. Roof restoration, painting, repairs. 15-year warranty. Call Kaidyn: 0435 900 709. Proof In Every Roof.`;
+    `Professional roofing services in ${suburb.name}, VIC. Roof restoration, painting and repairs. ${CLAIMS.warranty.workmanship.standardYears}-year workmanship warranty on standard work. Call Kaidyn: ${BUSINESS.phone.display}. Proof In Every Roof.`;
 
   return (
     <>
@@ -176,7 +177,7 @@ const SuburbPage = () => {
                 <span className="italic font-serif">Proof In Every Roof</span> – Your Trusted Local Roofer
               </p>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Owner-operated, fully insured, 15-year warranty. No call centers, just honest advice from Kaidyn.
+                Owner-operated, fully insured, and backed by a 10-year workmanship warranty on standard work. No call centers, just clear advice from Kaidyn.
               </p>
             </div>
 
@@ -187,9 +188,9 @@ const SuburbPage = () => {
                 size="xl" 
                 className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-lg px-8 py-6 shadow-xl shadow-primary/30"
               >
-                <a href="tel:0435900709" className="group">
+                <a href={BUSINESS.phone.href} className="group">
                   <Phone className="mr-2 h-5 w-5 group-hover:animate-pulse" />
-                  Call Now: 0435 900 709
+                  Call Now: {BUSINESS.phone.display}
                 </a>
               </Button>
               <Button 
@@ -212,8 +213,8 @@ const SuburbPage = () => {
                   <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mb-3">
                     <Shield className="h-7 w-7 text-primary" />
                   </div>
-                  <p className="font-bold text-xl mb-1">15-Year</p>
-                  <p className="text-xs text-muted-foreground">Warranty</p>
+                  <p className="font-bold text-xl mb-1">10-Year</p>
+                  <p className="text-xs text-muted-foreground">Workmanship</p>
                 </CardContent>
               </Card>
               
@@ -262,9 +263,9 @@ const SuburbPage = () => {
                 </div>
               </div>
               <Button asChild variant="destructive" size="lg" className="bg-orange-500 hover:bg-orange-600">
-                <a href="tel:0435900709">
+                <a href={BUSINESS.phone.href}>
                   <Phone className="mr-2 h-4 w-4" />
-                  Call Emergency: 0435 900 709
+                  Call Emergency: {BUSINESS.phone.display}
                 </a>
               </Button>
             </div>
@@ -359,14 +360,14 @@ const SuburbPage = () => {
                       {service}
                     </CardTitle>
                     <CardDescription className="text-sm leading-relaxed">
-                      Professional {service.toLowerCase()} services for {suburb.name} homes. Quality materials, expert workmanship, 15-year warranty.
+                      Professional {service.toLowerCase()} services for {suburb.name} homes. Quality materials, expert workmanship, and verified warranty terms by scope.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-2 mb-4">
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <CheckCircle className="h-4 w-4 text-primary" />
-                        <span>15-year warranty</span>
+                        <span>10-year workmanship on standard work</span>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <CheckCircle className="h-4 w-4 text-primary" />
@@ -400,9 +401,9 @@ const SuburbPage = () => {
                     <strong>Not sure which service you need?</strong> Kaidyn can assess your roof and recommend the most cost-effective solution. No obligation, no sales pressure.
                   </p>
                   <Button asChild size="lg" variant="outline">
-                    <a href="tel:0435900709">
+                    <a href={BUSINESS.phone.href}>
                       <Phone className="mr-2 h-4 w-4" />
-                      Call for Free Advice: 0435 900 709
+                      Call for Free Advice: {BUSINESS.phone.display}
                     </a>
                   </Button>
                 </CardContent>
@@ -423,7 +424,7 @@ const SuburbPage = () => {
                   <Star key={star} className="h-6 w-6 fill-primary text-primary" />
                 ))}
               </div>
-              <p className="text-muted-foreground">5.0 stars from 200+ happy customers across SE Melbourne</p>
+              <p className="text-muted-foreground">5.0 stars from 21 Google reviews as of Mar 2026</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
@@ -473,7 +474,7 @@ const SuburbPage = () => {
                     ))}
                   </div>
                   <p className="text-muted-foreground mb-4 italic">
-                    "Best roofing experience I've had. Kaidyn explained everything clearly and the 15-year warranty gives total peace of mind."
+                    "Best roofing experience I've had. Kaidyn explained everything clearly and the warranty gives total peace of mind."
                   </p>
                   <div className="flex items-center gap-3">
                     <div>
@@ -503,9 +504,9 @@ const SuburbPage = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Button asChild size="xl" variant="secondary" className="text-lg px-8 py-6 shadow-2xl">
-                <a href="tel:0435900709" className="group">
+                <a href={BUSINESS.phone.href} className="group">
                   <Phone className="mr-2 h-6 w-6 group-hover:animate-pulse" />
-                  Call Kaidyn: 0435 900 709
+                  Call Kaidyn: {BUSINESS.phone.display}
                 </a>
               </Button>
               <Button 
@@ -528,18 +529,18 @@ const SuburbPage = () => {
               </div>
               <div>
                 <Award className="h-5 w-5 mx-auto mb-2" />
-                <p>15-year comprehensive warranty on all major work</p>
+                <p>10-year workmanship warranty on standard work</p>
               </div>
               <div>
                 <Star className="h-5 w-5 mx-auto mb-2" />
-                <p>5-star rated by 200+ SE Melbourne customers</p>
+                <p>5.0 Google rating from 21 reviews as of Mar 2026</p>
               </div>
             </div>
 
             <div className="mt-8 text-sm opacity-75">
               <p>
-                <strong>Call Kaids Roofing</strong> | Email: info@callkaidsroofing.com.au<br />
-                ABN: 39475055075 | Serving {suburb.name} and all of {suburb.region || 'SE Melbourne'}
+                <strong>{BUSINESS.name}</strong> | Email: {BUSINESS.email.primary}<br />
+                ABN: {BUSINESS.abn} | Serving {suburb.name} and all of {suburb.region || BUSINESS.location.region}
               </p>
             </div>
           </div>

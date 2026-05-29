@@ -14,6 +14,7 @@ import { SEOHead } from '@/components/SEOHead';
 import { StructuredData } from '@/components/StructuredData';
 import { PublicPageHero } from '@/public/components/PublicPageHero';
 import { SectionWrapper, Container } from '@/components/ui/section-wrapper';
+import { BUSINESS, CLAIMS } from '@/config/business';
 
 // Australian phone number regex: accepts 04XX XXX XXX, 0X XXXX XXXX, or +61 formats
 const australianPhoneRegex = /^(\+61|0)[2-9][0-9]{8}$|^04[0-9]{8}$/;
@@ -160,7 +161,7 @@ const BookingPage = () => {
       console.error('Error submitting form:', error);
       toast({
         title: "Error",
-        description: "Failed to send request. Please call 0435 900 709 directly.",
+        description: `Failed to send request. Please call ${BUSINESS.phone.display} directly.`,
         variant: "destructive"
       });
     } finally {
@@ -199,7 +200,7 @@ const BookingPage = () => {
     <>
       <SEOHead
         title="Book Your Free Roof Quote | Call Kaids Roofing | Same Day Response"
-        description="Book your free roof quote today. Same-day response, 15-year warranty, premium materials. Serving all Southeast Melbourne suburbs. Call 0435 900 709"
+        description={`Book your free roof quote today. Same-day response, premium materials, and ${CLAIMS.warranty.workmanship.standardYears}-year workmanship warranty on standard work. Serving ${BUSINESS.location.region}. Call ${BUSINESS.phone.display}`}
         keywords="book roof quote Melbourne, free roof inspection, roof quote Clyde North, emergency roof repairs booking"
       />
       <StructuredData type="contact" />
@@ -213,8 +214,8 @@ const BookingPage = () => {
           description="Book in 2 minutes • Kaidyn calls within 4 hours • Free inspection & quote"
           badges={[
             { icon: <CheckCircle className="h-5 w-5" />, text: "No obligation quote" },
-            { icon: <Shield className="h-5 w-5" />, text: "15-year warranty" },
-            { icon: <Award className="h-5 w-5" />, text: "200+ happy customers" }
+            { icon: <Shield className="h-5 w-5" />, text: "10-year workmanship" },
+            { icon: <Award className="h-5 w-5" />, text: `${CLAIMS.reviews.rating}/5 Google rating` }
           ]}
         />
 
@@ -377,9 +378,9 @@ const BookingPage = () => {
                         Prefer to call directly?
                       </p>
                       <Button asChild variant="outline" size="lg" className="w-full">
-                        <a href="tel:0435900709">
+                        <a href={BUSINESS.phone.href}>
                           <Phone className="mr-2 h-5 w-5" />
-                          Call 0435 900 709
+                          Call {BUSINESS.phone.display}
                         </a>
                       </Button>
                     </div>
@@ -393,7 +394,7 @@ const BookingPage = () => {
                 {/* Why Choose Us */}
                 <Card className="border-primary/20">
                   <CardHeader>
-                    <CardTitle className="text-xl text-primary">Why 200+ Customers Choose Us</CardTitle>
+                    <CardTitle className="text-xl text-primary">Why Local Customers Choose Us</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="flex items-start gap-3">
@@ -406,8 +407,8 @@ const BookingPage = () => {
                     <div className="flex items-start gap-3">
                       <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                       <div>
-                        <h4 className="font-semibold">15-Year Warranty</h4>
-                        <p className="text-sm text-muted-foreground">All major work backed by comprehensive warranty</p>
+                        <h4 className="font-semibold">10-Year Workmanship</h4>
+                        <p className="text-sm text-muted-foreground">Standard work backed by verified warranty terms</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
@@ -458,7 +459,7 @@ const BookingPage = () => {
                       <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">4</div>
                       <div>
                         <h4 className="font-semibold">Quality Work</h4>
-                        <p className="text-sm text-muted-foreground">Professional service with 15-year warranty</p>
+                        <p className="text-sm text-muted-foreground">Professional service with warranty terms by scope</p>
                       </div>
                     </div>
                   </CardContent>
@@ -471,21 +472,21 @@ const BookingPage = () => {
                       <div className="flex items-center gap-3">
                         <Phone className="h-5 w-5 text-primary" />
                         <div>
-                          <p className="font-semibold">0435 900 709</p>
+                          <p className="font-semibold">{BUSINESS.phone.display}</p>
                           <p className="text-sm text-muted-foreground">Direct line to Kaidyn</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
                         <Mail className="h-5 w-5 text-primary" />
                         <div>
-                          <p className="font-semibold">info@callkaidsroofing.com.au</p>
+                          <p className="font-semibold">{BUSINESS.email.primary}</p>
                           <p className="text-sm text-muted-foreground">Email us anytime</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
                         <MapPin className="h-5 w-5 text-primary" />
                         <div>
-                          <p className="font-semibold">Clyde North, VIC</p>
+                          <p className="font-semibold">{BUSINESS.location.hqSuburb}, {BUSINESS.location.state}</p>
                           <p className="text-sm text-muted-foreground">Serving 50km radius</p>
                         </div>
                       </div>
@@ -500,7 +501,7 @@ const BookingPage = () => {
                     
                     <div className="mt-6 pt-6 border-t">
                       <div className="flex flex-wrap gap-2">
-                        <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded">ABN: 39475055075</span>
+                        <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded">ABN: {BUSINESS.abn}</span>
                         <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Fully Insured</span>
                         <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Licensed</span>
                       </div>

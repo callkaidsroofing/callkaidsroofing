@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Phone, Calendar, MessageCircle, ArrowRight, X, Clock, Star } from 'lucide-react';
+import { BUSINESS, CLAIMS } from '@/config/business';
 
 interface CTAConfig {
   primary: {
@@ -41,8 +42,8 @@ const StrategicCTAManager = () => {
         icon: <Calendar className="h-4 w-4" />
       },
       secondary: {
-        text: 'Call: 0435 900 709',
-        action: 'tel:0435900709',
+        text: `Call: ${BUSINESS.phone.display}`,
+        action: BUSINESS.phone.href,
         icon: <Phone className="h-4 w-4" />,
         variant: 'outline'
       },
@@ -88,13 +89,13 @@ const StrategicCTAManager = () => {
     '/emergency': {
       primary: {
         text: 'Call Emergency Line',
-        action: 'tel:0435900709',
+        action: BUSINESS.phone.href,
         icon: <Phone className="h-4 w-4" />,
         variant: 'destructive'
       },
       secondary: {
         text: 'Text Kaidyn',
-        action: 'sms:0435900709',
+        action: BUSINESS.phone.smsHref,
         icon: <MessageCircle className="h-4 w-4" />,
         variant: 'outline'
       },
@@ -124,7 +125,7 @@ const StrategicCTAManager = () => {
       },
       secondary: {
         text: 'Call Direct',
-        action: 'tel:0435900709',
+        action: BUSINESS.phone.href,
         icon: <Phone className="h-4 w-4" />,
         variant: 'outline'
       }
@@ -150,7 +151,7 @@ const StrategicCTAManager = () => {
         },
         secondary: {
           text: 'Call Kaidyn',
-          action: 'tel:0435900709',
+        action: BUSINESS.phone.href,
           icon: <Phone className="h-4 w-4" />,
           variant: 'outline'
         },
@@ -251,7 +252,7 @@ const StrategicCTAManager = () => {
           </div>
           
           <p className="text-sm text-muted-foreground">
-            ✓ Free consultation ✓ Same-day quotes ✓ 15-year warranty ✓ Local owner-operator
+            ✓ Free consultation ✓ Same-day quotes ✓ {CLAIMS.warranty.workmanship.standardYears}-year workmanship ✓ Local owner-operator
           </p>
         </div>
       </div>
@@ -277,7 +278,7 @@ const StrategicCTAManager = () => {
                 <Button 
                   size="sm" 
                   variant="outline"
-                  onClick={() => handleCTAAction('tel:0435900709')}
+                  onClick={() => handleCTAAction(BUSINESS.phone.href)}
                   className="flex items-center gap-2"
                 >
                   <Phone className="h-4 w-4" />

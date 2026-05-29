@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Shield, Award, Phone, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { CLAIMS } from '@/config/business';
 
 const ProofStrip = () => {
   const proofPoints = [
@@ -11,8 +12,8 @@ const ProofStrip = () => {
     },
     {
       icon: <Award className="h-5 w-5" />,
-      text: "15-Year Warranty",
-      subtext: "On all workmanship"
+      text: "10-Year Workmanship",
+      subtext: "Standard work warranty"
     },
     {
       icon: <Phone className="h-5 w-5" />,
@@ -21,8 +22,8 @@ const ProofStrip = () => {
     },
     {
       icon: <Users className="h-5 w-5" />,
-      text: "200+ Happy Customers",
-      subtext: "Southeast Melbourne"
+      text: `${CLAIMS.reviews.rating}/5 Google Rating`,
+      subtext: `${CLAIMS.reviews.count} reviews as of Mar 2026`
     }
   ];
 

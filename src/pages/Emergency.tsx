@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { SEOHead } from '@/components/SEOHead';
 import { Phone, Clock, MapPin, AlertTriangle, CheckCircle, Shield } from 'lucide-react';
 import PremiumCTASection from '@/components/PremiumCTASection';
+import { BUSINESS } from '@/config/business';
 
 const Emergency = () => {
   const emergencyTypes = [
@@ -33,7 +34,7 @@ const Emergency = () => {
     <div className="min-h-screen">
       <SEOHead
         title="Emergency Roof Repairs Clyde North & SE Melbourne | Call Kaids Roofing"
-        description="Same-day emergency roof repairs for Clyde North, Cranbourne, Berwick and surrounding suburbs. Call 0435 900 709 for rapid leak control and storm damage support."
+        description={`Same-day emergency roof repairs for Clyde North, Cranbourne, Berwick and surrounding suburbs. Call ${BUSINESS.phone.display} for rapid leak control and storm damage support.`}
         keywords="emergency roof repairs Clyde North, storm damage roofing Melbourne, urgent roof repair"
       />
       {/* Hero Section */}
@@ -52,9 +53,9 @@ const Emergency = () => {
             <div className="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
               <p className="text-2xl font-bold mb-2">Call Me Now</p>
               <Button asChild variant="secondary" size="xl" className="emergency-pulse">
-                <a href="tel:0435900709">
+                <a href={BUSINESS.phone.href}>
                   <Phone className="mr-2 h-5 w-5" />
-                  0435 900 709
+                  {BUSINESS.phone.display}
                 </a>
               </Button>
               <p className="text-sm mt-2">Available 24/7 for genuine emergencies</p>
@@ -293,9 +294,9 @@ const Emergency = () => {
             </p>
             
             <Button asChild variant="secondary" size="xl" className="emergency-pulse">
-              <a href="tel:0435900709">
+              <a href={BUSINESS.phone.href}>
                 <Phone className="mr-2 h-5 w-5" />
-                Call Now: 0435 900 709
+                Call Now: {BUSINESS.phone.display}
               </a>
             </Button>
             

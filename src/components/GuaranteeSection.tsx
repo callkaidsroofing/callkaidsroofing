@@ -1,11 +1,12 @@
 import { Shield, CheckCircle, FileText, Clock } from "lucide-react";
 import { Container } from "@/components/ui/section-wrapper";
+import { BUSINESS, CLAIMS } from "@/config/business";
 
 const guarantees = [
   {
     icon: Shield,
-    title: "15-Year Workmanship Warranty",
-    description: "All restoration and painting work covered for 15 years",
+    title: `${CLAIMS.warranty.workmanship.standardYears}-Year Workmanship Warranty`,
+    description: "Standard workmanship coverage applies by scope. Patch and emergency make-safe work is excluded unless confirmed in writing.",
   },
   {
     icon: CheckCircle,
@@ -71,10 +72,10 @@ export const GuaranteeSection = () => {
               Questions about our warranty?
             </p>
             <a
-              href="tel:0435900709"
+              href={BUSINESS.phone.href}
               className="inline-flex items-center gap-2 bg-gradient-to-r from-conversion-blue to-conversion-cyan text-white px-6 py-3 rounded-xl font-bold hover:scale-105 transition-transform shadow-lg"
             >
-              Call 0435 900 709
+              Call {BUSINESS.phone.display}
             </a>
           </div>
         </div>

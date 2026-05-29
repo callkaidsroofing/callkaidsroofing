@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Phone, Star, Calendar, Clock, Award, Users, Shield, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
+import { BUSINESS, CLAIMS } from "@/config/business";
 
 interface PremiumCTASectionProps {
   variant?: "primary" | "dark";
@@ -78,9 +79,9 @@ export default function PremiumCTASection({
                 className="text-lg px-8 py-6 font-semibold" 
                 asChild
               >
-                <a href="tel:0435900709">
+                <a href={BUSINESS.phone.href}>
                   <Phone className="mr-2 h-5 w-5" />
-                  Call Kaidyn: 0435 900 709
+                  Call Kaidyn: {BUSINESS.phone.display}
                 </a>
               </Button>
               
@@ -106,8 +107,8 @@ export default function PremiumCTASection({
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-current/20">
                 <div className="text-center">
                   <Shield className="h-6 w-6 mx-auto mb-1" />
-                  <div className="font-semibold">15-Year</div>
-                  <div className="text-sm opacity-80">Warranty</div>
+                  <div className="font-semibold">10-Year</div>
+                  <div className="text-sm opacity-80">Workmanship</div>
                 </div>
                 
                 <div className="text-center">
@@ -124,8 +125,8 @@ export default function PremiumCTASection({
                 
                 <div className="text-center">
                   <Star className="h-6 w-6 mx-auto mb-1" />
-                  <div className="font-semibold">200+</div>
-                  <div className="text-sm opacity-80">Happy Customers</div>
+                  <div className="font-semibold">{CLAIMS.reviews.count}</div>
+                  <div className="text-sm opacity-80">Google Reviews</div>
                 </div>
               </div>
             )}
@@ -140,13 +141,13 @@ export default function PremiumCTASection({
             </h3>
             <p className="text-muted-foreground mb-6">
               Call Kaidyn directly - no call centers, no waiting, just honest advice from a 
-              local expert with 15-year warranty
+              local expert with verified warranty terms
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="text-lg px-8 py-6" asChild>
-                <a href="tel:0435900709">
+                <a href={BUSINESS.phone.href}>
                   <Phone className="mr-2 h-5 w-5" />
-                  Call 0435 900 709 Now
+                  Call {BUSINESS.phone.display} Now
                 </a>
               </Button>
               <Button size="lg" variant="outline" className="text-lg px-8 py-6" asChild>
@@ -162,7 +163,7 @@ export default function PremiumCTASection({
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <Award className="h-4 w-4" />
-                15-Year Warranty
+                10-Year Workmanship
               </div>
             </div>
           </div>

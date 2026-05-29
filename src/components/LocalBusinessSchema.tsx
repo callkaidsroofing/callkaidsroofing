@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { BUSINESS, CLAIMS, getPublicWarrantySummary } from '@/config/business';
 
 interface LocalBusinessSchemaProps {
   pageName?: string;
@@ -14,35 +15,34 @@ export const LocalBusinessSchema = ({
   const baseSchema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "RoofingContractor",
-    "@id": "https://callkaidsroofing.com.au/#organization",
-    name: "Call Kaids Roofing",
+    "@id": `${BUSINESS.website}/#organization`,
+    name: BUSINESS.name,
     alternateName: "Kaids Roofing",
     description: `Professional roofing services in ${suburb || 'Southeast Melbourne'} specializing in ${serviceType || 'roof restoration, painting and emergency repairs'}`,
-    url: "https://callkaidsroofing.com.au",
+    url: BUSINESS.website,
     logo: {
       "@type": "ImageObject",
-      url: "https://callkaidsroofing.com.au/logo.png",
+      url: `${BUSINESS.website}/logo.png`,
       width: 300,
       height: 200
     },
     image: {
       "@type": "ImageObject",
-      url: "https://callkaidsroofing.com.au/og-image.jpg",
+      url: `${BUSINESS.website}/og-image.jpg`,
       width: 1200,
       height: 630
     },
-    telephone: "+61435900709",
-    email: "info@callkaidsroofing.com.au",
+    telephone: BUSINESS.phone.e164,
+    email: BUSINESS.email.primary,
     foundingDate: "2020-01-01",
     founder: {
       "@type": "Person",
-      name: "Kaidyn Brownlie",
+      name: BUSINESS.owner,
       jobTitle: "Owner & Lead Roofer"
     },
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Grices Rd",
-      addressLocality: "Clyde North",
+      addressLocality: BUSINESS.location.hqSuburb,
       addressRegion: "VIC",
       postalCode: "3978",
       addressCountry: "AU"
@@ -88,7 +88,7 @@ export const LocalBusinessSchema = ({
       {
         "@type": "PropertyValue",
         name: "ABN",
-        value: "39475055075"
+        value: BUSINESS.abnCompact
       }
     ],
     sameAs: [
@@ -108,7 +108,7 @@ export const LocalBusinessSchema = ({
     description: `Professional ${serviceType.toLowerCase()} services in ${suburb || 'Southeast Melbourne'}`,
     provider: {
       "@type": "RoofingContractor",
-      name: "Call Kaids Roofing"
+      name: BUSINESS.name
     },
     areaServed: {
       "@type": "Place",
@@ -123,7 +123,7 @@ export const LocalBusinessSchema = ({
           itemOffered: {
             "@type": "Service",
             name: serviceType,
-            description: `Expert ${serviceType.toLowerCase()} with 15-year warranty`
+            description: `Expert ${serviceType.toLowerCase()} with ${CLAIMS.warranty.workmanship.standardYears}-year workmanship warranty on standard work. ${getPublicWarrantySummary()}`
           }
         }
       ]

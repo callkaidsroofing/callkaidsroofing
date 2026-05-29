@@ -1,6 +1,7 @@
 import { Shield, Users, Award, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { CLAIMS } from "@/config/business";
 
 interface TrustStat {
   icon: typeof Shield;
@@ -12,18 +13,18 @@ export const TrustBar = () => {
   const trustStats: TrustStat[] = [
     {
       icon: Users,
-      value: "200+",
-      label: "Roofs Restored",
+      value: `${CLAIMS.reviews.count}`,
+      label: "Google Reviews",
     },
     {
       icon: Star,
-      value: "5/5",
+      value: `${CLAIMS.reviews.rating}/5`,
       label: "Google Rating",
     },
     {
       icon: Shield,
-      value: "15-20 Year",
-      label: "Warranty",
+      value: "10-Year",
+      label: "Workmanship",
     },
     {
       icon: Award,

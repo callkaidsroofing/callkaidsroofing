@@ -1,4 +1,5 @@
 import { Clock, Phone, Shield } from 'lucide-react';
+import { BUSINESS } from '@/config/business';
 
 export const UtilityBar = () => {
   return (
@@ -14,12 +15,12 @@ export const UtilityBar = () => {
             <span className="text-conversion-blue font-semibold">Emergency Repairs Available</span>
           </div>
         </div>
-        <a 
-          href="tel:0435900709" 
+        <a
+          href={BUSINESS.phone.href}
           className="flex items-center gap-2 font-semibold hover:text-conversion-cyan transition-colors"
         >
           <Phone className="h-4 w-4" />
-          0435 900 709
+          {BUSINESS.phone.display}
         </a>
       </div>
     </div>

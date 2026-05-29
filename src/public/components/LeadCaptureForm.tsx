@@ -12,6 +12,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
 import { ImageUploadField } from '@/components/ImageUploadField';
+import { BUSINESS, CLAIMS } from '@/config/business';
 
 type FormVariant = 'compact' | 'full' | 'split';
 
@@ -167,7 +168,7 @@ export const LeadCaptureForm = ({
       console.error("Form submission error:", error);
       toast({
         title: "Something went wrong",
-        description: "Please call 0435 900 709 or try again.",
+        description: `Please call ${BUSINESS.phone.display} or try again.`,
         variant: "destructive",
       });
     } finally {
@@ -290,14 +291,14 @@ export const LeadCaptureForm = ({
 
         <div className="mt-6 pt-6 border-t border-border text-center space-y-3">
           <a
-            href="tel:0435900709"
+            href={BUSINESS.phone.href}
             className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold text-base transition-colors"
           >
             <Phone className="h-4 w-4" />
-            0435 900 709
+            {BUSINESS.phone.display}
           </a>
           <p className="text-xs text-muted-foreground">
-            Owner-operated • SE Melbourne • 15-Year Warranty
+            Owner-operated • {BUSINESS.location.region} • {CLAIMS.warranty.workmanship.standardYears}-Year Workmanship
           </p>
         </div>
       </motion.div>
@@ -429,9 +430,9 @@ export const LeadCaptureForm = ({
                           Or call Kaidyn directly:
                         </p>
                         <Button asChild variant="outline" size="sm">
-                          <a href="tel:0435900709" className="flex items-center gap-2">
+                          <a href={BUSINESS.phone.href} className="flex items-center gap-2">
                             <Phone className="h-4 w-4" />
-                            0435 900 709
+                            {BUSINESS.phone.display}
                           </a>
                         </Button>
                       </div>
@@ -595,14 +596,14 @@ export const LeadCaptureForm = ({
               <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground border-t pt-5 mt-5">
                 <div className="flex items-center gap-1.5">
                   <Phone className="h-4 w-4" />
-                  <span>0435 900 709</span>
+                  <span>{BUSINESS.phone.display}</span>
                 </div>
               </div>
 
               <div className="text-center space-y-2">
                 <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                   <CheckCircle className="h-4 w-4 text-primary" />
-                  <span>15-Year Warranty</span>
+                  <span>{CLAIMS.warranty.workmanship.standardYears}-Year Workmanship</span>
                 </div>
                 <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                   <CheckCircle className="h-4 w-4 text-primary" />

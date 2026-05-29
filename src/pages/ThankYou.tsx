@@ -6,6 +6,7 @@ import { SEOHead } from "@/components/SEOHead";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { trackLead } from "@/lib/meta-pixel-events";
+import { BUSINESS, CLAIMS } from "@/config/business";
 
 export default function ThankYou() {
   // Track Meta Pixel Lead conversion on page load
@@ -94,7 +95,7 @@ export default function ThankYou() {
                         Expert Solution
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        Professional recommendations with our 7-10 year workmanship warranty.
+                        Professional recommendations with our {CLAIMS.warranty.workmanship.standardYears}-year workmanship warranty on standard work.
                       </p>
                     </div>
                   </div>
@@ -112,9 +113,9 @@ export default function ThankYou() {
                   For urgent roofing issues that can't wait, call Kaidyn directly:
                 </p>
                 <Button asChild size="lg" className="bg-destructive hover:bg-destructive/90">
-                  <a href="tel:0435900709">
+                  <a href={BUSINESS.phone.href}>
                     <Phone className="w-5 h-5 mr-2" />
-                    0435 900 709
+                    {BUSINESS.phone.display}
                   </a>
                 </Button>
               </CardContent>
@@ -131,8 +132,8 @@ export default function ThankYou() {
                   <Phone className="w-5 h-5 text-primary flex-shrink-0" />
                   <div>
                     <p className="font-medium text-foreground">Phone</p>
-                    <a href="tel:0435900709" className="text-primary hover:text-primary-glow transition-colors">
-                      0435 900 709
+                    <a href={BUSINESS.phone.href} className="text-primary hover:text-primary-glow transition-colors">
+                      {BUSINESS.phone.display}
                     </a>
                   </div>
                 </div>
@@ -141,8 +142,8 @@ export default function ThankYou() {
                   <Mail className="w-5 h-5 text-primary flex-shrink-0" />
                   <div>
                     <p className="font-medium text-foreground">Email</p>
-                    <a href="mailto:info@callkaidsroofing.com.au" className="text-primary hover:text-primary-glow transition-colors">
-                      info@callkaidsroofing.com.au
+                    <a href={`mailto:${BUSINESS.email.primary}`} className="text-primary hover:text-primary-glow transition-colors">
+                      {BUSINESS.email.primary}
                     </a>
                   </div>
                 </div>
@@ -167,10 +168,10 @@ export default function ThankYou() {
             {/* Trust Statement */}
             <div className="mt-12 text-sm text-muted-foreground">
               <p className="mb-2">
-                <strong>Call Kaids Roofing</strong> - ABN: 39475055075
+                <strong>{BUSINESS.name}</strong> - ABN: {BUSINESS.abn}
               </p>
               <p>
-                Fully insured • 7-10 year workmanship warranty • Serving South East Melbourne
+                Fully insured • {CLAIMS.warranty.workmanship.standardYears}-year workmanship warranty • Serving {BUSINESS.location.region}
               </p>
             </div>
           </div>

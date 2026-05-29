@@ -24,6 +24,7 @@ import { Menu, Phone, ChevronDown } from "lucide-react";
 import { OptimizedImage } from "@/components/OptimizedImage";
 import { cn } from "@/lib/utils";
 import callKaidsFullLogo from "@/assets/brand/logo-metallic-blue.png";
+import { BUSINESS } from "@/config/business";
 
 const topLevelLinks = [
   { href: "/", label: "Home" },
@@ -213,11 +214,11 @@ export function Header() {
                     </NavLink>
                   </Button>
                   <a
-                    href="tel:0435900709"
+                    href={BUSINESS.phone.href}
                     className="flex items-center justify-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
                   >
                     <Phone className="mr-1.5 h-3.5 w-3.5" />
-                    0435 900 709
+                    {BUSINESS.phone.display}
                   </a>
                 </div>
               </nav>

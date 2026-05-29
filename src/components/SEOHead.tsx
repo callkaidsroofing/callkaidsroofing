@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
+import { BUSINESS, BUSINESS_SCHEMA } from '@/config/business';
 
 interface SEOHeadProps {
   title?: string;
@@ -12,124 +13,17 @@ interface SEOHeadProps {
 
 export const SEOHead = ({
   title = "Call Kaids Roofing | Roof Restorations Clyde North & SE Melbourne",
-  description = "Local roofing experts in Clyde North. Roof restorations, painting, repairs & gutter cleaning with 15-year warranty. Call 0435 900 709 today.",
+  description = `Owner-operated roofing services in ${BUSINESS.location.region}. Roof restorations, repairs, roof painting, gutter work and leak detection. Call ${BUSINESS.phone.display}.`,
   keywords = "roof restoration Clyde North, roof painting Clyde North, roof repairs Southeast Melbourne, local roofing contractor, Call Kaids Roofing",
   canonical,
-  ogImage = "https://callkaidsroofing.com.au/og-image.jpg",
+  ogImage = `${BUSINESS.website}/og-image.jpg`,
   structuredData
 }: SEOHeadProps) => {
   const location = useLocation();
 
   const canonicalUrl = canonical || `https://callkaidsroofing.com.au${location.pathname}${location.search}`;
 
-  const defaultStructured = {
-    "@context": "https://schema.org",
-    "@type": "RoofingContractor",
-    name: "Call Kaids Roofing",
-    description: "Professional roofing services in Southeast Melbourne including roof restoration, painting, repairs, gutter cleaning, leak detection, and emergency repairs. 15-year warranty on all major work.",
-    url: "https://callkaidsroofing.com.au",
-    telephone: "+61-435-900-709",
-    email: "info@callkaidsroofing.com.au",
-    image: "https://callkaidsroofing.com.au/lovable-uploads/call-kaids-logo-main.png",
-    priceRange: "$$",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "",
-      addressLocality: "Clyde North",
-      addressRegion: "VIC",
-      postalCode: "3978",
-      addressCountry: "AU"
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: "-38.1167",
-      longitude: "145.3333"
-    },
-    identifier: "ABN 39475055075",
-    areaServed: [
-      {
-        "@type": "City",
-        "name": "Clyde North",
-        "@id": "https://en.wikipedia.org/wiki/Clyde_North,_Victoria"
-      },
-      {
-        "@type": "City",
-        "name": "Berwick"
-      },
-      {
-        "@type": "City",
-        "name": "Cranbourne"
-      },
-      {
-        "@type": "City",
-        "name": "Pakenham"
-      },
-      {
-        "@type": "City",
-        "name": "Officer"
-      }
-    ],
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      "name": "Roofing Services",
-      "itemListElement": [
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Roof Restoration",
-            "description": "Complete roof restoration including cleaning, repairs, rebedding and protective coating"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Roof Painting",
-            "description": "Professional roof painting with premium weather-resistant paints"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Emergency Roof Repairs",
-            "description": "Same-day emergency response for leaks and storm damage"
-          }
-        }
-      ]
-    },
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        "opens": "07:00",
-        "closes": "18:00"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Saturday",
-        "opens": "08:00",
-        "closes": "16:00"
-      }
-    ],
-    sameAs: [
-      "https://www.facebook.com/callkaidsroofing",
-      "https://www.instagram.com/callkaidsroofing"
-    ],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "reviewCount": "200",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
-    founder: {
-      "@type": "Person",
-      "name": "Kaidyn Brownlie",
-      "jobTitle": "Owner & Master Roofer"
-    }
-  };
+  const defaultStructured = BUSINESS_SCHEMA;
 
   return (
     <Helmet htmlAttributes={{ lang: 'en-AU' }}>
@@ -160,9 +54,8 @@ export const SEOHead = ({
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:locale" content="en_AU" />
       <meta property="og:site_name" content="Call Kaids Roofing" />
-      <meta property="og:phone_number" content="+61435900709" />
-      <meta property="business:contact_data:street_address" content="Clyde North" />
-      <meta property="business:contact_data:locality" content="Clyde North" />
+      <meta property="og:phone_number" content={BUSINESS.phone.e164} />
+      <meta property="business:contact_data:locality" content={BUSINESS.location.hqSuburb} />
       <meta property="business:contact_data:region" content="VIC" />
       <meta property="business:contact_data:postal_code" content="3978" />
       <meta property="business:contact_data:country_name" content="Australia" />
@@ -214,9 +107,6 @@ export const SEOHead = ({
       
       {/* Additional SEO optimizations */}
       <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-      <meta name="google-site-verification" content="YOUR_GSC_VERIFICATION_CODE_HERE" />
-      <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE_HERE" />
-      
       {/* DNS prefetch for external resources */}
       <link rel="dns-prefetch" href="//www.google-analytics.com" />
       <link rel="dns-prefetch" href="//www.googletagmanager.com" />

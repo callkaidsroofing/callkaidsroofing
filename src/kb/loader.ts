@@ -28,6 +28,7 @@ import {
   UploadsMeta,
   UploadsMetaSchema,
 } from './schemas';
+import { BUSINESS } from '@/config/business';
 
 // ==================== CACHE ====================
 // Simple in-memory cache to avoid repeated parsing
@@ -206,7 +207,7 @@ export function renderEmailTemplate(
 
   // Add footer if enabled
   if (template.footer) {
-    body += `\n\n---\nCall Kaids Roofing\nABN 39475055075\n0435 900 709\ncallkaidsroofing@outlook.com`;
+    body += `\n\n---\n${BUSINESS.name}\nABN ${BUSINESS.abn}\n${BUSINESS.phone.display}\n${BUSINESS.email.primary}`;
   }
 
   return { subject, body };

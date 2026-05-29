@@ -6,13 +6,14 @@ import PremiumCTASection from '@/components/PremiumCTASection';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PublicPageHero } from '@/public/components/PublicPageHero';
 import { SectionWrapper, Container } from '@/components/ui/section-wrapper';
+import { BUSINESS } from '@/config/business';
 
 const Contact = () => {
   return (
     <>
       <SEOHead
         title="Contact Call Kaids Roofing | Direct to Owner | Southeast Melbourne"
-        description="Talk direct to Kaidyn Brownlie, owner of Call Kaids Roofing. No call centres, no BS. Phone 0435 900 709 for immediate response. Free quotes, emergency repairs."
+        description={`Talk direct to ${BUSINESS.owner}, owner of ${BUSINESS.name}. No call centres. Phone ${BUSINESS.phone.display} for free quotes and emergency repairs.`}
         keywords="contact roofer Melbourne, Clyde North roofing, emergency roof repairs, free roof quote, direct contact roofer"
       />
       <div className="min-h-screen bg-background">
@@ -25,13 +26,13 @@ const Contact = () => {
         cta={
           <>
             <Button asChild variant="default" size="xl">
-              <a href="tel:0435900709">
+              <a href={BUSINESS.phone.href}>
                 <Phone className="mr-2 h-5 w-5" />
-                Call 0435 900 709
+                Call {BUSINESS.phone.display}
               </a>
             </Button>
             <Button asChild variant="outline" size="xl">
-              <a href="mailto:info@callkaidsroofing.com.au">
+              <a href={`mailto:${BUSINESS.email.primary}`}>
                 <Mail className="mr-2 h-5 w-5" />
                 Email Me Direct
               </a>
@@ -61,7 +62,7 @@ const Contact = () => {
                   <Phone className="h-6 w-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-semibold">Call Me Direct</h3>
-                    <p className="text-lg font-semibold text-primary">0435 900 709</p>
+                    <p className="text-lg font-semibold text-primary">{BUSINESS.phone.display}</p>
                     <div className="text-sm text-muted-foreground space-y-1">
                       <p>• 7am-6pm weekdays - Usually answer immediately</p>
                       <p>• Saturdays 8am-4pm - Available for quotes and emergencies</p>
@@ -75,7 +76,7 @@ const Contact = () => {
                   <Mail className="h-6 w-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-semibold">Email Me</h3>
-                    <p className="text-primary">info@callkaidsroofing.com.au</p>
+                    <p className="text-primary">{BUSINESS.email.primary}</p>
                     <p className="text-sm text-muted-foreground">I check emails daily and respond within 24 hours</p>
                   </div>
                 </div>
@@ -84,8 +85,8 @@ const Contact = () => {
                   <MapPin className="h-6 w-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-semibold">Service Area</h3>
-                    <p className="text-muted-foreground">Based in Clyde North</p>
-                    <p className="text-sm text-muted-foreground">Serving all of Southeast Melbourne within 50km radius</p>
+                    <p className="text-muted-foreground">Based in {BUSINESS.location.hq}</p>
+                    <p className="text-sm text-muted-foreground">Serving {BUSINESS.location.region} within {BUSINESS.location.serviceRadiusKm}km radius</p>
                   </div>
                 </div>
 
@@ -141,13 +142,13 @@ const Contact = () => {
                       </Link>
                     </Button>
                     <Button asChild variant="outline" className="w-full" size="lg">
-                      <a href="tel:0435900709">
+                      <a href={BUSINESS.phone.href}>
                         <Phone className="mr-2 h-5 w-5" />
-                        Call Now: 0435 900 709
+                        Call Now: {BUSINESS.phone.display}
                       </a>
                     </Button>
                     <Button asChild variant="outline" className="w-full" size="lg">
-                      <a href="mailto:info@callkaidsroofing.com.au">
+                      <a href={`mailto:${BUSINESS.email.primary}`}>
                         <Mail className="mr-2 h-5 w-5" />
                         Email Direct
                       </a>
@@ -170,9 +171,9 @@ const Contact = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild variant="emergency" size="xl" className="emergency-pulse">
-                <a href="tel:0435900709">
+                <a href={BUSINESS.phone.href}>
                   <Phone className="mr-2 h-5 w-5" />
-                  Call Now: 0435 900 709
+                  Call Now: {BUSINESS.phone.display}
                 </a>
               </Button>
               <Button asChild variant="outline" size="xl">

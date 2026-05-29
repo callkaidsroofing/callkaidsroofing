@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Wrench, Shield, Zap, Star, CheckCircle, ArrowRight } from 'lucide-react';
 import ServiceCard from '@/components/ServiceCard';
+import { CLAIMS } from '@/config/business';
 
 interface ServiceSectionProps {
   services: Array<{
@@ -45,7 +46,7 @@ export const EnhancedServiceSection = ({ services }: ServiceSectionProps) => {
           <div className="flex flex-wrap justify-center gap-4 mt-6">
             <div className="flex items-center gap-2 text-sm text-primary font-medium">
               <Shield className="h-4 w-4" />
-              15-Year Warranty
+              {CLAIMS.warranty.workmanship.standardYears}-Year Workmanship
             </div>
             <div className="flex items-center gap-2 text-sm text-primary font-medium">
               <Star className="h-4 w-4 fill-current" />

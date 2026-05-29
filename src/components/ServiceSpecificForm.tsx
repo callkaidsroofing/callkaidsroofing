@@ -9,6 +9,7 @@ import { Phone, Mail, MapPin, Calendar, CheckCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
+import { BUSINESS, CLAIMS } from '@/config/business';
 
 interface ServiceSpecificFormProps {
   serviceName: string;
@@ -155,7 +156,7 @@ const ServiceSpecificForm: React.FC<ServiceSpecificFormProps> = ({
       console.error('Error submitting form:', error);
       toast({
         title: "Error",
-        description: "Failed to send request. Please call 0435 900 709 directly.",
+        description: `Failed to send request. Please call ${BUSINESS.phone.display} directly.`,
         variant: "destructive"
       });
     } finally {
@@ -290,18 +291,18 @@ const ServiceSpecificForm: React.FC<ServiceSpecificFormProps> = ({
               <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground border-t pt-4">
                 <div className="flex items-center gap-1">
                   <Phone className="h-4 w-4" />
-                  <span>0435 900 709</span>
+                  <span>{BUSINESS.phone.display}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Mail className="h-4 w-4" />
-                  <span>info@callkaidsroofing.com.au</span>
+                  <span>{BUSINESS.email.primary}</span>
                 </div>
               </div>
 
               <div className="text-center space-y-2">
                 <div className="flex items-center justify-center gap-2 text-sm text-primary">
                   <CheckCircle className="h-4 w-4" />
-                  <span>15-Year Warranty</span>
+                  <span>{CLAIMS.warranty.workmanship.standardYears}-Year Workmanship</span>
                 </div>
                 <div className="flex items-center justify-center gap-2 text-sm text-primary">
                   <CheckCircle className="h-4 w-4" />
@@ -309,7 +310,7 @@ const ServiceSpecificForm: React.FC<ServiceSpecificFormProps> = ({
                 </div>
                 <div className="flex items-center justify-center gap-2 text-sm text-primary">
                   <CheckCircle className="h-4 w-4" />
-                  <span>ABN: 39475055075</span>
+                  <span>ABN: {BUSINESS.abn}</span>
                 </div>
               </div>
             </form>

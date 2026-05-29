@@ -1,10 +1,11 @@
 import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { BUSINESS, CLAIMS } from "@/config/business";
 
 export const SchemaMarkup = () => {
-  const [rating, setRating] = useState<number>(4.9);
-  const [reviewCount, setReviewCount] = useState<number>(127);
+  const [rating, setRating] = useState<number>(CLAIMS.reviews.rating);
+  const [reviewCount, setReviewCount] = useState<number>(CLAIMS.reviews.count);
 
   useEffect(() => {
     const fetchBusinessData = async () => {
@@ -26,18 +27,18 @@ export const SchemaMarkup = () => {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "RoofingContractor",
-    "name": "Call Kaids Roofing",
-    "image": "https://callkaidsroofing.com.au/logo.png",
-    "logo": "https://callkaidsroofing.com.au/logo.png",
-    "url": "https://callkaidsroofing.com.au",
-    "telephone": "+61435900709",
-    "email": "info@callkaidsroofing.com.au",
+    "name": BUSINESS.name,
+    "image": `${BUSINESS.website}/logo.png`,
+    "logo": `${BUSINESS.website}/logo.png`,
+    "url": BUSINESS.website,
+    "telephone": BUSINESS.phone.e164,
+    "email": BUSINESS.email.primary,
     "priceRange": "$$",
-    "taxID": "39475055075",
+    "taxID": BUSINESS.abnCompact,
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Clyde North",
-      "addressRegion": "VIC",
+      "addressLocality": BUSINESS.location.hqSuburb,
+      "addressRegion": BUSINESS.location.state,
       "addressCountry": "AU"
     },
     "geo": {

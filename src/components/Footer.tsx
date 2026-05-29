@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { OptimizedImage } from '@/components/OptimizedImage';
 import { OptimizedBackgroundSection } from '@/components/OptimizedBackgroundSection';
+import { BUSINESS, getPublicWarrantySummary } from '@/config/business';
 
 const Footer = () => {
   const serviceAreas = [
@@ -46,13 +47,13 @@ const Footer = () => {
             Ready to Get Your Roof Done Right?
           </h2>
           <p className="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
-            Call Kaidyn directly - no call centers, no waiting, just honest advice from a local expert with 15-year warranty
+            Call Kaidyn directly - no call centers, no waiting, just honest advice from a local expert. {getPublicWarrantySummary()}
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Button asChild size="lg" className="font-semibold shadow-sm">
-              <a href="tel:0435900709">
+              <a href={BUSINESS.phone.href}>
                 <Phone className="h-5 w-5 mr-2" />
-                Call 0435 900 709 Now
+                Call {BUSINESS.phone.display} Now
               </a>
             </Button>
             <Button asChild variant="outline" size="lg" className="border-2 text-white hover:bg-white/10 backdrop-blur-sm font-semibold shadow-sm">
@@ -68,7 +69,7 @@ const Footer = () => {
             </div>
             <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
               <Award className="h-4 w-4" />
-              <span>15-Year Warranty</span>
+              <span>10-Year Workmanship</span>
             </div>
             <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
               <Star className="h-4 w-4" />
@@ -93,7 +94,7 @@ const Footer = () => {
           
           <Link to="/warranty" className="group bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-6 hover:border-conversion-cyan transition-all duration-300 hover:scale-105">
             <h3 className="text-lg font-bold text-conversion-cyan mb-2">Warranty</h3>
-            <p className="text-white/70 text-sm">15-year guarantee</p>
+            <p className="text-white/70 text-sm">Verified warranty terms</p>
           </Link>
           
           <Link to="/about" className="group bg-gradient-to-br from-conversion-blue/10 to-conversion-cyan/10 backdrop-blur-sm border border-conversion-cyan/20 rounded-lg p-6 hover:border-conversion-cyan transition-all duration-300 hover:scale-105">
@@ -128,13 +129,13 @@ const Footer = () => {
             <div>
               <h3 className="text-2xl font-bold text-white mb-2">Contact Kaidyn Directly</h3>
               <p className="text-white/70 mb-4">Owner's direct line - no call centers</p>
-              <a href="tel:0435900709" className="flex items-center gap-2 text-conversion-cyan hover:text-conversion-blue font-bold text-xl mb-2 transition-colors">
+              <a href={BUSINESS.phone.href} className="flex items-center gap-2 text-conversion-cyan hover:text-conversion-blue font-bold text-xl mb-2 transition-colors">
                 <Phone className="h-6 w-6" />
-                0435 900 709
+                {BUSINESS.phone.display}
               </a>
-              <a href="mailto:info@callkaidsroofing.com.au" className="flex items-center gap-2 text-white/80 hover:text-conversion-cyan transition-colors">
+              <a href={`mailto:${BUSINESS.email.primary}`} className="flex items-center gap-2 text-white/80 hover:text-conversion-cyan transition-colors">
                 <Mail className="h-4 w-4" />
-                info@callkaidsroofing.com.au
+                {BUSINESS.email.primary}
               </a>
             </div>
             <div className="space-y-3">
@@ -157,12 +158,11 @@ const Footer = () => {
         <div className="border-t border-conversion-black/30 pt-8">
           <div className="text-center space-y-3">
             <div className="text-sm text-white/80">
-              <span className="font-semibold">© 2024 Call Kaids Roofing</span> • ABN: 39475055075
+              <span className="font-semibold">© 2024 {BUSINESS.name}</span> • ABN: {BUSINESS.abn}
             </div>
             <div className="flex flex-wrap justify-center gap-4 text-sm">
               <Link to="/privacy-policy" className="text-white/60 hover:text-conversion-cyan transition-colors">Privacy</Link>
               <Link to="/terms-of-service" className="text-white/60 hover:text-conversion-cyan transition-colors">Terms</Link>
-              <Link to="/admin" className="text-white/30 hover:text-conversion-cyan transition-colors">Internal</Link>
             </div>
           </div>
         </div>

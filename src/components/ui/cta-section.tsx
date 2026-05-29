@@ -4,6 +4,7 @@ import { Phone, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
+import { BUSINESS } from '@/config/business';
 
 interface CTASectionProps {
   headline: string;
@@ -31,8 +32,8 @@ export const CTASection = ({
   headline,
   description,
   ctaPrimary = {
-    text: '0435 900 709',
-    href: 'tel:0435900709',
+    text: BUSINESS.phone.display,
+    href: BUSINESS.phone.href,
     icon: <Phone className="h-5 w-5" />,
   },
   ctaSecondary = {

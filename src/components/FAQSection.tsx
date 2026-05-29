@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Container } from "@/components/ui/section-wrapper";
 import { Helmet } from "react-helmet-async";
+import { BUSINESS, getPublicWarrantySummary } from "@/config/business";
 
 interface FAQ {
   question: string;
@@ -19,11 +20,11 @@ const faqs: FAQ[] = [
   },
   {
     question: "Do you offer emergency leak repairs?",
-    answer: "Absolutely. We prioritize emergency repairs and can usually attend within 48 hours. Call 0435 900 709 for urgent issues.",
+    answer: `Absolutely. We prioritize emergency repairs and can usually attend within 48 hours. Call ${BUSINESS.phone.display} for urgent issues.`,
   },
   {
-    question: "What's included in the 15-year warranty?",
-    answer: "Our warranty covers all workmanship including re-bedding, re-pointing, and membrane coating application. Materials are separately covered by manufacturer warranties.",
+    question: "What's included in the workmanship warranty?",
+    answer: `${getPublicWarrantySummary()} Patch and emergency make-safe work is excluded unless confirmed in writing.`,
   },
   {
     question: "Which suburbs do you service?",
@@ -117,10 +118,10 @@ export const FAQSection = () => {
         <div className="text-center mt-10">
           <p className="text-white/70 text-base mb-4">Still have questions?</p>
           <a
-            href="tel:0435900709"
+            href={BUSINESS.phone.href}
             className="inline-flex items-center gap-2 bg-gradient-to-r from-conversion-blue to-conversion-cyan text-white px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-transform shadow-lg"
           >
-            Call 0435 900 709 - We're Happy to Help
+            Call {BUSINESS.phone.display} - We're Happy to Help
           </a>
         </div>
       </Container>

@@ -9,13 +9,14 @@ import { CTASection } from "@/components/ui/cta-section";
 import { LeadCaptureForm } from "@/public/components/LeadCaptureForm";
 import { SchemaMarkup } from "@/components/SchemaMarkup";
 import { finalCTAContent } from "@/data/homepage-content";
+import { BUSINESS, getPublicWarrantySummary } from "@/config/business";
 
 const Index = () => {
   return (
     <div className="min-h-screen">
       <SEOHead 
-        title="Call Kaids Roofing - SE Melbourne's Trusted Roofing Experts"
-        description="Professional roof restoration, repairs & painting in SE Melbourne. 15-year warranty, direct owner contact, 500+ roofs restored. Call 0435 900 709 for a free quote."
+        title="Call Kaids Roofing | Roof Restorations & Repairs in SE Melbourne"
+        description={`Owner-operated roof restorations, repairs, painting and gutter work across ${BUSINESS.location.region}. ${getPublicWarrantySummary()} Call ${BUSINESS.phone.display}.`}
       />
       <SchemaMarkup />
 
@@ -37,7 +38,7 @@ const Index = () => {
                   </h1>
 
                   <p className="text-xl md:text-2xl font-medium mb-10 text-white/90 leading-relaxed">
-                    SE Melbourne's owner-operator roofing specialist. No sales teams—just honest work.
+                    {BUSINESS.location.region}'s owner-operator roofing specialist. No sales teams—just clear advice and photo-backed work.
                   </p>
 
                   <div className="mb-8">
@@ -46,9 +47,9 @@ const Index = () => {
                       size="xl"
                       className="text-2xl sm:text-3xl h-auto py-6 px-10 rounded-xl"
                     >
-                      <a href="tel:0435900709" className="inline-flex items-center gap-3">
+                      <a href={BUSINESS.phone.href} className="inline-flex items-center gap-3">
                         <Phone className="h-8 w-8" />
-                        <span>Call 0435 900 709</span>
+                        <span>Call {BUSINESS.phone.display}</span>
                       </a>
                     </Button>
                   </div>
@@ -62,7 +63,7 @@ const Index = () => {
                       <svg className="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      <span className="font-medium">15–20 Year Warranty</span>
+                      <span className="font-medium">10-Year Workmanship</span>
                     </div>
                   </div>
                 </div>

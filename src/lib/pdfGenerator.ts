@@ -1,5 +1,6 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { BUSINESS } from '@/config/business';
 
 interface PDFOptions {
   title: string;
@@ -14,11 +15,11 @@ const BRAND_COLORS = {
 };
 
 const BRAND_INFO = {
-  name: 'Call Kaids Roofing',
-  abn: 'ABN 39475055075',
-  phone: '0435 900 709',
-  email: 'callkaidsroofing@outlook.com',
-  slogan: 'No Leaks. No Lifting. Just Quality.',
+  name: BUSINESS.name,
+  abn: `ABN ${BUSINESS.abn}`,
+  phone: BUSINESS.phone.display,
+  email: BUSINESS.email.primary,
+  slogan: BUSINESS.slogan,
 };
 
 const buildBrandedPDF = async (

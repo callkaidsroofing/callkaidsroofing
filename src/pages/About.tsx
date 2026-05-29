@@ -4,6 +4,7 @@ import { PublicPageHero } from '@/public/components/PublicPageHero';
 import { SectionWrapper, Container } from '@/components/ui/section-wrapper';
 import ParallaxBackground from '@/components/ParallaxBackground';
 import { CTASection } from '@/components/ui/cta-section';
+import { BUSINESS, CLAIMS, getPublicWarrantySummary } from '@/config/business';
 
 const About = () => {
   return (
@@ -18,7 +19,7 @@ const About = () => {
       <PublicPageHero
         subtitle="*Proof In Every Roof*"
         h1="I'm Kaidyn Brownlie—Built This Business from Scratch"
-        description="First-generation roofer serving Southeast Melbourne with no BS, quality workmanship, and a 15-year warranty."
+        description={`${BUSINESS.owner}, owner-operator of ${BUSINESS.name}, serving ${BUSINESS.location.region} with clear advice, quality workmanship, and verified warranty terms.`}
       />
 
       {/* My Story */}
@@ -45,7 +46,7 @@ const About = () => {
                   <li>• I show up when I say I will</li>
                   <li>• I do what I quote, nothing more, nothing less</li>
                   <li>• I use materials that actually last</li>
-                  <li>• I back roof restorations with a 15–20 year workmanship warranty</li>
+                  <li>• I back standard work with a {CLAIMS.warranty.workmanship.standardYears}-year workmanship warranty</li>
                 </ul>
               </div>
             </div>
@@ -76,8 +77,8 @@ const About = () => {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-conversion-cyan/20 rounded-full">
                   <Shield className="h-8 w-8 text-conversion-cyan" />
                 </div>
-                <h3 className="font-bold text-white">15–20 Year Warranty</h3>
-                <p className="text-sm text-white/70">Workmanship coverage on roof restorations</p>
+                <h3 className="font-bold text-white">10-Year Workmanship</h3>
+                <p className="text-sm text-white/70">{getPublicWarrantySummary()}</p>
               </div>
             </div>
           </div>

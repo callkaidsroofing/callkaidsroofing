@@ -6,6 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
+import { BUSINESS, CLAIMS } from '@/config/business';
 
 const heroFormSchema = z.object({
   name: z.string()
@@ -79,7 +80,7 @@ export const HeroConversionForm = () => {
       console.error("Form submission error:", error);
       toast({
         title: "Something went wrong",
-        description: "Please call 0435 900 709 or try again.",
+        description: `Please call ${BUSINESS.phone.display} or try again.`,
         variant: "destructive",
       });
     } finally {
@@ -162,15 +163,15 @@ export const HeroConversionForm = () => {
 
       {/* Alternative CTA */}
       <div className="mt-4 pt-4 border-t-2 border-dashed border-border text-center">
-        <a 
-          href="tel:0435900709" 
+        <a
+          href={BUSINESS.phone.href}
           className="inline-flex items-center gap-2 text-conversion-blue hover:text-conversion-cyan font-black text-base transition-colors hover:scale-105 transform"
         >
           <Phone className="h-4 w-4" />
-          0435 900 709
+          {BUSINESS.phone.display}
         </a>
         <p className="text-xs text-muted-foreground mt-3 font-semibold">
-          ✓ Owner-operated • ✓ SE Melbourne Local • ✓ 15-Year Warranty
+          ✓ Owner-operated • ✓ {BUSINESS.location.region} Local • ✓ {CLAIMS.warranty.workmanship.standardYears}-Year Workmanship
         </p>
       </div>
     </motion.div>

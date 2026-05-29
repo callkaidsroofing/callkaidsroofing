@@ -1,3 +1,5 @@
+import { BUSINESS, CLAIMS } from '@/config/business';
+
 /**
  * Homepage Content Data
  * Centralized content for easy updates and consistency
@@ -5,12 +7,15 @@
 
 export const heroContent = {
   headline: 'Roof Problems? We Fix Them.',
-  subheadline: '15-Year Warranty • SE Melbourne',
+  subheadline: `${CLAIMS.warranty.workmanship.standardYears}-Year Workmanship • ${BUSINESS.location.region}`,
   slogan: '"Proof In Every Roof"',
-  trustSignals: ['⭐ 4.9/5', '200+ Customers'],
+  trustSignals: [
+    `${CLAIMS.reviews.rating}/5 Google Rating`,
+    `${CLAIMS.reviews.count} Google Reviews`,
+  ],
   ctaPrimary: {
     text: 'Call Now',
-    href: 'tel:0435900709',
+    href: BUSINESS.phone.href,
   },
   ctaSecondary: {
     text: 'Free Quote',
@@ -23,7 +28,7 @@ export const servicesData = [
     id: 'restoration',
     icon: '🏠',
     title: 'Roof Restoration',
-    benefit: 'Add 15+ years to your roof\'s life',
+    benefit: 'Restore, protect, and extend service life',
     price: 'From $4,500',
     description: 'Complete roof restoration with high-pressure cleaning, re-bedding, re-pointing, and premium membrane coating.',
     link: '/services/roof-restoration',

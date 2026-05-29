@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Phone, MapPin, Award, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { BUSINESS, CLAIMS } from '@/config/business';
 
 const MeetKaidyn = () => {
   return (
@@ -62,12 +63,12 @@ const MeetKaidyn = () => {
                   <span className="text-lg font-semibold">Direct Line to Quality</span>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  No automated systems, no waiting around. When you call <strong>0435 900 709</strong>, 
+                  No automated systems, no waiting around. When you call <strong>{BUSINESS.phone.display}</strong>,
                   you get me directly. My team with 25+ years of combined roofing experience and I will take care of everything.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button asChild>
-                    <a href="tel:0435900709">
+                    <a href={BUSINESS.phone.href}>
                       <Phone className="mr-2 h-4 w-4" />
                       Call Now
                     </a>
@@ -85,8 +86,8 @@ const MeetKaidyn = () => {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <Card className="text-center bg-primary/5 border-primary/20">
                 <CardContent className="p-4">
-                  <div className="text-2xl font-bold text-primary">200+</div>
-                  <div className="text-xs text-muted-foreground">Roofs Restored</div>
+                  <div className="text-2xl font-bold text-primary">{CLAIMS.reviews.count}</div>
+                  <div className="text-xs text-muted-foreground">Google Reviews</div>
                 </CardContent>
               </Card>
               <Card className="text-center bg-accent/5 border-accent/20">

@@ -1,0 +1,516 @@
+{
+  "metadata": {
+    "title": "Call Kaids Roofing Website Refactor Plan",
+    "created_at": "2026-05-18",
+    "repo": "callkaidsroofing/callkaidsroofing",
+    "workspace_path": "/root/callkaidsroofing",
+    "strategy": "strategic_refactor_existing_vite_react_supabase_site",
+    "rewrite_recommended": false,
+    "primary_goal": "Increase qualified quote requests from SE Melbourne homeowners by improving proof, local SEO, and conversion UX."
+  },
+  "reviewed_sources": {
+    "obsidian": [
+      "/sdcard/Documents/AgentVault/06-Workspace/2026-05-18.md",
+      "/sdcard/Documents/AgentVault/Hardened_Rebuild_Plan__Call_Kaids_Roofing.md",
+      "/sdcard/Documents/AgentVault/06-Workspace/pasted_content.txt",
+      "/sdcard/Documents/AgentVault/06-Workspace/pasted_content_2.txt",
+      "/sdcard/Documents/AgentVault/06-Workspace/pasted_content_3.txt"
+    ],
+    "repo_files": [
+      "src/App.tsx",
+      "src/pages/Index.tsx",
+      "src/pages/Services.tsx",
+      "src/pages/ServiceDetail.tsx",
+      "src/pages/SuburbPage.tsx",
+      "src/components/SEOHead.tsx",
+      "src/components/StructuredData.tsx",
+      "src/components/SchemaMarkup.tsx",
+      "src/components/LocalBusinessSchema.tsx",
+      "src/public/components/LeadCaptureForm.tsx",
+      "public/robots.txt",
+      "public/sitemap.xml",
+      "docs/DESIGN_SYSTEM.md",
+      "docs/KNOWLEDGE_PACK_V1.1.md",
+      "knowledge-base/README.md",
+      "knowledge/brand/BRAND_GUIDE.md",
+      "knowledge/mkf/MKF_00_combined.md",
+      "knowledge/warranty/WARRANTY_POLICY.md",
+      "knowledge-base/mkf/source/02_Brand_Voice/CKR_03_SEO_KEYWORD_MATRIX.csv",
+      "knowledge-base/mkf/source/03_Operations_SOPs/CKR_Services_Database.csv",
+      "knowledge-base/mkf/source/03_Operations_SOPs/CKR_Suburbs_Database.csv",
+      "knowledge-base/mkf/source/04_Marketing_Content/MKF_06.md",
+      "/root/AgentVault/ckr-questionnaire.html",
+      "/root/AgentVault/05-Domain/README.md",
+      "/root/AgentVault/05-Domain/CKR-Identity.md",
+      "/root/AgentVault/05-Domain/CKR-Legal-Terms.md",
+      "/root/AgentVault/05-Domain/CKR-Service-Area.md",
+      "/root/AgentVault/05-Domain/CKR-Warranties.md"
+    ],
+    "seo_sources": [
+      {
+        "name": "Google Search Central SEO Starter Guide",
+        "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide"
+      },
+      {
+        "name": "Google Search Central JavaScript SEO Basics",
+        "url": "https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics"
+      },
+      {
+        "name": "Google Search Central Title Links",
+        "url": "https://developers.google.com/search/docs/appearance/title-link"
+      },
+      {
+        "name": "Google Search Central URL Structure",
+        "url": "https://developers.google.com/search/docs/crawling-indexing/url-structure"
+      },
+      {
+        "name": "Google Search Central Structured Data Gallery",
+        "url": "https://developers.google.com/search/docs/appearance/structured-data/search-gallery"
+      },
+      {
+        "name": "Google Search Central LocalBusiness Structured Data",
+        "url": "https://developers.google.com/search/docs/appearance/structured-data/local-business"
+      }
+    ]
+  },
+  "decisions": [
+    {
+      "id": "D001",
+      "decision": "Keep Vite, React, React Router, Supabase, Tailwind, and shadcn/ui for the first rebuild pass.",
+      "reason": "The repo already has dynamic service and suburb routes, CMS tables, RAG knowledge infrastructure, SEO components, and lead forms."
+    },
+    {
+      "id": "D002",
+      "decision": "Make CMS-backed dynamic pages canonical before adding more hardcoded landing pages.",
+      "reason": "Hardcoded and dynamic pages currently overlap and can create duplicate content or competing URLs."
+    },
+    {
+      "id": "D003",
+      "decision": "Use the owner-questionnaire-v2 domain notes as the highest-confidence source for public business facts.",
+      "reason": "The vault questionnaire and generated domain files resolve most identity, legal, service-area, and warranty conflicts. Older hub notes and stale repo marketing copy should not override them."
+    }
+  ],
+  "verified_business_facts": {
+    "source": "owner-questionnaire-v2 via /root/AgentVault/05-Domain",
+    "trading_name": "Call Kaids Roofing",
+    "abn": "39 475 055 075",
+    "structure": "Sole Trader",
+    "owner_operator": "Kaidyn Brownlie",
+    "phone": "0435 900 709",
+    "primary_customer_email": "info@callkaidsroofing.com.au",
+    "secondary_business_email": "callkaidsroofing@outlook.com",
+    "hq": "Clyde North, VIC",
+    "service_area": "50 km radius from Clyde North, South-East Melbourne corridor",
+    "insurance": {
+      "provider": "Bizcover",
+      "public_liability": "$20,000,000 AUD",
+      "policy_number": "BZ21061CMB",
+      "certificate": "Available on request"
+    },
+    "licence": "CDB-U 66867",
+    "google_rating_snapshot": "5.0 from 21 reviews as of Mar 2026",
+    "warranty": {
+      "patch_or_emergency_make_safe": "none",
+      "minor_isolated_repairs": "5-7 years",
+      "standard_workmanship": "10 years",
+      "irc_roof_refresh_product": "10 years",
+      "irc_roof_protect_product": "15 years",
+      "irc_platinum_protect_product": "20 years",
+      "certificates": "on request",
+      "transferability": "unconfirmed"
+    },
+    "quote_terms": {
+      "validity": "30 days",
+      "deposit": "20% before commencement",
+      "payment_methods_public_display": "verify PayID before advertising"
+    }
+  },
+  "remaining_conflicts": [
+    {
+      "field": "stale_public_claims",
+      "issue": "Website and repo marketing copy still contain conflicting warranty lengths, review counts, job counts, and location wording.",
+      "required_resolution": "Replace public claims with verified_business_facts and approved proof records."
+    },
+    {
+      "field": "warranty_transferability",
+      "issue": "Owner-verified warranty note says transferability is not confirmed.",
+      "required_resolution": "Do not claim transferability until confirmed."
+    },
+    {
+      "field": "payment_methods",
+      "issue": "PayID appears in quote terms but was not fully owner-confirmed for public display.",
+      "required_resolution": "Verify before advertising PayID on public pages."
+    }
+  ],
+  "brand_rules": {
+    "voice": [
+      "intelligent",
+      "relaxed",
+      "direct",
+      "warm",
+      "proof-driven"
+    ],
+    "positioning": "Expert consultant, not pushy salesperson.",
+    "slogan": "Proof In Every Roof",
+    "required_proof": [
+      "real job photos",
+      "before and after evidence",
+      "photo-backed inspection or quote",
+      "fully insured statement from questionnaire-verified domain notes",
+      "warranty wording from questionnaire-verified domain notes",
+      "direct owner contact"
+    ],
+    "avoid": [
+      "cheapest claims",
+      "stock imagery",
+      "unsupported review counts",
+      "unsupported job counts",
+      "overhyped promises",
+      "conflicting legal details"
+    ]
+  },
+  "target_architecture": {
+    "keep": [
+      "Vite",
+      "React",
+      "React Router",
+      "Supabase",
+      "Tailwind",
+      "shadcn/ui patterns",
+      "admin CMS tools",
+      "RAG knowledge architecture",
+      "LeadCaptureForm",
+      "SEOHead and schema components",
+      "optimized image pipeline"
+    ],
+    "refactor": [
+      "public route strategy",
+      "sitemap generation",
+      "SEO metadata source model",
+      "public page templates",
+      "CMS-first content model",
+      "trust proof components",
+      "lead form field taxonomy"
+    ],
+    "defer": [
+      "Next.js migration",
+      "Astro migration",
+      "full admin rewrite",
+      "mass-generated thin suburb pages"
+    ]
+  },
+  "sitemap_target": {
+    "core": [
+      "/",
+      "/about",
+      "/services",
+      "/quote",
+      "/contact",
+      "/gallery",
+      "/portfolio",
+      "/reviews",
+      "/faq",
+      "/warranty",
+      "/service-areas",
+      "/blog"
+    ],
+    "dynamic_services_pattern": "/services/:slug",
+    "dynamic_suburbs_pattern": "/suburbs/:slug",
+    "service_suburb_pattern": "/services/:serviceSlug/:suburbSlug",
+    "priority_services": [
+      "roof-restoration",
+      "roof-repairs",
+      "roof-painting",
+      "roof-cleaning",
+      "gutter-cleaning",
+      "roof-repointing",
+      "tile-replacement",
+      "valley-iron-replacement",
+      "leak-detection",
+      "roof-inspection"
+    ],
+    "priority_suburbs": [
+      "berwick",
+      "clyde-north",
+      "clyde",
+      "cranbourne",
+      "narre-warren",
+      "pakenham",
+      "officer",
+      "beaconsfield",
+      "hallam",
+      "dandenong",
+      "hampton-park",
+      "rowville",
+      "keysborough"
+    ],
+    "initial_service_suburb_pages": [
+      "roof-restoration-berwick",
+      "roof-restoration-clyde-north",
+      "roof-restoration-cranbourne",
+      "roof-restoration-pakenham",
+      "roof-repairs-berwick",
+      "roof-leak-repair-berwick",
+      "roof-painting-clyde-north",
+      "rebedding-repointing-narre-warren",
+      "gutter-cleaning-clyde"
+    ]
+  },
+  "phases": [
+    {
+      "id": "P0",
+      "name": "Business Invariants And Governance",
+      "goal": "Apply questionnaire-verified facts and prevent public-facing legal and trust inconsistencies.",
+      "priority": "critical",
+      "tasks": [
+        "Create a single public business invariant module.",
+        "Seed it from /root/AgentVault/05-Domain/CKR-Identity.md, CKR-Legal-Terms.md, CKR-Service-Area.md, and CKR-Warranties.md.",
+        "Replace hardcoded public claims with invariant references.",
+        "Document source-of-truth precedence: owner-questionnaire-v2 domain notes outrank older hub notes and stale repo marketing copy for business facts.",
+        "Add a website claims audit checklist.",
+        "Mark warranty transferability and PayID public display as unresolved."
+      ],
+      "suggested_files": [
+        "src/config/business.ts",
+        "src/config/claims.ts",
+        "docs/plans/CALL_KAIDS_WEBSITE_REBUILD_PLAN.md",
+        "docs/plans/call-kaids-website-rebuild-plan.json"
+      ],
+      "acceptance_criteria": [
+        "One source file controls public identity claims.",
+        "No page hardcodes conflicting ABN, email, warranty, or base suburb.",
+        "Schema uses the same values as visible content.",
+        "Unsupported claims are removed or marked as requiring proof."
+      ]
+    },
+    {
+      "id": "P1",
+      "name": "Public Route And CMS Unification",
+      "goal": "Make the CMS the public content engine.",
+      "priority": "critical",
+      "tasks": [
+        "Keep /services/:slug as canonical for service pages.",
+        "Keep /suburbs/:slug as canonical for suburb pages.",
+        "Redirect or CMS-back hardcoded duplicate service landing routes.",
+        "Add ServiceSuburbPage only for selected high-intent pages.",
+        "Add crawl-safe 404 behavior for missing service and suburb pages.",
+        "Check route order for static/dynamic shadowing."
+      ],
+      "acceptance_criteria": [
+        "Each public service has one canonical URL.",
+        "Hardcoded and CMS pages do not compete.",
+        "Old URLs redirect to canonical equivalents.",
+        "Sitemap includes only canonical public URLs."
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "SEO Foundation",
+      "goal": "Make Google and users understand each page.",
+      "priority": "critical",
+      "tasks": [
+        "Generate page titles from page intent.",
+        "Write unique meta descriptions for core pages.",
+        "Remove placeholder verification tags from SEOHead.",
+        "Remove low-value legacy meta tags and keyword stuffing.",
+        "Canonicalize URLs without tracking query params.",
+        "Generate sitemap from route and CMS data at build time.",
+        "Update robots.txt for admin/private and public assets.",
+        "Add breadcrumb UI and Breadcrumb JSON-LD.",
+        "Validate LocalBusiness, Service, FAQ, Article, and Breadcrumb schema."
+      ],
+      "acceptance_criteria": [
+        "No repeated homepage snippet across core pages.",
+        "No placeholder GSC or Bing verification codes.",
+        "Sitemap lastmod reflects real content update dates.",
+        "Each indexable page has unique title, description, canonical, and visible H1.",
+        "Structured data matches visible content."
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "Homepage Conversion Rebuild",
+      "goal": "Turn the homepage into a proof-led quote path.",
+      "priority": "high",
+      "sections": [
+        "Hero",
+        "Trust bar",
+        "Problem routing",
+        "Services preview",
+        "Proof section",
+        "Reviews or testimonials",
+        "Process",
+        "Service areas",
+        "FAQ",
+        "Final CTA"
+      ],
+      "acceptance_criteria": [
+        "Above the fold answers what, where, why trust, and next step.",
+        "Mobile has call and quote affordances without layout shift.",
+        "No unsupported review, job, or warranty claims.",
+        "Real imagery is prioritized over decorative visuals."
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "Service Hub And Service Pages",
+      "goal": "Make services useful for high-intent searchers and uncertain homeowners.",
+      "priority": "high",
+      "tasks": [
+        "Rebuild services hub around problem-solution framing.",
+        "Use one CMS-backed service page template.",
+        "Add service-specific FAQs.",
+        "Pull related case studies from CMS.",
+        "Place lead form with photo upload on each service page."
+      ],
+      "acceptance_criteria": [
+        "Service content comes from content_services.",
+        "Each service has unique metadata and FAQs.",
+        "Related case studies are pulled from CMS.",
+        "Each page has a clear quote path."
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Local SEO And Suburb Engine",
+      "goal": "Rank and convert for suburb-specific demand without thin pages.",
+      "priority": "high",
+      "tasks": [
+        "Build CMS-backed suburb template.",
+        "Build service-suburb template for selected Tier 1 pages.",
+        "Write unique suburb intros and FAQs.",
+        "Link suburbs to services and nearby suburbs.",
+        "Launch only highest-value pages first."
+      ],
+      "acceptance_criteria": [
+        "No copy-paste suburb pages.",
+        "Each local page has unique H1, title, description, intro, and FAQ set.",
+        "Pages link back to relevant service and service-area hub pages.",
+        "Initial launch focuses on highest-value pages."
+      ]
+    },
+    {
+      "id": "P6",
+      "name": "Trust And Proof System",
+      "goal": "Make proof visible and verifiable everywhere.",
+      "priority": "high",
+      "tasks": [
+        "Connect before/after sections to content_case_studies.",
+        "Standardize proof card fields.",
+        "Add testimonial source model.",
+        "Add owner-led proof blocks.",
+        "Add service-specific warranty explainers."
+      ],
+      "acceptance_criteria": [
+        "No fabricated review counts.",
+        "Proof blocks are backed by CMS records or approved knowledge.",
+        "Each high-value service page has at least one related proof element."
+      ]
+    },
+    {
+      "id": "P7",
+      "name": "Lead Capture And CRM Fit",
+      "goal": "Map every public conversion path into the CKR sales pipeline.",
+      "priority": "high",
+      "fields": [
+        "name",
+        "phone",
+        "email",
+        "suburb",
+        "service_needed",
+        "urgency",
+        "problem_description",
+        "photo_upload",
+        "preferred_contact_method",
+        "source_page",
+        "campaign"
+      ],
+      "acceptance_criteria": [
+        "Every CTA records source context.",
+        "Photos are optional but encouraged.",
+        "Form copy is low-pressure and proof-led.",
+        "Quote submission lands in the correct lead pipeline stage."
+      ]
+    },
+    {
+      "id": "P8",
+      "name": "Performance Accessibility And UX Polish",
+      "goal": "Make the site fast, readable, and usable on phones.",
+      "priority": "medium",
+      "tasks": [
+        "Audit mobile layout at 360px, 390px, 768px, and desktop.",
+        "Use OptimizedImage and image variants for public hero/proof images.",
+        "Reduce nested card-heavy layouts.",
+        "Keep UI consistent with docs/DESIGN_SYSTEM.md.",
+        "Ensure buttons do not overflow on mobile.",
+        "Add meaningful alt text for real job photos.",
+        "Use semantic headings and landmarks.",
+        "Minimize decorative animation on conversion pages."
+      ],
+      "acceptance_criteria": [
+        "No mobile text or button overflow.",
+        "Hero LCP image is real and optimized.",
+        "Core Web Vitals are checked after implementation.",
+        "Public pages pass basic keyboard and screen-reader checks."
+      ]
+    },
+    {
+      "id": "P9",
+      "name": "Measurement And Release",
+      "goal": "Prove the rebuild works.",
+      "priority": "medium",
+      "tasks": [
+        "Set up GA4 events for phone clicks, quote starts, quote submits, photo uploads, service CTAs, and suburb CTAs.",
+        "Connect Search Console verification with a real token.",
+        "Submit sitemap.",
+        "Validate top pages with URL Inspection.",
+        "Run Rich Results Test.",
+        "Run Lighthouse/PageSpeed checks.",
+        "Track first 30 days of clicks, impressions, CTR, calls, submissions, and indexed pages."
+      ],
+      "acceptance_criteria": [
+        "Analytics events fire in preview and production.",
+        "Sitemap is accepted.",
+        "No critical structured data errors.",
+        "Lead source attribution works."
+      ]
+    }
+  ],
+  "implementation_order": [
+    "P0",
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6",
+    "P7",
+    "P8",
+    "P9"
+  ],
+  "pre_implementation_checklist": [
+    "Confirmed ABN: 39 475 055 075.",
+    "Confirmed license number: CDB-U 66867.",
+    "Confirmed insurance wording: Bizcover public liability, $20M AUD, policy BZ21061CMB, certificate available on request.",
+    "Confirmed public email: info@callkaidsroofing.com.au.",
+    "Confirmed base suburb and service radius: Clyde North, 50 km radius, SE Melbourne corridor.",
+    "Confirmed warranty wording by service type: standard workmanship 10 years; minor repairs 5-7 years; temporary patch/make-safe none; product warranties 10/15/20 years by IRC product tier.",
+    "Confirm warranty transferability.",
+    "Confirm whether PayID should be advertised publicly.",
+    "Confirm approved claims for review count and jobs completed.",
+    "Confirm priority services.",
+    "Confirm first 10 priority suburbs.",
+    "Confirm canonical URL pattern for service-suburb pages."
+  ],
+  "pre_release_checks": [
+    "npm run typecheck",
+    "npm run lint",
+    "npm run build",
+    "Playwright smoke for home, services, service detail, suburb detail, and quote form.",
+    "Mobile screenshot review.",
+    "Inspect generated sitemap.",
+    "Inspect robots.txt.",
+    "Run Rich Results Test for schema pages.",
+    "Run Search Console URL Inspection for representative SPA pages."
+  ]
+}

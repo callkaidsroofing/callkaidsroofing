@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { CheckCircle2, Loader2, Phone, Mail, Clock } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Helmet } from 'react-helmet-async';
+import { BUSINESS, getPublicWarrantySummary } from '@/config/business';
 
 const quoteRequestSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -99,7 +100,7 @@ export default function Quote() {
     <>
       <Helmet>
         <title>Get a Free Roofing Quote - Call Kaids Roofing | SE Melbourne</title>
-        <meta name="description" content="Get a free, no-obligation roofing quote from Call Kaids Roofing. Professional roof repairs, restoration, and maintenance across SE Melbourne. 7-10 year warranty." />
+        <meta name="description" content={`Get a free roofing quote from ${BUSINESS.name}. Professional roof repairs, restoration, and maintenance across ${BUSINESS.location.region}. ${getPublicWarrantySummary()}`} />
         <meta name="keywords" content="roofing quote Melbourne, roof repair quote, free roofing estimate, SE Melbourne roofer, Berwick roofing" />
       </Helmet>
 
@@ -111,7 +112,7 @@ export default function Quote() {
               Get Your Free Roofing Quote
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Professional roofing services across SE Melbourne. Fill in the form below and we'll get back to you within 24 hours.
+              Professional roofing services across {BUSINESS.location.region}. Fill in the form below and we'll get back to you within 24 hours.
             </p>
           </div>
 
@@ -122,8 +123,8 @@ export default function Quote() {
               <div className="text-sm text-muted-foreground">Response Time</div>
             </Card>
             <Card className="glass-card border-2 border-primary/20 text-center p-4">
-              <div className="text-3xl font-bold text-primary">7-10yr</div>
-              <div className="text-sm text-muted-foreground">Warranty</div>
+              <div className="text-3xl font-bold text-primary">10yr</div>
+              <div className="text-sm text-muted-foreground">Standard Workmanship</div>
             </Card>
             <Card className="glass-card border-2 border-primary/20 text-center p-4">
               <div className="text-3xl font-bold text-primary">FREE</div>
@@ -309,9 +310,9 @@ export default function Quote() {
               </p>
               <div className="text-sm text-muted-foreground space-y-1">
                 <p><strong>Call Kaids Roofing</strong></p>
-                <p>ABN: 39475055075</p>
-                <p>Phone: <a href="tel:0435900709" className="text-primary hover:underline">0435 900 709</a></p>
-                <p>Email: <a href="mailto:info@callkaidsroofing.com.au" className="text-primary hover:underline">info@callkaidsroofing.com.au</a></p>
+                <p>ABN: {BUSINESS.abn}</p>
+                <p>Phone: <a href={BUSINESS.phone.href} className="text-primary hover:underline">{BUSINESS.phone.display}</a></p>
+                <p>Email: <a href={`mailto:${BUSINESS.email.primary}`} className="text-primary hover:underline">{BUSINESS.email.primary}</a></p>
               </div>
             </CardContent>
           </Card>

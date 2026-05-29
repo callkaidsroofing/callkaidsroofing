@@ -20,7 +20,7 @@ const testimonials = [
     name: "Michelle T.",
     suburb: "Cranbourne",
     rating: 5,
-    text: "Best roofing experience. Direct contact with owner, detailed quote, clean worksite. The 15-year warranty sealed the deal.",
+    text: "Best roofing experience. Direct contact with owner, detailed quote, clean worksite. The workmanship warranty gave us confidence.",
     service: "Roof Painting",
   },
 ];

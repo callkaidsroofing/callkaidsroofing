@@ -1,16 +1,17 @@
 import { Shield, Award, MapPin, Clock } from 'lucide-react';
+import { BUSINESS, getPublicWarrantySummary } from '@/config/business';
 
 const TrustIndicators = () => {
   const indicators = [
     {
       icon: Shield,
-      title: "15-Year Warranty",
-      description: "Comprehensive warranty on all major work"
+      title: "10-Year Workmanship",
+      description: getPublicWarrantySummary()
     },
     {
       icon: MapPin,
-      title: "Local Clyde North Expert",
-      description: "15 minutes from most SE Melbourne suburbs"
+      title: `${BUSINESS.location.hqSuburb} Based`,
+      description: `${BUSINESS.location.serviceRadiusKm}km service radius across ${BUSINESS.location.region}`
     },
     {
       icon: Award,

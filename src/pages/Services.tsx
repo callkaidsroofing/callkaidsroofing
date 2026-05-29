@@ -9,6 +9,7 @@ import { PublicPageHero } from '@/public/components/PublicPageHero';
 import { SectionWrapper, Container } from '@/components/ui/section-wrapper';
 import ParallaxBackground from '@/components/ParallaxBackground';
 import { CTASection } from '@/components/ui/cta-section';
+import { BUSINESS, getPublicWarrantySummary } from '@/config/business';
 
 export default function Services() {
   const services = [
@@ -74,8 +75,8 @@ export default function Services() {
   return (
     <div className="min-h-screen">
       <SEOHead
-        title="Roofing Services Melbourne | Call Kaids Roofing"
-        description="Professional roofing services in Melbourne. Roof restoration, painting, repairs & more. Up to 20-year warranty on restorations. Owner-operated business serving SE Melbourne."
+        title="Roofing Services in Southeast Melbourne | Call Kaids Roofing"
+        description={`Roof restoration, repairs, painting, gutter cleaning and leak detection across ${BUSINESS.location.region}. Owner-operated from ${BUSINESS.location.hqSuburb}. ${getPublicWarrantySummary()}`}
         keywords="roofing services Melbourne, roof restoration, roof painting, roof repairs, gutter cleaning, Melbourne roofer"
       />
 
@@ -91,8 +92,8 @@ export default function Services() {
             "provider": {
               "@type": "RoofingContractor",
               "name": "Call Kaids Roofing",
-              "telephone": "+61435900709",
-              "areaServed": "Southeast Melbourne, VIC"
+              "telephone": BUSINESS.phone.e164,
+              "areaServed": `${BUSINESS.location.region}, VIC`
             },
             "mainEntity": {
               "@type": "ItemList",
@@ -108,7 +109,7 @@ export default function Services() {
                     "@type": "RoofingContractor",
                     "name": "Call Kaids Roofing"
                   },
-                  "areaServed": "Southeast Melbourne, VIC",
+                  "areaServed": `${BUSINESS.location.region}, VIC`,
                   "url": `https://callkaidsroofing.com.au${service.href}`
                 }
               }))
@@ -138,15 +139,15 @@ export default function Services() {
         description="Professional roofing solutions for Southeast Melbourne. Quality workmanship, premium materials, and comprehensive warranties on all work."
         badges={[
           { icon: <Shield className="h-5 w-5" />, text: "Fully Insured" },
-          { icon: <Award className="h-5 w-5" />, text: "15–20 Year Warranty" },
-          { icon: <Star className="h-5 w-5" />, text: "200+ Happy Customers" }
+          { icon: <Award className="h-5 w-5" />, text: "10-Year Workmanship" },
+          { icon: <Star className="h-5 w-5" />, text: "Photo-Backed Proof" }
         ]}
         cta={
           <>
             <Button asChild size="lg" className="font-semibold">
-              <a href="tel:0435900709">
+              <a href={BUSINESS.phone.href}>
                 <Phone className="h-5 w-5 mr-2" />
-                Call 0435 900 709
+                Call {BUSINESS.phone.display}
               </a>
             </Button>
             <Button asChild variant="outline" size="lg">

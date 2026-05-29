@@ -18,7 +18,7 @@ const steps = [
     icon: CheckCircle,
     step: "3",
     title: "Professional Work",
-    description: "Licensed team completes the job. 15-year warranty included.",
+    description: "Licensed team completes the job with verified warranty terms by scope.",
   },
 ];
 

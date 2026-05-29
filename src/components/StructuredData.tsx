@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { BUSINESS, BUSINESS_SCHEMA, CLAIMS } from '@/config/business';
 
 interface StructuredDataProps {
   type?: 'homepage' | 'service' | 'contact' | 'about';
@@ -15,36 +16,33 @@ export const StructuredData = ({
 }: StructuredDataProps) => {
   
   const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "RoofingContractor",
-    "@id": "https://callkaidsroofing.com.au/#organization",
-    name: "Call Kaids Roofing",
-    legalName: "Call Kaids Roofing",
+    ...BUSINESS_SCHEMA,
+    "@id": `${BUSINESS.website}/#organization`,
+    legalName: BUSINESS.name,
     alternateName: ["Kaids Roofing", "Call Kaids"],
-    description: "Professional roofing services in Southeast Melbourne specializing in roof restoration, painting, and emergency repairs with 15-year warranty.",
-    url: "https://callkaidsroofing.com.au",
+    description: `Professional roofing services in ${BUSINESS.location.region} specializing in roof restoration, painting, repairs and gutter work. ${CLAIMS.warranty.workmanship.standardYears}-year workmanship warranty on standard work.`,
+    url: BUSINESS.website,
     logo: {
       "@type": "ImageObject",
-      url: "https://callkaidsroofing.com.au/logo.png",
+      url: `${BUSINESS.website}/logo.png`,
       width: "300",
       height: "100"
     },
     image: [
-      "https://callkaidsroofing.com.au/og-image.jpg",
-      "https://callkaidsroofing.com.au/assets/hero-roof-restoration.jpg"
+      `${BUSINESS.website}/og-image.jpg`,
+      `${BUSINESS.website}/assets/hero-roof-restoration.jpg`
     ],
-    telephone: "+61-435-900-709",
-    email: "info@callkaidsroofing.com.au",
+    telephone: BUSINESS.phone.e164,
+    email: BUSINESS.email.primary,
     foundingDate: "2020",
     founder: {
       "@type": "Person",
-      name: "Kaidyn Brownlie",
+      name: BUSINESS.owner,
       jobTitle: "Owner & Master Roofer"
     },
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Grices Rd",
-      addressLocality: "Clyde North",
+      addressLocality: BUSINESS.location.hqSuburb,
       addressRegion: "VIC",
       postalCode: "3978",
       addressCountry: "AU"
@@ -103,11 +101,11 @@ export const StructuredData = ({
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            "@id": "https://callkaidsroofing.com.au/services/roof-restoration",
-            name: "Roof Restoration Melbourne",
-            description: "Complete roof restoration including high-pressure cleaning, repairs, and premium membrane coating with 15-year warranty.",
-            provider: { "@id": "https://callkaidsroofing.com.au/#organization" },
-            areaServed: { "@id": "https://callkaidsroofing.com.au/#servicearea" },
+              "@id": `${BUSINESS.website}/services/roof-restoration`,
+              name: "Roof Restoration Melbourne",
+            description: `Complete roof restoration including high-pressure cleaning, repairs, and premium membrane coating with ${CLAIMS.warranty.workmanship.standardYears}-year workmanship warranty on standard work.`,
+            provider: { "@id": `${BUSINESS.website}/#organization` },
+            areaServed: { "@id": `${BUSINESS.website}/#servicearea` },
             offers: {
               "@type": "Offer",
               priceRange: "$6,000 - $30,000",
@@ -119,11 +117,11 @@ export const StructuredData = ({
           "@type": "Offer", 
           itemOffered: {
             "@type": "Service",
-            "@id": "https://callkaidsroofing.com.au/services/roof-painting",
+            "@id": `${BUSINESS.website}/services/roof-painting`,
             name: "Roof Painting Melbourne",
-            description: "Professional roof painting with premium weather-resistant paints, completed in 2-3 days with 15-year warranty.",
-            provider: { "@id": "https://callkaidsroofing.com.au/#organization" },
-            areaServed: { "@id": "https://callkaidsroofing.com.au/#servicearea" },
+            description: `Professional roof painting with premium weather-resistant paints and ${CLAIMS.warranty.workmanship.standardYears}-year workmanship warranty on standard work.`,
+            provider: { "@id": `${BUSINESS.website}/#organization` },
+            areaServed: { "@id": `${BUSINESS.website}/#servicearea` },
             offers: {
               "@type": "Offer",
               priceRange: "$4,000 - $18,000",
@@ -135,11 +133,11 @@ export const StructuredData = ({
           "@type": "Offer",
           itemOffered: {
             "@type": "Service", 
-            "@id": "https://callkaidsroofing.com.au/services/roof-repairs",
+            "@id": `${BUSINESS.website}/services/roof-repairs`,
             name: "Emergency Roof Repairs Melbourne",
             description: "24/7 emergency roof repair services for leaks, storm damage, and urgent roofing issues across Southeast Melbourne.",
-            provider: { "@id": "https://callkaidsroofing.com.au/#organization" },
-            areaServed: { "@id": "https://callkaidsroofing.com.au/#servicearea" },
+            provider: { "@id": `${BUSINESS.website}/#organization` },
+            areaServed: { "@id": `${BUSINESS.website}/#servicearea` },
             offers: {
               "@type": "Offer",
               priceRange: "$150 - $2,000",
@@ -168,10 +166,10 @@ export const StructuredData = ({
     priceRange: "$$",
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: "4.9",
+      ratingValue: String(CLAIMS.reviews.rating),
       bestRating: "5",
       worstRating: "1",
-      reviewCount: "47"
+      reviewCount: String(CLAIMS.reviews.count)
     },
     slogan: "No Leaks. No Lifting. Just Quality.",
     knowsAbout: [
@@ -188,12 +186,12 @@ export const StructuredData = ({
       {
         "@type": "PropertyValue",
         name: "ABN",
-        value: "39475055075"
+        value: BUSINESS.abnCompact
       },
       {
         "@type": "PropertyValue", 
         name: "Phone",
-        value: "0435 900 709"
+        value: BUSINESS.phone.display
       }
     ],
     sameAs: [
@@ -210,18 +208,18 @@ export const StructuredData = ({
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://callkaidsroofing.com.au/"
+        item: `${BUSINESS.website}/`
       },
       ...(type === 'service' && serviceName ? [{
         "@type": "ListItem",
         position: 2,
         name: "Services",
-        item: "https://callkaidsroofing.com.au/services"
+        item: `${BUSINESS.website}/services`
       }, {
         "@type": "ListItem",
         position: 3,
         name: serviceName,
-        item: pageUrl || `https://callkaidsroofing.com.au/services/${serviceName.toLowerCase().replace(/\s+/g, '-')}`
+        item: pageUrl || `${BUSINESS.website}/services/${serviceName.toLowerCase().replace(/\s+/g, '-')}`
       }] : [])
     ]
   };
@@ -229,11 +227,11 @@ export const StructuredData = ({
   const serviceSchema = serviceName ? {
     "@context": "https://schema.org",
     "@type": "Service",
-    "@id": pageUrl || `https://callkaidsroofing.com.au/services/${serviceName.toLowerCase().replace(/\s+/g, '-')}`,
+    "@id": pageUrl || `${BUSINESS.website}/services/${serviceName.toLowerCase().replace(/\s+/g, '-')}`,
     name: serviceName,
     description: serviceDescription || `Professional ${serviceName.toLowerCase()} services in Southeast Melbourne by Call Kaids Roofing.`,
-    provider: { "@id": "https://callkaidsroofing.com.au/#organization" },
-    areaServed: { "@id": "https://callkaidsroofing.com.au/#servicearea" },
+    provider: { "@id": `${BUSINESS.website}/#organization` },
+    areaServed: { "@id": `${BUSINESS.website}/#servicearea` },
     category: "Roofing Services",
     hasOfferCatalog: {
       "@type": "OfferCatalog",
@@ -256,7 +254,7 @@ export const StructuredData = ({
         name: "How much does roof restoration cost in Melbourne?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Roof restoration in Melbourne typically costs between $6,000-$30,000 depending on roof size and condition. We provide free quotes and 15-year warranties on all restoration work."
+          text: `Roof restoration in Melbourne typically costs between $6,000-$30,000 depending on roof size and condition. We provide free quotes and ${CLAIMS.warranty.workmanship.standardYears}-year workmanship warranty on standard work.`
         }
       },
       {
@@ -280,7 +278,7 @@ export const StructuredData = ({
         name: "How long does roof painting take?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Professional roof painting typically takes 2-3 days to complete, depending on roof size and weather conditions. We use premium weather-resistant paints with 15-year warranty."
+          text: `Professional roof painting typically takes 2-3 days to complete, depending on roof size and weather conditions. We use premium weather-resistant paints with ${CLAIMS.warranty.workmanship.standardYears}-year workmanship warranty on standard work.`
         }
       }
     ]

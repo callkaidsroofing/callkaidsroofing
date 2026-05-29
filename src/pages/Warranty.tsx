@@ -3,13 +3,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { SEOHead } from '@/components/SEOHead';
 import { Shield, CheckCircle, Phone, Clock, Award, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { BUSINESS, CLAIMS, getPublicWarrantySummary } from '@/config/business';
 
 const Warranty = () => {
   const warrantyTiers = [
     {
-      title: "15-Year Coating Warranty",
+      title: `${CLAIMS.warranty.products.ircRoofProtectYears}-Year Product Warranty`,
       badge: "Standard",
-      description: "Our standard warranty for industrial roof coatings",
+      description: "IRC Roof Protect product warranty where that system is specified",
       items: [
         "Coating performance - no cracking, peeling, or premature failure",
         "Weather resistance - performance in Melbourne conditions up to 30°C",
@@ -18,18 +19,18 @@ const Warranty = () => {
       ]
     },
     {
-      title: "20-Year Coating Warranty", 
+      title: `${CLAIMS.warranty.products.ircPlatinumProtectYears}-Year Product Warranty`,
       badge: "Premium",
-      description: "Extended warranty with premium system and preparation",
+      description: "IRC Platinum Protect product warranty where that system is specified",
       items: [
-        "All standard warranty coverage extended to 20 years",
+        "Product warranty coverage extended to 20 years where specified",
         "Specified premium coating system application",
         "Enhanced substrate preparation per checklist",
         "Additional quality control and documentation"
       ]
     },
     {
-      title: "10-Year Workmanship Warranty",
+      title: `${CLAIMS.warranty.workmanship.standardYears}-Year Workmanship Warranty`,
       badge: "Included",
       description: "Comprehensive coverage on all installation work",
       items: [
@@ -75,9 +76,9 @@ const Warranty = () => {
   return (
     <div className="min-h-screen">
       <SEOHead
-        title="Roofing Warranty | 15-20 Year Workmanship Warranty | Call Kaids Roofing"
-        description="15–20 year workmanship / roof restoration warranty on all major restoration projects. Industry-leading coverage for SE Melbourne homeowners."
-        keywords="roofing warranty Melbourne, roof restoration warranty, 15-year warranty, 20-year warranty, Call Kaids Roofing"
+        title="Roofing Warranty | Call Kaids Roofing"
+        description={`${getPublicWarrantySummary()} Product warranties vary by coating system. Patch and emergency make-safe work is excluded unless confirmed in writing.`}
+        keywords="roofing warranty Melbourne, roof restoration warranty, workmanship warranty, Call Kaids Roofing"
       />
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/5 to-primary/10">
@@ -85,16 +86,16 @@ const Warranty = () => {
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <Shield className="h-16 w-16 text-primary mx-auto" />
             <h1 className="text-4xl md:text-5xl font-bold">
-              15–20 Year Workmanship / Roof Restoration Warranty
+              Roofing Warranty Terms
             </h1>
             <p className="text-xl text-muted-foreground">
-              Comprehensive warranty coverage on all roof restoration projects in Southeast Melbourne.
+              {getPublicWarrantySummary()}
             </p>
 
             <div className="bg-primary/10 p-6 rounded-lg">
               <p className="text-lg font-semibold mb-2">Warranty Coverage Explained</p>
               <p className="text-muted-foreground">
-                Call Kaids Roofing offers up to 20-year coverage on roof restoration projects, combining coating performance warranties (15 or 20 years depending on system) with workmanship guarantees. All work is backed by our commitment to quality and proper installation. Based in Clyde North, serving SE Melbourne.
+                Call Kaids Roofing separates workmanship warranty from manufacturer or product warranty. Standard work is backed by a {CLAIMS.warranty.workmanship.standardYears}-year workmanship warranty, while coating product warranties vary by system. Based in {BUSINESS.location.hq}, serving {BUSINESS.location.region}.
               </p>
             </div>
           </div>
@@ -216,7 +217,7 @@ const Warranty = () => {
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
                       <div className="w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold">1</div>
-                      <span>Call 0435 900 709 - speak directly to Kaidyn</span>
+                      <span>Call {BUSINESS.phone.display} - speak directly to Kaidyn</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold">2</div>
@@ -385,14 +386,14 @@ const Warranty = () => {
               Ready for Comprehensive Warranty Protection?
             </h2>
             <p className="text-xl">
-              Get quality roof restoration work backed by our 15–20 year workmanship / roof restoration warranty.
+              Get quality roof restoration work backed by clear workmanship and product warranty terms.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild variant="secondary" size="lg">
-                <a href="tel:0435900709">
+                <a href={BUSINESS.phone.href}>
                   <Phone className="mr-2 h-5 w-5" />
-                  Call 0435 900 709
+                  Call {BUSINESS.phone.display}
                 </a>
               </Button>
               <Button asChild variant="outline" size="lg" className="bg-white/10 border-white text-white hover:bg-white hover:text-primary">
@@ -401,7 +402,7 @@ const Warranty = () => {
             </div>
             
             <p className="text-sm border-t border-white/20 pt-4">
-              15–20 Year Workmanship / Roof Restoration Warranty • Premium Materials • Comprehensive Protection
+              {CLAIMS.warranty.workmanship.standardYears}-Year Workmanship • Product Warranties By System • Comprehensive Protection
             </p>
           </div>
         </div>
