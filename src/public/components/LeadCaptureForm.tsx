@@ -37,6 +37,7 @@ interface LeadCaptureFormProps {
   benefits?: Array<{ title: string; description: string }>;
   showUrgencyBadge?: boolean;
   urgencyBadgeText?: string;
+  metadata?: Record<string, string>;
 }
 
 const baseFormSchema = z.object({
@@ -82,7 +83,8 @@ export const LeadCaptureForm = ({
   showBenefits = false,
   benefits = [],
   showUrgencyBadge = false,
-  urgencyBadgeText = "Limited availability this week"
+  urgencyBadgeText = "Limited availability this week",
+  metadata,
 }: LeadCaptureFormProps) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -128,7 +130,8 @@ export const LeadCaptureForm = ({
         phone: formData.phone,
         suburb: formData.suburb,
         service: serviceName,
-        source
+        source,
+        ...(metadata && Object.keys(metadata).length > 0 ? { metadata } : {}),
       };
 
       if (showEmail && formData.email) {

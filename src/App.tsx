@@ -27,6 +27,7 @@ const RoofRepointing = lazy(() => import("./pages/services/RoofRepointing"));
 const TileReplacement = lazy(() => import("./pages/services/TileReplacement"));
 const LeakDetection = lazy(() => import("./pages/services/LeakDetection"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
+const CampaignLanding = lazy(() => import("./pages/CampaignLanding"));
 const BookingPage = lazy(() => import("./pages/BookingPage"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
@@ -118,6 +119,7 @@ function App() {
                     <Route path="leak-detection" element={<LeakDetection />} />
                     <Route path="emergency-landing" element={<LandingPage />} />
                     <Route path="landing/:source" element={<LandingPage />} />
+                    <Route path="lp/:campaign" element={<CampaignLanding />} />
                     <Route path="restoration-landing" element={<RestorationLanding />} />
                     <Route path="measurement-tool" element={<Navigate to="/quote" replace />} />
                     <Route path="*" element={<NotFound />} />

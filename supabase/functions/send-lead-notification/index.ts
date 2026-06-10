@@ -22,6 +22,7 @@ interface LeadNotificationRequest {
   message?: string;
   urgency?: string;
   source?: string;
+  metadata?: Record<string, string>;
 }
 
 // Input validation and sanitization
@@ -204,6 +205,7 @@ const handler = async (req: Request): Promise<Response> => {
         status: 'new',
         source: sanitizedData.source,
         urgency: sanitizedData.urgency || null,
+        metadata: leadData.metadata || null,
       })
       .select()
       .single();

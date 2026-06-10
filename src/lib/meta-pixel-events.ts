@@ -52,4 +52,14 @@ export const trackLead = (value?: number, currency = 'AUD') => {
   fbq('track', 'Lead', { value, currency });
 };
 
+export const trackViewContent = (contentName: string, contentCategory = 'Landing Page') => {
+  const fbq = getFbq();
+
+  if (!fbq) {
+    return;
+  }
+
+  fbq('track', 'ViewContent', { content_name: contentName, content_category: contentCategory });
+};
+
 export type { FbqFunction };
