@@ -11,7 +11,6 @@ const Index = lazy(() => import("./pages/Index"));
 const Quote = lazy(() => import("./pages/Quote"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
-const Gallery = lazy(() => import("./pages/Gallery"));
 const Emergency = lazy(() => import("./pages/Emergency"));
 const Warranty = lazy(() => import("./pages/Warranty"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
@@ -26,26 +25,13 @@ const ValleyIronReplacement = lazy(() => import("./pages/services/ValleyIronRepl
 const RoofRepointing = lazy(() => import("./pages/services/RoofRepointing"));
 const TileReplacement = lazy(() => import("./pages/services/TileReplacement"));
 const LeakDetection = lazy(() => import("./pages/services/LeakDetection"));
-const LandingPage = lazy(() => import("./pages/LandingPage"));
 const CampaignLanding = lazy(() => import("./pages/CampaignLanding"));
 const BookingPage = lazy(() => import("./pages/BookingPage"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const ThankYou = lazy(() => import("./pages/ThankYou"));
 const Services = lazy(() => import("./pages/Services"));
-const Portfolio = lazy(() => import("./pages/Portfolio"));
 const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
-const SuburbDetail = lazy(() => import("./pages/SuburbDetail"));
-const SuburbPage = lazy(() => import("./pages/SuburbPage"));
-const RestorationLanding = lazy(() => import("./pages/RestorationLanding"));
-const RoofRestorationClydeNorth = lazy(() => import("./pages/services/suburbs/RoofRestorationClydeNorth"));
-const RoofRestorationCranbourne = lazy(() => import("./pages/services/suburbs/RoofRestorationCranbourne"));
-const RoofRestorationPakenham = lazy(() => import("./pages/services/suburbs/RoofRestorationPakenham"));
-const RoofRestorationBerwick = lazy(() => import("./pages/services/suburbs/RoofRestorationBerwick"));
-const RoofRestorationMountEliza = lazy(() => import("./pages/services/suburbs/RoofRestorationMountEliza"));
-const RoofPaintingPakenham = lazy(() => import("./pages/services/suburbs/RoofPaintingPakenham"));
-const RoofPaintingCranbourne = lazy(() => import("./pages/services/suburbs/RoofPaintingCranbourne"));
-const RoofPaintingClydeNorth = lazy(() => import("./pages/services/suburbs/RoofPaintingClydeNorth"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -85,7 +71,6 @@ function App() {
                     <Route path="booking" element={<BookingPage />} />
                     <Route path="blog" element={<Blog />} />
                     <Route path="blog/:slug" element={<BlogPost />} />
-                    <Route path="gallery" element={<Gallery />} />
                     <Route path="emergency" element={<Emergency />} />
                     <Route path="warranty" element={<Warranty />} />
                     <Route path="privacy-policy" element={<PrivacyPolicy />} />
@@ -93,18 +78,19 @@ function App() {
                     <Route path="thank-you" element={<ThankYou />} />
                     <Route path="services" element={<Services />} />
                     <Route path="services/:slug" element={<ServiceDetail />} />
-                    <Route path="portfolio" element={<Portfolio />} />
-                    <Route path="suburbs/:slug" element={<SuburbPage />} />
+                    <Route path="portfolio" element={<Navigate to="/services" replace />} />
+                    <Route path="gallery" element={<Navigate to="/services" replace />} />
+                    <Route path="suburbs/:slug" element={<Navigate to="/services" replace />} />
                     <Route path="services/roof-restoration" element={<RoofRestoration />} />
                     <Route path="services/roof-painting" element={<RoofPainting />} />
-                    <Route path="services/roof-restoration-clyde-north" element={<RoofRestorationClydeNorth />} />
-                    <Route path="services/roof-restoration-cranbourne" element={<RoofRestorationCranbourne />} />
-                    <Route path="services/roof-restoration-pakenham" element={<RoofRestorationPakenham />} />
-                    <Route path="services/roof-restoration-berwick" element={<RoofRestorationBerwick />} />
-                    <Route path="services/roof-restoration-mount-eliza" element={<RoofRestorationMountEliza />} />
-                    <Route path="services/roof-painting-pakenham" element={<RoofPaintingPakenham />} />
-                    <Route path="services/roof-painting-cranbourne" element={<RoofPaintingCranbourne />} />
-                    <Route path="services/roof-painting-clyde-north" element={<RoofPaintingClydeNorth />} />
+                    <Route path="services/roof-restoration-clyde-north" element={<Navigate to="/services/roof-restoration" replace />} />
+                    <Route path="services/roof-restoration-cranbourne" element={<Navigate to="/services/roof-restoration" replace />} />
+                    <Route path="services/roof-restoration-pakenham" element={<Navigate to="/services/roof-restoration" replace />} />
+                    <Route path="services/roof-restoration-berwick" element={<Navigate to="/services/roof-restoration" replace />} />
+                    <Route path="services/roof-restoration-mount-eliza" element={<Navigate to="/services/roof-restoration" replace />} />
+                    <Route path="services/roof-painting-pakenham" element={<Navigate to="/services/roof-painting" replace />} />
+                    <Route path="services/roof-painting-cranbourne" element={<Navigate to="/services/roof-painting" replace />} />
+                    <Route path="services/roof-painting-clyde-north" element={<Navigate to="/services/roof-painting" replace />} />
                     <Route path="services/roof-repairs" element={<RoofRepairs />} />
                     <Route path="services/roof-cleaning" element={<RoofCleaning />} />
                     <Route path="services/gutter-cleaning" element={<GutterCleaning />} />
@@ -117,10 +103,10 @@ function App() {
                     <Route path="roof-repointing" element={<RoofRepointing />} />
                     <Route path="tile-replacement" element={<TileReplacement />} />
                     <Route path="leak-detection" element={<LeakDetection />} />
-                    <Route path="emergency-landing" element={<LandingPage />} />
-                    <Route path="landing/:source" element={<LandingPage />} />
+                    <Route path="emergency-landing" element={<Navigate to="/lp/emergency" replace />} />
+                    <Route path="landing/:source" element={<Navigate to="/lp/meta" replace />} />
                     <Route path="lp/:campaign" element={<CampaignLanding />} />
-                    <Route path="restoration-landing" element={<RestorationLanding />} />
+                    <Route path="restoration-landing" element={<Navigate to="/lp/restoration" replace />} />
                     <Route path="measurement-tool" element={<Navigate to="/quote" replace />} />
                     <Route path="*" element={<NotFound />} />
                   </Route>
