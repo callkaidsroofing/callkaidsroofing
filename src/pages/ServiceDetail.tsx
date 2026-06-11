@@ -169,8 +169,8 @@ export default function ServiceDetail() {
                     {post.title}
                   </h3>
                   <p className="text-muted-foreground line-clamp-2 mb-4">{post.excerpt}</p>
-                  <span className="text-primary flex items-center gap-2">
-                    Read More <ArrowRight className="h-4 w-4" />
+                  <span className="text-primary flex items-center gap-2" aria-label={`Read full article: ${post.title}`}>
+                    Read full article <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </span>
                 </Link>
               ))}
