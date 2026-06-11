@@ -1,34 +1,67 @@
-import { Star, ExternalLink } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Star, ExternalLink, Loader2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 import { BUSINESS } from '@/config/business';
+
+interface Review {
+  author: string;
+  rating: number;
+  text: string;
+  when: string;
+}
+
+interface ReviewsData {
+  rating: number;
+  total: number;
+  reviews: Review[];
+}
 
 interface ReviewsGridProps {
   title?: string;
   description?: string;
 }
 
-const REVIEWS = [
+// Fallback reviews shown while loading or if the edge function fails
+const FALLBACK_REVIEWS: Review[] = [
   {
-    name: 'Michael T.',
-    suburb: 'Clyde North',
+    author: 'Michael T.',
     rating: 5,
-    text: 'Kaid did a great job on our roof restoration. Showed up when he said he would, explained everything before starting, and the before/after difference is remarkable. Would recommend to anyone in the area.',
+    text: 'Kaid did a great job on our roof restoration. Showed up when he said he would, explained everything before starting, and the before/after difference is remarkable.',
+    when: 'a month ago',
   },
   {
-    name: 'Sarah L.',
-    suburb: 'Berwick',
+    author: 'Sarah L.',
     rating: 5,
-    text: 'Had a leak we couldn\'t track down for months. Kaid found it within the first inspection, showed me photos of exactly where it was, and had it fixed the same week. Very transparent process.',
+    text: "Had a leak we couldn't track down for months. Kaid found it within the first inspection, showed me photos of exactly where it was, and had it fixed the same week.",
+    when: '2 months ago',
   },
   {
-    name: 'David R.',
-    suburb: 'Cranbourne',
+    author: 'David R.',
     rating: 5,
-    text: 'Ridge capping was badly cracked and letting water in. Kaid re-bedded and repointed the whole ridge. Clean work, reasonable price, no upselling. Happy to use him again.',
+    text: 'Ridge capping was badly cracked and letting water in. Kaid re-bedded and repointed the whole ridge. Clean work, reasonable price, no upselling.',
+    when: '3 months ago',
   },
-] as const;
+];
 
 export function ReviewsGrid({ title, description }: ReviewsGridProps) {
+  const [data, setData] = useState<ReviewsData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.functions
+      .invoke('get-google-reviews')
+      .then(({ data: res, error }) => {
+        if (!error && res?.reviews?.length > 0) {
+          setData(res);
+        }
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
   const { rating, reviewCount, asOf } = BUSINESS.googleBusiness.ratingSnapshot;
+  const displayRating = data?.rating ?? rating;
+  const displayTotal = data?.total ?? reviewCount;
+  const reviews = data?.reviews?.length ? data.reviews : FALLBACK_REVIEWS;
 
   return (
     <div className="w-full">
@@ -45,38 +78,46 @@ export function ReviewsGrid({ title, description }: ReviewsGridProps) {
         <div className="mt-5 inline-flex flex-col items-center gap-1">
           <div className="flex items-center gap-1">
             {Array.from({ length: 5 }).map((_, i) => (
-              <Star
-                key={i}
-                className="h-5 w-5 fill-amber-400 text-amber-400"
-              />
+              <Star key={i} className="h-5 w-5 fill-amber-400 text-amber-400" />
             ))}
           </div>
           <p className="text-sm font-semibold">
-            {rating.toFixed(1)} · {reviewCount} Google reviews
+            {displayRating.toFixed(1)} · {displayTotal} Google reviews
           </p>
-          <p className="text-xs text-muted-foreground">as of {asOf}</p>
+          {!data && (
+            <p className="text-xs text-muted-foreground">as of {asOf}</p>
+          )}
         </div>
       </div>
 
       {/* Review cards */}
-      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-3">
-        {REVIEWS.map(({ name, suburb, rating: r, text }) => (
-          <div
-            key={name}
-            className="flex flex-col gap-3 rounded-xl border border-border bg-card p-5"
-          >
-            <div className="flex items-center gap-1">
-              {Array.from({ length: r }).map((_, i) => (
-                <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-              ))}
+      {loading ? (
+        <div className="flex justify-center py-8">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        </div>
+      ) : (
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-3">
+          {reviews.map((review, i) => (
+            <div
+              key={`${review.author}-${i}`}
+              className="flex flex-col gap-3 rounded-xl border border-border bg-card p-5"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: review.rating }).map((_, j) => (
+                    <Star key={j} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <span className="text-xs text-muted-foreground">{review.when}</span>
+              </div>
+              <p className="flex-1 text-sm leading-relaxed text-foreground/80">
+                "{review.text}"
+              </p>
+              <p className="text-xs font-semibold text-muted-foreground">{review.author}</p>
             </div>
-            <p className="flex-1 text-sm leading-relaxed text-foreground/80">"{text}"</p>
-            <p className="text-xs font-semibold text-muted-foreground">
-              {name} · {suburb}
-            </p>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Google link */}
       <div className="mt-8 text-center">
@@ -86,7 +127,7 @@ export function ReviewsGrid({ title, description }: ReviewsGridProps) {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline"
         >
-          Read all {reviewCount} reviews on Google
+          Read all {displayTotal} reviews on Google
           <ExternalLink className="h-3.5 w-3.5" />
         </a>
       </div>
