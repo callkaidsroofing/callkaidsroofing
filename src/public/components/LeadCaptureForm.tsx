@@ -11,7 +11,6 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
-import { ImageUploadField } from '@/components/ImageUploadField';
 import { BUSINESS, CLAIMS } from '@/config/business';
 
 type FormVariant = 'compact' | 'full' | 'split';
@@ -408,15 +407,6 @@ export const LeadCaptureForm = ({
                           className="h-12 text-base"
                         />
 
-                        {showImageUpload && (
-                          <ImageUploadField
-                            label="Roof Photos (Optional)"
-                            name="roofImages"
-                            value={roofImages}
-                            onChange={(_, urls) => setRoofImages(urls)}
-                            helpText="Upload photos for faster assessment"
-                          />
-                        )}
 
                         <Button
                           type="submit"
