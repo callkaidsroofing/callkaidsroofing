@@ -1,0 +1,32 @@
+# Call Kaids Roofing
+
+> Owner-operated roof restorations, repairs, painting, repointing, gutter cleaning and leak detection across Southeast Melbourne. Based in Clyde North. ABN 39475055075. Phone 0435 900 709.
+
+## Pages
+
+- [Home](/): Roof restoration & repairs in SE Melbourne.
+- [About](/about): Owner-operated roofing story and standards.
+- [Services](/services): Full list of roofing services offered.
+- [Contact](/contact): Phone, email and service area.
+- [Book](/book): Book a free roof inspection.
+- [Quote](/quote): Request a quote online.
+- [Emergency](/emergency): 48-hour emergency leak response.
+- [Warranty](/warranty): Workmanship warranty summary.
+- [Blog](/blog): Roofing guides and case studies.
+
+## Services
+
+- [Roof Restoration](/services/roof-restoration): Multi-step restoration of tiled roofs.
+- [Roof Painting](/services/roof-painting): Premium membrane roof painting.
+- [Roof Repairs](/services/roof-repairs): Leak and storm damage repairs.
+- [Roof Repointing](/services/roof-repointing): Flexible pointing for ridge caps.
+- [Roof Cleaning](/services/roof-cleaning): Soft-wash moss and lichen removal.
+- [Gutter Cleaning](/services/gutter-cleaning): Full gutter and downpipe clear-out.
+- [Valley Iron Replacement](/services/valley-iron-replacement): Replace rusted valley irons.
+- [Tile Replacement](/services/tile-replacement): Match and replace broken tiles.
+- [Leak Detection](/services/leak-detection): Targeted leak diagnosis.
+
+## Optional
+
+- [Privacy Policy](/privacy-policy)
+- [Terms of Service](/terms-of-service)
