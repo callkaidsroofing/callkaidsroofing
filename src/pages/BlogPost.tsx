@@ -83,6 +83,23 @@ export default function BlogPost() {
         {post.tags?.map((tag: string) => (
           <meta key={tag} property="article:tag" content={tag} />
         ))}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: post.title,
+            description: post.excerpt,
+            image: (post as any).imageUrl || (post as any).image_url,
+            author: { "@type": "Person", name: post.author },
+            datePublished: (post as any).publishDate || (post as any).publish_date,
+            publisher: {
+              "@type": "Organization",
+              name: "Call Kaids Roofing",
+              logo: { "@type": "ImageObject", url: "https://callkaidsroofing.com.au/logo.png" }
+            },
+            mainEntityOfPage: typeof window !== 'undefined' ? window.location.href : `https://callkaidsroofing.com.au/blog/${post.slug}`
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background via-background/50 to-primary/5">

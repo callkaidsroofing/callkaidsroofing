@@ -12,7 +12,7 @@ interface SEOHeadProps {
 }
 
 export const SEOHead = ({
-  title = "Call Kaids Roofing | Roof Restorations Clyde North & SE Melbourne",
+  title = "Call Kaids Roofing | Roof Restorations SE Melbourne",
   description = `Owner-operated roofing services in ${BUSINESS.location.region}. Roof restorations, repairs, roof painting, gutter work and leak detection. Call ${BUSINESS.phone.display}.`,
   keywords = "roof restoration Clyde North, roof painting Clyde North, roof repairs Southeast Melbourne, local roofing contractor, Call Kaids Roofing",
   canonical,

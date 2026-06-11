@@ -149,7 +149,7 @@ export default function Index() {
   return (
     <>
       <SEOHead
-        title="Roof Restoration, Repairs & Leak Detection | Call Kaids Roofing SE Melbourne"
+        title="Roof Restoration & Repairs | Call Kaids Roofing SE Melbourne"
         description={`Owner-operated roofing from ${BUSINESS.location.hqSuburb}. Roof restorations, repairs, painting, leak detection, and repointing across ${BUSINESS.location.region}. ${getPublicWarrantySummary()}`}
         keywords="roof restoration South East Melbourne, roof repairs Clyde North, leak detection SE Melbourne, roof painting Berwick Cranbourne Pakenham"
       />
