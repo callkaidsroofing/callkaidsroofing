@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "predev": "node scripts/generate-priority-image-variants.js",
+    "predev": "node scripts/generate-priority-image-variants.js && bunx tsx scripts/generate-sitemap.ts",
     "dev": "vite",
-    "prebuild": "node scripts/generate-priority-image-variants.js",
+    "prebuild": "node scripts/generate-priority-image-variants.js && bunx tsx scripts/generate-sitemap.ts",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "test:e2e": "playwright test",
